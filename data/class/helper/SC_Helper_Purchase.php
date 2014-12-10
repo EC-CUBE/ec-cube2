@@ -172,7 +172,7 @@ class SC_Helper_Purchase
         $objSiteSession = new SC_SiteSession_Ex();
         $uniqid = $objSiteSession->getUniqId();
         
-        if(!empty($arrOrderTemp)){
+        if (!empty($arrOrderTemp)) {
             
             $_SESSION = array_merge($_SESSION, unserialize($arrOrderTemp['session']));
 
