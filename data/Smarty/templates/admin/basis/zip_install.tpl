@@ -32,7 +32,9 @@
         <p>保存されている郵便番号CSVの更新日時: <!--{$tpl_csv_datetime|h}--></p>
         <p>郵便番号CSVには <!--{$tpl_line|h}--> 行のデータがあります。</p>
         <p>郵便番号DBには <!--{$tpl_count_mtb_zip|h}--> 行のデータがあります。</p>
-        <!--{if $tpl_count_mtb_zip == 0}-->
+        <!--{if $tpl_line == 0}-->
+            <p class="attention">郵便番号CSVを取得してください。</p>
+        <!--{elseif $tpl_count_mtb_zip == 0}-->
             <p class="attention">登録を行なってください。</p>
         <!--{elseif $tpl_line <> $tpl_count_mtb_zip}-->
             <p class="attention">行数に差異があります。登録に異常がある恐れがあります。</p>
