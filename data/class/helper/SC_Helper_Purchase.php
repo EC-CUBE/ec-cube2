@@ -796,7 +796,7 @@ class SC_Helper_Purchase
             $arrDetail[$i]['quantity'] = $item['quantity'];
             $arrDetail[$i]['tax_rate'] = $item['tax_rate'];
             $arrDetail[$i]['tax_rule'] = $item['tax_rule'];
-            $arrDetail[$i]['tax_adjuts'] = $item['tax_adjust'];
+            $arrDetail[$i]['tax_adjust'] = $item['tax_adjust'];
 
             // 在庫の減少処理
             if (!$objProduct->reduceStock($p['product_class_id'], $item['quantity'])) {
