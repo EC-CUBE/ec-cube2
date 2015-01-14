@@ -232,7 +232,7 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
                     }
                     break;
                 case 'search_product_code':
-                    $where .=    ' AND alldtl.product_id IN (SELECT product_id FROM dtb_products_class WHERE product_code LIKE ? AND del_flg = 0 GROUP BY product_id)';
+                    $where .=    ' AND alldtl.product_id IN (SELECT product_id FROM dtb_products_class WHERE product_code LIKE ? AND del_flg = 0)';
                     $bind[] = '%'.$val.'%';
                     break;
 
