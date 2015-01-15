@@ -41,7 +41,7 @@ class SC_Helper_Address
         if (self::delivErrorCheck($sqlval)) {
             return false;
         }
-        
+
         $objQuery =& SC_Query_Ex::getSingletonInstance();
         $customer_id = $sqlval['customer_id'];
         $other_deliv_id = $sqlval['other_deliv_id'];
@@ -59,7 +59,7 @@ class SC_Helper_Address
 
             // 別のお届け先を追加
             $sqlval['other_deliv_id'] = $objQuery->nextVal('dtb_other_deliv_other_deliv_id');
-            $ret = $objQuery->insert($from, $sqlval);
+            $objQuery->insert($from, $sqlval);
 
         // 変更
         } else {
@@ -72,10 +72,10 @@ class SC_Helper_Address
             }
 
             // 別のお届け先を変更
-            $ret = $objQuery->update($from, $sqlval, $where, $arrVal);
+            $objQuery->update($from, $sqlval, $where, $arrVal);
         }
-        
-        return $ret;
+
+        return true;
     }
 
     /**
@@ -89,9 +89,9 @@ class SC_Helper_Address
         if (self::delivErrorCheck(array('customer_id' => $customer_id, 'other_deliv_id' => $other_deliv_id))) {
             return false;
         }
-        
+
         $objQuery =& SC_Query_Ex::getSingletonInstance();
-        
+
         $col    = '*';
         $from   = 'dtb_other_deliv';
         $where  = 'customer_id = ? AND other_deliv_id = ?';
@@ -113,7 +113,7 @@ class SC_Helper_Address
         if (self::delivErrorCheck(array('customer_id' => $customer_id))) {
             return false;
         }
-        
+
         $objQuery =& SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('other_deliv_id DESC');
         //スマートフォン用の処理
@@ -138,7 +138,7 @@ class SC_Helper_Address
         if (self::delivErrorCheck(array('customer_id' => $customer_id, 'other_deliv_id' => $other_deliv_id))) {
             return false;
         }
-        
+
         $objQuery   =& SC_Query_Ex::getSingletonInstance();
 
         $from   = 'dtb_other_deliv';
@@ -171,17 +171,17 @@ class SC_Helper_Address
 
         return $objErr->arrErr;
     }
-    
+
     /**
      * お届け先エラーチェック
-     * 
+     *
      * @param array $arrParam
      * @return boolean / false
      */
     public function delivErrorCheck($arrParam)
     {
         $error_flg = false;
-        
+
         if (is_null($arrParam['customer_id']) || !is_numeric($arrParam['customer_id']) || !preg_match("/^\d+$/", $arrParam['customer_id'])) {
             $error_flg = true;
         }
@@ -189,7 +189,7 @@ class SC_Helper_Address
         if (strlen($arrParam['other_deliv_id']) > 0 && (!is_numeric($arrParam['other_deliv_id']) || !preg_match("/^\d+$/", $arrParam['other_deliv_id']))) {
             $error_flg = true;
         }
-        
+
         return $error_flg;
     }
 }
