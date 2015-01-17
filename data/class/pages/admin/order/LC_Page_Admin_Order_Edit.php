@@ -1080,16 +1080,43 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
 
             //上書き
             $this->changeShipmentProducts($arrShipmentProducts, $arrAddProductInfo, $select_shipping_id, $change_no);
-            //受注商品情報に追加
-            $arrProducts = $this->checkInsertOrderProducts($objFormParam, $arrPreProductClassIds, $edit_product_class_id, $arrAddProductInfo);
-            $objFormParam->setParam($arrProducts);
+
+            //受注商品情報も上書き
+            $arrTax = SC_Helper_TaxRule_Ex::getTaxRule(0, $edit_product_class_id);
+
+            // 実際はedit
+            $arrAddProductInfo['product_name'] = ($arrAddProductInfo['product_name'])
+                ? $arrAddProductInfo['product_name']
+                : $arrAddProductInfo['name'];
+
+            $arrAddProductInfo['price'] = ($arrAddProductInfo['price'])
+                ? $arrAddProductInfo['price']
+                : $arrAddProductInfo['price02'];
+
+            $arrAddProductInfo['quantity'] = 1;
+            $arrAddProductInfo['tax_rate'] = ($objFormParam->getValue('order_tax_rate') == '')
+                ? $arrTax['tax_rate']
+                : $objFormParam->getValue('order_tax_rate');
+
+            $arrAddProductInfo['tax_rule'] = ($objFormParam->getValue('order_tax_rule') == '')
+                ? $arrTax['tax_rule']
+                : $objFormParam->getValue('order_tax_rule');
+
+            $arrProductClassIds = $objFormParam->getValue('product_class_id');
+
+            foreach($arrProductClassIds as $key => $product_class_id) {
+                if ($product_class_id == $pre_shipment_product_class_id) {
+                    foreach ($this->arrProductKeys as $insert_key) {
+                        $value = $objFormParam->getValue($insert_key);
+                        $arrAddProducts[$insert_key]   = (is_array($value))? $value: array();
+                        $arrAddProducts[$insert_key][$key] = $arrAddProductInfo[$insert_key];
+                    }
+                }
+            }
+            $objFormParam->setParam($arrAddProducts);
         }
         $objFormParam->setParam($arrShipmentProducts);
 
-        //更新のみの場合、全配列を持っていないので、新しい配列を取得
-        $arrNewShipmentProducts = $this->getShipmentProducts($objFormParam);
-        $is_product_delete = true;
-        //変更前のproduct_class_idが他の届け先にも存在するか
         foreach ($arrNewShipmentProducts['shipment_product_class_id'] as $shipping_id => $arrShipmentProductClassIds) {
             if (in_array($pre_shipment_product_class_id, $arrShipmentProductClassIds)) {
                 $is_product_delete = false;
