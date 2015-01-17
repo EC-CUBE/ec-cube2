@@ -27,7 +27,7 @@
         // 無制限チェックボックスの初期化
         $('input[id^=chk_stock_unlimited_]').each(function() {
             var index = $(this).attr('id').replace(/^chk_stock_unlimited_/ig, '');
-            var checked = $(this).attr('checked');
+            var checked = $("#chk_stock_unlimited_"+index+":checked").val();
 
             if (checked) {
                 $('#stock_' + index)
@@ -39,7 +39,7 @@
         // 無制限チェックボックス
         $('input[id^=chk_stock_unlimited_]').change(function() {
             var index = $(this).attr('id').replace(/^chk_stock_unlimited_/ig, '');
-            var checked = $(this).attr('checked');
+            var checked = $("#chk_stock_unlimited_"+index+":checked").val();
 
             if (checked) {
                 $('#stock_' + index)
