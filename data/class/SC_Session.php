@@ -68,18 +68,25 @@ class SC_Session
     public function IsSuccess()
     {
         if ($this->cert == CERT_STRING) {
+            $script_path = realpath($_SERVER['SCRIPT_FILENAME']);
+            $arrScriptPath = explode('/', str_replace('\\', '/', $script_path));
+
             $masterData = new SC_DB_MasterData_Ex();
-            $admin_path = strtolower(preg_replace('/\/+/', '/', $_SERVER['SCRIPT_NAME']));            
-            $admin_path = preg_replace('/' . preg_quote(ROOT_URLPATH, '/') . '/', '/', $admin_path);
-            $admin_path = preg_replace('/' . preg_quote(ADMIN_DIR, '/') . '/', 'admin/', $admin_path);
-            $arrPERMISSION = array_change_key_case($masterData->getMasterData('mtb_permission'));
-            if (isset($arrPERMISSION[$admin_path])) { 
-                // 数値が自分の権限以上のものでないとアクセスできない。
-                if ($arrPERMISSION[$admin_path] < $this->authority) {
-                    return AUTH_ERROR;
+            // $arrPERMISSION = array_change_key_case($masterData->getMasterData('mtb_permission'));
+            $arrPERMISSION = $masterData->getMasterData('mtb_permission');
+
+            foreach ($arrPERMISSION as $path => $auth) {
+                $permission_path = realpath(HTML_REALDIR . $path);
+                $arrPermissionPath = explode('/', str_replace('\\', '/', $permission_path));
+                $arrDiff = array_diff_assoc($arrScriptPath, $arrPermissionPath);
+                // 一致した場合は、権限チェックを行う
+                if (count($arrDiff) === 0) {
+                    // 数値が自分の権限以上のものでないとアクセスできない。
+                    if ($auth < $this->authority) {
+                        return ACCESS_ERROR;
+                    }
                 }
             }
-
             return SUCCESS;
         }
 
