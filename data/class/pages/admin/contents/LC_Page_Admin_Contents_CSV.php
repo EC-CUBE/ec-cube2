@@ -103,7 +103,7 @@ class LC_Page_Admin_Contents_CSV extends LC_Page_Admin_Ex
         $this->tpl_subtitle .= '＞' . $this->arrSubnaviName[ $this->tpl_csv_id ];
 
         if ($this->tpl_is_update) {
-            $this->tpl_onload = "window.alert('正常に更新されました。');";
+            $this->tpl_onload = "window.onload = function(){alert('正常に更新されました。');}";
         }
 
     }
