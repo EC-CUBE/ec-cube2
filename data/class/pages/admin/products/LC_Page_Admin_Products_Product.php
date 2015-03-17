@@ -643,6 +643,14 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         // ダウンロード商品実ファイル名取得
         $arrForm['down_realfilename'] = $objDownFile->getFormDownFile();
 
+        // 数字の先頭の0を除去
+        $arrForm['price01']    = $arrForm['price01']    != "" ? (int)$arrForm['price01'] : "";
+        $arrForm['price02']    = $arrForm['price02']    != "" ? (int)$arrForm['price02'] : "";
+        $arrForm['stock']      = $arrForm['stock']      != "" ? (int)$arrForm['stock'] : "";
+        $arrForm['deliv_fee']  = $arrForm['deliv_fee']  != "" ? (int)$arrForm['deliv_fee'] : "";
+        $arrForm['point_rate'] = $arrForm['point_rate'] != "" ? (int)$arrForm['point_rate'] : "";
+        $arrForm['sale_limit'] = $arrForm['sale_limit'] != "" ? (int)$arrForm['sale_limit'] : "";
+
         return $arrForm;
     }
 
