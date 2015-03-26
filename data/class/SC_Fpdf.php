@@ -70,6 +70,7 @@ class SC_Fpdf extends SC_Helper_FPDI
 
     public function setData($arrData)
     {
+        GC_Utils::gfPrintLog(print_r($arrDisp,true));
         $this->arrData = $arrData;
 
         // ページ番号よりIDを取得
