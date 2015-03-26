@@ -210,23 +210,8 @@ class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
         $objError = new SC_CheckError_Ex($arrParams);
 
         $year = $objFormParam->getValue('year');
-        if (!is_numeric($year)) {
-            $arrErr['year'] = '発行年は数値で入力してください。';
-        }
-
         $month = $objFormParam->getValue('month');
-        if (!is_numeric($month)) {
-            $arrErr['month'] = '発行月は数値で入力してください。';
-        } elseif (0 >= $month && 12 < $month) {
-            $arrErr['month'] = '発行月は1〜12の間で入力してください。';
-        }
-
         $day = $objFormParam->getValue('day');
-        if (!is_numeric($day)) {
-            $arrErr['day'] = '発行日は数値で入力してください。';
-        } elseif (0 >= $day && 31 < $day) {
-            $arrErr['day'] = '発行日は1〜31の間で入力してください。';
-        }
 
         $objError->doFunc(array('発行日', 'year', 'month', 'day'), array('CHECK_DATE'));
         $arrErr = array_merge($arrErr, $objError->arrErr);
