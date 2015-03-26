@@ -70,6 +70,7 @@ class SC_Fpdf extends SC_Helper_FPDI
 
     public function setData($arrData)
     {
+        GC_Utils::gfPrintLog(print_r($arrDisp,true));
         $this->arrData = $arrData;
 
         // ページ番号よりIDを取得
@@ -138,8 +139,8 @@ class SC_Fpdf extends SC_Helper_FPDI
         $this->lfText(27, 70, $this->arrData['msg1'], 8);  //メッセージ1
         $this->lfText(27, 74, $this->arrData['msg2'], 8);  //メッセージ2
         $this->lfText(27, 78, $this->arrData['msg3'], 8);  //メッセージ3
-        $text = '作成日: '.$this->arrData['year'].'年'.$this->arrData['month'].'月'.$this->arrData['day'].'日';
-        $this->lfText(158, 288, $text, 8);  //作成日
+        $text = '発行日: '.$this->arrData['year'].'年'.$this->arrData['month'].'月'.$this->arrData['day'].'日';
+        $this->lfText(158, 288, $text, 8);  //発行日
     }
 
     private function setOrderData()
