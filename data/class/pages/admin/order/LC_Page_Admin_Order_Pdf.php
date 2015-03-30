@@ -248,7 +248,7 @@ class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
         $date2 = sprintf('%d%02d%02d235959', $year, $month, $day);
 
         if ($date1 > $date2) {
-            $arrErr['year'] = '※ 発行日は受注日より後の日付を入力してください。<br />';
+            $arrErr['year'] = '※ 発行日は受注日以降の日付を入力してください。<br />';
         }
 
         return $arrErr;
