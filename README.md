@@ -1,4 +1,6 @@
 # EC-CUBE 2.13系
+
+[![Join the chat at https://gitter.im/EC-CUBE/eccube-2_13](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/EC-CUBE/eccube-2_13?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/EC-CUBE/eccube-2_13.svg)](https://travis-ci.org/EC-CUBE/eccube-2_13)
 [![Coverage Status](https://coveralls.io/repos/EC-CUBE/eccube-2_13/badge.png)](https://coveralls.io/r/EC-CUBE/eccube-2_13)
 
