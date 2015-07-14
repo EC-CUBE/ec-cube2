@@ -70,10 +70,12 @@ class SC_Helper_FPDI extends PDF_Japanese
             // XXX この処理を消すと2ページ目以降でセルごとに改ページされる。
             $this->Cell(0, $h, '', 0, 0, '', 0, '');
             $product_width = $this->GetStringWidth($row[0]);
-            $output_lines = (int)($product_width / $w[0]) + 1;
-            $output_height = $output_lines * $h;
-            if ($w[0] < $product_width && $this->y + $output_height >= $this->PageBreakTrigger) {
-                $this->AddPage();
+            if ($w[0] < $product_width) {
+                $output_lines = (int)($product_width / $w[0]) + 1;
+                $output_height = $output_lines * $h;
+                if ($this->y + $output_height >= $this->PageBreakTrigger) {
+                    $this->AddPage();
+                }
             }
             foreach ($row as $col) {
                 // 列位置
