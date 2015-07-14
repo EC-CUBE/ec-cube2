@@ -41,8 +41,6 @@ class SC_Helper_FPDI extends PDF_Japanese
 
     /**
      * Colored table
-     *
-     * FIXME: 後の列の高さが大きい場合、表示が乱れる。
      */
     public function FancyTable($header, $data, $w)
     {
@@ -71,6 +69,10 @@ class SC_Helper_FPDI extends PDF_Japanese
             $i = 0;
             // XXX この処理を消すと2ページ目以降でセルごとに改ページされる。
             $this->Cell(0, $h, '', 0, 0, '', 0, '');
+            $product_width = $this->GetStringWidth($row[0]);
+            if ($w[0] < $product_width && $this->y + 2 * $h >= $this->PageBreakTrigger) {
+                $this->AddPage();
+            }
             foreach ($row as $col) {
                 // 列位置
                 $this->x = $x;
