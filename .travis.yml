@@ -14,8 +14,8 @@ env:
 
 before_script:
   - composer self-update || true
-  - if [[ $TRAVIS_PHP_VERSION == '5.3.3' ]]; then php composer.phar install --dev --no-interaction –prefer-source | php fi
-  - if [[ $TRAVIS_PHP_VERSION != '5.3.3' ]]; then php composer.phar install --dev --no-interaction | php fi
+  - if [[ $TRAVIS_PHP_VERSION == '5.3.3' ]]; then php composer.phar install --dev --no-interaction –prefer-source ; fi
+  - if [[ $TRAVIS_PHP_VERSION != '5.3.3' ]]; then php composer.phar install --dev --no-interaction ; fi
   - sh -c "if [ '$DB' = 'mysql' ]; then sh ./eccube_install.sh mysql; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then sh ./eccube_install.sh pgsql; fi"
   - cp tests/require.php.jenkins tests/require.php
