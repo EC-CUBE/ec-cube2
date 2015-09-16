@@ -1,12 +1,16 @@
 # for travis-ci
 # see also. https://travis-ci.org
 language: php
-
+sudo: required
 php:
-  - 5.6
-  - 5.5
-  - 5.4
+  - 5.3.3
   - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+
+matrix:
+  fast_finish: true
 
 env:
   - DB=mysql USER=root DBNAME=myapp_test DBPASS=' ' DBUSER=root
@@ -14,8 +18,8 @@ env:
 
 before_script:
   - composer self-update || true
-  - if [[ $TRAVIS_PHP_VERSION == '5.3.3' ]]; then php composer.phar install --dev --no-interaction –prefer-source ; fi
-  - if [[ $TRAVIS_PHP_VERSION != '5.3.3' ]]; then php composer.phar install --dev --no-interaction ; fi
+  - if [[ $TRAVIS_PHP_VERSION == '5.3.3' ]]; then composer install install --dev --no-interaction –prefer-source ; fi
+  - if [[ $TRAVIS_PHP_VERSION != '5.3.3' ]]; then composer install install --dev --no-interaction ; fi
   - sh -c "if [ '$DB' = 'mysql' ]; then sh ./eccube_install.sh mysql; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then sh ./eccube_install.sh pgsql; fi"
   - cp tests/require.php.jenkins tests/require.php
