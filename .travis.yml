@@ -1,12 +1,16 @@
 # for travis-ci
 # see also. https://travis-ci.org
 language: php
-
+sudo: required
 php:
-  - 5.6
-  - 5.5
-  - 5.4
+  - 5.3.3
   - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+
+matrix:
+  fast_finish: true
 
 env:
   - DB=mysql USER=root DBNAME=myapp_test DBPASS=' ' DBUSER=root
