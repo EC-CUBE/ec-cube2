@@ -18,7 +18,8 @@ env:
 
 before_script:
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev --no-interaction
+  - if [[ $TRAVIS_PHP_VERSION == '5.3.3' ]]; then curl -s http://getcomposer.org/installer –prefer-source | php fi
+  - if [[ $TRAVIS_PHP_VERSION != '5.3.3' ]]; then curl -s http://getcomposer.org/installer | php; fi
   - sh -c "if [ '$DB' = 'mysql' ]; then sh ./eccube_install.sh mysql; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then sh ./eccube_install.sh pgsql; fi"
   - cp tests/require.php.jenkins tests/require.php
