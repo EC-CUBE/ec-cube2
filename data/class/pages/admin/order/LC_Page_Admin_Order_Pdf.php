@@ -231,6 +231,26 @@ class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
         $objError->doFunc(array('発行日', 'year', 'month', 'day'), array('CHECK_DATE'));
         $arrErr = array_merge($arrErr, $objError->arrErr);
 
+        $objQuery = new SC_Query();
+
+        $order_temp = $_POST['order_id'];
+        $order_max = max($order_temp);
+
+        $date_check = $objQuery->select("create_date", "dtb_order", "order_id = ?", array($order_max));
+
+        $date_check = substr($date_check[0]['create_date'], 0, 10);
+        $date_check = explode("-", $date_check);
+        $order_year  = $date_check[0];
+        $order_month = $date_check[1];
+        $order_day   = $date_check[2];
+
+        $date1 = sprintf('%d%02d%02d000000', $order_year, $order_month, $order_day);
+        $date2 = sprintf('%d%02d%02d235959', $year, $month, $day);
+
+        if ($date1 > $date2) {
+            $arrErr['year'] = '※ 発行日は受注日以降の日付を入力してください。<br />';
+        }
+
         return $arrErr;
     }
 }
