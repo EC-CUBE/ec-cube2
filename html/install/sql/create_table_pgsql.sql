@@ -328,7 +328,7 @@ CREATE TABLE dtb_products_class (
     down_realfilename text,
     del_flg smallint NOT NULL DEFAULT 0,
     PRIMARY KEY (product_class_id),
-    UNIQUE (product_id, classcategory_id1, classcategory_id2)
+    CONSTRAINT dtb_products_class_unique_key UNIQUE (product_id, classcategory_id1, classcategory_id2) /* キー名競合回避 */
 );
 
 CREATE TABLE dtb_class (
@@ -1240,4 +1240,11 @@ CREATE INDEX dtb_mobile_ext_session_id_param_key_key ON dtb_mobile_ext_session_i
 CREATE INDEX dtb_mobile_ext_session_id_param_value_key ON dtb_mobile_ext_session_id (param_value);
 CREATE INDEX dtb_mobile_ext_session_id_url_key ON dtb_mobile_ext_session_id (url);
 CREATE INDEX dtb_mobile_ext_session_id_create_date_key ON dtb_mobile_ext_session_id (create_date);
-CREATE INDEX dtb_products_class_product_id ON dtb_products_class (product_id) WHERE del_flg = 0;
+CREATE INDEX dtb_products_class_product_id_key ON dtb_products_class (product_id) WHERE del_flg = 0;
+CREATE INDEX dtb_products_class_product_code_key ON dtb_products_class (product_id,product_code) WHERE del_flg = 0;
+CREATE INDEX dtb_products_class_price01_key ON dtb_products_class (product_id,price01) WHERE del_flg = 0;
+CREATE INDEX dtb_products_class_price02_key ON dtb_products_class (product_id,price02) WHERE del_flg = 0;
+CREATE INDEX dtb_products_class_stock_key ON dtb_products_class (product_id,stock) WHERE del_flg = 0;
+CREATE INDEX dtb_products_class_stock_unlimited_key ON dtb_products_class (product_id,stock_unlimited) WHERE del_flg = 0;
+CREATE INDEX dtb_products_class_point_rate_key ON dtb_products_class (product_id,point_rate) WHERE del_flg = 0;
+CREATE INDEX dtb_products_class_deliv_fee_key ON dtb_products_class (product_id,deliv_fee) WHERE del_flg = 0;
