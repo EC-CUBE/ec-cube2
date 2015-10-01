@@ -72,7 +72,6 @@ class SC_Session
             $arrScriptPath = explode('/', str_replace('\\', '/', $script_path));
 
             $masterData = new SC_DB_MasterData_Ex();
-            // $arrPERMISSION = array_change_key_case($masterData->getMasterData('mtb_permission'));
             $arrPERMISSION = $masterData->getMasterData('mtb_permission');
 
             foreach ($arrPERMISSION as $path => $auth) {
