@@ -80,5 +80,5 @@
         </div>
     </form>
 <!--{else}-->
-    <iframe src="?mode=<!--{$tpl_mode|h}-->&amp;exec=yes&amp;startRowNum=<!--{$arrForm.startRowNum|h}-->" name="progress" height="200" width="750" frameborder="0"></iframe>
+    <iframe src="?mode=<!--{$tpl_mode|h}-->&amp;exec=yes&amp;startRowNum=<!--{$arrForm.startRowNum|h}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->" name="progress" height="200" width="750" frameborder="0"></iframe>
 <!--{/if}-->
