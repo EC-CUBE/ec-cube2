@@ -129,7 +129,7 @@
                         value="<!--{$arrForm[$key2].value|h}-->"
                         maxlength="<!--{$arrForm[$key2].length}-->"
                         style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" class="boxShort text data-role-none" />&nbsp;
-                    <a href="http://search.post.japanpost.jp/zipcode/" target="_blank"><span class="fn">郵便番号検索</span></a>
+                    <a href="http://www.post.japanpost.jp/zipcode/" target="_blank"><span class="fn">郵便番号検索</span></a>
                 </p>
 
                 <a href="javascript:eccube.getAddress('<!--{$smarty.const.INPUT_ZIP_URLPATH}-->', 'order_zip01', 'order_zip02', 'order_pref', 'order_addr01');" class="btn_sub btn_inputzip">郵便番号から住所自動入力</a>
