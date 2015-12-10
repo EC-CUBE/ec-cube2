@@ -63,7 +63,7 @@ class LC_Page_Api_Xml extends LC_Page_Ex
     {
         $arrParam = $_REQUEST;
 
-        list($response_outer, $arrResponse) = SC_Api_Operation::doApiAction($arrParam);
+        list($response_outer, $arrResponse) = SC_Api_Operation_Ex::doApiAction($arrParam);
         SC_Api_Operation_Ex::sendApiResponse('xml', $response_outer, $arrResponse);
         SC_Response_Ex::actionExit();
     }

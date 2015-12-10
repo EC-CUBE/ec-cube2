@@ -163,7 +163,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
                     }
                     break;
                 case 'search_product_code':
-                    $where .=    ' AND alldtl.product_id IN (SELECT product_id FROM dtb_products_class WHERE product_code LIKE ? GROUP BY product_id)';
+                    $where .=    ' AND alldtl.product_id IN (SELECT product_id FROM dtb_products_class WHERE product_code LIKE ?)';
                     $bind[] = '%'.$val.'%';
                     break;
                 case 'search_status':

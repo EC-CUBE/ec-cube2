@@ -50,9 +50,9 @@
                 <td class="left"><!--{$arrTemplates[data].subject|h}--></td>
                 <!--{assign var=type value=$arrTemplates[data].mail_method|h}-->
                 <td><!--{$arrMagazineType[$type]}--></td>
-                <td><a href="./template_input.php?mode=edit&amp;template_id=<!--{$arrTemplates[data].template_id}-->">編集</a></td>
-                <td><a href="#" onclick="eccube.moveDeleteUrl('?mode=delete&amp;id=<!--{$arrTemplates[data].template_id}-->'); return false;">削除</a></td>
-                <td><a href="#" onclick="eccube.openWindow('./preview.php?mode=template&amp;template_id=<!--{$arrTemplates[data].template_id}-->','preview','650','700',{menubar:'no'}); return false;" target="_blank">プレビュー</a></td>
+                <td><a href="./template_input.php?mode=edit&amp;template_id=<!--{$arrTemplates[data].template_id}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->">編集</a></td>
+                <td><a href="#" onclick="eccube.moveDeleteUrl('?mode=delete&amp;id=<!--{$arrTemplates[data].template_id}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->'); return false;">削除</a></td>
+                <td><a href="#" onclick="eccube.openWindow('./preview.php?mode=template&amp;template_id=<!--{$arrTemplates[data].template_id}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->','preview','650','700',{menubar:'no'}); return false;" target="_blank">プレビュー</a></td>
             </tr>
             <!--{/section}-->
         </table>

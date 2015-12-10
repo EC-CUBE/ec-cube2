@@ -25,8 +25,8 @@
 <form name="form1" id="form1" method="post" action="?" >
     <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
     <input type="hidden" name="mode" value="" />
-    <input type="hidden" name="status" value="<!--{if $arrForm.status == ""}-->1<!--{else}--><!--{$arrForm.status}--><!--{/if}-->" />
-    <input type="hidden" name="search_pageno" value="<!--{$tpl_pageno}-->" />
+    <input type="hidden" name="status" value="<!--{if $arrForm.status == ""}-->1<!--{else}--><!--{$arrForm.status|h}--><!--{/if}-->" />
+    <input type="hidden" name="search_pageno" value="<!--{$tpl_pageno|h}-->" />
     <input type="hidden" name="order_id" value="" />
     <div id="order" class="contents-main">
         <h2>抽出条件</h2>
@@ -75,7 +75,7 @@
                 <col width="12%" />
                 <col width="12%" />
                 <tr>
-                    <th><label for="move_check">選択<br /></label> <input type="checkbox" name="move_check" id="move_check" onclick="eccube.checkAllBox(this, 'input[name=move[]]')" /></th>
+                    <th><label for="move_check">選択<br /></label> <input type="checkbox" name="move_check" id="move_check" onclick="eccube.checkAllBox(this, 'input[name=\'move[]\']')" /></th>
                     <th>対応状況</th>
                     <th>注文番号</th>
                     <th>受注日</th>
