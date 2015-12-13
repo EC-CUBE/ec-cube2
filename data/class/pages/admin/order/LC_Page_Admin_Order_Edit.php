@@ -1116,18 +1116,6 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $objFormParam->setParam($arrAddProducts);
         }
         $objFormParam->setParam($arrShipmentProducts);
-
-        foreach ($arrNewShipmentProducts['shipment_product_class_id'] as $shipping_id => $arrShipmentProductClassIds) {
-            if (in_array($pre_shipment_product_class_id, $arrShipmentProductClassIds)) {
-                $is_product_delete = false;
-                break;
-            }
-        }
-
-        //商品情報から削除
-        if ($is_product_delete) {
-            $this->checkDeleteProducts($objFormParam, $arrPreProductClassIds, $pre_shipment_product_class_id, $this->arrProductKeys);
-        }
     }
 
     /**
