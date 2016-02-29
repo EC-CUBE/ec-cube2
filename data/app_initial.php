@@ -21,6 +21,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+// Flexible SSLへの対応
+if( isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' == $_SERVER['HTTP_X_FORWARDED_PROTO'] ){
+    $_SERVER['HTTPS'] = 1;
+    $_SERVER['SERVER_PORT'] = 443;
+}
+
 if (!defined('CLASS_REALDIR')) {
     /** クラスパス */
     define('CLASS_REALDIR', DATA_REALDIR . "class/");
