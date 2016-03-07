@@ -206,11 +206,16 @@ class SC_Helper_CSV
      */
     public function cbOutputCSV($data)
     {
+        // mb_convert_variablesで変換できない文字は"?"にする
+        mb_substitute_character(63);
         // 1行目のみヘッダーを出力する
         if ($this->output_header) {
-            fputcsv($this->fpOutput, array_keys($data));
+            $header = array_keys($data);
+            mb_convert_variables('cp932', 'UTF-8', $header);
+            fputcsv($this->fpOutput, $header);
             $this->output_header = false;
         }
+        mb_convert_variables('cp932', 'UTF-8', $data);
         fputcsv($this->fpOutput, $data);
         SC_Utils_Ex::extendTimeOut();
 
@@ -237,9 +242,12 @@ class SC_Helper_CSV
 
         $this->fpOutput =& SC_Helper_CSV_Ex::fopen_for_output_csv();
 
+        // mb_convert_variablesで変換できない文字は"?"にする
+        mb_substitute_character(63);
         // ヘッダー構築
         $this->output_header = false;
         if (is_array($arrHeader)) {
+            mb_convert_variables('cp932', 'UTF-8', $arrHeader);
             fputcsv($this->fpOutput, $arrHeader);
         } elseif (is_null($arrHeader)) {
             // ループバック内でヘッダーを出力する
@@ -359,7 +367,6 @@ class SC_Helper_CSV
     {
         $fp = fopen($filename, 'w');
 
-        stream_filter_append($fp, 'convert.iconv.utf-8/cp932');
         stream_filter_append($fp, 'convert.eccube_lf2crlf');
 
         return $fp;
