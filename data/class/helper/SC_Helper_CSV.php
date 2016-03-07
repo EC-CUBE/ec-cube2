@@ -213,7 +213,7 @@ class SC_Helper_CSV
         if ($this->output_header) {
             $header = array_keys($data);
             mb_convert_variables('cp932', 'UTF-8', $header);
-            fputcsv($this->fpOutput, array_keys($data));
+            fputcsv($this->fpOutput, $header);
             $this->output_header = false;
         }
         mb_convert_variables('cp932', 'UTF-8', $data);
