@@ -1,6 +1,10 @@
 {
+    "config": {
+        "disable-tls": true,
+        "secure-http": false
+    },
     "require-dev": {
-        "satooshi/php-coveralls": "dev-master",
+        "satooshi/php-coveralls": "1.0",
         "phpunit/phpunit": "3.7.*"
     }
 }
