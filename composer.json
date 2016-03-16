@@ -1,4 +1,7 @@
 {
+    "config": {
+        "disable-tls": true
+    },
     "require-dev": {
         "satooshi/php-coveralls": "1.0",
         "phpunit/phpunit": "3.7.*"
