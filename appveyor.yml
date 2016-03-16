@@ -34,7 +34,7 @@ install:
   #- set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
   #- mingw-get install mingw-developer-toolkit
   ## Set PHP.
-  - cinst php
+  - cinst php -version 5.3.6
   - SET PATH=C:\tools\php\;%PATH%
   - copy C:\tools\php\php.ini-production C:\tools\php\php.ini
   - echo date.timezone="Asia/Tokyo" >> C:\tools\php\php.ini
