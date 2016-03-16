@@ -4,6 +4,9 @@
 # Set build version format here instead of in the admin panel.
 version: 2.13-dev-{build}
 
+cache:
+  - '%LOCALAPPDATA%\Composer\files'
+
 # Fix line endings in Windows. (runs before repo cloning)
 init:
   - git config --global core.autocrlf input
@@ -34,7 +37,7 @@ install:
   #- set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
   #- mingw-get install mingw-developer-toolkit
   ## Set PHP.
-  - cinst php -version 5.3.6
+  - cinst php -version 5.6.17
   - SET PATH=C:\tools\php\;%PATH%
   - copy C:\tools\php\php.ini-production C:\tools\php\php.ini
   - echo date.timezone="Asia/Tokyo" >> C:\tools\php\php.ini
