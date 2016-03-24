@@ -79,7 +79,7 @@ class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
                     $this->registMasterData($_POST, $masterData, $this->masterDataName);
                     $this->tpl_onload = "window.alert('マスターデータの設定が完了しました。');";
                 }
-                // FIXME break 入れ忘れと思われる。そうでないなら、要コメント。
+                break;
 
             case 'show':
                 // POST 文字列の妥当性チェック
