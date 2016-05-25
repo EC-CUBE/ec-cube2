@@ -47,6 +47,14 @@ AUTH_MAGIC="droucliuijeanamiundpnoufrouphudrastiokec"
 DBTYPE=$1;
 
 case "${DBTYPE}" in
+"appveyor" )
+    #-- DB Seting Postgres
+    PSQL=psql
+    PGUSER=postgres
+    DROPDB=dropdb
+    CREATEDB=createdb
+    DBPORT=5432
+;;
 "pgsql" )
     #-- DB Seting Postgres
     PSQL=psql
