@@ -149,6 +149,9 @@ dtb_tax_rule_tax_rule_id_seq
     done;
 
     case ${DBTYPE} in
+        appveyor)
+            echo ${comb_sql} | ${PSQL} -U ${DBUSER} ${DBNAME}
+        ;;
         pgsql)
             echo ${comb_sql} | sudo -u ${PGUSER} ${PSQL} -U ${DBUSER} ${DBNAME}
         ;;
@@ -205,6 +208,21 @@ adjust_directory_permissions
 SQL_DIR="./html/install/sql"
 
 case "${DBTYPE}" in
+"appveyor" )
+    # PostgreSQL
+    echo "dropdb..."
+    ${DROPDB} ${DBNAME}
+    echo "createdb..."
+    ${CREATEDB} -U ${DBUSER} ${DBNAME}
+    echo "create table..."
+    ${PSQL} -U ${DBUSER} -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
+    echo "insert data..."
+    ${PSQL} -U ${DBUSER} -f ${SQL_DIR}/insert_data.sql ${DBNAME}
+    echo "create sequence table..."
+    create_sequence_tables
+    echo "execute optional SQL..."
+    get_optional_sql | ${PSQL} -U ${DBUSER} ${DBNAME}
+;;
 "pgsql" )
     # PostgreSQL
     echo "dropdb..."
