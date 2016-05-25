@@ -222,6 +222,7 @@ case "${DBTYPE}" in
     create_sequence_tables
     echo "execute optional SQL..."
     get_optional_sql | ${PSQL} -U ${DBUSER} ${DBNAME}
+	DBTYPE="pgsql"
 ;;
 "pgsql" )
     # PostgreSQL
