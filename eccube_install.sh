@@ -139,6 +139,9 @@ dtb_tax_rule_tax_rule_id_seq
     comb_sql="";
     for S in $SEQUENCES; do
         case ${DBTYPE} in
+            appveyor)
+                sql=$(echo "CREATE SEQUENCE ${S} START 10000;")
+            ;;
             pgsql)
                 sql=$(echo "CREATE SEQUENCE ${S} START 10000;")
             ;;
