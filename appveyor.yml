@@ -31,7 +31,7 @@ services:
 install:
   # Set MySQL.
   - cp tests/my.cnf c:\
-  - SET PATH=C:\Program Files\MySql\MySQL Server 5.6\bin\;%PATH%
+  - SET PATH=C:\Program Files\MySql\MySQL Server 5.7\bin\;%PATH%
   # Set bash.
   #- cinst mingw-get
   #- set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
