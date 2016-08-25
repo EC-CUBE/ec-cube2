@@ -4,9 +4,270 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "727516445ef1b36d8e8b5cada5836d2e",
-    "content-hash": "c5b3586de0f654fea2114f05c4d910ed",
+    "hash": "ce8da7d12a65fdb63848572102a40a90",
+    "content-hash": "5a13837d0d97505e52bdeadb311f0d78",
     "packages": [
+        {
+            "name": "pear-pear.php.net/Archive_Tar",
+            "version": "1.4.2",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/Archive_Tar-1.4.2.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "php": ">=5.2.0.0"
+            },
+            "replace": {
+                "pear-pear/archive_tar": "== 1.4.2.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "New BSD License"
+            ],
+            "description": "This class provides handling of tar files in PHP.\nIt supports creating, listing, extracting and adding to tar files.\nGzip support is available if PHP has the zlib extension built-in or\nloaded. Bz2 compression is also supported with the bz2 extension loaded."
+        },
+        {
+            "name": "pear-pear.php.net/Console_Getopt",
+            "version": "1.4.1",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/Console_Getopt-1.4.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "php": ">=5.4.0.0"
+            },
+            "replace": {
+                "pear-pear/console_getopt": "== 1.4.1.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "This is a PHP implementation of \"getopt\" supporting both\nshort and long options."
+        },
+        {
+            "name": "pear-pear.php.net/MDB2",
+            "version": "2.5.0b5",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/MDB2-2.5.0b5.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "pear-pear.php.net/pear": ">=1.3.6.0",
+                "php": ">=5.2.0.0"
+            },
+            "replace": {
+                "pear-pear/mdb2": "== 2.5.0.0-beta5"
+            },
+            "suggest": {
+                "fbsql-pear-pear.php.net/MDB2_Driver_fbsql": ">=0.3.0.0",
+                "ibase-pear-pear.php.net/MDB2_Driver_ibase": ">=1.5.0.0",
+                "mssql-pear-pear.php.net/MDB2_Driver_mssql": ">=1.5.0.0",
+                "mysql-pear-pear.php.net/MDB2_Driver_mysql": ">=1.5.0.0",
+                "mysqli-pear-pear.php.net/MDB2_Driver_mysqli": ">=1.5.0.0",
+                "oci8-pear-pear.php.net/MDB2_Driver_oci8": ">=1.5.0.0",
+                "odbc-pear-pear.php.net/MDB2_Driver_odbc": ">=0.2.0.0",
+                "pgsql-pear-pear.php.net/MDB2_Driver_pgsql": ">=1.5.0.0",
+                "querysim-pear-pear.php.net/MDB2_Driver_querysim": ">=0.7.0.0",
+                "sqlite-pear-pear.php.net/MDB2_Driver_sqlite": ">=1.5.0.0",
+                "sqlsrv-pear-pear.php.net/MDB2_Driver_sqlsrv": ">=1.5.0.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD License"
+            ],
+            "description": "PEAR MDB2 is a merge of the PEAR DB and Metabase php database abstraction layers.\n\nIt provides a common API for all supported RDBMS. The main difference to most\nother DB abstraction packages is that MDB2 goes much further to ensure\nportability. MDB2 provides most of its many features optionally that\ncan be used to construct portable SQL statements:\n* Object-Oriented API\n* A DSN (data source name) or array format for specifying database servers\n* Datatype abstraction and on demand datatype conversion\n* Various optional fetch modes to fix portability issues\n* Portable error codes\n* Sequential and non sequential row fetching as well as bulk fetching\n* Ability to make buffered and unbuffered queries\n* Ordered array and associative array for the fetched rows\n* Prepare/execute (bind) named and unnamed placeholder emulation\n* Sequence/autoincrement emulation\n* Replace emulation\n* Limited sub select emulation\n* Row limit emulation\n* Transactions/savepoint support\n* Large Object support\n* Index/Unique Key/Primary Key support\n* Pattern matching abstraction\n* Module framework to load advanced functionality on demand\n* Ability to read the information schema\n* RDBMS management methods (creating, dropping, altering)\n* Reverse engineering schemas from an existing database\n* SQL function call abstraction\n* Full integration into the PEAR Framework\n* PHPDoc API documentation"
+        },
+        {
+            "name": "pear-pear.php.net/MDB2_Driver_mysql",
+            "version": "1.5.0b4",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/MDB2_Driver_mysql-1.5.0b4.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "ext-mysql": "*",
+                "pear-pear.php.net/mdb2": ">=2.5.0.0",
+                "php": ">=5.2.0.0"
+            },
+            "replace": {
+                "pear-pear/mdb2_driver_mysql": "== 1.5.0.0-beta4"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD License"
+            ],
+            "description": "This is the MySQL MDB2 driver."
+        },
+        {
+            "name": "pear-pear.php.net/MDB2_Driver_pgsql",
+            "version": "1.5.0b4",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/MDB2_Driver_pgsql-1.5.0b4.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "ext-pgsql": "*",
+                "pear-pear.php.net/mdb2": ">=2.5.0.0",
+                "php": ">=5.2.0.0"
+            },
+            "replace": {
+                "pear-pear/mdb2_driver_pgsql": "== 1.5.0.0-beta4"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD License"
+            ],
+            "description": "This is the PostgreSQL MDB2 driver."
+        },
+        {
+            "name": "pear-pear.php.net/PEAR",
+            "version": "1.10.1",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/PEAR-1.10.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "ext-pcre": "*",
+                "ext-xml": "*",
+                "pear-pear.php.net/archive_tar": ">=1.4.0.0",
+                "pear-pear.php.net/console_getopt": ">=1.4.1.0",
+                "pear-pear.php.net/structures_graph": ">=1.1.0.0",
+                "pear-pear.php.net/xml_util": ">=1.3.0.0",
+                "php": ">=5.4.0.0"
+            },
+            "conflict": {
+                "pear-pear.php.net/pear_frontend_gtk": "<0.4.0.0",
+                "pear-pear.php.net/pear_frontend_web": "<=0.4.0.0"
+            },
+            "replace": {
+                "pear-pear/pear": "== 1.10.1.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "New BSD License"
+            ],
+            "description": "The PEAR package contains:\n * the PEAR installer, for creating, distributing\n   and installing packages\n * the PEAR_Exception PHP5 error handling mechanism\n * the PEAR_ErrorStack advanced error handling mechanism\n * the PEAR_Error error handling mechanism\n * the OS_Guess class for retrieving info about the OS\n   where PHP is running on\n * the System class for quick handling of common operations\n   with files and directories\n * the PEAR base class\n  Features in a nutshell:\n  * full support for channels\n  * pre-download dependency validation\n  * new package.xml 2.0 format allows tremendous flexibility while maintaining BC\n  * support for optional dependency groups and limited support for sub-packaging\n  * robust dependency support\n  * full dependency validation on uninstall\n  * remote install for hosts with only ftp access - no more problems with\n    restricted host installation\n  * full support for mirroring\n  * support for bundling several packages into a single tarball\n  * support for static dependencies on a url-based package\n  * support for custom file roles and installation tasks"
+        },
+        {
+            "name": "pear-pear.php.net/Structures_Graph",
+            "version": "1.1.1",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/Structures_Graph-1.1.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "php": ">=5.3.0.0"
+            },
+            "replace": {
+                "pear-pear/structures_graph": "== 1.1.1.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "LGPL-3.0+"
+            ],
+            "description": "Structures_Graph is a package for creating and manipulating graph datastructures. It allows building of directed\nand undirected graphs, with data and metadata stored in nodes. The library provides functions for graph traversing\nas well as for characteristic extraction from the graph topology."
+        },
+        {
+            "name": "pear-pear.php.net/XML_Util",
+            "version": "1.3.0",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/XML_Util-1.3.0.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "ext-pcre": "*",
+                "php": ">=5.3.0.0"
+            },
+            "replace": {
+                "pear-pear/xml_util": "== 1.3.0.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD License"
+            ],
+            "description": "Selection of methods that are often needed when working with XML documents.  Functionality includes creating of attribute lists from arrays, creation of tags, validation of XML names and more."
+        },
         {
             "name": "smarty/smarty",
             "version": "v2.6.30",
@@ -1004,7 +1265,11 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "pear-pear.php.net/mdb2": 10,
+        "pear-pear.php.net/mdb2_driver_pgsql": 10,
+        "pear-pear.php.net/mdb2_driver_mysql": 10
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

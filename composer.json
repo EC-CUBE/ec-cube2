@@ -14,11 +14,20 @@
         "disable-tls": true,
         "secure-http": false
     },
+    "repositories": [
+        {
+            "type": "pear",
+            "url": "http://pear.php.net/"
+        }
+    ],
     "require-dev": {
         "satooshi/php-coveralls": "1.0",
         "phpunit/phpunit": "3.7.*"
     },
     "require": {
-        "smarty/smarty": "~2.6"
+        "smarty/smarty": "~2.6",
+        "pear-pear.php.net/MDB2": "2.5.0b5",
+        "pear-pear.php.net/MDB2_Driver_pgsql": "1.5.0b4",
+        "pear-pear.php.net/MDB2_Driver_mysql": "1.5.0b4"
     }
 }
