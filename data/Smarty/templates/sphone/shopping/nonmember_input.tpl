@@ -401,13 +401,13 @@
                         style="<!--{$arrErr[$key3]|sfGetErrorColor}-->"
                         class="boxShort text data-role-none" />
                 </dd>
-                <!--{if $smarty.const.USE_MULTIPLE_SHIPPING !== false}-->
-                    <dd class="pb">
-                        <a class="btn_more" href="javascript:eccube.setModeAndSubmit('multiple', '', '');">お届け先を複数指定する</a>
-                    </dd>
-                <!--{/if}-->
             </div>
 
+            <!--{if $smarty.const.USE_MULTIPLE_SHIPPING !== false}-->
+                <dd class="pb">
+                    <a class="btn_more" href="javascript:eccube.setModeAndSubmit('multiple', '', '');">お届け先を複数指定する</a>
+                </dd>
+            <!--{/if}-->
             <div class="btn_area">
                 <p><input type="submit" value="次へ" class="btn data-role-none" alt="次へ" name="next" id="next" /></p>
             </div>
