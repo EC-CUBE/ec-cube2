@@ -207,15 +207,15 @@ class SC_Helper_CSV
     public function cbOutputCSV($data)
     {
         // mb_convert_variablesで変換できない文字は"?"にする
-        mb_substitute_character(63);
+        mb_substitute_character(SUBSTITUTE_CHAR);
         // 1行目のみヘッダーを出力する
         if ($this->output_header) {
             $header = array_keys($data);
-            mb_convert_variables('cp932', 'UTF-8', $header);
+            mb_convert_variables('cp932', CHAR_CODE, $header);
             fputcsv($this->fpOutput, $header);
             $this->output_header = false;
         }
-        mb_convert_variables('cp932', 'UTF-8', $data);
+        mb_convert_variables('cp932', CHAR_CODE, $data);
         fputcsv($this->fpOutput, $data);
         SC_Utils_Ex::extendTimeOut();
 
@@ -243,11 +243,11 @@ class SC_Helper_CSV
         $this->fpOutput =& SC_Helper_CSV_Ex::fopen_for_output_csv();
 
         // mb_convert_variablesで変換できない文字は"?"にする
-        mb_substitute_character(63);
+        mb_substitute_character(SUBSTITUTE_CHAR);
         // ヘッダー構築
         $this->output_header = false;
         if (is_array($arrHeader)) {
-            mb_convert_variables('cp932', 'UTF-8', $arrHeader);
+            mb_convert_variables('cp932', CHAR_CODE, $arrHeader);
             fputcsv($this->fpOutput, $arrHeader);
         } elseif (is_null($arrHeader)) {
             // ループバック内でヘッダーを出力する
