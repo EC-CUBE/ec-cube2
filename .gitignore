@@ -21,3 +21,6 @@ composer.phar
 /reports/*
 .idea
 vagrant
+.vagrant/
+Vagrantfile
+
