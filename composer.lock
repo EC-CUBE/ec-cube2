@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ce8da7d12a65fdb63848572102a40a90",
-    "content-hash": "5a13837d0d97505e52bdeadb311f0d78",
+    "content-hash": "dad8f688f0533a61d10daf98ea3b9155",
     "packages": [
         {
             "name": "pear-pear.php.net/Archive_Tar",
@@ -37,6 +36,65 @@
             "description": "This class provides handling of tar files in PHP.\nIt supports creating, listing, extracting and adding to tar files.\nGzip support is available if PHP has the zlib extension built-in or\nloaded. Bz2 compression is also supported with the bz2 extension loaded."
         },
         {
+            "name": "pear-pear.php.net/Cache_Lite",
+            "version": "1.8.0",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/Cache_Lite-1.8.0.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "pear-pear.php.net/pear": ">=1.10.1.0",
+                "php": ">=5.4.0.0"
+            },
+            "replace": {
+                "pear-pear/cache_lite": "== 1.8.0.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "lgpl"
+            ],
+            "description": "This package is a little cache system optimized for file containers. It is fast and safe (because it\n        uses file locking and/or anti-corruption tests)."
+        },
+        {
+            "name": "pear-pear.php.net/Calendar",
+            "version": "0.5.5",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/Calendar-0.5.5.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "php": ">=5.0.0.0"
+            },
+            "replace": {
+                "pear-pear/calendar": "== 0.5.5.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD"
+            ],
+            "description": "Calendar provides an API for building Calendar data structures. Using\nthe simple iterator and it's &quot;query&quot; API, a user interface can easily be\nbuilt on top of the calendar data structure, at the same time easily connecting it\nto some kind of underlying data store, where &quot;event&quot; information is\nbeing held.\n\nIt provides different calculation &quot;engines&quot; the default being based on\nUnix timestamps (offering fastest performance) with an alternative using PEAR::Date\nwhich extends the calendar past the limitations of Unix timestamps. Other engines\nshould be implementable for other types of calendar (e.g. a Chinese Calendar based\non lunar cycles)."
+        },
+        {
             "name": "pear-pear.php.net/Console_Getopt",
             "version": "1.4.1",
             "dist": {
@@ -64,6 +122,66 @@
                 "BSD-2-Clause"
             ],
             "description": "This is a PHP implementation of \"getopt\" supporting both\nshort and long options."
+        },
+        {
+            "name": "pear-pear.php.net/File_SearchReplace",
+            "version": "1.1.4",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/File_SearchReplace-1.1.4.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "php": ">=4.3.0.0"
+            },
+            "replace": {
+                "pear-pear/file_searchreplace": "== 1.1.4.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD"
+            ],
+            "description": "Provides various functions to perform replace\non files. Preg/Ereg regex supported along with faster, but more basic str_replace routine."
+        },
+        {
+            "name": "pear-pear.php.net/HTTP_Request",
+            "version": "1.4.4",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/HTTP_Request-1.4.4.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "pear-pear.php.net/net_socket": ">=1.0.7.0",
+                "pear-pear.php.net/net_url": ">=1.0.12.0",
+                "php": ">=4.2.0.0"
+            },
+            "replace": {
+                "pear-pear/http_request": "== 1.4.4.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD"
+            ],
+            "description": "Supports GET/POST/HEAD/TRACE/PUT/DELETE, Basic authentication, Proxy,\nProxy Authentication, SSL, file uploads etc."
         },
         {
             "name": "pear-pear.php.net/MDB2",
@@ -140,6 +258,37 @@
             "description": "This is the MySQL MDB2 driver."
         },
         {
+            "name": "pear-pear.php.net/MDB2_Driver_mysqli",
+            "version": "1.5.0b4",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/MDB2_Driver_mysqli-1.5.0b4.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "ext-mysqli": "*",
+                "pear-pear.php.net/mdb2": ">=2.5.0.0",
+                "php": ">=5.2.0.0"
+            },
+            "replace": {
+                "pear-pear/mdb2_driver_mysqli": "== 1.5.0.0-beta4"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD License"
+            ],
+            "description": "This is the MySQLi MDB2 driver."
+        },
+        {
             "name": "pear-pear.php.net/MDB2_Driver_pgsql",
             "version": "1.5.0b4",
             "dist": {
@@ -171,11 +320,159 @@
             "description": "This is the PostgreSQL MDB2 driver."
         },
         {
-            "name": "pear-pear.php.net/PEAR",
-            "version": "1.10.1",
+            "name": "pear-pear.php.net/Mail",
+            "version": "1.4.1",
             "dist": {
                 "type": "file",
-                "url": "http://pear.php.net/get/PEAR-1.10.1.tgz",
+                "url": "http://pear.php.net/get/Mail-1.4.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "php": ">=5.2.1.0"
+            },
+            "replace": {
+                "pear-pear/mail": "== 1.4.1.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "New BSD License"
+            ],
+            "description": "PEAR's Mail package defines an interface for implementing mailers under the PEAR hierarchy.  It also provides supporting functions useful to multiple mailer backends.  Currently supported backends include: PHP's native mail() function, sendmail, and SMTP.  This package also provides a RFC822 email address list validation utility class."
+        },
+        {
+            "name": "pear-pear.php.net/Net_SMTP",
+            "version": "1.8.0",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/Net_SMTP-1.8.0.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "pear-pear.php.net/net_socket": ">=1.0.7.0",
+                "php": ">=5.4.0.0"
+            },
+            "replace": {
+                "pear-pear/net_smtp": "== 1.8.0.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "PHP License"
+            ],
+            "description": "Provides an implementation of the SMTP protocol using PEAR's Net_Socket class."
+        },
+        {
+            "name": "pear-pear.php.net/Net_Socket",
+            "version": "1.2.2",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/Net_Socket-1.2.2.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "php": ">=5.4.0.0"
+            },
+            "replace": {
+                "pear-pear/net_socket": "== 1.2.2.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "Net_Socket is a class interface to TCP sockets.  It provides blocking\n  and non-blocking operation, with different reading and writing modes\n  (byte-wise, block-wise, line-wise and special formats like network\n  byte-order ip addresses)."
+        },
+        {
+            "name": "pear-pear.php.net/Net_URL",
+            "version": "1.0.15",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/Net_URL-1.0.15.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "php": ">=4.0.0.0"
+            },
+            "replace": {
+                "pear-pear/net_url": "== 1.0.15.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD"
+            ],
+            "description": "Provides easy parsing of URLs and their constituent parts."
+        },
+        {
+            "name": "pear-pear.php.net/Net_UserAgent_Mobile",
+            "version": "1.0.0",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/Net_UserAgent_Mobile-1.0.0.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "ext-pcre": "*",
+                "pear-pear.php.net/pear": ">=1.4.3.0",
+                "php": ">=4.3.0.0"
+            },
+            "replace": {
+                "pear-pear/net_useragent_mobile": "== 1.0.0.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "New BSD License"
+            ],
+            "description": "Net_UserAgent_Mobile parses HTTP_USER_AGENT strings of (mainly Japanese) mobile HTTP user agents. It'll be useful in page dispatching by user agents.\nThis package was ported from Perl's HTTP::MobileAgent.\nSee http://search.cpan.org/search?mode=module&query=HTTP-MobileAgent"
+        },
+        {
+            "name": "pear-pear.php.net/PEAR",
+            "version": "1.10.4",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/PEAR-1.10.4.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -193,7 +490,7 @@
                 "pear-pear.php.net/pear_frontend_web": "<=0.4.0.0"
             },
             "replace": {
-                "pear-pear/pear": "== 1.10.1.0"
+                "pear-pear/pear": "== 1.10.4.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -208,6 +505,66 @@
                 "New BSD License"
             ],
             "description": "The PEAR package contains:\n * the PEAR installer, for creating, distributing\n   and installing packages\n * the PEAR_Exception PHP5 error handling mechanism\n * the PEAR_ErrorStack advanced error handling mechanism\n * the PEAR_Error error handling mechanism\n * the OS_Guess class for retrieving info about the OS\n   where PHP is running on\n * the System class for quick handling of common operations\n   with files and directories\n * the PEAR base class\n  Features in a nutshell:\n  * full support for channels\n  * pre-download dependency validation\n  * new package.xml 2.0 format allows tremendous flexibility while maintaining BC\n  * support for optional dependency groups and limited support for sub-packaging\n  * robust dependency support\n  * full dependency validation on uninstall\n  * remote install for hosts with only ftp access - no more problems with\n    restricted host installation\n  * full support for mirroring\n  * support for bundling several packages into a single tarball\n  * support for static dependencies on a url-based package\n  * support for custom file roles and installation tasks"
+        },
+        {
+            "name": "pear-pear.php.net/SOAP",
+            "version": "0.13.0",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/SOAP-0.13.0.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "pear-pear.php.net/http_request": "*",
+                "pear-pear.php.net/pear": "*",
+                "php": ">=5.0.0.0"
+            },
+            "replace": {
+                "pear-pear/soap": "== 0.13.0.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "PHP License"
+            ],
+            "description": "Implementation of SOAP protocol and services"
+        },
+        {
+            "name": "pear-pear.php.net/Services_JSON",
+            "version": "1.0.3",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/Services_JSON-1.0.3.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "php": ">=4.3.0.0"
+            },
+            "replace": {
+                "pear-pear/services_json": "== 1.0.3.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD"
+            ],
+            "description": "JSON (JavaScript Object Notation, http://json.org) is a lightweight data-interchange format. \n    It is easy for humans to read and write. It is easy for machines to parse and generate. \n    It is based on a subset of the JavaScript Programming Language, Standard ECMA-262 3rd Edition - December 1999. \n    This feature can also be found in Python. JSON is a text format that is completely language independent \n    but uses conventions that are familiar to programmers of the C-family of languages, including\n     C, C++, C#, Java, JavaScript, Perl, TCL, and many others. These properties make JSON an ideal\n     data-interchange language.\n\n    This package provides a simple encoder and decoder for JSON notation. It is intended for use\n     with client-side Javascript applications that make use of HTTPRequest to perform server \n    communication functions - data can be encoded into JSON notation for use in a client-side\n     javascript, or decoded from incoming Javascript requests. JSON format is native to Javascript, \n    and can be directly eval()'ed with no further parsing overhead."
         },
         {
             "name": "pear-pear.php.net/Structures_Graph",
@@ -239,20 +596,112 @@
             "description": "Structures_Graph is a package for creating and manipulating graph datastructures. It allows building of directed\nand undirected graphs, with data and metadata stored in nodes. The library provides functions for graph traversing\nas well as for characteristic extraction from the graph topology."
         },
         {
-            "name": "pear-pear.php.net/XML_Util",
-            "version": "1.3.0",
+            "name": "pear-pear.php.net/Text_Password",
+            "version": "1.2.1",
             "dist": {
                 "type": "file",
-                "url": "http://pear.php.net/get/XML_Util-1.3.0.tgz",
+                "url": "http://pear.php.net/get/Text_Password-1.2.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "php": ">=5.2.1.0"
+            },
+            "replace": {
+                "pear-pear/text_password": "== 1.2.1.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "MIT License"
+            ],
+            "description": "Text_Password allows one to create pronounceable and unpronounceable\npasswords. The full functional range is explained in the manual at\nhttp://pear.php.net/manual/."
+        },
+        {
+            "name": "pear-pear.php.net/XML_Parser",
+            "version": "1.3.7",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/XML_Parser-1.3.7.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "pear-pear.php.net/pear": "*",
+                "php": ">=4.2.0.0"
+            },
+            "replace": {
+                "pear-pear/xml_parser": "== 1.3.7.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD License"
+            ],
+            "description": "This is an XML parser based on PHPs built-in xml extension.\nIt supports two basic modes of operation: \"func\" and \"event\".  In \"func\" mode, it will look for a function named after each element (xmltag_ELEMENT for start tags and xmltag_ELEMENT_ for end tags), and in \"event\" mode it uses a set of generic callbacks.\n\nSince version 1.2.0 there's a new XML_Parser_Simple class that makes parsing of most XML documents easier, by automatically providing a stack for the elements.\nFurthermore its now possible to split the parser from the handler object, so you do not have to extend XML_Parser anymore in order to parse a document with it."
+        },
+        {
+            "name": "pear-pear.php.net/XML_Serializer",
+            "version": "0.21.0",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/XML_Serializer-0.21.0.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "ext-xml": "*",
+                "pear-pear.php.net/pear": "*",
+                "pear-pear.php.net/xml_parser": ">=1.2.6.0",
+                "pear-pear.php.net/xml_util": ">=1.1.1.0",
+                "php": ">=4.2.0.0"
+            },
+            "replace": {
+                "pear-pear/xml_serializer": "== 0.21.0.0"
+            },
+            "type": "pear-library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "include-path": [
+                "/"
+            ],
+            "license": [
+                "BSD License"
+            ],
+            "description": "XML_Serializer serializes complex data structures like arrays or object as XML documents.\nThis class helps you generating any XML document you require without the need for DOM.\nFurthermore this package can be used as a replacement to serialize() and unserialize() as it comes with a matching XML_Unserializer that is able to create PHP data structures (like arrays and objects) from XML documents, if type hints are available.\nIf you use the XML_Unserializer on standard XML files, it will try to guess how it has to be unserialized. In most cases it does exactly what you expect it to do.\nTry reading a RSS file with XML_Unserializer and you have the whole RSS file in a structured array or even a collection of objects, similar to XML_RSS.\n\nSince version 0.8.0 the package is able to treat XML documents similar to the simplexml extension of PHP 5."
+        },
+        {
+            "name": "pear-pear.php.net/XML_Util",
+            "version": "1.4.2",
+            "dist": {
+                "type": "file",
+                "url": "http://pear.php.net/get/XML_Util-1.4.2.tgz",
                 "reference": null,
                 "shasum": null
             },
             "require": {
                 "ext-pcre": "*",
-                "php": ">=5.3.0.0"
+                "php": ">=5.4.0.0"
             },
             "replace": {
-                "pear-pear/xml_util": "== 1.3.0.0"
+                "pear-pear/xml_util": "== 1.4.2.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -317,7 +766,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-07-19 18:31:12"
+            "time": "2016-07-19T18:31:12+00:00"
         }
     ],
     "packages-dev": [
@@ -415,7 +864,7 @@
                 "web service"
             ],
             "abandoned": "guzzlehttp/guzzle",
-            "time": "2015-03-18 18:23:50"
+            "time": "2015-03-18T18:23:50+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -476,20 +925,20 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-09-02 10:13:14"
+            "time": "2014-09-02T10:13:14+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "6150bf2c35d3fc379e50c7602b75caceaa39dbf0"
+                "reference": "3cc8f69b3028d0f96a9078e6295d86e9bf019be5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/6150bf2c35d3fc379e50c7602b75caceaa39dbf0",
-                "reference": "6150bf2c35d3fc379e50c7602b75caceaa39dbf0",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/3cc8f69b3028d0f96a9078e6295d86e9bf019be5",
+                "reference": "3cc8f69b3028d0f96a9078e6295d86e9bf019be5",
                 "shasum": ""
             },
             "require": {
@@ -523,7 +972,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2015-06-21 13:08:43"
+            "time": "2016-10-03T07:40:28+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -564,29 +1013,34 @@
             "keywords": [
                 "template"
             ],
-            "time": "2015-06-21 13:50:34"
+            "time": "2015-06-21T13:50:34+00:00"
         },
         {
             "name": "phpunit/php-timer",
-            "version": "1.0.8",
+            "version": "1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "38e9124049cf1a164f1e4537caf19c99bf1eb260"
+                "reference": "3dcf38ca72b158baf0bc245e9184d3fdffa9c46f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/38e9124049cf1a164f1e4537caf19c99bf1eb260",
-                "reference": "38e9124049cf1a164f1e4537caf19c99bf1eb260",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/3dcf38ca72b158baf0bc245e9184d3fdffa9c46f",
+                "reference": "3dcf38ca72b158baf0bc245e9184d3fdffa9c46f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^5.3.3 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4|~5"
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
             "autoload": {
                 "classmap": [
                     "src/"
@@ -608,7 +1062,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2016-05-12 18:03:57"
+            "time": "2017-02-26T11:10:40+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -658,7 +1112,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2014-03-03 05:10:30"
+            "time": "2014-03-03T05:10:30+00:00"
         },
         {
             "name": "phpunit/phpunit",
@@ -731,7 +1185,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-10-17 09:04:17"
+            "time": "2014-10-17T09:04:17+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -780,26 +1234,34 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2013-01-13 10:24:48"
+            "time": "2013-01-13T10:24:48+00:00"
         },
         {
             "name": "psr/log",
-            "version": "1.0.0",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
                 "shasum": ""
             },
+            "require": {
+                "php": ">=5.3.0"
+            },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
-                "psr-0": {
-                    "Psr\\Log\\": ""
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -813,12 +1275,13 @@
                 }
             ],
             "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
             "keywords": [
                 "log",
                 "psr",
                 "psr-3"
             ],
-            "time": "2012-12-21 11:40:51"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "satooshi/php-coveralls",
@@ -881,25 +1344,28 @@
                 "github",
                 "test"
             ],
-            "time": "2015-12-28 09:07:32"
+            "time": "2015-12-28T09:07:32+00:00"
         },
         {
             "name": "symfony/config",
-            "version": "v3.1.3",
+            "version": "v3.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "a7630397b91be09cdd2fe57fd13612e258700598"
+                "reference": "e5533fcc0b3dd377626153b2852707878f363728"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/a7630397b91be09cdd2fe57fd13612e258700598",
-                "reference": "a7630397b91be09cdd2fe57fd13612e258700598",
+                "url": "https://api.github.com/repos/symfony/config/zipball/e5533fcc0b3dd377626153b2852707878f363728",
+                "reference": "e5533fcc0b3dd377626153b2852707878f363728",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5.9",
                 "symfony/filesystem": "~2.8|~3.0"
+            },
+            "require-dev": {
+                "symfony/yaml": "~3.0"
             },
             "suggest": {
                 "symfony/yaml": "To use the yaml reference dumper"
@@ -907,7 +1373,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -934,40 +1400,43 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
-            "time": "2016-07-26 08:04:17"
+            "time": "2017-04-12T14:13:17+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v3.1.3",
+            "version": "v3.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "f9e638e8149e9e41b570ff092f8007c477ef0ce5"
+                "reference": "a7a17e0c6c3c4d70a211f80782e4b90ddadeaa38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/f9e638e8149e9e41b570ff092f8007c477ef0ce5",
-                "reference": "f9e638e8149e9e41b570ff092f8007c477ef0ce5",
+                "url": "https://api.github.com/repos/symfony/console/zipball/a7a17e0c6c3c4d70a211f80782e4b90ddadeaa38",
+                "reference": "a7a17e0c6c3c4d70a211f80782e4b90ddadeaa38",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5.9",
+                "symfony/debug": "~2.8|~3.0",
                 "symfony/polyfill-mbstring": "~1.0"
             },
             "require-dev": {
                 "psr/log": "~1.0",
                 "symfony/event-dispatcher": "~2.8|~3.0",
+                "symfony/filesystem": "~2.8|~3.0",
                 "symfony/process": "~2.8|~3.0"
             },
             "suggest": {
                 "psr/log": "For using the console logger",
                 "symfony/event-dispatcher": "",
+                "symfony/filesystem": "",
                 "symfony/process": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -994,20 +1463,77 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2016-07-26 08:04:17"
+            "time": "2017-04-26T01:39:17+00:00"
         },
         {
-            "name": "symfony/event-dispatcher",
-            "version": "v2.8.9",
+            "name": "symfony/debug",
+            "version": "v3.2.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "889983a79a043dfda68f38c38b6dba092dd49cd8"
+                "url": "https://github.com/symfony/debug.git",
+                "reference": "fd6eeee656a5a7b384d56f1072243fe1c0e81686"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/889983a79a043dfda68f38c38b6dba092dd49cd8",
-                "reference": "889983a79a043dfda68f38c38b6dba092dd49cd8",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/fd6eeee656a5a7b384d56f1072243fe1c0e81686",
+                "reference": "fd6eeee656a5a7b384d56f1072243fe1c0e81686",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "psr/log": "~1.0"
+            },
+            "conflict": {
+                "symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
+            },
+            "require-dev": {
+                "symfony/class-loader": "~2.8|~3.0",
+                "symfony/http-kernel": "~2.8|~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Debug\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Debug Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-04-19T20:17:50+00:00"
+        },
+        {
+            "name": "symfony/event-dispatcher",
+            "version": "v2.8.20",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/event-dispatcher.git",
+                "reference": "7fc8e2b4118ff316550596357325dfd92a51f531"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/7fc8e2b4118ff316550596357325dfd92a51f531",
+                "reference": "7fc8e2b4118ff316550596357325dfd92a51f531",
                 "shasum": ""
             },
             "require": {
@@ -1015,7 +1541,7 @@
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~2.0,>=2.0.5|~3.0.0",
+                "symfony/config": "^2.0.5|~3.0.0",
                 "symfony/dependency-injection": "~2.6|~3.0.0",
                 "symfony/expression-language": "~2.6|~3.0.0",
                 "symfony/stopwatch": "~2.3|~3.0.0"
@@ -1054,20 +1580,20 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2016-07-28 16:56:28"
+            "time": "2017-04-26T16:56:54+00:00"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.1.3",
+            "version": "v3.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "bb29adceb552d202b6416ede373529338136e84f"
+                "reference": "040651db13cf061827a460cc10f6e36a445c45b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/bb29adceb552d202b6416ede373529338136e84f",
-                "reference": "bb29adceb552d202b6416ede373529338136e84f",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/040651db13cf061827a460cc10f6e36a445c45b4",
+                "reference": "040651db13cf061827a460cc10f6e36a445c45b4",
                 "shasum": ""
             },
             "require": {
@@ -1076,7 +1602,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -1103,20 +1629,20 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2016-07-20 05:44:26"
+            "time": "2017-04-12T14:13:17+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "dff51f72b0706335131b00a7f49606168c582594"
+                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/dff51f72b0706335131b00a7f49606168c582594",
-                "reference": "dff51f72b0706335131b00a7f49606168c582594",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/e79d363049d1c2128f133a2667e4f4190904f7f4",
+                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4",
                 "shasum": ""
             },
             "require": {
@@ -1128,7 +1654,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -1162,20 +1688,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-05-18 14:26:46"
+            "time": "2016-11-14T01:06:16+00:00"
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v3.1.3",
+            "version": "v3.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
-                "reference": "bb42806b12c5f89db4ebf64af6741afe6d8457e1"
+                "reference": "5a0105afb670dbd38f521105c444de1b8e10cfe3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/bb42806b12c5f89db4ebf64af6741afe6d8457e1",
-                "reference": "bb42806b12c5f89db4ebf64af6741afe6d8457e1",
+                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/5a0105afb670dbd38f521105c444de1b8e10cfe3",
+                "reference": "5a0105afb670dbd38f521105c444de1b8e10cfe3",
                 "shasum": ""
             },
             "require": {
@@ -1184,7 +1710,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -1211,20 +1737,20 @@
             ],
             "description": "Symfony Stopwatch Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:41:56"
+            "time": "2017-04-12T14:13:17+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.8.9",
+            "version": "v2.8.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "0ceab136f43ed9d3e97b3eea32a7855dc50c121d"
+                "reference": "93ccdde79f4b079c7558da4656a3cb1c50c68e02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/0ceab136f43ed9d3e97b3eea32a7855dc50c121d",
-                "reference": "0ceab136f43ed9d3e97b3eea32a7855dc50c121d",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/93ccdde79f4b079c7558da4656a3cb1c50c68e02",
+                "reference": "93ccdde79f4b079c7558da4656a3cb1c50c68e02",
                 "shasum": ""
             },
             "require": {
@@ -1260,15 +1786,23 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-07-17 09:06:15"
+            "time": "2017-05-01T14:31:55+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "2.5.0",
+            "alias_normalized": "2.5.0.0",
+            "version": "2.5.0.0-beta5",
+            "package": "pear-pear.php.net/mdb2"
+        }
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "pear-pear.php.net/mdb2": 10,
+        "pear-pear.php.net/mdb2_driver_mysql": 10,
+        "pear-pear.php.net/mdb2_driver_mysqli": 10,
         "pear-pear.php.net/mdb2_driver_pgsql": 10,
-        "pear-pear.php.net/mdb2_driver_mysql": 10
+        "pear-pear.php.net/mdb2": 10
     },
     "prefer-stable": false,
     "prefer-lowest": false,
