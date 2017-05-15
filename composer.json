@@ -25,7 +25,7 @@
         "phpunit/phpunit": "3.7.*"
     },
     "require": {
-        "smarty/smarty": "~2.6",
+        "smarty/smarty": "*",
         "pear-pear.php.net/PEAR" : "*",
         "pear-pear.php.net/Archive_Tar" : "*",
         "pear-pear.php.net/Mail" : "*",
