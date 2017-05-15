@@ -31,7 +31,7 @@ before_script:
   - cat ./data/config/config.php
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - php -S localhost:8085 --docroot html &>/dev/null&
+  - php -S localhost:8085 -t html/ &
   - php vendor/bin/codecept build
 
 script:
