@@ -100,8 +100,8 @@
                                 <p><em><!--→商品名--><a<!--{if $orderDetail.enable}--> href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$orderDetail.product_id|u}-->"<!--{/if}--> rel="external"><!--{$orderDetail.product_name|h}--></a><!--←商品名--></em></p>
                                 <p>
                                     <!--→金額-->
-                                    <!--{assign var=price value=`$orderDetail.price`}-->
-                                    <!--{assign var=quantity value=`$orderDetail.quantity`}-->
+                                    <!--{assign var=price value="`$orderDetail.price`"}-->
+                                    <!--{assign var=quantity value="`$orderDetail.quantity`"}-->
                                     <span class="mini">価格:</span><!--{$price|n2s|h}-->円<!--←金額-->
                                 </p>
 
@@ -121,8 +121,8 @@
                                 <!--{/if}-->
                                 <!--←商品種別-->
                             </div>
-                            <!--{assign var=tax_rate value=`$orderDetail.tax_rate`}-->
-                            <!--{assign var=tax_rule value=`$orderDetail.tax_rule`}-->
+                            <!--{assign var=tax_rate value="`$orderDetail.tax_rate`"}-->
+                            <!--{assign var=tax_rule value="`$orderDetail.tax_rule`"}-->
                             <ul>
                                 <li><span class="mini">数量：</span><!--{$quantity|h}--></li>
                                 <li class="result"><span class="mini">小計：</span><!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|sfMultiply:$quantity|n2s}-->円</li>
