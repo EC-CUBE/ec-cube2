@@ -37,7 +37,7 @@ before_script:
 script:
     #- mkdir -p reports/coverage
     #- phpunit -c phpunit.xml.dist
-  - php vendor/bin/codecept run
+  - php vendor/bin/codecept run --env travis --steps
 
 after_script:
     #- php vendor/bin/coveralls -v

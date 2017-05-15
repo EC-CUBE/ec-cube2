@@ -8,7 +8,13 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser
-        - \Helper\Acceptance
+        - AcceptanceHelper
     config:
         PhpBrowser:
-            url: 'http://localhost:8085'
+            url: 'http://localhost:8085/'
+env:
+    travis:
+        modules:
+            config:
+                PhpBrowser:                     
+                    url: 'http://localhost:8085/'
