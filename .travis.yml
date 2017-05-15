@@ -11,6 +11,11 @@ php:
   - 7.0
   - 7.1
 
+# Select what we should cache
+cache:
+  paths:
+    - vendor/
+
 matrix:
   fast_finish: true
 
@@ -26,6 +31,7 @@ before_script:
   - sh -c "if [ '$DB' = 'pgsql' ]; then sh ./eccube_install.sh pgsql; fi"
   - cp tests/require.php.jenkins tests/require.php
   - cat ./data/config/config.php
+  - php -S localhost:8085 --docroot html &>/dev/null&
 
 script:
   - mkdir -p reports/coverage

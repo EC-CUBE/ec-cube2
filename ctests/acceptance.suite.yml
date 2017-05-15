@@ -11,10 +11,4 @@ modules:
         - AcceptanceHelper
     config:
         PhpBrowser:
-            url: 'http://test:8888/eccube-2.13.1/html/'
-env:
-    travis:
-        modules:
-            config:
-                PhpBrowser:                     
-                    url: 'http://localhost:8000/'
+            url: 'http://localhost:8085/'
