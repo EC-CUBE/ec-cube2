@@ -7,10 +7,8 @@
 class_name: AcceptanceTester
 modules:
     enabled:
-        - WebDriver
+        - PhpBrowser
         - \Helper\Acceptance
     config:
         PhpBrowser:
             url: 'http://localhost:8085'
-            browser: 'firefox'
-            wait: 1 #seconds
