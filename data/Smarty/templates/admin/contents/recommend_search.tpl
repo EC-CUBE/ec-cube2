@@ -104,8 +104,8 @@ function func_submit( id ){
                 <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arr.main_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65;" alt="" />
             </td>
             <td>
-                <!--{assign var=codemin value=`$arr.product_code_min`}-->
-                <!--{assign var=codemax value=`$arr.product_code_max`}-->
+                <!--{assign var=codemin value="`$arr.product_code_min`"}-->
+                <!--{assign var=codemax value="`$arr.product_code_max`"}-->
                 <!--{* 商品コード *}-->
                 <!--{if $codemin != $codemax}-->
                     <!--{$codemin|h}-->～<!--{$codemax|h}-->
