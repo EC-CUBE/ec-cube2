@@ -12,7 +12,10 @@
     },
     "config": {
         "disable-tls": true,
-        "secure-http": false
+        "secure-http": false,
+        "platform": {
+            "php": "5.5"
+        }
     },
     "repositories": [
         {
@@ -22,8 +25,7 @@
     ],
     "require-dev": {
         "satooshi/php-coveralls": "1.0",
-        "phpunit/phpunit": "3.7.*",
-        "codeception/codeception": "*"
+        "codeception/base": "*"
     },
     "require": {
         "smarty/smarty": "~2.6",
@@ -47,7 +49,8 @@
         "pear-pear.php.net/Text_Password" : "*",
         "pear-pear.php.net/XML_Parser" : "*",
         "pear-pear.php.net/XML_Serializer" : "*",
-        "pear-pear.php.net/XML_Util" : "*"
+        "pear-pear.php.net/XML_Util" : "*",
+        "codeception/codeception": "*"
     },
     "autoload": {
         "classmap": [
