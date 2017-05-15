@@ -25,10 +25,10 @@
     ],
     "require-dev": {
         "satooshi/php-coveralls": "1.0",
-        "codeception/base": "*"
+        "codeception/codeception": "*"
     },
     "require": {
-        "smarty/smarty": "~2.6",
+        "smarty/smarty": "*",
         "pear-pear.php.net/PEAR" : "*",
         "pear-pear.php.net/Archive_Tar" : "*",
         "pear-pear.php.net/Mail" : "*",
@@ -49,8 +49,7 @@
         "pear-pear.php.net/Text_Password" : "*",
         "pear-pear.php.net/XML_Parser" : "*",
         "pear-pear.php.net/XML_Serializer" : "*",
-        "pear-pear.php.net/XML_Util" : "*",
-        "codeception/codeception": "*"
+        "pear-pear.php.net/XML_Util" : "*"
     },
     "autoload": {
         "classmap": [
