@@ -432,7 +432,7 @@ class LC_Page
      * ページによって検証タイミングなどを制御する必要がある場合は, この関数を
      * オーバーライドし, 個別に設定を行うこと.
      *
-     * @access protected
+     * @access public
      * @param  boolean $is_admin 管理画面でエラー表示をする場合 true
      * @return void
      */
