@@ -20,8 +20,8 @@ matrix:
   fast_finish: true
 
 env:
-  - DB=mysql USER=root DBNAME=myapp_test DBPASS=' ' DBUSER=root
-  - DB=pgsql USER=postgres DBNAME=myapp_test DBPASS=password DBUSER=postgres
+  - DB=mysql USER=root DBNAME=myapp_test DBPASS=' ' DBUSER=root HTTP_URL=localhost:8085 HTTPS_URL=localhost:8085
+  - DB=pgsql USER=postgres DBNAME=myapp_test DBPASS=password DBUSER=postgres HTTP_URL=localhost:8085 HTTPS_URL=localhost:8085
 
 before_script:
   - composer self-update || true
