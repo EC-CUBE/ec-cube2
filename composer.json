@@ -22,7 +22,8 @@
     ],
     "require-dev": {
         "satooshi/php-coveralls": "1.0",
-        "phpunit/phpunit": "3.7.*"
+        "phpunit/phpunit": "3.7.*",
+        "codeception/codeception": "*"
     },
     "require": {
         "smarty/smarty": "~2.6",

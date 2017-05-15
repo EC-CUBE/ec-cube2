@@ -28,6 +28,7 @@ before_script:
 script:
   - mkdir -p reports/coverage
   - phpunit -c phpunit.xml.dist
+  - codecept run
 
 after_script:
   - php vendor/bin/coveralls -v
