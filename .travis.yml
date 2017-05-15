@@ -16,7 +16,7 @@ matrix:
 
 env:
     global:
-        - DBNAME=myapp_test HTTP_URL=http://localhost:8000 HTTPS_URL=https://localhost:8000
+        - DBNAME=myapp_test HTTP_URL=http://localhost:8085/ HTTPS_URL=https://localhost:8085/
     matrix:
         - DB=mysql USER=root DBPASS=' ' DBUSER=root 
         - DB=pgsql USER=postgres DBPASS=password DBUSER=postgres 
