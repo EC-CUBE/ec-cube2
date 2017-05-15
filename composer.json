@@ -12,7 +12,10 @@
     },
     "config": {
         "disable-tls": true,
-        "secure-http": false
+        "secure-http": false,
+        "platform": {
+            "php": "5.4"
+        }
     },
     "repositories": [
         {
@@ -22,10 +25,10 @@
     ],
     "require-dev": {
         "satooshi/php-coveralls": "1.0",
-        "phpunit/phpunit": "3.7.*"
+        "codeception/codeception": "*"
     },
     "require": {
-        "smarty/smarty": "~2.6",
+        "smarty/smarty": "*",
         "pear-pear.php.net/PEAR" : "*",
         "pear-pear.php.net/Archive_Tar" : "*",
         "pear-pear.php.net/Mail" : "*",
