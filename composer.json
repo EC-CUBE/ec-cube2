@@ -12,7 +12,10 @@
     },
     "config": {
         "disable-tls": true,
-        "secure-http": false
+        "secure-http": false,
+        "platform": {
+            "php": "5.4"
+        }
     },
     "repositories": [
         {
@@ -22,10 +25,10 @@
     ],
     "require-dev": {
         "satooshi/php-coveralls": "1.0",
-        "phpunit/phpunit": "3.7.*"
+        "codeception/codeception": "*"
     },
     "require": {
-        "smarty/smarty": "~2.6",
+        "smarty/smarty": "*",
         "pear-pear.php.net/PEAR" : "*",
         "pear-pear.php.net/Archive_Tar" : "*",
         "pear-pear.php.net/Mail" : "*",
@@ -33,7 +36,6 @@
         "pear-pear.php.net/Cache_Lite" : "*",
         "pear-pear.php.net/File_SearchReplace" : "*",
         "pear-pear.php.net/HTTP_Request" : "*",
-        "pear-pear.php.net/MDB2_Driver_mysql" : "1.5.0b4",
         "pear-pear.php.net/MDB2_Driver_mysqli" : "1.5.0b4",
         "pear-pear.php.net/MDB2_Driver_pgsql" : "1.5.0b4",
         "pear-pear.php.net/MDB2" : "2.5.0-beta5 as 2.5.0",

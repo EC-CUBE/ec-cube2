@@ -125,7 +125,7 @@
                         <ul>
                             <li><span class="mini">小計 ：</span><!--{$tpl_total_inctax[$cartKey]|n2s}--> 円</li>
                             <!--{if $smarty.const.USE_POINT !== false}-->
-                                <li><span class="mini">値引き（ポイントご使用時）： </span><!--{assign var=discount value=`$arrForm.use_point*$smarty.const.POINT_VALUE`}-->
+                                <li><span class="mini">値引き（ポイントご使用時）： </span><!--{assign var=discount value="`$arrForm.use_point*$smarty.const.POINT_VALUE`"}-->
                                 -<!--{$discount|n2s|default:0}--> 円</li>
                             <!--{/if}-->
                             <li><span class="mini">送料 ：</span><!--{$arrForm.deliv_fee|n2s}--> 円</li>
@@ -158,7 +158,7 @@
                             <dt>今回加算予定のポイント</dt><dd>+<!--{$arrForm.add_point|n2s|default:0}-->Pt</dd>
                         </dl>
                         <dl>
-                            <!--{assign var=total_point value=`$tpl_user_point-$arrForm.use_point+$arrForm.add_point`}-->
+                            <!--{assign var=total_point value="`$tpl_user_point-$arrForm.use_point+$arrForm.add_point`"}-->
                             <dt>加算後のポイント</dt><dd><!--{$total_point|n2s}-->Pt</dd>
                         </dl>
                     </div><!-- /.formBox -->

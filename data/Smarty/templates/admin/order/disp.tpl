@@ -179,10 +179,10 @@
             <td class="right">
                 <!--{$arrForm.quantity.value[$product_index]|h}-->
             </td>
-                <!--{assign var=price value=`$arrForm.price.value[$product_index]`}-->
-                <!--{assign var=quantity value=`$arrForm.quantity.value[$product_index]`}-->
-                <!--{assign var=tax_rate value=`$arrForm.tax_rate.value[$product_index]`}-->
-                <!--{assign var=tax_rule value=`$arrForm.tax_rule.value[$product_index]`}-->
+                <!--{assign var=price value="`$arrForm.price.value[$product_index]`"}-->
+                <!--{assign var=quantity value="`$arrForm.quantity.value[$product_index]`"}-->
+                <!--{assign var=tax_rate value="`$arrForm.tax_rate.value[$product_index]`"}-->
+                <!--{assign var=tax_rule value="`$arrForm.tax_rule.value[$product_index]`"}-->
             <td class="right"><!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|n2s}--> 円<br />(税率<!--{$tax_rate|n2s}-->%)</td>
             <td class="right"><!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|sfMultiply:$quantity|n2s}-->円</td>
         </tr>

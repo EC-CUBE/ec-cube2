@@ -89,7 +89,7 @@
                                 <!--{* 商品画像 *}-->
                                 <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProductsList[cnt].main_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65;" alt="<!--{$arrProducts[cnt].name|h}-->" />
                             </td>
-                            <!--{assign var=rank value=`$rank+1`}-->
+                            <!--{assign var=rank value="`$rank+1`"}-->
                             <td align="center">
                                 <!--{$rank}-->
                                 <!--{if $arrProductsList[cnt].status == "2"}--><br />(非公開)<!--{/if}-->

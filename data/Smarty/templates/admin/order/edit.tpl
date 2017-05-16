@@ -422,10 +422,10 @@
                         <span class="attention"><!--{$arrErr[$key][$product_index]}--></span>
                         <input type="text" name="<!--{$key}-->[<!--{$product_index}-->]" value="<!--{$arrForm[$key].value[$product_index]|h}-->" size="3" class="box3" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$product_index]|sfGetErrorColor}-->" id="<!--{$key}-->_<!--{$product_index}-->"  onChange="quantityCopyForSingleShipping('<!--{$product_index}-->')" />
                     </td>
-                    <!--{assign var=price value=`$arrForm.price.value[$product_index]`}-->
-                    <!--{assign var=quantity value=`$arrForm.quantity.value[$product_index]`}-->
-                    <!--{assign var=tax_rate value=`$arrForm.tax_rate.value[$product_index]`}-->
-                    <!--{assign var=tax_rule value=`$arrForm.tax_rule.value[$product_index]`}-->
+                    <!--{assign var=price value="`$arrForm.price.value[$product_index]`"}-->
+                    <!--{assign var=quantity value="`$arrForm.quantity.value[$product_index]`"}-->
+                    <!--{assign var=tax_rate value="`$arrForm.tax_rate.value[$product_index]`"}-->
+                    <!--{assign var=tax_rule value="`$arrForm.tax_rule.value[$product_index]`"}-->
                     <input type="hidden" name="tax_rule[<!--{$product_index}-->]" value="<!--{$arrForm.tax_rule.value[$product_index]|h}-->" id="tax_rule_<!--{$product_index}-->" />
     
                     <td class="right">
