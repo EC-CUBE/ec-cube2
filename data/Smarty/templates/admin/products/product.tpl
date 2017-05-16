@@ -1,4 +1,4 @@
-<!--{*
+    <!--{*
 /*
  * This file is part of EC-CUBE
  *
@@ -361,7 +361,7 @@
 
     <!--{* オペビルダー用 *}-->
     <!--{if "sfViewAdminOpe"|function_exists === TRUE}-->
-    <!--{include file=`$smarty.const.MODULE_REALDIR`mdl_opebuilder/admin_ope_view.tpl}-->
+    <!--{include file="`$smarty.const.MODULE_REALDIR`mdl_opebuilder/admin_ope_view.tpl"}-->
     <!--{/if}-->
 
     <div class="btn">
