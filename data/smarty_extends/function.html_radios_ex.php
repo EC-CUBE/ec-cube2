@@ -54,9 +54,9 @@ function smarty_function_html_radios_ex($params, &$smarty)
 
     foreach ($params as $_key => $_val) {
         switch ($_key) {
-    case 'tags':
-    $$_key = split("\|", $_val);
-    break;
+            case 'tags':
+                $$_key = explode("|", $_val);
+                break;
             case 'name':
             case 'separator':
                 $$_key = (string)$_val;

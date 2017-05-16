@@ -117,7 +117,8 @@ class LC_Page_Admin_Mail_History extends LC_Page_Admin_Ex
 
         $objNavi = new SC_PageNavi_Ex($search_pageno,
                                     $linemax,
-                                    SEARCH_PMAX);
+                                    SEARCH_PMAX,
+                                    'eccube.moveNaviPage', NAVI_PMAX);
 
         return array($linemax, $arrResult, $objNavi->arrPagenavi);
     }

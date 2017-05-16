@@ -95,7 +95,7 @@ class SC_Response
     public function actionExit()
     {
         // ローカルフックポイント処理
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
 
         if (is_object($objPlugin)) {
             $arrBacktrace = debug_backtrace();
@@ -130,7 +130,7 @@ class SC_Response
     public function sendRedirect($location, $arrQueryString = array(), $inheritQueryString = false, $useSsl = null)
     {
         // ローカルフックポイント処理
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
 
         if (is_object($objPlugin)) {
             $arrBacktrace = debug_backtrace();

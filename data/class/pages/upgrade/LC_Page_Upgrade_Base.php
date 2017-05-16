@@ -105,8 +105,10 @@ class LC_Page_Upgrade_Base extends LC_Page_Ex
 
     /**
      * オーナーズストアからの POST のため, トークンチェックしない.
+     *
+     * @param  boolean $is_admin 管理画面でエラー表示をする場合 true
      */
-    public function doValidToken()
+    public function doValidToken($is_admin = false)
     {
         // nothing.
     }

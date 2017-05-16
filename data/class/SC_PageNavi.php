@@ -47,9 +47,9 @@ class SC_PageNavi
     public $strnavi;       // ページ送り文字列
     public $arrPagenavi = array(); // ページ
 
-    // コンストラクタ
-
     /**
+     * コンストラクタ
+     *
      * @param string $func_name
      */
     public function __construct($now_page, $all_row, $page_row, $func_name, $navi_max = NAVI_PMAX, $urlParam = '', $display_number = true)

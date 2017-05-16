@@ -856,7 +856,7 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
                 $objDB->exec("SET SESSION sql_mode = 'ANSI'");
             }
 
-            $sql_split = split(';', $sql);
+            $sql_split = explode(';', $sql);
             foreach ($sql_split as $key => $val) {
                 SC_Utils::sfFlush(true);
                 if (trim($val) != '') {
