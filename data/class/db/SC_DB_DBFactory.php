@@ -40,6 +40,7 @@ class SC_DB_DBFactory
     {
         switch ($db_type) {
             case 'mysql':
+            case 'mysqli':
                 return new SC_DB_DBFactory_MYSQL();
 
             case 'pgsql':
