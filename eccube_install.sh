@@ -54,6 +54,7 @@ case "${DBTYPE}" in
     DROPDB=dropdb
     CREATEDB=createdb
     DBPORT=5432
+    DB=$1;
 ;;
 "mysql" )
     #-- DB Seting MySQL
@@ -62,6 +63,7 @@ case "${DBTYPE}" in
     ROOTPASS=$DBPASS
     DBSERVER="127.0.0.1"
     DBPORT=3306
+    DB=mysqli;
 ;;
 * ) echo "ERROR:: argument is invaid"
 exit
@@ -173,7 +175,7 @@ define('HTTP_URL', '${HTTP_URL}');
 define('HTTPS_URL', '${HTTPS_URL}');
 define('ROOT_URLPATH', '${ROOT_URLPATH}');
 define('DOMAIN_NAME', '${DOMAIN_NAME}');
-define('DB_TYPE', '${DBTYPE}');
+define('DB_TYPE', '${DB}');
 define('DB_USER', '${DBUSER}');
 define('DB_PASSWORD', '${CONFIGPASS:-$DBPASS}');
 define('DB_SERVER', '${DBSERVER}');

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d360dfa469e86c3acd69c38153b076f6",
+    "content-hash": "f426e51cd01ae4e2e02879aad4522883",
     "packages": [
         {
             "name": "pear-pear.php.net/Archive_Tar",
@@ -225,37 +225,6 @@
                 "BSD License"
             ],
             "description": "PEAR MDB2 is a merge of the PEAR DB and Metabase php database abstraction layers.\n\nIt provides a common API for all supported RDBMS. The main difference to most\nother DB abstraction packages is that MDB2 goes much further to ensure\nportability. MDB2 provides most of its many features optionally that\ncan be used to construct portable SQL statements:\n* Object-Oriented API\n* A DSN (data source name) or array format for specifying database servers\n* Datatype abstraction and on demand datatype conversion\n* Various optional fetch modes to fix portability issues\n* Portable error codes\n* Sequential and non sequential row fetching as well as bulk fetching\n* Ability to make buffered and unbuffered queries\n* Ordered array and associative array for the fetched rows\n* Prepare/execute (bind) named and unnamed placeholder emulation\n* Sequence/autoincrement emulation\n* Replace emulation\n* Limited sub select emulation\n* Row limit emulation\n* Transactions/savepoint support\n* Large Object support\n* Index/Unique Key/Primary Key support\n* Pattern matching abstraction\n* Module framework to load advanced functionality on demand\n* Ability to read the information schema\n* RDBMS management methods (creating, dropping, altering)\n* Reverse engineering schemas from an existing database\n* SQL function call abstraction\n* Full integration into the PEAR Framework\n* PHPDoc API documentation"
-        },
-        {
-            "name": "pear-pear.php.net/MDB2_Driver_mysql",
-            "version": "1.5.0b4",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/MDB2_Driver_mysql-1.5.0b4.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "ext-mysql": "*",
-                "pear-pear.php.net/mdb2": ">=2.5.0.0",
-                "php": ">=5.2.0.0"
-            },
-            "replace": {
-                "pear-pear/mdb2_driver_mysql": "== 1.5.0.0-beta4"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD License"
-            ],
-            "description": "This is the MySQL MDB2 driver."
         },
         {
             "name": "pear-pear.php.net/MDB2_Driver_mysqli",
@@ -3116,7 +3085,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "pear-pear.php.net/mdb2_driver_mysql": 10,
         "pear-pear.php.net/mdb2_driver_mysqli": 10,
         "pear-pear.php.net/mdb2_driver_pgsql": 10,
         "pear-pear.php.net/mdb2": 10
