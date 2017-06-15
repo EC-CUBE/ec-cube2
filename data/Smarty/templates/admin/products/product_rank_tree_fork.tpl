@@ -42,7 +42,7 @@
             <!--{else}-->
                 <!--{assign var=disp_child value=0}-->
             <!--{/if}-->
-            <!--{if isset($child.children|smarty:nodefaults)}-->
+            <!--{if isset($child.children)}-->
                 <!--{include file="`$smarty.const.TEMPLATE_ADMIN_REALDIR`products/product_rank_tree_fork.tpl" children=$child.children treeID="f`$child.category_id`" display=$disp_child}-->
             <!--{/if}-->
         </li>

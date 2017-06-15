@@ -357,8 +357,8 @@
                         <a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrItem.product_id|u}-->">
                             <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrItem.main_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65px;" alt="<!--{$arrItem.name|h}-->" /></a>
                     </div>
-                    <!--{assign var=price02_min value=`$arrItem.price02_min_inctax`}-->
-                    <!--{assign var=price02_max value=`$arrItem.price02_max_inctax`}-->
+                    <!--{assign var=price02_min value="`$arrItem.price02_min_inctax`"}-->
+                    <!--{assign var=price02_max value="`$arrItem.price02_max_inctax`"}-->
                     <div class="productContents">
                         <h3><a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrItem.product_id|u}-->"><!--{$arrItem.name|h}--></a></h3>
                         <p class="sale_price"><!--{$smarty.const.SALE_PRICE_TITLE}-->(税込)：<span class="price">

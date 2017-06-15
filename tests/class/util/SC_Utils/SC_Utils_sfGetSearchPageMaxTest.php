@@ -77,7 +77,7 @@ class SC_Utils_sfGetSearchPageMaxTest extends Common_TestCase
   {
     
     $this->expected = SEARCH_PMAX;
-    $this->actual = SC_Utils::sfGetSearchPageMax();
+    $this->actual = SC_Utils::sfGetSearchPageMax('');
 
     $this->verify();
   }

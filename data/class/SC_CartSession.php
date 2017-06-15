@@ -159,7 +159,7 @@ class SC_CartSession
         $total = 0;
         $max = $this->getMax($productTypeId);
         for ($i = 0; $i <= $max; $i++) {
-            $total+= $this->cartSession[$productTypeId][$i]['quantity'];
+            $total+= (int)$this->cartSession[$productTypeId][$i]['quantity'];
         }
 
         return $total;

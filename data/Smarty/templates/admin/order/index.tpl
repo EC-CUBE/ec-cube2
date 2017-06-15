@@ -359,7 +359,7 @@
                     <col width="9%" />
                     <col width="5%" />
                     <!--{* ペイジェントモジュール連携用 *}-->
-                    <!--{assign var=path value=`$smarty.const.MODULE_REALDIR`mdl_paygent/paygent_order_index.tpl}-->
+                    <!--{assign var=path value="`$smarty.const.MODULE_REALDIR`mdl_paygent/paygent_order_index.tpl"}-->
                     <!--{if file_exists($path)}-->
                         <!--{include file=$path}-->
                     <!--{else}-->

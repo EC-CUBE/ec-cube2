@@ -20,4 +20,5 @@ composer.phar
 /reports/*
 .idea
 vagrant
-!.gitkeep
+.vagrant/
+Vagrantfile

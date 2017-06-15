@@ -17,6 +17,17 @@ require_once($HOME . "/data/class/pages/LC_Page_Index.php");
  */
 class Common_TestCase extends PHPUnit_Framework_TestCase
 {
+    /**
+     * MDB2 をグローバル変数のバックアップ対象から除外する。
+     *
+     * @var array
+     * @see PHPUnit_Framework_TestCase::$backupGlobals
+     * @see PHPUnit_Framework_TestCase::$backupGlobalsBlacklist
+     */
+    protected $backupGlobalsBlacklist = array(
+        '_MDB2_databases',
+        '_MDB2_dsninfo_default',
+    );
 
     /** SC_Query インスタンス */
     protected $objQuery;

@@ -160,7 +160,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
                 )
         )
 __EOS__;
-        
+
         return $sql;
     }
 
