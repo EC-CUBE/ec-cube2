@@ -60,6 +60,9 @@ class SC_View
         $this->_smarty->registerPlugin('function','printXMLDeclaration', array('GC_Utils_Ex', 'printXMLDeclaration'));
         $this->_smarty->default_modifiers = array('script_escape');
 
+        // smarty:nodefaultsの後方互換を維持
+        $this->_smarty->registerFilter('pre', array($this, 'lower_compatibility_smarty_nodefaults'));
+
         if (ADMIN_MODE == '1') {
             $this->time_start = microtime(true);
         }
@@ -241,4 +244,19 @@ class SC_View
     {
         $this->_smarty->debugging = $var;
     }
+
+
+    /**
+     * smarty:nodefaultsをnofilterに置換する
+     *
+     * @param mixed $tpl_source
+     * @param mixed $smarty
+     * @access public
+     * @return void
+     */
+    public function lower_compatibility_smarty_nodefaults($tpl_source, $smarty)
+    {
+        return preg_replace("/\|smarty:nodefaults/",' nofilter', $tpl_source);
+    }
+
 }
