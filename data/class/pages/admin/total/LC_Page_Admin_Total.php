@@ -683,7 +683,7 @@ __EOS__;
     {
         $objQuery   = SC_Query_Ex::getSingletonInstance();
 
-        list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate,null,null);
+        list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, null, null);
         $where .= ' AND del_flg = 0 AND status <> ?';
         $arrWhereVal[] = ORDER_CANCEL;
 
