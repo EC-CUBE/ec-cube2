@@ -267,7 +267,7 @@ case "${DBTYPE}" in
     #${MYSQL} -u ${ROOTUSER} ${PASSOPT} -e "GRANT ALL ON \`${DBNAME}\`.* TO '${DBUSER}'@'%' IDENTIFIED BY '${DBPASS}'"
     echo "create table..."
     echo "SET SESSION storage_engine = InnoDB;" |
-        cat - ${SQL_DIR}/create_table_mysql.sql |
+        cat - ${SQL_DIR}/create_table_mysqli.sql |
         ${MYSQL} -u ${DBUSER} ${PASSOPT} ${DBNAME}
     echo "insert data..."
     ${MYSQL} -u ${DBUSER} ${PASSOPT} ${DBNAME} < ${SQL_DIR}/insert_data.sql
