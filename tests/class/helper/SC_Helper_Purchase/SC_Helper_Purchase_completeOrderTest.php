@@ -41,7 +41,7 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
     parent::setUp();
     $this->setUpOrder();
     $this->setUpOrderTemp(); // order_temp_id = '1001'
-    $this->setUpShipping();
+    $this->setUpShipping([]);
     $this->setUpCustomer();
 
     $_SESSION['cartKey'] = '1';

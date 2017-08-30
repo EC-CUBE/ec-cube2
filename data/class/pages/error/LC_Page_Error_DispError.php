@@ -100,9 +100,11 @@ class LC_Page_Error_DispError extends LC_Page_Admin_Ex
 
     /**
      * エラーページではトランザクショントークンの自動検証は行わない
+     *
+     * @param  boolean $is_admin 管理画面でエラー表示をする場合 true
      */
-    public function doValidToken()
+    public function doValidToken($is_admin = false)
     {
-        // queit.
+        // nothing.
     }
 }

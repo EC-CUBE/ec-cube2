@@ -20,6 +20,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+require __DIR__.'/../../vendor/autoload.php';
 // ▼require.php 相当
 // rtrim は PHP バージョン依存対策
 $GLOBALS['_realdir'] = rtrim(realpath(rtrim(realpath(dirname(__FILE__)), '/\\') . '/../'), '/\\') . '/';
@@ -45,11 +46,11 @@ ini_set('max_execution_time', 300);
 $objPage = new StdClass;
 $objPage->arrDB_TYPE = array(
     'pgsql' => 'PostgreSQL',
-    'mysql' => 'MySQL',
+    'mysqli' => 'MySQL',
 );
 $objPage->arrDB_PORT = array(
     'pgsql' => '',
-    'mysql' => '',
+    'mysqli' => '',
 );
 $objPage->arrMailBackend = array('mail' => 'mail',
                                  'smtp' => 'SMTP',
@@ -855,7 +856,7 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
                 $objDB->exec("SET SESSION sql_mode = 'ANSI'");
             }
 
-            $sql_split = split(';', $sql);
+            $sql_split = explode(';', $sql);
             foreach ($sql_split as $key => $val) {
                 SC_Utils::sfFlush(true);
                 if (trim($val) != '') {
@@ -1023,6 +1024,12 @@ function lfMakeConfigFile()
         define('AUTH_MAGIC', $auth_magic);
     }
 
+    if ($objDBParam->getValue('db_type') == 'mysqli' && $objDBParam->getValue('db_port') == '') {
+        $db_port = 'FALSE';
+    } else {
+        $db_port = "'".$objDBParam->getValue('db_port')."'";
+    }
+
     // FIXME 変数出力はエスケープすべき
     $config_data = "<?php\n"
                  . "define('ECCUBE_INSTALL', 'ON');\n"
@@ -1035,7 +1042,7 @@ function lfMakeConfigFile()
                  . "define('DB_PASSWORD', '"           . $objDBParam->getValue('db_password') . "');\n"
                  . "define('DB_SERVER', '"             . $objDBParam->getValue('db_server') . "');\n"
                  . "define('DB_NAME', '"               . $objDBParam->getValue('db_name') . "');\n"
-                 . "define('DB_PORT', '"               . $objDBParam->getValue('db_port') . "');\n"
+                 . "define('DB_PORT', "                . $db_port . ");\n"
                  . "define('ADMIN_DIR', '"             . $objWebParam->getValue('admin_dir') . "/');\n"
                  . "define('ADMIN_FORCE_SSL', "        . $force_ssl . ");\n"
                  . "define('ADMIN_ALLOW_HOSTS', '"     . serialize($allow_hosts) . "');\n"
@@ -1165,7 +1172,7 @@ function getArrayDsn(SC_FormParam $objDBParam)
         'username'  => $arrRet['db_user'],
         'password'  => $arrRet['db_password'],
         'database'  => $arrRet['db_name'],
-        'port'      => $arrRet['db_port'],
+        'port'      => ($arrRet['db_port'] == '' && $arrRet['db_type'] == 'mysqli')?false:$arrRet['db_port'], // mysqliはfalseにしないとつながらない
     );
 
     // 文字列形式の DSN との互換処理

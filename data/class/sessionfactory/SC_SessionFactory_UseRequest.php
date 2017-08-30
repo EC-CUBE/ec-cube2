@@ -163,7 +163,7 @@ class SC_SessionFactory_UseRequest extends SC_SessionFactory_Ex
             // キャリアがAUで、動画、音声ファイルをダウンロードする際に
             // SESSIONIDの後に余計なパラメータが付与され、セッションが無効になるケースがある
             if (SC_MobileUserAgent::getCarrier() == 'ezweb') {
-                $idArray = split("\?", $sessionId);
+                $idArray = explode("?", $sessionId);
                 $sessionId = $idArray[0];
             }
         }

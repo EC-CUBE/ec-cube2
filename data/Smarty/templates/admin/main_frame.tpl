@@ -65,7 +65,7 @@
 <!--{if $arrPageLayout.HeadNavi|@count > 0}-->
     <!--{foreach key=HeadNaviKey item=HeadNaviItem from=$arrPageLayout.HeadNavi}-->
         <!--{if $HeadNaviItem.php_path != ""}-->
-            <!--{include_php file=$HeadNaviItem.php_path}-->
+            <!--{include_php_ex file=$HeadNaviItem.php_path}-->
         <!--{/if}-->
     <!--{/foreach}-->
 <!--{/if}-->
