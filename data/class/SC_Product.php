@@ -38,9 +38,9 @@ class SC_Product
     public $classCategories = array();
     public $stock_find;
     /** 規格1クラス名 */
-    public $className1 = '';
+    public $className1 = [];
     /** 規格2クラス名 */
-    public $className2 = '';
+    public $className2 = [];
     /** 規格1が設定されている */
     public $classCat1_find;
     /** 規格2が設定されている */
@@ -404,10 +404,10 @@ __EOS__;
 
         // 税込計算
         if (!SC_Utils_Ex::isBlank($arrProduct['price01'])) {
-            $arrProduct['price01_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01'], $arrProduct['product_id'], $productClassId);        
+            $arrProduct['price01_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01'], $arrProduct['product_id'], $productClassId);
         }
         if (!SC_Utils_Ex::isBlank($arrProduct['price02'])) {
-            $arrProduct['price02_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02'], $arrProduct['product_id'], $productClassId);        
+            $arrProduct['price02_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02'], $arrProduct['product_id'], $productClassId);
         }
 
         return $arrProduct;
