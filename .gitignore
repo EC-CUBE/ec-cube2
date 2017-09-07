@@ -1,11 +1,11 @@
 !.gitmodule
 composer.phar
-/vendor/
 *.cache
 *.log
 /data/config/config.php
 /data/cache/*
 /data/Smarty/templates_c/*
+/data/vendor/
 /html/plugin/*
 /html/install/temp/*
 /html/upload/save_image/*

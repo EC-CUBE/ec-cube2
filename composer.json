@@ -11,6 +11,7 @@
         "issues": "https://github.com/EC-CUBE/eccube-2_13/issues"
     },
     "config": {
+        "vendor-dir": "data/vendor",
         "disable-tls": true,
         "secure-http": false,
         "platform": {
