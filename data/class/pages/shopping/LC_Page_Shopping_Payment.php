@@ -370,13 +370,19 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
             $arrForm['use_point'] = 0;
         }
 
+        $find = false;
         foreach ($arrPayment as $payment) {
             if ($arrForm['payment_id'] == $payment['payment_id']) {
                 $arrForm['charge'] = $payment['charge'];
                 $arrForm['payment_method'] = $payment['payment_method'];
+                $find = true;
                 break;
             }
         }
+        if (!$find) {
+            trigger_error('無効な支払方法: ' . var_export($arrForm['payment_id'], true), E_USER_ERROR);
+        }
+
         $objPurchase->saveOrderTemp($uniqid, $arrForm);
     }
 
