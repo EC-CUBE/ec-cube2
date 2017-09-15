@@ -23,6 +23,7 @@ env:
         - DB=pgsql USER=postgres DBPASS=password DBUSER=postgres 
 
 before_script:
+  - mysql --version
   - composer self-update || true
   - if [[ $TRAVIS_PHP_VERSION == '5.3.3' ]]; then composer install --dev --no-interaction --prefer-source ; fi
   - if [[ $TRAVIS_PHP_VERSION != '5.3.3' ]]; then composer install --dev --no-interaction ; fi
@@ -42,6 +43,7 @@ script:
 
 after_script:
   - php vendor/bin/coveralls -v
+  - cat ~travis/.my.cnf
   - cat ./data/logs/error.log
 
 # Cache folder, you can delete cache from Travis CI web interface
