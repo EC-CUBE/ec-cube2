@@ -1,6 +1,6 @@
 !.gitmodule
 composer.phar
-/vendor/
+/data/vendor/
 *.cache
 *.log
 /data/config/config.php

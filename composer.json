@@ -13,6 +13,7 @@
     "config": {
         "disable-tls": true,
         "secure-http": false,
+        "vendor-dir": "data/vendor",
         "platform": {
             "php": "5.4"
         }
