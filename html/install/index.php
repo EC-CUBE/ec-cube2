@@ -20,7 +20,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-require __DIR__.'/../../vendor/autoload.php';
+
 // ▼require.php 相当
 // rtrim は PHP バージョン依存対策
 $GLOBALS['_realdir'] = rtrim(realpath(rtrim(realpath(dirname(__FILE__)), '/\\') . '/../'), '/\\') . '/';
@@ -29,6 +29,7 @@ $GLOBALS['_realdir'] = str_replace('//', '/', $GLOBALS['_realdir']);
 define('HTML_REALDIR', $GLOBALS['_realdir']);
 
 require_once HTML_REALDIR . 'define.php';
+require_once HTML_REALDIR . HTML2DATA_DIR . 'vendor/autoload.php';
 define('INSTALL_FUNCTION', true);
 define('INSTALL_INFO_URL', 'http://www.ec-cube.net/install_info/index.php');
 define("DEFAULT_COUNTRY_ID", 392);
