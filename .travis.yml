@@ -1,6 +1,7 @@
 # for travis-ci
 # see also. https://travis-ci.org
 language: php
+dist: trusty
 sudo: required
 php:
   #- 5.3.3
