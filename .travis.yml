@@ -32,19 +32,19 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - php -S localhost:8085 -t html/ &
-  - php vendor/bin/codecept build
+  - php data/vendor/bin/codecept build
 
 script:
   - mkdir -p reports/coverage
-  - php vendor/bin/phpunit -c phpunit.xml.dist
-  - php vendor/bin/codecept run --env travis --steps
+  - php data/vendor/bin/phpunit -c phpunit.xml.dist
+  - php data/vendor/bin/codecept run --env travis --steps
 
 after_script:
-  - php vendor/bin/coveralls -v
+  - php data/vendor/bin/coveralls -v
   - cat ./data/logs/error.log
 
 # Cache folder, you can delete cache from Travis CI web interface
 cache:
     directories:
-        - vendor
+        - data/vendor
         - $HOME/.composer/cache vendor/
