@@ -698,7 +698,8 @@ __EOS__;
      * @param bool $include_hidden
      * @return array
      */
-    public function getCategoryIds($product_id, $include_hidden = false) {
+    public function getCategoryIds($product_id, $include_hidden = false)
+    {
         if ($this->isValidProductId($product_id, $include_hidden)) {
             $objQuery =& SC_Query_Ex::getSingletonInstance();
             $category_id = $objQuery->getCol('category_id', 'dtb_product_categories', 'product_id = ?', array($product_id));
@@ -718,7 +719,8 @@ __EOS__;
      * @param bool $include_deleted
      * @return bool
      */
-    public function isValidProductId($product_id, $include_hidden = false, $include_deleted = false) {
+    public function isValidProductId($product_id, $include_hidden = false, $include_deleted = false)
+    {
         $where = '';
         if (!$include_hidden) {
             $where .= 'status = 1';
