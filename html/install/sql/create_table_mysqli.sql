@@ -643,7 +643,7 @@ CREATE TABLE dtb_order_temp (
     memo08 text,
     memo09 text,
     memo10 text,
-    session text,
+    session longtext,
     PRIMARY KEY (order_temp_id(64))
 );
 
@@ -1137,7 +1137,7 @@ CREATE TABLE dtb_module (
 
 CREATE TABLE dtb_session (
     sess_id text NOT NULL,
-    sess_data text,
+    sess_data longtext,
     create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     update_date timestamp NOT NULL,
     PRIMARY KEY (sess_id(255))

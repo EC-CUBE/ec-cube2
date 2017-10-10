@@ -43,7 +43,8 @@
         "pear-pear.php.net/Text_Password" : "*",
         "pear-pear.php.net/XML_Parser" : "*",
         "pear-pear.php.net/XML_Serializer" : "*",
-        "pear-pear.php.net/XML_Util" : "*"
+        "pear-pear.php.net/XML_Util" : "*",
+        "mobiledetect/mobiledetectlib": "^2.8"
     },
     "autoload": {
         "classmap": [
