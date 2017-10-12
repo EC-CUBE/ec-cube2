@@ -240,7 +240,12 @@ class LC_Page_Admin_Contents extends LC_Page_Admin_Ex
      */
     public function splitNewsDate($news_date)
     {
-        return explode('-', $news_date);
+        $arrReturn = explode('-', $news_date);
+        foreach ($arrReturn as &$part) {
+            $part = intval($part);
+        }
+
+        return $arrReturn;
     }
 
     /**
