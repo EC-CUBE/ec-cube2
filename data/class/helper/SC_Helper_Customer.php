@@ -248,7 +248,7 @@ class SC_Helper_Customer
         // 誕生日を年月日に分ける
         if (isset($arrForm['birth'])) {
             $birth = explode(' ', $arrForm['birth']);
-            list($arrForm['year'], $arrForm['month'], $arrForm['day']) = explode('-', $birth[0]);
+            list($arrForm['year'], $arrForm['month'], $arrForm['day']) = array_map("intval",explode('-', $birth[0]));
         }
 
         if ($mask_flg) {
