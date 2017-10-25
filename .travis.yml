@@ -3,7 +3,7 @@
 language: php
 sudo: required
 php:
-  - 5.3.3
+#  - 5.3.3
   - 5.3
   - 5.4
   - 5.5
@@ -11,6 +11,8 @@ php:
 
 matrix:
   fast_finish: true
+
+dist: precise
 
 env:
   - DB=mysql USER=root DBNAME=myapp_test DBPASS=' ' DBUSER=root
