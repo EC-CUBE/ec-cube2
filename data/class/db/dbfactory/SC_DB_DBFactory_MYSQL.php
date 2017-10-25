@@ -70,7 +70,8 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
         $sql = $this->sfChangeTrunc($sql);
         // ARRAY_TO_STRINGをGROUP_CONCATに変換する
         $sql = $this->sfChangeArrayToString($sql);
-
+        // rank に引用符をつける
+        $sql = $this->sfChangeReservedWords($sql);
         return $sql;
     }
 
@@ -340,6 +341,15 @@ __EOS__;
         }
 
         return $definition;
+    }
+
+    /**
+     * 予約語に引用符を付与する.
+     */
+    public function sfChangeReservedWords($sql)
+    {
+        $changesql = preg_replace('/(^|[^\w])RANK([^\w]|$)/i', '$1`RANK`$2', $sql);
+        return $changesql;
     }
 
     /**

@@ -863,6 +863,11 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
             foreach ($sql_split as $key => $val) {
                 SC_Utils::sfFlush(true);
                 if (trim($val) != '') {
+                    if ($arrDsn['phptype'] === 'mysqli') {
+                        // rank は予約語なので MySQL8 から引用符をつけないとエラーになる
+                        $dbFactory = SC_DB_DBFactory_Ex::getInstance($arrDsn['phptype']);
+                        $val = $dbFactory->sfChangeReservedWords($val);
+                    }
                     $ret = $objDB->query($val);
                     if (PEAR::isError($ret) && $disp_err) {
                         $arrErr['all'] = '>> ' . $ret->message . '<br />';
