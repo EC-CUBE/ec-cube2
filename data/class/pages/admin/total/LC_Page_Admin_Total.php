@@ -486,7 +486,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     /**
      * @param string $col_date
      */
-    public function lfGetWhereMember($col_date, $sdate, $edate, $type, $col_member = 'customer_id')
+    public function lfGetWhereMember($col_date, $sdate, $edate, $type = NULL, $col_member = 'customer_id')
     {
         $where = '';
         // 取得日付の指定
