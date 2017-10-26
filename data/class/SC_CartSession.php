@@ -297,7 +297,7 @@ class SC_CartSession
     public function delProductKey($keyname, $val, $productTypeId)
     {
         $max = $this->getMax($productTypeId);
-        for ($i = 0; $i < $max; $i++) {
+        for ($i = 0; $i <= $max; $i++) {
             if ($this->cartSession[$productTypeId][$i][$keyname] == $val) {
                 unset($this->cartSession[$productTypeId][$i]);
             }
