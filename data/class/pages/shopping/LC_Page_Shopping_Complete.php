@@ -69,8 +69,10 @@ class LC_Page_Shopping_Complete extends LC_Page_Ex
 
     /**
      * 決済モジュールから遷移する場合があるため, トークンチェックしない.
+     *
+     * @param  boolean $is_admin 管理画面でエラー表示をする場合 true
      */
-    public function doValidToken()
+    public function doValidToken($is_admin = false)
     {
         // nothing.
     }

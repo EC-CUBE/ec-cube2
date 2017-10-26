@@ -40,7 +40,9 @@
  */
 function smarty_function_html_checkboxes_ex($params, &$smarty)
 {
-    require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
+    if (!is_callable('smarty_function_escape_special_chars')) {
+        require_once(SMARTY_PLUGINS_DIR . 'shared.escape_special_chars.php');
+    }
 
     $name = 'checkbox';
     $values = null;
@@ -55,16 +57,16 @@ function smarty_function_html_checkboxes_ex($params, &$smarty)
 
     foreach ($params as $_key => $_val) {
         switch ($_key) {
-    case 'tags':
-    $$_key = split("\|", $_val);
-    break;
+            case 'tags':
+                $$_key = explode("|", $_val);
+                break;
             case 'name':
             case 'separator':
                 $$_key = $_val;
                 break;
 
             case 'labels':
-    case 'label_ids':
+            case 'label_ids':
                 $$_key = (bool)$_val;
                 break;
 

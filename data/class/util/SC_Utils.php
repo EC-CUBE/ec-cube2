@@ -658,6 +658,10 @@ class SC_Utils
         return $default;
     }
 
+    /**
+     * エラー時のカラー(CSS)を設定
+     * @param string $val
+     */
     public function sfGetErrorColor($val)
     {
         if ($val != '') {

@@ -60,7 +60,7 @@ class SC_Utils_sfGetErrorColorTest extends Common_TestCase
   {
     
     $this->expected = '';
-    $this->actual = SC_Utils::sfGetErrorColor();
+    $this->actual = SC_Utils::sfGetErrorColor('');
 
     $this->verify();
   }

@@ -46,6 +46,8 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
   /////////////////////////////////////////
   /**
    * セッションに配送情報を設定します。
+   *
+   * @param array $shipping 単一配送情報
    */
   protected function setUpShipping($shipping)
   {

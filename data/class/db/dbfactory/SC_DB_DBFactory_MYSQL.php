@@ -70,7 +70,8 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
         $sql = $this->sfChangeTrunc($sql);
         // ARRAY_TO_STRINGをGROUP_CONCATに変換する
         $sql = $this->sfChangeArrayToString($sql);
-
+        // rank に引用符をつける
+        $sql = $this->sfChangeReservedWords($sql);
         return $sql;
     }
 
@@ -160,7 +161,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
                 )
         )
 __EOS__;
-        
+
         return $sql;
     }
 
@@ -343,6 +344,15 @@ __EOS__;
     }
 
     /**
+     * 予約語に引用符を付与する.
+     */
+    public function sfChangeReservedWords($sql)
+    {
+        $changesql = preg_replace('/(^|[^\w])RANK([^\w]|$)/i', '$1`RANK`$2', $sql);
+        return $changesql;
+    }
+
+    /**
      * 擬似表を表すSQL文(FROM 句)を取得する
      *
      * @return string
@@ -360,7 +370,11 @@ __EOS__;
      */
     public function initObjQuery(SC_Query &$objQuery)
     {
-        $objQuery->exec('SET SESSION storage_engine = InnoDB');
+        if ($objQuery->conn->getConnection()->server_version >= 50705) {
+            $objQuery->exec('SET SESSION default_storage_engine = InnoDB');
+        } else {
+            $objQuery->exec('SET SESSION storage_engine = InnoDB');
+        }
         $objQuery->exec("SET SESSION sql_mode = 'ANSI'");
     }
 }

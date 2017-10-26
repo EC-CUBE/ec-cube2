@@ -88,7 +88,7 @@
 
             <!--{* 画像の縦横倍率を算出 *}-->
             <!--{assign var=detail_image_size value=200}-->
-            <!--{assign var=main_image_factor value=`$arrFile[$key].width/$detail_image_size`}-->
+            <!--{assign var=main_image_factor value="`$arrFile[$key].width/$detail_image_size"`}-->
             <!--{if $arrProduct.main_large_image|strlen >= 1}-->
                 <a rel="external" class="expansion" href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct.main_large_image|h}-->" target="_blank">
                     <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct.main_image|h}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile.main_image.width/$main_image_factor}-->" height="<!--{$arrFile.main_image.height/$main_image_factor}-->" /></a>
@@ -99,7 +99,7 @@
             <!--★サブ画像★-->
             <!--{section name=cnt loop=$smarty.const.PRODUCTSUB_MAX}-->
             <!--{assign var=key value="sub_image`$smarty.section.cnt.index+1`"}-->
-            <!--{assign var=sub_image_factor value=`$arrFile[$key].width/$detail_image_size`}-->
+            <!--{assign var=sub_image_factor value="`$arrFile[$key].width/$detail_image_size`"}-->
             <!--{assign var=lkey value="sub_large_image`$smarty.section.cnt.index+1`"}-->
             <!--{if $arrFile[$key].filepath != ""}-->
                 <li id="mainImage<!--{$smarty.section.cnt.index+1}-->">
@@ -329,7 +329,7 @@
                         <!--{assign var=key value="sub_image`$smarty.section.cnt.index+1`"}-->
                         <!--{assign var=lkey value="sub_large_image`$smarty.section.cnt.index+1`"}-->
                         <!--{assign var=ckey value="sub_comment`$smarty.section.cnt.index+1`"}-->
-                        <!--{assign var=sub_image_factor value=`$arrFile[$key].width/$sub_image_size`}-->
+                        <!--{assign var=sub_image_factor value="`$arrFile[$key].width/$sub_image_size`"}-->
                         <!--{if $arrProduct[$key]|strlen >= 1}-->
                             <p class="subphotoimg">
                                 <!--{if $arrProduct[$lkey]|strlen >= 1}-->
@@ -396,8 +396,8 @@
                     <!--{if $arrRecommend[cnt].product_id}-->
                         <li id="mainImage1<!--{$smarty.section.cnt.index}-->">
                             <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrRecommend[cnt].main_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65px;" alt="!--{$arrRecommend[cnt].name|h}-->" />
-                            <!--{assign var=price02_min value=`$arrRecommend[cnt].price02_min_inctax`}-->
-                            <!--{assign var=price02_max value=`$arrRecommend[cnt].price02_max_inctax`}-->
+                            <!--{assign var=price02_min value="`$arrRecommend[cnt].price02_min_inctax`"}-->
+                            <!--{assign var=price02_max value="`$arrRecommend[cnt].price02_max_inctax`"}-->
                             <h3><a rel="external" href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrRecommend[cnt].product_id|u}-->"><!--{$arrRecommend[cnt].name|h}--></a></h3>
                             <p class="sale_price"><span class="price">
                                 <!--{if $price02_min == $price02_max}-->

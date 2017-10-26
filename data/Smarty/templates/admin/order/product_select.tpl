@@ -177,8 +177,8 @@
                         <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProducts[cnt].main_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65;" alt="<!--{$arrRecommend[$recommend_no].name|h}-->" />
                     </td>
                     <td>
-                        <!--{assign var=codemin value=`$arrProducts[cnt].product_code_min`}-->
-                        <!--{assign var=codemax value=`$arrProducts[cnt].product_code_max`}-->
+                        <!--{assign var=codemin value="`$arrProducts[cnt].product_code_min`"}-->
+                        <!--{assign var=codemax value="`$arrProducts[cnt].product_code_max`"}-->
                         <!--{* 商品コード *}-->
                         <!--{if $codemin != $codemax}-->
                             <!--{$codemin|h}-->～<!--{$codemax|h}-->

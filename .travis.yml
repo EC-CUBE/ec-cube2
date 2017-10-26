@@ -3,31 +3,48 @@
 language: php
 sudo: required
 php:
-  - 5.3.3
-  - 5.3
+  #- 5.3.3
+  #- 5.3
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
+  - 7.1
 
 matrix:
   fast_finish: true
 
 env:
-  - DB=mysql USER=root DBNAME=myapp_test DBPASS=' ' DBUSER=root
-  - DB=pgsql USER=postgres DBNAME=myapp_test DBPASS=password DBUSER=postgres
+    global:
+        - DBNAME=myapp_test HTTP_URL=http://localhost:8085/ HTTPS_URL=https://localhost:8085/
+    matrix:
+        - DB=mysql USER=root DBPASS=' ' DBUSER=root 
+        - DB=pgsql USER=postgres DBPASS=password DBUSER=postgres 
 
 before_script:
   - composer self-update || true
   - if [[ $TRAVIS_PHP_VERSION == '5.3.3' ]]; then composer install --dev --no-interaction --prefer-source ; fi
   - if [[ $TRAVIS_PHP_VERSION != '5.3.3' ]]; then composer install --dev --no-interaction ; fi
   - sh -c "if [ '$DB' = 'mysql' ]; then sh ./eccube_install.sh mysql; fi"
-  - sh -c "if [ '$DB' = 'pgsql' ]; then sh ./eccube_install.sh pgsql; fi"
+  - sh -c "if [ '$DB' = 'pgsql' ]; then sh ./eccube_install.sh appveyor; fi"
   - cp tests/require.php.jenkins tests/require.php
   - cat ./data/config/config.php
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - php -S localhost:8085 -t html/ &
+  - php data/vendor/bin/codecept build
 
 script:
   - mkdir -p reports/coverage
-  - phpunit -c phpunit.xml.dist
+  - php data/vendor/bin/phpunit -c phpunit.xml.dist
+  - php data/vendor/bin/codecept run --env travis --steps
 
 after_script:
-  - php vendor/bin/coveralls -v
+  - php data/vendor/bin/coveralls -v
+  - cat ./data/logs/error.log
+
+# Cache folder, you can delete cache from Travis CI web interface
+cache:
+    directories:
+        - data/vendor
+        - $HOME/.composer/cache vendor/

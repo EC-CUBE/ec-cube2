@@ -62,6 +62,7 @@ case "${DBTYPE}" in
     DROPDB=dropdb
     CREATEDB=createdb
     DBPORT=5432
+    DB=$1;
 ;;
 "mysql" )
     #-- DB Seting MySQL
@@ -70,6 +71,7 @@ case "${DBTYPE}" in
     ROOTPASS=$DBPASS
     DBSERVER="127.0.0.1"
     DBPORT=3306
+    DB=mysqli;
 ;;
 * ) echo "ERROR:: argument is invaid"
 exit
@@ -187,7 +189,7 @@ define('HTTP_URL', '${HTTP_URL}');
 define('HTTPS_URL', '${HTTPS_URL}');
 define('ROOT_URLPATH', '${ROOT_URLPATH}');
 define('DOMAIN_NAME', '${DOMAIN_NAME}');
-define('DB_TYPE', '${DBTYPE}');
+define('DB_TYPE', '${DB}');
 define('DB_USER', '${DBUSER}');
 define('DB_PASSWORD', '${CONFIGPASS:-$DBPASS}');
 define('DB_SERVER', '${DBSERVER}');
@@ -224,7 +226,7 @@ case "${DBTYPE}" in
     echo "dropdb..."
     ${DROPDB} ${DBNAME}
     echo "createdb..."
-    ${CREATEDB} -U ${DBUSER} ${DBNAME}
+    ${CREATEDB} -U ${DBUSER} ${DBNAME} 
     echo "create table..."
     ${PSQL} -U ${DBUSER} -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
     echo "insert data..."
@@ -260,12 +262,12 @@ case "${DBTYPE}" in
     echo "dropdb..."
     ${MYSQL} -u ${ROOTUSER} ${PASSOPT} -e "drop database \`${DBNAME}\`"
     echo "createdb..."
-    ${MYSQL} -u ${ROOTUSER} ${PASSOPT} -e "create database \`${DBNAME}\`"
+    ${MYSQL} -u ${ROOTUSER} ${PASSOPT} -e "create database \`${DBNAME}\` DEFAULT COLLATE=utf8_general_ci;"
     #echo "grant user..."
     #${MYSQL} -u ${ROOTUSER} ${PASSOPT} -e "GRANT ALL ON \`${DBNAME}\`.* TO '${DBUSER}'@'%' IDENTIFIED BY '${DBPASS}'"
     echo "create table..."
     echo "SET SESSION storage_engine = InnoDB;" |
-        cat - ${SQL_DIR}/create_table_mysql.sql |
+        cat - ${SQL_DIR}/create_table_mysqli.sql |
         ${MYSQL} -u ${DBUSER} ${PASSOPT} ${DBNAME}
     echo "insert data..."
     ${MYSQL} -u ${DBUSER} ${PASSOPT} ${DBNAME} < ${SQL_DIR}/insert_data.sql

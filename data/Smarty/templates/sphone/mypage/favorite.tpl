@@ -27,7 +27,7 @@
     <!--{if $tpl_navi != ""}-->
         <!--{include file=$tpl_navi}-->
     <!--{else}-->
-        <!--{include file=`$smarty.const.TEMPLATE_REALDIR`mypage/navi.tpl}-->
+        <!--{include file="`$smarty.const.TEMPLATE_REALDIR`mypage/navi.tpl"}-->
     <!--{/if}-->
 
     <h3 class="title_mypage"><!--{$tpl_subtitle|h}--></h3>

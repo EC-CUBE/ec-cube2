@@ -31,7 +31,7 @@
                 <!--{foreach key=HeaderInternalNaviKey item=HeaderInternalNaviItem from=$arrPageLayout.HeaderInternalNavi}-->
                     <!-- ▼<!--{$HeaderInternalNaviItem.bloc_name}--> -->
                     <!--{if $HeaderInternalNaviItem.php_path != ""}-->
-                        <!--{include_php file=$HeaderInternalNaviItem.php_path items=$HeaderInternalNaviItem}-->
+                        <!--{include_php_ex file=$HeaderInternalNaviItem.php_path items=$HeaderInternalNaviItem}-->
                     <!--{else}-->
                         <!--{include file=$HeaderInternalNaviItem.tpl_path items=$HeaderInternalNaviItem}-->
                     <!--{/if}-->

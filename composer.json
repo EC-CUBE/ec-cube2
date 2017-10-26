@@ -1,10 +1,55 @@
 {
+    "name": "ec-cube/eccube-2_13",
+    "description": "EC-CUBE 2.13-stable",
+    "type": "project",
+    "homepage": "http://www.ec-cube.net/",
+    "license": [
+       "GPL-2.0",
+       "Commercial"
+    ],
+    "support": {
+        "issues": "https://github.com/EC-CUBE/eccube-2_13/issues"
+    },
     "config": {
         "disable-tls": true,
-        "secure-http": false
+        "secure-http": false,
+        "vendor-dir": "data/vendor",
+        "platform": {
+            "php": "5.4"
+        }
     },
+    "repositories": [
+        {
+            "type": "pear",
+            "url": "http://pear.php.net/"
+        }
+    ],
     "require-dev": {
         "satooshi/php-coveralls": "1.0",
-        "phpunit/phpunit": "3.7.*"
+        "codeception/codeception": "*"
+    },
+    "require": {
+        "smarty/smarty": "*",
+        "pear-pear.php.net/PEAR" : "*",
+        "pear-pear.php.net/Archive_Tar" : "*",
+        "pear-pear.php.net/Mail" : "*",
+        "pear-pear.php.net/Cache_Lite" : "*",
+        "pear-pear.php.net/File_SearchReplace" : "*",
+        "pear-pear.php.net/MDB2_Driver_mysqli" : "1.5.0b4",
+        "pear-pear.php.net/MDB2_Driver_pgsql" : "1.5.0b4",
+        "pear-pear.php.net/MDB2" : "2.5.0-beta5 as 2.5.0",
+        "pear-pear.php.net/Net_UserAgent_Mobile" : "*",
+        "pear-pear.php.net/Services_JSON" : "*",
+        "pear-pear.php.net/Text_Password" : "*",
+        "pear-pear.php.net/XML_Parser" : "*",
+        "pear-pear.php.net/XML_Serializer" : "*",
+        "pear-pear.php.net/XML_Util" : "*",
+        "mobiledetect/mobiledetectlib": "^2.8"
+    },
+    "autoload": {
+        "classmap": [
+            "data/class",
+            "data/class_extends"
+        ]
     }
 }
