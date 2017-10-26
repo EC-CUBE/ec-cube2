@@ -295,7 +295,7 @@
                         <!--{/foreach}-->
                     </td>
                     <td class="center">
-                        <!--{assign var=key value="down_filename}-->
+                        <!--{assign var=key value="down_filename"}-->
                         <!--{if $arrErr[$key][$index]}-->
                             <span class="attention"><!--{$arrErr[$key][$index]}--></span>
                         <!--{/if}-->
