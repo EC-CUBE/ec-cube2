@@ -1762,4 +1762,18 @@ class SC_CheckError
 
         return strlen($string) > 0 && !ctype_digit($string);
     }
+
+    // 都道府県マスタに存在する値かチェック
+    public function PREF_CHECK($value)
+    {
+        $disp = $value[0];
+        $key = $value[1];
+
+        $pref_id = $this->arrParam[$key];
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $exists = $objQuery->exists('mtb_pref', 'id = ?', array($pref_id));
+        if (!$exists) {
+            $this->arrErr[$key] = '※ ' . $disp . 'が不正な値です。<br />';
+        }
+    }
 }
