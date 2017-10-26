@@ -150,18 +150,17 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
                 rank =
                     (
                         SELECT COUNT(*)
-                        FROM dtb_product_categories t_in
-                        WHERE t_in.category_id = dtb_product_categories.category_id
-                            AND (
-                                t_in.rank < dtb_product_categories.rank
-                                OR (
-                                    t_in.rank = dtb_product_categories.rank
-                                    AND t_in.product_id < dtb_product_categories.product_id
-                                )
+                        FROM (SELECT product_id,rank FROM dtb_product_categories WHERE category_id = dtb_product_categories.category_id) t_in
+                        WHERE
+                            t_in.rank < dtb_product_categories.rank
+                            OR (
+                                t_in.rank = dtb_product_categories.rank
+                                AND t_in.product_id < dtb_product_categories.product_id
                             )
                     ) + 1
             WHERE dtb_product_categories.category_id = ?
 __EOS__;
+
         $arrRet = $objQuery->query($sql, array($parent_category_id));
 
         return $arrRet;
