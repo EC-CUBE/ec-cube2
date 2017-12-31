@@ -1,7 +1,7 @@
 # for travis-ci
 # see also. https://travis-ci.org
 language: php
-sudo: required
+sudo: false
 php:
   - 5.4
   - 5.5
@@ -11,8 +11,6 @@ php:
 
 matrix:
   fast_finish: true
-
-dist: precise
 
 env:
     global:
