@@ -1,17 +1,19 @@
 # for travis-ci
 # see also. https://travis-ci.org
 language: php
-sudo: false
+sudo: required
 php:
   - 5.4
   - 5.5
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
 
 matrix:
   fast_finish: true
-
+  allow_failures:
+    - php: 7.2
 env:
     global:
         - DBNAME=myapp_test HTTP_URL=http://localhost:8085/ HTTPS_URL=https://localhost:8085/
