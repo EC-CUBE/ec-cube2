@@ -233,9 +233,6 @@ class SC_CartSession
                 }
                 $point_rate = $this->cartSession[$productTypeId][$i]['point_rate'];
 
-                if (!isset($this->cartSession[$productTypeId][$i]['id'][0])) {
-                    $this->cartSession[$productTypeId][$i]['id'][0] = '';
-                }
                 $point = SC_Utils_Ex::sfPrePoint($price, $point_rate);
                 $total+= ($point * $quantity);
             }
@@ -300,7 +297,7 @@ class SC_CartSession
     public function delProductKey($keyname, $val, $productTypeId)
     {
         $max = $this->getMax($productTypeId);
-        for ($i = 0; $i < $max; $i++) {
+        for ($i = 0; $i <= $max; $i++) {
             if ($this->cartSession[$productTypeId][$i][$keyname] == $val) {
                 unset($this->cartSession[$productTypeId][$i]);
             }
