@@ -1,19 +1,19 @@
 # for travis-ci
 # see also. https://travis-ci.org
 language: php
-sudo: required
+sudo: false
 php:
-  #- 5.3.3
-  #- 5.3
   - 5.4
   - 5.5
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
 
 matrix:
   fast_finish: true
-
+  allow_failures:
+    - php: 7.2
 env:
     global:
         - DBNAME=myapp_test HTTP_URL=http://localhost:8085/ HTTPS_URL=https://localhost:8085/
@@ -23,8 +23,7 @@ env:
 
 before_script:
   - composer self-update || true
-  - if [[ $TRAVIS_PHP_VERSION == '5.3.3' ]]; then composer install --dev --no-interaction --prefer-source ; fi
-  - if [[ $TRAVIS_PHP_VERSION != '5.3.3' ]]; then composer install --dev --no-interaction ; fi
+  - composer install --dev --no-interaction
   - sh -c "if [ '$DB' = 'mysql' ]; then sh ./eccube_install.sh mysql; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then sh ./eccube_install.sh appveyor; fi"
   - cp tests/require.php.jenkins tests/require.php
@@ -41,7 +40,7 @@ script:
 
 after_script:
   - php data/vendor/bin/coveralls -v
-  - cat ./data/logs/error.log
+  - tail -n 100 ./data/logs/error.log
 
 # Cache folder, you can delete cache from Travis CI web interface
 cache:
