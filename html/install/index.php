@@ -43,6 +43,7 @@ define('INSTALL_LOG', './temp/install.log');
 ini_set('max_execution_time', 300);
 
 $objPage = new StdClass;
+$objPage->arrErr = array();
 $objPage->arrDB_TYPE = array(
     'pgsql' => 'PostgreSQL',
     'mysqli' => 'MySQL',
