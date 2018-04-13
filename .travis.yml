@@ -39,7 +39,7 @@ script:
 
 after_script:
   - php data/vendor/bin/coveralls -v
-  - cat ./data/logs/error.log
+  - tail -n 100 ./data/logs/error.log
 
 # Cache folder, you can delete cache from Travis CI web interface
 cache:
