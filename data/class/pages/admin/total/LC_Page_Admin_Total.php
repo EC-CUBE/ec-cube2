@@ -486,7 +486,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     /**
      * @param string $col_date
      */
-    public function lfGetWhereMember($col_date, $sdate, $edate, $type, $col_member = 'customer_id')
+    public function lfGetWhereMember($col_date, $sdate, $edate, $type = NULL, $col_member = 'customer_id')
     {
         $where = '';
         // 取得日付の指定
@@ -683,7 +683,7 @@ __EOS__;
     {
         $objQuery   = SC_Query_Ex::getSingletonInstance();
 
-        list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate);
+        list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, null, null);
         $where .= ' AND del_flg = 0 AND status <> ?';
         $arrWhereVal[] = ORDER_CANCEL;
 

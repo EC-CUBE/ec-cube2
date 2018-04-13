@@ -188,12 +188,11 @@ class SC_Utils
             // TODO 警告表示させる？
             // sfErrorHeader('>> referrerが無効になっています。');
         } else {
-            $domain  = SC_Utils_Ex::sfIsHTTPS() ? HTTPS_URL : HTTP_URL;
-            $pattern = sprintf('|^%s.*|', $domain);
-            $referer = $_SERVER['HTTP_REFERER'];
+            $domain  = parse_url(HTTP_URL);
+            $referer = parse_url($_SERVER['HTTP_REFERER']);
 
             // 管理画面から以外の遷移の場合はエラー画面を表示
-            if (!preg_match($pattern, $referer)) {
+            if ($domain['host'] !== $referer['host']) {
                 if ($disp_error) SC_Utils_Ex::sfDispError(INVALID_MOVE_ERRORR);
                 return false;
             }

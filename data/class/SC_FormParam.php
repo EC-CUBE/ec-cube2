@@ -229,6 +229,7 @@ class SC_FormParam
                     case 'SELECT_CHECK':
                     case 'FILE_NAME_CHECK_BY_NOUPLOAD':
                     case 'NUM_POINT_CHECK':
+                    case 'PREF_CHECK':
                         $this->recursionCheck($this->disp_name[$index], $func,
                             $value, $arrErr[$key], $this->length[$index]);
                         if (SC_Utils_Ex::isBlank($arrErr[$key])) {

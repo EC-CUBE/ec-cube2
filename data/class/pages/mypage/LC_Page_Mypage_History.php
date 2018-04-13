@@ -99,8 +99,11 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
         // 受注商品明細の取得
         $this->tpl_arrOrderDetail = $objPurchase->getOrderDetail($order_id);
         foreach ($this->tpl_arrOrderDetail as $product_index => $arrOrderProductDetail) {
-            //必要なのは商品の販売金額のみなので、遅い場合は、別途SQL作成した方が良い
-            $arrTempProductDetail = $objProduct->getProductsClass($arrOrderProductDetail['product_class_id']);
+            //
+            if (SC_Helper_DB_Ex::sfDataExists('dtb_products_class', 'product_class_id = ?', array($arrOrderProductDetail['product_class_id']))) {
+                //必要なのは商品の販売金額のみなので、遅い場合は、別途SQL作成した方が良い
+                $arrTempProductDetail = $objProduct->getProductsClass($arrOrderProductDetail['product_class_id']);
+            }
             // 税計算
             $this->tpl_arrOrderDetail[$product_index]['price_inctax'] = $this->tpl_arrOrderDetail[$product_index]['price']  +
                 SC_Helper_TaxRule_Ex::calcTax(

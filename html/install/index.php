@@ -43,6 +43,7 @@ define('INSTALL_LOG', './temp/install.log');
 ini_set('max_execution_time', 300);
 
 $objPage = new StdClass;
+$objPage->arrErr = array();
 $objPage->arrDB_TYPE = array(
     'pgsql' => 'PostgreSQL',
     'mysqli' => 'MySQL',
@@ -850,8 +851,12 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
 
             // MySQL 用の初期化
             // XXX SC_Query を使うようにすれば、この処理は不要となる
-            if ($arrDsn['phptype'] === 'mysql') {
-                $objDB->exec('SET SESSION storage_engine = InnoDB');
+            if ($arrDsn['phptype'] === 'mysqli') {
+                if ($objDB->getConnection()->server_version >= 50705) {
+                    $objDB->exec('SET SESSION defaut_storage_engine = InnoDB');
+                } else {
+                    $objDB->exec('SET SESSION storage_engine = InnoDB');
+                }
                 $objDB->exec("SET SESSION sql_mode = 'ANSI'");
             }
 
@@ -859,6 +864,11 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
             foreach ($sql_split as $key => $val) {
                 SC_Utils::sfFlush(true);
                 if (trim($val) != '') {
+                    if ($arrDsn['phptype'] === 'mysqli') {
+                        // rank は予約語なので MySQL8 から引用符をつけないとエラーになる
+                        $dbFactory = SC_DB_DBFactory_Ex::getInstance($arrDsn['phptype']);
+                        $val = $dbFactory->sfChangeReservedWords($val);
+                    }
                     $ret = $objDB->query($val);
                     if (PEAR::isError($ret) && $disp_err) {
                         $arrErr['all'] = '>> ' . $ret->message . '<br />';

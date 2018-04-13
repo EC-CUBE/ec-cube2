@@ -88,7 +88,7 @@
 
             <!--{* 画像の縦横倍率を算出 *}-->
             <!--{assign var=detail_image_size value=200}-->
-            <!--{assign var=main_image_factor value="`$arrFile[$key].width/$detail_image_size"`}-->
+            <!--{assign var=main_image_factor value=$arrFile[$key].width/$detail_image_size}-->
             <!--{if $arrProduct.main_large_image|strlen >= 1}-->
                 <a rel="external" class="expansion" href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct.main_large_image|h}-->" target="_blank">
                     <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct.main_image|h}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile.main_image.width/$main_image_factor}-->" height="<!--{$arrFile.main_image.height/$main_image_factor}-->" /></a>
@@ -421,4 +421,3 @@
 </section>
 
 <!--{include file= 'frontparts/search_area.tpl'}-->
-

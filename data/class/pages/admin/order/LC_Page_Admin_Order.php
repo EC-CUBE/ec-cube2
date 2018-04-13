@@ -93,6 +93,8 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
         $objFormParam = new SC_FormParam_Ex();
         $this->lfInitParam($objFormParam);
         $objFormParam->setParam($_POST);
+        $objFormParam->convParam();
+        $objFormParam->trimParam();
         $this->arrHidden = $objFormParam->getSearchArray();
         $this->arrForm = $objFormParam->getFormParamList();
 
