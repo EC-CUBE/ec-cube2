@@ -44,7 +44,9 @@
         "pear-pear.php.net/XML_Parser" : "*",
         "pear-pear.php.net/XML_Serializer" : "*",
         "pear-pear.php.net/XML_Util" : "*",
-        "mobiledetect/mobiledetectlib": "^2.8"
+        "mobiledetect/mobiledetectlib": "^2.8",
+        "setasign/fpdf": "1.7",
+        "setasign/fpdi-fpdf": "1.6"
     },
     "autoload": {
         "classmap": [
