@@ -32,6 +32,18 @@
 class SC_Query_Test extends PHPUnit_Framework_TestCase 
 {
 
+    /**
+     * MDB2 をグローバル変数のバックアップ対象から除外する。
+     *
+     * @var array
+     * @see PHPUnit_Framework_TestCase::$backupGlobals
+     * @see PHPUnit_Framework_TestCase::$backupGlobalsBlacklist
+     */
+    protected $backupGlobalsBlacklist = array(
+        '_MDB2_databases',
+        '_MDB2_dsninfo_default',
+    );
+
     /** SC_Query インスタンス */
     var $objQuery;
 
