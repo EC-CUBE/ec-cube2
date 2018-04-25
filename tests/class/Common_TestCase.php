@@ -9,7 +9,6 @@ $HOME = realpath(dirname(__FILE__)) . "/../..";
 // require_once($HOME . "/tests/class/replace/SC_Utils_Ex.php");
 require_once($HOME . "/tests/class/test/util/Test_Utils.php");
 require_once($HOME . "/tests/class/test/util/User_Utils.php");
-require_once($HOME . "/tests/require.php");
 
 require_once($HOME . "/data/class/pages/LC_Page_Index.php");
 /**
