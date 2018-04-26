@@ -156,7 +156,7 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
         }
 
         // DBにすでに登録されていないかチェック
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists('dtb_templates', 'template_code = ?', array($template_code));
         if ($exists) {
             $arrErr['template_code'] = '※ すでに登録されているテンプレートコードです。<br/>';
@@ -198,7 +198,7 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
         $template_dir = SMARTY_TEMPLATES_REALDIR . $template_code;
         $compile_dir  = DATA_REALDIR . 'Smarty/templates_c/' . $template_code;
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         $arrValues = array(

@@ -271,7 +271,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
      */
     public function lfCreateBkupData($bkup_name, $work_dir)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $csv_autoinc = '';
         $arrData = array();
 
@@ -372,7 +372,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
      */
     public function lfGetAutoIncrement()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrSequences = $objQuery->listSequences();
 
         foreach ($arrSequences as $name) {
@@ -395,7 +395,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
     // バックアップテーブルにデータを更新する
     public function lfUpdBkupData($data)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $arrVal = array();
         $arrVal['bkup_name'] = $data['bkup_name'];
@@ -410,7 +410,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
      */
     public function lfGetBkupData($sql_option = '', $filter_bkup_name = '')
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // テーブルから取得
         $arrVal = array();
@@ -464,7 +464,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
      */
     public function lfRestore($bkup_name, $bkup_dir, $bkup_ext, $mode)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $bkup_filepath = $bkup_dir . $bkup_name . $bkup_ext;
         $work_dir = $bkup_dir . $bkup_name . '/';
@@ -609,7 +609,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
     // 選択したバックアップをDBから削除
     public function lfDeleteBackUp(&$arrForm, $bkup_dir, $bkup_ext)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $del_file = $bkup_dir.$arrForm['list_name'] . $bkup_ext;
         // ファイルの削除

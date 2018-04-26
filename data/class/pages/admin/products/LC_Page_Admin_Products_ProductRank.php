@@ -108,7 +108,7 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
     public function lfGetProduct($category_id)
     {
         // FIXME SC_Product クラスを使用した実装
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'alldtl.product_id, name, main_list_image, product_code_min, product_code_max, status';
         $objProduct = new SC_Product();
         $table = $objProduct->alldtlSQL();
@@ -142,7 +142,7 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
      */
     public function lfRenumber($parent_category_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $sql = <<< __EOS__
             UPDATE dtb_product_categories

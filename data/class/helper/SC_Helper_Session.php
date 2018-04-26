@@ -66,7 +66,7 @@ class SC_Helper_Session
      */
     public function sfSessRead($id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->select('sess_data', 'dtb_session', 'sess_id = ?', array($id));
         if (empty($arrRet)) {
             return '';
@@ -84,7 +84,7 @@ class SC_Helper_Session
      */
     public function sfSessWrite($id, $sess_data)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists('dtb_session', 'sess_id = ?', array($id));
         $sqlval = array();
         if ($exists) {
@@ -116,7 +116,7 @@ class SC_Helper_Session
      */
     public function sfSessDestroy($id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->delete('dtb_session', 'sess_id = ?', array($id));
 
         return true;
@@ -132,7 +132,7 @@ class SC_Helper_Session
     public function sfSessGc($maxlifetime)
     {
         // MAX_LIFETIME以上更新されていないセッションを削除する。
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $limit = date("Y-m-d H:i:s",time() - MAX_LIFETIME);
         $where = "update_date < '". $limit . "' ";
         $objQuery->delete('dtb_session', $where);

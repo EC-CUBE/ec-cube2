@@ -225,7 +225,7 @@ class LC_Page_Admin_Mail extends LC_Page_Admin_Ex
      */
     public function lfGetTemplateData(&$objFormParam, $template_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('template_id DESC');
         $where = 'template_id = ?';
         $arrResults = $objQuery->getRow('*', 'dtb_mailmaga_template', $where, array($template_id));
@@ -240,7 +240,7 @@ class LC_Page_Admin_Mail extends LC_Page_Admin_Ex
      */
     public function lfRegisterData(&$objFormParam)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         list($linemax, $arrSendCustomer, $objNavi) = SC_Helper_Customer_Ex::sfGetSearchData($objFormParam->getHashArray(), 'All');
         $send_customer_cnt = count($arrSendCustomer);
@@ -285,7 +285,7 @@ class LC_Page_Admin_Mail extends LC_Page_Admin_Ex
      */
     public function lfGetMailQuery($send_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 送信履歴より、送信条件確認画面
         $sql = 'SELECT search_data FROM dtb_send_history WHERE send_id = ?';

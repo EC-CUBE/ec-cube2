@@ -775,7 +775,7 @@ class SC_Utils
         $sql.= 'from dtb_class inner join dtb_classcategory on dtb_class.class_id = dtb_classcategory.class_id ';
         $sql.= 'where dtb_class.del_flg = 0 AND dtb_classcategory.del_flg = 0 ';
         $sql.= 'group by dtb_class.class_id, dtb_class.name';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrList = $objQuery->getAll($sql);
         // キーと値をセットした配列を取得
         $arrRet = SC_Utils_Ex::sfArrKeyValue($arrList, 'class_id', 'count');
@@ -799,7 +799,7 @@ class SC_Utils
         if (!$classcategory_id2) {
           $classcategory_id2 = 0;
         }
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $ret = $objQuery->get('product_class_id', 'dtb_products_class', $where, Array($product_id, $classcategory_id1, $classcategory_id2));
 
         return $ret;
@@ -1560,7 +1560,7 @@ class SC_Utils
      */
     public static function sfGetAddress($zipcode)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $masterData = new SC_DB_MasterData_Ex();
         $arrPref = $masterData->getMasterData('mtb_pref');

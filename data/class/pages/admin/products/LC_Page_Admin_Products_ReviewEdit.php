@@ -133,7 +133,7 @@ class LC_Page_Admin_Products_ReviewEdit extends LC_Page_Admin_Products_Review
      */
     public function lfGetReviewData($review_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $select='review_id, A.product_id, reviewer_name, sex, recommend_level, ';
         $select.='reviewer_url, title, comment, A.status, A.create_date, A.update_date, name';
         $from = 'dtb_review AS A LEFT JOIN dtb_products AS B ON A.product_id = B.product_id ';
@@ -155,7 +155,7 @@ class LC_Page_Admin_Products_ReviewEdit extends LC_Page_Admin_Products_Review
      */
     public function lfRegistReviewData($review_id, &$objFormParam)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrValues = $objFormParam->getDbArray();
         $arrValues['update_date'] = 'CURRENT_TIMESTAMP';
         $objQuery->update('dtb_review', $arrValues, 'review_id = ?', array($review_id));

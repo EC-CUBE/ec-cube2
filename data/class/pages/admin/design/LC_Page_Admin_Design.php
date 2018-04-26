@@ -239,7 +239,7 @@ class LC_Page_Admin_Design extends LC_Page_Admin_Ex
     public function savePreviewData($page_id, &$objLayout)
     {
         $arrPageData = $objLayout->getPageProperties(DEVICE_TYPE_PC, $page_id);
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrPageData[0]['page_id'] = 0;
         $objQuery->update('dtb_pagelayout', $arrPageData[0], 'page_id = 0 AND device_type_id = ?', array(DEVICE_TYPE_PC));
 
@@ -258,7 +258,7 @@ class LC_Page_Admin_Design extends LC_Page_Admin_Ex
         $page_id = $is_preview ? 0 : $objFormParam->getValue('page_id');
         $device_type_id = $objFormParam->getValue('device_type_id');
         $bloc_cnt = $objFormParam->getValue('bloc_cnt');
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
         $objQuery->delete('dtb_blocposition', 'page_id = ? AND device_type_id = ?',
                           array($page_id, $device_type_id));

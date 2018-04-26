@@ -29,7 +29,7 @@ class SC_Plugin_Util
      */
     public function getEnablePlugin()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $table = 'dtb_plugin';
         $where = 'enable = 1';
@@ -58,7 +58,7 @@ class SC_Plugin_Util
      */
     public function getAllPlugin()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $table = 'dtb_plugin';
         // XXX 2.11.0 互換のため
@@ -79,7 +79,7 @@ class SC_Plugin_Util
      */
     public function getPluginByPluginId($plugin_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $table = 'dtb_plugin';
         $where = 'plugin_id = ?';
@@ -96,7 +96,7 @@ class SC_Plugin_Util
      */
     public function getPluginByPluginCode($plugin_code)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $table = 'dtb_plugin';
         $where = 'plugin_code = ?';
@@ -113,7 +113,7 @@ class SC_Plugin_Util
      */
     public function deletePluginByPluginId($plugin_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'plugin_id = ?';
         $objQuery->delete('dtb_plugin', $where, array($plugin_id));
         $objQuery->delete('dtb_plugin_hookpoint', $where, array($plugin_id));
@@ -148,7 +148,7 @@ class SC_Plugin_Util
      */
     public function getPluginHookPoint($plugin_id, $use_type = 1)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $cols = '*';
         $from = 'dtb_plugin_hookpoint';
         $where = 'plugin_id = ?';
@@ -177,7 +177,7 @@ class SC_Plugin_Util
      */
     public function getPluginHookPointList($use_type = 3)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('hook_point ASC, priority DESC');
         $cols = 'dtb_plugin_hookpoint.*, dtb_plugin.priority, dtb_plugin.plugin_name';
         $from = 'dtb_plugin_hookpoint LEFT JOIN dtb_plugin USING(plugin_id)';
@@ -240,7 +240,7 @@ class SC_Plugin_Util
      */
     public function setPluginHookPointChangeUse($plugin_hookpoint_id, $use_flg = 0)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $sqlval['use_flg'] = $use_flg;
         $objQuery->update('dtb_plugin_hookpoint', $sqlval, 'plugin_hookpoint_id = ?', array($plugin_hookpoint_id));
     }
@@ -265,7 +265,7 @@ class SC_Plugin_Util
         $conflict_alert_message = '';
         $arrConflictPluginName = array();
         $arrConflictHookPoint = array();
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setGroupBy('T1.hook_point, T1.plugin_id, T2.plugin_name');
         $table = 'dtb_plugin_hookpoint AS T1 LEFT JOIN dtb_plugin AS T2 ON T1.plugin_id = T2.plugin_id';
         foreach ($hookPoints as $hookPoint) {
