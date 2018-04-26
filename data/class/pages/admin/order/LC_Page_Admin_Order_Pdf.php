@@ -216,7 +216,7 @@ class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
         $objError->doFunc(array('発行日', 'year', 'month', 'day'), array('CHECK_DATE'));
         $arrErr = array_merge($arrErr, $objError->arrErr);
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $order_temp = $_POST['order_id'];
         $order_max = max($order_temp);
