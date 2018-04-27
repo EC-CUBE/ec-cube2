@@ -120,7 +120,7 @@ class Calendar_Week extends Calendar
         require_once CALENDAR_ROOT.'Table/Helper.php';
         Calendar::Calendar($y, $m, $d);
         $this->firstDay = $this->defineFirstDayOfWeek($firstDay);
-        $this->tableHelper = & new Calendar_Table_Helper($this, $this->firstDay);
+        $this->tableHelper = new Calendar_Table_Helper($this, $this->firstDay);
         $this->thisWeek = $this->tableHelper->getWeekStart($y, $m, $d, $this->firstDay);
         $this->prevWeek = $this->tableHelper->getWeekStart($y, $m, $d - $this->cE->getDaysInWeek(
             $this->thisYear(),
