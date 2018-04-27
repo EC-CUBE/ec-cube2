@@ -22,9 +22,6 @@
  */
 
 // {{{ requires
-// TODO SC_Query は, できるだけ単独で動くようにしたい
-require_once(realpath(dirname(__FILE__)) . "/../require.php");
-require_once(realpath(dirname(__FILE__)) . "/../../data/class/SC_Query.php");
 
 /**
  * SC_Query のテストケース.
@@ -35,19 +32,31 @@ require_once(realpath(dirname(__FILE__)) . "/../../data/class/SC_Query.php");
 class SC_Query_Test extends PHPUnit_Framework_TestCase 
 {
 
-    /** SC_Query インスタンス */
-    var $objQuery;
+    /**
+     * MDB2 をグローバル変数のバックアップ対象から除外する。
+     *
+     * @var array
+     * @see PHPUnit_Framework_TestCase::$backupGlobals
+     * @see PHPUnit_Framework_TestCase::$backupGlobalsBlacklist
+     */
+    protected $backupGlobalsBlacklist = array(
+        '_MDB2_databases',
+        '_MDB2_dsninfo_default',
+    );
 
-    var $expected;
-    var $actual;
+    /** @var SC_Query_Ex */
+    protected $objQuery;
 
-    function setUp()
+    protected $expected;
+    protected $actual;
+
+    protected function setUp()
     {
-        $this->objQuery = new SC_Query();
+        $this->objQuery = SC_Query_Ex::getSingletonInstance();
         $this->objQuery->begin();
     }
 
-    function tearDown()
+    protected function tearDown()
     {
         // MySQL では CREATE TABLE がロールバックされないので DROP TABLE を行う
         $this->dropTestTable();
@@ -55,7 +64,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->objQuery = null;
     }
 
-    function verify()
+    protected function verify()
     {
         $this->assertEquals($this->expected, $this->actual);
     }
@@ -63,7 +72,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     /**
      * インスタンスを取得するテストケース.
      */
-    function testGetInstance()
+    public function testGetInstance()
     {
         $this->expected = true;
         $this->actual = is_object($this->objQuery);
@@ -74,7 +83,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     /**
      * SC_Query::query() を使用して, CREATE TABLE を実行するテストケース.
      */
-    function testCreateTable()
+    public function testCreateTable()
     {
         $result = $this->createTestTable();
 
@@ -87,7 +96,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     /**
      * SC_Query::getAll() のテストケース.
      */
-    function testGetAll()
+    public function testGetAll()
     {
         $result = $this->createTestTable();
         $result = $this->setTestData(1, '2', 'f');
@@ -104,7 +113,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     /**
      * SC_Query::select() のテストケース.
      */
-    function testSelect()
+    public function testSelect()
     {
         $this->createTestTable();
         $result = $this->setTestData(1, '2', 'f');
@@ -124,7 +133,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     /**
      * SC_Query::getOne() のテストケース.
      */
-    function testGetOne()
+    public function testGetOne()
     {
         $this->createTestTable();
         $this->setTestData(1, '2', 'f');
@@ -140,7 +149,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     /**
      * SC_Query::getRow() のテストケース.
      */
-    function testGetRow()
+    public function testGetRow()
     {
         $this->createTestTable();
         $this->setTestData(1, '1', 'f');
@@ -155,7 +164,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     /**
      * SC_Query::getCol() のテストケース.
      */
-    function testGetCol()
+    public function testGetCol()
     {
         $this->createTestTable();
         $this->setTestData(1, '1', 'f');
@@ -163,7 +172,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->setTestData(3, '3', 'f');
 
         $this->expected = array(1, 2);
-        $this->actual = $this->objQuery->getCol('column1', 'test_table', "id < ?",  array(3));
+        $this->actual = $this->objQuery->getCol('column1', 'test_table', "id < ?", array(3));
 
         $this->verify();
     }
@@ -171,7 +180,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     /**
      * SC_Query::query() で INSERT を実行するテストケース.
      */
-    function testQuery1()
+    public function testQuery1()
     {
         $this->createTestTable();
         $sql = "INSERT INTO test_table VALUES (?, ?, ?, ?)";
@@ -189,7 +198,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->verify();
     }
 
-    function testInsert()
+    public function testInsert()
     {
         $this->createTestTable();
 
@@ -212,7 +221,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     /**
      * SC_Query::query() で UPDATE を実行するテストケース.
      */
-    function testQuery2()
+    public function testQuery2()
     {
         $this->createTestTable();
         $this->setTestData(1, '2', 'f');
@@ -232,7 +241,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->verify();
     }
 
-    function testUpdate()
+    public function testUpdate()
     {
         $this->createTestTable();
         $this->setTestData(1, '2', 'f');
@@ -253,32 +262,33 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->verify();
     }
 
-    function testListTables()
+    public function testListTables()
     {
+        $this->objQuery->setOrder('');
         $tables = $this->objQuery->listTables();
         $this->assertTrue(in_array('mtb_zip', $tables));
     }
 
-    function testListSequences()
+    public function testListSequences()
     {
         $sequences = $this->objQuery->listSequences();
         $this->assertTrue(in_array('dtb_products_product_id', $sequences));
     }
 
-    function testListTableFields()
+    public function testListTableFields()
     {
         $this->expected = array('id', 'name', 'rank', 'remarks');
         $this->actual = $this->objQuery->listTableFields('mtb_constants');
         $this->verify();
     }
 
-    function testListTableIndexes()
+    public function testListTableIndexes()
     {
-        $indexes = $this->objQuery->listTableIndexes('dtb_mobile_kara_mail');
-        $this->assertTrue(in_array('dtb_mobile_kara_mail_create_date_key', $indexes));
+        $indexes = $this->objQuery->listTableIndexes('dtb_order_detail');
+        $this->assertTrue(in_array('dtb_order_detail_product_id_key', $indexes));
     }
 
-    function createTestTable()
+    protected function createTestTable()
     {
         $sql = "CREATE TABLE test_table ("
             . "id SERIAL PRIMARY KEY,"
@@ -290,8 +300,9 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         return $this->objQuery->query($sql);
     }
 
-    function dropTestTable()
+    protected function dropTestTable()
     {
+        $this->objQuery->setOrder('');
         $tables = $this->objQuery->listTables();
         if (in_array('test_table', $tables)) {
             $this->objQuery->query("DROP TABLE test_table");
@@ -300,16 +311,15 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         return;
     }
 
-    function setTestData($column1, $column2, $column3)
+    protected function setTestData($column1, $column2, $column3)
     {
         $fields_values = array($column1, $column2, $column3);
         $sql = "INSERT INTO test_table (column1, column2, column3) VALUES (?, ?, ?)";
         $result = $this->objQuery->query($sql, $fields_values);
         if (PEAR::isError($result)) {
-            var_dump($result);
+            error_log(var_export($result, true));
         }
 
         return $result;
     }
 }
-?>
