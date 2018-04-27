@@ -45,7 +45,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      */
     public function sfGetDBVersion($dsn = '')
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance($dsn);
+        $objQuery = SC_Query_Ex::getSingletonInstance($dsn);
         $val = $objQuery->getOne('select version()');
 
         return 'MySQL ' . $val;
@@ -82,7 +82,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      */
     public function getCharSet()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->getAll("SHOW VARIABLES LIKE 'char%'");
 
         return $arrRet;
@@ -246,7 +246,7 @@ __EOS__;
      */
     public function findTableNames($expression = '')
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $sql = 'SHOW TABLES LIKE '. $objQuery->quote('%' . $expression . '%');
         $arrColList = $objQuery->getAll($sql);
         $arrColList = SC_Utils_Ex::sfSwapArray($arrColList, false);
@@ -328,7 +328,7 @@ __EOS__;
      */
     public function sfGetCreateIndexDefinition($table, $name, $definition)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrTblInfo = $objQuery->getTableInfo($table);
         foreach ($arrTblInfo as $fieldInfo) {
             if (array_key_exists($fieldInfo['name'], $definition['fields'])) {

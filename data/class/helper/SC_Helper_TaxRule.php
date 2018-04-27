@@ -162,7 +162,7 @@ class SC_Helper_TaxRule
             $arrPriorityKeys = explode(',', TAX_RULE_PRIORITY);
 
             // 条件に基づいて税の設定情報を取得
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $table = 'dtb_tax_rule';
             $cols = '*';
 
@@ -275,7 +275,7 @@ class SC_Helper_TaxRule
         $arrValues['update_date'] = 'CURRENT_TIMESTAMP';
 
         // 新規か更新か？
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         if ($tax_rule_id == NULL && $product_id != 0 && $product_class_id != 0) {
             $where = 'product_id = ? AND product_class_id= ? AND pref_id = ? AND country_id = ?';
             $arrVal = array($product_id, $product_class_id, $pref_id, $country_id);
@@ -307,7 +307,7 @@ class SC_Helper_TaxRule
      */
     public function getTaxRuleList($has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'tax_rule_id, tax_rate, calc_rule, apply_date';
         $where = '';
         if (!$has_deleted) {
@@ -328,7 +328,7 @@ class SC_Helper_TaxRule
      */
     public function getTaxRuleData($tax_rule_id, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'tax_rule_id = ?';
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
@@ -344,7 +344,7 @@ class SC_Helper_TaxRule
      */
     public function getTaxRuleByTime($apply_date, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'apply_date = ?';
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
@@ -362,7 +362,7 @@ class SC_Helper_TaxRule
      */
     public function deleteTaxRuleData($tax_rule_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $sqlval = array();
         $sqlval['del_flg']     = 1;

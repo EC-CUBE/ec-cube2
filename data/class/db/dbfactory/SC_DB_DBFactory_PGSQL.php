@@ -42,7 +42,7 @@ class SC_DB_DBFactory_PGSQL extends SC_DB_DBFactory
      */
     public function sfGetDBVersion($dsn = '')
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance($dsn);
+        $objQuery = SC_Query_Ex::getSingletonInstance($dsn);
         $val = $objQuery->getOne('select version()');
         $arrLine = explode(' ', $val);
 
@@ -228,7 +228,7 @@ __EOS__;
      */
     public function findTableNames($expression = '')
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $sql = '   SELECT c.relname AS name, '
             .  '     CASE c.relkind '
             .  "     WHEN 'r' THEN 'table' "

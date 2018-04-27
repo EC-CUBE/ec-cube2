@@ -1770,7 +1770,7 @@ class SC_CheckError
         $key = $value[1];
 
         $pref_id = $this->arrParam[$key];
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists('mtb_pref', 'id = ?', array($pref_id));
         if (!$exists) {
             $this->arrErr[$key] = '※ ' . $disp . 'が不正な値です。<br />';

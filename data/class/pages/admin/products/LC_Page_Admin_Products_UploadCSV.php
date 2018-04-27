@@ -272,7 +272,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
         // 登録フォーム カラム情報
         $this->arrFormKeyList = $objFormParam->getKeyList();
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         // CSVからの読み込み、入力エラーチェック
@@ -388,7 +388,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
      */
     public function lfInitTableInfo()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->arrProductColumn = $objQuery->listTableFields('dtb_products');
         $this->arrProductClassColumn = $objQuery->listTableFields('dtb_products_class');
     }
@@ -862,7 +862,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
         $count = count($arrItems);
         $where = $tblkey .' IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', $count) . ')';
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $db_count = $objQuery->count($table, $where, $arrItems);
         if ($count != $db_count) {
             return false;

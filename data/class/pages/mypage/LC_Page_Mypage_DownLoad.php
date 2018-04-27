@@ -162,7 +162,7 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
      */
     public function lfGetRealFileName($customer_id, $order_id, $product_class_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = <<< __EOS__
             pc.down_realfilename AS down_realfilename,
             pc.down_filename AS down_filename

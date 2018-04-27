@@ -216,7 +216,7 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
      */
     public function registerProductClass($arrList, $product_id, $total)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objDb = new SC_Helper_DB_Ex();
 
         $objQuery->begin();
@@ -538,7 +538,7 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
      */
     public function doDelete($product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $objQuery->begin();
 
@@ -673,7 +673,7 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
      */
     public function getAllClassCategory($class_id1, $class_id2 = null)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $col = <<< __EOF__
             T1.class_id AS class_id1,
@@ -715,7 +715,7 @@ __EOF__;
      */
     public function getProductName($product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         return $objQuery->get('name', 'dtb_products', 'product_id = ?', array($product_id));
     }
@@ -755,7 +755,7 @@ __EOF__;
      */
     public function getProductsClass($product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'product_code, price01, price02, stock, stock_unlimited, sale_limit, deliv_fee, point_rate';
         $where = 'product_id = ? AND classcategory_id1 = 0 AND classcategory_id2 = 0';
 

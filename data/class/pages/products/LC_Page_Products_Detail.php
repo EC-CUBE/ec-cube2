@@ -473,7 +473,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
     public function lfPreGetRecommendProducts($product_id)
     {
         $objProduct = new SC_Product_Ex();
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $objQuery->setOrder('rank DESC');
         $arrRecommendData = $objQuery->select('recommend_product_id, comment', 'dtb_recommend_products as t1 left join dtb_products as t2 on t1.recommend_product_id = t2.product_id', 't1.product_id = ? and t2.del_flg = 0 and t2.status = 1', array($product_id));
@@ -483,7 +483,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
             $recommendProductIds[] = $recommend['recommend_product_id'];
         }
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrProducts = $objProduct->getListByProductIds($objQuery, $recommendProductIds);
 
         foreach ($arrRecommendData as $key => $arrRow) {
@@ -540,7 +540,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
      */
     public function lfGetReviewData($product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         //商品ごとのレビュー情報を取得する
         $col = 'create_date, reviewer_url, reviewer_name, recommend_level, title, comment';
         $from = 'dtb_review';
@@ -591,7 +591,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
 
             return false;
         } else {
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $exists = $objQuery->exists('dtb_customer_favorite_products', 'customer_id = ? AND product_id = ?', array($customer_id, $favorite_product_id));
 
             if (!$exists) {

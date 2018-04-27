@@ -405,7 +405,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      */
     public function doDelete($where, $arrParam = array())
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $sqlval['del_flg']     = 1;
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
         $objQuery->update('dtb_order', $sqlval, $where, $arrParam);
@@ -437,7 +437,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      */
     public function getNumberOfLines($where, $arrValues)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         return $objQuery->count('dtb_order', $where, $arrValues);
     }
@@ -454,7 +454,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      */
     public function findOrders($where, $arrValues, $limit, $offset, $order)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         if ($limit != 0) {
             $objQuery->setLimitOffset($limit, $offset);
         }

@@ -149,7 +149,7 @@ class LC_Page_Admin_Products_Class extends LC_Page_Admin_Ex
      */
     public function lfGetClass()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $where = 'del_flg <> 1';
         $objQuery->setOrder('rank DESC');
@@ -166,7 +166,7 @@ class LC_Page_Admin_Products_Class extends LC_Page_Admin_Ex
      */
     public function lfGetClassName($class_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'class_id = ?';
         $class_name = $objQuery->get('name', 'dtb_class', $where, array($class_id));
 
@@ -181,7 +181,7 @@ class LC_Page_Admin_Products_Class extends LC_Page_Admin_Ex
      */
     public function lfInsertClass($arrForm)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // INSERTする値を作成する。
         $sqlval['name'] = $arrForm['name'];
         $sqlval['creator_id'] = $_SESSION['member_id'];
@@ -203,7 +203,7 @@ class LC_Page_Admin_Products_Class extends LC_Page_Admin_Ex
      */
     public function lfUpdateClass($arrForm)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // UPDATEする値を作成する。
         $sqlval['name'] = $arrForm['name'];
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
@@ -223,7 +223,7 @@ class LC_Page_Admin_Products_Class extends LC_Page_Admin_Ex
     public function lfDeleteClass($class_id)
     {
         $objDb = new SC_Helper_DB_Ex();
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $ret = $objDb->sfDeleteRankRecord('dtb_class', 'class_id', $class_id, '', true);
         $where= 'class_id = ?';
@@ -240,7 +240,7 @@ class LC_Page_Admin_Products_Class extends LC_Page_Admin_Ex
      */
     public function lfCheckError(&$objFormParam)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrForm = $objFormParam->getHashArray();
         // パラメーターの基本チェック
         $arrErr = $objFormParam->checkError();

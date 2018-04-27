@@ -39,7 +39,7 @@ class SC_Helper_Payment
      */
     public function get($payment_id, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'payment_id = ?';
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
@@ -57,7 +57,7 @@ class SC_Helper_Payment
      */
     public function getList($has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'payment_id, payment_method, payment_image, charge, rule_max, upper_rule, note, fix, charge_flg';
         $where = '';
         if (!$has_deleted) {
@@ -114,7 +114,7 @@ class SC_Helper_Payment
      */
     public function save($sqlval)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $payment_id = $sqlval['payment_id'];
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
@@ -181,7 +181,7 @@ class SC_Helper_Payment
      */
     public static function useModule($payment_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $memo03 = $objQuery->get('memo03', 'dtb_payment', 'payment_id = ?', array($payment_id));
 
         return !SC_Utils_Ex::isBlank($memo03);
