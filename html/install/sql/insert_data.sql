@@ -837,6 +837,7 @@ INSERT INTO mtb_mobile_domain (id, name, rank) VALUES (7, 'willcom.com', 6);
 INSERT INTO mtb_mobile_domain (id, name, rank) VALUES (8, 'emnet.ne.jp', 7);
 INSERT INTO mtb_mobile_domain (id, name, rank) VALUES (9, 'i.softbank.jp', 8);
 INSERT INTO mtb_mobile_domain (id, name, rank) VALUES (10, 'emobile.ne.jp', 9);
+INSERT INTO mtb_mobile_domain (id, name, rank) VALUES (11, 'au.com', 10);
 
 INSERT INTO mtb_order_status (id, name, rank) VALUES (7, '決済処理中', 0);
 INSERT INTO mtb_order_status (id, name, rank) VALUES (1, '新規受付', 1);
