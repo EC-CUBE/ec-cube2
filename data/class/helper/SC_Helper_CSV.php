@@ -68,7 +68,7 @@ class SC_Helper_CSV
      */
     public function sfDownloadCsv($csv_id, $where = '', $arrVal = array(), $order = '', $is_download = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // CSV出力タイトル行の作成
         $arrOutput = SC_Utils_Ex::sfSwapArray($this->sfGetCsvOutput($csv_id, 'status = ' . CSV_COLUMN_STATUS_FLG_ENABLE));
@@ -113,7 +113,7 @@ class SC_Helper_CSV
      */
     public function sfGetCsvOutput($csv_id = '', $where = '', $arrVal = array(), $order = 'rank, no')
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $cols = 'no, csv_id, col, disp_name, rank, status, rw_flg, mb_convert_kana_option, size_const_type, error_check_types';
         $table = 'dtb_csv';
@@ -229,7 +229,7 @@ class SC_Helper_CSV
      */
     public function sfDownloadCsvFromSql($sql, $arrVal = array(), $file_head = 'csv', $arrHeader = null, $is_download = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         if (!$is_download) {
             ob_start();

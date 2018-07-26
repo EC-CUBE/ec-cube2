@@ -160,7 +160,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
                     $product_id = $this->lfRegistProduct($objUpFile, $objDownFile, $arrForm);
 
                     // 件数カウントバッチ実行
-                    $objQuery =& SC_Query_Ex::getSingletonInstance();
+                    $objQuery = SC_Query_Ex::getSingletonInstance();
                     $objDb = new SC_Helper_DB_Ex();
                     $objDb->sfCountCategory($objQuery);
                     $objDb->sfCountMaker($objQuery);
@@ -829,7 +829,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         }
         $where .= ')';
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists('dtb_products', $where, $sqlval);
 
         return $exists;
@@ -843,7 +843,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
      */
     public function lfGetProductData_FromDB($product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrProduct = array();
 
         // 商品データ取得
@@ -907,7 +907,7 @@ __EOF__;
      */
     public function lfGetRecommendProductsData_FromDB($product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRecommendProducts = array();
 
         $col = 'recommend_product_id,';
@@ -997,7 +997,7 @@ __EOF__;
      */
     public function lfRegistProduct(&$objUpFile, &$objDownFile, $arrList)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objDb = new SC_Helper_DB_Ex();
 
         // 配列の添字を定義
@@ -1073,7 +1073,7 @@ __EOF__;
                     $arrProductsClass = $objQuery->select($col, $table, $where, array($arrList['copy_product_id']));
 
                     // 規格データ登録
-                    $objQuery =& SC_Query_Ex::getSingletonInstance();
+                    $objQuery = SC_Query_Ex::getSingletonInstance();
                     foreach ($arrProductsClass as $arrData) {
                         $sqlval = $arrData;
                         $sqlval['product_class_id'] = $objQuery->nextVal('dtb_products_class_product_class_id');
@@ -1152,7 +1152,7 @@ __EOF__;
      */
     public function lfInsertDummyProductClass($arrList)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objDb = new SC_Helper_DB_Ex();
 
         // 配列の添字を定義
@@ -1186,7 +1186,7 @@ __EOF__;
      */
     public function lfUpdateProductClass($arrList)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $sqlval = array();
 
         $sqlval['deliv_fee'] = $arrList['deliv_fee'];

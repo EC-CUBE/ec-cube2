@@ -136,6 +136,8 @@
                 <td><a href="#" onclick="eccube.fnFormModeSubmit('move','delete','news_id','<!--{$arrNews[data].news_id|h}-->'); return false;">削除</a></td>
                 <td>
                     <!--{if count($arrNews) != 1}-->
+                    <!--{assign var=news_id value="`$arrNews[data].news_id`"}-->
+                    <!--{if $arrErr[$news_id] != ""}--><span class="attention"><!--{$arrErr[$news_id]}--></span><!--{/if}-->
                     <input type="text" name="pos-<!--{$arrNews[data].news_id|h}-->" size="3" class="box3" />番目へ<a href="?" onclick="eccube.fnFormModeSubmit('move', 'moveRankSet','news_id', '<!--{$arrNews[data].news_id|h}-->'); return false;">移動</a><br />
                     <!--{/if}-->
                     <!--{if $smarty.section.data.iteration != 1}-->

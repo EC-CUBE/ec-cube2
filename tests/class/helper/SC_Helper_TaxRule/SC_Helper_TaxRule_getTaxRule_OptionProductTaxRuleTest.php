@@ -11,6 +11,7 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
     protected function setUp()
     {
         parent::setUp();
+        $this->markTestIncomplete('定数の再定義テストは実装されていません');
         $this->objTaxRule = new SC_Helper_TaxRule_Ex();
         $this->setUpTax();
     }

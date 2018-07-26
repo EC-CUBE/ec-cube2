@@ -199,7 +199,7 @@ __EOS__;
      */
     public function getDetail($product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $from = $this->alldtlSQL();
         $where = 'product_id = ?';
@@ -396,7 +396,7 @@ __EOS__;
      */
     public function getProductsClass($productClassId)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setWhere('product_class_id = ? AND T1.del_flg = 0');
         $arrRes = $this->getProductsClassByQuery($objQuery, $productClassId);
 
@@ -425,7 +425,7 @@ __EOS__;
         if (empty($productIds)) {
             return array();
         }
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'product_id IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', count($productIds)) . ')';
         if (!$has_deleted) {
             $where .= ' AND T1.del_flg = 0';
@@ -460,7 +460,7 @@ __EOS__;
         if (empty($productIds)) {
             return array();
         }
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $cols = 'product_id, product_status_id';
         $from = 'dtb_product_status';
         $where = 'del_flg = 0 AND product_id IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', count($productIds)) . ')';
@@ -489,7 +489,7 @@ __EOS__;
         $val['update_date'] = 'CURRENT_TIMESTAMP';
         $val['del_flg'] = '0';
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->delete('dtb_product_status', 'product_id = ?', array($productId));
         foreach ($productStatusIds as $productStatusId) {
             if ($productStatusId == '') continue;
@@ -539,7 +539,7 @@ __EOS__;
             return false;
         }
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->update('dtb_products_class', array(),
                           'product_class_id = ?', array($productClassId),
                           array('stock' => 'stock - ?'), array($quantity));
@@ -701,7 +701,7 @@ __EOS__;
     public function getCategoryIds($product_id, $include_hidden = false)
     {
         if ($this->isValidProductId($product_id, $include_hidden)) {
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $category_id = $objQuery->getCol('category_id', 'dtb_product_categories', 'product_id = ?', array($product_id));
         } else {
             // 不正な場合は、空の配列を返す。

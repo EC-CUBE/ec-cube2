@@ -104,7 +104,7 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex
      */
     public function getMemberCount($where)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $table = 'dtb_member';
 
         return $objQuery->count($table, $where);
@@ -122,7 +122,7 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex
         $col = 'member_id,name,department,login_id,authority,rank,work';
         $from = 'dtb_member';
         $where = 'del_flg <> 1 AND member_id <> ?';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('rank DESC');
         $objQuery->setLimitOffset(MEMBER_PMAX, $startno);
         $arrMemberData = $objQuery->select($col, $from, $where, array(ADMIN_ID));

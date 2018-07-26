@@ -761,7 +761,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
      */
     public function doRegister($order_id, &$objPurchase, &$objFormParam, &$message, &$arrValuesBefore)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrValues = $objFormParam->getDbArray();
 
         $where = 'order_id = ?';

@@ -153,7 +153,7 @@ class LC_Page_Admin_Order_Mail extends LC_Page_Admin_Order_Ex
      */
     public function getMailHistory($order_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'send_date, subject, template_id, send_id';
         $where = 'order_id = ?';
         $objQuery->setOrder('send_date DESC');

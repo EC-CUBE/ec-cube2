@@ -73,6 +73,14 @@ class SC_Query
             'result_buffering' => false,
         );
 
+        //  fix for PHP7.2
+        if (!array_key_exists('_MDB2_dsninfo_default', $GLOBALS)) {
+            $GLOBALS['_MDB2_dsninfo_default'] = [];
+        }
+        if (!array_key_exists('_MDB2_databases', $GLOBALS)) {
+            $GLOBALS['_MDB2_databases'] = [];
+        }
+
         if ($new) {
             $this->conn = MDB2::connect($dsn, $options);
         } else {

@@ -115,7 +115,7 @@ class SC_Helper_Mail
         $arrInfo = SC_Helper_DB_Ex::sfGetBasisData();
         $arrTplVar->arrInfo = $arrInfo;
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         if ($subject == '' && $header == '' && $footer == '') {
             // メールテンプレート情報の取得
@@ -217,7 +217,7 @@ class SC_Helper_Mail
      */
     function sfGetShippingData($order_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $objQuery->setOrder('shipping_id');
         $arrRet = $objQuery->select('*', 'dtb_shipping', 'order_id = ?', array($order_id));
@@ -317,7 +317,7 @@ class SC_Helper_Mail
         }
         $sqlval['mail_body'] = $body;
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $sqlval['send_id'] = $objQuery->nextVal('dtb_mail_history_send_id');
         $objQuery->insert('dtb_mail_history', $sqlval);
     }
@@ -328,7 +328,7 @@ class SC_Helper_Mail
         $col = 'email, mailmaga_flg, customer_id';
         $from = 'dtb_customer';
         $where = '(email = ? OR email_mobile = ?) AND status = 2 AND del_flg = 0';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->select($col, $from, $where, array($email));
         // 会員のメールアドレスが登録されている
         if (!empty($arrRet[0]['customer_id'])) {
@@ -417,7 +417,7 @@ class SC_Helper_Mail
     {
         // 初期化
         $where = '';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 条件文
         $where = 'del_flg = ?';
@@ -445,7 +445,7 @@ class SC_Helper_Mail
     {
         // 初期化
         $where = '';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 条件文
         $where = 'del_flg = ?';
@@ -473,7 +473,7 @@ class SC_Helper_Mail
      */
     public function sfSendMailmagazine($send_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objDb = new SC_Helper_DB_Ex();
         $objSite = $objDb->sfGetBasisData();
         $objMail = new SC_SendMail_Ex();

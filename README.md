@@ -1,5 +1,6 @@
 # EC-CUBE 2.13系 / 2.17系(開発中)
 [![Build Status](https://travis-ci.org/EC-CUBE/eccube-2_13.svg)](https://travis-ci.org/EC-CUBE/eccube-2_13)
+[![Build status](https://ci.appveyor.com/api/projects/status/4k58ucq2smwc4h7n/branch/master?svg=true)](https://ci.appveyor.com/project/ECCUBE/eccube-2-13/branch/master)
 [![Coverage Status](https://coveralls.io/repos/EC-CUBE/eccube-2_13/badge.png)](https://coveralls.io/r/EC-CUBE/eccube-2_13)
 
 ---

@@ -262,7 +262,7 @@ class LC_Page_Cart extends LC_Page_Ex
     {
         $sqlval['order_temp_id'] = $uniqid;
         $where = 'order_temp_id = ?';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $res = $objQuery->update('dtb_order_temp', $sqlval, $where, array($pre_uniqid));
         if ($res != 1) {
             return false;

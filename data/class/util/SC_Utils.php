@@ -188,12 +188,11 @@ class SC_Utils
             // TODO 警告表示させる？
             // sfErrorHeader('>> referrerが無効になっています。');
         } else {
-            $domain  = SC_Utils_Ex::sfIsHTTPS() ? HTTPS_URL : HTTP_URL;
-            $pattern = sprintf('|^%s.*|', $domain);
-            $referer = $_SERVER['HTTP_REFERER'];
+            $domain  = parse_url(HTTP_URL);
+            $referer = parse_url($_SERVER['HTTP_REFERER']);
 
             // 管理画面から以外の遷移の場合はエラー画面を表示
-            if (!preg_match($pattern, $referer)) {
+            if ($domain['host'] !== $referer['host']) {
                 if ($disp_error) SC_Utils_Ex::sfDispError(INVALID_MOVE_ERRORR);
                 return false;
             }
@@ -776,7 +775,7 @@ class SC_Utils
         $sql.= 'from dtb_class inner join dtb_classcategory on dtb_class.class_id = dtb_classcategory.class_id ';
         $sql.= 'where dtb_class.del_flg = 0 AND dtb_classcategory.del_flg = 0 ';
         $sql.= 'group by dtb_class.class_id, dtb_class.name';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrList = $objQuery->getAll($sql);
         // キーと値をセットした配列を取得
         $arrRet = SC_Utils_Ex::sfArrKeyValue($arrList, 'class_id', 'count');
@@ -800,7 +799,7 @@ class SC_Utils
         if (!$classcategory_id2) {
           $classcategory_id2 = 0;
         }
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $ret = $objQuery->get('product_class_id', 'dtb_products_class', $where, Array($product_id, $classcategory_id1, $classcategory_id2));
 
         return $ret;
@@ -1561,7 +1560,7 @@ class SC_Utils
      */
     public static function sfGetAddress($zipcode)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $masterData = new SC_DB_MasterData_Ex();
         $arrPref = $masterData->getMasterData('mtb_pref');

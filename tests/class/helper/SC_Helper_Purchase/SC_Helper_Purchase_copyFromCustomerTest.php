@@ -86,6 +86,7 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
 
   public function testCopyFromCustomer_モバイルの場合_モバイルのメールアドレスを設定する()
   {
+      $this->markTestIncomplete('DEVICE_TYPE の切り替えテストは実装されていません');
     $dest = array();
     User_Utils::setLoginState(TRUE, $this->customer_array, $this->objQuery);
     User_Utils::setDeviceType(DEVICE_TYPE_MOBILE);

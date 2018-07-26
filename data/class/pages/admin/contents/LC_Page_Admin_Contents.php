@@ -145,8 +145,13 @@ class LC_Page_Admin_Contents extends LC_Page_Admin_Ex
                 $input_pos = $this->getPostRank($news_id);
                 if (SC_Utils_Ex::sfIsInt($input_pos)) {
                     $objNews->moveRank($news_id, $input_pos);
+                    SC_Response_Ex::reload();
+                } else {
+                    $this->arrErr[$news_id] = "※ 移動先は数字で入力してください。<br>";
+                    $this->arrNews = $objNews->getList();
+                    $this->line_max = count($this->arrNews);
+                    return;
                 }
-                SC_Response_Ex::reload();
                 break;
 
             default:
@@ -240,7 +245,7 @@ class LC_Page_Admin_Contents extends LC_Page_Admin_Ex
      */
     public function splitNewsDate($news_date)
     {
-        return explode('-', $news_date);
+        return array_map("intval",explode('-', $news_date));
     }
 
     /**
