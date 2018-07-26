@@ -31,7 +31,6 @@
     "require": {
         "smarty/smarty": "*",
         "pear-pear.php.net/PEAR" : "*",
-        "pear-pear.php.net/Archive_Tar" : "*",
         "pear-pear.php.net/Mail" : "*",
         "pear-pear.php.net/Cache_Lite" : "*",
         "pear-pear.php.net/File_SearchReplace" : "*",
@@ -46,7 +45,8 @@
         "pear-pear.php.net/XML_Util" : "*",
         "mobiledetect/mobiledetectlib": "^2.8",
         "setasign/fpdf": "1.7",
-        "setasign/fpdi-fpdf": "1.6"
+        "setasign/fpdi-fpdf": "1.6",
+        "pear/archive_tar": "^1.4.3"
     },
     "autoload": {
         "classmap": [
