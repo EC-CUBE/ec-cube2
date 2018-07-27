@@ -93,7 +93,7 @@
                 <span class="attention"><!--{$arrErr.pref}--><!--{$arrErr.addr01}--><!--{$arrErr.addr02}--></span>
                 <select name="pref" style="<!--{$arrErr.pref|sfGetErrorColor}-->" class="boxHarf top data-role-none">
                     <option value="" selected="selected">都道府県</option>
-                    <!--{html_options options=$arrPref selected=$arrForm.pref.value|default:$arrData.pref|h}-->
+                    <!--{html_options options=$arrPref selected=$arrForm.pref.value|default:$arrData.pref}-->
                 </select>
 
                 <input type="text" name="addr01"

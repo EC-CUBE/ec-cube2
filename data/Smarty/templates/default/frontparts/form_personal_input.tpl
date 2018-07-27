@@ -77,7 +77,7 @@
             <!--{/if}-->
             <select name="<!--{$key6}-->" style="<!--{$arrErr[$key6]|sfGetErrorColor}-->">
                     <option value="" selected="selected">国を選択</option>
-                    <!--{html_options options=$arrCountry selected=$arrForm[$key6].value|h|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
+                    <!--{html_options options=$arrCountry selected=$arrForm[$key6].value|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
             </select>
         </td>
     </tr>
@@ -115,7 +115,7 @@
             <!--{/if}-->
             <select name="<!--{$key3}-->" style="<!--{$arrErr[$key3]|sfGetErrorColor}-->">
                     <option value="" selected="selected">都道府県を選択</option>
-                    <!--{html_options options=$arrPref selected=$arrForm[$key3].value|h}-->
+                    <!--{html_options options=$arrPref selected=$arrForm[$key3].value}-->
             </select>
             <p class="top"><input type="text" name="<!--{$key4}-->" value="<!--{$arrForm[$key4].value|h}-->" class="box300" style="<!--{$arrErr[$key4]|sfGetErrorColor}-->; ime-mode: active;" /><br />
                 <!--{$smarty.const.SAMPLE_ADDRESS1}--></p>
