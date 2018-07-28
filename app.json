@@ -1,0 +1,21 @@
+{
+  "name": "eccube-2_13",
+  "scripts": {
+    "postdeploy": "php ./setup_heroku.php"
+  },
+  "env": {
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/php"
+    }
+  ]
+}
