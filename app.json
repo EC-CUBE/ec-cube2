@@ -1,0 +1,23 @@
+{
+    "name": "EC-CUBE2",
+    "description": "EC-CUBE2 on Heroku",
+    "website": "https://github.com/EC-CUBE/eccube-2_13",
+    "repository": "https://github.com/EC-CUBE/eccube-2_13",
+    "keywords": ["php", "ec", "e-commerce", "ec-cube"],
+    "scripts": {
+        "postdeploy": "php ./setup_heroku.php"
+    },
+    "addons": [
+        {
+            "plan": "heroku-postgresql",
+            "options": {
+                "version": "9.6"
+            }
+        }
+    ],
+    "buildpacks": [
+        {
+            "url": "heroku/php"
+        }
+    ]
+}

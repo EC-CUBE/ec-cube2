@@ -11,7 +11,7 @@
         "issues": "https://github.com/EC-CUBE/eccube-2_13/issues"
     },
     "config": {
-        "disable-tls": true,
+        "disable-tls": false,
         "secure-http": false,
         "vendor-dir": "data/vendor",
         "platform": {
@@ -29,6 +29,9 @@
         "codeception/codeception": "*"
     },
     "require": {
+        "php": ">=5.3.9",
+        "ext-mbstring": "*",
+        "ext-gd": "*",
         "smarty/smarty": "*",
         "pear-pear.php.net/PEAR" : "*",
         "pear-pear.php.net/Mail" : "*",

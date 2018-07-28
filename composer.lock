@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "18128fe24f8dac7a6a40c1daa9858dc8",
+    "content-hash": "8d598a6770b1028ee74b690ef032bd9f",
     "packages": [
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -3400,7 +3400,11 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=5.3.9",
+        "ext-mbstring": "*",
+        "ext-gd": "*"
+    },
     "platform-dev": [],
     "platform-overrides": {
         "php": "5.4"
