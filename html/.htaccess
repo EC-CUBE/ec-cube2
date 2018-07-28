@@ -1,5 +1,5 @@
 # 基本は SC_Initial.php で設定するが、ini_setで反映されないものはここで設定する
-
+<IfModule mod_php5.c>
 php_value mbstring.language Japanese
 php_flag mbstring.encoding_translation off
 php_value output_handler none
@@ -13,3 +13,5 @@ php_value mbstring.internal_encoding UTF-8
 php_value upload_max_filesize 5M
 #php_value post_max_size 8M
 php_flag register_globals off
+</IfModule>
+
