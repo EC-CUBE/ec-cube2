@@ -2,7 +2,7 @@
 $url = parse_url(getenv('DATABASE_URL'));
 
 define('ECCUBE_INSTALL', 'ON');
-define('HTTP_URL', 'http://'.$_SERVER['SERVER_NAME'].'/');
+define('HTTP_URL', 'https://'.$_SERVER['SERVER_NAME'].'/');
 define('HTTPS_URL', 'https://'.$_SERVER['SERVER_NAME'].'/');
 define('ROOT_URLPATH', '/');
 define('DOMAIN_NAME', '');
