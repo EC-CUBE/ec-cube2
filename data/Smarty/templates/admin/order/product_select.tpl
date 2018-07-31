@@ -196,7 +196,7 @@
                             <dl>
                                 <dt><!--{$tpl_class_name1[$id]|h}-->：</dt>
                                 <dd>
-                                    <select name="classcategory_id1" id="<!--{$class1}-->" style="<!--{$arrErr[$class1]|sfGetErrorColor}-->"    onchange="fnSetClassCategories(this.form);">
+                                    <select name="classcategory_id1" id="<!--{$class1}-->" style="<!--{$arrErr[$class1]|sfGetErrorColor}-->">
                                         <!--{html_options options=$arrClassCat1[$id] selected=$arrForm[$class1]}-->
                                     </select>
                                     <!--{if $arrErr[$class1] != ""}-->
@@ -212,7 +212,7 @@
                             <dl>
                                 <dt><!--{$tpl_class_name2[$id]|h}-->：</dt>
                                 <dd>
-                                    <select name="classcategory_id2" id="<!--{$class2}-->" style="<!--{$arrErr[$class2]|sfGetErrorColor}-->" onchange="fnCheckStock(this.form);"></select>
+                                    <select name="classcategory_id2" id="<!--{$class2}-->" style="<!--{$arrErr[$class2]|sfGetErrorColor}-->"></select>
                                     <!--{if $arrErr[$class2] != ""}-->
                                     <br /><span class="attention">※ <!--{$tpl_class_name2[$id]}-->を入力して下さい。</span>
                                     <!--{/if}-->
