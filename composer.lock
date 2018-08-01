@@ -144,7 +144,7 @@
             "license": [
                 "BSD-2-Clause"
             ],
-            "description": "This is a PHP implementation of \"getopt\" supporting both\nshort and long options."
+            "description": "This is a PHP implementation of &quot;getopt&quot; supporting both\nshort and long options."
         },
         {
             "name": "pear-pear.php.net/File_SearchReplace",

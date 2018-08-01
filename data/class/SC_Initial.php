@@ -71,7 +71,15 @@ class SC_Initial
         define('CONFIG_REALFILE', realpath(dirname(__FILE__)) . '/../config/config.php');
         if (file_exists(CONFIG_REALFILE)) {
             require_once CONFIG_REALFILE;
+
+            // heroku用
+        } else if (getenv('DATABASE_URL')) {
+            ini_set( 'display_errors', 1 );
+            copy(realpath(dirname(__FILE__)) . '/../../tests/config.php', CONFIG_REALFILE);
+
+            require_once CONFIG_REALFILE;
         }
+
     }
 
     /**

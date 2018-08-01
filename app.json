@@ -7,6 +7,9 @@
     "scripts": {
         "postdeploy": "php ./setup_heroku.php"
     },
+    "env": {
+        "HEROKU_APP_NAME": {"required": true }
+    },
     "addons": [
         {
             "plan": "heroku-postgresql",

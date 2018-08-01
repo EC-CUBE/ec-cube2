@@ -47,6 +47,13 @@ AUTH_MAGIC="droucliuijeanamiundpnoufrouphudrastiokec"
 DBTYPE=$1;
 
 case "${DBTYPE}" in
+"heroku" )
+    #-- DB Seting Postgres
+    PSQL="psql -h ${DBSERVER}"
+    export PGPASSWORD=${DBPASS}
+    PGUSER=postgres
+    DBPORT=5432
+;;
 "appveyor" )
     #-- DB Seting Postgres
     PSQL=psql
@@ -141,6 +148,9 @@ dtb_tax_rule_tax_rule_id_seq
     comb_sql="";
     for S in $SEQUENCES; do
         case ${DBTYPE} in
+            heroku)
+                sql=$(echo "CREATE SEQUENCE ${S} START 10000;")
+            ;;
             appveyor)
                 sql=$(echo "CREATE SEQUENCE ${S} START 10000;")
             ;;
@@ -162,6 +172,9 @@ dtb_tax_rule_tax_rule_id_seq
     done;
 
     case ${DBTYPE} in
+        heroku)
+            echo ${comb_sql} | ${PSQL} -U ${DBUSER} ${DBNAME}
+        ;;
         appveyor)
             echo ${comb_sql} | ${PSQL} -U ${DBUSER} ${DBNAME}
         ;;
@@ -207,6 +220,8 @@ define('SMTP_USER', '');
 define('SMTP_PASSWORD', '');
 
 __EOF__
+
+    cat "./${CONFIG_PHP}"
 }
 
 
@@ -221,8 +236,20 @@ adjust_directory_permissions
 SQL_DIR="./html/install/sql"
 
 case "${DBTYPE}" in
-"appveyor" )
+"heroku" )
     # PostgreSQL
+    echo "create table..."
+    ${PSQL} -U ${DBUSER} -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
+    echo "insert data..."
+    ${PSQL} -U ${DBUSER} -f ${SQL_DIR}/insert_data.sql ${DBNAME}
+    echo "create sequence table..."
+    create_sequence_tables
+    echo "execute optional SQL..."
+    get_optional_sql | ${PSQL} -h ${DBSERVER} -U ${DBUSER} ${DBNAME}
+	DBTYPE="pgsql"
+;;
+"appveyor" )
+   # PostgreSQL
     echo "dropdb..."
     ${DROPDB} ${DBNAME}
     echo "createdb..."
@@ -234,7 +261,7 @@ case "${DBTYPE}" in
     echo "create sequence table..."
     create_sequence_tables
     echo "execute optional SQL..."
-    get_optional_sql | ${PSQL} -U ${DBUSER} ${DBNAME}
+    get_optional_sql | ${PSQL} -h ${DBSERVER} -U ${DBUSER} ${DBNAME}
 	DBTYPE="pgsql"
 ;;
 "pgsql" )
@@ -279,7 +306,6 @@ case "${DBTYPE}" in
 esac
 
 #-- Setup Initial Data
-
 echo "copy images..."
 cp -rv "./html/install/save_image" "./html/upload/"
 
