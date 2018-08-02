@@ -486,3 +486,5 @@ define('PENDING_ORDER_CANCEL_TIME', 900);
 define('PENDING_ORDER_CANCEL_FLAG', true);
 /** API機能を有効にする(true:する false:しない) */
 define('API_ENABLE_FLAG', false);
+/** UTF-8依存文字が入力された際に表示する文字(Unicode値の整数 デフォルト: ?) */
+define('SUBSTITUTE_CHAR', 63);
