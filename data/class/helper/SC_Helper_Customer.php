@@ -238,7 +238,12 @@ class SC_Helper_Customer
         $objQuery       = SC_Query_Ex::getSingletonInstance();
 
         // 会員情報DB取得
-        $ret        = $objQuery->select('*', 'dtb_customer', 'customer_id=?', array($customer_id));
+        $ret        = $objQuery->select('*', 'dtb_customer', 'customer_id=? AND del_flg = 0', array($customer_id));
+
+        if (empty($ret)) {
+            trigger_error('存在しない会員IDです。', E_USER_ERROR);
+        }
+
         $arrForm    = $ret[0];
 
         // 確認項目に複製
@@ -276,7 +281,7 @@ class SC_Helper_Customer
         $objQuery   = SC_Query_Ex::getSingletonInstance();
 
         if ($add_where == '') {
-            $where = 'customer_id = ?';
+            $where = 'customer_id = ? AND del_flg = 0';
             $arrData = $objQuery->getRow('*', 'dtb_customer', $where, array($customer_id));
         } else {
             $where = $add_where;
