@@ -1111,7 +1111,6 @@ function getSequences()
 {
     return array(
         array('dtb_best_products', 'best_id'),
-        array('dtb_bloc', 'bloc_id'),
         array('dtb_category', 'category_id'),
         array('dtb_class', 'class_id'),
         array('dtb_classcategory', 'classcategory_id'),
@@ -1129,7 +1128,6 @@ function getSequences()
         array('dtb_order', 'order_id'),
         array('dtb_order_detail', 'order_detail_id'),
         array('dtb_other_deliv', 'other_deliv_id'),
-        array('dtb_pagelayout', 'page_id'),
         array('dtb_payment', 'payment_id'),
         array('dtb_products_class', 'product_class_id'),
         array('dtb_products', 'product_id'),
