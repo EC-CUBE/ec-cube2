@@ -16,19 +16,19 @@ init:
 
 environment:
   global:
-    USER: "postgres" 
+    USER: "root"
     DBNAME: "myapp_test"
     DBPASS: "Password12!"
-    DBUSER: "postgres"
+    DBUSER: "root"
     BASE_DIR: "C:/projects/ec-cube"
 
   matrix:
-  - db: postgresql
-    provider: postgresql
+  - db: mysql
+    provider: mysql
 
 services:
   - iis  
-  - postgresql93
+  - mysql
 
 # Install scripts. (runs after repo cloning)
 install:
@@ -74,7 +74,7 @@ install:
 build: off
 
 before_test:
-  - bash eccube_install.sh appveyor
+  - bash eccube_install.sh mysql
     
 test_script:
   - data/vendor/bin/phpunit
