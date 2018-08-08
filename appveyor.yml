@@ -20,6 +20,7 @@ environment:
     DBNAME: "myapp_test"
     DBPASS: "Password12!"
     DBUSER: "root"
+    DBSERVER: "localhost"
     BASE_DIR: "C:/projects/ec-cube"
 
   matrix:
