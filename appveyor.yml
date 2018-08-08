@@ -54,8 +54,9 @@ install:
   - echo extension=php_openssl.dll >> php.ini
   - echo extension=php_gd2.dll >> php.ini
   - echo extension=php_mbstring.dll >> php.ini
-  - echo extension=php_mysql.dll >> php.ini
   - echo extension=php_pgsql.dll >> php.ini
+  - echo extension=php_pdo_mysql.dll >> php.ini
+  - echo extension=php_pdo_pgsql.dll.dll >> php.ini
   - echo extension=php_curl.dll >> php.ini
   - echo output_buffering = Off >> php.ini
   - echo default_charset = UTF-8 >> php.ini
