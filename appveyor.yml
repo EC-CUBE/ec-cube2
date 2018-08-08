@@ -79,4 +79,4 @@ before_test:
   - bash eccube_install.sh appveyor
     
 test_script:
-  - php bin\phpunit
+  - vendor/bin/phpunit
