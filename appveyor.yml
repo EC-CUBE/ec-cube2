@@ -8,8 +8,7 @@ clone_folder: C:\projects\eccube2
 
 cache:
   - '%LOCALAPPDATA%\Composer\files'
-  - vendor
-  - bin\.phpunit
+  - data\vendor
 
 # Fix line endings in Windows. (runs before repo cloning)
 init:
@@ -79,4 +78,4 @@ before_test:
   - bash eccube_install.sh appveyor
     
 test_script:
-  - vendor/bin/phpunit
+  - data/vendor/bin/phpunit
