@@ -29,7 +29,6 @@ environment:
 services:
   - iis  
   - postgresql93
-  - mysql
 
 # Install scripts. (runs after repo cloning)
 install:
