@@ -85,7 +85,7 @@
         //]]></script>
 
         <!--{* ▼Head COLUMN *}-->
-            <!--{if $arrPageLayout.HeadNavi|@count > 0}-->
+            <!--{if !empty($arrPageLayout.HeadNavi)}-->
                 <!--{foreach key=HeadNaviKey item=HeadNaviItem from=$arrPageLayout.HeadNavi}-->
                     <!--{* ▼<!--{$HeadNaviItem.bloc_name}--> *}-->
                         <!--{if $HeadNaviItem.php_path != ""}-->
