@@ -371,8 +371,8 @@ class SC_CustomerList extends SC_SelectSql_Ex
         return $this->getSql(2);
     }
 
-    public function getWhere()
+    public function getWhere($with_where = false)
     {
-        return array(parent::getWhere(), $this->arrVal);
+        return array(parent::getWhere($with_where), $this->arrVal);
     }
 }
