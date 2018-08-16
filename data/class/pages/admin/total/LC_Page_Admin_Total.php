@@ -814,6 +814,9 @@ __EOS__;
             }
             // 平均値の計算
             $arrTotal['total_average'] = $arrTotal['total'] / $arrTotal['total_order'];
+            if (is_nan($arrTotal['total_average'])) {
+                $arrTotal['total_average'] = 0;
+            }
             $arrResults[] = $arrTotal;
         }
 
