@@ -1255,7 +1255,7 @@ INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('DEVICE_TYPE_PC', '1
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('DEVICE_TYPE_ADMIN', '99', 1103, '端末種別: 管理画面');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ECCUBE_INFO', 'true', 1218, 'EC-CUBE更新情報取得 (true:取得する false:取得しない)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('HTTP_REQUEST_TIMEOUT', '"5"', 1219, '外部サイトHTTP取得タイムアウト時間(秒)');
-INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ZIP_DOWNLOAD_URL', '"http://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip"', 1224, '郵便番号CSVのZIPアーカイブファイルの取得元');
+INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ZIP_DOWNLOAD_URL', '"https://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip"', 1224, '郵便番号CSVのZIPアーカイブファイルの取得元');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('HOOK_POINT_PREPROCESS', '"LC_Page_preProcess"', 1301, 'フックポイント(プレプロセス)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('HOOK_POINT_PROCESS', '"LC_Page_process"', 1302, 'フックポイント(プロセス)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PLUGIN_ACTIVATE_FLAG', 'true', 1303, 'プラグインのロード可否フラグ)');

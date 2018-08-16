@@ -457,7 +457,7 @@ define('ECCUBE_INFO', true);
 /** 外部サイトHTTP取得タイムアウト時間(秒) */
 define('HTTP_REQUEST_TIMEOUT', "5");
 /** 郵便番号CSVのZIPアーカイブファイルの取得元 */
-define('ZIP_DOWNLOAD_URL', "http://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip");
+define('ZIP_DOWNLOAD_URL', "https://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip");
 /** フックポイント(プレプロセス) */
 define('HOOK_POINT_PREPROCESS', "LC_Page_preProcess");
 /** フックポイント(プロセス) */
