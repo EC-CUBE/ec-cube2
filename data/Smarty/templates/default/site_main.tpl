@@ -31,7 +31,7 @@
             <a name="top" id="top"></a>
 
             <!--{* ▼HeaderHeaderTop COLUMN*}-->
-            <!--{if $arrPageLayout.HeaderTopNavi|@count > 0}-->
+            <!--{if !empty($arrPageLayout.HeaderTopNavi)}-->
                 <div id="headertopcolumn">
                     <!--{* ▼上ナビ *}-->
                     <!--{foreach key=HeaderTopNaviKey item=HeaderTopNaviItem from=$arrPageLayout.HeaderTopNavi}-->
@@ -56,7 +56,7 @@
             <div id="container" class="clearfix">
 
                 <!--{* ▼TOP COLUMN*}-->
-                <!--{if $arrPageLayout.TopNavi|@count > 0}-->
+                <!--{if !empty($arrPageLayout.TopNavi)}-->
                     <div id="topcolumn">
                         <!--{* ▼上ナビ *}-->
                         <!--{foreach key=TopNaviKey item=TopNaviItem from=$arrPageLayout.TopNavi}-->
@@ -74,7 +74,7 @@
                 <!--{* ▲TOP COLUMN*}-->
 
                 <!--{* ▼LEFT COLUMN *}-->
-                <!--{if $arrPageLayout.LeftNavi|@count > 0}-->
+                <!--{if !empty($arrPageLayout.LeftNavi)}-->
                     <div id="leftcolumn" class="side_column">
                         <!--{* ▼左ナビ *}-->
                         <!--{foreach key=LeftNaviKey item=LeftNaviItem from=$arrPageLayout.LeftNavi}-->
@@ -95,12 +95,12 @@
                 <div id="main_column" <!--{**}-->
                     class="colnum<!--{$tpl_column_num|h}-->
                         <!--{if $tpl_column_num == 2}-->
-                            <!--{" "}--><!--{if $arrPageLayout.LeftNavi|@count == 0}-->left<!--{else}-->right<!--{/if}-->
+                            <!--{" "}--><!--{if empty($arrPageLayout.LeftNavi)}-->left<!--{else}-->right<!--{/if}-->
                         <!--{/if}-->
                     "
                 >
                     <!--{* ▼メイン上部 *}-->
-                    <!--{if $arrPageLayout.MainHead|@count > 0}-->
+                    <!--{if !empty($arrPageLayout.MainHead)}-->
                         <!--{foreach key=MainHeadKey item=MainHeadItem from=$arrPageLayout.MainHead}-->
                             <!-- ▼<!--{$MainHeadItem.bloc_name}--> -->
                             <!--{if $MainHeadItem.php_path != ""}-->
@@ -118,7 +118,7 @@
                     <!-- ▲メイン -->
 
                     <!--{* ▼メイン下部 *}-->
-                    <!--{if $arrPageLayout.MainFoot|@count > 0}-->
+                    <!--{if !empty($arrPageLayout.MainFoot)}-->
                         <!--{foreach key=MainFootKey item=MainFootItem from=$arrPageLayout.MainFoot}-->
                             <!-- ▼<!--{$MainFootItem.bloc_name}--> -->
                             <!--{if $MainFootItem.php_path != ""}-->
@@ -134,7 +134,7 @@
                 <!--{* ▲CENTER COLUMN *}-->
 
                 <!--{* ▼RIGHT COLUMN *}-->
-                <!--{if $arrPageLayout.RightNavi|@count > 0}-->
+                <!--{if !empty($arrPageLayout.RightNavi)}-->
                     <div id="rightcolumn" class="side_column">
                         <!--{* ▼右ナビ *}-->
                         <!--{foreach key=RightNaviKey item=RightNaviItem from=$arrPageLayout.RightNavi}-->
@@ -152,7 +152,7 @@
                 <!--{* ▲RIGHT COLUMN *}-->
 
                 <!--{* ▼BOTTOM COLUMN*}-->
-                <!--{if $arrPageLayout.BottomNavi|@count > 0}-->
+                <!--{if !empty($arrPageLayout.BottomNavi)}-->
                     <div id="bottomcolumn">
                         <!--{* ▼下ナビ *}-->
                         <!--{foreach key=BottomNaviKey item=BottomNaviItem from=$arrPageLayout.BottomNavi}-->
@@ -177,7 +177,7 @@
             <!--{/if}-->
             <!--{* ▲FOOTER *}-->
             <!--{* ▼FooterBottom COLUMN*}-->
-            <!--{if $arrPageLayout.FooterBottomNavi|@count > 0}-->
+            <!--{if !empty($arrPageLayout.FooterBottomNavi)}-->
                 <div id="footerbottomcolumn">
                     <!--{* ▼上ナビ *}-->
                     <!--{foreach key=FooterBottomNaviKey item=FooterBottomNaviItem from=$arrPageLayout.FooterBottomNavi}-->

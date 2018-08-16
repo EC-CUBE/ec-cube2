@@ -166,7 +166,6 @@ class LC_Page
      */
     public function sendResponseCSV($file_name, $data)
     {
-        $this->objDisplay->prepare($this);
         $this->objDisplay->addHeader('Content-disposition', "attachment; filename=${file_name}");
         $this->objDisplay->addHeader('Content-type', "application/octet-stream; name=${file_name}");
         $this->objDisplay->addHeader('Cache-Control', '');
@@ -444,7 +443,7 @@ class LC_Page
                 if (!SC_Helper_Session_Ex::isValidToken(false)) {
                     SC_Utils_Ex::sfDispError(INVALID_MOVE_ERRORR);
                     SC_Response_Ex::actionExit();
-                }   
+                }
             }
         } else {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
