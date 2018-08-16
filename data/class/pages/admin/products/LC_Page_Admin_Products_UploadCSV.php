@@ -566,6 +566,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
                     break;
                 case 'stock_unlimited':
                     $arrCSVFrame[$key]['default'] = UNLIMITED_FLG_LIMITED;
+                    break;
                 default:
                     break;
             }
