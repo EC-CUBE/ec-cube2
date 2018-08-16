@@ -24,9 +24,9 @@
     <div class="block_outer">
         <div id="calender_area">
         <h2><img src="<!--{$TPL_URLPATH}-->img/title/tit_bloc_calender.gif" alt="カレンダー" /></h2>
-            <div class="block_body">
+        <div class="block_body">
                 <!--{section name=num loop=$arrCalendar}-->
-                    <!--{assign var=arrCal value="`$arrCalendar[num]`"}-->
+                    <!--{assign var=arrCal value=$arrCalendar[num]}-->
                     <!--{section name=cnt loop=$arrCal}-->
                         <!--{if $smarty.section.cnt.first}-->
                             <table>
