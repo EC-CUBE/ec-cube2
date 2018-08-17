@@ -377,9 +377,9 @@ __EOF__;
         // メインは確定
         $col_num = 1;
         // LEFT NAVI
-        if (count($arrPageLayout['LeftNavi']) > 0) $col_num++;
+        if (!empty($arrPageLayout['LeftNavi'])) $col_num++;
         // RIGHT NAVI
-        if (count($arrPageLayout['RightNavi']) > 0) $col_num++;
+        if (!empty($arrPageLayout['RightNavi'])) $col_num++;
         return $col_num;
     }
 }
