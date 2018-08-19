@@ -146,9 +146,7 @@ class LC_Page_Shopping_Confirm extends LC_Page_Ex
                 SC_Response_Ex::actionExit();
                 break;
             case 'confirm':
-                /*
-                 * 決済モジュールで必要なため, 受注番号を取得
-                 */
+                // 注文番号を取得
                 $this->arrForm['order_id'] = $objPurchase->getNextOrderID();
                 $_SESSION['order_id'] = $this->arrForm['order_id'];
 

@@ -147,7 +147,8 @@ class LC_Page_Entry extends LC_Page_Ex
                     }
 
                     // 完了ページに移動させる。
-                    SC_Response_Ex::sendRedirect('complete.php', array('ci' => SC_Helper_Customer_Ex::sfGetCustomerId($uniqid)));
+                    $_SESSION['registered_customer_id'] = SC_Helper_Customer_Ex::sfGetCustomerId($uniqid);
+                    SC_Response_Ex::sendRedirect('complete.php');
                 }
                 break;
             case 'return':

@@ -62,8 +62,9 @@ class LC_Page_Entry_Complete extends LC_Page_Ex
      */
     public function action()
     {
+        $objCartSess = new SC_CartSession_Ex();
+
         // カートが空かどうかを確認する。
-        $objCartSess            = new SC_CartSession_Ex();
         $arrCartKeys = $objCartSess->getKeys();
         $this->tpl_cart_empty = true;
         foreach ($arrCartKeys as $cart_key) {
@@ -73,14 +74,18 @@ class LC_Page_Entry_Complete extends LC_Page_Ex
             }
         }
 
-        // メインテンプレートを設定
+        // 仮会員登録完了
         if (CUSTOMER_CONFIRM_MAIL == true) {
-            // 仮会員登録完了
-            $this->tpl_mainpage     = 'entry/complete.tpl';
-        } else {
-            // 本会員登録完了
+            // 登録された会員ID
+            $this->tpl_customer_id = $_SESSION['registered_customer_id'];
+            unset($_SESSION['registered_customer_id']);
+
+            // メインテンプレートを設定
+            $this->tpl_mainpage = 'entry/complete.tpl';
+        }
+        // 本会員登録完了
+        else {
             SC_Response_Ex::sendRedirectFromUrlPath('regist/complete.php');
         }
-
     }
 }
