@@ -41,6 +41,7 @@ class LC_Page_Shopping_Complete extends LC_Page_Ex
     {
         parent::init();
         $this->tpl_title = 'ご注文完了';
+        $this->httpCacheControl('nocache');
     }
 
     /**
@@ -65,6 +66,7 @@ class LC_Page_Shopping_Complete extends LC_Page_Ex
     public function action()
     {
         $this->arrInfo = SC_Helper_DB_Ex::sfGetBasisData();
+        $this->tpl_order_id = $_SESSION['order_id'];
     }
 
     /**

@@ -41,6 +41,7 @@ class LC_Page_Regist_Complete extends LC_Page_Ex
     {
         parent::init();
         $this->tpl_title = '会員登録(完了ページ)';
+        $this->httpCacheControl('nocache');
     }
 
     /**
@@ -62,5 +63,8 @@ class LC_Page_Regist_Complete extends LC_Page_Ex
      */
     public function action()
     {
+        // 登録された会員ID
+        $this->tpl_customer_id = $_SESSION['registered_customer_id'];
+        unset($_SESSION['registered_customer_id']);
     }
 }
