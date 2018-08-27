@@ -349,7 +349,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
             $objFormParam->addParam(
                     $item['disp_name'],
                     $col,
-                    constant($item['size_const_type']),
+                    defined($item['size_const_type']) ? constant($item['size_const_type']) : $item['size_const_type'],
                     $item['mb_convert_kana_option'],
                     $arrErrorCheckTypes,
                     $item['default'],
