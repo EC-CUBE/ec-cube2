@@ -74,7 +74,7 @@ class SC_CheckError
 
         // HTMLに含まれているタグを抽出する
         $match = array();
-        preg_match_all('/<\/?([a-z]+)/i', $this->arrParam[$keyname], $match);
+        preg_match_all('/<\/?([a-z\d]+)/i', $this->arrParam[$keyname], $match);
         $arrTagIncludedHtml = $match[1];
         // 抽出結果を小文字に変換
         foreach ($arrTagIncludedHtml as $key => $matchedTag) {
