@@ -15,6 +15,10 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 
 class NestedOutputTest extends Common_TestCase
 {
+	 public function setUp()
+	{
+		$this->markTestSkipped('EC-CUBE not using library');
+	}
 	/**
 	 * "Test" used for documenting the nested output buffering feature of php
 	 */
