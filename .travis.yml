@@ -30,13 +30,13 @@ matrix:
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
     - php: 7.0
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
-    - php: 7.2
+    - php: 7.1
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
-    - php: 7.3
+    - php: 7.2
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
   allow_failures:
     # Use for coverage report
-    - php: 7.1
+    - php: 7.3
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
 
 before_script:
