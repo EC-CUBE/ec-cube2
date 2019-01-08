@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2019 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -29,7 +29,7 @@ require_once CLASS_REALDIR . 'pages/admin/order/LC_Page_Admin_Order_Disp.php';
  * LC_Page_Admin_Order_Disp をカスタマイズする場合はこのクラスを編集する.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id: LC_Page_Admin_Order_Disp_Ex.php 20764 2011-03-22 06:26:40Z nanasess $
  */
 class LC_Page_Admin_Order_Disp_Ex extends LC_Page_Admin_Order_Disp

@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2019 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -27,7 +27,7 @@ require_once 'LC_Page_Upgrade_Base.php';
  * オーナーズストア購入商品一覧を返すページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base

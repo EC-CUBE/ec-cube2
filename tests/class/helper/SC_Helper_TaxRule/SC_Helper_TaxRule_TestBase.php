@@ -4,7 +4,7 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2019 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *

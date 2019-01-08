@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2019 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -27,7 +27,7 @@
  * このクラスはエラーハンドリング処理でも使用している。
  * よって、このファイルで構文エラーが発生すると、EC-CUBE はエラーを捕捉できない。
  * @package Util
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class GC_Utils

@@ -7,7 +7,7 @@ require_once CLASS_REALDIR . 'pages/upgrade/helper/LC_Upgrade_Helper_Json.php';
  * オーナーズストアページクラスの基底クラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Upgrade_Base extends LC_Page_Ex
