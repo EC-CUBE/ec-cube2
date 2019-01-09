@@ -33,7 +33,7 @@ services:
 
 # Install scripts. (runs after repo cloning)
 install:
-  - cinst -y OpenSSL.Light
+  - cinst -y OpenSSL.Light --version 1.1.1
   - SET PATH=C:\Program Files\OpenSSL;%PATH%
   - sc config wuauserv start= auto
   - net start wuauserv
@@ -49,9 +49,9 @@ install:
   #- set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
   #- mingw-get install mingw-developer-toolkit
   ## Set PHP.
-  - cinst php --allow-empty-checksums
-  - SET PATH=C:\tools\php72\;%PATH%
-  - cd c:\tools\php72
+  - cinst php --allow-empty-checksums --version 7.3
+  - SET PATH=C:\tools\php73\;%PATH%
+  - cd c:\tools\php73
   - copy php.ini-production php.ini
   - echo date.timezone="Asia/Tokyo" >> php.ini
   - echo extension_dir=ext >> php.ini
