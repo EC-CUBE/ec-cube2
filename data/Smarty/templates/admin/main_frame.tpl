@@ -3,7 +3,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -159,7 +159,7 @@
 <!--{* ▼FOOTER *}-->
 <div id="footer">
     <div id="footer-contents">
-        <div id="copyright">Copyright &copy; 2000-<!--{$smarty.now|date_format:"%Y"}--> LOCKON CO.,LTD. All Rights Reserved.</div>
+        <div id="copyright">Copyright &copy; 2000-<!--{$smarty.now|date_format:"%Y"}--> EC-CUBE CO.,LTD. All Rights Reserved.</div>
         <div id="topagetop">
             <ul class="sites">
                 <li><a href="#top" class="btn-tool-format">PAGE TOP</a></li>

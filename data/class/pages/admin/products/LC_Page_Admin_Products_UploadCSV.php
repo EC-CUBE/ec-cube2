@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 商品登録CSVのページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id:LC_Page_Admin_Products_UploadCSV.php 15532 2007-08-31 14:39:46Z nanasess $
  *
  * FIXME 同一商品IDで商品規格違いを登録できない。(更新は可能)

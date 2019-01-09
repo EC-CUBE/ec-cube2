@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  */
@@ -9,7 +9,7 @@
  * セッション関連のヘルパークラス.
  *
  * @package Helper
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class SC_Helper_Session

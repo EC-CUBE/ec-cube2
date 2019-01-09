@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -41,7 +41,7 @@
     </div>
 
 </div>
-<div id="copyright">Copyright &copy; 2000-<!--{$smarty.now|date_format:"%Y"}--> LOCKON CO.,LTD. All Rights Reserved.</div>
+<div id="copyright">Copyright &copy; 2000-<!--{$smarty.now|date_format:"%Y"}--> EC-CUBE CO.,LTD. All Rights Reserved.</div>
 
 <script type="text/javascript">//<![CDATA[
 document.form1.login_id.focus();

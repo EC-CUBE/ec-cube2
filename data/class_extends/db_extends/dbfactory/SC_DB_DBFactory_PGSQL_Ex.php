@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -29,7 +29,7 @@ require_once CLASS_REALDIR . 'db/dbfactory/SC_DB_DBFactory_PGSQL.php';
  * SC_DB_DBFactory_PGSQL をカスタマイズする場合は, このクラスを使用する.
  *
  * @package DB
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class SC_DB_DBFactory_PGSQL_Ex extends SC_DB_DBFactory_PGSQL

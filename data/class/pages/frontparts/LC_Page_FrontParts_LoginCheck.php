@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -29,7 +29,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  * TODO mypage/LC_Page_Mypage_LoginCheck と統合
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id:LC_Page_FrontParts_LoginCheck.php 15532 2007-08-31 14:39:46Z nanasess $
  */
 class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex

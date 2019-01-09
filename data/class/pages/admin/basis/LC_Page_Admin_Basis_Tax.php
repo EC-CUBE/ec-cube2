@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 税率設定 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id: LC_Page_Admin_Basis_Tax_Ex.php 22567 2013-03-09 12:18:54Z yomoro $
  */
 class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex

@@ -2,7 +2,7 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.lockon.co.jp/
  *
@@ -29,7 +29,7 @@ require_once CLASS_REALDIR . 'pages/shopping/LC_Page_Shopping_DelivAddr.php';
  * LC_Page_Shopping_DelivAddr をカスタマイズする場合はこのクラスを編集する.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Shopping_DelivAddr_Ex extends LC_Page_Shopping_DelivAddr
