@@ -2,7 +2,7 @@
 /*
  * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  */
 
 /**
