@@ -136,9 +136,12 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
 
         $installData = file(CONFIG_REALFILE, FILE_IGNORE_NEW_LINES);
         foreach ($installData as $key=>$line) {
-            if (strpos($line, 'ADMIN_DIR') !== false and ADMIN_DIR != $admin_dir) {
+            if (strpos($line, 'ADMIN_DIR') !== false && ADMIN_DIR != $admin_dir) {
+                if ($admin_dir == 'admin/') {
+                    $arrErr['admin_dir'] .= '別のディレクトリ名を指定してください。';
+                }
                 //既存ディレクトリのチェック
-                if (file_exists(HTML_REALDIR . $admin_dir) and $admin_dir != 'admin/') {
+                if (file_exists(HTML_REALDIR . $admin_dir) && $admin_dir != 'admin/') {
                     $arrErr['admin_dir'] .= ROOT_URLPATH . $admin_dir . 'は既に存在しています。別のディレクトリ名を指定してください。';
                 }
                 //権限チェック
