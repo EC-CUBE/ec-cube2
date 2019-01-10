@@ -3,7 +3,7 @@
 /*
  * EC-CUBE 動作検証用会員データ生成スクリプト
  *
- * Copyright(c) 2000-2019 EC-CUBE CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
  * http://www.ec-cube.co.jp/
  *
