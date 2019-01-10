@@ -4,6 +4,8 @@
 # Set build version format here instead of in the admin panel.
 version: 2.13-dev-{build}
 
+clone_folder: C:\projects\eccube2
+
 cache:
   - '%LOCALAPPDATA%\Composer\files'
 
@@ -41,24 +43,26 @@ install:
   #- set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
   #- mingw-get install mingw-developer-toolkit
   ## Set PHP.
-  - cinst php -version 5.6.17 --allow-empty-checksums
-  - SET PATH=C:\tools\php\;%PATH%
-  - copy C:\tools\php\php.ini-production C:\tools\php\php.ini
-  - echo date.timezone="Asia/Tokyo" >> C:\tools\php\php.ini
-  - echo extension_dir=ext >> C:\tools\php\php.ini
-  - echo extension=php_openssl.dll >> C:\tools\php\php.ini
-  - echo extension=php_gd2.dll >> C:\tools\php\php.ini
-  - echo extension=php_mbstring.dll >> C:\tools\php\php.ini
-  - echo extension=php_mysql.dll >> C:\tools\php\php.ini
-  - echo extension=php_pgsql.dll >> C:\tools\php\php.ini
-  - echo extension=php_curl.dll >> C:\tools\php\php.ini
-  - echo output_buffering = Off >> C:\tools\php\php.ini
-  - echo default_charset = UTF-8 >> C:\tools\php\php.ini
-  - echo mbstring.language = Japanese >> C:\tools\php\php.ini
-  - echo mbstring.encoding_translation = On >> C:\tools\php\php.ini
-  - echo mbstring.http_input = UTF-8 >> C:\tools\php\php.ini
-  - echo mbstring.http_output = pass >> C:\tools\php\php.ini
-  - echo mbstring.internal_encoding = UTF-8 >> C:\tools\php\php.ini
+  - cinst php --version 5.6.40 --allow-empty-checksums
+  - SET PATH=C:\tools\php56\;%PATH%
+  - cd C:\tools\php56
+  - copy php.ini-production php.ini
+  - echo date.timezone="Asia/Tokyo" >> php.ini
+  - echo extension_dir=ext >> php.ini
+  - echo extension=php_openssl.dll >> php.ini
+  - echo extension=php_gd2.dll >> php.ini
+  - echo extension=php_mbstring.dll >> php.ini
+  - echo extension=php_mysql.dll >> php.ini
+  - echo extension=php_pgsql.dll >> php.ini
+  - echo extension=php_curl.dll >> php.ini
+  - echo output_buffering = Off >> php.ini
+  - echo default_charset = UTF-8 >> php.ini
+  - echo mbstring.language = Japanese >> php.ini
+  - echo mbstring.encoding_translation = On >> php.ini
+  - echo mbstring.http_input = UTF-8 >> php.ini
+  - echo mbstring.http_output = pass >> php.ini
+  - echo mbstring.internal_encoding = UTF-8 >> php.ini
+  - cd C:\projects\eccube2
   - php -r "readfile('https://getcomposer.org/installer');" | php
   - php composer.phar install
 
