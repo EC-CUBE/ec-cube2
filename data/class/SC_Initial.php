@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@
 /**
  * アプリケーションの初期設定クラス.
  *
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class SC_Initial
