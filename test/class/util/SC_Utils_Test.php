@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@ require_once(realpath(dirname(__FILE__)) . '/../../../data/class/pages/LC_Page.p
  * SC_Utils のテストケース.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id:LC_Page_Test.php 15116 2007-07-23 11:32:53Z nanasess $
  */
 class SC_Utils_Test extends PHPUnit_Framework_TestCase 

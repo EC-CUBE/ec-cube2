@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,7 +38,7 @@
  * マスターデータのキャッシュは, MASTER_DATA_REALDIR/マスターデータ名.php というファイルが生成される.
  *
  * @package DB
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id:SC_DB_MasterData.php 15532 2007-08-31 14:39:46Z nanasess $
  */
 class SC_DB_MasterData
