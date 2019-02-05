@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df934a5dd29598f7d196881954131b0f",
+    "content-hash": "896ee1a2746c1914f664080e494019e0",
     "packages": [
         {
             "name": "bondas83/mdb2_driver_mysqli",
@@ -162,16 +162,16 @@
         },
         {
             "name": "nanasess/net_useragent_mobile",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nanasess/Net_UserAgent_Mobile.git",
-                "reference": "c4f76b280afadf21fe32e4cc73d1719df7dadeff"
+                "reference": "aea2235359a0c4f32d3b329a6cdff5e2a78e9042"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/Net_UserAgent_Mobile/zipball/c4f76b280afadf21fe32e4cc73d1719df7dadeff",
-                "reference": "c4f76b280afadf21fe32e4cc73d1719df7dadeff",
+                "url": "https://api.github.com/repos/nanasess/Net_UserAgent_Mobile/zipball/aea2235359a0c4f32d3b329a6cdff5e2a78e9042",
+                "reference": "aea2235359a0c4f32d3b329a6cdff5e2a78e9042",
                 "shasum": ""
             },
             "require": {
@@ -187,6 +187,9 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
             "license": [
                 "BSD-2-Clause"
             ],
@@ -201,7 +204,7 @@
                 }
             ],
             "description": "Net_UserAgent_Mobile parses HTTP_USER_AGENT strings of (mainly Japanese) mobile HTTP user agents. It'll be useful in page dispatching by user agents. This package was ported from Perl's HTTP::MobileAgent. See http://search.cpan.org/search?mode=module&query=HTTP-MobileAgent",
-            "time": "2019-02-05T05:02:30+00:00"
+            "time": "2019-02-05T08:25:51+00:00"
         },
         {
             "name": "nanasess/services_json",
@@ -3269,7 +3272,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
