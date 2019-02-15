@@ -1764,9 +1764,7 @@ class SC_Utils
     /**
      * 値を JSON 形式にして返す.
      *
-     * この関数は, json_encode() 又は Services_JSON::encode() のラッパーです.
-     * json_encode() 関数が使用可能な場合は json_encode() 関数を使用する.
-     * 使用できない場合は, Services_JSON::encode() 関数を使用する.
+     * この関数は, json_encode() のラッパーです.
      *
      * @param  mixed  $value JSON 形式にエンコードする値
      * @return string JSON 形式にした文字列
@@ -1775,22 +1773,13 @@ class SC_Utils
      */
     public static function jsonEncode($value)
     {
-        if (function_exists('json_encode')) {
-            return json_encode($value);
-        } else {
-            GC_Utils_Ex::gfPrintLog(' *use Services_JSON::encode(). faster than using the json_encode!');
-            $objJson = new Services_JSON();
-
-            return $objJson->encode($value);
-        }
+        return json_encode($value);
     }
 
     /**
      * JSON 文字列をデコードする.
      *
-     * この関数は, json_decode() 又は Services_JSON::decode() のラッパーです.
-     * json_decode() 関数が使用可能な場合は json_decode() 関数を使用する.
-     * 使用できない場合は, Services_JSON::decode() 関数を使用する.
+     * この関数は, json_decode() のラッパーです.
      *
      * @param  string $json JSON 形式にエンコードされた文字列
      * @return mixed  デコードされた PHP の型
@@ -1799,14 +1788,7 @@ class SC_Utils
      */
     public static function jsonDecode($json)
     {
-        if (function_exists('json_decode')) {
-            return json_decode($json);
-        } else {
-            GC_Utils_Ex::gfPrintLog(' *use Services_JSON::decode(). faster than using the json_decode!');
-            $objJson = new Services_JSON();
-
-            return $objJson->decode($json);
-        }
+        return json_decode($json);
     }
 
     /**

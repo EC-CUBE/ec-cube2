@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad610dbe7ebfd303381181f01c6dc5ef",
+    "content-hash": "a880c19c82773600ed49e9fa8a175e07",
     "packages": [
         {
             "name": "bondas83/mdb2_driver_mysqli",
@@ -159,51 +159,6 @@
             ],
             "description": "This is the PostgreSQL MDB2 driver.",
             "time": "2019-02-05T06:25:36+00:00"
-        },
-        {
-            "name": "nanasess/services_json",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nanasess/Services_JSON.git",
-                "reference": "8bc15c1fe5eb1d696be700d9b8ce51492bac534f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/Services_JSON/zipball/8bc15c1fe5eb1d696be700d9b8ce51492bac534f",
-                "reference": "8bc15c1fe5eb1d696be700d9b8ce51492bac534f",
-                "shasum": ""
-            },
-            "require": {
-                "pear/pear_exception": "*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "./"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD"
-            ],
-            "authors": [
-                {
-                    "name": "Michal Migurski",
-                    "email": "migurski@php.net",
-                    "role": "Lead"
-                },
-                {
-                    "name": "Alan Knowles",
-                    "email": "alan@akbkhome.com",
-                    "role": "Lead"
-                }
-            ],
-            "description": "More info available on: http://pear.php.net/package/Services_JSON",
-            "time": "2019-02-05T02:36:13+00:00"
         },
         {
             "name": "pear/archive_tar",
