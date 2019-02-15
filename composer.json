@@ -31,7 +31,6 @@
         "nanasess/mdb2_driver_pgsql": "^1.5",
         "nanasess/services_json": "*",
         "pear/archive_tar": "^1.4.3",
-        "pear/cache_lite": "*",
         "pear/mail": "*",
         "pear/pear-core-minimal": "^1.10",
         "pear/text_password": "*",

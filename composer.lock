@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b95aca76c3c1ad250645359f525d3379",
+    "content-hash": "ad610dbe7ebfd303381181f01c6dc5ef",
     "packages": [
         {
             "name": "bondas83/mdb2_driver_mysqli",
@@ -270,56 +270,6 @@
                 "tar"
             ],
             "time": "2017-06-11T17:28:11+00:00"
-        },
-        {
-            "name": "pear/cache_lite",
-            "version": "v1.8.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Cache_Lite.git",
-                "reference": "df78fc57b5f4a7dbd7f1ad73079ba757e8e62fbe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Cache_Lite/zipball/df78fc57b5f4a7dbd7f1ad73079ba757e8e62fbe",
-                "reference": "df78fc57b5f4a7dbd7f1ad73079ba757e8e62fbe",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=4.0.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "Cache/Lite.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "LGPL-2.1-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Markus Tacker",
-                    "homepage": "http://pear.php.net/user/tacker"
-                },
-                {
-                    "name": "Fabien Marty",
-                    "homepage": "http://pear.php.net/user/fab"
-                }
-            ],
-            "description": "Fast and safe little cache system",
-            "homepage": "https://github.com/pear/Cache_Lite",
-            "keywords": [
-                "cache"
-            ],
-            "time": "2018-02-13T13:25:49+00:00"
         },
         {
             "name": "pear/console_getopt",
