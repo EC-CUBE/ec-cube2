@@ -29,7 +29,6 @@
         "bondas83/mdb2_driver_mysqli": "^1.5",
         "mobiledetect/mobiledetectlib": "^2.8",
         "nanasess/mdb2_driver_pgsql": "^1.5",
-        "nanasess/net_useragent_mobile": "*",
         "nanasess/services_json": "*",
         "pear/archive_tar": "^1.4.3",
         "pear/cache_lite": "*",

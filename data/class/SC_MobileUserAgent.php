@@ -26,6 +26,7 @@
  *
  * 対象とする携帯端末は $_SERVER から決定する。
  * 全てのメソッドはクラスメソッド。
+ * @deprecated
  */
 class SC_MobileUserAgent
 {
@@ -36,26 +37,12 @@ class SC_MobileUserAgent
      *
      * @return string|false 携帯端末のキャリアを表す文字列を返す。
      *                      携帯端末ではない場合は false を返す。
+     * @deprecated
      */
     public function getCarrier()
     {
-        $objAgent =& Net_UserAgent_Mobile::singleton();
-        if (Net_UserAgent_Mobile::isError($objAgent)) {
-            return false;
-        }
-
-        switch ($objAgent->getCarrierShortName()) {
-            case 'I':
-                return 'docomo';
-            case 'E':
-                return 'ezweb';
-            case 'V':
-                return 'softbank';
-            case 'S':
-                return 'softbank';
-            default:
-                return false;
-        }
+        trigger_error(E_USER_DEPRECATED, 'Net_UserAgent_Mobile is deprecated');
+        return false;
     }
 
     /**
@@ -66,20 +53,13 @@ class SC_MobileUserAgent
      * + ezweb    ... EZ番号
      * + softbank ... 端末シリアル番号
      *
+     * @deprecated
      * @return string|false 取得したIDを返す。取得できなかった場合は false を返す。
      */
     public function getId()
     {
-        $objAgent =& Net_UserAgent_Mobile::singleton();
-        if (Net_UserAgent_Mobile::isError($objAgent)) {
-            return false;
-        } elseif ($objAgent->isDoCoMo() || $objAgent->isVodafone()) {
-            $id = $objAgent->getSerialNumber();
-        } elseif ($objAgent->isEZweb()) {
-            $id = @$_SERVER['HTTP_X_UP_SUBNO'];
-        }
-
-        return isset($id) ? $id : false;
+        trigger_error(E_USER_DEPRECATED, 'Net_UserAgent_Mobile is deprecated');
+        return false;
     }
 
     /**
@@ -90,14 +70,8 @@ class SC_MobileUserAgent
      */
     public function getModel()
     {
-        $objAgent =& Net_UserAgent_Mobile::singleton();
-        if (Net_UserAgent_Mobile::isError($objAgent)) {
-            return 'Unknown';
-        } elseif ($objAgent->isNonMobile()) {
-            return $objAgent->getName();
-        } else {
-            return $objAgent->getModel();
-        }
+        trigger_error(E_USER_DEPRECATED, 'Net_UserAgent_Mobile is deprecated');
+        return false;
     }
 
     /**
@@ -114,28 +88,8 @@ class SC_MobileUserAgent
      */
     public function isSupported()
     {
-        $objAgent =& Net_UserAgent_Mobile::singleton();
-
-        // 携帯端末だと認識されたが、User-Agent の形式が未知の場合
-        if (Net_UserAgent_Mobile::isError($objAgent)) {
-            GC_Utils_Ex::gfPrintLog($objAgent->toString());
-
-            return false;
-        }
-
-        if ($objAgent->isDoCoMo()) {
-            $arrUnsupportedSeries = array('501i', '502i', '209i', '210i');
-            $arrUnsupportedModels = array('SH821i', 'N821i', 'P821i ', 'P651ps', 'R691i', 'F671i', 'SH251i', 'SH251iS');
-
-            return !in_array($objAgent->getSeries(), $arrUnsupportedSeries) && !in_array($objAgent->getModel(), $arrUnsupportedModels);
-        } elseif ($objAgent->isEZweb()) {
-            return $objAgent->isWAP2();
-        } elseif ($objAgent->isVodafone()) {
-            return $objAgent->isPacketCompliant();
-        } else {
-            // 携帯端末ではない場合はサポートしていることにする。
-            return true;
-        }
+        trigger_error(E_USER_DEPRECATED, 'Net_UserAgent_Mobile is deprecated');
+        return false;
     }
 
     /**
@@ -147,11 +101,7 @@ class SC_MobileUserAgent
      */
     public function isMobile()
     {
-        $objAgent =& Net_UserAgent_Mobile::singleton();
-        if (Net_UserAgent_Mobile::isError($objAgent)) {
-            return false;
-        } else {
-            return $objAgent->isDoCoMo() || $objAgent->isEZweb() || $objAgent->isVodafone();
-        }
+        trigger_error(E_USER_DEPRECATED, 'Net_UserAgent_Mobile is deprecated');
+        return false;
     }
 }
