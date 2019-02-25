@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "896ee1a2746c1914f664080e494019e0",
+    "content-hash": "a880c19c82773600ed49e9fa8a175e07",
     "packages": [
         {
             "name": "bondas83/mdb2_driver_mysqli",
@@ -161,97 +161,6 @@
             "time": "2019-02-05T06:25:36+00:00"
         },
         {
-            "name": "nanasess/net_useragent_mobile",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nanasess/Net_UserAgent_Mobile.git",
-                "reference": "aea2235359a0c4f32d3b329a6cdff5e2a78e9042"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/Net_UserAgent_Mobile/zipball/aea2235359a0c4f32d3b329a6cdff5e2a78e9042",
-                "reference": "aea2235359a0c4f32d3b329a6cdff5e2a78e9042",
-                "shasum": ""
-            },
-            "require": {
-                "pear/pear-core-minimal": "*"
-            },
-            "require-dev": {
-                "pear/pear": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Net": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "KUBO Atsuhiro",
-                    "email": "kubo@iteman.jp"
-                },
-                {
-                    "name": "Kentaro Ohkouchi",
-                    "email": "nanasess@fsm.ne.jp"
-                }
-            ],
-            "description": "Net_UserAgent_Mobile parses HTTP_USER_AGENT strings of (mainly Japanese) mobile HTTP user agents. It'll be useful in page dispatching by user agents. This package was ported from Perl's HTTP::MobileAgent. See http://search.cpan.org/search?mode=module&query=HTTP-MobileAgent",
-            "time": "2019-02-05T08:25:51+00:00"
-        },
-        {
-            "name": "nanasess/services_json",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nanasess/Services_JSON.git",
-                "reference": "8bc15c1fe5eb1d696be700d9b8ce51492bac534f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/Services_JSON/zipball/8bc15c1fe5eb1d696be700d9b8ce51492bac534f",
-                "reference": "8bc15c1fe5eb1d696be700d9b8ce51492bac534f",
-                "shasum": ""
-            },
-            "require": {
-                "pear/pear_exception": "*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "./"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD"
-            ],
-            "authors": [
-                {
-                    "name": "Michal Migurski",
-                    "email": "migurski@php.net",
-                    "role": "Lead"
-                },
-                {
-                    "name": "Alan Knowles",
-                    "email": "alan@akbkhome.com",
-                    "role": "Lead"
-                }
-            ],
-            "description": "More info available on: http://pear.php.net/package/Services_JSON",
-            "time": "2019-02-05T02:36:13+00:00"
-        },
-        {
             "name": "pear/archive_tar",
             "version": "1.4.3",
             "source": {
@@ -316,56 +225,6 @@
                 "tar"
             ],
             "time": "2017-06-11T17:28:11+00:00"
-        },
-        {
-            "name": "pear/cache_lite",
-            "version": "v1.8.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Cache_Lite.git",
-                "reference": "df78fc57b5f4a7dbd7f1ad73079ba757e8e62fbe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Cache_Lite/zipball/df78fc57b5f4a7dbd7f1ad73079ba757e8e62fbe",
-                "reference": "df78fc57b5f4a7dbd7f1ad73079ba757e8e62fbe",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=4.0.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "Cache/Lite.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "LGPL-2.1-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Markus Tacker",
-                    "homepage": "http://pear.php.net/user/tacker"
-                },
-                {
-                    "name": "Fabien Marty",
-                    "homepage": "http://pear.php.net/user/fab"
-                }
-            ],
-            "description": "Fast and safe little cache system",
-            "homepage": "https://github.com/pear/Cache_Lite",
-            "keywords": [
-                "cache"
-            ],
-            "time": "2018-02-13T13:25:49+00:00"
         },
         {
             "name": "pear/console_getopt",

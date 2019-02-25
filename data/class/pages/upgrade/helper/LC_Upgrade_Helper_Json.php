@@ -3,7 +3,7 @@
  * Enter description here...
  *
  */
-class LC_Upgrade_Helper_Json extends Services_JSON
+class LC_Upgrade_Helper_Json
 {
     /** */
     public $arrData = array(
@@ -20,7 +20,6 @@ class LC_Upgrade_Helper_Json extends Services_JSON
      */
     public function __construct()
     {
-        parent::Services_JSON();
     }
 
     /**
@@ -77,7 +76,7 @@ class LC_Upgrade_Helper_Json extends Services_JSON
     public function display()
     {
         header('Content-Type: text/javascript; charset=UTF-8');
-        echo $this->encode($this->arrData);
+        echo json_encode($this->arrData);
     }
 
     /**
@@ -93,6 +92,6 @@ class LC_Upgrade_Helper_Json extends Services_JSON
      */
     public function decode($str)
     {
-        return SC_Utils_Ex::jsonDecode($str);
+        return json_decode($str);
     }
 }
