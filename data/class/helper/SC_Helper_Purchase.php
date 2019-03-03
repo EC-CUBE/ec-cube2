@@ -588,19 +588,19 @@ class SC_Helper_Purchase
             case '3':
                 $start_day = 5;
                 break;
-                //1週間以内
+                //1週間以降
             case '4':
                 $start_day = 8;
                 break;
-                //2週間以内
+                //2週間以降
             case '5':
                 $start_day = 15;
                 break;
-                //3週間以内
+                //3週間以降
             case '6':
                 $start_day = 22;
                 break;
-                //1ヶ月以内
+                //1ヶ月以降
             case '7':
                 $start_day = 32;
                 break;
