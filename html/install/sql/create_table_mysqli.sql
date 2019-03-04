@@ -1233,7 +1233,7 @@ CREATE TABLE dtb_tax_rule (
     PRIMARY KEY (tax_rule_id)
 );
 CREATE INDEX dtb_order_detail_order_id_key ON dtb_order_detail(order_id);
-CREATE INDEX dtb_order_customer_id_key ON dtb_order_detail(customer_id);
+CREATE INDEX dtb_order_customer_id_key ON dtb_order(customer_id);
 CREATE INDEX dtb_customer_mobile_phone_id_key ON dtb_customer (mobile_phone_id(255));
 CREATE INDEX dtb_products_class_product_id_key ON dtb_products_class(product_id);
 CREATE INDEX dtb_order_detail_product_id_key ON dtb_order_detail(product_id);
