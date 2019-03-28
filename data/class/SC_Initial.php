@@ -142,10 +142,17 @@ class SC_Initial
         //ロケールを明示的に設定
         $res = setlocale(LC_ALL, LOCALE);
         if ($res === FALSE) {
-            // TODO: Windows上のロケール設定が正常に働かない場合があることに暫定的に対応
-            // ''を指定するとApache実行環境の環境変数が使われる
-            // See also: http://php.net/manual/ja/function.setlocale.php
-            setlocale(LC_ALL, '');
+            if ('\\' === DIRECTORY_SEPARATOR && PHP_VERSION_ID >= 70000) {
+                // Windows 版 PHP7 以降の fgetcsv 関数は、日本語のロケールで
+                // UTF-8 のファイルを正常にパースできないため、ロケールを英語に設定する
+                // see https://github.com/EC-CUBE/ec-cube/issues/1780#issuecomment-248557386
+                setlocale(LC_ALL, 'English_United States.1252');
+            } else {
+                // TODO: Windows上のロケール設定が正常に働かない場合があることに暫定的に対応
+                // ''を指定するとApache実行環境の環境変数が使われる
+                // See also: http://php.net/manual/ja/function.setlocale.php
+                setlocale(LC_ALL, '');
+            }
         }
 
         // #1849 (文字エンコーディングの検出を制御する)
