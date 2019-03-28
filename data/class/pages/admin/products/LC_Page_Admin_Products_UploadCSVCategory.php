@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * LC_Page_Admin_Products_UploadCSV をカスタマイズする場合はこのクラスを編集する.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $$Id$$
  */
 class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
@@ -307,7 +307,7 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
             $objFormParam->addParam(
                     $item['disp_name'],
                     $col,
-                    constant($item['size_const_type']),
+                    defined($item['size_const_type']) ? constant($item['size_const_type']) : $item['size_const_type'],
                     $item['mb_convert_kana_option'],
                     $arrErrorCheckTypes,
                     $item['default'],

@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  * 入力内容確認のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Shopping_Confirm extends LC_Page_Ex
@@ -146,9 +146,7 @@ class LC_Page_Shopping_Confirm extends LC_Page_Ex
                 SC_Response_Ex::actionExit();
                 break;
             case 'confirm':
-                /*
-                 * 決済モジュールで必要なため, 受注番号を取得
-                 */
+                // 注文番号を取得
                 $this->arrForm['order_id'] = $objPurchase->getNextOrderID();
                 $_SESSION['order_id'] = $this->arrForm['order_id'];
 

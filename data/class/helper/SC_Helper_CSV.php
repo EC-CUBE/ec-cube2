@@ -1,15 +1,15 @@
 <?php
   /*
-   * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+   * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
    *
-   * http://www.lockon.co.jp/
+   * http://www.ec-cube.co.jp/
    */
 
   /**
    * CSV 関連 のヘルパークラス.
    *
    * @package Page
-   * @author LOCKON CO.,LTD.
+   * @author EC-CUBE CO.,LTD.
    * @version $Id$
    */
 class SC_Helper_CSV
