@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@
 /**
  * カートセッション管理クラス
  *
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class SC_CartSession
@@ -371,7 +371,7 @@ class SC_CartSession
         $quantity = $this->cartSession[$productTypeId][$key]['quantity'];
         $incTax = SC_Helper_TaxRule_Ex::sfCalcIncTax($price,
             $this->cartSession[$productTypeId][$key]['productsClass']['product_id'],
-            $this->cartSession[$productTypeId][$key]['id'][0]);
+            $this->cartSession[$productTypeId][$key]['id']);
 
         $total = $incTax * $quantity;
 
@@ -638,7 +638,7 @@ class SC_CartSession
                         $this->setProductValue($arrItem['id'], 'quantity', $limit, $productTypeId);
                         $total_inctax = $limit * SC_Helper_TaxRule_Ex::sfCalcIncTax($arrItem['price'],
                             $product['product_id'],
-                            $arrItem['id'][0]);
+                            $arrItem['id']);
                         $this->setProductValue($arrItem['id'], 'total_inctax', $total_inctax, $productTypeId);
                         $tpl_message .= '※「' . $product['name'] . '」は販売制限(または在庫が不足)しております。';
                         $tpl_message .= "一度に数量{$limit}を超える購入はできません。\n";

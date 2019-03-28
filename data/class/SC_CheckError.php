@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -74,7 +74,7 @@ class SC_CheckError
 
         // HTMLに含まれているタグを抽出する
         $match = array();
-        preg_match_all('/<\/?([a-z]+)/i', $this->arrParam[$keyname], $match);
+        preg_match_all('/<\/?([a-z\d]+)/i', $this->arrParam[$keyname], $match);
         $arrTagIncludedHtml = $match[1];
         // 抽出結果を小文字に変換
         foreach ($arrTagIncludedHtml as $key => $matchedTag) {

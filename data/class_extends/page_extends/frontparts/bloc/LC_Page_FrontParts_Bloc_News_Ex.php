@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@ require_once CLASS_REALDIR . 'pages/frontparts/bloc/LC_Page_FrontParts_Bloc_News
  * LC_Page_FrontParts_Bloc_News をカスタマイズする場合はこのクラスを編集する.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_FrontParts_Bloc_News_Ex extends LC_Page_FrontParts_Bloc_News

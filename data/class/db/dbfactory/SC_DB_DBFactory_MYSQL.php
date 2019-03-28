@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@
  * また, SC_DB_DBFactory クラスの関数を必ずオーバーライドしている必要がある.
  *
  * @package DB
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id:SC_DB_DBFactory_MYSQL.php 15267 2007-08-09 12:31:52Z nanasess $
  */
 class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
