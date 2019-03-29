@@ -65,6 +65,7 @@ before_script:
   - sudo chmod +x /usr/local/bin/chromedriver
   - gem install mailcatcher -v "0.6.5"
   - mailcatcher
+  - chromedriver --url-base=/wd/hub
   - php data/vendor/bin/codecept build
 
 script:
