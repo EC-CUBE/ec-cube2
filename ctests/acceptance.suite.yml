@@ -7,14 +7,37 @@
 class_name: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser
         - AcceptanceHelper
+        - WebDriver
+        - MailCatcherGuzzle5
     config:
         PhpBrowser:
             url: 'http://localhost:8085/'
+        WebDriver:
+            url: 'http://localhost:8085/'
+            host: 'localhost'
+            port: 9515
+            window_size: 1680x3000
+            wait: 10
+            capabilities:
+                unexpectedAlertBehaviour: 'accept'
+                elementScrollBehavior: 1
+        MailCatcherGuzzle5:
+            url: 'http://127.0.0.1'
+            port: '1080'
+
 env:
     travis:
         modules:
             config:
-                PhpBrowser:                     
+                PhpBrowser:
                     url: 'http://localhost:8085/'
+    chrome:
+        modules:
+            config:
+                WebDriver:
+                    browser: chrome
+                    capabilities:
+                        chromeOptions:
+                            prefs:
+                                download.default_directory: '%PWD%/codeception/_support/_downloads'

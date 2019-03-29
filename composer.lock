@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a880c19c82773600ed49e9fa8a175e07",
+    "content-hash": "9bd7ec887b2427d6a40dcef603e9d5e5",
     "packages": [
         {
             "name": "bondas83/mdb2_driver_mysqli",
@@ -314,7 +314,7 @@
                 {
                     "name": "Chuck Hagenbuch",
                     "email": "chuck@horde.org",
-                    "role": "Lead"
+                    "role": "lead"
                 },
                 {
                     "name": "Richard Heyes",
@@ -937,6 +937,39 @@
             "time": "2017-08-30T11:04:43+00:00"
         },
         {
+            "name": "captbaritone/mailcatcher-codeception-module",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/captbaritone/codeception-mailcatcher-module.git",
+                "reference": "75ba9aa803d81780ee7e9b5c36bb5b8f9139d972"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/captbaritone/codeception-mailcatcher-module/zipball/75ba9aa803d81780ee7e9b5c36bb5b8f9139d972",
+                "reference": "75ba9aa803d81780ee7e9b5c36bb5b8f9139d972",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Codeception\\Module\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Jordan Eldredge",
+                    "email": "jordan@jordaneldredge.com"
+                }
+            ],
+            "description": "Test emails in your Codeception acceptance tests",
+            "time": "2016-08-16T21:35:06+00:00"
+        },
+        {
             "name": "codeception/codeception",
             "version": "2.4.1",
             "source": {
@@ -1207,6 +1240,56 @@
             "time": "2016-08-10T00:44:08+00:00"
         },
         {
+            "name": "fzaninotto/faker",
+            "version": "v1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "f72816b43e74063c8b10357394b6bba8cb1c10de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/f72816b43e74063c8b10357394b6bba8cb1c10de",
+                "reference": "f72816b43e74063c8b10357394b6bba8cb1c10de",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7",
+                "squizlabs/php_codesniffer": "^1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2018-07-12T10:23:15+00:00"
+        },
+        {
             "name": "guzzle/guzzle",
             "version": "v3.9.3",
             "source": {
@@ -1304,16 +1387,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "5.3.2",
+            "version": "5.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "f9acb4761844317e626a32259205bec1f1bc60d2"
+                "reference": "93bbdb30d59be6cd9839495306c65f2907370eb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f9acb4761844317e626a32259205bec1f1bc60d2",
-                "reference": "f9acb4761844317e626a32259205bec1f1bc60d2",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/93bbdb30d59be6cd9839495306c65f2907370eb9",
+                "reference": "93bbdb30d59be6cd9839495306c65f2907370eb9",
                 "shasum": ""
             },
             "require": {
@@ -1353,7 +1436,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2018-01-15T07:18:01+00:00"
+            "time": "2018-07-31T13:33:10+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1422,16 +1505,16 @@
         },
         {
             "name": "guzzlehttp/ringphp",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/RingPHP.git",
-                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b"
+                "reference": "5e2a174052995663dd68e6b5ad838afd47dd615b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
-                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
+                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/5e2a174052995663dd68e6b5ad838afd47dd615b",
+                "reference": "5e2a174052995663dd68e6b5ad838afd47dd615b",
                 "shasum": ""
             },
             "require": {
@@ -1469,7 +1552,7 @@
                 }
             ],
             "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
-            "time": "2015-05-20T03:37:09+00:00"
+            "time": "2018-07-31T13:22:33+00:00"
         },
         {
             "name": "guzzlehttp/streams",
@@ -2007,6 +2090,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
         {
@@ -2108,16 +2192,16 @@
         },
         {
             "name": "react/promise",
-            "version": "v2.7.0",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise.git",
-                "reference": "f4edc2581617431aea50430749db55cc3fc031b3"
+                "reference": "31ffa96f8d2ed0341a57848cbb84d88b89dd664d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise/zipball/f4edc2581617431aea50430749db55cc3fc031b3",
-                "reference": "f4edc2581617431aea50430749db55cc3fc031b3",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/31ffa96f8d2ed0341a57848cbb84d88b89dd664d",
+                "reference": "31ffa96f8d2ed0341a57848cbb84d88b89dd664d",
                 "shasum": ""
             },
             "require": {
@@ -2150,7 +2234,7 @@
                 "promise",
                 "promises"
             ],
-            "time": "2018-06-13T15:59:06+00:00"
+            "time": "2019-01-07T21:25:54+00:00"
         },
         {
             "name": "satooshi/php-coveralls",

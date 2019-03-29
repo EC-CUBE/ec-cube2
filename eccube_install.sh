@@ -41,6 +41,12 @@ DBNAME=${DBNAME:-"cube213_dev"}
 DBUSER=${DBUSER:-"cube213_dev_user"}
 DBPASS=${DBPASS:-"password"}
 
+MAIL_BACKEND=${MAIL_BACKEND-"smtp"}
+SMTP_HOST=${SMTP_HOST-"127.0.0.1"}
+SMTP_PORT=${SMTP_PORT-"1025"}
+SMTP_USER=${SMTP_USER-""}
+SMTP_PASSWORD=${SMTP_PASSWORD-""}
+
 ADMINPASS="f6b126507a5d00dbdbb0f326fe855ddf84facd57c5603ffdf7e08fbb46bd633c"
 AUTH_MAGIC="droucliuijeanamiundpnoufrouphudrastiokec"
 
@@ -214,10 +220,10 @@ define('ADMIN_ALLOW_HOSTS', 'a:0:{}');
 define('AUTH_MAGIC', '${AUTH_MAGIC}');
 define('PASSWORD_HASH_ALGOS', 'sha256');
 define('MAIL_BACKEND', 'mail');
-define('SMTP_HOST', '');
-define('SMTP_PORT', '');
-define('SMTP_USER', '');
-define('SMTP_PASSWORD', '');
+define('SMTP_HOST', '${SMTP_HOST}');
+define('SMTP_PORT', '${SMTP_PORT}');
+define('SMTP_USER', '${SMTP_USER}');
+define('SMTP_PASSWORD', '${SMTP_PASSWORD}');
 
 __EOF__
 
