@@ -219,7 +219,7 @@ define('ADMIN_FORCE_SSL', FALSE);
 define('ADMIN_ALLOW_HOSTS', 'a:0:{}');
 define('AUTH_MAGIC', '${AUTH_MAGIC}');
 define('PASSWORD_HASH_ALGOS', 'sha256');
-define('MAIL_BACKEND', 'mail');
+define('MAIL_BACKEND', '${MAIL_BACKEND}');
 define('SMTP_HOST', '${SMTP_HOST}');
 define('SMTP_PORT', '${SMTP_PORT}');
 define('SMTP_USER', '${SMTP_USER}');
