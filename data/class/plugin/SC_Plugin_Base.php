@@ -52,7 +52,7 @@ abstract class SC_Plugin_Base
      * @param  array $arrPlugin plugin_infoを元にDBに登録されたプラグイン情報(dtb_plugin)
      * @return void
      */
-    public function install($arrPlugin, $objPluginInstaller = null)
+    public function install($arrPlugin)
     {
     }
 
@@ -64,7 +64,7 @@ abstract class SC_Plugin_Base
      * @param  array $arrPlugin プラグイン情報の連想配列(dtb_plugin)
      * @return void
      */
-    public function uninstall($arrPlugin, $objPluginInstaller = null)
+    public function uninstall($arrPlugin)
     {
     }
 
@@ -76,7 +76,7 @@ abstract class SC_Plugin_Base
      * @param  array $arrPlugin プラグイン情報の連想配列(dtb_plugin)
      * @return void
      */
-    public function enable($arrPlugin, $objPluginInstaller = null)
+    public function enable($arrPlugin)
     {
     }
 
@@ -88,7 +88,7 @@ abstract class SC_Plugin_Base
      * @param  array $arrPlugin プラグイン情報の連想配列(dtb_plugin)
      * @return void
      */
-    public function disable($arrPlugin, $objPluginInstaller = null)
+    public function disable($arrPlugin)
     {
     }
 

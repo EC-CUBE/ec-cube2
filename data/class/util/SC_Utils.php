@@ -761,8 +761,8 @@ class SC_Utils
      */
     public static function sfPrePoint($price, $point_rate, $rule = POINT_RULE)
     {
-        $real_point = $point_rate / 100;
-        $ret = $price * $real_point;
+        $real_point = (int)$point_rate / 100;
+        $ret = (int)$price * $real_point;
         $ret = SC_Helper_TaxRule_Ex::roundByCalcRule($ret, $rule);
 
         return $ret;

@@ -53,7 +53,7 @@ class SC_Helper_HandleError
 
         if (!(defined('SAFE') && SAFE === true) && !(defined('INSTALL_FUNCTION') && INSTALL_FUNCTION === true)) {
             // E_USER_ERROR または警告を捕捉した場合のエラーハンドラ
-            set_error_handler(array(__CLASS__, 'handle_warning'), E_USER_ERROR | E_WARNING | E_USER_WARNING | E_CORE_WARNING | E_COMPILE_WARNING);
+            set_error_handler(array(__CLASS__, 'handle_warning'), E_USER_ERROR | E_USER_WARNING | E_CORE_WARNING | E_COMPILE_WARNING);
 
             // 実質的に PHP 5.2 以降かで処理が分かれる
             if (function_exists('error_get_last')) {

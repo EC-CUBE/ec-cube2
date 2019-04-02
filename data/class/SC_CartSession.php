@@ -140,7 +140,7 @@ class SC_CartSession
     public function getMax($productTypeId)
     {
         $max = 0;
-        if (count($this->cartSession[$productTypeId]) > 0) {
+        if (!empty($this->cartSession[$productTypeId])) {
             foreach ($this->cartSession[$productTypeId] as $key => $value) {
                 if (is_numeric($key)) {
                     if ($max < $key) {
@@ -187,7 +187,7 @@ class SC_CartSession
                 $this->cartSession[$productTypeId][$i]['productsClass']['product_class_id'],
                 $pref_id, $country_id);
 
-            $total+= ($incTax * $quantity);
+            $total+= ($incTax * (int)$quantity);
         }
 
         return $total;
@@ -207,7 +207,7 @@ class SC_CartSession
                 $this->cartSession[$productTypeId][$i]['productsClass']['product_class_id'],
                 $pref_id, $country_id);
 
-            $total+= ($tax * $quantity);
+            $total+= ($tax * (int)$quantity);
         }
 
         return $total;
@@ -234,7 +234,7 @@ class SC_CartSession
                 $point_rate = $this->cartSession[$productTypeId][$i]['point_rate'];
 
                 $point = SC_Utils_Ex::sfPrePoint($price, $point_rate);
-                $total+= ($point * $quantity);
+                $total+= ($point * (int)$quantity);
             }
         }
 
