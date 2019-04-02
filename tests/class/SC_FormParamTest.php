@@ -485,10 +485,10 @@ class SC_FromParamTest extends Common_TestCase
             'MOBILE_EMAIL_CHECK_key' => '※ MOBILE_EMAIL_CHECKは携帯電話のものではありません。',
             'MIN_LENGTH_CHECK_key' => '※ MIN_LENGTH_CHECKは50字以上で入力してください。',
             'KANABLANK_CHECK_key' => '※ KANABLANK_CHECKはカタカナで入力してください。',
-            'NUM_POINT_CHECK_key' => '※ NUM_POINT_CHECKは数字で入力してください。',
             'FILE_EXISTS_key' => '※ FILE_EXISTSのファイルが存在しません。',
             'DOWN_FILE_EXISTS_key' => '※ DOWN_FILE_EXISTSのファイルが存在しません。',
             'XXXXXXXXXX_key' => '※※　エラーチェック形式(XXXXXXXXXX)には対応していません　※※ ',
+            'NUM_COUNT_CHECK_key' => '※ NUM_COUNT_CHECKは50桁で入力して下さい。'
         ];
         $this->actual = @$this->objFormParam->checkError(false);
         $this->verify();
