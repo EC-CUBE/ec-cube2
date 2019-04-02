@@ -60,9 +60,6 @@ class SC_View
         $this->_smarty->registerPlugin('function','printXMLDeclaration', array('GC_Utils_Ex', 'printXMLDeclaration'));
         $this->_smarty->default_modifiers = array('script_escape');
 
-        // smarty:nodefaultsの後方互換を維持
-        $this->_smarty->registerFilter('pre', array($this, 'lower_compatibility_smarty_nodefaults'));
-
         if (ADMIN_MODE == '1') {
             $this->time_start = microtime(true);
         }
@@ -70,6 +67,8 @@ class SC_View
         $this->_smarty->force_compile = SMARTY_FORCE_COMPILE_MODE === true;
         // 各filterをセットします.
         $this->registFilter();
+        // smarty:nodefaultsの後方互換を維持
+        $this->_smarty->registerFilter('pre', array($this, 'lower_compatibility_smarty_nodefaults'));
     }
 
     // テンプレートに値を割り当てる
