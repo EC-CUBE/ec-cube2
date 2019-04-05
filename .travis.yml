@@ -11,9 +11,16 @@ php:
   - 7.2
   - 7.3
 
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
 env:
     global:
-        - DBNAME=myapp_test HTTP_URL=http://localhost:8085/ HTTPS_URL=https://localhost:8085/
+        - DBNAME=myapp_test HTTP_URL=http://localhost:8085/ HTTPS_URL=http://localhost:8085/
     matrix:
         - DB=mysql USER=root DBPASS=' ' DBUSER=root
         - DB=pgsql USER=postgres DBPASS=password DBUSER=postgres
@@ -52,13 +59,20 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - php -S localhost:8085 -t html/ &
+  - wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.43/chromedriver_linux64.zip
+  - unzip -o -q chromedriver_linux64.zip
+  - sudo mv -f ./chromedriver /usr/local/bin/
+  - sudo chmod +x /usr/local/bin/chromedriver
+  - gem install mailcatcher -v "0.6.5"
+  - mailcatcher
+  - chromedriver --url-base=/wd/hub &
   - php data/vendor/bin/codecept build
 
 script:
   - mkdir -p reports/coverage
   - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist ; fi
   - if [ $COVERAGE ] ; then phpdbg -qrr data/vendor/bin/phpunit -c phpunit.xml.dist ; fi
-  - if [ ! $COVERAGE ] ; then php data/vendor/bin/codecept run --env travis --steps ; fi
+  - if [ ! $COVERAGE ] ; then php data/vendor/bin/codecept run --env chrome --steps ; fi
 
 after_script:
   - if [ $COVERAGE ] ; then php data/vendor/bin/coveralls -v ; fi

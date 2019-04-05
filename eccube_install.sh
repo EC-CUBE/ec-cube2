@@ -41,6 +41,12 @@ DBNAME=${DBNAME:-"cube213_dev"}
 DBUSER=${DBUSER:-"cube213_dev_user"}
 DBPASS=${DBPASS:-"password"}
 
+MAIL_BACKEND=${MAIL_BACKEND-"smtp"}
+SMTP_HOST=${SMTP_HOST-"127.0.0.1"}
+SMTP_PORT=${SMTP_PORT-"1025"}
+SMTP_USER=${SMTP_USER-""}
+SMTP_PASSWORD=${SMTP_PASSWORD-""}
+
 ADMINPASS="f6b126507a5d00dbdbb0f326fe855ddf84facd57c5603ffdf7e08fbb46bd633c"
 AUTH_MAGIC="droucliuijeanamiundpnoufrouphudrastiokec"
 
@@ -189,7 +195,7 @@ dtb_tax_rule_tax_rule_id_seq
 
 get_optional_sql()
 {
-    echo "INSERT INTO dtb_member (member_id, login_id, password, salt, work, del_flg, authority, creator_id, rank, update_date) VALUES (2, 'admin', '${ADMINPASS}', '${AUTH_MAGIC}', '1', '0', '0', '0', '1', current_timestamp);"
+    echo "INSERT INTO dtb_member (member_id, login_id, password, name, salt, work, del_flg, authority, creator_id, rank, update_date) VALUES (2, 'admin', '${ADMINPASS}', '管理者', '${AUTH_MAGIC}', '1', '0', '0', '0', '1', current_timestamp);"
     echo "INSERT INTO dtb_baseinfo (id, shop_name, email01, email02, email03, email04, top_tpl, product_tpl, detail_tpl, mypage_tpl, update_date) VALUES (1, '${SHOP_NAME}', '${ADMIN_MAIL}', '${ADMIN_MAIL}', '${ADMIN_MAIL}', '${ADMIN_MAIL}', 'default1', 'default1', 'default1', 'default1', current_timestamp);"
 }
 
@@ -213,11 +219,11 @@ define('ADMIN_FORCE_SSL', FALSE);
 define('ADMIN_ALLOW_HOSTS', 'a:0:{}');
 define('AUTH_MAGIC', '${AUTH_MAGIC}');
 define('PASSWORD_HASH_ALGOS', 'sha256');
-define('MAIL_BACKEND', 'mail');
-define('SMTP_HOST', '');
-define('SMTP_PORT', '');
-define('SMTP_USER', '');
-define('SMTP_PASSWORD', '');
+define('MAIL_BACKEND', '${MAIL_BACKEND}');
+define('SMTP_HOST', '${SMTP_HOST}');
+define('SMTP_PORT', '${SMTP_PORT}');
+define('SMTP_USER', '${SMTP_USER}');
+define('SMTP_PASSWORD', '${SMTP_PASSWORD}');
 
 __EOF__
 

@@ -19,8 +19,10 @@
         "sort-packages": true
     },
     "require-dev": {
-        "satooshi/php-coveralls": "1.0",
-        "codeception/codeception": "*"
+        "captbaritone/mailcatcher-codeception-module": "1.2.1",
+        "codeception/codeception": "*",
+        "fzaninotto/faker": "^1.8",
+        "satooshi/php-coveralls": "1.0"
     },
     "require": {
         "php": ">=5.3.9",
