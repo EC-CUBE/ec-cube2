@@ -676,7 +676,7 @@ CREATE TABLE dtb_shipping (
     create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     update_date timestamp NOT NULL,
     del_flg smallint NOT NULL DEFAULT 0,
-    PRIMARY KEY (shipping_id, order_id)
+    PRIMARY KEY (order_id, shipping_id)
 );
 
 CREATE TABLE dtb_shipment_item (
@@ -689,7 +689,7 @@ CREATE TABLE dtb_shipment_item (
     classcategory_name2 text,
     price numeric,
     quantity numeric,
-    PRIMARY KEY (shipping_id, product_class_id, order_id)
+    PRIMARY KEY (order_id,shipping_id, product_class_id)
 );
 
 CREATE TABLE dtb_other_deliv (
@@ -1232,7 +1232,8 @@ CREATE TABLE dtb_tax_rule (
     update_date timestamp NOT NULL,
     PRIMARY KEY (tax_rule_id)
 );
-
+CREATE INDEX dtb_order_detail_order_id_key ON dtb_order_detail(order_id);
+CREATE INDEX dtb_order_customer_id_key ON dtb_order(customer_id);
 CREATE INDEX dtb_customer_mobile_phone_id_key ON dtb_customer (mobile_phone_id(255));
 CREATE INDEX dtb_products_class_product_id_key ON dtb_products_class(product_id);
 CREATE INDEX dtb_order_detail_product_id_key ON dtb_order_detail(product_id);
