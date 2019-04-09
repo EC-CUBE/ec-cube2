@@ -94,7 +94,8 @@ class SC_SessionTest extends Common_TestCase
     public function testRegenerateSID()
     {
         $this->expected = session_id();
-        $this->actual = $this->objSession->regenerateSID();
+        $this->objSession->regenerateSID();
+        $this->actual = session_id();
         $this->assertNotEquals($this->expected, $this->actual);
     }
 }
