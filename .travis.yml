@@ -1,6 +1,8 @@
 # for travis-ci
 # see also. https://travis-ci.org
 language: php
+services:
+  - docker
 sudo: false
 php:
   - 5.4
@@ -63,8 +65,8 @@ before_script:
   - unzip -o -q chromedriver_linux64.zip
   - sudo mv -f ./chromedriver /usr/local/bin/
   - sudo chmod +x /usr/local/bin/chromedriver
-  - gem install mailcatcher -v "0.6.5"
-  - mailcatcher
+  - docker pull schickling/mailcatcher
+  - docker run -d -p 1080:1080 -p 1025:1025 --name mailcatcher schickling/mailcatcher
   - chromedriver --url-base=/wd/hub &
   - php data/vendor/bin/codecept build
 
