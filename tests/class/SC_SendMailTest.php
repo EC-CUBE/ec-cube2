@@ -10,6 +10,7 @@ class SC_SendMailTest extends Common_TestCase
     protected function setUp()
     {
         parent::setUp();
+        $this->checkMailCatcherStatus();
         $this->objSendMail = new SC_SendMail_Ex();
     }
 
