@@ -254,7 +254,12 @@ class SC_CartSessionTest extends Common_TestCase
         );
 
         // soldout
-        $objQuery->update('dtb_products_class', ['stock' => 0], 'product_class_id = ?', [$arrProductClass['product_class_id']]);
+        $objQuery->update(
+            'dtb_products_class',
+            ['stock' => 0, 'stock_unlimited' => 0],
+            'product_class_id = ?',
+            [$arrProductClass['product_class_id']]
+        );
 
         $this->objCartSession->addProduct($arrProductClass['product_class_id'], 2);
         $this->assertEquals(2, $this->objCartSession->getTotalQuantity(PRODUCT_TYPE_NORMAL));
