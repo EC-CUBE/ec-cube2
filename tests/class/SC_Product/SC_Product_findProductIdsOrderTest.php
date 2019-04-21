@@ -48,7 +48,7 @@ class SC_Product_findProductsOrderTest extends SC_Product_TestBase
     {
         // setProductsOrderを行う
         $this->objProducts->setProductsOrder('product_id');
-        $this->expected = array('1001', '1002','2001');
+        $this->expected = array('1001', '1002');
 
         $this->actual = $this->objProducts->findProductIdsOrder($this->objQuery);
 
