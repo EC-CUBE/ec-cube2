@@ -12,7 +12,7 @@ $classMap = function ($dir) {
     $iterator = new RecursiveIteratorIterator($directoryIterator);
     foreach ($iterator as $fileinfo) {
         /** @var SplFileInfo $fileinfo */
-        if ($fileinfo->isFile()) {
+        if ($fileinfo->isFile() && stripos($fileinfo->getFilename(), '_ex.php') === false) {
             $map[str_replace('.'.$fileinfo->getExtension(), '', $fileinfo->getFilename())] = $fileinfo->getPathname();
         }
     }
