@@ -18,5 +18,6 @@ $classMap = function ($dir) {
     }
     return $map;
 };
+$loader->addClassMap($classMap(__DIR__.'/../ctests'));
 $loader->addClassMap($classMap(__DIR__.'/class'));
 return $loader;
