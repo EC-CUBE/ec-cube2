@@ -68,6 +68,16 @@ class SC_DisplayTest extends Common_TestCase
         $this->objDisplay->assignarray(['test2' => 'value']);
 
         $this->assertTrue($this->objDisplay->response->containsHeader('test'));
-        $this->assertContains(ECCUBE_VERSION, $this->objDisplay->response->body);
+
+        $expected = ECCUBE_VERSION;
+        $this->assertContains($expected, $this->objDisplay->response->body);
+        $this->objDisplay->response->setHeader(['Content-Type' => 'text/html']);
+        $this->objDisplay->response->headerForDownload('test.csv');
+        $this->objDisplay->response->setStatusCode(200);
+
+        $this->objDisplay->response->sendHeader();
+        $this->objDisplay->response->write();
+
+        $this->expectOutputRegex('/'.$expected.'/');
     }
 }
