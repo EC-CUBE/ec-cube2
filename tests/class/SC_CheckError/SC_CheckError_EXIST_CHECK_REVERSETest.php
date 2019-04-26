@@ -21,65 +21,57 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
-
-class SC_CheckError_EXIST_CHECK_REVERSETest extends Common_TestCase
+class SC_CheckError_EXIST_CHECK_REVERSETest extends SC_CheckError_AbstractTestCase
 {
 
     protected function setUp()
     {
         parent::setUp();
+        $this->target_func = 'EXIST_CHECK_REVERSE';
     }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
-    }
-
-    /////////////////////////////////////////
 
     public function testEXIST_CHECK_REVERSE_formが空()
     {
-        $arrForm = array('form' => '');
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('form', 'EXIST_CHECK_REVERSE') ,array('EXIST_CHECK_REVERSE'));
+        $this->arrForm = [self::FORM_NAME => ''];
+        $this->expected = "※ {$this->target_func}が入力されていません。<br />";
 
-        $this->expected = '※ EXIST_CHECK_REVERSEが入力されていません。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->scenario();
+        $this->verify();
     }
 
     public function testEXIST_CHECK_REVERSE_formがNULL()
     {
-        $arrForm = array('form' => NULL);
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('form', 'EXIST_CHECK_REVERSE') ,array('EXIST_CHECK_REVERSE'));
-
+        $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '※ EXIST_CHECK_REVERSEが入力されていません。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+
+        $this->scenario();
+        $this->verify();
     }
 
     public function testEXIST_CHECK_REVERSE_formがint0()
     {
-        $arrForm = array('form' => 0);
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('form', 'EXIST_CHECK_REVERSE') ,array('EXIST_CHECK_REVERSE'));
-
+        $this->arrForm = [self::FORM_NAME => 0];
         $this->expected = '';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+
+        $this->scenario();
+        $this->verify();
     }
 
     public function testEXIST_CHECK_REVERSE_formがstring0()
     {
-        $arrForm = array('form' => '0');
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('form', 'EXIST_CHECK_REVERSE') ,array('EXIST_CHECK_REVERSE'));
-
+        $this->arrForm = [self::FORM_NAME => '0'];
         $this->expected = '';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+
+        $this->scenario();
+        $this->verify();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function scenario()
+    {
+        $this->objErr = new SC_CheckError_Ex($this->arrForm);
+        $this->objErr->doFunc([self::FORM_NAME, $this->target_func], [$this->target_func]);
     }
 }
