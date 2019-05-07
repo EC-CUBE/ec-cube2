@@ -8,13 +8,16 @@ require_once __DIR__."/../html/require.php";
 
 $classMap = function ($dir) {
     $map = [];
-    $directoryIterator = new RecursiveDirectoryIterator($dir);
-    $iterator = new RecursiveIteratorIterator($directoryIterator);
+    $iterator = new RegexIterator(
+        new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir)
+        ),
+        '/^(?!.+_ex\.php).+\.php$/i',
+        RecursiveRegexIterator::MATCH
+    );
     foreach ($iterator as $fileinfo) {
         /** @var SplFileInfo $fileinfo */
-        if ($fileinfo->isFile() && stripos($fileinfo->getFilename(), '_ex.php') === false) {
-            $map[str_replace('.'.$fileinfo->getExtension(), '', $fileinfo->getFilename())] = $fileinfo->getPathname();
-        }
+        $map[(string)str_replace('.'.$fileinfo->getExtension(), '', $fileinfo->getFilename())] = $fileinfo->getPathname();
     }
     return $map;
 };
