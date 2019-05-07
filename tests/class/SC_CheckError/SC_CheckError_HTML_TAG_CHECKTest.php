@@ -87,6 +87,8 @@ class SC_CheckError_HTML_TAG_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
         $this->objErr->doFunc([$this->target_func, self::FORM_NAME, $this->arrAllowedTag],
                               [$this->target_func]);
+        $this->objErr->doFunc(['dummy', self::FORM_NAME, $this->arrAllowedTag],
+                              [$this->target_func]);
 
     }
 }

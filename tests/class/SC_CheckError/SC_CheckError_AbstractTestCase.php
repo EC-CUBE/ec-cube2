@@ -27,6 +27,7 @@ abstract class SC_CheckError_AbstractTestCase extends Common_TestCase
     {
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
         $this->objErr->doFunc([$this->target_func, self::FORM_NAME], [$this->target_func]);
+        $this->objErr->doFunc(['dummy', self::FORM_NAME], [$this->target_func]);
     }
 
     /**

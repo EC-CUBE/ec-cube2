@@ -73,5 +73,6 @@ class SC_CheckError_EXIST_CHECK_REVERSETest extends SC_CheckError_AbstractTestCa
     {
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
         $this->objErr->doFunc([self::FORM_NAME, $this->target_func], [$this->target_func]);
+        $this->objErr->doFunc([self::FORM_NAME, 'dummy'], [$this->target_func]);
     }
 }
