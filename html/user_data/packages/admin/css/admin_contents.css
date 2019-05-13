@@ -8,11 +8,15 @@ body {
     width: 100%;
     height: 100%;
     background: #fff;
-    font-family: "ＭＳ Ｐゴシック","Hiragino Maru Gothic Pro","ヒラギノ丸ゴ Pro W4",Osaka,sans-serif;
-    font-size: 80%;
-    line-height: 120%;
+    font-family: 'Josefin Sans','Noto Sans Japanese',"游ゴシック体","Yu Gothic",YuGothic, "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ ProN W3", Meiryo, メイリオ, sans-serif !important;
+    /*font-size: 14px;*/
+    font-weight: 400;
+    line-height: 200%;
 }
 
+input::placeholder {
+    color: #ccc;
+}
 option {
     margin-right: 3px;
     font-size: 100%;
@@ -41,12 +45,12 @@ hr {
 }
 
 h1 {
-    border-top: 1px solid #b3b4bd;
+    /*border-top: 1px solid #b3b4bd;
     border-bottom: 1px solid #d9dadf;
     height: 30px;
     line-height: 30px;
     color: #444757;
-    background: url('../img/contents/subtitle_back_02.jpg') repeat-x;
+    background: url('../img/contents/subtitle_back_02.jpg') repeat-x;*/
     font-size: 130%;
 }
 
@@ -54,7 +58,7 @@ h1 span.title {
     display: block;
     padding-top: 2px;
     padding-left: 20px;
-    background: url('../img/contents/subtitle_back.gif') no-repeat;
+    /*background: url('../img/contents/subtitle_back.gif') no-repeat;*/
 }
 
 h1 span.subtitle {
@@ -227,10 +231,9 @@ a.btn-normal:visited {
     border: solid 1px #bcbecb;
     display: inline-block;
     color: #444757;
-    background-image: url('../img/button/white-grad.png');
     background-attachment: scroll;
     background-clip: border-box;
-    background-color: #eee;
+    background-color: #eeeff0;
     font-weight: normal;
     font-size: 90%;
     text-decoration: none;
@@ -460,11 +463,11 @@ a[href]:hover {
 #header {
     width: 100%;
     height: 51px;
-    background: url('../img/header/header_back.jpg') 0 0 repeat-x;
+    /*background: url('../img/header/header_back.jpg') 0 0 repeat-x;*/
 }
 
 #header-contents {
-    width: 1030px;
+    /*width: 1030px;*/
 }
 
 #logo {
@@ -499,76 +502,65 @@ a[href]:hover {
 /* ヘッダーナビ
 ----------------------------------------------- */
 #navi-wrap {
-    width: 1030px;
+    /*width: 1030px;*/
 }
 #navi {
     z-index: 90;
-    height: 28px;
+    /*height: 28px;
     background: url('../img/header/navi_back.jpg') top left repeat-x;
     font-size: 100%;
     line-height: 100%;
+    min-width: 1080px;*/
+    margin: 0 auto 10px;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    align-items: center;
+    background: #f4f5f5;
+    width: 100%;
 }
 
 #navi li {
-    background: url('../img/header/navi_back_line.jpg') no-repeat right;
+    /*background: url('../img/header/navi_back_line.jpg') no-repeat right;*/
     display: block;
-    float: left;
+    /*float: left;*/
     cursor: pointer;
-    height: 28px;
+    /*height: 28px;*/
     position: relative;
+}
+#navi li a {
+    color: #333;
+    font-weight: 500;
 }
 
 #navi li div,
-#navi li div span {
+#navi li span {
     display: block;
     _float: left;/*IE6対策*/
     cursor: pointer;
 }
 
 #navi li div {
-    color: #2d2f39;
-    height: 28px;
+    /*color: #2d2f39;*/
+    /*height: 28px;*/
     font-weight: bold;
     text-decoration: none;
 }
 
-#navi li div span {
+#navi li span {
     padding: 7px 10px;
-    _padding: 9px 10px 5px;/*IE6対策*/
-    height: 15px;
-    _height: 13px;/*IE6対策*/
-}
-
-#navi li div:hover {
-    background: url('../img/header/navi_on.jpg') left 0 repeat-x;
-}
-
-#navi li div:hover span {
-    background: url('../img/header/navi_on.jpg') left 0 repeat-x;
-}
-
-#navi li.on div {
-    background: url('../img/header/navi_on.jpg') left 0 repeat-x;
-}
-
-#navi li.on div span {
-    background: url('../img/header/navi_on.jpg') left 0 repeat-x;
-}
-
-#navi li.sfhover div {
-    background: url('../img/header/navi_on.jpg') left 0 repeat-x;
-}
-
-#navi li.sfhover div span {
-    background: url('../img/header/navi_on.jpg') left 0 repeat-x;
+    /*height: 15px;*/
 }
 
 #navi li ul {
     position: absolute;
-    top: 26px;
+    top: 42px;
     left: -9999px;
     width: 14px;
-    font-weight: normal;
     clear: both;
 }
 
@@ -577,23 +569,24 @@ a[href]:hover {
 #navi li li {
     display: block;
     top: 2px;
-    width: 180px;
-    height: 27px;
+    width: 220px;
+    /*height: 27px;
     line-height: 24px;
     color: #fff;
-    background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;
+    background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;*/
     font-weight: normal;
+    background: #333;
 }
 
 #navi li li a,
 #navi li li div {
     display: block;
     top: 2px;
-    width: 180px;
-    height: 27px;
+    width: 220px;
+    /*height: 27px;
     line-height: 24px;
     color: #fff;
-    background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;
+    background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;*/
     font-weight: normal;
 }
 
@@ -601,12 +594,13 @@ a[href]:hover {
 #navi li li div span {
     display: block;
     top: 2px;
-    width: 180px;
-    height: 27px;
+    width: 220px;
+    /*height: 27px;
     line-height: 24px;
     color: #fff;
     background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;
-    font-weight: normal;
+    font-weight: normal;*/
+    z-index: 1000;
 }
 
 #navi li li {
@@ -616,14 +610,10 @@ a[href]:hover {
 
 #navi li li a span,
 #navi li li div span {
-    padding: 2px 0 0 8px;
+    padding: 2px 0 0 18px;
     text-indent: 8px;
 }
 
-#navi li li a:hover,
-#navi li li div:hover {
-    background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
-}
 
 #navi li li a:hover span,
 #navi li li div:hover span {
@@ -652,16 +642,6 @@ a[href]:hover {
     background: transparent;
 }
 
-#navi li.sfhover li a:hover,
-#navi li.sfhover li div:hover {
-    background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
-}
-
-#navi li li.sfhover a:hover,
-#navi li li.sfhover div:hover {
-    background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
-}
-
 
 /*プルダウンメニュー 第2階層*/
 #navi li ul.level2 {
@@ -679,28 +659,27 @@ a[href]:hover {
 #navi li li li div span {
     margin-left: 0;
     display: block;
-    width: 180px;
+    width: 220px;
     top: 1px;
-    height: 27px;
-    line-height: 24px;
+    /*height: 27px;
+    line-height: 24px;*/
     color: #fff;
-    background: #787878;
+    /*background: #787878;
     font-weight: normal;
-    background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;
+    background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;*/
 }
 
 #navi li li li.sfhover div:hover,
 #navi li li li.sfhover a:hover {
-    width: 180px;
-    top: 1px;
-    height: 27px;
+    /*width: 220px;
+    top: 1px;*/
+    /*height: 27px;
     color: #fff;
-    background: url('../img/header/ico_sub_navi.gif') no-repeat left #474747;
+    background: url('../img/header/ico_sub_navi.gif') no-repeat left #474747;*/
 }
 
 #navi li ul ul {
-    margin: -28px 0 0 180px;
-    _margin: -28px 0 0 187px;/*IE6応急 */
+    margin: -28px 0 0 220px;
 }
 
 #navi li.sfhover ul ul,
@@ -713,26 +692,31 @@ a[href]:hover {
 #navi li li li.sfhover ul {
     left: auto;
 }
+#navi li#navi-ownersstore li.sfhover ul {
+    right: 425px;
+}
 
 #navi ul.level1 li.on_level2 {
-    background: url('../img/header/subnavi_bak_l2.gif') top left no-repeat #787878;
+    background: url('../img/header/subnavi_bak_l2_on.png') top left no-repeat #787878;
 }
 
 #navi ul.level1 li.on_level2 a:hover,
 #navi ul.level1 li.on_level2 div:hover {
-    background: url('../img/header/subnavi_bak_l2_on.gif') top left no-repeat #787878;
+    background: url('../img/header/subnavi_bak_l2.png') top right no-repeat #787878;
+    width: 100%;
+    display: block;
 }
 
 #navi ul.level1 li.on_level2 ul.level2 li a:hover,
 #navi ul.level1 li.on_level2 ul.level2 li div:hover {
-    background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
+    background: url('../img/header/subnavi_bak_on.gif') top right no-repeat #474747;
 }
 
 /*subnavi*/
 .subnavi a {
     padding: 6px 5px 4px 5px;
     display: block;
-    width: 140px;
+    width: 180px;
     color: #fff;
     background-color: #666;
     text-decoration: none;
@@ -753,7 +737,7 @@ a[href]:hover {
 .subnavi-on a {
     padding: 6px 5px 4px 5px;
     display: block;
-    width: 140px;
+    width: 180px;
     color: #000;
     background-color: #666;
     text-decoration: none;
@@ -832,8 +816,8 @@ body > #container {
 }
 
 #contents {
-    padding: 20px 20px 100px;
-    width: 1000px;
+    padding: 20px 10% 100px;
+    width: 80%;
 }
 
 #footer {
@@ -874,33 +858,34 @@ body > #container {
 }
 
 #login-wrap {
-    margin: 150px auto 0;
+    margin: 100px auto 0;
     padding: 0;
     border: 0;
-    text-align: left;
+    text-align: CENTER;
     width: 556px;
     z-index: 2;
-    background: url('../img/contents/admin_login_bg.jpg') center top repeat-x;
-    -moz-box-shadow: 0 0 5px #000;/* Firefox */
-    -webkit-box-shadow: 0 0 5px #000;/* Safari and Chrome */
+    /*background: url('../img/contents/admin_login_bg.jpg') center top repeat-x;
+    /*-moz-box-shadow: 0 0 5px #000; Firefox */
+    /*-webkit-box-shadow: 0 0 5px #000; Safari and Chrome */
 }
 
 #login-form h1 {
     margin: 46px auto 20px;
-    padding-left: 50px;
-    padding-bottom: 40px;
+    /*padding-left: 50px;*/
+    padding-bottom: 0px;
     border: none;
-    float: left;
+    /* float: left;
     width: 140px;
-    height: 150px;
+    height: 150px;*/
     background: none;
 }
 
 #input-form {
-    margin-top: 40px;
-    padding-right: 30px;
-    float: right;
-    width: 255px;
+    /*margin-top: 40px;
+    padding-right: 30px;*/
+    /*float: right;
+    width: 255px;*/
+    margin: auto;
 }
 
 #input-form p {
@@ -919,7 +904,7 @@ body > #container {
     width: 556px;
     color: #000000;
     font-size: 80%;
-    text-align: left;
+    text-align: center;
 }
 
 
@@ -1043,7 +1028,6 @@ body > #container {
 /* メインページ
 ----------------------------------------------- */
 #home-main {
-    margin-right: 300px;
 }
 
 #home-main table {
@@ -1064,9 +1048,9 @@ body > #container {
 }
 
 #home-info {
-    border-left: 1px solid #ccc;
+    /*border-left: 1px solid #ccc;
     float: right;
-    width: 280px;
+    width: 280px;*/
 }
 
 .home-info-item {
@@ -1074,6 +1058,7 @@ body > #container {
     width: 260px;
     line-height: 14px;
     font-size: 85%;
+    display: none;
 }
 
 .home-info-item .body {
@@ -1608,3 +1593,58 @@ body#popup {
 }
 
 /*以上インストールページと共通■触るべからず*/
+
+@media screen and (max-width: 768px) {
+    body {
+        height: auto;
+    }
+    #header-contents {
+        display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+    }
+    #navi,
+    #navi-wrap,
+    #login #copyright,
+    #login-wrap {
+        width: 100%;
+        min-width: 100%;
+    }
+    #navi,
+    #login-wrap {
+        margin-top: 30px;
+    }
+    #logo {
+        float: none;
+        width: 25%;
+    }
+    #site-check {
+        float: none;
+        margin-top: 0;
+        width: 75%;
+    }
+    #site-check p.info {
+        color: #333333;
+        float: none;
+        width: 100%;
+        display: none;
+    }
+    #navi {
+    }
+    #navi li#navi-system,
+    #navi li#navi-mail,
+    #navi li#navi-total,
+    #navi li#navi-contents,
+    #navi li#navi-design,
+    #navi li#navi-ownersstore,
+    #navi li#navi-basis {
+        display: none;
+    }
+    .contents-main .btn-area, #popup .btn-area, #form_edit .btn-area {
+        background: none;
+    }
+}
