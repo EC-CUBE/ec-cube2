@@ -364,7 +364,7 @@ class SC_CheckError
             $this->arrErr[$keyname1] = sprintf(
                 '※ %sは%sより大きい値を入力できません。<br />',
                 $disp_name1,
-                $disp_name1
+                $disp_name2
             );
         }
     }
