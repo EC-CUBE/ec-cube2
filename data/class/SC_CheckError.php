@@ -1749,7 +1749,7 @@ class SC_CheckError
      *
      * @access private
      * @param  string  $string チェックする文字列
-     * @return boolean 値が10進数の数値表現のみの場合 true
+     * @return boolean 値が10進数の数値表現以外の場合 true
      */
     public function numelicCheck($string)
     {
