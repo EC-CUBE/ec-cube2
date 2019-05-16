@@ -294,6 +294,9 @@ class SC_CartSession
     }
 
     // キーが一致した商品の削除
+    /**
+     * @deprecated 本体では使用していないメソッドです
+     */
     public function delProductKey($keyname, $val, $productTypeId)
     {
         $max = $this->getMax($productTypeId);
@@ -352,7 +355,7 @@ class SC_CartSession
      * @param  integer $productTypeId 商品種別ID
      * @param  integer $key
      * @return void
-     *
+     * @deprecated 本体では使用していないメソッドです
      * MEMO: せっかく一回だけ読み込みにされてますが、税率対応の関係でちょっと保留
      */
     public function setCartSession4getCartList($productTypeId, $key)
@@ -578,6 +581,7 @@ class SC_CartSession
      * @param  integer $cart_no       カート番号
      * @param  integer $productTypeId 商品種別ID
      * @return integer 商品規格ID
+     * @deprecated 本体では使用していないメソッドです
      */
     public function getProductClassId($cart_no, $productTypeId)
     {
