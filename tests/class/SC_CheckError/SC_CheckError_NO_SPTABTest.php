@@ -21,15 +21,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
-
-class SC_CheckError_NO_SPTABTest extends Common_TestCase
+class SC_CheckError_NO_SPTABTest extends SC_CheckError_AbstractTestCase
 {
 
     protected function setUp()
     {
         parent::setUp();
+        $this->target_func = 'NO_SPTAB';
     }
 
     protected function tearDown()
@@ -41,111 +39,91 @@ class SC_CheckError_NO_SPTABTest extends Common_TestCase
 
     public function testNO_SPTAB_タブのみの入力()
     {
-        $arrForm = array('form' => "\t");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('NO_SPTAB', 'form') ,array('NO_SPTAB'));
+        $this->arrForm = [self::FORM_NAME => "\t"];
+        $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testNO_SPTAB_半角スペースのみの入力()
     {
-        $arrForm = array('form' => " ");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('NO_SPTAB', 'form') ,array('NO_SPTAB'));
+        $this->arrForm = [self::FORM_NAME => " "];
+        $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testNO_SPTAB_全角スペースのみの入力()
     {
-        $arrForm = array('form' => "　");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('NO_SPTAB', 'form') ,array('NO_SPTAB'));
+        $this->arrForm = [self::FORM_NAME => "　"];
+        $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testNO_SPTAB_改行のみの入力()
     {
-        $arrForm = array('form' => "\n");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('NO_SPTAB', 'form') ,array('NO_SPTAB'));
+        $this->arrForm = [self::FORM_NAME => "\n"];
+        $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testNO_SPTAB_改行のみの入力2()
     {
-        $arrForm = array('form' => "\r");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('NO_SPTAB', 'form') ,array('NO_SPTAB'));
+        $this->arrForm = [self::FORM_NAME => "\r"];
+        $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testNO_SPTAB_スペース改行タブの混在()
     {
-        $arrForm = array('form' => " 　\t\n\r");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('NO_SPTAB', 'form') ,array('NO_SPTAB'));
+        $this->arrForm = [self::FORM_NAME => " 　\t\n\r"];
+        $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testNO_SPTAB_文字の先頭にスペース()
     {
-        $arrForm = array('form' => " test");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('NO_SPTAB', 'form') ,array('NO_SPTAB'));
+        $this->arrForm = [self::FORM_NAME => " test"];
+        $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testNO_SPTAB_文字の間にスペース()
     {
-        $arrForm = array('form' => "te st");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('NO_SPTAB', 'form') ,array('NO_SPTAB'));
+        $this->arrForm = [self::FORM_NAME => "te st"];
+        $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testNO_SPTAB_文字の最後にスペース()
     {
-        $arrForm = array('form' => "test ");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('NO_SPTAB', 'form') ,array('NO_SPTAB'));
+        $this->arrForm = [self::FORM_NAME => "test "];
+        $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testNO_SPTAB_スペースを含まない()
     {
-        $arrForm = array('form' => "test");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('NO_SPTAB', 'form') ,array('NO_SPTAB'));
+        $this->arrForm = [self::FORM_NAME => "test"];
+        $this->scenario();
 
         $this->expected = '';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 }
