@@ -14,7 +14,8 @@ class SC_CheckError_MOBILE_EMAIL_CHECKTest extends SC_CheckError_AbstractTestCas
         $this->faker = Faker\Factory::create('ja_JP');
         $masterData = new SC_DB_MasterData_Ex();
         $arrMobileDomains = $masterData->getMasterData('mtb_mobile_domain');
-        $this->mobileEmail = $this->faker->userName.'@'.$arrMobileDomains[$this->faker->numberBetween(0, count($arrMobileDomains) - 1)];
+
+        $this->mobileEmail = $this->faker->userName.'@'.$arrMobileDomains[$this->faker->numberBetween(1, count($arrMobileDomains))];
     }
 
     public function testMOBILE_EMAIL_CHECK()
