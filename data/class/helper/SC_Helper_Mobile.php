@@ -27,6 +27,7 @@
  * @package Helper
  * @author EC-CUBE CO.,LTD.
  * @version $Id$
+ * @deprecated
  */
 class SC_Helper_Mobile
 {

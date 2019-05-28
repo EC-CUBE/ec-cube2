@@ -200,21 +200,6 @@ class SC_Helper_HandleError
 
         ob_clean();
 
-        // 絵文字変換・除去フィルターが有効か評価する。
-        $loaded_ob_emoji = false;
-        $arrObs = ob_get_status(true);
-        foreach ($arrObs as $arrOb) {
-            if ($arrOb['name'] === 'SC_MobileEmoji::handler') {
-                $loaded_ob_emoji = true;
-                break;
-            }
-        }
-
-        // 絵文字変換・除去フィルターが無効で、利用できる場合、有効にする。
-        if (!$loaded_ob_emoji && class_exists('SC_MobileEmoji')) {
-            ob_start(array('SC_MobileEmoji', 'handler'));
-        }
-
         require_once CLASS_EX_REALDIR . 'page_extends/error/LC_Page_Error_SystemError_Ex.php';
         $objPage = new LC_Page_Error_SystemError_Ex();
         $objPage->init();

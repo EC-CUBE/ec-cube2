@@ -68,6 +68,7 @@ class SC_Customer
      * FIXME
      * @return boolean 該当する会員が存在する場合は true、それ以外の場合
      *                 は false を返す。
+     * @deprecated
      */
     public function checkMobilePhoneId()
     {
