@@ -14,7 +14,7 @@ class SC_CheckError_PREF_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->faker = Faker\Factory::create('ja_JP');
         $masterData = new SC_DB_MasterData_Ex();
         $arrPref = $masterData->getMasterData('mtb_pref');
-        $this->pref_id = $this->faker->numberBetween(0, count($arrPref) - 1);
+        $this->pref_id = $this->faker->numberBetween(1, count($arrPref));
     }
 
     public function testPREF_CHECK()
