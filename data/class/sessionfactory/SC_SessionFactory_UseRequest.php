@@ -31,6 +31,7 @@
  * @package SC_SessionFactory
  * @author EC-CUBE CO.,LTD.
  * @version $Id$
+ * @deprecated
  */
 class SC_SessionFactory_UseRequest extends SC_SessionFactory_Ex
 {
