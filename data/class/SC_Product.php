@@ -87,7 +87,7 @@ class SC_Product
 
             $objQuery->setOrder("($sub_sql) $o_order, product_id");
         }
-        $arrReturn = $objQuery->getCol('alldtl.product_id', $table, 'alldtl.del_flg = 0', $arrVal);
+        $arrReturn = $objQuery->getCol('alldtl.product_id', $table, $objQuery->where ? '' : 'alldtl.del_flg = 0', $arrVal);
 
         return $arrReturn;
     }
