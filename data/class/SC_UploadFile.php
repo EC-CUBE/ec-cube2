@@ -196,6 +196,9 @@ class SC_UploadFile
     }
 
     // 画像を削除する。
+    /**
+     * @deprecated 本体で使用されていないため非推奨
+     */
     public function deleteKikakuFile($keyname)
     {
         $objImage = new SC_Image_Ex($this->temp_dir);
@@ -307,6 +310,9 @@ class SC_UploadFile
         }
     }
 
+    /**
+     * @deprecated 本体で使用されていないため非推奨
+     */
     public function setHiddenKikakuFileList($arrPOST)
     {
         $cnt = 0;
@@ -378,6 +384,10 @@ class SC_UploadFile
 
         return $arrRet;
     }
+
+    /**
+     * @deprecated 本体で使用されていないため非推奨
+     */
     public function getFormKikakuDownFile()
     {
         $arrRet = array();
@@ -432,6 +442,9 @@ class SC_UploadFile
     }
 
     // DBで保存されたダウンロードファイル名をセットする(setDBDownFileと統合予定)
+    /**
+     * @deprecated 本体で使用されていないため非推奨
+     */
     public function setPostFileList($arrPost)
     {
         for ($cnt = 0;$cnt < count($this->keyname); $cnt++) {
@@ -442,6 +455,9 @@ class SC_UploadFile
     }
 
     // 画像をセットする
+    /**
+     * @deprecated 本体で使用されていないため非推奨
+     */
     public function setDBImageList($arrVal)
     {
         $cnt = 0;
@@ -454,6 +470,9 @@ class SC_UploadFile
     }
 
     // DB上のファイルの内削除要求があったファイルを削除する。
+    /**
+     * @deprecated 本体で使用されていないため非推奨
+     */
     public function deleteDBFile($arrVal)
     {
         $objImage = new SC_Image_Ex($this->temp_dir);
@@ -505,6 +524,9 @@ class SC_UploadFile
     }
 
     // 拡大率を指定して画像保存
+    /**
+     * @deprecated 本体で使用されていないため非推奨
+     */
     public function saveResizeImage($keyname, $to_w, $to_h)
     {
         $path = '';
