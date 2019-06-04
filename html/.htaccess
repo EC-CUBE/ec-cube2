@@ -1,9 +1,3 @@
-<ifModule mod_headers.c>
-Header always set X-XSS-Protection "1; mode=block"
-Header always set X-Content-Type-Options "nosniff"
-Header always set X-Frame-Options DENY
-</ifModule>
-
 # 基本は SC_Initial.php で設定するが、ini_setで反映されないものはここで設定する
 <IfModule mod_php5.c>
 php_value mbstring.language Japanese
