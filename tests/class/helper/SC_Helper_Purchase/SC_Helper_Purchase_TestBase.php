@@ -32,10 +32,13 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  */
 class SC_Helper_Purchase_TestBase extends Common_TestCase
 {
+  /** @var FixtureGenerator */
+  protected $objGenerator;
 
   protected function setUp()
   {
     parent::setUp();
+    $this->objGenerator = new FixtureGenerator($this->objQuery);
   }
 
   protected function tearDown()
@@ -299,7 +302,6 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
      )
    );
 
-   $this->objQuery->delete('dtb_payment_options');
    foreach ($payment_options as $key => $item) {
      $this->objQuery->insert('dtb_payment_options', $item);
    }
@@ -346,7 +348,6 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
      ),
    );
 
-   $this->objQuery->delete('dtb_deliv');
    foreach ($deliv as $key => $item) {
      $this->objQuery->insert('dtb_deliv', $item);
    }
@@ -375,7 +376,6 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
      ),
    );
 
-   $this->objQuery->delete('dtb_delivtime');
    foreach ($deliv_time as $key => $item) {
      $this->objQuery->insert('dtb_delivtime', $item);
    }
@@ -443,7 +443,6 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
      )
    );
 
-   $this->objQuery->delete('dtb_payment');
    foreach ($payment as $key => $item) {
      $this->objQuery->insert('dtb_payment', $item);
    }
@@ -452,13 +451,12 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
  /**
   * DBに受注情報を設定します.
   */
-  protected function setUpOrder()
+  protected function setUpOrder($customer_ids = [])
   {
-    $order = array(
+    $orders = array(
       array(
         'update_date' => '2000-01-01 00:00:00',
-        'order_id' => '1001',
-        'customer_id' => '1001',
+        'customer_id' => $customer_ids[0],
         'order_name01' => '受注情報01',
         'status' => '3',
         'payment_date' => '2032-12-31 01:20:30', // 日付が変わっても良いように、遠い未来に設定
@@ -467,57 +465,35 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
       ),
       array(
         'update_date' => '2000-01-01 00:00:00',
-        'order_id' => '1002',
-        'customer_id' => '1002',
+        'customer_id' => $customer_ids[1],
         'order_name01' => '受注情報02',
         'status' => '5',
-        'payment_id' => '1002',
-        'payment_method' => '支払方法1001',
-        'deliv_id' => '1002',
         'use_point' => '10',
         'add_point' => '20'
       )
     );
 
     $this->objQuery->delete('dtb_order');
-    foreach ($order as $item) {
-      $this->objQuery->insert('dtb_order', $item);
-    }
+    return array_map(function ($properties) {
+      $order_id = $this->objGenerator->createOrder($properties['customer_id']);
+      $this->objQuery->update('dtb_order', $properties, 'order_id = ?', [$order_id]);
+
+      return $order_id;
+    }, $orders);
   }
 
  /**
-  * DBに受注一時情報を設定します.
+  * setUpOrder() で生成した一時情報を返す.
   */
-  protected function setUpOrderTemp()
+  protected function setUpOrderTemp($order_ids)
   {
-    $order = array(
-      array(
-        'update_date' => '2000-01-01 00:00:00',
-        'order_temp_id' => '1001',
-        'customer_id' => '1001',
-        'order_name01' => '受注情報01',
-        'order_id' => '1001'
-      ),
-      array(
-        'update_date' => '2000-01-01 00:00:00',
-        'order_temp_id' => '1002',
-        'customer_id' => '1002',
-        'order_name01' => '受注情報02',
-        'payment_id' => '1002',
-        'payment_method' => '支払方法1001'
-      )
-    );
-
-    $this->objQuery->delete('dtb_order_temp');
-    foreach ($order as $item) {
-      $this->objQuery->insert('dtb_order_temp', $item);
-    }
+    return $this->objQuery->getCol('order_temp_id', 'dtb_order_temp', 'order_id IN ('.implode(',', array_pad([], count($order_ids), '?')).')', $order_ids);
   }
 
  /**
   * DBに受注詳細を設定します.
   */
- protected function setUpOrderDetail()
+ protected function setUpOrderDetail($order_ids)
  {
    $order_detail = array(
      array(
@@ -570,35 +546,11 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
   */
  protected function setUpCustomer()
  {
-   $customer = array(
-     array(
-       'customer_id' => '1001',
-       'name01' => '苗字',
-       'name02' => '名前',
-       'kana01' => 'みょうじ',
-       'kana02' => 'なまえ',
-       'email' => 'test@example.com',
-       'secret_key' => 'hoge',
-       'point' => '100',
-       'update_date' => '2000-01-01 00:00:00'
-     ),
-     array(
-       'customer_id' => '1002',
-       'name01' => '苗字2',
-       'name02' => '名前2',
-       'kana01' => 'みょうじ2',
-       'kana02' => 'なまえ2',
-       'email' => 'test2@example.com',
-       'secret_key' => 'hoge2',
-       'point' => '200',
-       'update_date' => '2000-01-01 00:00:00'
-     )
-   );
-
    $this->objQuery->delete('dtb_customer');
-   foreach ($customer as $item) {
-     $this->objQuery->insert('dtb_customer', $item);
-   }
+   return [
+     $this->objGenerator->createCustomer(null, ['point' => 100]),
+     $this->objGenerator->createCustomer(null, ['point' => 200])
+   ];
  }
 }
 

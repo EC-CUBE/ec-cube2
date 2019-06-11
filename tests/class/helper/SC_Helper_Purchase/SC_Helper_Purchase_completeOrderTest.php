@@ -33,16 +33,22 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
 {
-
+  /** @var array */
+  private $customer_ids = [];
+  /** @var array */
+  private $order_ids = [];
+  /** @var array */
+  private $order_temp_ids = [];
   private $helper;
 
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpOrder();
-    $this->setUpOrderTemp(); // order_temp_id = '1001'
+    $this->customer_ids = $this->setUpCustomer();
+    $this->order_ids = $this->setUpOrder($this->customer_ids);
+    $this->order_temp_ids = $this->setUpOrderTemp($this->order_ids);
     $this->setUpShipping([]);
-    $this->setUpCustomer();
+
 
     $_SESSION['cartKey'] = '1';
     $_SESSION['site'] = array(
@@ -64,7 +70,7 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
   // 適切なfunctionが呼ばれていることのみ確認
   public function testCompleteOrder_顧客IDが指定されている場合_購入日が更新される()
   {
-    $_SESSION['customer']['customer_id'] = '1002'; // 顧客ID
+    $_SESSION['customer']['customer_id'] = $this->customer_ids[1]; // 顧客ID
     $this->helper->completeOrder(ORDER_DELIV);
 
     $this->expected = array(
@@ -96,7 +102,7 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
     );
     $this->actual = $_SESSION['testResult'];
     $this->verify('適切なfunctionが呼ばれている');
-    $last_buy_date = $this->objQuery->get('last_buy_date', 'dtb_customer', 'customer_id = ?', '1002');
+    $last_buy_date = $this->objQuery->get('last_buy_date', 'dtb_customer', 'customer_id = ?', $this->customer_ids[1]);
     $this->assertNotNull($last_buy_date, '最終購入日');
   }
 

@@ -39,7 +39,6 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpOrderTemp();
     $this->helper = new SC_Helper_Purchase_registerOrderCompleteMock();
   }
 

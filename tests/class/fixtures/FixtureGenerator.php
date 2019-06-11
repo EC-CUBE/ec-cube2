@@ -29,12 +29,13 @@ class FixtureGenerator
      * 会員を生成して customer_id を返す.
      *
      * @param string $email メールアドレス. null の場合は, ランダムなメールアドレスが生成される.
+     * @param array $properties 任意の値を指定するプロパティの配列
      *
      * @return int customer_id
      */
-    public function createCustomer($email = null)
+    public function createCustomer($email = null, $properties = [])
     {
-        $customerValues = $this->createCustomerAsArray($email);
+        $customerValues = $this->createCustomerAsArray($email, $properties);
         $customerValues['salt'] = SC_Utils_Ex::sfGetRandomString(10);
         $customerValues['password'] = SC_Utils_Ex::sfGetHashString(
             $customerValues['password'],
@@ -56,10 +57,11 @@ class FixtureGenerator
      * 会員のダミーデータを生成して配列で返す
      *
      * @param string $email メールアドレス. null の場合は, ランダムなメールアドレスが生成される.
+     * @param array $properties 任意の値を指定するプロパティの配列
      *
      * @return array 会員ダミーデータの配列
      */
-    public function createCustomerAsArray($email = null)
+    public function createCustomerAsArray($email = null, $properties = [])
     {
         list($zip01, $zip02) = explode('-', $this->faker->postcode);
         list($tel01, $tel02, $tel03) = explode('-', $this->faker->phoneNumber);
@@ -92,7 +94,10 @@ class FixtureGenerator
             'point' => $this->faker->randomNumber()
         ];
 
-        return $this->objQuery->extractOnlyColsOf('dtb_customer', $values);
+        return $this->objQuery->extractOnlyColsOf(
+            'dtb_customer',
+            array_merge($values, $properties)
+        );
     }
 
     /**
@@ -483,6 +488,7 @@ class FixtureGenerator
     {
         $productsClassValues = $this->objQuery->getRow('*', 'dtb_products_class', 'product_class_id = ?', [$product_class_id]);
         $productsValues = $this->objQuery->getRow('*', 'dtb_products', 'product_id = ?', [$productsClassValues['product_id']]);
+
         $classcategory_name1 = $this->objQuery->get('name', 'dtb_classcategory', 'classcategory_id = ?', [$productsClassValues['classcategory_id1']]);
 
         $classcategory_name2 = $this->objQuery->get('name', 'dtb_classcategory', 'classcategory_id = ?', [$productsClassValues['classcategory_id2']]);
@@ -522,7 +528,7 @@ class FixtureGenerator
      * @param int $order_status_id 指定する注文ステータス
      * @return array dtb_order_temp のダミーデータの配列
      */
-    public function createOrderTempAsArray($order_id = 0, $subtotal = 0, $customer_id = 0, $deliv_id = 0, $add_charge =0, $add_discount = 0, $order_status_id = ORDER_NEW)
+    public function createOrderTempAsArray($order_id = 0, $subtotal = 0, $customer_id = 0, $deliv_id = 0, $add_charge = 0, $add_discount = 0, $order_status_id = ORDER_NEW)
     {
         $customerValues = $this->objQuery->getRow('*', 'dtb_customer', 'customer_id = ?', [$customer_id]);
         if (SC_Utils_Ex::isBlank($customerValues)) {
@@ -562,10 +568,9 @@ class FixtureGenerator
             'del_flg' => 1,
             'order_id' => $order_id
         ];
-
         $values['payment_total'] =  $values['total'];
         foreach ($customerValues as $key => $value) {
-            $orderTempValues['order_'.$key] = $value;
+            $values['order_'.$key] = $value;
         }
 
         return $this->objQuery->extractOnlyColsOf('dtb_order_temp', $values);
