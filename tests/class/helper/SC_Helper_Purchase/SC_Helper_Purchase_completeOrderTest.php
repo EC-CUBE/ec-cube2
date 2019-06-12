@@ -55,7 +55,7 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
       'pre_page' => 'pre',
       'now_page' => 'now',
       'regist_success' => TRUE,
-      'uniqid' => '1001'
+      'uniqid' => $this->order_temp_ids[0]
     );
 
     $this->helper = new SC_Helper_Purchase_completeOrderMock();
@@ -75,28 +75,28 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
 
     $this->expected = array(
       'verifyChangeCart' => array(
-        'uniqId' => '1001'
+        'uniqId' => $this->order_temp_ids[0]
       ),
       'getOrderTemp' => array(
-        'uniqId' => '1001'
+        'uniqId' => $this->order_temp_ids[0]
       ),
       'registerOrderComplete' => array(
-        'order_temp_id' => '1001',
+        'order_temp_id' => $this->order_temp_ids[0],
         'status' => ORDER_DELIV,
         'cartKey' => '1'
       ),
       'registerShipmentItem' => array(
         array(
-          'order_id' => '1001',
+          'order_id' => $this->order_ids[0],
           'shipping_id' => '00001',
           'shipment_item' => '商品1'
         )
       ),
       'registerShipping' => array(
-        'order_id' => '1001'
+        'order_id' => $this->order_ids[0],
       ),
       'cleanupSession' => array(
-        'order_id' => '1001',
+        'order_id' => $this->order_ids[0],
         'cartKey' => '1'
       )
     );
@@ -112,28 +112,28 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
 
     $this->expected = array(
       'verifyChangeCart' => array(
-        'uniqId' => '1001'
+        'uniqId' => $this->order_temp_ids[0]
       ),
       'getOrderTemp' => array(
-        'uniqId' => '1001'
+        'uniqId' => $this->order_temp_ids[0]
       ),
       'registerOrderComplete' => array(
-        'order_temp_id' => '1001',
+        'order_temp_id' => $this->order_temp_ids[0],
         'status' => ORDER_NEW,
         'cartKey' => '1'
       ),
       'registerShipmentItem' => array(
         array(
-          'order_id' => '1001',
+          'order_id' => $this->order_ids[0],
           'shipping_id' => '00001',
           'shipment_item' => '商品1'
         )
       ),
       'registerShipping' => array(
-        'order_id' => '1001'
+        'order_id' => $this->order_ids[0]
       ),
       'cleanupSession' => array(
-        'order_id' => '1001',
+        'order_id' => $this->order_ids[0],
         'cartKey' => '1'
       )
     );

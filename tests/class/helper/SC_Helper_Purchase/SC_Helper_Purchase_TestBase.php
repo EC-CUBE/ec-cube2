@@ -451,7 +451,7 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
  /**
   * DBに受注情報を設定します.
   */
-  protected function setUpOrder($customer_ids = [])
+  protected function setUpOrder($customer_ids = [], $product_class_ids = [])
   {
     $orders = array(
       array(
@@ -474,8 +474,8 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
     );
 
     $this->objQuery->delete('dtb_order');
-    return array_map(function ($properties) {
-      $order_id = $this->objGenerator->createOrder($properties['customer_id']);
+    return array_map(function ($properties) use ($product_class_ids) {
+      $order_id = $this->objGenerator->createOrder($properties['customer_id'], $product_class_ids);
       $this->objQuery->update('dtb_order', $properties, 'order_id = ?', [$order_id]);
 
       return $order_id;
