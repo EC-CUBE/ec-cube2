@@ -124,16 +124,16 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
       ),
       'registerShipmentItem' => array(
         array(
-          'order_id' => $this->order_ids[0],
+          'order_id' => (string) $this->order_ids[0],
           'shipping_id' => '00001',
           'shipment_item' => '商品1'
         )
       ),
       'registerShipping' => array(
-        'order_id' => $this->order_ids[0]
+        'order_id' => (string) $this->order_ids[0]
       ),
       'cleanupSession' => array(
-        'order_id' => $this->order_ids[0],
+        'order_id' => (string) $this->order_ids[0],
         'cartKey' => '1'
       )
     );

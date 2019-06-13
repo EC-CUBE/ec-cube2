@@ -42,7 +42,7 @@ class SC_Helper_Purchase_getOrderDetailTest extends SC_Helper_Purchase_TestBase
   {
     parent::setUp();
     $this->customer_ids = $this->setUpCustomer();
-    $this->order_ids = $this->setUpOrder($this->customer_ids);
+    $this->order_ids = $this->setUpOrder($this->customer_ids, [1, 2, 3, 4, 5]);
   }
 
   protected function tearDown()
@@ -69,6 +69,7 @@ class SC_Helper_Purchase_getOrderDetailTest extends SC_Helper_Purchase_TestBase
       'quantity', 'point_rate', 'status', 'payment_date', 'enable', 'effective',
       'tax_rate', 'tax_rule'];
 
+    $this->objQuery->setOrder('order_detail_id');
     $arrOrderDetails = $this->objQuery->select('*', 'dtb_order_detail T1 JOIN dtb_order T2 ON T1.order_id = T2.order_id', 'T1.order_id = ?', [$this->order_ids[0]]);
 
     // 不足しているダミーの情報を付与する
@@ -104,6 +105,7 @@ class SC_Helper_Purchase_getOrderDetailTest extends SC_Helper_Purchase_TestBase
       'quantity', 'point_rate', 'enable', 'effective',
       'tax_rate', 'tax_rule'];
 
+    $this->objQuery->setOrder('order_detail_id');
     $arrOrderDetails = $this->objQuery->select('*', 'dtb_order_detail T1 JOIN dtb_order T2 ON T1.order_id = T2.order_id', 'T1.order_id = ?', [$this->order_ids[0]]);
     // 不足しているダミーの情報を付与する
     $arrOrderDetails = array_map(function ($orderDetail) {
