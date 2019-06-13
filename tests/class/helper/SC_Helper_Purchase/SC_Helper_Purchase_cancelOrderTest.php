@@ -40,6 +40,7 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
   {
     parent::setUp();
     $product_id = $this->objGenerator->createProduct(null, 2);
+    $this->objQuery->setOrder('product_class_id');
     $this->arrProductsClasses = $this->objQuery->select('product_class_id, stock', 'dtb_products_class', 'product_id = ? AND del_flg = 0', [$product_id]);
     $this->helper = new SC_Helper_Purchase_cancelOrderMock();
   }
