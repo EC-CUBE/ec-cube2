@@ -136,16 +136,17 @@ class FixtureGenerator
      *
      * @param string $product_name 商品名
      * @param int $product_class_num 商品規格の生成数
+     * @param int $product_type_id 商品種別ID
      * @return int product_id
      */
-    public function createProduct($product_name = null, $product_class_num = 3)
+    public function createProduct($product_name = null, $product_class_num = 3, $product_type_id = PRODUCT_TYPE_NORMAL)
     {
         $productValues = $this->createProductAsArray($product_name);
         $this->objQuery->insert('dtb_products', $productValues);
 
         if ($product_class_num == 0) {
             // 0 が指定した場合はデフォルトの商品規格のみを生成する
-            $this->createProductsClass($productValues['product_id']);
+            $this->createProductsClass($productValues['product_id'], 0, 0, 0, $product_type_id);
         } else {
             // 規格をランダムに抽出する
             $class_ids = $this->objQuery->getCol('class_id', 'dtb_class', 'del_flg = 0');
@@ -192,9 +193,9 @@ class FixtureGenerator
                 if ($classcategory_id2 > 0) {
                     $exist_classcategory_id2[] = $classcategory_id2;
                 }
-                $this->createProductsClass($productValues['product_id'], $classcategory_id1, $classcategory_id2);
+                $this->createProductsClass($productValues['product_id'], $classcategory_id1, $classcategory_id2, 0, $product_type_id);
             }
-            $this->createProductsClass($productValues['product_id'], 0, 0, 1);
+            $this->createProductsClass($productValues['product_id'], 0, 0, 1, $product_type_id);
         }
 
         return $productValues['product_id'];
@@ -207,9 +208,10 @@ class FixtureGenerator
      * @param int $classcategory_id1 規格分類ID1
      * @param int $classcategory_id2 規格分類ID2
      * @param int $del_flg 削除フラグ
+     * @param int $product_type_id 商品種別ID
      * @return array 商品規格のダミーデータの配列
      */
-    public function createProductsClassAsArray($product_id, $classcategory_id1 = 0, $classcategory_id2 = 0, $del_flg = 0)
+    public function createProductsClassAsArray($product_id, $classcategory_id1 = 0, $classcategory_id2 = 0, $del_flg = 0, $product_type_id = PRODUCT_TYPE_NORMAL)
     {
         $product_class_id = $this->objQuery->nextVal('dtb_products_class_product_class_id');
         $stock = $this->faker->numberBetween(0, 100);
@@ -221,7 +223,7 @@ class FixtureGenerator
             'classcategory_id1' => $classcategory_id1,
             'classcategory_id2' => $classcategory_id2,
             'product_code' => 'CODE_'.$product_id.'_'.$classcategory_id1.'_'.$classcategory_id2,
-            'product_type_id' => 1,
+            'product_type_id' => $product_type_id,
             'stock_unlimited' => $stock === 0 ? 1 : 0,
             'stock' => $stock,
             'price01' => $price01,
@@ -243,12 +245,13 @@ class FixtureGenerator
      * @param int $classcategory_id1 規格分類ID1
      * @param int $classcategory_id2 規格分類ID2
      * @param int $del_flg 削除フラグ
+     * @param int $product_type_id 商品種別ID
      * @return int 商品規格ID
      */
-    public function createProductsClass($product_id, $classcategory_id1 = 0, $classcategory_id2 = 0, $del_flg = 0)
+    public function createProductsClass($product_id, $classcategory_id1 = 0, $classcategory_id2 = 0, $del_flg = 0, $product_type_id = PRODUCT_TYPE_NORMAL)
     {
 
-        $values = $this->createProductsClassAsArray($product_id, $classcategory_id1, $classcategory_id2, $del_flg);
+        $values = $this->createProductsClassAsArray($product_id, $classcategory_id1, $classcategory_id2, $del_flg, $product_type_id);
         $this->objQuery->insert('dtb_products_class', $values);
 
         return $values['product_class_id'];

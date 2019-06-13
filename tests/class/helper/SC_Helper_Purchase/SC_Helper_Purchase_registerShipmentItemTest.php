@@ -33,11 +33,16 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_TestBase
 {
+  /** @var array */
+  private $customer_ids = [];
+  /** @var array */
+  private $order_ids = [];
 
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpShipmentItem();
+    $this->customer_ids = $this->setUpCustomer();
+    $this->order_ids = $this->setUpOrder($this->customer_ids, [1, 2]);
   }
 
   protected function tearDown()
@@ -81,8 +86,8 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
   public function testRegisterShipmentItem_製品名等が指定されている場合_指定された値で登録を行う()
   {
     // 引数の設定
-    $order_id = '1';
-    $shipping_id = '1';
+    $order_id = $this->order_ids[0];
+    $shipping_id = '0';
     $arrParams = array(
       array(
         'product_class_id' => '1',
@@ -113,6 +118,7 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
       'order_id = ? and shipping_id = ?',
       array($order_id, $shipping_id)
     );
+
     $this->actual['count'] = count($result);
     $this->actual['first'] = $result[0];
 
@@ -122,11 +128,11 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
   public function testRegisterShipmentItem_製品名等が指定されていない場合_DBからマスタ情報を取得して登録を行う()
   {
     // 引数の設定
-    $order_id = '1';
+    $order_id = $this->order_ids[0];
     $shipping_id = '1';
     $arrParams = array(
       array(
-        'product_class_id' => '1001'
+        'product_class_id' => '1'
         // 'product_name' => '追加製品名01',
         // 'product_code' => 'newcode01',
         // 'classcategory_name1' => 'newcat01',
@@ -138,11 +144,11 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
     // 期待値の設定
     $this->expected['count'] = 1;
     $this->expected['first'] = array(
-      'product_class_id' => '1001',
-      'product_name' => '製品名1001',
-      'product_code' => 'code1001',
-      'classcategory_name1' => 'cat1001',
-      'classcategory_name2' => 'cat1002',
+      'product_class_id' => '1',
+      'product_name' => 'アイスクリーム',
+      'product_code' => 'ice-01',
+      'classcategory_name1' => '抹茶',
+      'classcategory_name2' => 'S',
   // TODO 要確認price01, price02を設定しても価格が取れない。実際にはDBから取るケースが無い?
       //'price' => '1500'
       'price' => null
