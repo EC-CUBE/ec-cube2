@@ -41,9 +41,9 @@ class SC_Helper_Purchase_cleanupSessionTest extends SC_Helper_Purchase_TestBase
   {
     parent::setUp();
     $product_id1 = $this->objGenerator->createProduct(null, 3, PRODUCT_TYPE_NORMAL);
-    $this->product_class_id1 = $this->objQuery->get('product_class_id', 'dtb_products_class', 'product_id = ?', [$product_id1]);
+    $this->product_class_id1 = $this->objQuery->get('product_class_id', 'dtb_products_class', 'product_id = ? AND del_flg = 0', [$product_id1]);
     $product_id2 = $this->objGenerator->createProduct(null, 3, PRODUCT_TYPE_DOWNLOAD);
-    $this->product_class_id2 = $this->objQuery->get('product_class_id', 'dtb_products_class', 'product_id = ?', [$product_id2]);
+    $this->product_class_id2 = $this->objQuery->get('product_class_id', 'dtb_products_class', 'product_id = ? AND del_flg = 0', [$product_id2]);
 
   }
 
