@@ -497,7 +497,7 @@ class FixtureGenerator
         $classcategory_name2 = $this->objQuery->get('name', 'dtb_classcategory', 'classcategory_id = ?', [$productsClassValues['classcategory_id2']]);
         $taxRuleValues = SC_Helper_TaxRule_Ex::getTaxRule($productsValues['product_id'], $productsClassValues['product_class_id']);
         $values = [
-            'order_detail_id' => $this->objQuery->nextVal('dtb_order_detail_order_detail_id_seq'),
+            'order_detail_id' => $this->objQuery->nextVal('dtb_order_detail_order_detail_id'),
             'order_id' => $order_id,
             'product_id' => $productsClassValues['product_id'],
             'product_class_id' => $product_class_id,
@@ -643,7 +643,7 @@ class FixtureGenerator
      */
     public function createOrder($customer_id = 0, $product_class_ids = [], $deliv_id = 1, $add_charge = 0, $add_discount = 0, $order_status_id = ORDER_NEW)
     {
-        $order_id = $this->objQuery->nextVal('dtb_order_order_id_seq');
+        $order_id = $this->objQuery->nextVal('dtb_order_order_id');
 
         if (empty($product_class_ids)) {
             // 既存の商品規格から選択する
