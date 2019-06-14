@@ -163,7 +163,9 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
   */
   protected function setUpOrderTemp($order_ids)
   {
-    return $this->objQuery->getCol('order_temp_id', 'dtb_order_temp', 'order_id IN ('.implode(',', array_pad([], count($order_ids), '?')).')', $order_ids);
+    return array_map(function ($order_id) {
+      return $this->objQuery->get('order_temp_id', 'dtb_order_temp', 'order_id = ?', [$order_id]);
+    } , $order_ids);
   }
  /**
   * DBに顧客情報を設定します。
