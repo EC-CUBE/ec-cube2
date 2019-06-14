@@ -12,7 +12,7 @@ $objQuery = SC_Query_Ex::getSingletonInstance();
 $objGenerator = new FixtureGenerator($objQuery, 'ja_JP');
 Codeception\Util\Fixtures::add('objGenerator', $objGenerator);
 
-$progress = (function () {
+$progress = function () {
     $current = '';
 
     return function ($key) use (&$current) {
@@ -25,8 +25,7 @@ $progress = (function () {
         }
         echo '.';
     };
-})();
-
+};
 
 $num = $objQuery->count('dtb_customer');
 
