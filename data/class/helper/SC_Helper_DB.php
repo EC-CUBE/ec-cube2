@@ -227,7 +227,10 @@ class SC_Helper_DB
         return $objQuery->exists('dtb_baseinfo');
     }
 
-    /* 選択中のアイテムのルートカテゴリIDを取得する */
+    /**
+     * 選択中のアイテムのルートカテゴリIDを取得する
+     * @deprecated 本体で使用されていないため非推奨
+     */
     public function sfGetRootId()
     {
         if (!$this->g_root_on) {
@@ -345,6 +348,7 @@ class SC_Helper_DB
      * @param array パンくずリスト用の配列
      * @result void
      * @see sfGetCatTree()
+     * @deprecated 本体で使用されていないため非推奨
      */
     public function findTree(&$arrTree, $parent, &$result)
     {
@@ -419,6 +423,7 @@ class SC_Helper_DB
      *
      * @param  integer $category_id カテゴリID
      * @return string  親カテゴリを連結した文字列
+     * @deprecated 本体で使用されていないため非推奨
      */
     public function sfGetCatCombName($category_id)
     {
@@ -445,6 +450,7 @@ class SC_Helper_DB
      *
      * @param  integer $category_id カテゴリID
      * @return array   指定したカテゴリIDの大カテゴリ
+     * @deprecated 本体で使用されていないため非推奨
      */
     public function sfGetFirstCat($category_id)
     {
@@ -615,6 +621,7 @@ class SC_Helper_DB
      * @param  integer $category_id カテゴリID
      * @param  integer $product_id  プロダクトID
      * @return void
+     * @deprecated 本体で使用されていないため非推奨
      */
     public function addProductAfterCategories($category_id, $product_id)
     {
@@ -874,6 +881,7 @@ __EOS__;
      * @param string  $id_name  ID名
      * @param integer $id       ID
      * @param array 子ID の配列
+     * @deprecated 本体で使用されていないため非推奨
      */
     public function sfGetChildsID($table, $pid_name, $id_name, $id)
     {
@@ -1305,6 +1313,7 @@ __EOS__;
      * @param  string   $col_name カラム名
      * @param  array    $arrId    IDの配列
      * @return array    特定のカラムの配列
+     * @deprecated 本体で使用されていないため非推奨
      */
     public function sfGetParentsCol($objQuery, $table, $id_name, $col_name, $arrId)
     {
@@ -1339,6 +1348,7 @@ __EOS__;
      * @param  integer  $new_catid 新カテゴリID
      * @param  integer  $id        ID
      * @return void
+     * @deprecated 本体で使用されていないため非推奨
      */
     public function sfMoveCatRank($objQuery, $table, $id_name, $cat_name, $old_catid, $new_catid, $id)
     {
@@ -1562,6 +1572,7 @@ __EOS__;
      *
      * @param  string $sqlFilePath SQL ファイルのパス
      * @return void
+     * @deprecated 本体で使用されていないため非推奨
      */
     public function sfExecSqlByFile($sqlFilePath)
     {
@@ -1634,6 +1645,7 @@ __EOS__;
      * @param  string  $where
      * @param  array   $arrval
      * @return integer レコード件数
+     * @deprecated SC_Query::count() を使用してください
      */
     public function countRecords($table, $where = '', $arrval = array())
     {
