@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,14 +33,3 @@ if (!defined('ADMIN_FUNCTION') || ADMIN_FUNCTION !== true) {
 
 require_once HTML_REALDIR . 'define.php';
 require_once HTML_REALDIR . HTML2DATA_DIR . 'require_base.php';
-
-// 絵文字変換 (除去) フィルターを組み込む。
-ob_start(array('SC_MobileEmoji', 'handler'));
-
-if (SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE) {
-    // resize_image.phpは除外
-    if (stripos($_SERVER['REQUEST_URI'], ROOT_URLPATH . 'resize_image.php') === FALSE) {
-        $objMobile = new SC_Helper_Mobile_Ex();
-        $objMobile->sfMobileInit();
-    }
-}

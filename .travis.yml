@@ -1,6 +1,8 @@
 # for travis-ci
 # see also. https://travis-ci.org
 language: php
+services:
+  - docker
 sudo: false
 php:
   - 5.4
@@ -9,10 +11,18 @@ php:
   - 7.0
   - 7.1
   - 7.2
+  - 7.3
+
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
 
 env:
     global:
-        - DBNAME=myapp_test HTTP_URL=http://localhost:8085/ HTTPS_URL=https://localhost:8085/
+        - DBNAME=myapp_test HTTP_URL=http://localhost:8085/ HTTPS_URL=http://localhost:8085/
     matrix:
         - DB=mysql USER=root DBPASS=' ' DBUSER=root
         - DB=pgsql USER=postgres DBPASS=password DBUSER=postgres
@@ -29,11 +39,13 @@ matrix:
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
     - php: 7.0
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
+    - php: 7.1
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
     - php: 7.2
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
   allow_failures:
     # Use for coverage report
-    - php: 7.1
+    - php: 7.3
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
 
 before_script:
@@ -49,13 +61,20 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - php -S localhost:8085 -t html/ &
+  - wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.43/chromedriver_linux64.zip
+  - unzip -o -q chromedriver_linux64.zip
+  - sudo mv -f ./chromedriver /usr/local/bin/
+  - sudo chmod +x /usr/local/bin/chromedriver
+  - docker pull schickling/mailcatcher
+  - docker run -d -p 1080:1080 -p 1025:1025 --name mailcatcher schickling/mailcatcher
+  - chromedriver --url-base=/wd/hub &
   - php data/vendor/bin/codecept build
 
 script:
   - mkdir -p reports/coverage
   - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist ; fi
   - if [ $COVERAGE ] ; then phpdbg -qrr data/vendor/bin/phpunit -c phpunit.xml.dist ; fi
-  - if [ ! $COVERAGE ] ; then php data/vendor/bin/codecept run --env travis --steps ; fi
+  - if [ ! $COVERAGE ] ; then php data/vendor/bin/codecept run --env chrome --steps ; fi
 
 after_script:
   - if [ $COVERAGE ] ; then php data/vendor/bin/coveralls -v ; fi
@@ -64,5 +83,4 @@ after_script:
 # Cache folder, you can delete cache from Travis CI web interface
 cache:
     directories:
-        - data/vendor
-        - $HOME/.composer/cache vendor/
+        - $HOME/.composer/cache

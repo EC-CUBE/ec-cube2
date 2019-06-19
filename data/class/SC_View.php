@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -61,7 +61,6 @@ class SC_View
         $this->_smarty->default_modifiers = array('script_escape');
 
         // smarty:nodefaultsの後方互換を維持
-        $this->_smarty->registerFilter('pre', array($this, 'lower_compatibility_smarty_nodefaults'));
 
         if (ADMIN_MODE == '1') {
             $this->time_start = microtime(true);
@@ -70,6 +69,7 @@ class SC_View
         $this->_smarty->force_compile = SMARTY_FORCE_COMPILE_MODE === true;
         // 各filterをセットします.
         $this->registFilter();
+        $this->_smarty->registerFilter('pre', array($this, 'lower_compatibility_smarty'));
     }
 
     // テンプレートに値を割り当てる
@@ -251,16 +251,19 @@ class SC_View
 
 
     /**
-     * smarty:nodefaultsをnofilterに置換する
+     * 2.13のテンプレートのまま動作するためにsmartyの後方互換処理
      *
      * @param mixed $tpl_source
      * @param mixed $smarty
      * @access public
      * @return void
      */
-    public function lower_compatibility_smarty_nodefaults($tpl_source, $smarty)
+    public function lower_compatibility_smarty($tpl_source, $smarty)
     {
-        return preg_replace("/\|smarty:nodefaults/",' nofilter', $tpl_source);
+        $pattern = array("/\|smarty:nodefaults/", "/include_php /", "/=`(.+?)`/");
+        $replace = array(' ', 'include_php_ex ', "=$1");
+
+        return preg_replace($pattern, $replace, $tpl_source);
     }
 
 }

@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -364,7 +364,7 @@ class SC_CheckError
             $this->arrErr[$keyname1] = sprintf(
                 '※ %sは%sより大きい値を入力できません。<br />',
                 $disp_name1,
-                $disp_name1
+                $disp_name2
             );
         }
     }
@@ -432,9 +432,9 @@ class SC_CheckError
     }
 
     /**
-     * 最大文字数制限の判定
+     * 最大数制限の判定
      *
-     * 入力が最大数以上ならエラーを返す
+     * 入力が最大数より大きければエラーを返す
      * @param  array $value value[0] = 項目名
      *                      value[1] = 判定対象文字列
      *                      value[2] = 最大数
@@ -1749,7 +1749,7 @@ class SC_CheckError
      *
      * @access private
      * @param  string  $string チェックする文字列
-     * @return boolean 値が10進数の数値表現のみの場合 true
+     * @return boolean 値が10進数の数値表現以外の場合 true
      */
     public function numelicCheck($string)
     {

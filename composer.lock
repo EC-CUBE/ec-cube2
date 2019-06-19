@@ -4,8 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d598a6770b1028ee74b690ef032bd9f",
+    "content-hash": "9bd7ec887b2427d6a40dcef603e9d5e5",
     "packages": [
+        {
+            "name": "bondas83/mdb2_driver_mysqli",
+            "version": "v1.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bondas83/mdb2_driver_mysqli.git",
+                "reference": "821854e34b8ca0655b437d441ef40251dda38ff4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bondas83/mdb2_driver_mysqli/zipball/821854e34b8ca0655b437d441ef40251dda38ff4",
+                "reference": "821854e34b8ca0655b437d441ef40251dda38ff4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "silverorange/mdb2": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "MDB2/Driver/mysqli.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Julius Smatavicius",
+                    "email": "bondas83@gmail.com"
+                }
+            ],
+            "description": "This is the Mysqli MDB2 driver.",
+            "homepage": "https://github.com/bondas83/MDB2_Driver_mysqli",
+            "keywords": [
+                "PEAR",
+                "database",
+                "mdb2",
+                "mysqli"
+            ],
+            "time": "2017-08-04T14:29:40+00:00"
+        },
         {
             "name": "mobiledetect/mobiledetectlib",
             "version": "2.8.32",
@@ -59,505 +106,59 @@
             "time": "2018-06-03T13:13:04+00:00"
         },
         {
-            "name": "pear-pear.php.net/Archive_Tar",
-            "version": "1.4.3",
+            "name": "nanasess/mdb2_driver_pgsql",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nanasess/MDB2_Driver_pgsql.git",
+                "reference": "88eba9a1ad88838a6bf24b15efa438932055f2b8"
+            },
             "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Archive_Tar-1.4.3.tgz",
-                "reference": null,
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/nanasess/MDB2_Driver_pgsql/zipball/88eba9a1ad88838a6bf24b15efa438932055f2b8",
+                "reference": "88eba9a1ad88838a6bf24b15efa438932055f2b8",
+                "shasum": ""
             },
             "require": {
-                "php": ">=5.2.0.0"
+                "silverorange/mdb2": "*"
             },
-            "replace": {
-                "pear-pear/archive_tar": "== 1.4.3.0"
-            },
-            "type": "pear-library",
+            "type": "library",
             "autoload": {
                 "classmap": [
-                    ""
+                    "MDB2/Driver/pgsql.php"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
-                "/"
+                "./"
             ],
             "license": [
-                "New BSD License"
+                "BSD-3-Clause"
             ],
-            "description": "This class provides handling of tar files in PHP.\nIt supports creating, listing, extracting and adding to tar files.\nGzip support is available if PHP has the zlib extension built-in or\nloaded. Bz2 compression is also supported with the bz2 extension loaded."
-        },
-        {
-            "name": "pear-pear.php.net/Cache_Lite",
-            "version": "1.8.2",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Cache_Lite-1.8.2.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "pear-pear.php.net/pear": ">=1.10.1.0",
-                "php": ">=5.4.0.0"
-            },
-            "replace": {
-                "pear-pear/cache_lite": "== 1.8.2.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
+            "authors": [
+                {
+                    "name": "Lukas Kahwe Smith",
+                    "email": "smith@pooteeweet.org"
+                },
+                {
+                    "name": "Nathan Fredrickson",
+                    "email": "nathan@silverorange.com"
+                },
+                {
+                    "name": "Lorenzo Alberton",
+                    "email": "l.alberton@quipo.it"
+                },
+                {
+                    "name": "Kentaro Ohkouchi",
+                    "email": "nanasess@fsm.ne.jp"
+                },
+                {
+                    "name": "Ali Fazelzadeh",
+                    "email": "afz@dev-code.com"
+                }
             ],
-            "license": [
-                "lgpl"
-            ],
-            "description": "This package is a little cache system optimized for file containers. It is fast and safe (because it\n        uses file locking and/or anti-corruption tests)."
-        },
-        {
-            "name": "pear-pear.php.net/Console_Getopt",
-            "version": "1.4.1",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Console_Getopt-1.4.1.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=5.4.0.0"
-            },
-            "replace": {
-                "pear-pear/console_getopt": "== 1.4.1.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "description": "This is a PHP implementation of &quot;getopt&quot; supporting both\nshort and long options."
-        },
-        {
-            "name": "pear-pear.php.net/File_SearchReplace",
-            "version": "1.1.4",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/File_SearchReplace-1.1.4.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=4.3.0.0"
-            },
-            "replace": {
-                "pear-pear/file_searchreplace": "== 1.1.4.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD"
-            ],
-            "description": "Provides various functions to perform replace\non files. Preg/Ereg regex supported along with faster, but more basic str_replace routine."
-        },
-        {
-            "name": "pear-pear.php.net/MDB2",
-            "version": "2.5.0b5",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/MDB2-2.5.0b5.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "pear-pear.php.net/pear": ">=1.3.6.0",
-                "php": ">=5.2.0.0"
-            },
-            "replace": {
-                "pear-pear/mdb2": "== 2.5.0.0-beta5"
-            },
-            "suggest": {
-                "fbsql-pear-pear.php.net/MDB2_Driver_fbsql": ">=0.3.0.0",
-                "ibase-pear-pear.php.net/MDB2_Driver_ibase": ">=1.5.0.0",
-                "mssql-pear-pear.php.net/MDB2_Driver_mssql": ">=1.5.0.0",
-                "mysql-pear-pear.php.net/MDB2_Driver_mysql": ">=1.5.0.0",
-                "mysqli-pear-pear.php.net/MDB2_Driver_mysqli": ">=1.5.0.0",
-                "oci8-pear-pear.php.net/MDB2_Driver_oci8": ">=1.5.0.0",
-                "odbc-pear-pear.php.net/MDB2_Driver_odbc": ">=0.2.0.0",
-                "pgsql-pear-pear.php.net/MDB2_Driver_pgsql": ">=1.5.0.0",
-                "querysim-pear-pear.php.net/MDB2_Driver_querysim": ">=0.7.0.0",
-                "sqlite-pear-pear.php.net/MDB2_Driver_sqlite": ">=1.5.0.0",
-                "sqlsrv-pear-pear.php.net/MDB2_Driver_sqlsrv": ">=1.5.0.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD License"
-            ],
-            "description": "PEAR MDB2 is a merge of the PEAR DB and Metabase php database abstraction layers.\n\nIt provides a common API for all supported RDBMS. The main difference to most\nother DB abstraction packages is that MDB2 goes much further to ensure\nportability. MDB2 provides most of its many features optionally that\ncan be used to construct portable SQL statements:\n* Object-Oriented API\n* A DSN (data source name) or array format for specifying database servers\n* Datatype abstraction and on demand datatype conversion\n* Various optional fetch modes to fix portability issues\n* Portable error codes\n* Sequential and non sequential row fetching as well as bulk fetching\n* Ability to make buffered and unbuffered queries\n* Ordered array and associative array for the fetched rows\n* Prepare/execute (bind) named and unnamed placeholder emulation\n* Sequence/autoincrement emulation\n* Replace emulation\n* Limited sub select emulation\n* Row limit emulation\n* Transactions/savepoint support\n* Large Object support\n* Index/Unique Key/Primary Key support\n* Pattern matching abstraction\n* Module framework to load advanced functionality on demand\n* Ability to read the information schema\n* RDBMS management methods (creating, dropping, altering)\n* Reverse engineering schemas from an existing database\n* SQL function call abstraction\n* Full integration into the PEAR Framework\n* PHPDoc API documentation"
-        },
-        {
-            "name": "pear-pear.php.net/MDB2_Driver_mysqli",
-            "version": "1.5.0b4",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/MDB2_Driver_mysqli-1.5.0b4.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "ext-mysqli": "*",
-                "pear-pear.php.net/mdb2": ">=2.5.0.0",
-                "php": ">=5.2.0.0"
-            },
-            "replace": {
-                "pear-pear/mdb2_driver_mysqli": "== 1.5.0.0-beta4"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD License"
-            ],
-            "description": "This is the MySQLi MDB2 driver."
-        },
-        {
-            "name": "pear-pear.php.net/MDB2_Driver_pgsql",
-            "version": "1.5.0b4",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/MDB2_Driver_pgsql-1.5.0b4.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "ext-pgsql": "*",
-                "pear-pear.php.net/mdb2": ">=2.5.0.0",
-                "php": ">=5.2.0.0"
-            },
-            "replace": {
-                "pear-pear/mdb2_driver_pgsql": "== 1.5.0.0-beta4"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD License"
-            ],
-            "description": "This is the PostgreSQL MDB2 driver."
-        },
-        {
-            "name": "pear-pear.php.net/Mail",
-            "version": "1.4.1",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Mail-1.4.1.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=5.2.1.0"
-            },
-            "replace": {
-                "pear-pear/mail": "== 1.4.1.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "New BSD License"
-            ],
-            "description": "PEAR's Mail package defines an interface for implementing mailers under the PEAR hierarchy.  It also provides supporting functions useful to multiple mailer backends.  Currently supported backends include: PHP's native mail() function, sendmail, and SMTP.  This package also provides a RFC822 email address list validation utility class."
-        },
-        {
-            "name": "pear-pear.php.net/Net_UserAgent_Mobile",
-            "version": "1.0.0",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Net_UserAgent_Mobile-1.0.0.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "ext-pcre": "*",
-                "pear-pear.php.net/pear": ">=1.4.3.0",
-                "php": ">=4.3.0.0"
-            },
-            "replace": {
-                "pear-pear/net_useragent_mobile": "== 1.0.0.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "New BSD License"
-            ],
-            "description": "Net_UserAgent_Mobile parses HTTP_USER_AGENT strings of (mainly Japanese) mobile HTTP user agents. It'll be useful in page dispatching by user agents.\nThis package was ported from Perl's HTTP::MobileAgent.\nSee http://search.cpan.org/search?mode=module&query=HTTP-MobileAgent"
-        },
-        {
-            "name": "pear-pear.php.net/PEAR",
-            "version": "1.10.5",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/PEAR-1.10.5.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "ext-pcre": "*",
-                "ext-xml": "*",
-                "pear-pear.php.net/archive_tar": ">=1.4.0.0",
-                "pear-pear.php.net/console_getopt": ">=1.4.1.0",
-                "pear-pear.php.net/structures_graph": ">=1.1.0.0",
-                "pear-pear.php.net/xml_util": ">=1.3.0.0",
-                "php": ">=5.4.0.0"
-            },
-            "conflict": {
-                "pear-pear.php.net/pear_frontend_gtk": "<0.4.0.0",
-                "pear-pear.php.net/pear_frontend_web": "<=0.4.0.0"
-            },
-            "replace": {
-                "pear-pear/pear": "== 1.10.5.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "New BSD License"
-            ],
-            "description": "The PEAR package contains:\n * the PEAR installer, for creating, distributing\n   and installing packages\n * the PEAR_Exception PHP5 error handling mechanism\n * the PEAR_ErrorStack advanced error handling mechanism\n * the PEAR_Error error handling mechanism\n * the OS_Guess class for retrieving info about the OS\n   where PHP is running on\n * the System class for quick handling of common operations\n   with files and directories\n * the PEAR base class\n  Features in a nutshell:\n  * full support for channels\n  * pre-download dependency validation\n  * new package.xml 2.0 format allows tremendous flexibility while maintaining BC\n  * support for optional dependency groups and limited support for sub-packaging\n  * robust dependency support\n  * full dependency validation on uninstall\n  * remote install for hosts with only ftp access - no more problems with\n    restricted host installation\n  * full support for mirroring\n  * support for bundling several packages into a single tarball\n  * support for static dependencies on a url-based package\n  * support for custom file roles and installation tasks"
-        },
-        {
-            "name": "pear-pear.php.net/Services_JSON",
-            "version": "1.0.3",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Services_JSON-1.0.3.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=4.3.0.0"
-            },
-            "replace": {
-                "pear-pear/services_json": "== 1.0.3.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD"
-            ],
-            "description": "JSON (JavaScript Object Notation, http://json.org) is a lightweight data-interchange format. \n    It is easy for humans to read and write. It is easy for machines to parse and generate. \n    It is based on a subset of the JavaScript Programming Language, Standard ECMA-262 3rd Edition - December 1999. \n    This feature can also be found in Python. JSON is a text format that is completely language independent \n    but uses conventions that are familiar to programmers of the C-family of languages, including\n     C, C++, C#, Java, JavaScript, Perl, TCL, and many others. These properties make JSON an ideal\n     data-interchange language.\n\n    This package provides a simple encoder and decoder for JSON notation. It is intended for use\n     with client-side Javascript applications that make use of HTTPRequest to perform server \n    communication functions - data can be encoded into JSON notation for use in a client-side\n     javascript, or decoded from incoming Javascript requests. JSON format is native to Javascript, \n    and can be directly eval()'ed with no further parsing overhead."
-        },
-        {
-            "name": "pear-pear.php.net/Structures_Graph",
-            "version": "1.1.1",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Structures_Graph-1.1.1.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=5.3.0.0"
-            },
-            "replace": {
-                "pear-pear/structures_graph": "== 1.1.1.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "LGPL-3.0+"
-            ],
-            "description": "Structures_Graph is a package for creating and manipulating graph datastructures. It allows building of directed\nand undirected graphs, with data and metadata stored in nodes. The library provides functions for graph traversing\nas well as for characteristic extraction from the graph topology."
-        },
-        {
-            "name": "pear-pear.php.net/Text_Password",
-            "version": "1.2.1",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/Text_Password-1.2.1.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "php": ">=5.2.1.0"
-            },
-            "replace": {
-                "pear-pear/text_password": "== 1.2.1.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "MIT License"
-            ],
-            "description": "Text_Password allows one to create pronounceable and unpronounceable\npasswords. The full functional range is explained in the manual at\nhttp://pear.php.net/manual/."
-        },
-        {
-            "name": "pear-pear.php.net/XML_Parser",
-            "version": "1.3.7",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/XML_Parser-1.3.7.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "pear-pear.php.net/pear": "*",
-                "php": ">=4.2.0.0"
-            },
-            "replace": {
-                "pear-pear/xml_parser": "== 1.3.7.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD License"
-            ],
-            "description": "This is an XML parser based on PHPs built-in xml extension.\nIt supports two basic modes of operation: \"func\" and \"event\".  In \"func\" mode, it will look for a function named after each element (xmltag_ELEMENT for start tags and xmltag_ELEMENT_ for end tags), and in \"event\" mode it uses a set of generic callbacks.\n\nSince version 1.2.0 there's a new XML_Parser_Simple class that makes parsing of most XML documents easier, by automatically providing a stack for the elements.\nFurthermore its now possible to split the parser from the handler object, so you do not have to extend XML_Parser anymore in order to parse a document with it."
-        },
-        {
-            "name": "pear-pear.php.net/XML_Serializer",
-            "version": "0.21.0",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/XML_Serializer-0.21.0.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "ext-xml": "*",
-                "pear-pear.php.net/pear": "*",
-                "pear-pear.php.net/xml_parser": ">=1.2.6.0",
-                "pear-pear.php.net/xml_util": ">=1.1.1.0",
-                "php": ">=4.2.0.0"
-            },
-            "replace": {
-                "pear-pear/xml_serializer": "== 0.21.0.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD License"
-            ],
-            "description": "XML_Serializer serializes complex data structures like arrays or object as XML documents.\nThis class helps you generating any XML document you require without the need for DOM.\nFurthermore this package can be used as a replacement to serialize() and unserialize() as it comes with a matching XML_Unserializer that is able to create PHP data structures (like arrays and objects) from XML documents, if type hints are available.\nIf you use the XML_Unserializer on standard XML files, it will try to guess how it has to be unserialized. In most cases it does exactly what you expect it to do.\nTry reading a RSS file with XML_Unserializer and you have the whole RSS file in a structured array or even a collection of objects, similar to XML_RSS.\n\nSince version 0.8.0 the package is able to treat XML documents similar to the simplexml extension of PHP 5."
-        },
-        {
-            "name": "pear-pear.php.net/XML_Util",
-            "version": "1.4.3",
-            "dist": {
-                "type": "file",
-                "url": "http://pear.php.net/get/XML_Util-1.4.3.tgz",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "ext-pcre": "*",
-                "php": ">=5.4.0.0"
-            },
-            "replace": {
-                "pear-pear/xml_util": "== 1.4.3.0"
-            },
-            "type": "pear-library",
-            "autoload": {
-                "classmap": [
-                    ""
-                ]
-            },
-            "include-path": [
-                "/"
-            ],
-            "license": [
-                "BSD License"
-            ],
-            "description": "Selection of methods that are often needed when working with XML documents.  Functionality includes creating of attribute lists from arrays, creation of tags, validation of XML names and more."
+            "description": "This is the PostgreSQL MDB2 driver.",
+            "time": "2019-02-05T06:25:36+00:00"
         },
         {
             "name": "pear/archive_tar",
@@ -673,17 +274,75 @@
             "time": "2015-07-20T20:28:12+00:00"
         },
         {
-            "name": "pear/pear-core-minimal",
-            "version": "v1.10.3",
+            "name": "pear/mail",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pear/pear-core-minimal.git",
-                "reference": "070f0b600b2caca2501e2c9b7e553016e4b0d115"
+                "url": "https://github.com/pear/Mail.git",
+                "reference": "9609ed5e42ac5b221dfd9af85de005c59d418ee7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pear/pear-core-minimal/zipball/070f0b600b2caca2501e2c9b7e553016e4b0d115",
-                "reference": "070f0b600b2caca2501e2c9b7e553016e4b0d115",
+                "url": "https://api.github.com/repos/pear/Mail/zipball/9609ed5e42ac5b221dfd9af85de005c59d418ee7",
+                "reference": "9609ed5e42ac5b221dfd9af85de005c59d418ee7",
+                "shasum": ""
+            },
+            "require": {
+                "pear/pear-core-minimal": "~1.9",
+                "php": ">=5.2.1"
+            },
+            "require-dev": {
+                "pear/pear": "*"
+            },
+            "suggest": {
+                "pear/net_smtp": "Install optionally via your project's composer.json"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Mail": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Chuck Hagenbuch",
+                    "email": "chuck@horde.org",
+                    "role": "lead"
+                },
+                {
+                    "name": "Richard Heyes",
+                    "email": "richard@phpguru.org",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Aleksander Machniak",
+                    "email": "alec@alec.pl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Class that provides multiple interfaces for sending emails.",
+            "homepage": "http://pear.php.net/package/Mail",
+            "time": "2017-04-11T17:27:29+00:00"
+        },
+        {
+            "name": "pear/pear-core-minimal",
+            "version": "v1.10.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/pear-core-minimal.git",
+                "reference": "19a3e0fcd50492c4357372f623f55f1b144346da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/pear-core-minimal/zipball/19a3e0fcd50492c4357372f623f55f1b144346da",
+                "reference": "19a3e0fcd50492c4357372f623f55f1b144346da",
                 "shasum": ""
             },
             "require": {
@@ -714,7 +373,7 @@
                 }
             ],
             "description": "Minimal set of PEAR core files to be used as composer dependency",
-            "time": "2017-02-28T16:46:11+00:00"
+            "time": "2018-12-05T20:03:52+00:00"
         },
         {
             "name": "pear/pear_exception",
@@ -770,6 +429,219 @@
                 "exception"
             ],
             "time": "2015-02-10T20:07:52+00:00"
+        },
+        {
+            "name": "pear/text_password",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/Text_Password.git",
+                "reference": "9d112ec647e7e2efb78bd10dd9aaed21c899d739"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/Text_Password/zipball/9d112ec647e7e2efb78bd10dd9aaed21c899d739",
+                "reference": "9d112ec647e7e2efb78bd10dd9aaed21c899d739",
+                "shasum": ""
+            },
+            "require": {
+                "pear/pear_exception": "*",
+                "php": ">=5.2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Text": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Jansen",
+                    "email": "mj@php.net",
+                    "role": "Lead"
+                },
+                {
+                    "name": "Olivier Vanhoucke",
+                    "email": "olivier@php.net",
+                    "role": "Lead"
+                }
+            ],
+            "description": "More info available on: http://pear.php.net/package/Text_Password",
+            "time": "2016-02-26T19:57:20+00:00"
+        },
+        {
+            "name": "pear/xml_parser",
+            "version": "v1.3.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/XML_Parser.git",
+                "reference": "c9fc042d3a168c440c84ab1fed187ec784b3aac0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/XML_Parser/zipball/c9fc042d3a168c440c84ab1fed187ec784b3aac0",
+                "reference": "c9fc042d3a168c440c84ab1fed187ec784b3aac0",
+                "shasum": ""
+            },
+            "require": {
+                "pear/pear-core-minimal": "*"
+            },
+            "require-dev": {
+                "pear/pear": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "XML": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Stephan Schmidt",
+                    "email": "schst@php-tools.net",
+                    "role": "Lead"
+                },
+                {
+                    "name": "Chuck Burgess",
+                    "email": "ashnazg@php.net",
+                    "role": "Lead"
+                },
+                {
+                    "name": "Stig S&#230;ther Bakken",
+                    "email": "stig@php.net",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tomas V.V.Cox",
+                    "email": "cox@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "XML parser",
+            "time": "2016-07-04T21:23:25+00:00"
+        },
+        {
+            "name": "pear/xml_serializer",
+            "version": "v0.22.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/XML_Serializer.git",
+                "reference": "f171521481144ba7fe1dd26fab5d56626248b173"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/XML_Serializer/zipball/f171521481144ba7fe1dd26fab5d56626248b173",
+                "reference": "f171521481144ba7fe1dd26fab5d56626248b173",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "pear/pear-core-minimal": "*",
+                "pear/xml_parser": "*",
+                "pear/xml_util": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "XML": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Stephan Schmidt",
+                    "email": "schst@php-tools.net",
+                    "role": "Lead"
+                },
+                {
+                    "name": "Chuck Burgess",
+                    "email": "ashnazg@php.net",
+                    "role": "Lead"
+                }
+            ],
+            "description": "More info available on: http://pear.php.net/package/XML_Serializer",
+            "time": "2018-02-13T14:04:37+00:00"
+        },
+        {
+            "name": "pear/xml_util",
+            "version": "v1.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/XML_Util.git",
+                "reference": "c74278d925be9c2f7d39955cdce45d8275571a1d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/XML_Util/zipball/c74278d925be9c2f7d39955cdce45d8275571a1d",
+                "reference": "c74278d925be9c2f7d39955cdce45d8275571a1d",
+                "shasum": ""
+            },
+            "require": {
+                "pear/pear-core-minimal": "^1.10.1",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "@stable"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "XML_Util": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Stephan Schmidt",
+                    "email": "schst@php-tools.net",
+                    "role": "Lead"
+                },
+                {
+                    "name": "Chuck Burgess",
+                    "email": "ashnazg@php.net",
+                    "role": "Lead"
+                },
+                {
+                    "name": "Davey Shafik",
+                    "email": "davey@php.net",
+                    "role": "Helper"
+                }
+            ],
+            "description": "Methods to work with XML documents",
+            "homepage": "http://pear.php.net/package/XML_Util",
+            "time": "2017-06-28T19:21:19+00:00"
         },
         {
             "name": "setasign/fpdf",
@@ -904,6 +776,53 @@
             "time": "2015-10-12T15:37:35+00:00"
         },
         {
+            "name": "silverorange/mdb2",
+            "version": "2.5.2-b.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silverorange/MDB2.git",
+                "reference": "8b8f064de2c468345968e6eb2797e301bbea4233"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silverorange/MDB2/zipball/8b8f064de2c468345968e6eb2797e301bbea4233",
+                "reference": "8b8f064de2c468345968e6eb2797e301bbea4233",
+                "shasum": ""
+            },
+            "require": {
+                "pear/pear-core-minimal": "^1.9.0",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "MDB2": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Gauthier",
+                    "email": "mike@silverorange.com"
+                }
+            ],
+            "description": "PEAR MDB2 is a merge of the PEAR DB and Metabase php database abstraction layers.",
+            "homepage": "https://github.com/silverorange/MDB2",
+            "keywords": [
+                "database",
+                "dbal",
+                "metabase",
+                "orm"
+            ],
+            "time": "2016-01-08T21:22:05+00:00"
+        },
+        {
             "name": "smarty/smarty",
             "version": "v3.1.32",
             "source": {
@@ -1016,6 +935,39 @@
                 "parser"
             ],
             "time": "2017-08-30T11:04:43+00:00"
+        },
+        {
+            "name": "captbaritone/mailcatcher-codeception-module",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/captbaritone/codeception-mailcatcher-module.git",
+                "reference": "75ba9aa803d81780ee7e9b5c36bb5b8f9139d972"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/captbaritone/codeception-mailcatcher-module/zipball/75ba9aa803d81780ee7e9b5c36bb5b8f9139d972",
+                "reference": "75ba9aa803d81780ee7e9b5c36bb5b8f9139d972",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Codeception\\Module\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Jordan Eldredge",
+                    "email": "jordan@jordaneldredge.com"
+                }
+            ],
+            "description": "Test emails in your Codeception acceptance tests",
+            "time": "2016-08-16T21:35:06+00:00"
         },
         {
             "name": "codeception/codeception",
@@ -1288,6 +1240,56 @@
             "time": "2016-08-10T00:44:08+00:00"
         },
         {
+            "name": "fzaninotto/faker",
+            "version": "v1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "f72816b43e74063c8b10357394b6bba8cb1c10de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/f72816b43e74063c8b10357394b6bba8cb1c10de",
+                "reference": "f72816b43e74063c8b10357394b6bba8cb1c10de",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7",
+                "squizlabs/php_codesniffer": "^1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2018-07-12T10:23:15+00:00"
+        },
+        {
             "name": "guzzle/guzzle",
             "version": "v3.9.3",
             "source": {
@@ -1385,16 +1387,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "5.3.2",
+            "version": "5.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "f9acb4761844317e626a32259205bec1f1bc60d2"
+                "reference": "93bbdb30d59be6cd9839495306c65f2907370eb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f9acb4761844317e626a32259205bec1f1bc60d2",
-                "reference": "f9acb4761844317e626a32259205bec1f1bc60d2",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/93bbdb30d59be6cd9839495306c65f2907370eb9",
+                "reference": "93bbdb30d59be6cd9839495306c65f2907370eb9",
                 "shasum": ""
             },
             "require": {
@@ -1434,7 +1436,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2018-01-15T07:18:01+00:00"
+            "time": "2018-07-31T13:33:10+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1503,16 +1505,16 @@
         },
         {
             "name": "guzzlehttp/ringphp",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/RingPHP.git",
-                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b"
+                "reference": "5e2a174052995663dd68e6b5ad838afd47dd615b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
-                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
+                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/5e2a174052995663dd68e6b5ad838afd47dd615b",
+                "reference": "5e2a174052995663dd68e6b5ad838afd47dd615b",
                 "shasum": ""
             },
             "require": {
@@ -1550,7 +1552,7 @@
                 }
             ],
             "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
-            "time": "2015-05-20T03:37:09+00:00"
+            "time": "2018-07-31T13:22:33+00:00"
         },
         {
             "name": "guzzlehttp/streams",
@@ -2088,6 +2090,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
         {
@@ -2189,16 +2192,16 @@
         },
         {
             "name": "react/promise",
-            "version": "v2.7.0",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise.git",
-                "reference": "f4edc2581617431aea50430749db55cc3fc031b3"
+                "reference": "31ffa96f8d2ed0341a57848cbb84d88b89dd664d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise/zipball/f4edc2581617431aea50430749db55cc3fc031b3",
-                "reference": "f4edc2581617431aea50430749db55cc3fc031b3",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/31ffa96f8d2ed0341a57848cbb84d88b89dd664d",
+                "reference": "31ffa96f8d2ed0341a57848cbb84d88b89dd664d",
                 "shasum": ""
             },
             "require": {
@@ -2231,7 +2234,7 @@
                 "promise",
                 "promises"
             ],
-            "time": "2018-06-13T15:59:06+00:00"
+            "time": "2019-01-07T21:25:54+00:00"
         },
         {
             "name": "satooshi/php-coveralls",
@@ -3212,7 +3215,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -3384,26 +3387,17 @@
             "time": "2018-05-01T22:52:40+00:00"
         }
     ],
-    "aliases": [
-        {
-            "alias": "2.5.0",
-            "alias_normalized": "2.5.0.0",
-            "version": "2.5.0.0-beta5",
-            "package": "pear-pear.php.net/mdb2"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "pear-pear.php.net/mdb2_driver_mysqli": 10,
-        "pear-pear.php.net/mdb2_driver_pgsql": 10,
-        "pear-pear.php.net/mdb2": 10
+        "silverorange/mdb2": 10
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.9",
-        "ext-mbstring": "*",
-        "ext-gd": "*"
+        "ext-gd": "*",
+        "ext-mbstring": "*"
     },
     "platform-dev": [],
     "platform-overrides": {

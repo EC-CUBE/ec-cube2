@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,15 +21,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
-
-class SC_CheckError_SPTAB_CHECKTest extends Common_TestCase
+class SC_CheckError_SPTAB_CHECKTest extends SC_CheckError_AbstractTestCase
 {
 
     protected function setUp()
     {
         parent::setUp();
+        $this->target_func = 'SPTAB_CHECK';
     }
 
     protected function tearDown()
@@ -41,100 +39,82 @@ class SC_CheckError_SPTAB_CHECKTest extends Common_TestCase
 
     public function testSPTAB_CHECK_タブのみの入力()
     {
-        $arrForm = array('form' => "\t");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('SPTAB_CHECK', 'form') ,array('SPTAB_CHECK'));
+        $this->arrForm = [self::FORM_NAME => "\t"];
+        $this->scenario();
 
         $this->expected = '※ SPTAB_CHECKにスペース、タブ、改行のみの入力はできません。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testSPTAB_CHECK_半角スペースのみの入力()
     {
-        $arrForm = array('form' => " ");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('SPTAB_CHECK', 'form') ,array('SPTAB_CHECK'));
+        $this->arrForm = [self::FORM_NAME => " "];
+        $this->scenario();
 
         $this->expected = '※ SPTAB_CHECKにスペース、タブ、改行のみの入力はできません。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testSPTAB_CHECK_全角スペースのみの入力()
     {
-        $arrForm = array('form' => "　");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('SPTAB_CHECK', 'form') ,array('SPTAB_CHECK'));
+        $this->arrForm = [self::FORM_NAME => "　"];
+        $this->scenario();
 
         $this->expected = '※ SPTAB_CHECKにスペース、タブ、改行のみの入力はできません。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testSPTAB_CHECK_改行のみの入力()
     {
-        $arrForm = array('form' => "\n");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('SPTAB_CHECK', 'form') ,array('SPTAB_CHECK'));
+        $this->arrForm = [self::FORM_NAME => "\n"];
+        $this->scenario();
 
         $this->expected = '※ SPTAB_CHECKにスペース、タブ、改行のみの入力はできません。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testSPTAB_CHECK_改行のみの入力2()
     {
-        $arrForm = array('form' => "\r");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('SPTAB_CHECK', 'form') ,array('SPTAB_CHECK'));
+        $this->arrForm = [self::FORM_NAME => "\r"];
+        $this->scenario();
 
         $this->expected = '※ SPTAB_CHECKにスペース、タブ、改行のみの入力はできません。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testSPTAB_CHECK_スペース改行タブの混在()
     {
-        $arrForm = array('form' => " 　\t\n\r");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('SPTAB_CHECK', 'form') ,array('SPTAB_CHECK'));
+        $this->arrForm = [self::FORM_NAME => " 　\t\n\r"];
+        $this->scenario();
 
         $this->expected = '※ SPTAB_CHECKにスペース、タブ、改行のみの入力はできません。<br />';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testSPTAB_CHECK_文字の先頭にスペース()
     {
-        $arrForm = array('form' => " test");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('SPTAB_CHECK', 'form') ,array('SPTAB_CHECK'));
+        $this->arrForm = [self::FORM_NAME => " test"];
+        $this->scenario();
 
         $this->expected = '';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testSPTAB_CHECK_文字の間にスペース()
     {
-        $arrForm = array('form' => "te st");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('SPTAB_CHECK', 'form') ,array('SPTAB_CHECK'));
+        $this->arrForm = [self::FORM_NAME => "te st"];
+        $this->scenario();
 
         $this->expected = '';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 
     public function testSPTAB_CHECK_文字の最後にスペース()
     {
-        $arrForm = array('form' => "test ");
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('SPTAB_CHECK', 'form') ,array('SPTAB_CHECK'));
+        $this->arrForm = [self::FORM_NAME => "test "];
+        $this->scenario();
 
         $this->expected = '';
-        $this->actual = $objErr->arrErr['form'];
-        $this->verify('');
+        $this->verify();
     }
 }

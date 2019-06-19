@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 店舗基本情報 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
@@ -136,9 +136,12 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
 
         $installData = file(CONFIG_REALFILE, FILE_IGNORE_NEW_LINES);
         foreach ($installData as $key=>$line) {
-            if (strpos($line, 'ADMIN_DIR') !== false and ADMIN_DIR != $admin_dir) {
+            if (strpos($line, 'ADMIN_DIR') !== false && ADMIN_DIR != $admin_dir) {
+                if ($admin_dir == 'admin/') {
+                    $arrErr['admin_dir'] .= '別のディレクトリ名を指定してください。';
+                }
                 //既存ディレクトリのチェック
-                if (file_exists(HTML_REALDIR . $admin_dir) and $admin_dir != 'admin/') {
+                if (file_exists(HTML_REALDIR . $admin_dir) && $admin_dir != 'admin/') {
                     $arrErr['admin_dir'] .= ROOT_URLPATH . $admin_dir . 'は既に存在しています。別のディレクトリ名を指定してください。';
                 }
                 //権限チェック

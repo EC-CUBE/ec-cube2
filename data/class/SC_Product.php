@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@
 /**
  * 商品を扱うサービスクラス.
  *
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @author Kentaro Ohkouchi
  * @version $Id$
  */
@@ -82,12 +82,12 @@ class SC_Product
             $o_table = $this->arrOrderData['table'];
             $o_order = $this->arrOrderData['order'];
             $objQuery->setOrder("T2.$o_col $o_order");
-            $sub_sql = $objQuery->getSql($o_col, "$o_table AS T2", 'T2.product_id = alldtl.product_id');
+            $sub_sql = $objQuery->getSql($o_col, "$o_table AS T2", 'T2.product_id = alldtl.product_id AND T2.del_flg = 0');
             $sub_sql = $objQuery->dbFactory->addLimitOffset($sub_sql, 1);
 
             $objQuery->setOrder("($sub_sql) $o_order, product_id");
         }
-        $arrReturn = $objQuery->getCol('alldtl.product_id', $table, '', $arrVal);
+        $arrReturn = $objQuery->getCol('alldtl.product_id', $table, $objQuery->where ? '' : 'alldtl.del_flg = 0', $arrVal);
 
         return $arrReturn;
     }
