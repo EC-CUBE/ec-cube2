@@ -144,7 +144,7 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
         $this->arrForm = $objFormParam->getFormParamList();
 
         // FORM表示用配列を渡す。
-        $this->arrFile = $this->objUpFile->getFormFileList(IMAGE_TEMP_URLPATH, IMAGE_SAVE_URLPATH);
+        $this->arrFile = $this->objUpFile->getFormFileList();
         // HIDDEN用に配列を渡す。
         $this->arrHidden = array_merge((array) $this->arrHidden, (array) $this->objUpFile->getHiddenFileList());
     }

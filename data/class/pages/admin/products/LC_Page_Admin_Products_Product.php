@@ -609,7 +609,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         $arrForm['arrHidden'] = array_merge((array) $arrHidden, (array) $objDownFile->getHiddenFileList());
 
         // 画像ファイル表示用データ取得
-        $arrForm['arrFile'] = $objUpFile->getFormFileList(IMAGE_TEMP_URLPATH, IMAGE_SAVE_URLPATH);
+        $arrForm['arrFile'] = $objUpFile->getFormFileList();
 
         // ダウンロード商品実ファイル名取得
         $arrForm['down_realfilename'] = $objDownFile->getFormDownFile();
@@ -639,7 +639,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         // hidden に渡す値は serialize する
         $arrForm['category_id'] = SC_Utils_Ex::jsonEncode($arrForm['category_id']);
         // 画像ファイル用データ取得
-        $arrForm['arrFile'] = $objUpFile->getFormFileList(IMAGE_TEMP_URLPATH, IMAGE_SAVE_URLPATH);
+        $arrForm['arrFile'] = $objUpFile->getFormFileList();
         // ダウンロード商品実ファイル名取得
         $arrForm['down_realfilename'] = $objDownFile->getFormDownFile();
 
