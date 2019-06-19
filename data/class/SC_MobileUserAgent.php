@@ -41,7 +41,7 @@ class SC_MobileUserAgent
      */
     public function getCarrier()
     {
-        trigger_error(E_USER_DEPRECATED, 'Net_UserAgent_Mobile is deprecated');
+        trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
         return false;
     }
 
@@ -58,7 +58,7 @@ class SC_MobileUserAgent
      */
     public function getId()
     {
-        trigger_error(E_USER_DEPRECATED, 'Net_UserAgent_Mobile is deprecated');
+        trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
         return false;
     }
 
@@ -70,7 +70,7 @@ class SC_MobileUserAgent
      */
     public function getModel()
     {
-        trigger_error(E_USER_DEPRECATED, 'Net_UserAgent_Mobile is deprecated');
+        trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
         return false;
     }
 
@@ -88,7 +88,7 @@ class SC_MobileUserAgent
      */
     public function isSupported()
     {
-        trigger_error(E_USER_DEPRECATED, 'Net_UserAgent_Mobile is deprecated');
+        trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
         return false;
     }
 
@@ -101,7 +101,7 @@ class SC_MobileUserAgent
      */
     public function isMobile()
     {
-        trigger_error(E_USER_DEPRECATED, 'Net_UserAgent_Mobile is deprecated');
+        trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
         return false;
     }
 }

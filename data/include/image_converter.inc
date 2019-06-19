@@ -1,6 +1,7 @@
 <?php
 /**
  * 画像ファイルの変換を行う
+ * @deprecated
  */
 class ImageConverter
 {

@@ -21,20 +21,20 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
-
-class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends Common_TestCase
+class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends SC_CheckError_AbstractTestCase
 {
 
     public function setUp() {
+        parent::setUp();
         set_error_handler(function($errno, $errstr, $errfile, $errline) {
             throw new RuntimeException($errstr . " on line " . $errline . " in file " . $errfile);
         });
+        $this->target_func = 'FILE_NAME_CHECK_BY_NOUPLOAD';
     }
 
     public function tearDown() {
         restore_error_handler();
+        parent::tearDown();
     }
 
     public function validValueProvider()
@@ -63,13 +63,10 @@ class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends Common_TestCase
 
     public function testFILE_NAME_CHECK_BY_NOUPLOAD_空文字列の場合_エラーをセットしない()
     {
-        $arrForm = array('file' => '');
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('label', 'file') ,array('FILE_NAME_CHECK_BY_NOUPLOAD'));
+        $this->arrForm = [self::FORM_NAME => ''];
+        $this->scenario();
 
-        $this->expected = false;
-        $this->actual = isset($objErr->arrErr['file']);
-        $this->verify();
+        $this->assertArrayNotHasKey(self::FORM_NAME, $this->objErr->arrErr);
     }
 
     /**
@@ -77,13 +74,10 @@ class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends Common_TestCase
      */
     public function testFILE_NAME_CHECK_BY_NOUPLOAD_使用できない文字が含まれていない場合_エラーをセットしない($value)
     {
-        $arrForm = array('file' => $value);
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('label', 'file') ,array('FILE_NAME_CHECK_BY_NOUPLOAD'));
+        $this->arrForm = [self::FORM_NAME => ''];
+        $this->scenario();
 
-        $this->expected = false;
-        $this->actual = isset($objErr->arrErr['file']);
-        $this->verify();
+        $this->assertArrayNotHasKey(self::FORM_NAME, $this->objErr->arrErr);
     }
 
     /**
@@ -91,13 +85,10 @@ class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends Common_TestCase
      */
     public function testFILE_NAME_CHECK_BY_NOUPLOAD_使用できない文字が含まれている場合_エラーをセットする($value)
     {
-        $arrForm = array('file' => $value);
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->doFunc(array('label', 'file') ,array('FILE_NAME_CHECK_BY_NOUPLOAD'));
+        $this->arrForm = [self::FORM_NAME => $value];
+        $this->scenario();
 
-        $this->expected = true;
-        $this->actual = isset($objErr->arrErr['file']);
-        $this->verify();
+        $this->assertArrayHasKey(self::FORM_NAME, $this->objErr->arrErr);
     }
 
     /**
@@ -105,13 +96,13 @@ class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends Common_TestCase
      */
     public function testFILE_NAME_CHECK_BY_NOUPLOAD_他のエラーが既にセットされている場合_エラーを上書きしない()
     {
-        $arrForm = array('file' => 'a/b');
-        $objErr = new SC_CheckError_Ex($arrForm);
-        $objErr->arrErr['file'] = $other_error = 'Unknown error.';
-        $objErr->doFunc(array('label', 'file') ,array('FILE_NAME_CHECK_BY_NOUPLOAD'));
+        $this->arrForm = [self::FORM_NAME => 'a/b'];
+        $this->objErr = new SC_CheckError_Ex($this->arrForm);
+        $this->objErr->arrErr[self::FORM_NAME] = $other_error = 'Unknown error.';
+        $this->objErr->doFunc(array('label', self::FORM_NAME) ,array('FILE_NAME_CHECK_BY_NOUPLOAD'));
 
         $this->expected = $other_error;
-        $this->actual = $objErr->arrErr['file'];
-        $this->verify();
+        $this->actual = $this->objErr->arrErr[self::FORM_NAME];
+        $this->assertSame($this->expected, $this->actual);
     }
 }

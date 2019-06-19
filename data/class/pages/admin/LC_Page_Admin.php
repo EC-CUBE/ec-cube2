@@ -43,6 +43,7 @@ class LC_Page_Admin extends LC_Page_Ex
      */
     public function init()
     {
+        $this->sendAdditionalHeader();
         $this->template = MAIN_FRAME;
 
         //IP制限チェック

@@ -83,5 +83,4 @@ after_script:
 # Cache folder, you can delete cache from Travis CI web interface
 cache:
     directories:
-        - data/vendor
-        - $HOME/.composer/cache vendor/
+        - $HOME/.composer/cache

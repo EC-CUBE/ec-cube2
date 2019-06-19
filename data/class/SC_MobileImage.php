@@ -28,6 +28,7 @@ require_once MOBILE_IMAGE_INC_REALDIR . 'image_converter.inc';
 
 /**
  * 画像変換クラス
+ * @deprecated
  */
 class SC_MobileImage
 {

@@ -4,6 +4,8 @@
 # Set build version format here instead of in the admin panel.
 version: 2.17-dev-{build}
 
+image: Visual Studio 2017
+
 clone_folder: C:\projects\eccube2
 
 cache:
@@ -33,6 +35,8 @@ services:
 
 # Install scripts. (runs after repo cloning)
 install:
+  - docker pull nanasess/mailcatcher:windowsservercore
+  - docker run -d -p 1080:1080 -p 1025:1025 --name mailcatcher nanasess/mailcatcher:windowsservercore
   - cinst -y OpenSSL.Light --version 1.1.1
   - SET PATH=C:\Program Files\OpenSSL;%PATH%
   - sc config wuauserv start= auto

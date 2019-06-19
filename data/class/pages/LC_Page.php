@@ -89,6 +89,7 @@ class LC_Page
      */
     public function init()
     {
+        $this->sendAdditionalHeader();
         // 開始時刻を設定する。
         $this->timeStart = microtime(true);
 
@@ -509,5 +510,17 @@ class LC_Page
             $msg = "REQUEST_METHOD=[{$_SERVER['REQUEST_METHOD']}]では実行不能な mode=[$mode] が指定されました。";
             trigger_error($msg, E_USER_ERROR);
         }
+    }
+
+    /**
+     * 追加の HTTP ヘッダを送信する.
+     *
+     * 主にセキュリティ関連のヘッダを送信する.
+     */
+    public function sendAdditionalHeader()
+    {
+        header('X-XSS-Protection: 1; mode=block');
+        header('X-Content-Type-Options: nosniff');
+        header('X-Frame-Options: DENY');
     }
 }
