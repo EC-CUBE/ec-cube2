@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @group classloader
+ */
 class LoadClassFileChangeTest extends Common_TestCase
 {
     protected function setUp()
