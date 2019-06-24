@@ -9,6 +9,10 @@ class LoadClassFileChangeTest extends Common_TestCase
     {
         parent::setUp();
         $this->createPlugin();
+        if (PHP_VERSION_ID < 70200) {
+            $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
+            $objPlugin->load();
+        }
     }
 
     protected function tearDown()
