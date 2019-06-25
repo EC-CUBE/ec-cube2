@@ -27,7 +27,7 @@
         </div>
         <div class="header_utility">
             <!--{* ▼HeaderInternal COLUMN *}-->
-            <!--{if $arrPageLayout.HeaderInternalNavi|@count > 0}-->
+            <!--{if !empty($arrPageLayout.HeaderInternalNavi)}-->
                 <!--{foreach key=HeaderInternalNaviKey item=HeaderInternalNaviItem from=$arrPageLayout.HeaderInternalNavi}-->
                     <!-- ▼<!--{$HeaderInternalNaviItem.bloc_name}--> -->
                     <!--{if $HeaderInternalNaviItem.php_path != ""}-->

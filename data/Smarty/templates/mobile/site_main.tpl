@@ -31,7 +31,7 @@
         <!--{/if}-->
 
         <!--{* ▼HeaderHeaderTop COLUMN *}-->
-        <!--{if $arrPageLayout.HeaderTopNavi|@count > 0}-->
+        <!--{if !empty($arrPageLayout.HeaderTopNavi)}-->
             <!--{* ▼上ナビ *}-->
             <!--{foreach key=HeaderTopNaviKey item=HeaderTopNaviItem from=$arrPageLayout.HeaderTopNavi}-->
                 <!-- ▼<!--{$HeaderTopNaviItem.bloc_name}--> -->
@@ -53,7 +53,7 @@
         <!--{* ▲HEADER *}-->
 
         <!--{* ▼TOP COLUMN *}-->
-        <!--{if $arrPageLayout.TopNavi|@count > 0}-->
+        <!--{if !empty($arrPageLayout.TopNavi)}-->
             <!--{* ▼上ナビ *}-->
             <!--{foreach key=TopNaviKey item=TopNaviItem from=$arrPageLayout.TopNavi}-->
                 <!-- ▼<!--{$TopNaviItem.bloc_name}--> -->
@@ -69,7 +69,7 @@
         <!--{* ▲TOP COLUMN *}-->
 
         <!--{* ▼メイン上部 *}-->
-        <!--{if $arrPageLayout.MainHead|@count > 0}-->
+        <!--{if !empty($arrPageLayout.MainHead)}-->
             <!--{foreach key=MainHeadKey item=MainHeadItem from=$arrPageLayout.MainHead}-->
                 <!-- ▼<!--{$MainHeadItem.bloc_name}--> -->
                 <!--{if $MainHeadItem.php_path != ""}-->
@@ -87,7 +87,7 @@
         <!--▲MAIN-->
 
         <!--{* ▼メイン下部 *}-->
-        <!--{if $arrPageLayout.MainFoot|@count > 0}-->
+        <!--{if !empty($arrPageLayout.MainFoot)}-->
             <!--{foreach key=MainFootKey item=MainFootItem from=$arrPageLayout.MainFoot}-->
                 <!-- ▼<!--{$MainFootItem.bloc_name}--> -->
                 <!--{if $MainFootItem.php_path != ""}-->
@@ -101,7 +101,7 @@
         <!--{* ▲メイン下部 *}-->
 
         <!--{* ▼BOTTOM COLUMN*}-->
-        <!--{if $arrPageLayout.BottomNavi|@count > 0}-->
+        <!--{if !empty($arrPageLayout.BottomNavi)}-->
             <!--{* ▼下ナビ *}-->
             <!--{foreach key=BottomNaviKey item=BottomNaviItem from=$arrPageLayout.BottomNavi}-->
                 <!-- ▼<!--{$BottomNaviItem.bloc_name}--> -->
@@ -123,7 +123,7 @@
         <!--{* ▲FOOTER *}-->
 
         <!--{* ▼FooterBottom COLUMN *}-->
-        <!--{if $arrPageLayout.FooterBottomNavi|@count > 0}-->
+        <!--{if !empty($arrPageLayout.FooterBottomNavi)}-->
             <!--{* ▼上ナビ *}-->
             <!--{foreach key=FooterBottomNaviKey item=FooterBottomNaviItem from=$arrPageLayout.FooterBottomNavi}-->
                 <!-- ▼<!--{$FooterBottomNaviItem.bloc_name}--> -->
