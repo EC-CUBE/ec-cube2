@@ -141,7 +141,7 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
 class SC_Helper_Purchase_completeOrderMock extends SC_Helper_Purchase
 {
 
-  function verifyChangeCart($uniqId, $objCartSession)
+  function verifyChangeCart($uniqId, &$objCartSession)
   {
     $_SESSION['testResult']['verifyChangeCart'] = array('uniqId'=>$uniqId);
   }
@@ -152,7 +152,7 @@ class SC_Helper_Purchase_completeOrderMock extends SC_Helper_Purchase
     return parent::getOrderTemp($uniqId);
   }
 
-  function registerOrderComplete($orderTemp, $objCartSession, $cartKey)
+  function registerOrderComplete($orderTemp, &$objCartSession, $cartKey)
   {
     $_SESSION['testResult']['registerOrderComplete'] = array(
       'order_temp_id' => $orderTemp['order_temp_id'],
@@ -171,14 +171,14 @@ class SC_Helper_Purchase_completeOrderMock extends SC_Helper_Purchase
     );
   }
 
-  function registerShipping($order_id, $shipping_temp)
+  function registerShipping($order_id, $shipping_temp, $convert_shipping_date = true)
   {
     $_SESSION['testResult']['registerShipping'] = array(
       'order_id' => $order_id
     );
   }
 
-  function cleanupSession($order_id, $objCartSesion, $objCustomer, $cartKey)
+  function cleanupSession($order_id, &$objCartSesion, &$objCustomer, $cartKey)
   {
     $_SESSION['testResult']['cleanupSession'] = array(
       'order_id' => $order_id,
@@ -186,6 +186,3 @@ class SC_Helper_Purchase_completeOrderMock extends SC_Helper_Purchase
     );
   }
 }
-
-?>
-

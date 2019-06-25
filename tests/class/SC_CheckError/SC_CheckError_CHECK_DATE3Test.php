@@ -1,4 +1,4 @@
-TE<?php
+<?php
 
 class SC_CheckError_CHECK_DATE3Test extends SC_CheckError_AbstractTestCase
 {

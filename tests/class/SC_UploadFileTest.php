@@ -38,7 +38,7 @@ class SC_UploadFileTest extends Common_TestCase
             );
             foreach ($files as $file) {
                 /** @var SplFileInfo $file */
-                $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathInfo());
+                $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getRealPath());
             }
             rmdir($dir);
         }
@@ -418,7 +418,7 @@ class SC_UploadFileTest extends Common_TestCase
 
         $this->objUpFile->makeTempDownFile('down_file');
         // $this->objUpFile->setDBDownFile(['down_realfilename' => 'ice500.jpg']); // file exists
-        $this->objUpFile->deleteDBDownFile('down_realfilename');
+        $this->objUpFile->deleteDBDownFile(['down_realfilename' => 'ice500.jpg']);
 
         $this->assertFileNotExists($this->saveDir.'/ice500.jpg');
     }

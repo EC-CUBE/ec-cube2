@@ -190,7 +190,7 @@ class SC_Helper_Purchase_registerOrderTest extends SC_Helper_Purchase_TestBase
 
 class SC_Helper_Purchase_registerOrderMock extends SC_Helper_Purchase
 {
-    function sfUpdateOrderStatus($order_id, $status, $add_point, $use_point, $values)
+  function sfUpdateOrderStatus($order_id, $status = null, $add_point = null, $use_point = null, &$values = array())
     {
         $_SESSION['testResult']['sfUpdateOrderStatus'] = array(
             'order_id' => $order_id,
@@ -200,7 +200,7 @@ class SC_Helper_Purchase_registerOrderMock extends SC_Helper_Purchase
         );
     }
 
-    function sfUpdateOrderNameCol($order_id)
+  function sfUpdateOrderNameCol($order_id, $temp_table = false)
     {
         $_SESSION['testResult']['sfUpdateOrderNameCol'] = $order_id;
     }
