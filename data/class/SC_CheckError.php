@@ -1239,7 +1239,7 @@ class SC_CheckError
             if (!(strlen($input_year) > 0 && strlen($input_month) > 0 && strlen($input_day) > 0)) {
                 $this->arrErr[$keyname] =
                     "※ {$disp_name}は全ての項目を入力して下さい。<br />";
-            } elseif (!checkdate($input_month, $input_day, $input_year)) {
+            } elseif (!checkdate((int) $input_month, (int) $input_day, (int) $input_year)) {
                 $this->arrErr[$keyname] =
                     "※ {$disp_name}が正しくありません。<br />";
             }
@@ -1277,7 +1277,7 @@ class SC_CheckError
             if (!(strlen($input_year) > 0 && strlen($input_month) > 0 && strlen($input_day) > 0 && strlen($input_hour) > 0 && strlen($input_minute) > 0)) {
                 $this->arrErr[$keyname] =
                     "※ {$disp_name}は全ての項目を入力して下さい。<br />";
-            } elseif (! checkdate($input_month, $input_day, $input_year)) {
+            } elseif (! checkdate((int) $input_month, (int) $input_day, (int) $input_year)) {
                 $this->arrErr[$keyname] =
                     "※ {$disp_name}が正しくありません。<br />";
             }
@@ -1307,7 +1307,7 @@ class SC_CheckError
             if (!(strlen($input_year) > 0 && strlen($input_month) > 0)) {
                 $this->arrErr[$keyname] =
                     "※ {$disp_name}は全ての項目を入力して下さい。<br />";
-            } elseif (! checkdate($input_month, 1, $input_year)) {
+            } elseif (! checkdate((int) $input_month, 1, (int) $input_year)) {
                 $this->arrErr[$keyname] =
                     "※ {$disp_name}が正しくありません。<br />";
             }
@@ -1392,13 +1392,13 @@ class SC_CheckError
         $end_month = $this->arrParam[$value[6]];
         $end_day = $this->arrParam[$value[7]];
         if ((strlen($start_year) > 0 || strlen($start_month) > 0 || strlen($start_day) > 0)
-            && ! checkdate($start_month, $start_day, $start_year)
+            && ! checkdate((int) $start_month, (int) $start_day, (int) $start_year)
         ) {
             $this->arrErr[$keyname1] =
                 "※ {$disp_name1}を正しく指定してください。<br />";
         }
         if ((strlen($end_year) > 0 || strlen($end_month) > 0 || strlen($end_day) > 0)
-            && ! checkdate($end_month, $end_day, $end_year)
+            && ! checkdate((int) $end_month, (int) $end_day, (int) $end_year)
         ) {
             $this->arrErr[$keyname2] =
                 "※ {$disp_name2}を正しく指定してください。<br />";
@@ -1469,13 +1469,13 @@ class SC_CheckError
         $end_minute = $this->arrParam[$value[12]];
         $end_second = $this->arrParam[$value[13]];
         if ((strlen($start_year) > 0 || strlen($start_month) > 0 || strlen($start_day) > 0 || strlen($start_hour) > 0)
-            && ! checkdate($start_month, $start_day, $start_year)
+            && ! checkdate((int) $start_month, (int) $start_day, (int) $start_year)
         ) {
             $this->arrErr[$keyname1] =
                 "※ {$disp_name1}を正しく指定してください。<br />";
         }
         if ((strlen($end_year) > 0 || strlen($end_month) > 0 || strlen($end_day) > 0 || strlen($end_hour) > 0)
-            && ! checkdate($end_month, $end_day, $end_year)
+            && ! checkdate((int) $end_month, (int) $end_day, (int) $end_year)
         ) {
             $this->arrErr[$keyname2] =
                 "※ {$disp_name2}を正しく指定してください。<br />";
@@ -1536,13 +1536,13 @@ class SC_CheckError
         $end_year = $this->arrParam[$value[4]];
         $end_month = $this->arrParam[$value[5]];
         if ((strlen($start_year) > 0 || strlen($start_month) > 0)
-            && ! checkdate($start_month, 1, $start_year)
+            && ! checkdate((int) $start_month, 1, (int) $start_year)
         ) {
             $this->arrErr[$keyname1] =
                 "※ {$disp_name1}を正しく指定してください。<br />";
         }
         if ((strlen($end_year) > 0 || strlen($end_month) > 0)
-            && ! checkdate($end_month, 1, $end_year)
+            && ! checkdate((int) $end_month, 1, (int) $end_year)
         ) {
             $this->arrErr[$keyname2] =
                 "※ {$disp_name2}を正しく指定してください。<br />";
@@ -1733,7 +1733,7 @@ class SC_CheckError
             if ($val_key != 0 && (is_string($key) || is_int($key))) {
                 if (!is_numeric($key) && preg_match('/^[a-z0-9_]+$/i', $key)) {
                     if (!isset($this->arrParam[$key])) $this->arrParam[$key] = '';
-                    if (strlen($this->arrParam[$key]) > 0
+                    if (!is_array($this->arrParam[$key]) && strlen($this->arrParam[$key]) > 0
                           && (preg_match('/^[[:alnum:]\-\_]*[\.\/\\\\]*\.\.(\/|\\\\)/', $this->arrParam[$key]) || !preg_match('/\A[^\x00-\x08\x0b\x0c\x0e-\x1f\x7f]+\z/u', $this->arrParam[$key]))) {
                         $this->arrErr[$value[1]] = '※ ' . $value[0] . 'に禁止された記号の並びまたは制御文字が入っています。<br />';
                     }

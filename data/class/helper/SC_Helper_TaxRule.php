@@ -42,7 +42,7 @@ class SC_Helper_TaxRule
      */
     public static function sfCalcIncTax($price, $product_id = 0, $product_class_id = 0, $pref_id =0, $country_id = 0)
     {
-        return $price + SC_Helper_TaxRule_Ex::sfTax($price, $product_id, $product_class_id, $pref_id, $country_id);
+        return (int) $price + SC_Helper_TaxRule_Ex::sfTax($price, $product_id, $product_class_id, $pref_id, $country_id);
     }
 
     /**
@@ -103,7 +103,7 @@ class SC_Helper_TaxRule
     public static function calcTax ($price, $tax, $calc_rule, $tax_adjust = 0)
     {
         $real_tax = $tax / 100;
-        $ret = $price * $real_tax;
+        $ret = (int)$price * $real_tax;
         $ret = self::roundByCalcRule($ret, $calc_rule);
 
         return $ret + $tax_adjust;

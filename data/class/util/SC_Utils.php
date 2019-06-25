@@ -754,15 +754,15 @@ class SC_Utils
     /**
      * ポイント付与
      * $product_id が使われていない。
-     * @param  int   $price
+     * @param  float   $price
      * @param  float $point_rate
      * @param  int   $rule
      * @return double
      */
     public static function sfPrePoint($price, $point_rate, $rule = POINT_RULE)
     {
-        $real_point = $point_rate / 100;
-        $ret = $price * $real_point;
+        $real_point = (float) $point_rate / 100;
+        $ret = (float) $price * $real_point;
         $ret = SC_Helper_TaxRule_Ex::roundByCalcRule($ret, $rule);
 
         return $ret;
@@ -1884,7 +1884,8 @@ class SC_Utils
      */
     public static function copyDirectory($source_path, $dest_path)
     {
-        $handle=opendir($source_path);
+        if (!is_dir($source_path)) return;
+        $handle = opendir($source_path);
         while ($filename = readdir($handle)) {
             if ($filename === '.' || $filename === '..') continue;
             $cur_path = $source_path . $filename;
@@ -1904,12 +1905,15 @@ class SC_Utils
     /**
      * 文字列を区切り文字を挟み反復する
      * @param  string $input      繰り返す文字列。
-     * @param  string $multiplier input を繰り返す回数。
+     * @param  int $multiplier input を繰り返す回数。
      * @param  string $separator  区切り文字
      * @return string
      */
     public static function repeatStrWithSeparator($input, $multiplier, $separator = ',')
     {
+        if ($multiplier < 1) {
+            return '';
+        }
         return implode($separator, array_fill(0, $multiplier, $input));
     }
 
