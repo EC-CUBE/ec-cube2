@@ -257,8 +257,7 @@ class SC_View
      *
      * @param mixed $tpl_source
      * @param mixed $smarty
-     * @access public
-     * @return void
+     * @return array|string|null
      */
     public function lower_compatibility_smarty($tpl_source, $smarty)
     {
