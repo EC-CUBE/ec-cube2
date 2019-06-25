@@ -23,9 +23,11 @@
 
 class SC_View
 {
-    var $_smarty;
+    /** @var SmartyBC */
+    public $_smarty;
 
-    var $objPage;
+    /** @var LC_Page */
+    public $objPage;
 
     // コンストラクタ
     public function __construct()
