@@ -24,12 +24,14 @@ class SC_Helper_Session
     public function __construct()
     {
         $this->objDb = new SC_Helper_DB_Ex();
-        session_set_save_handler(array(&$this, 'sfSessOpen'),
-                                 array(&$this, 'sfSessClose'),
-                                 array(&$this, 'sfSessRead'),
-                                 array(&$this, 'sfSessWrite'),
-                                 array(&$this, 'sfSessDestroy'),
-                                 array(&$this, 'sfSessGc'));
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_set_save_handler(array(&$this, 'sfSessOpen'),
+                                     array(&$this, 'sfSessClose'),
+                                     array(&$this, 'sfSessRead'),
+                                     array(&$this, 'sfSessWrite'),
+                                     array(&$this, 'sfSessDestroy'),
+                                     array(&$this, 'sfSessGc'));
+        }
 
         // 通常よりも早い段階(オブジェクトが破棄される前)でセッションデータを書き込んでセッションを終了する
         // XXX APC による MDB2 の破棄タイミングによる不具合を回避する目的
