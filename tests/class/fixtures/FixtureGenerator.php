@@ -646,12 +646,16 @@ class FixtureGenerator
         $order_id = $this->objQuery->nextVal('dtb_order_order_id');
 
         if (empty($product_class_ids)) {
+            $where = 'product_type_id = 1 AND del_flg = 0 AND EXISTS (SELECT * FROM dtb_products WHERE del_flg = 0 AND product_id = dtb_products_class.product_id)';
+            if ($this->objQuery->count('dtb_products_class', $where) < 1) {
+                $this->createProduct();
+            }
             // 既存の商品規格から選択する
             $this->objQuery->setLimit(3);
             $product_class_ids = $this->objQuery->getCol(
                 'product_class_id',
                 'dtb_products_class',
-                'product_type_id = 1 AND del_flg = 0 AND EXISTS (SELECT * FROM dtb_products WHERE del_flg = 0 AND product_id = dtb_products_class.product_id)');
+                $where);
         }
 
         $orderDetails = array_map(function ($product_class_id) use ($order_id) {
