@@ -86,8 +86,9 @@ before_script:
 
 script:
   - mkdir -p reports/coverage
-  - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist ; fi
-  - if [ $COVERAGE ] ; then phpdbg -qrr data/vendor/bin/phpunit -c phpunit.xml.dist ; fi
+  - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist --exclude-group classloader ; fi
+  - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist --group classloader ; fi
+  - if [ $COVERAGE ] ; then phpdbg -qrr data/vendor/bin/phpunit -c phpunit.xml.dist --exclude-group classloader ; fi
   - if [ ! $COVERAGE ] ; then php data/vendor/bin/codecept run --env chrome --steps ; fi
 
 after_script:
