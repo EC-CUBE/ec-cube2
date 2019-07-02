@@ -23,7 +23,7 @@
 
 // Flexible SSLへの対応
 if( isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' == $_SERVER['HTTP_X_FORWARDED_PROTO'] ){
-    $_SERVER['HTTPS'] = 1;
+    $_SERVER['HTTPS'] = 'on';
     $_SERVER['SERVER_PORT'] = 443;
 }
 
