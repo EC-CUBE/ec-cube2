@@ -33,14 +33,16 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_TestBase
 {
-
+  /** @var array */
+  private $customer_ids = [];
+  /** @var array */
+  private $order_ids = [];
   private $helper;
-
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpOrder();
-    $this->setUpCustomer();
+    $this->customer_ids = $this->setUpCustomer();
+    $this->order_ids = $this->setUpOrder($this->customer_ids);
     $this->helper = new SC_Helper_Purchase_sfUpdateOrderStatusMock();
   }
 
@@ -53,8 +55,9 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
   // オプションの引数：対応状況、使用ポイント、加算ポイント
   public function testSfUpdateOrderStatus_オプションの引数が未指定の場合_DBの値が引き継がれる()
   {
-    $order_id = '1001';
+    $order_id = $this->order_ids[0];
     $old_update_date = $this->objQuery->get('update_date', 'dtb_order', 'order_id = ?', array($order_id));
+    $customer_point =  $this->objQuery->get('point', 'dtb_customer', 'customer_id = ?', array($this->customer_ids[0]));
 
     $this->helper->usePoint = false;
     $this->helper->addPoint = false;
@@ -67,14 +70,14 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         'use_point' => '10'
       ),
       'customer' => array(
-        'point' => '100' 
+        'point' => $customer_point
       )
     );
     $this->actual['order'] = array_shift($this->objQuery->select(
       'status, use_point, add_point',
       'dtb_order', 'order_id = ?', array($order_id)));
     $this->actual['customer'] = array_shift($this->objQuery->select(
-      'point', 'dtb_customer', 'customer_id = ?', '1001'));
+      'point', 'dtb_customer', 'customer_id = ?', $this->customer_ids[0]));
 
     $this->verify();
 
@@ -94,10 +97,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
 
   public function testSfUpdateOrderStatus_対応状況が発送済みに変更された場合_発送日が更新される()
   {
-    $order_id = '1001';
+    $order_id = $this->order_ids[0];
     $old_dates = $this->objQuery->select(
       'update_date, commit_date, payment_date', 
       'dtb_order', 'order_id = ?', array($order_id));
+    $customer_point =  $this->objQuery->get('point', 'dtb_customer', 'customer_id = ?', array($this->customer_ids[0]));
 
     $this->helper->usePoint = false;
     $this->helper->addPoint = false;
@@ -110,14 +114,14 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         'use_point' => '45' // 引数の設定どおりになる
       ),
       'customer' => array(
-        'point' => '100' // ポイントを使わない 
+        'point' => $customer_point // ポイントを使わない
       )
     );
     $this->actual['order'] = array_shift($this->objQuery->select(
       'status, use_point, add_point',
       'dtb_order', 'order_id = ?', array($order_id)));
     $this->actual['customer'] = array_shift($this->objQuery->select(
-      'point', 'dtb_customer', 'customer_id = ?', '1001'));
+      'point', 'dtb_customer', 'customer_id = ?', $this->customer_ids[0]));
 
     $this->verify();
 
@@ -131,7 +135,7 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
 
   public function testSfUpdateOrderStatus_対応状況が入金済みに変更された場合_入金日が更新される()
   {
-    $order_id = '1002';
+    $order_id = $this->order_ids[1];
     $old_dates = $this->objQuery->select(
       'update_date, commit_date, payment_date', 
       'dtb_order', 'order_id = ?', array($order_id));
@@ -163,10 +167,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
 
   public function testSfUpdateOrderStatus_変更前の対応状況が利用対象の場合_変更前の使用ポイントを戻す()
   {
-    $order_id = '1002';
+    $order_id = $this->order_ids[1];
     $old_dates = $this->objQuery->select(
       'update_date, commit_date, payment_date', 
       'dtb_order', 'order_id = ?', array($order_id));
+    $customer_point =  $this->objQuery->get('point', 'dtb_customer', 'customer_id = ?', array($this->customer_ids[1]));
 
     $this->helper->addPoint = false; // 加算は強制的にfalseにしておく
     $this->helper->sfUpdateOrderStatus($order_id, ORDER_CANCEL, 0, 45);
@@ -185,14 +190,14 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'status, use_point, add_point',
       'dtb_order', 'order_id = ?', array($order_id)));
     $this->actual['customer'] = array_shift($this->objQuery->select(
-      'point', 'dtb_customer', 'customer_id = ?', array('1002')));
+      'point', 'dtb_customer', 'customer_id = ?', array($this->customer_ids[1])));
 
     $this->verify();
   }
 
   public function testSfUpdateOrderStatus_変更後の対応状況が利用対象の場合_変更後の使用ポイントを引く()
   {
-    $order_id = '1001';
+    $order_id = $this->order_ids[0];
     $old_dates = $this->objQuery->select(
       'update_date, commit_date, payment_date', 
       'dtb_order', 'order_id = ?', array($order_id));
@@ -213,14 +218,14 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'status, use_point, add_point',
       'dtb_order', 'order_id = ?', array($order_id)));
     $this->actual['customer'] = array_shift($this->objQuery->select(
-      'point', 'dtb_customer', 'customer_id = ?', array('1001')));
+      'point', 'dtb_customer', 'customer_id = ?', array($this->customer_ids[0])));
 
     $this->verify();
   }
 
   public function testSfUpdateOrderStatus_変更前の対応状況が加算対象の場合_変更前の加算ポイントを戻す()
   {
-    $order_id = '1002';
+    $order_id = $this->order_ids[1];
     $old_dates = $this->objQuery->select(
       'update_date, commit_date, payment_date', 
       'dtb_order', 'order_id = ?', array($order_id));
@@ -242,14 +247,14 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'status, use_point, add_point',
       'dtb_order', 'order_id = ?', array($order_id)));
     $this->actual['customer'] = array_shift($this->objQuery->select(
-      'point', 'dtb_customer', 'customer_id = ?', array('1002')));
+      'point', 'dtb_customer', 'customer_id = ?', array($this->customer_ids[1])));
 
     $this->verify();
   }
 
   public function testSfUpdateOrderStatus_変更後の対応状況が加算対象の場合_変更後の加算ポイントを足す()
   {
-    $order_id = '1001';
+    $order_id = $this->order_ids[0];
     $old_dates = $this->objQuery->select(
       'update_date, commit_date, payment_date', 
       'dtb_order', 'order_id = ?', array($order_id));
@@ -270,14 +275,14 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'status, use_point, add_point',
       'dtb_order', 'order_id = ?', array($order_id)));
     $this->actual['customer'] = array_shift($this->objQuery->select(
-      'point', 'dtb_customer', 'customer_id = ?', array('1001')));
+      'point', 'dtb_customer', 'customer_id = ?', array($this->customer_ids[0])));
 
     $this->verify();
   }
 
   public function testSfUpdateOrderStatus_加算ポイントがプラスの場合_会員テーブルが更新される()
   {
-    $order_id = '1001';
+    $order_id = $this->order_ids[0];
     $old_dates = $this->objQuery->select(
       'update_date, commit_date, payment_date', 
       'dtb_order', 'order_id = ?', array($order_id));
@@ -300,14 +305,14 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'status, use_point, add_point',
       'dtb_order', 'order_id = ?', array($order_id)));
     $this->actual['customer'] = array_shift($this->objQuery->select(
-      'point', 'dtb_customer', 'customer_id = ?', '1001'));
+      'point', 'dtb_customer', 'customer_id = ?', $this->customer_ids[0]));
 
     $this->verify();
   }
 
   public function testSfUpdateOrderStatus_加算ポイントが負でポイントが足りている場合_会員テーブルが更新される()
   {
-    $order_id = '1001';
+    $order_id = $this->order_ids[0];
     $old_dates = $this->objQuery->select(
       'update_date, commit_date, payment_date', 
       'dtb_order', 'order_id = ?', array($order_id));
@@ -330,8 +335,7 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'status, use_point, add_point',
       'dtb_order', 'order_id = ?', array($order_id)));
     $this->actual['customer'] = array_shift($this->objQuery->select(
-      'point', 'dtb_customer', 'customer_id = ?', '1001'));
-
+      'point', 'dtb_customer', 'customer_id = ?', $this->customer_ids[0]));
     $this->verify();
   }
 
