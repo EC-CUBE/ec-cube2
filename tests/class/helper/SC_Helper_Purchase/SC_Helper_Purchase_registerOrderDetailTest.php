@@ -32,11 +32,15 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_registerOrderDetailTest extends SC_Helper_Purchase_TestBase
 {
-
+  /** @var array */
+  private $customer_ids = [];
+  /** @var array */
+  private $order_ids = [];
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpOrderDetail();
+    $this->customer_ids = $this->setUpCustomer();
+    $this->order_ids = $this->setUpOrder($this->customer_ids);
   }
 
   protected function tearDown()
@@ -47,74 +51,69 @@ class SC_Helper_Purchase_registerOrderDetailTest extends SC_Helper_Purchase_Test
   /////////////////////////////////////////
   public function testRegisterOrderDetail_該当の受注が存在する場合_削除後に新しい情報が登録される()
   {
-      if(DB_TYPE != 'pgsql') { //postgresqlだとどうしてもDBエラーになるのでとりいそぎ回避
-            $params = array(
-            array(
-            'order_id' => '1001',
-            'hoge' => '999', // DBに存在しないカラム
-            'product_id' => '9001',
-            'product_class_id' => '9001',
-            'product_name' => '製品名9001'
-            )
-            );
-            SC_Helper_Purchase::registerOrderDetail('1001', $params);
+    $params = array(
+      array(
+        'order_id' => $this->order_ids[0],
+        'hoge' => '999', // DBに存在しないカラム
+        'product_id' => '9001',
+        'product_class_id' => '9001',
+        'product_name' => '製品名9001'
+      )
+    );
+    SC_Helper_Purchase::registerOrderDetail($this->order_ids[0], $params);
 
-            $this->expected['count'] = '2'; // 同じorder_idのものが消されるので1行減る
-            $this->expected['content'] = array(
-            'order_id' => '1001',
-            'product_id' => '9001',
-            'product_class_id' => '9001',
-            'product_name' => '製品名9001',
-            'product_code' => null // 古いデータにはあるが、deleteされたので消えている
-            );
+    $this->expected['count'] = '1';
+    $this->expected['content'] = array(
+      'order_id' => $this->order_ids[0],
+      'product_id' => '9001',
+      'product_class_id' => '9001',
+      'product_name' => '製品名9001',
+      'product_code' => null // 古いデータにはあるが、deleteされたので消えている
+    );
 
-            $this->actual['count'] = $this->objQuery->count('dtb_order_detail');
-            $result = $this->objQuery->select(
-            'order_id, product_id, product_class_id, product_name, product_code',
-            'dtb_order_detail',
-            'order_id = ?',
-            array('1001')
-            );
-            $this->actual['content'] = $result[0];
+    $this->actual['count'] = $this->objQuery->count('dtb_order_detail', 'order_id = ?', [$this->order_ids[0]]);
+    $this->actual['content'] = $this->objQuery->getRow(
+      'order_id, product_id, product_class_id, product_name, product_code',
+      'dtb_order_detail',
+      'order_id = ?',
+      [$this->order_ids[0]]
+    );
 
-            $this->verify();
-      }
+    $this->verify();
   }
 
-    public function testRegisterOrderDetail_該当の受注が存在しない場合_新しい情報が追加登録される()
-    {
-        if(DB_TYPE != 'pgsql') { //postgresqlだとどうしてもDBエラーになるのでとりいそぎ回避
-            $params = array(
-            array(
-            'order_id' => '1003',
-            'hoge' => '999', // DBに存在しないカラム
-            'product_id' => '9003',
-            'product_class_id' => '9003',
-            'product_name' => '製品名9003'
-            )
-            );
-            SC_Helper_Purchase::registerOrderDetail('1003', $params);
+  public function testRegisterOrderDetail_該当の受注が存在しない場合_新しい情報が追加登録される()
+  {
+    $params = array(
+      array(
+        'order_id' => '1003',
+        'hoge' => '999', // DBに存在しないカラム
+        'product_id' => '9003',
+        'product_class_id' => '9003',
+        'product_name' => '製品名9003'
+      )
+    );
+    SC_Helper_Purchase::registerOrderDetail('1003', $params);
 
-            $this->expected['count'] = '4';
-            $this->expected['content'] = array(
-                'order_id' => '1003',
-                'product_id' => '9003',
-                'product_class_id' => '9003',
-                'product_name' => '製品名9003',
-                'product_code' => null
-            );
+    $this->expected['count'] = '1';
+    $this->expected['content'] = array(
+      'order_id' => '1003',
+      'product_id' => '9003',
+      'product_class_id' => '9003',
+      'product_name' => '製品名9003',
+      'product_code' => null
+    );
 
-            $this->actual['count'] = $this->objQuery->count('dtb_order_detail');
-            $result = $this->objQuery->select(
-                'order_id, product_id, product_class_id, product_name, product_code',
-                'dtb_order_detail',
-                'order_id = ?',
-                array('1003')
-            );
-            $this->actual['content'] = $result[0];
+    $this->actual['count'] = $this->objQuery->count('dtb_order_detail', 'order_id = ?', [1003]);
+    $result = $this->objQuery->select(
+      'order_id, product_id, product_class_id, product_name, product_code',
+      'dtb_order_detail',
+      'order_id = ?',
+      array('1003')
+    );
+    $this->actual['content'] = $result[0];
 
-            $this->verify();
-        }
-    }
+    $this->verify();
+  }
   //////////////////////////////////////////
 }

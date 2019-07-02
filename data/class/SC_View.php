@@ -23,9 +23,11 @@
 
 class SC_View
 {
-    var $_smarty;
+    /** @var SmartyBC */
+    public $_smarty;
 
-    var $objPage;
+    /** @var LC_Page */
+    public $objPage;
 
     // コンストラクタ
     public function __construct()
@@ -145,7 +147,7 @@ class SC_View
     {
         if (!is_null($this->objPage)) {
             // フックポイントを実行.
-            $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->objPage->plugin_activate_flg);
+            $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
             if ($objPlugin) {
                 $objPlugin->doAction('prefilterTransform', array(&$source, $this->objPage, $template->smarty->_current_file));
             }
@@ -164,7 +166,7 @@ class SC_View
     {
         if (!is_null($this->objPage)) {
             // フックポイントを実行.
-            $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->objPage->plugin_activate_flg);
+            $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
             if ($objPlugin) {
                 $objPlugin->doAction('outputfilterTransform', array(&$source, $this->objPage, $template->smarty->_current_file));
             }
@@ -255,8 +257,7 @@ class SC_View
      *
      * @param mixed $tpl_source
      * @param mixed $smarty
-     * @access public
-     * @return void
+     * @return array|string|null
      */
     public function lower_compatibility_smarty($tpl_source, $smarty)
     {

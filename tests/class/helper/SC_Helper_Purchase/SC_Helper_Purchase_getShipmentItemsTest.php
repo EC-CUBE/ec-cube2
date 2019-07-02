@@ -33,12 +33,16 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBase
 {
-
+  /** @var array */
+  private $customer_ids = [];
+  /** @var array */
+  private $order_ids = [];
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpShipmentItem();
-    $this->setUpOrderDetail();
+
+    $this->customer_ids = $this->setUpCustomer();
+    $this->order_ids = $this->setUpOrder($this->customer_ids, [1, 2]);
   }
 
   protected function tearDown()
@@ -71,25 +75,25 @@ class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBas
 
   public function testGetShipmentItems_存在する受注IDと配送先IDを指定した場合_結果が取得できる()
   {
-    $order_id = '1001';
-    $shipping_id = '1';
+    $order_id = $this->order_ids[0];
+    $shipping_id = '0';
 
     $this->expected['count'] = 2;
     $this->expected['second'] = array(
-      'order_id' => '1001',
-      'shipping_id' => '1',
-      'product_class_id' => '1001',
-      'product_name' => '商品名01',
-      'price' => '1500',
-      'productsClass' => array('product_class_id' => '1001', 'product_id' => '1001')
+      'order_id' => (string) $order_id,
+      'shipping_id' => '0',
+      'product_class_id' => '2',
+      'product_name' => 'アイスクリーム',
+      'price' => '1008',
+      'productsClass' => array('product_class_id' => '2', 'product_id' => '1')
     );
     $this->expected['first'] = array(
-      'order_id' => '1001',
-      'shipping_id' => '1',
-      'product_class_id' => '1002',
-      'product_name' => '商品名02',
-      'price' => '2400',
-      'productsClass' => array('product_class_id' => '1002', 'product_id' => '1002')
+      'order_id' => (string) $order_id,
+      'shipping_id' => '0',
+      'product_class_id' => '1',
+      'product_name' => 'アイスクリーム',
+      'price' => '1008',
+      'productsClass' => array('product_class_id' => '1', 'product_id' => '1')
     );
 
     $result = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id);
@@ -106,24 +110,24 @@ class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBas
 
   public function testGetShipmentItems_詳細フラグをOFFにした場合_結果に詳細情報が含まれない()
   {
-    $order_id = '1001';
-    $shipping_id = '1';
+    $order_id = $this->order_ids[0];
+    $shipping_id = '0';
 
     $this->expected['count'] = 2;
     $this->expected['second'] = array(
-      'order_id' => '1001',
-      'shipping_id' => '1',
-      'product_class_id' => '1001',
-      'product_name' => '商品名01',
-      'price' => '1500',
+      'order_id' => (string) $order_id,
+      'shipping_id' => '0',
+      'product_class_id' => '2',
+      'product_name' => 'アイスクリーム',
+      'price' => '1008',
       'productsClass' => null
     );
     $this->expected['first'] = array(
-      'order_id' => '1001',
-      'shipping_id' => '1',
-      'product_class_id' => '1002',
-      'product_name' => '商品名02',
-      'price' => '2400',
+      'order_id' => (string) $order_id,
+      'shipping_id' => '0',
+      'product_class_id' => '1',
+      'product_name' => 'アイスクリーム',
+      'price' => '1008',
       'productsClass' => null
     );
 
