@@ -23,9 +23,11 @@
 
 class SC_View
 {
-    var $_smarty;
+    /** @var SmartyBC */
+    public $_smarty;
 
-    var $objPage;
+    /** @var LC_Page */
+    public $objPage;
 
     // コンストラクタ
     public function __construct()
@@ -255,8 +257,7 @@ class SC_View
      *
      * @param mixed $tpl_source
      * @param mixed $smarty
-     * @access public
-     * @return void
+     * @return array|string|null
      */
     public function lower_compatibility_smarty($tpl_source, $smarty)
     {
