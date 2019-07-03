@@ -412,6 +412,12 @@ class FixtureGenerator
             }
         }
 
+        if (empty($result)) {
+            // カテゴリが生成されなかったら生成しておく
+            $id = $objQuery->nextVal('dtb_category_category_id');
+            $result[] = $this->createCategory($id, 0, 1);
+        }
+
         return $result;
     }
 

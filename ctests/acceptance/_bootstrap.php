@@ -40,7 +40,7 @@ if ($num < ($config['fixture_product_num'] + 2)) {
 
     $category_ids = $objGenerator->createCategories();
     foreach ($product_ids as $product_id) {
-        $objGenerator->relateProductCategories($product_id, array_rand($category_ids, $faker->numberBetween(1, count($category_ids) - 1)));
+        $objGenerator->relateProductCategories($product_id, array_rand(array_flip($category_ids), $faker->numberBetween(2, count($category_ids) - 1)));
     }
     $objDb = new SC_Helper_DB_Ex();
     $objDb->sfCountCategory($objQuery);
@@ -52,7 +52,7 @@ $product_class_ids = $objQuery->getCol('product_class_id', 'dtb_products_class',
 if ($num < $config['fixture_order_num']) {
     echo 'Generating Orders';
     foreach ($customer_ids as $customer_id) {
-        $target_product_class_ids = array_rand($product_class_ids, $faker->numberBetween(0, count($product_class_ids) - 1));
+        $target_product_class_ids = array_rand(array_flip($product_class_ids), $faker->numberBetween(2, count($product_class_ids) - 1));
         $charge = $faker->randomNumber(4);
         $discount = $faker->numberBetween(0, $charge);
         $order_count_per_customer = $objQuery->count('dtb_order', 'customer_id = ?', [$customer_id]);
