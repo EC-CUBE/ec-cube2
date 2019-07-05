@@ -33,7 +33,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
         '_MDB2_dsninfo_default',
     );
 
-    /** SC_Query インスタンス */
+    /** @var SC_Query */
     protected $objQuery;
 
     /** 期待値 */

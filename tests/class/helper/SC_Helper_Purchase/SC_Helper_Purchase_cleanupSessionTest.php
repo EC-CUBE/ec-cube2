@@ -33,11 +33,18 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_cleanupSessionTest extends SC_Helper_Purchase_TestBase
 {
-
+  /** @var int */
+  private $product_class_id1;
+    /** @var int */
+  private $product_class_id2;
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpProductClass();
+    $product_id1 = $this->objGenerator->createProduct(null, 3, PRODUCT_TYPE_NORMAL);
+    $this->product_class_id1 = $this->objQuery->get('product_class_id', 'dtb_products_class', 'product_id = ? AND del_flg = 0', [$product_id1]);
+    $product_id2 = $this->objGenerator->createProduct(null, 3, PRODUCT_TYPE_DOWNLOAD);
+    $this->product_class_id2 = $this->objQuery->get('product_class_id', 'dtb_products_class', 'product_id = ? AND del_flg = 0', [$product_id2]);
+
   }
 
   protected function tearDown()
@@ -54,11 +61,11 @@ class SC_Helper_Purchase_cleanupSessionTest extends SC_Helper_Purchase_TestBase
     $customer = new SC_Customer();
 
     // 削除前のデータを設定
-    $cartSession->addProduct('1001', 5);  // product_type_id=1
-    $cartSession->addProduct('1002', 10); // product_type_id=2
+    $cartSession->addProduct($this->product_class_id1, 5);  // product_type_id=1
+    $cartSession->addProduct($this->product_class_id2, 10); // product_type_id=2
     $_SESSION['site']['uniqid'] = '100001';
 
-    $helper->cleanupSession('1001', $cartSession, $customer, '1');
+    $helper->cleanupSession(1001, $cartSession, $customer, PRODUCT_TYPE_NORMAL);
 
     $this->expected = array(
       'cart_max_deleted' => 0,
@@ -68,8 +75,8 @@ class SC_Helper_Purchase_cleanupSessionTest extends SC_Helper_Purchase_TestBase
       'multiple_temp' => null
     );
 
-    $this->actual['cart_max_deleted'] = $cartSession->getMax('1');
-    $this->actual['cart_max_notdeleted'] = $cartSession->getMax('2');
+    $this->actual['cart_max_deleted'] = $cartSession->getMax(PRODUCT_TYPE_NORMAL);
+    $this->actual['cart_max_notdeleted'] = $cartSession->getMax(PRODUCT_TYPE_DOWNLOAD);
     $this->actual['uniqid'] = $_SESSION['site']['uniqid'];
     $this->actual['shipping'] = $_SESSION['shipping'];
     $this->actual['multiple_temp'] = $_SESSION['multiple_temp'];

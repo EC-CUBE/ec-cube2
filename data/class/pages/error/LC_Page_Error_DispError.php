@@ -50,7 +50,7 @@ class LC_Page_Error_DispError extends LC_Page_Admin_Ex
         $this->objDisplay = new SC_Display_Ex();
 
         // transformでフックしている場合に, 再度エラーが発生するため, コールバックを無効化.
-        $objHelperPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+        $objHelperPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         $objHelperPlugin->arrRegistedPluginActions = array();
 
         // キャッシュから店舗情報取得（DBへの接続は行わない）
