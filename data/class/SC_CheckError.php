@@ -862,6 +862,33 @@ class SC_CheckError
         }
     }
 
+    /**
+     * パスワードに使用可能な文字列のチェック
+     *
+     * 半角英数字をそれぞれ1種類以上含む8文字以上100文字以下の文字列ではない場合エラーとする
+     *
+     * @param array $value $value[0] = 項目名 $value[1] = チェック対象のパスワード文字列
+     */
+    public function PASSWORD_CHAR_CHECK($value)
+    {
+        $disp_name = $value[0];
+        $keyname = $value[1];
+
+        if (isset($this->arrErr[$keyname])) {
+            return;
+        }
+
+        $this->createParam($value);
+
+        $input_var = $this->arrParam[$keyname];
+        // see https://qiita.com/mpyw/items/886218e7b418dfed254b
+        $pattern = '/\A(?=\d{0,99}+[a-z])(?=[a-z]{0,99}+\d)[a-z\d]{8,100}+\z/i';
+        if (strlen($input_var) > 0 && !preg_match($pattern, $input_var)) {
+            $this->arrErr[$keyname] =
+                "※ {$disp_name}は英数字をそれぞれ1種類使用し、8文字以上で入力してください。<br />";
+        }
+    }
+
     /*　必須選択の判定　*/
     // 入力値で0が許されない場合エラーを返す
     // value[0] = 項目名 value[1] = 判定対象

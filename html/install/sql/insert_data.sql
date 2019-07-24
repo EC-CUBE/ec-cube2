@@ -1170,8 +1170,8 @@ INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ZIP01_LEN', '3', 20
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ZIP02_LEN', '4', 201, '郵便番号2');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('TEL_ITEM_LEN', '6', 202, '電話番号各項目制限');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('TEL_LEN', '12', 203, '電話番号総数');
-INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PASSWORD_MIN_LEN', '4', 204, 'フロント画面用：パスワードの最小文字数');
-INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PASSWORD_MAX_LEN', 'STEXT_LEN', 205, 'フロント画面用：パスワードの最大文字数');
+INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PASSWORD_MIN_LEN', '8', 204, 'フロント画面用：パスワードの最小文字数');
+INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PASSWORD_MAX_LEN', 'SMTEXT_LEN', 205, 'フロント画面用：パスワードの最大文字数');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('INT_LEN', '9', 206, '検査数値用桁数(INT)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('CREDIT_NO_LEN', '4', 207, 'クレジットカードの文字数 (*モジュールで使用)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('SEARCH_CATEGORY_LEN', '18', 208, '検索カテゴリ最大表示文字数(byte)');
