@@ -167,7 +167,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         $month = date('m');
         $day = date('d');
 
-        $list = isset($_SESSION['total']) ? $_SESSION['total'] : '';
+        $list = isset($_SESSION['total']) ? $_SESSION['total'] : [];
 
         // セッション情報に開始月度が保存されていない。
         if (empty($_SESSION['total']['startyear_m'])) {
