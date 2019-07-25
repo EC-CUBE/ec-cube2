@@ -51,7 +51,7 @@ class SC_CheckError_PASSWORD_CHAR_CHECKTest extends SC_CheckError_AbstractTestCa
     public function testPASSWORD_CHAR_CHECKWithFaker()
     {
         $this->arrForm = [
-            self::FORM_NAME => $this->faker->password(8, 100)
+            self::FORM_NAME => $this->faker->password(8, 100).'1'
         ];
         $this->expected = '';
         $this->scenario();
