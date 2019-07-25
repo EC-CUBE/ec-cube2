@@ -865,12 +865,16 @@ class SC_CheckError
     /**
      * パスワードに使用可能な文字列のチェック
      *
-     * 半角英数字をそれぞれ1種類以上含む8文字以上100文字以下の文字列ではない場合エラーとする
+     * 半角英数字をそれぞれ1種類以上含む PASSWORD_MIN_LEN 文字以上 PASSWORD_MAX_LEN 文字以下の文字列ではない場合エラーとする
+     * PASSWORD_MIN_LEN が8未満の場合は E_USER_WARNING を出力する
      *
      * @param array $value $value[0] = 項目名 $value[1] = チェック対象のパスワード文字列
      */
     public function PASSWORD_CHAR_CHECK($value)
     {
+        if (PASSWORD_MIN_LEN < 8) {
+            trigger_error('PASSWORD_MIN_LEN が8未満に設定されています。', E_USER_WARNING);
+        }
         $disp_name = $value[0];
         $keyname = $value[1];
 
@@ -882,10 +886,10 @@ class SC_CheckError
 
         $input_var = $this->arrParam[$keyname];
         // see https://qiita.com/mpyw/items/886218e7b418dfed254b
-        $pattern = '/\A(?=\d{0,99}+[a-z])(?=[a-z]{0,99}+\d)[a-z\d]{8,100}+\z/i';
+        $pattern = '/\A(?=.*?[a-z])(?=.*?\d)[!-~]{'.PASSWORD_MIN_LEN.','.PASSWORD_MAX_LEN.'}+\z/i';
         if (strlen($input_var) > 0 && !preg_match($pattern, $input_var)) {
             $this->arrErr[$keyname] =
-                "※ {$disp_name}は英数字をそれぞれ1種類使用し、8文字以上で入力してください。<br />";
+                "※ {$disp_name}は英数字をそれぞれ1種類使用し、".PASSWORD_MIN_LEN."文字以上で入力してください。<br />";
         }
     }
 
