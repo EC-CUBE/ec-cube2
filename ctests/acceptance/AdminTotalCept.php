@@ -1,5 +1,8 @@
 <?php
 $I = new AcceptanceTester($scenario);
+if (!function_exists('ImageTTFText')) {
+    $scenario->skip('Freetype not supported.');
+}
 $I->wantTo('売上集計画面を確認する');
 $I->amOnPage('/admin');
 
