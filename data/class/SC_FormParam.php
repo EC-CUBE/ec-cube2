@@ -206,6 +206,7 @@ class SC_FormParam
                     case 'NUM_CHECK':
                     case 'EMAIL_CHECK':
                     case 'EMAIL_CHAR_CHECK':
+                    case 'PASSWORD_CHAR_CHECK':
                     case 'ALNUM_CHECK':
                     case 'GRAPH_CHECK':
                     case 'KANA_CHECK':

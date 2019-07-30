@@ -255,9 +255,9 @@ define('TEL_ITEM_LEN', 6);
 /** 電話番号総数 */
 define('TEL_LEN', 12);
 /** フロント画面用：パスワードの最小文字数 */
-define('PASSWORD_MIN_LEN', 4);
+define('PASSWORD_MIN_LEN', 8);
 /** フロント画面用：パスワードの最大文字数 */
-define('PASSWORD_MAX_LEN', STEXT_LEN);
+define('PASSWORD_MAX_LEN', SMTEXT_LEN);
 /** 検査数値用桁数(INT) */
 define('INT_LEN', 9);
 /** クレジットカードの文字数 (*モジュールで使用) */

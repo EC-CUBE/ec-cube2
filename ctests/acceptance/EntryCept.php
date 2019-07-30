@@ -5,6 +5,7 @@ $faker = Codeception\Util\Fixtures::get('faker');
 $I->resetEmails();
 
 $new_email = microtime(true).'.'.$faker->safeEmail;
+$password = $faker->password(8, 100).'1';
 
 $I->wantTo('会員登録が正常にできるかを確認する');
 $I->amOnPage('/entry/kiyaku.php');
@@ -29,8 +30,8 @@ $form = [
     'tel03' => '111',
     'email' => $new_email,
     'email02' => $new_email,
-    'password' => 'password',
-    'password02' => 'password',
+    'password' => $password,
+    'password02' => $password,
     'sex' => (string) $faker->numberBetween(1, 2),
     'reminder' => (string) $faker->numberBetween(1, 7),
     'reminder_answer' => $faker->word,
