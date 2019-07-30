@@ -165,7 +165,7 @@ class SC_CartSession_registerOrderCompleteMock extends SC_CartSession
 {
 
   // カートの内容を取得
-  function getCartList($cartKey)
+  function getCartList($cartKey, $pref_id = 0, $country_id = 0)
   {
     return array(
       array(
@@ -184,4 +184,3 @@ class SC_CartSession_registerOrderCompleteMock extends SC_CartSession
     );
   }
 }
-?>

@@ -291,7 +291,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
         $this->arrRelativeCat = SC_Helper_DB_Ex::sfGetMultiCatTree($product_id);
 
         // 商品ステータスを取得
-        $this->productStatus = $objProduct->getProductStatus($product_id);
+        $this->productStatus = $objProduct->getProductStatus(array($product_id));
 
         // 画像ファイル指定がない場合の置換処理
         $this->arrProduct['main_image']

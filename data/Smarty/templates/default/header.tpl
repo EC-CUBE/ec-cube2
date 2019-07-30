@@ -31,7 +31,7 @@
             <div id="header_utility">
                 <div id="headerInternalColumn">
                 <!--{* ▼HeaderInternal COLUMN *}-->
-                <!--{if $arrPageLayout.HeaderInternalNavi|@count > 0}-->
+                <!--{if !empty($arrPageLayout.HeaderInternalNavi)}-->
                     <!--{* ▼上ナビ *}-->
                     <!--{foreach key=HeaderInternalNaviKey item=HeaderInternalNaviItem from=$arrPageLayout.HeaderInternalNavi}-->
                         <!-- ▼<!--{$HeaderInternalNaviItem.bloc_name}--> -->

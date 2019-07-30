@@ -338,7 +338,7 @@ class SC_Graph_Base
     public function drawLegend($legend_max = '', $clabelbg = true)
     {
         // 凡例が登録されていなければ中止
-        if (count($this->arrLegend) <= 0) {
+        if (empty($this->arrLegend)) {
             return;
         }
 

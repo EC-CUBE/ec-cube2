@@ -77,7 +77,7 @@ class LC_Page_Contact extends LC_Page_Ex
     {
         $objFormParam = new SC_FormParam_Ex();
 
-        $this->arrData = isset($_SESSION['customer']) ? $_SESSION['customer'] : '';
+        $this->arrData = isset($_SESSION['customer']) ? $_SESSION['customer'] : [];
 
         switch ($this->getMode()) {
             case 'confirm':

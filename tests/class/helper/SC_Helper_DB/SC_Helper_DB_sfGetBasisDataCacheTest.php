@@ -49,7 +49,9 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
     public function testSfGetBasisDataCache_キャッシュがなく生成もしない場合_空を返す()
     {
         $this->setUpBasisData();
-        unlink($this->cashFilePath);
+        if (file_exists($this->cashFilePath)) {
+            unlink($this->cashFilePath);
+        }
         $this->expected = array();
         $this->actual = $this->helper->sfGetBasisDataCache();
         $this->verify();
@@ -58,7 +60,9 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
     public function testSfGetBasisDataCache_キャッシュがなく生成する場合_キャッシュの値を返す()
     {
         $this->setUpBasisData();
-        unlink($this->cashFilePath);
+        if (file_exists($this->cashFilePath)) {
+            unlink($this->cashFilePath);
+        }
         $this->expected = array(
             'id' => '1',
             'company_name' => 'testshop',
@@ -132,7 +136,9 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
     public function testSfGetBasisDataCache_キャッシュがある場合_キャッシュの値を返す()
     {
         $this->setUpBasisData();
-        unlink($this->cashFilePath);
+        if (file_exists($this->cashFilePath)) {
+            unlink($this->cashFilePath);
+        }
         $this->helper->sfCreateBasisDataCache();
         $this->expected = array(
             'id' => '1',

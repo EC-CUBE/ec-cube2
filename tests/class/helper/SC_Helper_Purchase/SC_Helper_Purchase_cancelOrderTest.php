@@ -171,7 +171,7 @@ class SC_Helper_Purchase_cancelOrderMock extends SC_Helper_Purchase
     );
   }
 
-  function getOrderDetail($order_id)
+  function getOrderDetail($order_id, $has_order_status = true)
   {
     $_SESSION['testResult']['getOrderDetail'] = array(
       'order_id' => $order_id

@@ -106,7 +106,7 @@ class SC_Helper_Purchase_getShippingsTest extends SC_Helper_Purchase_TestBase
     // shipping_idごとの配列になっているのでshipping_idで抽出
     $this->actual['first'] = Test_Utils::mapArray($result[0], array(
       'order_id', 'shipping_id', 'shipping_name01', 'shipping_date'));
-    $this->actual['shipment_item_count'] = count($result[0]['shipment_item']);
+    $this->actual['shipment_item_count'] = is_array($result['1']['shipment_item']) ? count($result['1']['shipment_item']) : 0;
     $this->verify('配送情報');
   }
 

@@ -155,7 +155,7 @@
 
                 <div class="listrightbloc">
                     <!--▼商品ステータス-->
-                    <!--{if count($productStatus[$id]) > 0}-->
+                    <!--{if !empty($productStatus[$id])}-->
                         <ul class="status_icon clearfix">
                             <!--{foreach from=$productStatus[$id] item=status}-->
                                 <li>

@@ -45,8 +45,8 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
     // データを360°値に変換する
     public function getCircleData($array)
     {
-        $total = '';
-        $new_total = '';
+        $total = 0;
+        $new_total = 0;
         if (!is_array($array)) {
             return;
         }
