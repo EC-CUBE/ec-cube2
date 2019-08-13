@@ -207,7 +207,8 @@ __EOS__;
         $arrProduct = (array)$objQuery->getRow('*', $from, $where, $arrWhereVal);
 
         // 税込金額を設定する
-        SC_Product_Ex::setIncTaxToProduct($arrProduct);
+        $arrTaxRules = SC_Product_Ex::getProductsClassRelateTaxRule(array($arrProduct['product_id']));
+        SC_Product_Ex::setIncTaxToProduct($arrProduct, $arrTaxRules[$arrProduct['product_id']]);
 
         return $arrProduct;
     }
@@ -563,13 +564,16 @@ __EOS__;
      */
     public static function setPriceTaxTo(&$arrProducts)
     {
+        $arrTaxRules = SC_Product_Ex::getProductsClassRelateTaxRule(array_values(array_map(function ($arrProduct) {
+            return $arrProduct['product_id'];
+        }, $arrProducts)));
         foreach ($arrProducts as &$arrProduct) {
             $arrProduct['price01_min_format'] = number_format($arrProduct['price01_min']);
             $arrProduct['price01_max_format'] = number_format($arrProduct['price01_max']);
             $arrProduct['price02_min_format'] = number_format($arrProduct['price02_min']);
             $arrProduct['price02_max_format'] = number_format($arrProduct['price02_max']);
 
-            SC_Product_Ex::setIncTaxToProduct($arrProduct);
+            SC_Product_Ex::setIncTaxToProduct($arrProduct, $arrTaxRules[$arrProduct['product_id']]);
 
             $arrProduct['price01_min_inctax_format'] = number_format($arrProduct['price01_min_inctax']);
             $arrProduct['price01_max_inctax_format'] = number_format($arrProduct['price01_max_inctax']);
@@ -598,8 +602,12 @@ __EOS__;
      */
     public static function setIncTaxToProducts(&$arrProducts)
     {
+        $arrTaxRules = SC_Product_Ex::getProductsClassRelateTaxRule(array_values(array_map(function ($arrProduct) {
+            return $arrProduct['product_id'];
+        }, $arrProducts)));
+
         foreach ($arrProducts as &$arrProduct) {
-            SC_Product_Ex::setIncTaxToProduct($arrProduct);
+            SC_Product_Ex::setIncTaxToProduct($arrProduct, $arrTaxRules[$arrProduct['product_id']]);
         }
     }
 
@@ -609,12 +617,12 @@ __EOS__;
      * @param  array $arrProduct 商品情報の配列
      * @return void
      */
-    public static function setIncTaxToProduct(&$arrProduct)
+    public static function setIncTaxToProduct(&$arrProduct, $arrTaxRules = [])
     {
-        $arrProduct['price01_min_inctax'] = isset($arrProduct['price01_min']) ? SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01_min'], $arrProduct['product_id']) : null;
-        $arrProduct['price01_max_inctax'] = isset($arrProduct['price01_max']) ? SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01_max'], $arrProduct['product_id']) : null;
-        $arrProduct['price02_min_inctax'] = isset($arrProduct['price02_min']) ? SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02_min'], $arrProduct['product_id']) : null;
-        $arrProduct['price02_max_inctax'] = isset($arrProduct['price02_max']) ? SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02_max'], $arrProduct['product_id']) : null;
+        $arrProduct['price01_min_inctax'] = isset($arrProduct['price01_min']) ? SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01_min'], $arrProduct['product_id'], SC_Product_Ex::findProductClassIdByRule('price01', $arrTaxRules, 'min')) : null;
+        $arrProduct['price01_max_inctax'] = isset($arrProduct['price01_max']) ? SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01_max'], $arrProduct['product_id'], SC_Product_Ex::findProductClassIdByRule('price01', $arrTaxRules, 'max')) : null;
+        $arrProduct['price02_min_inctax'] = isset($arrProduct['price02_min']) ? SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02_min'], $arrProduct['product_id'], SC_Product_Ex::findProductClassIdByRule('price02', $arrTaxRules, 'min')) : null;
+        $arrProduct['price02_max_inctax'] = isset($arrProduct['price02_max']) ? SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02_max'], $arrProduct['product_id'], SC_Product_Ex::findProductClassIdByRule('price02', $arrTaxRules, 'max')) : null;
     }
 
     /**
@@ -739,5 +747,84 @@ __EOS__;
             return true;
         }
         return false;
+    }
+
+    /**
+     * 商品規格別の税率を取得する.
+     *
+     * @param array $product_ids 取得対象の商品ID
+     * @param int $option_product_tax_rule 商品別税率オプション
+     * @return array 税率を含む商品ID, 商品規格IDごとの配列. $option_product_tax_rule が 0 の場合は空の配列を返す
+     */
+    protected static function getProductsClassRelateTaxRule(array $product_ids, $option_product_tax_rule = OPTION_PRODUCT_TAX_RULE)
+    {
+        if ($option_product_tax_rule == 0) {
+            return [];
+        }
+
+        $objQuery = SC_Query_Ex::getSingletonInstance();
+        $objQuery->setOrder('product_class_id');
+        $arrProductClasses = $objQuery->select(
+            '*,
+            (SELECT tax_rate FROM dtb_tax_rule
+              WHERE product_class_id = dtb_products_class.product_class_id
+                AND product_id = dtb_products_class.product_id 
+                AND del_flg = 0 AND apply_date < CURRENT_TIMESTAMP) as tax_rate',
+            'dtb_products_class',
+            'product_id IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($product_ids)).') AND del_flg = 0',
+            $product_ids
+        );
+
+        $arrResult = [];
+        if (is_array($arrProductClasses)) {
+            foreach ($arrProductClasses as $arrProductClass) {
+                if (!array_key_exists($arrProductClass['product_id'], $arrResult)) {
+                    $arrResult[$arrProductClass['product_id']] = [];
+                }
+                $arrResult[$arrProductClass['product_id']][$arrProductClass['product_class_id']] = $arrProductClass;
+            }
+        }
+        return $arrResult;
+    }
+
+    /**
+     * getProductsClassRelateTaxRule の結果から最大値または最小値の金額の product_class_id を取得する.
+     *
+     * @param string $col 比較対象のカラム
+     * @param array $rules 商品規格IDを添字とした商品規格別の税率
+     * @param string $type max or min
+     * @return int product_class_id
+     */
+    protected static function findProductClassIdByRule($col, $rules, $type = 'max')
+    {
+        return array_reduce($rules, function ($carry, $rule) use ($col, $rules, $type) {
+            if (SC_Product_Ex::checkPriceAndTaxRate($rules[$carry][$col], $rule[$col], $rules[$carry]['tax_rate'], $rule['tax_rate'], $type)) {
+                return $rule['product_class_id'];
+            }
+
+            return $carry;
+        }, empty($rules) ? 0 : $rules[min(array_keys($rules))]['product_class_id']);
+    }
+
+    /**
+     * 金額と税率の max or min を評価する.
+     *
+     * @param int $carry_price 現在の金額
+     * @param int $price 比較対象の金額
+     * @param int $carry_rate 現在の税率
+     * @param int $rate 比較対象の税率
+     * @param string $operator max or min
+     * @return bool
+     */
+    protected static function checkPriceAndTaxRate($carry_price, $price, $carry_rate, $rate, $operator = 'max')
+    {
+        switch ($operator) {
+            case 'min':
+                return ($carry_price >= $price && $carry_rate >= $rate);
+                break;
+            case 'max':
+            default:
+                return ($carry_price <= $price && $carry_rate <= $rate);
+        }
     }
 }
