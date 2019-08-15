@@ -130,7 +130,7 @@ class SC_Product_setIncTaxToProductTest extends SC_Product_TestBase
      */
     private static function getMethod($name)
     {
-        $class = new \ReflectionClass(SC_Product_Ex::class);
+        $class = new \ReflectionClass('SC_Product_Ex');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method;
