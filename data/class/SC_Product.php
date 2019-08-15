@@ -752,6 +752,8 @@ __EOS__;
     /**
      * 商品規格別の税率を取得する.
      *
+     * 商品規格別税率の設定の無い商品は基本税率を適用する
+     *
      * @param array $product_ids 取得対象の商品ID
      * @param int $option_product_tax_rule 商品別税率オプション
      * @return array 税率を含む商品ID, 商品規格IDごとの配列. $option_product_tax_rule が 0 の場合は空の配列を返す
@@ -762,19 +764,21 @@ __EOS__;
             return [];
         }
 
+        $arrDefaultTaxRule = SC_Helper_TaxRule_Ex::getTaxRule();
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('product_class_id');
         $arrProductClasses = $objQuery->select(
             '*,
-            (SELECT tax_rate FROM dtb_tax_rule
-              WHERE product_class_id = dtb_products_class.product_class_id
-                AND product_id = dtb_products_class.product_id 
-                AND del_flg = 0 AND apply_date < CURRENT_TIMESTAMP) as tax_rate',
+             COALESCE(
+               (SELECT tax_rate FROM dtb_tax_rule
+                 WHERE product_class_id = dtb_products_class.product_class_id
+                   AND product_id = dtb_products_class.product_id
+                   AND del_flg = 0 AND apply_date < CURRENT_TIMESTAMP)
+              , '.$arrDefaultTaxRule['tax_rate'].') as tax_rate',
             'dtb_products_class',
             'product_id IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($product_ids)).') AND del_flg = 0',
             $product_ids
         );
-
         $arrResult = [];
         if (is_array($arrProductClasses)) {
             foreach ($arrProductClasses as $arrProductClass) {
@@ -797,6 +801,10 @@ __EOS__;
      */
     protected static function findProductClassIdByRule($col, $rules, $type = 'max')
     {
+        // 価格が null の商品規格は除外
+        $rules = array_filter($rules, function ($rule) use ($col) {
+            return $rule[$col] !== null;
+        });
         return array_reduce($rules, function ($carry, $rule) use ($col, $rules, $type) {
             if (SC_Product_Ex::checkPriceAndTaxRate($rules[$carry][$col], $rule[$col], $rules[$carry]['tax_rate'], $rule['tax_rate'], $type)) {
                 return $rule['product_class_id'];
@@ -807,7 +815,7 @@ __EOS__;
     }
 
     /**
-     * 金額と税率の max or min を評価する.
+     * 税込金額の max or min を評価する.
      *
      * @param int $carry_price 現在の金額
      * @param int $price 比較対象の金額
@@ -818,13 +826,20 @@ __EOS__;
      */
     protected static function checkPriceAndTaxRate($carry_price, $price, $carry_rate, $rate, $operator = 'max')
     {
+        if ($price === null) {
+            return false;
+        }
+
+        $carry_intax = $carry_price + ($carry_price * ($carry_rate / 100));
+        $intax = $price + ($price * ($rate / 100));
+        // 比較するのみなので端数処理は考慮しない
         switch ($operator) {
             case 'min':
-                return ($carry_price >= $price && $carry_rate >= $rate);
+                return ($carry_intax >= $intax);
                 break;
             case 'max':
             default:
-                return ($carry_price <= $price && $carry_rate <= $rate);
+                return ($carry_intax <= $intax);
         }
     }
 }
