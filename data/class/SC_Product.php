@@ -796,12 +796,16 @@ __EOS__;
      * getProductsClassRelateTaxRule の結果から最大値または最小値の金額の product_class_id を取得する.
      *
      * @param string $col 比較対象のカラム
-     * @param array $rules 商品規格IDを添字とした商品規格別の税率
+     * @param array|null $rules 商品規格IDを添字とした商品規格別の税率
      * @param string $operator max or min
      * @return int product_class_id
      */
-    protected static function findProductClassIdByRule($col, array $rules, $operator = 'max')
+    protected static function findProductClassIdByRule($col, $rules, $operator = 'max')
     {
+        if (empty($rules)) {
+            return 0;
+        }
+
         // 価格が null の商品規格は除外
         $rules = array_filter($rules, function ($rule) use ($col) {
             return $rule[$col] !== null;
