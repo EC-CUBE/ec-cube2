@@ -7,6 +7,11 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  */
 class SC_Product_TestBase extends Common_TestCase
 {
+    /**
+     * @var SC_Product_Ex
+     */
+    protected $objProducts;
+
     protected function setUp()
     {
         parent::setUp();
