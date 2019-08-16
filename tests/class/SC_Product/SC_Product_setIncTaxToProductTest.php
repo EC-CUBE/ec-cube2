@@ -106,6 +106,7 @@ class SC_Product_setIncTaxToProductTest extends SC_Product_TestBase
 
     public function testGetProductsClassRelateTaxRule()
     {
+        $_SESSION['member_id'] = '1';
         $objGenerator = new FixtureGenerator($this->objQuery);
         $product_ids = [];
         for ($i = 0; $i < 3; $i++) {
