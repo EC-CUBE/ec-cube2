@@ -104,10 +104,55 @@ class SC_Product_setIncTaxToProductTest extends SC_Product_TestBase
         $this->verify();
     }
 
-    private function wrapperToFindProductClassIdByRule($col, $rules, $type)
+    public function testGetProductsClassRelateTaxRule()
+    {
+        $objGenerator = new FixtureGenerator($this->objQuery);
+        $product_ids = [];
+        for ($i = 0; $i < 3; $i++) {
+            $product_ids[] = $objGenerator->createProduct();
+        }
+
+        // 0 番目商品の規格に商品別税率を設定する
+        $now = new \DateTime();
+        $now->modify('-1 days');
+        $product_class_ids = $this->objQuery->getCol('product_class_id', 'dtb_products_class', 'product_id = ? AND del_flg = 0', [$product_ids[0]]);
+        foreach ($product_class_ids as $product_class_id) {
+            SC_Helper_TaxRule_Ex::setTaxRule(1, 10, $now->format('Y/m/d H:i:s'), null, 0, $product_ids[0], $product_class_id);
+        }
+
+        $arrTaxRules = $this->wrapperToGetProductsClassRelateTaxRule($product_ids, 1);
+        $this->actual = [];
+        foreach ($arrTaxRules as $product_id => $rules) {
+            foreach ($rules as $product_class_id => $rule) {
+                $this->actual[] = $rule['tax_rate'];
+            }
+        }
+
+        $this->expected = [10, 10, 10, 8, 8, 8, 8, 8, 8];
+        $this->verify();
+    }
+
+    /**
+     * @param array $product_ids 取得対象の商品ID
+     * @param int $option_product_tax_rule 商品別税率オプション
+     * @return array 税率を含む商品ID, 商品規格IDごとの配列. $option_product_tax_rule が 0 の場合は空の配列を返す
+     */
+    private function wrapperToGetProductsClassRelateTaxRule(array $product_ids, $option_product_tax_rule = OPTION_PRODUCT_TAX_RULE)
+    {
+        $method = self::getMethod('getProductsClassRelateTaxRule');
+        return $method->invoke(null, $product_ids, $option_product_tax_rule);
+    }
+
+    /**
+     * @param string $col 比較対象のカラム
+     * @param array|null $rules 商品規格IDを添字とした商品規格別の税率
+     * @param string $operator max or min
+     * @return int product_class_id
+     */
+    private function wrapperToFindProductClassIdByRule($col, $rules, $operator)
     {
         $method = self::getMethod('findProductClassIdByRule');
-        return $method->invoke(null, $col, $rules, $type);
+        return $method->invoke(null, $col, $rules, $operator);
     }
 
     /**

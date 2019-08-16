@@ -774,7 +774,9 @@ __EOS__;
                (SELECT tax_rate FROM dtb_tax_rule
                  WHERE product_class_id = dtb_products_class.product_class_id
                    AND product_id = dtb_products_class.product_id
-                   AND del_flg = 0 AND apply_date < CURRENT_TIMESTAMP)
+                   AND del_flg = 0 AND apply_date < CURRENT_TIMESTAMP
+                   ORDER BY apply_date DESC LIMIT 1
+                )
               , '.$arrDefaultTaxRule['tax_rate'].') as tax_rate',
             'dtb_products_class',
             'product_id IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($product_ids)).') AND del_flg = 0',
