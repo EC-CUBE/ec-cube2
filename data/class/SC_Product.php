@@ -620,6 +620,9 @@ __EOS__;
      */
     public static function setIncTaxToProduct(&$arrProduct, $rules = [])
     {
+        // XXX 同一商品で規格ごとに税率も価格も異なり、税抜と税込で最小値、最大値の規格が変わるというケースは正確な処理ができない.
+        // このようなケースは希だと思われるため、実運用で発生する場合は以下のパッチを推奨
+        // https://github.com/EC-CUBE/eccube-2_13/issues/99#issuecomment-518100061
         $arrProduct['price01_min_inctax'] = isset($arrProduct['price01_min']) ? SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01_min'], $arrProduct['product_id'], SC_Product_Ex::findProductClassIdByRule('price01', $rules, 'min')) : null;
         $arrProduct['price01_max_inctax'] = isset($arrProduct['price01_max']) ? SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01_max'], $arrProduct['product_id'], SC_Product_Ex::findProductClassIdByRule('price01', $rules, 'max')) : null;
         $arrProduct['price02_min_inctax'] = isset($arrProduct['price02_min']) ? SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02_min'], $arrProduct['product_id'], SC_Product_Ex::findProductClassIdByRule('price02', $rules, 'min')) : null;

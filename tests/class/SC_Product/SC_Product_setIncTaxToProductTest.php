@@ -91,6 +91,13 @@ class SC_Product_setIncTaxToProductTest extends SC_Product_TestBase
                  3 => ['price01' => null, 'tax_rate' => 8, 'product_class_id' => 3],
              ],
              'min', 0],
+            // see https://github.com/EC-CUBE/eccube-2_13/pull/298#issuecomment-522072546
+            // ['price02',
+            //  [
+            //      1 => ['price02' => 1000, 'tax_rate' => 10, 'product_class_id' => 1],
+            //      2 => ['price02' => 1010, 'tax_rate' => 8, 'product_class_id' => 2],
+            //  ],
+            //  'min', 1],
         ];
     }
 
