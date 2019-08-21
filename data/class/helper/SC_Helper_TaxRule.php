@@ -113,7 +113,7 @@ class SC_Helper_TaxRule
      * 現在有効な税率設定情報を返す
      *
      * @param int $product_id 商品ID
-     * @param int $product_class_id 商品規格ID
+     * @param int $product_class_id 商品規格ID(商品規格ごとの税率設定は廃止のため常に0)
      * @param int $pref_id 都道府県ID
      * @param int $country_id 国ID
      * @return integer 税設定情報
@@ -243,7 +243,7 @@ class SC_Helper_TaxRule
             // 課税規則は基本設定のものを使用
             $calc_rule = $arrRet['calc_rule'];
             // 日付は登録時点を設定
-            $apply_date = date('Y/m/d H:i:s');
+            $apply_date = 'CURRENT_TIMESTAMP';
             // 税情報を設定
             SC_Helper_TaxRule_Ex::setTaxRule($calc_rule, $tax_rate, $apply_date, NULL, $tax_adjust, $product_id, $product_class_id, $pref_id, $country_id);
         }

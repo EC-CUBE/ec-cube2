@@ -213,6 +213,15 @@
                 <span class="attention"> (半角数字で入力)</span>
             </td>
         </tr>
+        <tr>
+            <th>在庫数<span class="attention"> *</span></th>
+            <td>
+                <span class="attention"><!--{$arrErr.stock}--></span>
+                <input type="text" name="stock" value="<!--{$arrForm.stock|h}-->" size="6" class="box6" maxlength="<!--{$smarty.const.AMOUNT_LEN}-->" style="<!--{if $arrErr.stock != ""}-->background-color: <!--{$smarty.const.ERR_COLOR}-->;<!--{/if}-->"/>
+                <input type="checkbox" name="stock_unlimited" value="1" <!--{if $arrForm.stock_unlimited == "1"}-->checked<!--{/if}--> onclick="eccube.checkStockLimit('<!--{$smarty.const.DISABLED_RGB}-->');"/>無制限
+            </td>
+        </tr>
+        <!--{/if}-->
         <!--{if $smarty.const.OPTION_PRODUCT_TAX_RULE ==1}-->
         <tr>
             <th>消費税率<span class="attention"> *</span></th>
@@ -220,15 +229,6 @@
                 <span class="attention"><!--{$arrErr.tax_rate}--></span>
                 <input type="text" name="tax_rate" value="<!--{$arrForm.tax_rate|h}-->" size="6" class="box6" maxlength="<!--{$smarty.const.PERCENTAGE_LEN}-->" style="<!--{if $arrErr.tax_rate != ""}-->background-color: <!--{$smarty.const.ERR_COLOR}-->;<!--{/if}-->"/>%
                 <span class="attention">(半角数字で入力)</span>
-            </td>
-        </tr>
-        <!--{/if}-->
-        <tr>
-            <th>在庫数<span class="attention"> *</span></th>
-            <td>
-                <span class="attention"><!--{$arrErr.stock}--></span>
-                <input type="text" name="stock" value="<!--{$arrForm.stock|h}-->" size="6" class="box6" maxlength="<!--{$smarty.const.AMOUNT_LEN}-->" style="<!--{if $arrErr.stock != ""}-->background-color: <!--{$smarty.const.ERR_COLOR}-->;<!--{/if}-->"/>
-                <input type="checkbox" name="stock_unlimited" value="1" <!--{if $arrForm.stock_unlimited == "1"}-->checked<!--{/if}--> onclick="eccube.checkStockLimit('<!--{$smarty.const.DISABLED_RGB}-->');"/>無制限
             </td>
         </tr>
         <!--{/if}-->
