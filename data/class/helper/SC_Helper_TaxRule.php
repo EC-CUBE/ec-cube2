@@ -117,6 +117,7 @@ class SC_Helper_TaxRule
      * @param int $pref_id 都道府県ID
      * @param int $country_id 国ID
      * @return integer 税設定情報
+     * @see https://github.com/EC-CUBE/eccube-2_13/pull/301
      */
     public static function getTaxRule($product_id = 0, $product_class_id = 0, $pref_id = 0, $country_id = 0)
     {
