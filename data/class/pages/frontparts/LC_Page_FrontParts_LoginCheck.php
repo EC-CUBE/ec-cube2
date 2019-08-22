@@ -200,6 +200,7 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                 break;
         }
 
+        SC_Utils_Ex::sfDispSiteError(CUSTOMER_ERROR);
     }
 
     /**
