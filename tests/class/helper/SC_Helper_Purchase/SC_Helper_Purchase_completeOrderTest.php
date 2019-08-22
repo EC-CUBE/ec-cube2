@@ -33,23 +33,29 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
 {
-
+  /** @var array */
+  private $customer_ids = [];
+  /** @var array */
+  private $order_ids = [];
+  /** @var array */
+  private $order_temp_ids = [];
   private $helper;
 
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpOrder();
-    $this->setUpOrderTemp(); // order_temp_id = '1001'
+    $this->customer_ids = $this->setUpCustomer();
+    $this->order_ids = $this->setUpOrder($this->customer_ids);
+    $this->order_temp_ids = $this->setUpOrderTemp($this->order_ids);
     $this->setUpShipping([]);
-    $this->setUpCustomer();
+
 
     $_SESSION['cartKey'] = '1';
     $_SESSION['site'] = array(
       'pre_page' => 'pre',
       'now_page' => 'now',
       'regist_success' => TRUE,
-      'uniqid' => '1001'
+      'uniqid' => $this->order_temp_ids[0]
     );
 
     $this->helper = new SC_Helper_Purchase_completeOrderMock();
@@ -64,39 +70,39 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
   // 適切なfunctionが呼ばれていることのみ確認
   public function testCompleteOrder_顧客IDが指定されている場合_購入日が更新される()
   {
-    $_SESSION['customer']['customer_id'] = '1002'; // 顧客ID
+    $_SESSION['customer']['customer_id'] = $this->customer_ids[1]; // 顧客ID
     $this->helper->completeOrder(ORDER_DELIV);
 
     $this->expected = array(
       'verifyChangeCart' => array(
-        'uniqId' => '1001'
+        'uniqId' => $this->order_temp_ids[0]
       ),
       'getOrderTemp' => array(
-        'uniqId' => '1001'
+        'uniqId' => $this->order_temp_ids[0]
       ),
       'registerOrderComplete' => array(
-        'order_temp_id' => '1001',
+        'order_temp_id' => $this->order_temp_ids[0],
         'status' => ORDER_DELIV,
         'cartKey' => '1'
       ),
       'registerShipmentItem' => array(
         array(
-          'order_id' => '1001',
+          'order_id' => $this->order_ids[0],
           'shipping_id' => '00001',
           'shipment_item' => '商品1'
         )
       ),
       'registerShipping' => array(
-        'order_id' => '1001'
+        'order_id' => $this->order_ids[0],
       ),
       'cleanupSession' => array(
-        'order_id' => '1001',
+        'order_id' => $this->order_ids[0],
         'cartKey' => '1'
       )
     );
     $this->actual = $_SESSION['testResult'];
     $this->verify('適切なfunctionが呼ばれている');
-    $last_buy_date = $this->objQuery->get('last_buy_date', 'dtb_customer', 'customer_id = ?', '1002');
+    $last_buy_date = $this->objQuery->get('last_buy_date', 'dtb_customer', 'customer_id = ?', $this->customer_ids[1]);
     $this->assertNotNull($last_buy_date, '最終購入日');
   }
 
@@ -106,28 +112,28 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
 
     $this->expected = array(
       'verifyChangeCart' => array(
-        'uniqId' => '1001'
+        'uniqId' => $this->order_temp_ids[0]
       ),
       'getOrderTemp' => array(
-        'uniqId' => '1001'
+        'uniqId' => $this->order_temp_ids[0]
       ),
       'registerOrderComplete' => array(
-        'order_temp_id' => '1001',
+        'order_temp_id' => $this->order_temp_ids[0],
         'status' => ORDER_NEW,
         'cartKey' => '1'
       ),
       'registerShipmentItem' => array(
         array(
-          'order_id' => '1001',
+          'order_id' => (string) $this->order_ids[0],
           'shipping_id' => '00001',
           'shipment_item' => '商品1'
         )
       ),
       'registerShipping' => array(
-        'order_id' => '1001'
+        'order_id' => (string) $this->order_ids[0]
       ),
       'cleanupSession' => array(
-        'order_id' => '1001',
+        'order_id' => (string) $this->order_ids[0],
         'cartKey' => '1'
       )
     );
@@ -141,7 +147,7 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
 class SC_Helper_Purchase_completeOrderMock extends SC_Helper_Purchase
 {
 
-  function verifyChangeCart($uniqId, $objCartSession)
+  function verifyChangeCart($uniqId, &$objCartSession)
   {
     $_SESSION['testResult']['verifyChangeCart'] = array('uniqId'=>$uniqId);
   }
@@ -152,7 +158,7 @@ class SC_Helper_Purchase_completeOrderMock extends SC_Helper_Purchase
     return parent::getOrderTemp($uniqId);
   }
 
-  function registerOrderComplete($orderTemp, $objCartSession, $cartKey)
+  function registerOrderComplete($orderTemp, &$objCartSession, $cartKey)
   {
     $_SESSION['testResult']['registerOrderComplete'] = array(
       'order_temp_id' => $orderTemp['order_temp_id'],
@@ -171,14 +177,14 @@ class SC_Helper_Purchase_completeOrderMock extends SC_Helper_Purchase
     );
   }
 
-  function registerShipping($order_id, $shipping_temp)
+  function registerShipping($order_id, $shipping_temp, $convert_shipping_date = true)
   {
     $_SESSION['testResult']['registerShipping'] = array(
       'order_id' => $order_id
     );
   }
 
-  function cleanupSession($order_id, $objCartSesion, $objCustomer, $cartKey)
+  function cleanupSession($order_id, &$objCartSesion, &$objCustomer, $cartKey)
   {
     $_SESSION['testResult']['cleanupSession'] = array(
       'order_id' => $order_id,
@@ -186,6 +192,3 @@ class SC_Helper_Purchase_completeOrderMock extends SC_Helper_Purchase
     );
   }
 }
-
-?>
-

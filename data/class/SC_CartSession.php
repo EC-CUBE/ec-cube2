@@ -54,7 +54,7 @@ class SC_CartSession
     {
         $this->key_tmp = 'savecart_' . $key_tmp;
         // すでに情報がなければ現状のカート情報を記録しておく
-        if (count($_SESSION[$this->key_tmp]) == 0) {
+        if (!isset($_SESSION[$this->key_tmp])) {
             $_SESSION[$this->key_tmp] = $this->cartSession[$productTypeId];
         }
         // 1世代古いコピー情報は、削除しておく
@@ -140,7 +140,8 @@ class SC_CartSession
     public function getMax($productTypeId)
     {
         $max = 0;
-        if (count($this->cartSession[$productTypeId]) > 0) {
+        if (is_array($this->cartSession[$productTypeId])
+            && count($this->cartSession[$productTypeId]) > 0) {
             foreach ($this->cartSession[$productTypeId] as $key => $value) {
                 if (is_numeric($key)) {
                     if ($max < $key) {
@@ -187,7 +188,7 @@ class SC_CartSession
                 $this->cartSession[$productTypeId][$i]['productsClass']['product_class_id'],
                 $pref_id, $country_id);
 
-            $total+= ($incTax * $quantity);
+            $total += ($incTax * (int) $quantity);
         }
 
         return $total;
@@ -207,7 +208,7 @@ class SC_CartSession
                 $this->cartSession[$productTypeId][$i]['productsClass']['product_class_id'],
                 $pref_id, $country_id);
 
-            $total+= ($tax * $quantity);
+            $total += ($tax * (int) $quantity);
         }
 
         return $total;
@@ -234,7 +235,7 @@ class SC_CartSession
                 $point_rate = $this->cartSession[$productTypeId][$i]['point_rate'];
 
                 $point = SC_Utils_Ex::sfPrePoint($price, $point_rate);
-                $total+= ($point * $quantity);
+                $total += ($point * (int) $quantity);
             }
         }
 

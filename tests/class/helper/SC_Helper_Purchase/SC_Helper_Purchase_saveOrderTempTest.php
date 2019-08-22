@@ -33,12 +33,21 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
 {
+  /** @var array */
+  private $customer_ids = [];
+  /** @var array */
+  private $order_ids = [];
+  /** @var array */
+  private $order_temp_ids = [];
   private $helper;
 
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpOrderTemp();
+    $this->objQuery->delete('dtb_order_temp');
+    $this->customer_ids = $this->setUpCustomer();
+    $this->order_ids = $this->setUpOrder($this->customer_ids);
+    $this->order_temp_ids = $this->setUpOrderTemp($this->order_ids);
     $this->helper = new SC_Helper_Purchase_saveOrderTempMock();
   }
 
@@ -59,7 +68,7 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
     );
 
     $this->expected = 2;
-    $this->actual = $this->objQuery->count('dtb_order_temp');    
+    $this->actual = $this->objQuery->count('dtb_order_temp');
 
     $this->verify('件数が変わっていない');
   }
@@ -92,7 +101,7 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
 
   public function testSaveOrderTemp_既存の情報がある場合_情報が更新される()
   {
-    $this->helper->saveOrderTemp('1002',
+    $this->helper->saveOrderTemp($this->order_temp_ids[0],
       array(
         'customer_id' => '2002',
         'order_name01' => '受注情報92',
@@ -103,15 +112,15 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
     $this->expected['count'] = '2';
     $this->expected['content'] = array(
         array(
-          'order_temp_id' => '1002',
+          'order_temp_id' => $this->order_temp_ids[0],
           'customer_id' => '2002',
           'order_name01' => '受注情報92'
         )
       );
-    $this->actual['count'] = $this->objQuery->count('dtb_order_temp');    
+    $this->actual['count'] = $this->objQuery->count('dtb_order_temp');
     $this->actual['content'] = $this->objQuery->select(
       'order_temp_id, customer_id, order_name01',
-      'dtb_order_temp', 'order_temp_id = ?', array('1002'));
+      'dtb_order_temp', 'order_temp_id = ?', array($this->order_temp_ids[0]));
 
     $this->verify('件数が変わらず更新される');
   }
@@ -142,7 +151,8 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
 
 class SC_Helper_Purchase_saveOrderTempMock extends SC_Helper_Purchase
 {
-  function copyFromCustomer($sqlval, $objCustomer)
+  function copyFromCustomer(&$sqlval, &$objCustomer, $prefix = 'order',
+                            $keys = array())
   {
     echo('COPY_FROM_CUSTOMER');
   }

@@ -176,8 +176,8 @@ class SC_Helper_Purchase
         $uniqid = $objSiteSession->getUniqId();
         
         if (!empty($arrOrderTemp)) {
-            
-            $_SESSION = array_merge($_SESSION, unserialize($arrOrderTemp['session']));
+            $tempSession = unserialize($arrOrderTemp['session']);
+            $_SESSION = array_merge($_SESSION, $tempSession === false ? [] : $tempSession);
 
             $objCartSession = new SC_CartSession_Ex();
             $objCustomer = new SC_Customer_Ex();
@@ -324,7 +324,7 @@ class SC_Helper_Purchase
         if ($has_shipment_item) {
             $arrReturn = array();
             foreach ($_SESSION['shipping'] as $key => $arrVal) {
-                if (count($arrVal['shipment_item']) == 0) continue;
+                if (is_array($arrVal['shipment_item']) && count($arrVal['shipment_item']) == 0) continue;
                 $arrReturn[$key] = $arrVal;
             }
 
@@ -759,7 +759,7 @@ class SC_Helper_Purchase
      * @param array          $orderParams    登録する受注情報の配列
      * @param SC_CartSession $objCartSession カート情報のインスタンス
      * @param integer        $cartKey        登録を行うカート情報のキー
-     * @param integer 受注ID
+     * @return integer 受注ID
      */
     public function registerOrderComplete($orderParams, &$objCartSession, $cartKey)
     {

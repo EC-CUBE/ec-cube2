@@ -72,7 +72,7 @@ class SC_Helper_Purchase_setShipmentItemTempForSoleTest extends SC_Helper_Purcha
 
 class SC_Helper_Purchase_setShipmentItemTempForSoleMock extends SC_Helper_Purchase
 {
-  function clearShipmentItemTemp()
+  function clearShipmentItemTemp($shipping_id = null)
   {
     $_SESSION['testResult']['clearShipmentItemTemp'] = TRUE;
   }
@@ -86,7 +86,7 @@ class SC_Helper_Purchase_setShipmentItemTempForSoleMock extends SC_Helper_Purcha
 
 class SC_CartSession_setShipmentItemTempForSoleMock extends SC_CartSession
 {
-  function getCartList($key)
+  function getCartList($key, $pref_id = 0, $country_id = 0)
   {
     return array(
       array('id'=>'1', 'quantity'=>'10'),

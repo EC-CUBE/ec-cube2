@@ -291,7 +291,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
         $this->arrRelativeCat = SC_Helper_DB_Ex::sfGetMultiCatTree($product_id);
 
         // 商品ステータスを取得
-        $this->productStatus = $objProduct->getProductStatus($product_id);
+        $this->productStatus = $objProduct->getProductStatus(array($product_id));
 
         // 画像ファイル指定がない場合の置換処理
         $this->arrProduct['main_image']
@@ -652,7 +652,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
                 if (!$this->lfRegistFavoriteProduct($this->objFormParam->getValue('favorite_product_id'), $objCustomer->getValue('customer_id'))) {
                     SC_Response_Ex::actionExit(); 
                 }
-                $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+                $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
                 $objPlugin->doAction('LC_Page_Products_Detail_action_add_favorite', array($this));
             }
         }
@@ -671,7 +671,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
             $this->arrErr = $this->lfCheckError($this->mode, $this->objFormParam);
             if (count($this->arrErr) == 0) {
                 if ($this->lfRegistFavoriteProduct($this->objFormParam->getValue('favorite_product_id'), $objCustomer->getValue('customer_id'))) {
-                    $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+                    $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
                     $objPlugin->doAction('LC_Page_Products_Detail_action_add_favorite_sphone', array($this));
                     print 'true';
                     SC_Response_Ex::actionExit();

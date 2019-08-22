@@ -1,17 +1,17 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-// 商品別税率機能無効
-define('OPTION_PRODUCT_TAX_RULE', 1);
-require_once($HOME . "/tests/class/helper/SC_Helper_TaxRule/SC_Helper_TaxRule_TestBase.php");
-
 class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_TaxRule_TestBase
 {
+
+    /**
+     * 商品別税率有効
+     * @var int
+     */
+    const OPTION_PRODUCT_TAX_RULE_ENABLE = 1;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->markTestIncomplete('定数の再定義テストは実装されていません');
         $this->objTaxRule = new SC_Helper_TaxRule_Ex();
         $this->setUpTax();
     }
@@ -28,18 +28,6 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function 定数が正しく設定されているかのテスト()
-    {
-        $this->expected = 1;
-        $this->actual = constant('OPTION_PRODUCT_TAX_RULE');
-        $this->verify();
-    }
-
-    /**
-     * @test
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
     public function 引数が空の場合税率設定で設定かつ適用日時内の最新の値が返される()
     {
         $this->expected = array(
@@ -50,7 +38,7 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
             'del_flg' => '0'
         );
 
-        $return = $this->objTaxRule->getTaxRule();
+        $return = $this->objTaxRule->getTaxRule(0, 0, 0, 0, self::OPTION_PRODUCT_TAX_RULE_ENABLE);
         $this->actual = array(
             'apply_date' => $return['apply_date'],
             'tax_rate' => $return['tax_rate'],
@@ -77,7 +65,7 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
             'del_flg' => '0'
         );
 
-        $return = $this->objTaxRule->getTaxRule(1000);
+        $return = $this->objTaxRule->getTaxRule(1000, 0, 0, 0, self::OPTION_PRODUCT_TAX_RULE_ENABLE);
         $this->actual = array(
             'apply_date' => $return['apply_date'],
             'tax_rate' => $return['tax_rate'],
@@ -104,7 +92,7 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
             'del_flg' => '0'
         );
 
-        $return = $this->objTaxRule->getTaxRule(1000, 2000);
+        $return = $this->objTaxRule->getTaxRule(1000, 2000, 0, 0, self::OPTION_PRODUCT_TAX_RULE_ENABLE);
         $this->actual = array(
             'apply_date' => $return['apply_date'],
             'tax_rate' => $return['tax_rate'],
@@ -131,7 +119,7 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
             'del_flg' => '0'
         );
 
-        $return = $this->objTaxRule->getTaxRule(0, 2000);
+        $return = $this->objTaxRule->getTaxRule(0, 2000, 0, 0, self::OPTION_PRODUCT_TAX_RULE_ENABLE);
         $this->actual = array(
             'apply_date' => $return['apply_date'],
             'tax_rate' => $return['tax_rate'],

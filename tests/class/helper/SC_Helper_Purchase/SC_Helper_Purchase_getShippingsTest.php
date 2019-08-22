@@ -33,14 +33,16 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_getShippingsTest extends SC_Helper_Purchase_TestBase
 {
-
+  /** @var array */
+  private $customer_ids = [];
+  /** @var array */
+  private $order_ids = [];
 
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpShipmentItem();
-    $this->setUpShippingOnDb();
-    $this->setUpOrderDetail();
+    $this->customer_ids = $this->setUpCustomer();
+    $this->order_ids = $this->setUpOrder($this->customer_ids);
   }
 
   protected function tearDown()
@@ -62,37 +64,39 @@ class SC_Helper_Purchase_getShippingsTest extends SC_Helper_Purchase_TestBase
 
   public function testGetShippings_存在する受注IDを指定した場合_結果が取得できる()
   {
-    $order_id = '1001';
-
+    $order_id = $this->order_ids[0];
+    $arrCustomer = $this->objQuery->getRow('*', 'dtb_customer', 'customer_id = ?', [$this->customer_ids[0]]);
     $this->expected['count'] = 1;
     $this->expected['first'] = array(
-      'order_id' => '1001',
-      'shipping_id' => '1',
-      'shipping_name01' => '配送情報01',
-      'shipping_date' => '2012-01-12 00:00:00'
+      'order_id' => (string) $order_id,
+      'shipping_id' => '0',
+      'shipping_name01' => $arrCustomer['name01'],
+      'shipping_date' => null
     );
-    $this->expected['shipment_item_count'] = 2;
+    $this->expected['shipment_item_count'] = 3;
 
     $helper = new SC_Helper_Purchase();
     $result = $helper->getShippings($order_id);
+
     $this->actual['count'] = count($result);
     // shipping_idごとの配列になっているのでshipping_idで抽出
-    $this->actual['first'] = Test_Utils::mapArray($result['1'], array(
+    $this->actual['first'] = Test_Utils::mapArray($result[0], array(
       'order_id', 'shipping_id', 'shipping_name01', 'shipping_date'));
-    $this->actual['shipment_item_count'] = count($result['1']['shipment_item']);
+    $this->actual['shipment_item_count'] = count($result[0]['shipment_item']);
     $this->verify('配送情報');
   }
 
   public function testGetShippings_商品取得フラグをOFFにした場合_結果に商品情報が含まれない()
   {
-    $order_id = '1001';
+    $order_id = $this->order_ids[0];
+    $arrCustomer = $this->objQuery->getRow('*', 'dtb_customer', 'customer_id = ?', [$this->customer_ids[0]]);
 
     $this->expected['count'] = 1;
     $this->expected['first'] = array(
-      'order_id' => '1001',
-      'shipping_id' => '1',
-      'shipping_name01' => '配送情報01',
-      'shipping_date' => '2012-01-12 00:00:00'
+      'order_id' => (string) $order_id,
+      'shipping_id' => '0',
+      'shipping_name01' => $arrCustomer['name01'],
+      'shipping_date' => null
     );
     $this->expected['shipment_item_count'] = 0;
 
@@ -100,9 +104,9 @@ class SC_Helper_Purchase_getShippingsTest extends SC_Helper_Purchase_TestBase
     $result = $helper->getShippings($order_id, false);
     $this->actual['count'] = count($result);
     // shipping_idごとの配列になっているのでshipping_idで抽出
-    $this->actual['first'] = Test_Utils::mapArray($result['1'], array(
+    $this->actual['first'] = Test_Utils::mapArray($result[0], array(
       'order_id', 'shipping_id', 'shipping_name01', 'shipping_date'));
-    $this->actual['shipment_item_count'] = count($result['1']['shipment_item']);
+    $this->actual['shipment_item_count'] = is_array($result['1']['shipment_item']) ? count($result['1']['shipment_item']) : 0;
     $this->verify('配送情報');
   }
 

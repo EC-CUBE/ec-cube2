@@ -67,7 +67,10 @@ class LC_Page
     /** 店舗基本情報 */
     public $arrSiteInfo;
 
-    /** プラグインを実行フラグ */
+    /**
+     * プラグインを実行フラグ
+     * @deprecated 定数 PLUGIN_ACTIVATE_FLAG を使用してください
+     */
     public $plugin_activate_flg = PLUGIN_ACTIVATE_FLAG;
 
     /** POST に限定する mode */
@@ -105,7 +108,7 @@ class LC_Page
         }
 
         // スーパーフックポイントを実行.
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         $objPlugin->doAction('LC_Page_preProcess', array($this));
 
         // 店舗基本情報取得
@@ -137,7 +140,7 @@ class LC_Page
      */
     public function sendResponse()
     {
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         // ローカルフックポイントを実行.
         $this->doLocalHookpointAfter($objPlugin);
 

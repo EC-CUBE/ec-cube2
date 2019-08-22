@@ -67,7 +67,7 @@
             <div id="detailrightbloc">
                 <!--▼商品ステータス-->
                 <!--{assign var=ps value=$productStatus[$tpl_product_id]}-->
-                <!--{if count($ps) > 0}-->
+                <!--{if !empty($ps)}-->
                     <ul class="status_icon clearfix">
                         <!--{foreach from=$ps item=status}-->
                         <li>

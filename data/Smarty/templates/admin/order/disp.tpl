@@ -382,7 +382,7 @@
                 </td>
             </tr>
 
-            <!--{if $arrForm.payment_info|@count > 0}-->
+            <!--{if !empty($arrForm.payment_info)}-->
             <tr>
                 <th><!--{$arrForm.payment_type}-->情報</th>
                 <td>

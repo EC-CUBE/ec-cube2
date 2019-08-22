@@ -23,9 +23,11 @@
 
 class SC_View
 {
-    var $_smarty;
+    /** @var SmartyBC */
+    public $_smarty;
 
-    var $objPage;
+    /** @var LC_Page */
+    public $objPage;
 
     // コンストラクタ
     public function __construct()
@@ -60,8 +62,6 @@ class SC_View
         $this->_smarty->registerPlugin('function','printXMLDeclaration', array('GC_Utils_Ex', 'printXMLDeclaration'));
         $this->_smarty->default_modifiers = array('script_escape');
 
-        // smarty:nodefaultsの後方互換を維持
-
         if (ADMIN_MODE == '1') {
             $this->time_start = microtime(true);
         }
@@ -69,6 +69,7 @@ class SC_View
         $this->_smarty->force_compile = SMARTY_FORCE_COMPILE_MODE === true;
         // 各filterをセットします.
         $this->registFilter();
+        // smarty:nodefaultsの後方互換を維持
         $this->_smarty->registerFilter('pre', array($this, 'lower_compatibility_smarty'));
     }
 
@@ -145,7 +146,7 @@ class SC_View
     {
         if (!is_null($this->objPage)) {
             // フックポイントを実行.
-            $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->objPage->plugin_activate_flg);
+            $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
             if ($objPlugin) {
                 $objPlugin->doAction('prefilterTransform', array(&$source, $this->objPage, $template->smarty->_current_file));
             }
@@ -164,7 +165,7 @@ class SC_View
     {
         if (!is_null($this->objPage)) {
             // フックポイントを実行.
-            $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->objPage->plugin_activate_flg);
+            $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
             if ($objPlugin) {
                 $objPlugin->doAction('outputfilterTransform', array(&$source, $this->objPage, $template->smarty->_current_file));
             }
@@ -255,8 +256,7 @@ class SC_View
      *
      * @param mixed $tpl_source
      * @param mixed $smarty
-     * @access public
-     * @return void
+     * @return array|string|null
      */
     public function lower_compatibility_smarty($tpl_source, $smarty)
     {

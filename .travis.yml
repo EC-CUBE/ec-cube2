@@ -1,9 +1,12 @@
 # for travis-ci
 # see also. https://travis-ci.org
+dist: xenial
 language: php
 services:
   - docker
-sudo: false
+  - mysql
+  - postgresql
+  - xvfb
 php:
   - 5.4
   - 5.5
@@ -12,6 +15,7 @@ php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4snapshot
 
 addons:
   apt:
@@ -30,11 +34,22 @@ env:
 
 matrix:
   fast_finish: true
+  include:
+    - php: 5.4
+      dist: trusty
+      env: DB=mysql USER=root DBPASS=' ' DBUSER=root DIST=trusty
+    - php: 5.4
+      dist: trusty
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DIST=trusty
+    - php: 5.5
+      dist: trusty
+      env: DB=mysql USER=root DBPASS=' ' DBUSER=root DIST=trusty
+    - php: 5.5
+      dist: trusty
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DIST=trusty
   exclude:
     - php: 5.4
-      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
     - php: 5.5
-      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
     - php: 5.6
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
     - php: 7.0
@@ -43,12 +58,17 @@ matrix:
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
     - php: 7.2
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
+    - php: 7.4snapshot
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
   allow_failures:
+    - php: 7.4snapshot
     # Use for coverage report
     - php: 7.3
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
 
 before_script:
+  - if [[ $DB = 'mysql' ]]; then mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';" ; fi
+
     ## see https://github.com/symfony/symfony/blob/e0bdc0c35e9afdb3bee8af172f90e9648c4012fc/.travis.yml#L92-L97
   - phpenv config-rm xdebug.ini || true
   - echo "opcache.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
@@ -58,26 +78,26 @@ before_script:
   - sh -c "if [ '$DB' = 'mysql' ]; then sh ./eccube_install.sh mysql; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then sh ./eccube_install.sh appveyor; fi"
   - cat ./data/config/config.php
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - if [[ $DIST = 'trusty' ]]; then export DISPLAY=:99.0 ; fi
+  - if [[ $DIST = 'trusty' ]]; then sh -e /etc/init.d/xvfb start ; fi
   - php -S localhost:8085 -t html/ &
   - wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.43/chromedriver_linux64.zip
   - unzip -o -q chromedriver_linux64.zip
-  - sudo mv -f ./chromedriver /usr/local/bin/
-  - sudo chmod +x /usr/local/bin/chromedriver
   - docker pull schickling/mailcatcher
   - docker run -d -p 1080:1080 -p 1025:1025 --name mailcatcher schickling/mailcatcher
-  - chromedriver --url-base=/wd/hub &
+  - ./chromedriver --url-base=/wd/hub &
   - php data/vendor/bin/codecept build
 
 script:
   - mkdir -p reports/coverage
-  - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist ; fi
-  - if [ $COVERAGE ] ; then phpdbg -qrr data/vendor/bin/phpunit -c phpunit.xml.dist ; fi
+  - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist --exclude-group classloader ; fi
+  - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist --group classloader ; fi
+  - if [ $COVERAGE ] ; then phpdbg -qrr data/vendor/bin/phpunit -c phpunit.xml.dist --exclude-group classloader ; fi
   - if [ ! $COVERAGE ] ; then php data/vendor/bin/codecept run --env chrome --steps ; fi
 
 after_script:
   - if [ $COVERAGE ] ; then php data/vendor/bin/coveralls -v ; fi
+  - php security-checker security:check
   - tail -n 100 ./data/logs/error.log
 
 # Cache folder, you can delete cache from Travis CI web interface

@@ -78,7 +78,7 @@
             <div class="listrightblock">
                 <div class="statusArea">
                     <!--▼商品ステータス-->
-                    <!--{if count($productStatus[$id]) > 0}-->
+                    <!--{if !empty($productStatus[$id])}-->
                         <ul class="status_icon">
                             <!--{foreach from=$productStatus[$id] item=status}-->
                                 <li><!--{$arrSTATUS[$status]}--></li>

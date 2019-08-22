@@ -32,13 +32,16 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
 {
-
+  /** @var array */
+  private $arrProductsClasses;
   private $helper;
 
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpProductClass();
+    $product_id = $this->objGenerator->createProduct(null, 2);
+    $this->objQuery->setOrder('product_class_id');
+    $this->arrProductsClasses = $this->objQuery->select('product_class_id, stock', 'dtb_products_class', 'product_id = ? AND del_flg = 0', [$product_id]);
     $this->helper = new SC_Helper_Purchase_cancelOrderMock();
   }
 
@@ -58,7 +61,9 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
     $this->actual['testResult'] = $_SESSION['testResult'];
     $this->actual['productClass'] = $this->objQuery->select(
       'stock', 'dtb_products_class',
-      'product_class_id in (?, ?)', array('1001', '1002')
+      'product_class_id in (?, ?)', array_map(function ($productsClass) {
+        return $productsClass['product_class_id'];
+      }, $this->arrProductsClasses)
     );
     $this->expected = array(
       'testResult' => array(
@@ -72,9 +77,9 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
           'order_id' => '1001'
         )
       ),
-      'productClass' => array(
-        array('stock' => '105'),
-        array('stock' => '51')
+      'productClass' => array_map(function ($productsClass) {
+        return ['stock' => $productsClass['stock']];
+      }, $this->arrProductsClasses
       )
     );
     $this->verify();
@@ -91,7 +96,9 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
     $this->actual['testResult'] = $_SESSION['testResult'];
     $this->actual['productClass'] = $this->objQuery->select(
       'stock', 'dtb_products_class',
-      'product_class_id in (?, ?)', array('1001', '1002')
+      'product_class_id in (?, ?)',  array_map(function ($productsClass) {
+        return $productsClass['product_class_id'];
+      }, $this->arrProductsClasses)
     );
     $this->expected = array(
       'testResult' => array(
@@ -105,9 +112,9 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
           'order_id' => '1001'
         )
       ),
-      'productClass' => array(
-        array('stock' => '105'),
-        array('stock' => '51')
+      'productClass' => array_map(function ($productsClass) {
+        return ['stock' => $productsClass['stock']];
+      }, $this->arrProductsClasses
       )
     );
 
@@ -124,7 +131,9 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
     $this->actual['testResult'] = $_SESSION['testResult'];
     $this->actual['productClass'] = $this->objQuery->select(
       'stock', 'dtb_products_class',
-      'product_class_id in (?, ?)', array('1001', '1002')
+      'product_class_id in (?, ?)', array_map(function ($productsClass) {
+        return $productsClass['product_class_id'];
+      }, $this->arrProductsClasses)
     );
     $this->expected = array(
       'testResult' => array(
@@ -139,9 +148,9 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
           'order_id' => '1001'
         )
       ),
-      'productClass' => array(
-        array('stock' => '105'),
-        array('stock' => '51')
+      'productClass' => array_map(function ($productsClass) {
+        return ['stock' => $productsClass['stock']];
+      }, $this->arrProductsClasses
       )
     );
 
@@ -162,7 +171,7 @@ class SC_Helper_Purchase_cancelOrderMock extends SC_Helper_Purchase
     );
   }
 
-  function getOrderDetail($order_id)
+  function getOrderDetail($order_id, $has_order_status = true)
   {
     $_SESSION['testResult']['getOrderDetail'] = array(
       'order_id' => $order_id

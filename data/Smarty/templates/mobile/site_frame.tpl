@@ -40,7 +40,7 @@
                 <meta name="robots" content="<!--{$arrPageLayout.meta_robots|h}-->">
             <!--{/if}-->
             <!--{* ▼Head COLUMN *}-->
-            <!--{if $arrPageLayout.HeadNavi|@count > 0}-->
+            <!--{if !empty($arrPageLayout.HeadNavi)}-->
                 <!--{* ▼上ナビ *}-->
                 <!--{foreach key=HeadNaviKey item=HeadNaviItem from=$arrPageLayout.HeadNavi}-->
                     <!-- ▼「<!--{$HeadNaviItem.bloc_name|h}-->」ブロック -->

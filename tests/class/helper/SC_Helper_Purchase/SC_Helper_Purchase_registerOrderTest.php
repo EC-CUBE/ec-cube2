@@ -33,13 +33,17 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_registerOrderTest extends SC_Helper_Purchase_TestBase
 {
-
+    /** @var array */
+    private $customer_ids = [];
+    /** @var array */
+    private $order_ids = [];
     private $helper;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->setUpOrder();
+        $this->customer_ids = $this->setUpCustomer();
+        $this->order_ids = $this->setUpOrder($this->customer_ids);
         $this->helper = new SC_Helper_Purchase_registerOrderMock();
     }
 
@@ -51,7 +55,7 @@ class SC_Helper_Purchase_registerOrderTest extends SC_Helper_Purchase_TestBase
     /////////////////////////////////////////
     public function testRegisterOrder_既に受注IDが存在する場合_情報が更新される()
     {
-        $order_id = '1001';
+        $order_id = $this->order_ids[0];
         $arrParams = array(
             'status' => '1',
             'add_point' => 10,
@@ -63,16 +67,16 @@ class SC_Helper_Purchase_registerOrderTest extends SC_Helper_Purchase_TestBase
 
         $this->expected = array(
             'sfUpdateOrderStatus' => array(
-            'order_id' => '1001',
+            'order_id' => $order_id,
             'status' => '1',
             'add_point' => 10,
             'use_point' => 20
             ),
-            'sfUpdateOrderNameCol' => '1001',
+            'sfUpdateOrderNameCol' => $order_id,
             'count' => '2',
             'content' => array(
-            'order_id' => '1001',
-            'customer_id' => '1001',
+            'order_id' => $order_id,
+            'customer_id' => $this->customer_ids[0],
             'status' => '1',
             'add_point' => '10',
             'use_point' => '20',
@@ -190,7 +194,7 @@ class SC_Helper_Purchase_registerOrderTest extends SC_Helper_Purchase_TestBase
 
 class SC_Helper_Purchase_registerOrderMock extends SC_Helper_Purchase
 {
-    function sfUpdateOrderStatus($order_id, $status, $add_point, $use_point, $values)
+  function sfUpdateOrderStatus($order_id, $status = null, $add_point = null, $use_point = null, &$values = array())
     {
         $_SESSION['testResult']['sfUpdateOrderStatus'] = array(
             'order_id' => $order_id,
@@ -200,7 +204,7 @@ class SC_Helper_Purchase_registerOrderMock extends SC_Helper_Purchase
         );
     }
 
-    function sfUpdateOrderNameCol($order_id)
+  function sfUpdateOrderNameCol($order_id, $temp_table = false)
     {
         $_SESSION['testResult']['sfUpdateOrderNameCol'] = $order_id;
     }
