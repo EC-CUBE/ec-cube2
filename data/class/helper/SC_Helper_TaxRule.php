@@ -116,9 +116,11 @@ class SC_Helper_TaxRule
      * @param int $product_class_id 商品規格ID
      * @param int $pref_id 都道府県ID
      * @param int $country_id 国ID
-     * @return integer 税設定情報
+     * @param int $option_product_tax_rule 商品別税率を有効にする場合 1, 無効の場合 0
+     *
+     * @return array 税設定情報
      */
-    public static function getTaxRule($product_id = 0, $product_class_id = 0, $pref_id = 0, $country_id = 0)
+    public static function getTaxRule($product_id = 0, $product_class_id = 0, $pref_id = 0, $country_id = 0, $option_product_tax_rule = OPTION_PRODUCT_TAX_RULE)
     {
         // 複数回呼出があるのでキャッシュ化
         static $data_c = array();
@@ -130,7 +132,7 @@ class SC_Helper_TaxRule
         $country_id = $country_id > 0 ? $country_id : 0;
 
         // 一覧画面の速度向上のため商品単位税率設定がOFFの時はキャッシュキーを丸めてしまう
-        if (OPTION_PRODUCT_TAX_RULE == 1) {
+        if ($option_product_tax_rule == 1) {
             $cache_key = "$product_id,$product_class_id,$pref_id,$country_id";
         } else {
             $cache_key = "$pref_id,$country_id";
@@ -167,7 +169,7 @@ class SC_Helper_TaxRule
             $cols = '*';
 
             // 商品税率有無設定により分岐
-            if (OPTION_PRODUCT_TAX_RULE == 1) {
+            if ($option_product_tax_rule == 1) {
                 $where = '
                         (
                             (product_id = 0 OR product_id = ?)
