@@ -31,6 +31,11 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 class SC_Helper_TaxRule_TestBase extends Common_TestCase
 {
 
+    /**
+     * @var SC_Helper_TaxRule_Ex
+     */
+    protected $objTaxRule;
+
     protected function setUp()
     {
         parent::setUp();

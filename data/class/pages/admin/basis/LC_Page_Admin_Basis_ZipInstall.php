@@ -457,4 +457,14 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
     {
         return date('Y/m/d H:i:s', filemtime(ZIP_CSV_REALFILE));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sendAdditionalHeader()
+    {
+        header('X-XSS-Protection: 1; mode=block');
+        header('X-Content-Type-Options: nosniff');
+        header('X-Frame-Options: SAMEORIGIN');
+    }
 }
