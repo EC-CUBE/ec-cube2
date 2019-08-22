@@ -164,8 +164,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     public function lfGetDateDefault()
     {
         $year = date('Y');
-        $month = date('m');
-        $day = date('d');
+        $month = date('n');
+        $day = date('j');
 
         $list = isset($_SESSION['total']) ? $_SESSION['total'] : [];
 
@@ -265,8 +265,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     public function lfGetDateInit()
     {
         $search_startyear_m     = $search_startyear  = $search_endyear  = date('Y');
-        $search_startmonth_m    = $search_startmonth = $search_endmonth = date('m');
-        $search_startday        = $search_endday     = date('d');
+        $search_startmonth_m    = $search_startmonth = $search_endmonth = date('j');
+        $search_startday        = $search_endday     = date('n');
 
         return compact($this->arrSearchForm1, $this->arrSearchForm2);
     }
