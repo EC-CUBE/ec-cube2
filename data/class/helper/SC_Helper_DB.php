@@ -268,7 +268,7 @@ class SC_Helper_DB
      * @param  integer $order_status 対応状況
      * @return array   オーダー前ポイントの配列
      */
-    public function sfGetRollbackPoint($order_id, $use_point, $add_point, $order_status)
+    public static function sfGetRollbackPoint($order_id, $use_point, $add_point, $order_status)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->select('customer_id', 'dtb_order', 'order_id = ?', array($order_id));
