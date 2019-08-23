@@ -302,7 +302,7 @@ class SC_Helper_DB
      * @param  bool    $count_check        登録商品数のチェックを行う場合 true
      * @return array   カテゴリツリーの配列
      */
-    public function sfGetCatTree($parent_category_id, $count_check = false)
+    public static function sfGetCatTree($parent_category_id, $count_check = false)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '';
