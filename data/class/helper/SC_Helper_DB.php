@@ -519,7 +519,7 @@ class SC_Helper_DB
      * @param  bool  $parent_zero 親カテゴリの Value=0 の場合 true
      * @return array カテゴリツリーの配列
      */
-    public function sfGetLevelCatList($parent_zero = true)
+    public static function sfGetLevelCatList($parent_zero = true)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
