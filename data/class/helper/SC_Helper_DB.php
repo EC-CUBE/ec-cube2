@@ -1389,6 +1389,7 @@ __EOS__;
      * @param  array  $arrVal   要素の配列
      * @param  string  $addwhere SQL の AND 条件である WHERE 句
      * @return bool   レコードが存在する場合 true
+     * @deprecated SC_Query::exists() を使用してください
      */
     public static function sfIsRecord($table, $col, $arrVal, $addwhere = '')
     {
