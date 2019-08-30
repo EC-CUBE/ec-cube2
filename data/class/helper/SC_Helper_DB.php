@@ -564,11 +564,13 @@ class SC_Helper_DB
     /**
      * 選択中の商品のカテゴリを取得する.
      *
+     * 引数のカテゴリIDが有効な場合は, カテゴリIDを含んだ配列を返す
+     * 引数のカテゴリIDが無効な場合, dtb_product_categories にレコードが存在する場合は, カテゴリIDを含んだ配列を返す
+     *
      * @param  integer $product_id  プロダクトID
      * @param  integer $category_id カテゴリID
-     * @param   bool $closed        非表示の商品を含む場合はtrue
+     * @param   bool $closed 引数のカテゴリIDが無効な場合で, 非表示の商品を含む場合はtrue
      * @return array   選択中の商品のカテゴリIDの配列
-     *
      */
     public function sfGetCategoryId($product_id, $category_id = 0, $closed = false)
     {
@@ -580,6 +582,7 @@ class SC_Helper_DB
         $category_id = (int) $category_id;
         $product_id = (int) $product_id;
         $objCategory = new SC_Helper_Category_Ex();
+        // XXX SC_Helper_Category::isValidCategoryId() で使用している SC_Helper_DB::sfIsRecord() が内部で del_flg = 0 を追加するため, $closed は機能していない
         if ($objCategory->isValidCategoryId($category_id, $closed)) {
             $category_id = array($category_id);
         } elseif (SC_Utils_Ex::sfIsInt($product_id) && $product_id != 0 && SC_Helper_DB_Ex::sfIsRecord('dtb_products','product_id', $product_id, $status)) {
