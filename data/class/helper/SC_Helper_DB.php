@@ -704,9 +704,11 @@ class SC_Helper_DB
      *
      * @param  SC_Query $objQuery           SC_Query インスタンス
      * @param  boolean  $is_force_all_count 全カテゴリの集計を強制する場合 true
+     * @param bool $is_nostock_hidden 在庫切れの商品は非表示にする場合 true
+     *
      * @return void
      */
-    public function sfCountCategory($objQuery = NULL, $is_force_all_count = false)
+    public function sfCountCategory($objQuery = NULL, $is_force_all_count = false, $is_nostock_hidden = NOSTOCK_HIDDEN)
     {
         $objProduct = new SC_Product_Ex();
 
@@ -723,7 +725,7 @@ class SC_Helper_DB
         //共通のfrom/where文の構築
         $sql_where = SC_Product_Ex::getProductDispConditions('alldtl');
         // 在庫無し商品の非表示
-        if (NOSTOCK_HIDDEN) {
+        if ($is_nostock_hidden) {
             $where_products_class = '(stock >= 1 OR stock_unlimited = 1)';
             $from = $objProduct->alldtlSQL($where_products_class);
         } else {
@@ -836,7 +838,7 @@ __EOS__;
         //更新対象カテゴリIDだけ集計しなおす。
         $arrUpdateData = array();
         $where_products_class = '';
-        if (NOSTOCK_HIDDEN) {
+        if ($is_nostock_hidden) {
             $where_products_class .= '(stock >= 1 OR stock_unlimited = 1)';
         }
         $from = $objProduct->alldtlSQL($where_products_class);
