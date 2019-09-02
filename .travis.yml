@@ -75,8 +75,7 @@ before_script:
   - echo "apc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer self-update || true
   - composer install --dev --no-interaction -o --apcu-autoloader
-  - sh -c "if [ '$DB' = 'mysql' ]; then sh ./eccube_install.sh mysql; fi"
-  - sh -c "if [ '$DB' = 'pgsql' ]; then sh ./eccube_install.sh appveyor; fi"
+  - sh ./eccube_install.sh $DB
   - cat ./data/config/config.php
   - if [[ $DIST = 'trusty' ]]; then export DISPLAY=:99.0 ; fi
   - if [[ $DIST = 'trusty' ]]; then sh -e /etc/init.d/xvfb start ; fi
