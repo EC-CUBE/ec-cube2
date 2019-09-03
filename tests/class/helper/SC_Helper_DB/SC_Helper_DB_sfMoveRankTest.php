@@ -32,6 +32,8 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
  */
 class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
 {
+    /** @var SC_Helper_DB_Ex */
+    protected $helper;
 
     protected function setUp()
     {
@@ -123,6 +125,38 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
         $where = null;
         $this->expected = 1;
         $this->helper->sfMoveRank($table, $keyIdColum, $keyId, $pos, $where);
+        $col = 'rank';
+        $getWhere = 'news_id = ?';
+        $arrWhereVal = array($keyId);
+        $this->actual = $this->objQuery->get($col, $table, $getWhere, $arrWhereVal);
+        $this->verify();
+    }
+
+    public function testSfRankUp()
+    {
+        $this->setUpNews();
+        $table = 'dtb_news';
+        $keyIdColum = 'news_id';
+        $keyId = '2';
+        $where = 'del_flg = 0';
+        $this->expected = 3;
+        $this->helper->sfRankUp($table, $keyIdColum, $keyId, $where);
+        $col = 'rank';
+        $getWhere = 'news_id = ?';
+        $arrWhereVal = array($keyId);
+        $this->actual = $this->objQuery->get($col, $table, $getWhere, $arrWhereVal);
+        $this->verify();
+    }
+
+    public function testSfRankDown()
+    {
+        $this->setUpNews();
+        $table = 'dtb_news';
+        $keyIdColum = 'news_id';
+        $keyId = '2';
+        $where = 'del_flg = 0';
+        $this->expected = 1;
+        $this->helper->sfRankDown($table, $keyIdColum, $keyId, $where);
         $col = 'rank';
         $getWhere = 'news_id = ?';
         $arrWhereVal = array($keyId);
