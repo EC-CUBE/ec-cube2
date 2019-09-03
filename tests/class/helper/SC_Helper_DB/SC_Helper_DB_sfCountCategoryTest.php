@@ -50,7 +50,22 @@ class SC_Helper_DB_sfCountCategoryTest extends SC_Helper_DB_TestBase
         $this->assertEmpty($category_counts);
         $category_total_counts = $this->objQuery->select('*', 'dtb_category_total_count');
         $this->assertEmpty($category_total_counts);
+    }
 
+    public function testSfCountCategoryWithNotForceAllCount()
+    {
+        $this->objDb->updateProductCategories($this->category_ids, $this->product_id);
+        $this->objDb->sfCountCategory($this->objQuery);
+
+        $product_id2 = $this->objGenerator->createProduct();
+        $this->objDb->updateProductCategories($this->category_ids, $product_id2);
+        $this->objDb->sfCountCategory($this->objQuery, false);
+
+        $category_counts = $this->objQuery->select('*', 'dtb_category_count');
+        foreach ($category_counts as $arrCategoryCount) {
+            $this->assertTrue(in_array($arrCategoryCount['category_id'], $this->category_ids));
+            $this->assertEquals(2, $arrCategoryCount['product_count']);
+        }
     }
 
     public function setUpCategories()
