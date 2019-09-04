@@ -163,5 +163,25 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
         $this->actual = $this->objQuery->get($col, $table, $getWhere, $arrWhereVal);
         $this->verify();
     }
+
+    public function getNewRankProvider()
+    {
+        return [
+            [3, 2, 1],
+            [2, 2, 1],
+            [1, 2, 2],
+            [0, 2, 2]
+        ];
+    }
+
+    /**
+     * @dataProvider getNewRankProvider
+     */
+    public function testGetNewRank($position, $maxRank, $expected)
+    {
+        $this->expected = $expected;
+        $this->actual = $this->helper->getNewRank($position, $maxRank);
+        $this->verify();
+    }
 }
 
