@@ -1564,7 +1564,7 @@ __EOS__;
      * @param  integer $use_point
      * @return integer 加算ポイント
      */
-    public function sfGetAddPoint($totalpoint, $use_point)
+    public static function sfGetAddPoint($totalpoint, $use_point)
     {
         // 店舗基本情報を取得
         $CONF = SC_Helper_DB_Ex::sfGetBasisData();
