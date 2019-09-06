@@ -31,6 +31,28 @@ class SC_Helper_DB_sfCountMakerTest extends SC_Helper_DB_TestBase
         }
     }
 
+    public function testSfGetMakerList()
+    {
+        $this->expected = $this->makers;
+        $this->actual = $this->objDb->sfGetMakerList();
+        $this->verify();
+    }
+
+    public function testSfGetMakerListWithWhere()
+    {
+        $this->expected = array_slice($this->makers, 0, 1, true);
+        $this->actual = $this->objDb->sfGetMakerList('rank = 0');
+        $this->verify();
+    }
+
+    public function testSfGetMakerListWithProductCheck()
+    {
+        $this->objDb->sfCountMaker($this->objQuery);
+        $this->expected = $this->makers;
+        $this->actual = $this->objDb->sfGetMakerList('', true);
+        $this->verify();
+    }
+
     public function setUpMakers()
     {
         $delete_tables = ['dtb_maker'];
