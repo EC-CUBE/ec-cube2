@@ -21,17 +21,26 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/*  [名称] SC_Customer
- *  [概要] 会員管理クラス
+/**
+ * 会員管理クラス
  */
 class SC_Customer
 {
-    /** 会員情報 */
+    /**
+     * 会員情報
+     * @var array
+     */
     public $customer_data;
 
     /**
-     * @param string $email
-     * @param string $pass
+     * メールアドレスとパスワードを使用して認証結果を返す.
+     *
+     * 認証に成功した場合は SC_Customer::customer_data に会員情報を格納する
+     *
+     * @param string $email メールアドレス
+     * @param string $pass パスワード
+     * @param bool $mobile email_mobile も検索対象とする場合 true
+     * @return bool
      */
     public function getCustomerDataFromEmailPass($pass, $email, $mobile = false)
     {
@@ -150,30 +159,38 @@ class SC_Customer
         $this->customer_data['mobile_phone_id'] = $_SESSION['mobile']['phone_id'];
     }
 
-    // パスワードを確認せずにログイン
+    /**
+     * パスワードを確認せずにログイン
+     *
+     * @param string $email メールアドレス
+     */
     public function setLogin($email)
     {
         // 本登録された会員のみ
         $sql = 'SELECT * FROM dtb_customer WHERE (email = ? OR email_mobile = ?) AND del_flg = 0 AND status = 2';
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $result = $objQuery->getAll($sql, array($email, $email));
-        $data = isset($result[0]) ? $result[0] : '';
+        $data = isset($result[0]) ? $result[0] : array();
         $this->customer_data = $data;
         $this->startSession();
     }
 
-    // セッション情報を最新の情報に更新する
+    /**
+     * セッション情報を最新の情報に更新する
+     */
     public function updateSession()
     {
         $sql = 'SELECT * FROM dtb_customer WHERE customer_id = ? AND del_flg = 0';
         $customer_id = $this->getValue('customer_id');
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->getAll($sql, array($customer_id));
-        $this->customer_data = isset($arrRet[0]) ? $arrRet[0] : '';
+        $this->customer_data = isset($arrRet[0]) ? $arrRet[0] : array();
         $_SESSION['customer'] = $this->customer_data;
     }
 
-    // ログイン情報をセッションに登録し、ログに書き込む
+    /**
+     * ログイン情報をセッションに登録し、ログに書き込む
+     */
     public function startSession()
     {
         $_SESSION['customer'] = $this->customer_data;
@@ -181,7 +198,9 @@ class SC_Customer
         GC_Utils_Ex::gfPrintLog('access : user='.$this->customer_data['customer_id'] ."\t".'ip='. $this->getRemoteHost(), CUSTOMER_LOG_REALFILE, false);
     }
 
-    // ログアウト　$_SESSION['customer']を解放し、ログに書き込む
+    /**
+     * ログアウト　$_SESSION['customer']を解放し、ログに書き込む
+     */
     public function EndSession()
     {
         // セッション情報破棄の前にcustomer_idを保存
@@ -202,7 +221,12 @@ class SC_Customer
         GC_Utils_Ex::gfPrintLog($log, CUSTOMER_LOG_REALFILE, false);
     }
 
-    // ログインに成功しているか判定する。
+    /**
+     * ログインに成功しているか判定する。
+     *
+     * @param bool $dont_check_email_mobile
+     * @return bool ログインに成功している場合は true
+     */
     public function isLoginSuccess($dont_check_email_mobile = false)
     {
         // ログイン時のメールアドレスとDBのメールアドレスが一致している場合
@@ -227,7 +251,12 @@ class SC_Customer
         return false;
     }
 
-    // パラメーターの取得
+    /**
+     * パラメーターの取得
+     *
+     * @param string $keyname パラメーターのキー名
+     * @return string|int|null パラメータの値
+     */
     public function getValue($keyname)
     {
         // ポイントはリアルタイム表示
@@ -242,9 +271,8 @@ class SC_Customer
         }
     }
 
-    // パラメーターのセット
-
     /**
+     * パラメーターのセット
      * @param string $keyname
      * @param string $val
      */
@@ -253,10 +281,11 @@ class SC_Customer
         $_SESSION['customer'][$keyname] = $val;
     }
 
-    // パラメーターがNULLかどうかの判定
-
     /**
+     * パラメーターがNULLかどうかの判定
+     *
      * @param string $keyname
+     * @return bool
      */
     public function hasValue($keyname)
     {
@@ -267,7 +296,11 @@ class SC_Customer
         return false;
     }
 
-    // 誕生日月であるかどうかの判定
+    /**
+     * 誕生日月であるかどうかの判定
+     *
+     * @return bool
+     */
     public function isBirthMonth()
     {
         if (isset($_SESSION['customer']['birth'])) {
@@ -302,7 +335,11 @@ class SC_Customer
         }
     }
 
-    //受注関連の会員情報を更新
+    /**
+     * 受注関連の会員情報を更新
+     *
+     * @param int $customer_id
+     */
     public function updateOrderSummary($customer_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
@@ -331,7 +368,7 @@ __EOS__;
      *
      * @param  string  $login_email ログインメールアドレス
      * @param  string  $login_pass  ログインパスワード
-     * @return boolean|null ログインに成功した場合 true; 失敗した場合 false
+     * @return bool ログインに成功した場合 true; 失敗した場合 false
      */
     public function doLogin($login_email, $login_pass)
     {
