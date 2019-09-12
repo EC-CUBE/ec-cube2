@@ -96,6 +96,7 @@ class SC_Customer
      * @param  string  $pass パスワード
      * @return boolean 該当する会員が存在し、パスワードが合っている場合は true、
      *                 それ以外の場合は false を返す。
+     * @deprecated
      */
     public function getCustomerDataFromMobilePhoneIdPass($pass)
     {
@@ -129,6 +130,7 @@ class SC_Customer
      * 携帯端末IDを登録する。
      *
      * @return void
+     * @deprecated
      */
     public function updateMobilePhoneId()
     {
