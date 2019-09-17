@@ -303,12 +303,12 @@ __EOS__;
                 // TODO: ここでprice01,price02を税込みにしてよいのか？ _inctax を付けるべき？要検証
                 $arrClassCats2['price01']
                     = strlen($arrProductsClass['price01'])
-                    ? number_format(SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProductsClass['price01'], $productId, $arrProductsClass['product_class_id']))
+                    ? number_format(SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProductsClass['price01'], $productId))
                     : '';
 
                 $arrClassCats2['price02']
                     = strlen($arrProductsClass['price02'])
-                    ? number_format(SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProductsClass['price02'], $productId, $arrProductsClass['product_class_id']))
+                    ? number_format(SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProductsClass['price02'], $productId))
                     : '';
 
                 // ポイント
@@ -412,10 +412,10 @@ __EOS__;
 
         // 税込計算
         if (!SC_Utils_Ex::isBlank($arrProduct['price01'])) {
-            $arrProduct['price01_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01'], $arrProduct['product_id'], $productClassId);
+            $arrProduct['price01_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01'], $arrProduct['product_id']);
         }
         if (!SC_Utils_Ex::isBlank($arrProduct['price02'])) {
-            $arrProduct['price02_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02'], $arrProduct['product_id'], $productClassId);
+            $arrProduct['price02_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02'], $arrProduct['product_id']);
         }
 
         return $arrProduct;

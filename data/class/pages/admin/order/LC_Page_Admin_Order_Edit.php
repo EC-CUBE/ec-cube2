@@ -689,9 +689,10 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $totaltax = 0;
         for ($i = 0; $i < $max; $i++) {
             // 小計の計算
-            $subtotal += SC_Helper_DB_Ex::sfCalcIncTax($arrValues['price'][$i], $arrValues['tax_rate'][$i], $arrValues['tax_rule'][$i]) * $arrValues['quantity'][$i];
-            // 小計の計算
-            $totaltax += SC_Utils_Ex::sfTax($arrValues['price'][$i], $arrValues['tax_rate'][$i], $arrValues['tax_rule'][$i]) * $arrValues['quantity'][$i];
+            $tax = SC_Helper_TaxRule_Ex::calcTax($arrValues['price'][$i], $arrValues['tax_rate'][$i], $arrValues['tax_rule'][$i]);
+            $subtotal += ($tax + $arrValues['price'][$i]) * $arrValues['quantity'][$i];
+            // 税額の計算
+            $totaltax += $tax * $arrValues['quantity'][$i];
             // 加算ポイントの計算
             $totalpoint += SC_Utils_Ex::sfPrePoint($arrValues['price'][$i], $arrValues['point_rate'][$i]) * $arrValues['quantity'][$i];
 
@@ -1082,7 +1083,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $this->changeShipmentProducts($arrShipmentProducts, $arrAddProductInfo, $select_shipping_id, $change_no);
 
             //受注商品情報も上書き
-            $arrTax = SC_Helper_TaxRule_Ex::getTaxRule(0, $edit_product_class_id);
+            $arrTax = SC_Helper_TaxRule_Ex::getTaxRule($arrAddProductInfo['product_id']);
 
             // 実際はedit
             $arrAddProductInfo['product_name'] = ($arrAddProductInfo['product_name'])
@@ -1260,7 +1261,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
     {
         if (!$arrProductClassIds || !in_array($insert_product_class_id, $arrProductClassIds)) {
             $arrAddProducts = array();
-            $arrTax = SC_Helper_TaxRule_Ex::getTaxRule(0, $insert_product_class_id);
+            $arrTax = SC_Helper_TaxRule_Ex::getTaxRule($arrAddProductInfo['product_id']);
 
             $arrAddProductInfo['product_name'] = ($arrAddProductInfo['product_name'])
                 ? $arrAddProductInfo['product_name']
