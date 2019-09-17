@@ -116,9 +116,10 @@ class SC_Product
      * の配列を取得する.
      *
      * @param  SC_Query $objQuery SC_Query インスタンス
+     * @param array $product_ids 商品IDの配列
      * @return array    商品一覧の配列
      */
-    public function lists(&$objQuery)
+    public function lists(&$objQuery, $product_ids = array())
     {
         $col = <<< __EOS__
              product_id
@@ -144,7 +145,7 @@ class SC_Product
             ,del_flg
             ,update_date
 __EOS__;
-        $res = $objQuery->select($col, $this->alldtlSQL());
+        $res = $objQuery->select($col, $this->alldtlSQL('', $product_ids));
 
         return $res;
     }
@@ -169,8 +170,13 @@ __EOS__;
         $where = 'alldtl.product_id IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', count($arrProductId)) . ')';
         $where .= ' AND alldtl.del_flg = 0';
 
-        $objQuery->setWhere($where, $arrProductId);
-        $arrProducts = $this->lists($objQuery);
+        $objQuery->setWhere(
+            $where,
+            // SC_DB_DBFactory::alldtlSQL() で生成される追加条件のため
+            // product_id の配列を生成ておく
+            array_merge($arrProductId, $arrProductId, $arrProductId)
+        );
+        $arrProducts = $this->lists($objQuery, $arrProductId);
 
         // 配列のキーを商品IDに
         $arrProducts = SC_Utils_Ex::makeArrayIDToKey('product_id', $arrProducts);
@@ -201,9 +207,11 @@ __EOS__;
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $from = $this->alldtlSQL();
+        $from = $this->alldtlSQL('', array($product_id));
         $where = 'product_id = ?';
-        $arrWhereVal = array($product_id);
+        // SC_DB_DBFactory::alldtlSQL() で生成される追加条件のため
+        // product_id の配列を生成ておく
+        $arrWhereVal = array($product_id, $product_id, $product_id);
         $arrProduct = (array)$objQuery->getRow('*', $from, $where, $arrWhereVal);
 
         // 税込金額を設定する
@@ -621,13 +629,14 @@ __EOS__;
      * 商品詳細の SQL を取得する.
      *
      * @param  string $where_products_class 商品規格情報の WHERE 句
+     * @param array $product_ids 商品IDの配列
      * @return string 商品詳細の SQL
      */
-    public function alldtlSQL($where_products_class = '')
+    public function alldtlSQL($where_products_class = '', $product_ids = array())
     {
         $objDBFactory = SC_DB_DBFactory_Ex::getInstance();
 
-        return $objDBFactory->alldtlSQL($where_products_class);
+        return $objDBFactory->alldtlSQL($where_products_class, $product_ids);
     }
 
     /**
