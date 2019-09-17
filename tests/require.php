@@ -25,6 +25,7 @@ $classMap = function ($dir) {
     }
     return $map;
 };
+$loader->add('_generated', __DIR__.'/../ctests/_support');
 $loader->addClassMap($classMap(__DIR__.'/../ctests'));
 $loader->addClassMap($classMap(__DIR__.'/class'));
 return $loader;
