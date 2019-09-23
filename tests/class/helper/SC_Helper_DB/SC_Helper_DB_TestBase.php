@@ -33,9 +33,13 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 class SC_Helper_DB_TestBase extends Common_TestCase
 {
 
+  /** @var FixtureGenerator */
+  protected $objGenerator;
+
   protected function setUp()
   {
     parent::setUp();
+    $this->objGenerator = new FixtureGenerator($this->objQuery);
   }
 
   protected function tearDown()
