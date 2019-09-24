@@ -13,7 +13,7 @@
     "config": {
         "vendor-dir": "data/vendor",
         "platform": {
-            "php": "5.4"
+            "php": "5.4.16"
         },
         "optimize-autoloader": true,
         "sort-packages": true
@@ -22,10 +22,10 @@
         "captbaritone/mailcatcher-codeception-module": "1.2.1",
         "codeception/codeception": "*",
         "fzaninotto/faker": "^1.8",
-        "satooshi/php-coveralls": "1.0"
+        "php-coveralls/php-coveralls": "^1.1"
     },
     "require": {
-        "php": ">=5.3.9",
+        "php": ">=5.4.16",
         "ext-gd": "*",
         "ext-mbstring": "*",
         "bondas83/mdb2_driver_mysqli": "^1.5",

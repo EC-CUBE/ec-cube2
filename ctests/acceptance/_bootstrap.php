@@ -47,8 +47,10 @@ if ($num < ($config['fixture_product_num'] + 2)) {
 }
 
 $num = $objQuery->count('dtb_order');
+$objQuery->setLimit($config['fixture_customer_num']);
 $customer_ids = $objQuery->getCol('customer_id', 'dtb_customer', 'del_flg = 0');
 array_unshift($customer_ids, '0'); // 非会員の注文を追加する
+$objQuery->setLimit(10);
 $product_class_ids = $objQuery->getCol('product_class_id', 'dtb_products_class', 'del_flg = 0');
 if ($num < $config['fixture_order_num']) {
     echo 'Generating Orders';

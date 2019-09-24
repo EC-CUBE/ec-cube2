@@ -113,12 +113,13 @@ class SC_Helper_TaxRule
      * 現在有効な税率設定情報を返す
      *
      * @param int $product_id 商品ID
-     * @param int $product_class_id 商品規格ID
+     * @param int $product_class_id 商品規格ID(商品規格ごとの税率設定は廃止のため常に0)
      * @param int $pref_id 都道府県ID
      * @param int $country_id 国ID
      * @param int $option_product_tax_rule 商品別税率を有効にする場合 1, 無効の場合 0
-     *
      * @return array 税設定情報
+     *
+     * @see https://github.com/EC-CUBE/eccube-2_13/pull/301
      */
     public static function getTaxRule($product_id = 0, $product_class_id = 0, $pref_id = 0, $country_id = 0, $option_product_tax_rule = OPTION_PRODUCT_TAX_RULE)
     {
@@ -238,16 +239,26 @@ class SC_Helper_TaxRule
     public static function setTaxRuleForProduct($tax_rate, $product_id = 0, $product_class_id = 0, $tax_adjust=0, $pref_id = 0, $country_id = 0)
     {
         // 基本設定を取得
-        $arrRet = SC_Helper_TaxRule_Ex::getTaxRule($product_id, $product_class_id);
+        $arrRet = SC_Helper_TaxRule_Ex::getTaxRule();
 
         // 基本設定の消費税率と一緒であれば設定しない
         if ($arrRet['tax_rate'] != $tax_rate) {
             // 課税規則は基本設定のものを使用
             $calc_rule = $arrRet['calc_rule'];
             // 日付は登録時点を設定
-            $apply_date = date('Y/m/d H:i:s');
+            $apply_date = 'CURRENT_TIMESTAMP';
             // 税情報を設定
             SC_Helper_TaxRule_Ex::setTaxRule($calc_rule, $tax_rate, $apply_date, NULL, $tax_adjust, $product_id, $product_class_id, $pref_id, $country_id);
+        } else {
+            // 商品別レコードが残っていれば削除
+            $objQuery = SC_Query_Ex::getSingletonInstance();
+            $where = 'del_flg = 0 AND product_id = ? AND product_class_id= ? AND pref_id = ? AND country_id = ?';
+            $arrVal = array($product_id, $product_class_id, $pref_id, $country_id);
+            $arrCheck = $objQuery->getRow('*', 'dtb_tax_rule', $where, $arrVal);
+            $tax_rule_id = $arrCheck['tax_rule_id'];
+            if ($tax_rule_id) {
+                SC_Helper_TaxRule_Ex::deleteTaxRuleData($tax_rule_id);
+            }
         }
     }
 
@@ -278,8 +289,8 @@ class SC_Helper_TaxRule
 
         // 新規か更新か？
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        if ($tax_rule_id == NULL && $product_id != 0 && $product_class_id != 0) {
-            $where = 'product_id = ? AND product_class_id= ? AND pref_id = ? AND country_id = ?';
+        if ($tax_rule_id == NULL && $product_id != 0) {
+            $where = 'del_flg = 0 AND product_id = ? AND product_class_id = ? AND pref_id = ? AND country_id = ?';
             $arrVal = array($product_id, $product_class_id, $pref_id, $country_id);
             $arrCheck = $objQuery->getRow('*', 'dtb_tax_rule', $where, $arrVal);
             $tax_rule_id = $arrCheck['tax_rule_id'];
