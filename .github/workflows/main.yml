@@ -1,8 +1,8 @@
 name: CI/CD for EC-CUBE
 on: [push, pull_request]
 jobs:
-  run:
-    name: Run
+  run-on-linux:
+    name: Run on Linux
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -88,3 +88,49 @@ jobs:
         php data/vendor/bin/codecept build
         php -S 0.0.0.0:8085 -t html/ &
         php data/vendor/bin/codecept run --env chrome --steps
+  run-on-windows:
+    name: Run on Windows
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ windows-2019 ]
+        php: [ 5.5, 5.6, 7.1, 7.2, 7.3 ]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Setup PHP
+      uses: nanasess/setup-php@master
+      with:
+        php-version: ${{ matrix.php }}
+
+    - name: Setup to database
+      run: |
+        choco install -y mysql --version 5.7.18
+        mysql --user=root -e "CREATE DATABASE `myapp_test`;"
+        mysql --user=root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';FLUSH PRIVILEGES;"
+        mysql --user=root --password=password -h 127.0.0.1 -e "SELECT version();"
+
+    - name: Install to Composer
+      run: |
+        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+        php composer-setup.php
+        php -r "unlink('composer-setup.php');"
+        php composer.phar install
+
+    - name: Setup to EC-CUBE
+      env:
+        DB: mysql
+        USER: root
+        DBUSER: root
+        DBPASS: password
+        DBNAME: myapp_test
+        DBPORT: 3306
+        HTTP_URL: http://localhost:8085/
+        HTTPS_URL: http://localhost:8085/
+      run: bash eccube_install.sh mysql
+      shell: bash
+
+    - name: Run to PHPUnit
+      run: data/vendor/bin/phpunit --exclude-group classloader
