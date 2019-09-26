@@ -105,6 +105,13 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
 
+    - name: Setup MailCatcher
+      run: gem install -N mailcatcher -v 0.6.5
+      shell: bash
+    - name: Run to MailCatcher
+      run: mailcatcher &
+      shell: bash
+
     - name: Setup to database
       run: |
         choco install -y mysql --version 5.7.18
