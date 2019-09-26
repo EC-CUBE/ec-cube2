@@ -46,7 +46,7 @@ class SC_CheckError_EMAIL_CHAR_CHECKTest extends SC_CheckError_AbstractTestCase
         ];
         $this->expected = '';
         $this->scenario();
-        $this->verify('');
+        $this->verify($this->arrForm[self::FORM_NAME].' は使用可能なパターンのはず');
     }
 
     public function testEMAIL_CHAR_CHECKWithError()
