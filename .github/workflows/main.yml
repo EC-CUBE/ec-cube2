@@ -103,10 +103,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
+    - name: Composer install
+      uses: nanasess/composer-installer-action@master
+
     - name: Setup PHP
       uses: nanasess/setup-php@master
       with:
         php-version: ${{ matrix.php }}
+
+    - name: Install to Composer
+      run: composer install --no-interaction -o
 
     - name: Setup MailCatcher
       run: gem install -N mailcatcher -v 0.6.5
@@ -121,13 +127,6 @@ jobs:
         mysql --user=root -e "CREATE DATABASE `myapp_test`;"
         mysql --user=root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';FLUSH PRIVILEGES;"
         mysql --user=root --password=password -h 127.0.0.1 -e "SELECT version();"
-
-    - name: Install to Composer
-      run: |
-        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-        php composer-setup.php
-        php -r "unlink('composer-setup.php');"
-        php composer.phar install
 
     - name: Setup to EC-CUBE
       env:
