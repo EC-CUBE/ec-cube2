@@ -17,11 +17,13 @@ jobs:
         db: [ mysql, pgsql ]
         include:
           - db: mysql
-            dbport: '3307'
+            dbport: '3306'
             dbuser: 'root'
+            dbpass: 'root'
           - db: pgsql
             dbport: '5432'
             dbuser: 'postgres'
+            dbpass: 'password'
     services:
       mailcatcher:
         image: schickling/mailcatcher
@@ -35,16 +37,6 @@ jobs:
       uses: nanasess/setup-php@master
       with:
         php-version: ${{ matrix.php }}
-
-    - name: Setup MySQL
-      if: matrix.db == 'mysql'
-      uses: mirromutth/mysql-action@v1.1
-      with:
-        host port: ${{ matrix.dbport }}
-        container port: '3306'
-        mysql version: '5.7'
-        mysql database: 'myapp_test'
-        mysql root password: 'password'
 
     - name: Setup PostgreSQL
       if: matrix.db == 'pgsql'
@@ -63,7 +55,7 @@ jobs:
         DB: ${{ matrix.db }}
         USER: ${{ matrix.dbuser }}
         DBUSER: ${{ matrix.dbuser }}
-        DBPASS: password
+        DBPASS: ${{ matrix.dbpass }}
         DBNAME: myapp_test
         DBPORT: ${{ matrix.dbport }}
         HTTP_URL: http://localhost:8085/
