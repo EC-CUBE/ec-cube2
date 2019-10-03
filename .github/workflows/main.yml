@@ -25,6 +25,16 @@ jobs:
             dbuser: 'postgres'
             dbpass: 'password'
     services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
       mailcatcher:
         image: schickling/mailcatcher
         ports:
@@ -37,15 +47,6 @@ jobs:
       uses: nanasess/setup-php@master
       with:
         php-version: ${{ matrix.php }}
-
-    - name: Setup PostgreSQL
-      if: matrix.db == 'pgsql'
-      uses: harmon758/postgresql-action@master
-      with:
-        postgresql version: '11'
-        postgresql db: 'myapp_test'
-        postgresql user: ${{ matrix.dbuser }}
-        postgresql password: 'password'
 
     - name: Install to Composer
       run: composer install --no-interaction -o
@@ -64,17 +65,18 @@ jobs:
         sudo apt-fast install -y mysql-client postgresql-client
         ./eccube_install.sh ${DB}
 
+    - name: setup-chromedriver
+      uses: nanasess/setup-chromedriver@master
+      with:
+        chromedriver-version: '77.0.3865.40'
+
     - name: Run to PHPUnit
       run: data/vendor/bin/phpunit --exclude-group classloader
 
-    - name: Setup E2E environment
+    - name: Run chromedriver
       run: |
-        sudo apt-fast install -y build-essential debconf-utils screen google-chrome-stable
-        sudo apt-fast install -y unzip xvfb autogen autoconf libtool pkg-config nasm libgconf-2-4 x11-apps
-        wget -c -nc --retry-connrefused --tries=0 http://chromedriver.storage.googleapis.com/2.43/chromedriver_linux64.zip
-        unzip -o -q chromedriver_linux64.zip
         export DISPLAY=:99
-        ./chromedriver --url-base=/wd/hub &
+        chromedriver --url-base=/wd/hub &
         echo ">>> Started chrome-driver"
         sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
         echo ">>> Started xvfb"
