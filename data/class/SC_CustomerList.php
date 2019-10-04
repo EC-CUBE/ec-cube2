@@ -21,13 +21,19 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/*  [名称] SC_CustomerList
- *  [概要] 会員検索用クラス
+/**
+ * 会員検索用クラス
  */
 class SC_CustomerList extends SC_SelectSql_Ex
 {
+    /** @var array */
     public $arrColumnCSV;
 
+    /**
+     * @param array $array 検索パラメータの連想配列
+     * @param string $mode 検索モード. 顧客検索の場合は customer
+     * XXX $mode = 'customer' しか使用していないかも
+     */
     public function __construct($array, $mode = '')
     {
         if (is_array($array)) {
@@ -346,7 +352,10 @@ class SC_CustomerList extends SC_SelectSql_Ex
         }
         $this->setOrder('dtb_customer.customer_id DESC');
     }
-    // 検索用SQL
+
+    /**
+     * 検索用SQL
+     */
     public function getList()
     {
         $this->select = 'SELECT dtb_customer.customer_id,dtb_customer.name01,dtb_customer.name02,dtb_customer.kana01,dtb_customer.kana02,dtb_customer.sex,
@@ -355,6 +364,9 @@ class SC_CustomerList extends SC_SelectSql_Ex
         return $this->getSql(2);
     }
 
+    /**
+     * @deprecated 本体で使用していないため非推奨
+     */
     public function getListMailMagazine($is_mobile = false)
     {
         $colomn = $this->getMailMagazineColumn($is_mobile);
@@ -378,7 +390,9 @@ class SC_CustomerList extends SC_SelectSql_Ex
         return $this->getSql(0);
     }
 
-    // 検索総数カウント用SQL
+    /**
+     * 検索総数カウント用SQL
+     */
     public function getListCount()
     {
         $this->select = 'SELECT COUNT(dtb_customer.customer_id) FROM '.$this->setInnerJoin.' dtb_customer '.$this->setInnerJoin2;
@@ -386,7 +400,10 @@ class SC_CustomerList extends SC_SelectSql_Ex
         return $this->getSql(1);
     }
 
-    // CSVダウンロード用SQL
+    /**
+     * CSVダウンロード用SQL
+     * @deprecated 本体で使用していないため非推奨
+     */
     public function getListCSV($arrColumnCSV)
     {
         $this->arrColumnCSV = $arrColumnCSV;
