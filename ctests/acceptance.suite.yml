@@ -24,6 +24,8 @@ modules:
             capabilities:
                 unexpectedAlertBehaviour: 'accept'
                 elementScrollBehavior: 1
+                chromeOptions:
+                   args: ["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu"]
         MailCatcherGuzzle5:
             url: 'http://127.0.0.1'
             port: '1080'

@@ -1,0 +1,310 @@
+name: CI/CD for EC-CUBE
+on:
+  push:
+  pull_request:
+  release:
+    types: [ published ]
+
+jobs:
+  run-on-linux:
+    name: Run on Linux
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ ubuntu-18.04 ]
+        php: [ 5.4, 5.5, 5.6, 7.1, 7.2, 7.3 ]
+        db: [ mysql, pgsql ]
+        include:
+          - db: mysql
+            dbport: '3306'
+            dbuser: 'root'
+            dbpass: 'root'
+          - db: pgsql
+            dbport: '5432'
+            dbuser: 'postgres'
+            dbpass: 'password'
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      mailcatcher:
+        image: schickling/mailcatcher
+        ports:
+          - 1080:1080
+          - 1025:1025
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Setup PHP
+      uses: nanasess/setup-php@master
+      with:
+        php-version: ${{ matrix.php }}
+
+    - name: Install to Composer
+      run: composer install --no-interaction -o
+
+    - name: Setup to EC-CUBE
+      env:
+        DB: ${{ matrix.db }}
+        USER: ${{ matrix.dbuser }}
+        DBUSER: ${{ matrix.dbuser }}
+        DBPASS: ${{ matrix.dbpass }}
+        DBNAME: myapp_test
+        DBPORT: ${{ matrix.dbport }}
+        HTTP_URL: http://localhost:8085/
+        HTTPS_URL: http://localhost:8085/
+      run: |
+        sudo apt-fast install -y mysql-client postgresql-client
+        ./eccube_install.sh ${DB}
+
+    - name: setup-chromedriver
+      uses: nanasess/setup-chromedriver@master
+      with:
+        chromedriver-version: '77.0.3865.40'
+
+    - name: Run to PHPUnit
+      run: data/vendor/bin/phpunit --exclude-group classloader
+
+    - name: Run chromedriver
+      run: |
+        export DISPLAY=:99
+        chromedriver --url-base=/wd/hub &
+        echo ">>> Started chrome-driver"
+        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+        echo ">>> Started xvfb"
+    - name: Run to Codeception
+      run: |
+        php data/vendor/bin/codecept build
+        php -S 0.0.0.0:8085 -t html/ &
+        php data/vendor/bin/codecept run --env chrome --steps
+  run-on-windows:
+    name: Run on Windows
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ windows-2019 ]
+        php: [ 5.5, 5.6, 7.1, 7.2, 7.3 ]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Composer install
+      uses: nanasess/composer-installer-action@master
+
+    - name: Setup PHP
+      uses: nanasess/setup-php@master
+      with:
+        php-version: ${{ matrix.php }}
+
+    - name: Install to Composer
+      run: composer install --no-interaction -o
+
+    - name: Setup MailCatcher
+      run: gem install -N mailcatcher -v 0.6.5
+      shell: bash
+    - name: Run to MailCatcher
+      run: mailcatcher &
+      shell: bash
+
+    - name: Setup to database
+      run: |
+        choco install -y mysql --version 5.7.18
+        mysql --user=root -e "CREATE DATABASE `myapp_test`;"
+        mysql --user=root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';FLUSH PRIVILEGES;"
+        mysql --user=root --password=password -h 127.0.0.1 -e "SELECT version();"
+
+    - name: Setup to EC-CUBE
+      env:
+        DB: mysql
+        USER: root
+        DBUSER: root
+        DBPASS: password
+        DBNAME: myapp_test
+        DBPORT: 3306
+        HTTP_URL: http://localhost:8085/
+        HTTPS_URL: http://localhost:8085/
+      run: bash eccube_install.sh mysql
+      shell: bash
+
+    - name: Run to PHPUnit
+      run: data/vendor/bin/phpunit --exclude-group classloader
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-18.04
+    needs: [ run-on-linux, run-on-windows ]
+    steps:
+    - name: Checkout
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      uses: actions/checkout@master
+
+    - name: Install to Composer
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      run: composer install --no-scripts --no-dev --no-interaction --optimize-autoloader
+
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+    - name: Dump job context
+      env:
+        JOB_CONTEXT: ${{ toJson(job) }}
+      run: echo "$JOB_CONTEXT"
+    - name: Dump steps context
+      env:
+        STEPS_CONTEXT: ${{ toJson(steps) }}
+      run: echo "$STEPS_CONTEXT"
+    - name: Dump runner context
+      env:
+        RUNNER_CONTEXT: ${{ toJson(runner) }}
+      run: echo "$RUNNER_CONTEXT"
+    - name: Dump strategy context
+      env:
+        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+      run: echo "$STRATEGY_CONTEXT"
+    - name: Dump matrix context
+      env:
+        MATRIX_CONTEXT: ${{ toJson(matrix) }}
+      run: echo "$MATRIX_CONTEXT"
+
+    - name: Packaging
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      working-directory: ../
+      env:
+        TAG_NAME: ${{ github.event.release.tag_name }}
+        REPOSITORY_NAME: ${{ github.event.repository.name }}
+      run: |
+        echo $TAG_NAME
+        echo "remove obsolete files..."
+        rm -rf $GITHUB_WORKSPACE/.git
+        rm -rf $GITHUB_WORKSPACE/.gitignore
+        rm -rf $GITHUB_WORKSPACE/.github
+        rm -rf $GITHUB_WORKSPACE/.travis.yml
+        rm -rf $GITHUB_WORKSPACE/appveyor.yml
+        rm -rf $GITHUB_WORKSPACE/.coveralls.yml
+        rm -rf $GITHUB_WORKSPACE/.php_cs.dist
+        rm -rf $GITHUB_WORKSPACE/phpunit.xml.dist
+        rm -rf $GITHUB_WORKSPACE/app.json
+        rm -rf $GITHUB_WORKSPACE/Procfile
+        rm -rf $GITHUB_WORKSPACE/build.xml
+        rm -rf $GITHUB_WORKSPACE/README.md
+        rm -rf $GITHUB_WORKSPACE/codeception.yml
+        rm -rf $GITHUB_WORKSPACE/php.ini
+        rm -rf $GITHUB_WORKSPACE/phpinicopy.sh
+        rm -rf $GITHUB_WORKSPACE/phpinidel.sh
+        rm -rf $GITHUB_WORKSPACE/*.phar
+        rm -rf $GITHUB_WORKSPACE/setup.sh
+        rm -rf $GITHUB_WORKSPACE/setup_heroku.php
+        rm -rf $GITHUB_WORKSPACE/svn_propset.sh
+        rm -rf $GITHUB_WORKSPACE/ctests
+        rm -rf $GITHUB_WORKSPACE/tests
+        rm -rf $GITHUB_WORKSPACE/templates
+        rm -rf $GITHUB_WORKSPACE/patches
+        rm -rf $GITHUB_WORKSPACE/docs
+        rm -rf $GITHUB_WORKSPACE/html/test
+        find $GITHUB_WORKSPACE -name "dummy" -print0 | xargs -0 rm -rf
+        find $GITHUB_WORKSPACE -name ".git*" -and ! -name ".gitkeep" -print0 | xargs -0 rm -rf
+        find $GITHUB_WORKSPACE -name ".git*" -type d -print0 | xargs -0 rm -rf
+        echo "set permissions..."
+        chmod -R o+w $GITHUB_WORKSPACE/html/install/temp
+        chmod -R o+w $GITHUB_WORKSPACE/html/user_data
+        chmod -R o+w $GITHUB_WORKSPACE/html/upload
+        chmod -R o+w $GITHUB_WORKSPACE/data/cache
+        chmod -R o+w $GITHUB_WORKSPACE/data/downloads
+        chmod -R o+w $GITHUB_WORKSPACE/data/Smarty
+        chmod -R o+w $GITHUB_WORKSPACE/data/class
+        chmod -R o+w $GITHUB_WORKSPACE/data/logs
+        chmod -R o+w $GITHUB_WORKSPACE/data/upload
+        chmod -R o+w $GITHUB_WORKSPACE/data/config
+        chmod o+w $GITHUB_WORKSPACE/html
+        echo "complession files..."
+        tar czfp $TAG_NAME.tar.gz $REPOSITORY_NAME
+        zip -ry $TAG_NAME.zip $REPOSITORY_NAME 1> /dev/null
+        md5sum $TAG_NAME.tar.gz | awk '{ print $1 }' > $TAG_NAME.tar.gz.checksum.md5
+        md5sum $TAG_NAME.zip | awk '{ print $1 }' > $TAG_NAME.zip.checksum.md5
+        sha1sum $TAG_NAME.tar.gz | awk '{ print $1 }' > $TAG_NAME.tar.gz.checksum.sha1
+        sha1sum $TAG_NAME.zip | awk '{ print $1 }' > $TAG_NAME.zip.checksum.sha1
+        sha256sum $TAG_NAME.tar.gz | awk '{ print $1 }' > $TAG_NAME.tar.gz.checksum.sha256
+        sha256sum $TAG_NAME.zip | awk '{ print $1 }' > $TAG_NAME.zip.checksum.sha256
+        ls -al
+
+    - name: Upload binaries to release of TGZ
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.tar.gz
+        asset_name: ${{ github.event.release.tag_name }}.tar.gz
+        tag: ${{ github.ref }}
+        overwrite: true
+    - name: Upload binaries to release of ZIP
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.zip
+        asset_name: ${{ github.event.release.tag_name }}.zip
+        tag: ${{ github.ref }}
+        overwrite: true
+    - name: Upload binaries to release of TGZ md5 checksum
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.tar.gz.checksum.md5
+        asset_name: ${{ github.event.release.tag_name }}.tar.gz.checksum.md5
+        tag: ${{ github.ref }}
+        overwrite: true
+    - name: Upload binaries to release of TGZ sha1 checksum
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.tar.gz.checksum.sha1
+        asset_name: ${{ github.event.release.tag_name }}.tar.gz.checksum.sha1
+        tag: ${{ github.ref }}
+        overwrite: true
+    - name: Upload binaries to release of TGZ sha256 checksum
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.tar.gz.checksum.sha256
+        asset_name: ${{ github.event.release.tag_name }}.tar.gz.checksum.sha256
+        tag: ${{ github.ref }}
+        overwrite: true
+    - name: Upload binaries to release of ZIP md5 checksum
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.zip.checksum.md5
+        asset_name: ${{ github.event.release.tag_name }}.zip.checksum.md5
+        tag: ${{ github.ref }}
+        overwrite: true
+    - name: Upload binaries to release of ZIP sha1 checksum
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.zip.checksum.sha1
+        asset_name: ${{ github.event.release.tag_name }}.zip.checksum.sha1
+        tag: ${{ github.ref }}
+        overwrite: true
+    - name: Upload binaries to release of ZIP sha256 checksum
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.zip.checksum.sha256
+        asset_name: ${{ github.event.release.tag_name }}.zip.checksum.sha256
+        tag: ${{ github.ref }}
+        overwrite: true
