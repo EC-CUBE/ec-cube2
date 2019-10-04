@@ -123,14 +123,6 @@
                     <!--{if strlen($arrForm.price02) >= 1}--><!--{$arrForm.price02|h}--> 円<!--{/if}-->
                 </td>
             </tr>
-            <!--{if $smarty.const.OPTION_PRODUCT_TAX_RULE ==1}-->
-            <tr>
-                <th>消費税率</th>
-                <td>
-                    <!--{if strlen($arrForm.tax_rate) >= 1}--><!--{$arrForm.tax_rate|h}--> %<!--{/if}-->
-                </td>
-            </tr>
-            <!--{/if}-->
             <tr>
                 <th>在庫数</th>
                 <td>
@@ -139,6 +131,14 @@
                     <!--{else}-->
                         <!--{$arrForm.stock|h}-->
                     <!--{/if}-->
+                </td>
+            </tr>
+        <!--{/if}-->
+        <!--{if $smarty.const.OPTION_PRODUCT_TAX_RULE ==1}-->
+            <tr>
+                <th>消費税率</th>
+                <td>
+                    <!--{if strlen($arrForm.tax_rate) >= 1}--><!--{$arrForm.tax_rate|h}--> %<!--{/if}-->
                 </td>
             </tr>
         <!--{/if}-->

@@ -45,7 +45,11 @@ class LC_Page_Admin_Products_UploadCSVTest extends Common_TestCase
             $line_count++;
 
             $this->expected = 71;
-            $this->assertNotCount($this->expected, $arrCSV, '日本語のロケールでは '.$line_count.' 列目の行数が不正になるはず');
+            if (PHP_VERSION_ID >= 70000) {
+                $this->assertNotCount($this->expected, $arrCSV, '日本語のロケールでは '.$line_count.' 列目の行数が不正になるはず');
+            } else {
+                $this->assertCount($this->expected, $arrCSV, 'PHP5系は日本語のロケールでもアップロード可能');
+            }
 
             // ヘッダ行はスキップ
             if ($line_count == 1) {

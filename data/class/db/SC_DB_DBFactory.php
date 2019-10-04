@@ -241,12 +241,24 @@ class SC_DB_DBFactory
      * 商品詳細の SQL を取得する.
      *
      * @param  string $where_products_class 商品規格情報の WHERE 句
+     * @param array $product_ids 商品IDの配列
      * @return string 商品詳細の SQL
      */
-    public function alldtlSQL($where_products_class = '')
+    public function alldtlSQL($where_products_class = '', $product_ids = array())
     {
         if (!SC_Utils_Ex::isBlank($where_products_class)) {
             $where_products_class = 'AND (' . $where_products_class . ')';
+        }
+
+        $dtb_products_table = 'dtb_products';
+        $product_id_cause = '';
+
+        // dtb_products_class の Full scan を防ぐため,
+        // 商品IDが特定できている場合は, 先に product_id で対象を絞り込む
+        if (count($product_ids) > 0) {
+            $in = SC_Utils_Ex::repeatStrWithSeparator('?', count($product_ids));
+            $product_id_cause = ' AND product_id IN ('.$in.')';
+            $dtb_products_table = ' ( SELECT * FROM dtb_products WHERE product_id IN ('.$in.') ) AS dtb_products';
         }
         /*
          * point_rate, deliv_fee は商品規格(dtb_products_class)ごとに保持しているが,
@@ -269,7 +281,7 @@ class SC_DB_DBFactory
                     ,T4.point_rate
                     ,T4.deliv_fee
                     ,dtb_maker.name AS maker_name
-                FROM dtb_products
+                FROM $dtb_products_table
                     INNER JOIN (
                         SELECT product_id
                             ,MIN(product_code) AS product_code_min
@@ -285,7 +297,7 @@ class SC_DB_DBFactory
                             ,MAX(point_rate) AS point_rate
                             ,MAX(deliv_fee) AS deliv_fee
                         FROM dtb_products_class
-                        WHERE del_flg = 0 $where_products_class
+                        WHERE del_flg = 0 $where_products_class $product_id_cause
                         GROUP BY product_id
                     ) AS T4
                         ON dtb_products.product_id = T4.product_id
