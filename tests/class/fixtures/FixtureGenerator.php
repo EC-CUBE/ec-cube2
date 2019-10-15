@@ -508,7 +508,7 @@ class FixtureGenerator
             'product_id' => $productsClassValues['product_id'],
             'product_class_id' => $product_class_id,
             'product_name' => $productsValues['name'],
-            'product_code' => $productsValues['product_code'],
+            'product_code' => $productsClassValues['product_code'],
             'classcategory_name1' => $classcategory_name1,
             'classcategory_name2' => $classcategory_name2,
             'price' => SC_Helper_TaxRule_Ex::sfCalcIncTax(
