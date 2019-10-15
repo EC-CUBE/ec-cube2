@@ -53,13 +53,9 @@ function lfPageFactory($mode)
             $file  .= 'Download.php';
             $class .= 'Download';
             break;
-        case 'site_check':
-            $file  .= 'SiteCheck.php';
-            $class .= 'SiteCheck';
-            break;
         default:
             header('HTTP/1.1 400 Bad Request');
-            GC_Util_Ex::gfPrintLog('modeの値が正しくありません。:'.$mode);
+            GC_Utils_Ex::gfPrintLog('modeの値が正しくありません。:'.$mode);
             exit();
             break;
     }
