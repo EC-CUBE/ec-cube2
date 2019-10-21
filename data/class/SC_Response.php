@@ -98,7 +98,8 @@ class SC_Response
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
 
         if (is_object($objPlugin)) {
-            $arrBacktrace = debug_backtrace();
+            $arrBacktrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+            // 0 番目には object が含まれない場合がある
             foreach ($arrBacktrace as $backtrace) {
                 if (array_key_exists('object', $backtrace)
                     && is_object($backtrace['object'])) {
@@ -137,27 +138,26 @@ class SC_Response
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
 
         if (is_object($objPlugin)) {
-            $arrBacktrace = debug_backtrace();
-            if (is_object($arrBacktrace[0]['object']) && method_exists($arrBacktrace[0]['object'], 'getMode')) {
-                $parent_class_name = get_parent_class($arrBacktrace[0]['object']);
-                $objPlugin->doAction($parent_class_name . '_action_' . $arrBacktrace[0]['object']->getMode(), array($arrBacktrace[0]['object']));
-                $class_name = get_class($arrBacktrace[0]['object']);
-                if ($class_name != $parent_class_name) {
-                    $objPlugin->doAction($class_name . '_action_' . $arrBacktrace[0]['object']->getMode(), array($this));
-                }
-            } elseif (is_object($arrBacktrace[0]['object'])) {
-                $pattern = '/^[a-zA-Z0-9_]+$/';
-                $mode = null;
-                if (isset($_GET['mode']) && preg_match($pattern, $_GET['mode'])) {
-                    $mode =  $_GET['mode'];
-                } elseif (isset($_POST['mode']) && preg_match($pattern, $_POST['mode'])) {
-                    $mode = $_POST['mode'];
-                }
-                $parent_class_name = get_parent_class($arrBacktrace[0]['object']);
-                $objPlugin->doAction($parent_class_name . '_action_' . $mode, array($arrBacktrace[0]['object']));
-                $class_name = get_class($arrBacktrace[0]['object']);
-                if ($class_name != $parent_class_name) {
-                    $objPlugin->doAction($class_name . '_action_' . $mode, array($this));
+            $arrBacktrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+            // 0 番目には object が含まれない場合がある
+            foreach ($arrBacktrace as $backtrace) {
+                if (array_key_exists('object', $backtrace) && is_object($backtrace['object']) && method_exists($backtrace['object'], 'getMode')) {
+                    $parent_class_name = get_parent_class($backtrace['object']);
+                    $objPlugin->doAction($parent_class_name . '_action_' . $backtrace['object']->getMode(), array($backtrace['object']));
+
+                    break;
+                } elseif (array_key_exists('object', $backtrace) && is_object($backtrace['object'])) {
+                    $pattern = '/^[a-zA-Z0-9_]+$/';
+                    $mode = null;
+                    if (isset($_GET['mode']) && preg_match($pattern, $_GET['mode'])) {
+                        $mode =  $_GET['mode'];
+                    } elseif (isset($_POST['mode']) && preg_match($pattern, $_POST['mode'])) {
+                        $mode = $_POST['mode'];
+                    }
+                    $parent_class_name = get_parent_class($backtrace['object']);
+                    $objPlugin->doAction($parent_class_name . '_action_' . $mode, array($backtrace['object']));
+
+                    break;
                 }
             }
         }
