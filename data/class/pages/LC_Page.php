@@ -151,7 +151,7 @@ class LC_Page
         $objPlugin->doAction('LC_Page_process', array($this));
 
         // ページクラス名をテンプレートに渡す
-        $arrBacktrace = debug_backtrace();
+        $arrBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2); // class のみ使用
         if (strlen($this->tpl_page_class_name) === 0) {
             $this->tpl_page_class_name = preg_replace('/_Ex$/', '', $arrBacktrace[1]['class']);
         }
