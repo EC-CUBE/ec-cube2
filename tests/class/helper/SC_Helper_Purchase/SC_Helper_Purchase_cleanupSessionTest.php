@@ -56,9 +56,9 @@ class SC_Helper_Purchase_cleanupSessionTest extends SC_Helper_Purchase_TestBase
   public function testCleanupSession__カートとセッションの配送情報が削除される()
   {
     // 引数の準備
-    $helper = new SC_Helper_Purchase();
-    $cartSession = new SC_CartSession();
-    $customer = new SC_Customer();
+    $helper = new SC_Helper_Purchase_Ex();
+    $cartSession = new SC_CartSession_Ex();
+    $customer = new SC_Customer_Ex();
 
     // 削除前のデータを設定
     $cartSession->addProduct($this->product_class_id1, 5);  // product_type_id=1
