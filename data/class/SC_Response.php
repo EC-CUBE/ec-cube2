@@ -99,12 +99,16 @@ class SC_Response
 
         if (is_object($objPlugin)) {
             $arrBacktrace = debug_backtrace();
-            if (is_object($arrBacktrace[0]['object'])) {
-                $parent_class_name = get_parent_class($arrBacktrace[0]['object']);
-                $objPlugin->doAction($parent_class_name . '_action_' . $arrBacktrace[0]['object']->getMode(), array($arrBacktrace[0]['object']));
-                $class_name = get_class($arrBacktrace[0]['object']);
-                if ($class_name != $parent_class_name) {
-                    $objPlugin->doAction($class_name . '_action_' . $arrBacktrace[0]['object']->getMode(), array($arrBacktrace[0]['object']));
+            foreach ($arrBacktrace as $backtrace) {
+                if (array_key_exists('object', $backtrace)
+                    && is_object($backtrace['object'])) {
+                    $parent_class_name = get_parent_class($backtrace['object']);
+                    $objPlugin->doAction($parent_class_name . '_action_' . $backtrace['object']->getMode(), array($backtrace['object']));
+                    $class_name = get_class($backtrace['object']);
+                    if ($class_name != $parent_class_name) {
+                        $objPlugin->doAction($class_name . '_action_' . $backtrace['object']->getMode(), array($backtrace['object']));
+                    }
+                    break;
                 }
             }
         }
