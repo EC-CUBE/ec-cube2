@@ -357,6 +357,8 @@ class SC_SendMail
         switch ($backend) {
             case 'mail':
                 $arrParams = array();
+                break;
+
             case 'sendmail':
                 $arrParams = array(
                     'sendmail_path' => '/usr/bin/sendmail',
