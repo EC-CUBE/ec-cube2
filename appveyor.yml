@@ -8,8 +8,6 @@ image: Visual Studio 2017
 
 clone_folder: C:\projects\eccube2
 
-clone_folder: C:\projects\eccube2
-
 cache:
   - '%LOCALAPPDATA%\Composer\files'
   - data\vendor
