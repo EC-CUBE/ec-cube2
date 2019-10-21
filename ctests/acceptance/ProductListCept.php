@@ -5,6 +5,9 @@ $I->amOnPage('/products/list.php');
 $I->see('EC-CUBE発!世界中を旅して見つけた立方体グルメを立方隊長が直送！');
 $I->seeElement('#site_description');
 
+$I->expect('body の class 名が出力されている');
+$I->seeElement(['css' => 'body'], ['class' => 'LC_Page_Products_List']);
+
 $I->expect('50件まで一覧表示する');
 $I->selectOption(['css' => '#page_navi_top > div > div.change > select'], '50件');
 $all_products = $I->grabMultiple(['css' => '#undercolumn > form > div > div.listrightbloc > h3 > a']);
