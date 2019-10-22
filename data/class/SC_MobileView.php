@@ -21,6 +21,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+/**
+ * @deprecated
+ */
 class SC_MobileView extends SC_SiteView_Ex
 {
     public function __construct($setPrevURL = true)

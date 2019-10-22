@@ -208,7 +208,7 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
         $arrParams['keyword']       = $objFormParam->getValue('keyword');
         $arrParams['meta_robots']   = $objFormParam->getValue('meta_robots');
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         $page_id = $this->registerPage($arrParams, $objLayout);
@@ -257,7 +257,7 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
      */
     public function registerPage($arrParams, &$objLayout)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // ページIDが空の場合は新規登録
         $is_new = SC_Utils_Ex::isBlank($arrParams['page_id']);
@@ -334,7 +334,7 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
             $arrValues[] = $arrParams['page_id'];
         }
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists('dtb_pagelayout', $where, $arrValues);
         if ($exists) {
             $objErr->arrErr['filename'] = '※ 同じURLのデータが存在しています。別のURLを入力してください。<br />';

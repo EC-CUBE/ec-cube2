@@ -171,7 +171,7 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
     public function registerOwnersStoreSettings($arrSettingsData)
     {
         $table = 'dtb_ownersstore_settings';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists($table);
 
         if ($exists) {
@@ -192,7 +192,7 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
         $table   = 'dtb_ownersstore_settings';
         $colmuns = '*';
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->select($colmuns, $table);
 
         if (isset($arrRet[0])) return $arrRet[0];

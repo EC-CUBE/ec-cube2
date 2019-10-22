@@ -147,7 +147,7 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex
     // 対応状況一覧の表示
     public function lfStatusDisp($status,$pageno)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $select ='*';
         $from = 'dtb_order';
@@ -184,7 +184,7 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex
     public function lfStatusMove($statusId, $arrOrderId)
     {
         $objPurchase = new SC_Helper_Purchase_Ex();
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         if (!isset($arrOrderId) || !is_array($arrOrderId)) {
             return false;
@@ -210,7 +210,7 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex
      */
     public function lfDelete($arrOrderId)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         if (!isset($arrOrderId) || !is_array($arrOrderId)) {
             return false;

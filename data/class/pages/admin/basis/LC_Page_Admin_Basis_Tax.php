@@ -151,11 +151,11 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
                 $TaxRule = $objTaxRule->getTaxRuleData($tax_rule_id);
 
                 $tmp = explode(" ", $TaxRule['apply_date']);
-                $tmp_ymd = explode("-", $tmp[0]);
+                $tmp_ymd = array_map("intval",explode('-', $tmp[0]));
                 $TaxRule['apply_date_year'] = $tmp_ymd[0];
                 $TaxRule['apply_date_month'] = $tmp_ymd[1];
                 $TaxRule['apply_date_day'] = $tmp_ymd[2];
-                $tmp_hm = explode(":", $tmp[1]);
+                $tmp_hm = array_map("intval",explode(":", $tmp[1]));                
                 $TaxRule['apply_date_hour'] = $tmp_hm[0];
                 $TaxRule['apply_date_minutes'] = $tmp_hm[1];
 

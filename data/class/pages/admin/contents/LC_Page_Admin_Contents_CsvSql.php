@@ -246,7 +246,7 @@ class LC_Page_Admin_Contents_CsvSql extends LC_Page_Admin_Ex
      */
     public function lfGetTableList()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // 実テーブル上のカラム設定を見に行く仕様に変更 ref #476
         $arrTable = $objQuery->listTables();
         if (SC_Utils_Ex::isBlank($arrTable)) {
@@ -274,7 +274,7 @@ class LC_Page_Admin_Contents_CsvSql extends LC_Page_Admin_Ex
         if (SC_Utils_Ex::isBlank($table)) {
             return array();
         }
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // 実テーブル上のカラム設定を見に行く仕様に変更 ref #476
         $arrColList = $objQuery->listTableFields($table);
         $arrColList= SC_Utils_Ex::sfArrCombine($arrColList, $arrColList);
@@ -291,7 +291,7 @@ class LC_Page_Admin_Contents_CsvSql extends LC_Page_Admin_Ex
      */
     public function lfGetSqlList($where = '' , $arrVal = array())
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $table = 'dtb_csv_sql';
         $objQuery->setOrder('sql_id');
 
@@ -368,7 +368,7 @@ class LC_Page_Admin_Contents_CsvSql extends LC_Page_Admin_Ex
      */
     public function lfUpdData($sql_id, $arrSqlVal)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $table = 'dtb_csv_sql';
         $arrSqlVal['update_date'] = 'CURRENT_TIMESTAMP';
         if (SC_Utils_Ex::sfIsInt($sql_id)) {
@@ -394,7 +394,7 @@ class LC_Page_Admin_Contents_CsvSql extends LC_Page_Admin_Ex
      */
     public function lfDelData($sql_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $table = 'dtb_csv_sql';
         $where = 'sql_id = ?';
         if (SC_Utils_Ex::sfIsInt($sql_id)) {

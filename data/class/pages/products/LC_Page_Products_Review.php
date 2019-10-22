@@ -170,7 +170,7 @@ class LC_Page_Products_Review extends LC_Page_Ex
      */
     public function lfGetProductName($product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         return $objQuery->get('name', 'dtb_products', 'product_id = ? AND ' . SC_Product_Ex::getProductDispConditions(), array($product_id));
     }
@@ -178,7 +178,7 @@ class LC_Page_Products_Review extends LC_Page_Ex
     //登録実行
     public function lfRegistRecommendData(&$objFormParam)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objCustomer = new SC_Customer_Ex();
 
         $arrRegist = $objFormParam->getDbArray();

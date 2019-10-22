@@ -70,6 +70,8 @@ class SC_Date_isHolidayTest extends Common_TestCase
             $objQuery->insert('dtb_holiday', $item);
         }
         $objQuery->insert('dtb_baseinfo', $baseInfo);
+        $objDb = new SC_Helper_DB_Ex();
+        $objDb->sfGetBasisData(true);
     }
 
     protected function tearDown()

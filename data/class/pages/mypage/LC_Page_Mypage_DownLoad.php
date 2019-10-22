@@ -104,7 +104,7 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
     public function sendResponse()
     {
         // TODO sendResponseをオーバーライドしている為、afterフックポイントが実行されない.直接実行する.(#1790)
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         $objPlugin->doAction('LC_Page_Mypage_DownLoad_action_after', array($this));
 
         $this->objDisplay->noAction();
@@ -162,7 +162,7 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
      */
     public function lfGetRealFileName($customer_id, $order_id, $product_class_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = <<< __EOS__
             pc.down_realfilename AS down_realfilename,
             pc.down_filename AS down_filename

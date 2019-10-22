@@ -3,7 +3,8 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
     colors="true"
-    bootstrap="./data/config/config.php"
+    bootstrap="./tests/require.php"
+    backupGlobals="true"
     >
 
     <!-- テストの場所 -->
@@ -21,7 +22,7 @@
         <log type="tap" target="./reports/tap.log"/>
         <log type="junit" target="./reports/unitreport.xml" logIncompleteSkipped="false"/>
     </logging>
-    
+
     <!-- カバーレージのターゲット -->
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">

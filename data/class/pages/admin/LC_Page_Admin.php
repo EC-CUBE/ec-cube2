@@ -43,6 +43,7 @@ class LC_Page_Admin extends LC_Page_Ex
      */
     public function init()
     {
+        $this->sendAdditionalHeader();
         $this->template = MAIN_FRAME;
 
         //IP制限チェック
@@ -66,7 +67,7 @@ class LC_Page_Admin extends LC_Page_Ex
         $this->objDisplay = new SC_Display_Ex();
 
         // スーパーフックポイントを実行.
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         $objPlugin->doAction('LC_Page_preProcess', array($this));
 
         // トランザクショントークンの検証と生成
@@ -98,7 +99,7 @@ class LC_Page_Admin extends LC_Page_Ex
      */
     public function sendResponse()
     {
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         // ローカルフックポイントを実行
         $parent_class_name = get_parent_class($this);
         $objPlugin->doAction($parent_class_name . '_action_after', array($this));

@@ -173,7 +173,7 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
         }
 
         $objProduct = new SC_Product_Ex;
-        $objQuery = $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrProducts = $objProduct->getListByProductIds($objQuery, $product_ids);
 
         $arrReturnProducts = array();

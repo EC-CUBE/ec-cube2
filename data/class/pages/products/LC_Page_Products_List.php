@@ -208,7 +208,7 @@ class LC_Page_Products_List extends LC_Page_Ex
      */
     public function lfGetProductsList($searchCondition, $disp_number, $startno, &$objProduct)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $arrOrderVal = array();
 
@@ -246,7 +246,7 @@ class LC_Page_Products_List extends LC_Page_Ex
         // 表示すべきIDとそのIDの並び順を一気に取得
         $arrProductId = $objProduct->findProductIdsOrder($objQuery, array_merge($searchCondition['arrval'], $arrOrderVal));
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrProducts = $objProduct->getListByProductIds($objQuery, $arrProductId);
 
         // 規格を設定
@@ -319,7 +319,7 @@ class LC_Page_Products_List extends LC_Page_Ex
      */
     public function lfGetSearchConditionDisp($arrSearchData)
     {
-        $objQuery   =& SC_Query_Ex::getSingletonInstance();
+        $objQuery   = SC_Query_Ex::getSingletonInstance();
         $arrSearch  = array('category' => '指定なし', 'maker' => '指定なし', 'name' => '指定なし');
         // カテゴリ検索条件
         if ($arrSearchData['category_id'] > 0) {
@@ -349,7 +349,7 @@ class LC_Page_Products_List extends LC_Page_Ex
     public function lfGetProductAllNum($searchCondition)
     {
         // 検索結果対象となる商品の数を取得
-        $objQuery   =& SC_Query_Ex::getSingletonInstance();
+        $objQuery   = SC_Query_Ex::getSingletonInstance();
         $objQuery->setWhere($searchCondition['where_for_count']);
         $objProduct = new SC_Product_Ex();
 

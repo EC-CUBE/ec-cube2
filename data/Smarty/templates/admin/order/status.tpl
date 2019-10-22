@@ -93,7 +93,7 @@
                     <td class="center"><a href="#" onclick="eccube.openWindow('./disp.php?order_id=<!--{$arrStatus[cnt].order_id}-->','order_disp','800','900',{resizable:'no',focus:false}); return false;" ><!--{$arrStatus[cnt].order_id}--></a></td>
                     <td class="center"><!--{$arrStatus[cnt].create_date|sfDispDBDate}--></td>
                     <td><!--{$arrStatus[cnt].order_name01|h}--> <!--{$arrStatus[cnt].order_name02|h}--></td>
-                    <!--{assign var=payment_id value=`$arrStatus[cnt].payment_id`}-->
+                    <!--{assign var=payment_id value="`$arrStatus[cnt].payment_id`"}-->
                     <td class="center"><!--{$arrPayment[$payment_id]|h}--></td>
                     <td class="right"><!--{$arrStatus[cnt].total|n2s}--></td>
                     <td class="center"><!--{if $arrStatus[cnt].payment_date != ""}--><!--{$arrStatus[cnt].payment_date|sfDispDBDate:false}--><!--{else}-->未入金<!--{/if}--></td>

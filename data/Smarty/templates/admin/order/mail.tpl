@@ -64,7 +64,7 @@
                     <span class="attention"><!--{$arrErr[$key]}--></span>
                     <select name="template_id" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" onchange="eccube.setModeAndSubmit('change', '', '');">
                     <option value="" selected="selected">選択してください</option>
-                    <!--{html_options options=$arrMAILTEMPLATE selected=$arrForm[$key].value|h}-->
+                    <!--{html_options options=$arrMAILTEMPLATE selected=$arrForm[$key].value}-->
                     </select>
                 </td>
             </tr>

@@ -126,7 +126,7 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
         }
         $arrProductId  = $objQuery->getCol('f.product_id', 'dtb_customer_favorite_products f inner join dtb_products p using (product_id)', $where, array($customer_id));
 
-        $objQuery       =& SC_Query_Ex::getSingletonInstance();
+        $objQuery       = SC_Query_Ex::getSingletonInstance();
         $objQuery->setWhere($this->lfMakeWhere('alldtl.', $arrProductId));
         $linemax        = $objProduct->findProductCount($objQuery);
 
@@ -137,7 +137,7 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
         $this->tpl_strnavi = $objNavi->strnavi; // 表示文字列
         $startno        = $objNavi->start_row;
 
-        $objQuery       =& SC_Query_Ex::getSingletonInstance();
+        $objQuery       = SC_Query_Ex::getSingletonInstance();
         //$objQuery->setLimitOffset(SEARCH_PMAX, $startno);
         // 取得範囲の指定(開始行番号、行数のセット)
         $arrProductId  = array_slice($arrProductId, $startno, SEARCH_PMAX);
@@ -189,7 +189,7 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
      */
     public function lfDeleteFavoriteProduct($customer_id, $product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $exists = $objQuery->exists('dtb_customer_favorite_products', 'customer_id = ? AND product_id = ?', array($customer_id, $product_id));
 

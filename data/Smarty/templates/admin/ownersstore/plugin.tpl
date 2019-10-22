@@ -129,7 +129,7 @@
                 <td>
                     <!--{assign var=key value="plugin_file"}-->
                     <span class="attention"><!--{$arrErr[$key]}--></span>
-                    <input type="file" name="<!--{ $key }-->" class="box45" size="43"  style="<!--{$arrErr[$key]|sfGetErrorColor}--> <!--{if $arrErr[$key]}--> background-color:<!--{$smarty.const.ERR_COLOR|h}--><!--{/if}-->" />
+                    <input type="file" name="<!--{$key}-->" class="box45" size="43"  style="<!--{$arrErr[$key]|sfGetErrorColor}--> <!--{if $arrErr[$key]}--> background-color:<!--{$smarty.const.ERR_COLOR|h}--><!--{/if}-->" />
                     <a class="btn-action" href="javascript:;" onclick="install(); return false;"><span class="btn-next">インストール</span></a>
                 </td>
             </tr>

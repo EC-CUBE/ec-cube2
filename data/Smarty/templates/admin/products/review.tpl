@@ -51,7 +51,7 @@
                     <!--{assign var=key value=search_recommend_level}-->
                     <select name="<!--{$key}-->">
                         <option value="" selected="selected">選択してください</option>
-                        <!--{html_options options=$arrRECOMMEND selected=$arrForm[$key].value|h}-->
+                        <!--{html_options options=$arrRECOMMEND selected=$arrForm[$key].value}-->
                     </select>
                 </td>
             </tr>
@@ -64,27 +64,27 @@
                     <!--{/if}-->
                     <select name="search_startyear" style="<!--{$arrErr.search_startyear|sfGetErrorColor}-->">
                         <option value="">----</option>
-                        <!--{html_options options=$arrStartYear selected=$arrForm.search_startyear|h}-->
+                        <!--{html_options options=$arrStartYear selected=$arrForm.search_startyear}-->
                     </select>年
                     <select name="search_startmonth" style="<!--{$arrErr.search_startyear|sfGetErrorColor}-->">
                         <option value="">--</option>
-                        <!--{html_options options=$arrStartMonth selected=$arrForm.search_startmonth|h}-->
+                        <!--{html_options options=$arrStartMonth selected=$arrForm.search_startmonth}-->
                     </select>月
                     <select name="search_startday" style="<!--{$arrErr.search_startyear|sfGetErrorColor}-->">
                         <option value="">--</option>
-                        <!--{html_options options=$arrStartDay selected=$arrForm.search_startday|h}-->
+                        <!--{html_options options=$arrStartDay selected=$arrForm.search_startday}-->
                     </select>日～
                     <select name="search_endyear" style="<!--{$arrErr.search_endyear|sfGetErrorColor}-->">
                         <option value="">----</option>
-                        <!--{html_options options=$arrEndYear selected=$arrForm.search_endyear|h}-->
+                        <!--{html_options options=$arrEndYear selected=$arrForm.search_endyear}-->
                     </select>年
                     <select name="search_endmonth" style="<!--{$arrErr.search_endyear|sfGetErrorColor}-->">
                         <option value="">--</option>
-                        <!--{html_options options=$arrEndMonth selected=$arrForm.search_endmonth|h}-->
+                        <!--{html_options options=$arrEndMonth selected=$arrForm.search_endmonth}-->
                     </select>月
                     <select name="search_endday" style="<!--{$arrErr.search_endyear|sfGetErrorColor}-->">
                         <option value="">--</option>
-                        <!--{html_options options=$arrEndDay selected=$arrForm.search_endday|h}-->
+                        <!--{html_options options=$arrEndDay selected=$arrForm.search_endday}-->
                     </select>日
                 </td>
             </tr>
@@ -97,7 +97,7 @@
                 <span class="attention"><!--{$arrErr[$key]}--></span>
             <!--{/if}-->
             <select name="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
-            <!--{html_options options=$arrPageMax selected=$arrForm.search_page_max|h}-->
+            <!--{html_options options=$arrPageMax selected=$arrForm.search_page_max}-->
             </select> 件</p>
             <div class="btn-area">
                 <ul>

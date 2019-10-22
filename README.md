@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/EC-CUBE/eccube-2_13.svg)](https://travis-ci.org/EC-CUBE/eccube-2_13)
 [![Build status](https://ci.appveyor.com/api/projects/status/4k58ucq2smwc4h7n/branch/master?svg=true)](https://ci.appveyor.com/project/ECCUBE/eccube-2-13/branch/master)
 [![Coverage Status](https://coveralls.io/repos/EC-CUBE/eccube-2_13/badge.png)](https://coveralls.io/r/EC-CUBE/eccube-2_13)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ---
 
@@ -15,7 +16,7 @@ EC-CUBE Trac にある議論の再開や不具合の修正についても、GitH
 ## 開発協力
 
 コードの提供・追加、修正・変更その他「EC-CUBE」への開発の御協力（以下「コミット」といいます）を行っていただく場合には、
-[EC-CUBEのコピーライトポリシー](https://github.com/EC-CUBE/ec-cube/blob/50de4ac511ab5a5577c046b61754d98be96aa328/LICENSE.txt)をご理解いただき、ご了承いただく必要がございます。
+[EC-CUBEのコピーライトポリシー](https://github.com/EC-CUBE/ec-cube/wiki/EC-CUBE%E3%81%AE%E3%82%B3%E3%83%94%E3%83%BC%E3%83%A9%E3%82%A4%E3%83%88%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC)をご理解いただき、ご了承いただく必要がございます。
 Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに同意したものとみなします。
 
 ## 開発方針

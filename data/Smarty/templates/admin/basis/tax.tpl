@@ -64,23 +64,23 @@
 
                 <select name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
                 <option value="" selected="selected">------</option>
-                <!--{html_options options=$arrYear selected=$arrForm[$key1].value|h}-->
+                <!--{html_options options=$arrYear selected=$arrForm[$key1].value}-->
                 </select>年
                 <select name="<!--{$key2}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->">
                 <option value="" selected="selected">----</option>
-                <!--{html_options options=$objDate->getMonth() selected=$arrForm[$key2].value|h}-->
+                <!--{html_options options=$objDate->getMonth() selected=$arrForm[$key2].value}-->
                 </select>月
                 <select name="<!--{$key3}-->" style="<!--{$arrErr[$key3]|sfGetErrorColor}-->">
                 <option value="" selected="selected">----</option>
-                <!--{html_options options=$objDate->getDay() selected=$arrForm[$key3].value|h}-->
+                <!--{html_options options=$objDate->getDay() selected=$arrForm[$key3].value}-->
                 </select>日
                 <select name="<!--{$key4}-->" style="<!--{$arrErr[$key4]|sfGetErrorColor}-->">
                 <option value="" selected="selected">----</option>
-                <!--{html_options options=$objDate->getHour() selected=$arrForm[$key4].value|h}-->
+                <!--{html_options options=$objDate->getHour() selected=$arrForm[$key4].value}-->
                 </select>時
                 <select name="<!--{$key5}-->" style="<!--{$arrErr[$key5]|sfGetErrorColor}-->">
                 <option value="" selected="selected">----</option>
-                <!--{html_options options=$arrMinutes selected=$arrForm[$key5].value|h}-->
+                <!--{html_options options=$arrMinutes selected=$arrForm[$key5].value}-->
                 </select>分
             </td>
         </tr>

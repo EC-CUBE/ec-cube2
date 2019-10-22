@@ -100,7 +100,7 @@ class SC_DB_MasterData
     {
         $columns = $this->getDefaultColumnName($columns);
 
-        $this->objQuery =& SC_Query_Ex::getSingletonInstance();
+        $this->objQuery = SC_Query_Ex::getSingletonInstance();
         if ($autoCommit) {
             $this->objQuery->begin();
         }
@@ -136,7 +136,7 @@ class SC_DB_MasterData
     {
         $columns = $this->getDefaultColumnName($columns);
 
-        $this->objQuery =& SC_Query_Ex::getSingletonInstance();
+        $this->objQuery = SC_Query_Ex::getSingletonInstance();
         if ($autoCommit) {
             $this->objQuery->begin();
         }
@@ -171,7 +171,7 @@ class SC_DB_MasterData
     {
         $columns = $this->getDefaultColumnName();
 
-        $this->objQuery =& SC_Query_Ex::getSingletonInstance();
+        $this->objQuery = SC_Query_Ex::getSingletonInstance();
         if ($autoCommit) {
             $this->objQuery->begin();
         }
@@ -202,7 +202,7 @@ class SC_DB_MasterData
      */
     public function deleteMasterData($name, $autoCommit = true)
     {
-        $this->objQuery =& SC_Query_Ex::getSingletonInstance();
+        $this->objQuery = SC_Query_Ex::getSingletonInstance();
         if ($autoCommit) {
             $this->objQuery->begin();
         }
@@ -308,7 +308,7 @@ class SC_DB_MasterData
     {
         $columns = $this->getDefaultColumnName($columns);
 
-        $this->objQuery =& SC_Query_Ex::getSingletonInstance();
+        $this->objQuery = SC_Query_Ex::getSingletonInstance();
         if (isset($columns[2]) && strlen($columns[2]) >= 1) {
             $this->objQuery->setOrder($columns[2]);
         }

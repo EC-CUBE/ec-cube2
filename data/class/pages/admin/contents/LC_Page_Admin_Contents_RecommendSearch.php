@@ -192,7 +192,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
         $where = $whereAndBind['where'];
         $bind = $whereAndBind['bind'];
         // 検索結果対象となる商品の数を取得
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setWhere($where);
         $linemax = $objProduct->findProductCount($objQuery, $bind);
 
@@ -209,7 +209,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
     {
         $where = $whereAndBind['where'];
         $bind = $whereAndBind['bind'];
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setWhere($where);
         // 取得範囲の指定(開始行番号、行数のセット)
         $objQuery->setLimitOffset($page_max, $startno);
@@ -225,7 +225,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
      */
     public function getProductList($arrProductId, &$objProduct)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 表示順序
         $order = 'update_date DESC, product_id DESC';

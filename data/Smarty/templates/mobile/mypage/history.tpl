@@ -59,10 +59,10 @@
             <!--{$arrProductType[$orderDetail.product_type_id]}--><br>
         <!--{/if}-->
         単価：
-        <!--{assign var=price value=`$orderDetail.price`}-->
-        <!--{assign var=quantity value=`$orderDetail.quantity`}-->
-        <!--{assign var=tax_rate value=`$orderDetail.tax_rate`}-->
-        <!--{assign var=tax_rule value=`$orderDetail.tax_rule`}-->
+        <!--{assign var=price value="`$orderDetail.price`"}-->
+        <!--{assign var=quantity value="`$orderDetail.quantity`"}-->
+        <!--{assign var=tax_rate value="`$orderDetail.tax_rate`"}-->
+        <!--{assign var=tax_rule value="`$orderDetail.tax_rule`"}-->
         <!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|n2s|h}-->円<br>
         数量：<!--{$quantity|h}--><br>
         小計：<!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|sfMultiply:$quantity|n2s}-->円<br>

@@ -133,7 +133,7 @@
             <!--▼ページナビ(上部)-->
             <form name="page_navi_top" id="page_navi_top" action="?">
                 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-                <!--{if $tpl_linemax > 0}--><!--{$smarty.capture.page_navi_body|smarty:nodefaults}--><!--{/if}-->
+                <!--{if $tpl_linemax > 0}--><!--{$smarty.capture.page_navi_body nofilter}--><!--{/if}-->
             </form>
             <!--▲ページナビ(上部)-->
         <!--{/if}-->
@@ -155,7 +155,7 @@
 
                 <div class="listrightbloc">
                     <!--▼商品ステータス-->
-                    <!--{if count($productStatus[$id]) > 0}-->
+                    <!--{if !empty($productStatus[$id])}-->
                         <ul class="status_icon clearfix">
                             <!--{foreach from=$productStatus[$id] item=status}-->
                                 <li>
@@ -258,7 +258,7 @@
             <!--▼ページナビ(下部)-->
             <form name="page_navi_bottom" id="page_navi_bottom" action="?">
                 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-                <!--{if $tpl_linemax > 0}--><!--{$smarty.capture.page_navi_body|smarty:nodefaults}--><!--{/if}-->
+                <!--{if $tpl_linemax > 0}--><!--{$smarty.capture.page_navi_body nofilter}--><!--{/if}-->
             </form>
             <!--▲ページナビ(下部)-->
         <!--{/if}-->

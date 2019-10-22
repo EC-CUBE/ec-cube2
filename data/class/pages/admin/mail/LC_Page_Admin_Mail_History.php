@@ -95,8 +95,8 @@ class LC_Page_Admin_Mail_History extends LC_Page_Admin_Ex
             $search_pageno = 1;
         }
         //
-        $objSelect =& SC_Query_Ex::getSingletonInstance();    // 一覧データ取得用
-        $objQuery =& SC_Query_Ex::getSingletonInstance();    // 件数取得用
+        $objSelect = SC_Query_Ex::getSingletonInstance();    // 一覧データ取得用
+        $objQuery = SC_Query_Ex::getSingletonInstance();    // 件数取得用
 
         // 該当全体件数の取得
         $linemax = $objQuery->count('dtb_send_history', 'del_flg = 0');
@@ -117,7 +117,8 @@ class LC_Page_Admin_Mail_History extends LC_Page_Admin_Ex
 
         $objNavi = new SC_PageNavi_Ex($search_pageno,
                                     $linemax,
-                                    SEARCH_PMAX);
+                                    SEARCH_PMAX,
+                                    'eccube.moveNaviPage', NAVI_PMAX);
 
         return array($linemax, $arrResult, $objNavi->arrPagenavi);
     }
@@ -128,7 +129,7 @@ class LC_Page_Admin_Mail_History extends LC_Page_Admin_Ex
      */
     public function lfDeleteHistory($send_id)
     {
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $objQuery->update('dtb_send_history',
                               array('del_flg' =>1),
                               'send_id = ?',

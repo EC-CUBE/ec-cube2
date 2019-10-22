@@ -1,5 +1,5 @@
 <?php
-require DATA_REALDIR . 'module/fpdf/fpdf.php';
+#require DATA_REALDIR . 'module/fpdf/fpdf.php';
 require DATA_REALDIR . 'module/fpdi/japanese.php';
 
 // japanese.php のバグ回避

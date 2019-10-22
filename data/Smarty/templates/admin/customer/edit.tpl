@@ -208,7 +208,7 @@
                     </select>月
                     <select name="day" <!--{if $arrErr.year != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> >
                         <option value="" selected="selected">----</option>
-                        <!--{html_options options=$arrDay selected=$arrForm.day"}-->
+                        <!--{html_options options=$arrDay selected=$arrForm.day}-->
                     </select>日
                 </td>
             </tr>

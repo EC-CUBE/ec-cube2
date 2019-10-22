@@ -139,7 +139,7 @@ class LC_Page_Admin_Basis_Tradelaw extends LC_Page_Admin_Ex
     public function lfUpdateData($sqlval)
     {
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // UPDATEの実行
         $objQuery->update('dtb_baseinfo', $sqlval);
     }
@@ -147,7 +147,7 @@ class LC_Page_Admin_Basis_Tradelaw extends LC_Page_Admin_Ex
     public function lfInsertData($sqlval)
     {
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // INSERTの実行
         $objQuery->insert('dtb_baseinfo', $sqlval);
     }

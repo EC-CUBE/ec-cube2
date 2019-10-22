@@ -255,9 +255,9 @@ define('TEL_ITEM_LEN', 6);
 /** 電話番号総数 */
 define('TEL_LEN', 12);
 /** フロント画面用：パスワードの最小文字数 */
-define('PASSWORD_MIN_LEN', 4);
+define('PASSWORD_MIN_LEN', 8);
 /** フロント画面用：パスワードの最大文字数 */
-define('PASSWORD_MAX_LEN', STEXT_LEN);
+define('PASSWORD_MAX_LEN', SMTEXT_LEN);
 /** 検査数値用桁数(INT) */
 define('INT_LEN', 9);
 /** クレジットカードの文字数 (*モジュールで使用) */
@@ -486,3 +486,5 @@ define('PENDING_ORDER_CANCEL_TIME', 900);
 define('PENDING_ORDER_CANCEL_FLAG', true);
 /** API機能を有効にする(true:する false:しない) */
 define('API_ENABLE_FLAG', false);
+/** UTF-8依存文字が入力された際に表示する文字(Unicode値の整数 デフォルト: ?) */
+define('SUBSTITUTE_CHAR', 63);

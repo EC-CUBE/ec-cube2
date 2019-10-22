@@ -33,14 +33,16 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_getOrderDetailTest extends SC_Helper_Purchase_TestBase
 {
-
+  /** @var array */
+  private $customer_ids = [];
+  /** @var array */
+  private $order_ids = [];
 
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpOrder();
-    $this->setUpOrderDetail();
-    $this->setUpProductClass();
+    $this->customer_ids = $this->setUpCustomer();
+    $this->order_ids = $this->setUpOrder($this->customer_ids, [1, 2, 3, 4, 5]);
   }
 
   protected function tearDown()
@@ -61,96 +63,73 @@ class SC_Helper_Purchase_getOrderDetailTest extends SC_Helper_Purchase_TestBase
 
   public function testGetOrderDetail_存在する受注IDを指定した場合_対応する受注詳細情報が取得できる()
   {
-    $order_id = '1001';
+    $properties = [
+      'product_id', 'product_class_id', 'product_type_id', 'product_code',
+      'product_name', 'classcategory_name1', 'classcategory_name2', 'price',
+      'quantity', 'point_rate', 'status', 'payment_date', 'enable', 'effective',
+      'tax_rate', 'tax_rule'];
 
-    $this->expected = array(
-       array(
-         'product_id' => '1002',
-         'product_class_id' => '1002',
-         'product_type_id' => '2',
-         'product_code' => 'pc1002',
-         'product_name' => '製品名1002',
-         'classcategory_name1' => 'cat10021',
-         'classcategory_name2' => 'cat10022',
-         'price' => '3000',
-         'quantity' => '10',
-         'point_rate' => '5',
-         'status' => '3',
-         'payment_date' => '2032-12-31 01:20:30',
-         'enable' => '0',
-         'effective' => '1',
-         'tax_rate' => '5',
-         'tax_rule' => '0'
-       ),
-       array(
-         'product_id' => '1001',
-         'product_class_id' => '1001',
-         'product_type_id' => '1',
-         'product_code' => 'pc1001',
-         'product_name' => '製品名1001',
-         'classcategory_name1' => 'cat10011',
-         'classcategory_name2' => 'cat10012',
-         'price' => '4000',
-         'quantity' => '15',
-         'point_rate' => '6',
-         'status' => '3',
-         'payment_date' => '2032-12-31 01:20:30',
-         'enable' => '1',
-         'effective' => '1',
-         'tax_rate' => '3',
-         'tax_rule' => '1'
-       )
-    );
-    $this->actual = SC_Helper_Purchase::getOrderDetail($order_id);
+    $this->objQuery->setOrder('order_detail_id');
+    $arrOrderDetails = $this->objQuery->select('*', 'dtb_order_detail T1 JOIN dtb_order T2 ON T1.order_id = T2.order_id', 'T1.order_id = ?', [$this->order_ids[0]]);
+
+    // 不足しているダミーの情報を付与する
+    $arrOrderDetails = array_map(function ($orderDetail) {
+      $orderDetail['product_type_id'] = (string) PRODUCT_TYPE_NORMAL;
+      $orderDetail['enable'] = '1';
+      $orderDetail['effective'] = '1';
+      return $orderDetail;
+    }, $arrOrderDetails);
+
+    $this->expected = array_map(function ($orderDetail) use ($properties) {
+      $expectedDetail = [];
+      foreach ($properties as $key) {
+        $expectedDetail[$key] = $orderDetail[$key];
+      }
+
+      return $expectedDetail;
+    }, $arrOrderDetails);
+
+    $this->actual = SC_Helper_Purchase::getOrderDetail($this->order_ids[0]);
 
     $this->verify();
+
+    $this->assertNotEmpty($this->actual[0]['status']);
+    $this->assertNotEmpty($this->actual[0]['payment_date']);
   }
 
   public function testGetOrderDetail_ステータス取得フラグがOFFのの場合_ステータス以外の情報が取得できる()
   {
-    $order_id = '1001';
+    $properties = [
+      'product_id', 'product_class_id', 'product_type_id', 'product_code',
+      'product_name', 'classcategory_name1', 'classcategory_name2', 'price',
+      'quantity', 'point_rate', 'enable', 'effective',
+      'tax_rate', 'tax_rule'];
 
-    $this->expected = array(
-       array(
-         'product_id' => '1002',
-         'product_class_id' => '1002',
-         'product_type_id' => '2',
-         'product_code' => 'pc1002',
-         'product_name' => '製品名1002',
-         'classcategory_name1' => 'cat10021',
-         'classcategory_name2' => 'cat10022',
-         'price' => '3000',
-         'quantity' => '10',
-         'point_rate' => '5',
-         // 'status' => '3',
-         // 'payment_date' => '2032-12-31 01:20:30',
-         'enable' => '0',
-         'effective' => '1',
-         'tax_rate' => '5',
-         'tax_rule' => '0'
-       ),
-       array(
-         'product_id' => '1001',
-         'product_class_id' => '1001',
-         'product_type_id' => '1',
-         'product_code' => 'pc1001',
-         'product_name' => '製品名1001',
-         'classcategory_name1' => 'cat10011',
-         'classcategory_name2' => 'cat10012',
-         'price' => '4000',
-         'quantity' => '15',
-         'point_rate' => '6',
-         // 'status' => '3',
-         // 'payment_date' => '2032-12-31 01:20:30',
-         'enable' => '1',
-         'effective' => '1',
-         'tax_rate' => '3',
-         'tax_rule' => '1'
-       )
-    );
-    $this->actual = SC_Helper_Purchase::getOrderDetail($order_id, false);
+    $this->objQuery->setOrder('order_detail_id');
+    $arrOrderDetails = $this->objQuery->select('*', 'dtb_order_detail T1 JOIN dtb_order T2 ON T1.order_id = T2.order_id', 'T1.order_id = ?', [$this->order_ids[0]]);
+    // 不足しているダミーの情報を付与する
+    $arrOrderDetails = array_map(function ($orderDetail) {
+      $orderDetail['product_type_id'] = (string) PRODUCT_TYPE_NORMAL;
+      $orderDetail['enable'] = '1';
+      $orderDetail['effective'] = '1';
+      return $orderDetail;
+    }, $arrOrderDetails);
+
+    $this->expected = array_map(function ($orderDetail) use ($properties) {
+      $expectedDetail = [];
+      foreach ($properties as $key) {
+        $expectedDetail[$key] = $orderDetail[$key];
+      }
+
+      return $expectedDetail;
+    }, $arrOrderDetails);
+
+    $this->actual = SC_Helper_Purchase::getOrderDetail($this->order_ids[0], false);
 
     $this->verify();
+
+    $this->assertEmpty($this->actual[0]['status']);
+    $this->assertEmpty($this->actual[0]['payment_date']);
   }
 
   //////////////////////////////////////////

@@ -48,7 +48,7 @@ class LC_Page_Entry extends LC_Page_Ex
         $this->arrMAILMAGATYPE = $masterData->getMasterData('mtb_mail_magazine_type');
 
         // 生年月日選択肢の取得
-        $objDate            = new SC_Date_Ex(BIRTH_YEAR, date('Y', strtotime('now')));
+        $objDate            = new SC_Date_Ex(BIRTH_YEAR, date('Y'));
         $this->arrYear      = $objDate->getYear('', START_BIRTH_YEAR, '');
         $this->arrMonth     = $objDate->getMonth(true);
         $this->arrDay       = $objDate->getDay(true);
@@ -147,7 +147,8 @@ class LC_Page_Entry extends LC_Page_Ex
                     }
 
                     // 完了ページに移動させる。
-                    SC_Response_Ex::sendRedirect('complete.php', array('ci' => SC_Helper_Customer_Ex::sfGetCustomerId($uniqid)));
+                    $_SESSION['registered_customer_id'] = SC_Helper_Customer_Ex::sfGetCustomerId($uniqid);
+                    SC_Response_Ex::sendRedirect('complete.php');
                 }
                 break;
             case 'return':

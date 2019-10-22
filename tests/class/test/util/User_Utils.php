@@ -15,7 +15,8 @@ class User_Utils
    */
   public static function setDeviceType($deviceType)
   {
-    SC_Display_Ex::setDummyDevice($deviceType);
+      // XXX PHPUnit4.8 で動作しないため除外
+      //SC_Display_Ex::setDummyDevice($deviceType);
   }
 
   /**

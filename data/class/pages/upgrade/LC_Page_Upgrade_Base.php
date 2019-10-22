@@ -32,7 +32,7 @@ class LC_Page_Upgrade_Base extends LC_Page_Ex
     public function autoUpdateEnable($product_id)
     {
         $where = 'module_id = ?';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->select('auto_update_flg', 'dtb_module', $where, array($product_id));
 
         if (isset($arrRet[0]['auto_update_flg'])
@@ -95,7 +95,7 @@ class LC_Page_Upgrade_Base extends LC_Page_Ex
 
     public function getPublicKey()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->select('*', 'dtb_ownersstore_settings');
 
         return isset($arrRet[0]['public_key'])
@@ -105,8 +105,10 @@ class LC_Page_Upgrade_Base extends LC_Page_Ex
 
     /**
      * オーナーズストアからの POST のため, トークンチェックしない.
+     *
+     * @param  boolean $is_admin 管理画面でエラー表示をする場合 true
      */
-    public function doValidToken()
+    public function doValidToken($is_admin = false)
     {
         // nothing.
     }

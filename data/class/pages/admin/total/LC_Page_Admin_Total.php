@@ -164,10 +164,10 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     public function lfGetDateDefault()
     {
         $year = date('Y');
-        $month = date('m');
-        $day = date('d');
+        $month = date('n');
+        $day = date('j');
 
-        $list = isset($_SESSION['total']) ? $_SESSION['total'] : '';
+        $list = isset($_SESSION['total']) ? $_SESSION['total'] : [];
 
         // セッション情報に開始月度が保存されていない。
         if (empty($_SESSION['total']['startyear_m'])) {
@@ -265,8 +265,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     public function lfGetDateInit()
     {
         $search_startyear_m     = $search_startyear  = $search_endyear  = date('Y');
-        $search_startmonth_m    = $search_startmonth = $search_endmonth = date('m');
-        $search_startday        = $search_endday     = date('d');
+        $search_startmonth_m    = $search_startmonth = $search_endmonth = date('j');
+        $search_startday        = $search_endday     = date('n');
 
         return compact($this->arrSearchForm1, $this->arrSearchForm2);
     }
@@ -486,7 +486,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     /**
      * @param string $col_date
      */
-    public function lfGetWhereMember($col_date, $sdate, $edate, $type, $col_member = 'customer_id')
+    public function lfGetWhereMember($col_date, $sdate, $edate, $type = NULL, $col_member = 'customer_id')
     {
         $where = '';
         // 取得日付の指定
@@ -683,7 +683,7 @@ __EOS__;
     {
         $objQuery   = SC_Query_Ex::getSingletonInstance();
 
-        list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate);
+        list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, null, null);
         $where .= ' AND del_flg = 0 AND status <> ?';
         $arrWhereVal[] = ORDER_CANCEL;
 
@@ -740,6 +740,8 @@ __EOS__;
     {
         $arrDateList = $this->lfDateTimeArray($type, $st, $ed);
 
+        $arrDateResults = array();
+        $arrRet = array();
         foreach ($arrResults as $arrResult) {
             $strdate                = $arrResult['str_date'];
             $arrDateResults[$strdate] = $arrResult;
@@ -809,11 +811,14 @@ __EOS__;
             // 合計の計算
             foreach ($arrResults as $arrResult) {
                 foreach ($arrResult as $key => $value) {
-                    $arrTotal[$key] += $arrResult[$key];
+                    $arrTotal[$key] += (int) $arrResult[$key];
                 }
             }
             // 平均値の計算
             $arrTotal['total_average'] = $arrTotal['total'] / $arrTotal['total_order'];
+            if (is_nan($arrTotal['total_average'])) {
+                $arrTotal['total_average'] = 0;
+            }
             $arrResults[] = $arrTotal;
         }
 

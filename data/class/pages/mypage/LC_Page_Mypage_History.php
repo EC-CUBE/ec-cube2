@@ -99,8 +99,11 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
         // 受注商品明細の取得
         $this->tpl_arrOrderDetail = $objPurchase->getOrderDetail($order_id);
         foreach ($this->tpl_arrOrderDetail as $product_index => $arrOrderProductDetail) {
-            //必要なのは商品の販売金額のみなので、遅い場合は、別途SQL作成した方が良い
-            $arrTempProductDetail = $objProduct->getProductsClass($arrOrderProductDetail['product_class_id']);
+            //
+            if (SC_Helper_DB_Ex::sfDataExists('dtb_products_class', 'product_class_id = ?', array($arrOrderProductDetail['product_class_id']))) {
+                //必要なのは商品の販売金額のみなので、遅い場合は、別途SQL作成した方が良い
+                $arrTempProductDetail = $objProduct->getProductsClass($arrOrderProductDetail['product_class_id']);
+            }
             // 税計算
             $this->tpl_arrOrderDetail[$product_index]['price_inctax'] = $this->tpl_arrOrderDetail[$product_index]['price']  +
                 SC_Helper_TaxRule_Ex::calcTax(
@@ -135,7 +138,7 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
      */
     public function lfGetMailHistory($order_id)
     {
-        $objQuery   =& SC_Query_Ex::getSingletonInstance();
+        $objQuery   = SC_Query_Ex::getSingletonInstance();
         $col        = 'send_date, subject, template_id, send_id';
         $where      = 'order_id = ?';
         $objQuery->setOrder('send_date DESC');
@@ -178,7 +181,7 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
     {
         $i = 0;
         foreach ($arrOrderDetails as $arrOrderDetail) {
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $arrProduct = $objQuery->select('main_list_image', 'dtb_products', 'product_id = ?', array($arrOrderDetail['product_id']));
             $arrOrderDetails[$i]['main_list_image'] = $arrProduct[0]['main_list_image'];
             $i++;
@@ -198,7 +201,7 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
         $objHelperMobile = new SC_Helper_Mobile_Ex();
         $i = 0;
         foreach ($arrOrderDetails as $arrOrderDetail) {
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $arrProduct = $objQuery->select('down_realfilename,down_filename', 'dtb_products_class', 'product_id = ? AND product_class_id = ?', array($arrOrderDetail['product_id'],$arrOrderDetail['product_class_id']));
             $arrOrderDetails[$i]['mime_type'] = $objHelperMobile->getMimeType($arrProduct[0]['down_realfilename']);
             $arrOrderDetails[$i]['down_filename'] = $arrProduct[0]['down_filename'];

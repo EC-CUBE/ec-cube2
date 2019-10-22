@@ -41,6 +41,7 @@ class LC_Page_Shopping_Complete extends LC_Page_Ex
     {
         parent::init();
         $this->tpl_title = 'ご注文完了';
+        $this->httpCacheControl('nocache');
     }
 
     /**
@@ -65,12 +66,15 @@ class LC_Page_Shopping_Complete extends LC_Page_Ex
     public function action()
     {
         $this->arrInfo = SC_Helper_DB_Ex::sfGetBasisData();
+        $this->tpl_order_id = $_SESSION['order_id'];
     }
 
     /**
      * 決済モジュールから遷移する場合があるため, トークンチェックしない.
+     *
+     * @param  boolean $is_admin 管理画面でエラー表示をする場合 true
      */
-    public function doValidToken()
+    public function doValidToken($is_admin = false)
     {
         // nothing.
     }

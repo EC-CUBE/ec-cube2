@@ -82,7 +82,7 @@ class SC_Api_Utils
     public function getApiConfig($operation_name)
     {
         // 設定優先度 DB > plugin default > base
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'operation_name Like ? AND del_flg = 0 AND enable = 1';
         $arrApiConfig = $objQuery->getRow('*', 'dtb_api_config', $where, array($operation_name));
         if (SC_Utils_Ex::isBlank($arrApiConfig)) {

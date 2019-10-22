@@ -76,12 +76,12 @@
 
 <!--{strip}-->
     <!--{* ▼Head COLUMN*}-->
-    <!--{if $arrPageLayout.HeadNavi|@count > 0}-->
+    <!--{if !empty($arrPageLayout.HeadNavi)}-->
         <!--{* ▼上ナビ *}-->
         <!--{foreach key=HeadNaviKey item=HeadNaviItem from=$arrPageLayout.HeadNavi}-->
             <!--{* ▼<!--{$HeadNaviItem.bloc_name}--> *}-->
             <!--{if $HeadNaviItem.php_path != ""}-->
-                <!--{include_php file=$HeadNaviItem.php_path items=$HeadNaviItem}-->
+                <!--{include_php_ex file=$HeadNaviItem.php_path items=$HeadNaviItem}-->
             <!--{else}-->
                 <!--{include file=$HeadNaviItem.tpl_path}-->
             <!--{/if}-->

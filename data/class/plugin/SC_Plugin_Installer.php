@@ -74,7 +74,7 @@ class SC_Plugin_Installer
             return $arrErr;
         }
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // SQLの実行
         if (!SC_Utils_Ex::isBlank($arrSql)) {
@@ -236,7 +236,7 @@ class SC_Plugin_Installer
     protected function verifySql($sql, $params)
     {
         // FIXME $paramsのチェックも行いたい.
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // force runを有効にし, システムエラーを回避する
         $objQuery->force_run = true;

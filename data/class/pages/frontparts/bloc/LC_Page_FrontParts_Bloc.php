@@ -53,7 +53,7 @@ class LC_Page_FrontParts_Bloc extends LC_Page_Ex
         $this->setTokenTo();
 
         // ローカルフックポイントを実行.
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         $this->doLocalHookpointBefore($objPlugin);
     }
 

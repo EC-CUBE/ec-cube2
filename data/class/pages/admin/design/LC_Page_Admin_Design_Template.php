@@ -187,7 +187,7 @@ class LC_Page_Admin_Design_Template extends LC_Page_Admin_Ex
             // 改行、タブを1スペースに変換
             $sql = preg_replace("/[\r\n\t]/", ' ', $sql);
             $sql_split = explode(';', $sql);
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             foreach ($sql_split as $val) {
                 if (trim($val) != '') {
                     $objQuery->query($val);
@@ -211,7 +211,7 @@ class LC_Page_Admin_Design_Template extends LC_Page_Admin_Ex
 
             return false;
         } else {
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $objQuery->begin();
             $objQuery->delete('dtb_templates', 'template_code = ? AND device_type_id = ?',
                               array($template_code, $device_type_id));
@@ -316,7 +316,7 @@ class LC_Page_Admin_Design_Template extends LC_Page_Admin_Ex
      */
     public function getAllTemplates($device_type_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         return $objQuery->select('*', 'dtb_templates', 'device_type_id = ?', array($device_type_id));
     }

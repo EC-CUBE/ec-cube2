@@ -70,8 +70,7 @@ class SC_FormParam
         $backtraces = debug_backtrace();
         // 呼び出し元のクラスを取得
         $class = $backtraces[1]['class'];
-        $objPage = $backtraces[1]['object'];
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($objPage->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         if (is_object($objPlugin)) {
             $objPlugin->doAction('SC_FormParam_construct', array($class, $this));
         }
@@ -207,6 +206,7 @@ class SC_FormParam
                     case 'NUM_CHECK':
                     case 'EMAIL_CHECK':
                     case 'EMAIL_CHAR_CHECK':
+                    case 'PASSWORD_CHAR_CHECK':
                     case 'ALNUM_CHECK':
                     case 'GRAPH_CHECK':
                     case 'KANA_CHECK':

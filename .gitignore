@@ -1,6 +1,6 @@
 !.gitmodule
 composer.phar
-/vendor/
+/data/vendor/
 *.cache
 *.log
 /data/config/config.php
@@ -20,4 +20,5 @@ composer.phar
 /reports/*
 .idea
 vagrant
-!.gitkeep
+.vagrant/
+Vagrantfile

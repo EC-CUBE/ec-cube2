@@ -78,7 +78,7 @@
     <!--{foreach from=$arrHookPoint item=hookpoint}-->
     <!--{foreach from=$hookpoint item=val name="plugin"}-->
             <tr>
-                <!--{if $hookpoint|@count > 0 && $smarty.foreach.plugin.iteration == '1'}-->
+                <!--{if !empty($hookpoint) && $smarty.foreach.plugin.iteration == '1'}-->
                 <td <!--{if in_array($val.hook_point, $arrConflict)}-->bgcolor="pink"<!--{/if}--> rowspan="<!--{$hookpoint|@count}-->">
                     <!--{$val.hook_point}-->
                     <!--{if in_array($val.hook_point, $arrConflict)}--><br /><span class="attention">※ 競合中</span><!--{/if}-->

@@ -83,7 +83,7 @@ class LC_Page_FrontParts_Bloc_Recommend extends LC_Page_FrontParts_Bloc_Ex
         $response = array();
         if (count($arrRecommends) > 0) {
             // 商品一覧を取得
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $objProduct = new SC_Product_Ex();
             // where条件生成&セット
             $arrProductId = array();

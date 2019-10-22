@@ -106,7 +106,7 @@ class LC_Page_Admin_System_Delete extends LC_Page_Admin_Ex
      */
     public function deleteMember($id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         $this->renumberRank($objQuery, $id);

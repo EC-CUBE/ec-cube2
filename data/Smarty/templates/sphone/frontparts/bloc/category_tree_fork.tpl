@@ -29,7 +29,7 @@
             <!--{else}-->
                 <!--{assign var=disp_child value=0}-->
             <!--{/if}-->
-            <!--{if isset($child.children|smarty:nodefaults)}-->
+            <!--{if isset($child.children)}-->
                 <!--{include file="`$smarty.const.SMARTPHONE_TEMPLATE_REALDIR`frontparts/bloc/category_tree_fork.tpl" children=$child.children treeID="" display=$disp_child level=$child.level}-->
             <!--{/if}-->
         </li>

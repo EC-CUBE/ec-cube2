@@ -72,7 +72,8 @@ class LC_Page_Regist extends LC_Page_Ex
                 $registSecretKey    = $this->lfRegistData($_GET);   //本会員登録（フラグ変更）
                 $this->lfSendRegistMail($registSecretKey);          //本会員登録完了メール送信
 
-                SC_Response_Ex::sendRedirect('complete.php', array('ci' => SC_Helper_Customer_Ex::sfGetCustomerId($registSecretKey)));
+                $_SESSION['registered_customer_id'] = SC_Helper_Customer_Ex::sfGetCustomerId($registSecretKey);
+                SC_Response_Ex::sendRedirect('complete.php');
                 break;
             //--　それ以外のアクセスは無効とする
             default:
@@ -112,7 +113,7 @@ class LC_Page_Regist extends LC_Page_Ex
      */
     public function lfCheckError($array)
     {
-        $objErr     = new SC_CheckError_Ex($array);
+        $objErr = new SC_CheckError_Ex($array);
 
         if (preg_match("/^[[:alnum:]]+$/", $array['id'])) {
             if (!is_numeric(SC_Helper_Customer_Ex::sfGetCustomerId($array['id'], true))) {

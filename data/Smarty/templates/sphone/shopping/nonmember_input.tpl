@@ -103,7 +103,7 @@
                 <div class="attention"><!--{$arrErr[$key1]}--></div>
                 <select name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
                     <option value="" selected="selected">国を選択</option>
-                    <!--{html_options options=$arrCountry selected=$arrForm[$key1].value|h|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
+                    <!--{html_options options=$arrCountry selected=$arrForm[$key1].value|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
                 </select>
             </dd>
 
@@ -323,7 +323,7 @@
                     <div class="attention"><!--{$arrErr[$key1]}--></div>
                     <select name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
                         <option value="" selected="selected">国を選択</option>
-                        <!--{html_options options=$arrCountry selected=$arrForm[$key1].value|h|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
+                        <!--{html_options options=$arrCountry selected=$arrForm[$key1].value|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
                     </select>
                 </dd>
 

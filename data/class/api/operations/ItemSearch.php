@@ -58,7 +58,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
             $arrSearchCondition = $this->getSearchCondition($arrSearchData);
             $disp_number = 10;
 
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $objQuery->setWhere($arrSearchCondition['where_for_count']);
             $objProduct = new SC_Product_Ex();
             $linemax = $objProduct->findProductCount($objQuery, $arrSearchCondition['arrval']);
@@ -116,7 +116,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
      */
     protected function getProductsList($searchCondition, $disp_number, $startno, $linemax, &$objProduct)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $arrOrderVal = array();
 
@@ -167,7 +167,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
         // 表示すべきIDとそのIDの並び順を一気に取得
         $arrProductId = $objProduct->findProductIdsOrder($objQuery, array_merge($searchCondition['arrval'], $arrOrderVal));
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrProducts = $objProduct->getListByProductIds($objQuery, $arrProductId);
         // 規格を設定
         $objProduct->setProductsClassByProductIds($arrProductId);

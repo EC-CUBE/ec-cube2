@@ -61,7 +61,7 @@ class SC_Utils_sfGetHashString_authTypeHmacTest extends Common_TestCase
   public function testSfGetHashString_暗号化ありの設定になっていてsaltがない場合_文字列が変換される()
   {
     $input = 'hello, world';
-    $output = SC_Utils::sfGetHashString($input);
+    $output = SC_Utils::sfGetHashString($input, '');
 
     $this->assertNotEquals('入力前後の文字列', $input, $output);
   }

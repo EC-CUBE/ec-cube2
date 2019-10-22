@@ -120,7 +120,7 @@ class SC_Helper_PageLayout
      */
     public function getPageProperties($device_type_id = DEVICE_TYPE_PC, $page_id = null, $where = '', $arrParams = array())
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'device_type_id = ? ' . (SC_Utils_Ex::isBlank($where) ? $where : 'AND ' . $where);
         if ($page_id === null) {
             $where = 'page_id <> ? AND ' . $where;
@@ -166,7 +166,7 @@ class SC_Helper_PageLayout
      */
     public function getBlocPositions($device_type_id, $page_id, $has_realpath = true)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $table = <<< __EOF__
         dtb_blocposition AS pos
@@ -209,7 +209,7 @@ __EOF__;
      */
     public function lfDelPageData($page_id, $device_type_id = DEVICE_TYPE_PC)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // page_id が空でない場合にはdeleteを実行
         if ($page_id != '') {
             $arrPageData = $this->getPageProperties($device_type_id, $page_id);
@@ -233,7 +233,7 @@ __EOF__;
      */
     public function lfDelFile($filename, $device_type_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         /*
          * 同名ファイルの使用件数
@@ -377,9 +377,9 @@ __EOF__;
         // メインは確定
         $col_num = 1;
         // LEFT NAVI
-        if (count($arrPageLayout['LeftNavi']) > 0) $col_num++;
+        if (!empty($arrPageLayout['LeftNavi'])) $col_num++;
         // RIGHT NAVI
-        if (count($arrPageLayout['RightNavi']) > 0) $col_num++;
+        if (!empty($arrPageLayout['RightNavi'])) $col_num++;
         return $col_num;
     }
 }

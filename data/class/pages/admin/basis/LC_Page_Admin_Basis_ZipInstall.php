@@ -164,7 +164,7 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
 
     public function lfAutoCommitZip()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // DB更新
         $objQuery->begin();
@@ -180,7 +180,7 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
      */
     public function lfDeleteZip()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // DB
         $objQuery->delete('mtb_zip');
@@ -209,7 +209,7 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
      */
     public function insertMtbZip($start = 1)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $img_path = USER_URL . USER_PACKAGE_DIR . 'admin/img/basis/'; // 画像パスは admin 固定
 
@@ -334,7 +334,7 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
 
     public function countMtbZip()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         return $objQuery->count('mtb_zip');
     }
@@ -456,5 +456,15 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
     public function lfGetCsvDatetime()
     {
         return date('Y/m/d H:i:s', filemtime(ZIP_CSV_REALFILE));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sendAdditionalHeader()
+    {
+        header('X-XSS-Protection: 1; mode=block');
+        header('X-Content-Type-Options: nosniff');
+        header('X-Frame-Options: SAMEORIGIN');
     }
 }

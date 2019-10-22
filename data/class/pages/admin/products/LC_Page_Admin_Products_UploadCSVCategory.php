@@ -193,7 +193,7 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
         // 行数
         $line_count = 0;
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         $errFlag = false;
@@ -307,7 +307,7 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
             $objFormParam->addParam(
                     $item['disp_name'],
                     $col,
-                    constant($item['size_const_type']),
+                    defined($item['size_const_type']) ? constant($item['size_const_type']) : $item['size_const_type'],
                     $item['mb_convert_kana_option'],
                     $arrErrorCheckTypes,
                     $item['default'],
@@ -347,7 +347,7 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
      */
     public function lfInitTableInfo()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->arrRegistColumn = $objQuery->listTableFields('dtb_category');
     }
 
@@ -456,7 +456,7 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
      */
     public function lfCheckErrorDetail($item, $arrErr)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         /*
         // カテゴリIDの存在チェック
         if (!$this->lfIsDbRecord('dtb_category', 'category_id', $item)) {
@@ -527,7 +527,7 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
      */
     public function registerCategory($parent_category_id, $category_name, $creator_id, $category_id = null)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $rank = null;
         if ($parent_category_id == 0) {

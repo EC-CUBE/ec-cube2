@@ -157,6 +157,9 @@ class SC_Session
      */
     public function regenerateSID()
     {
-        return session_regenerate_id(true);
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            return session_regenerate_id(true);
+        }
+        return false;
     }
 }

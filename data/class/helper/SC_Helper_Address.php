@@ -42,7 +42,7 @@ class SC_Helper_Address
             return false;
         }
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $customer_id = $sqlval['customer_id'];
         $other_deliv_id = $sqlval['other_deliv_id'];
 
@@ -90,7 +90,7 @@ class SC_Helper_Address
             return false;
         }
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $col    = '*';
         $from   = 'dtb_other_deliv';
@@ -114,7 +114,7 @@ class SC_Helper_Address
             return false;
         }
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('other_deliv_id DESC');
         //スマートフォン用の処理
         if ($startno != '') {
@@ -139,7 +139,7 @@ class SC_Helper_Address
             return false;
         }
 
-        $objQuery   =& SC_Query_Ex::getSingletonInstance();
+        $objQuery   = SC_Query_Ex::getSingletonInstance();
 
         $from   = 'dtb_other_deliv';
         $where  = 'customer_id = ? AND other_deliv_id = ?';

@@ -272,7 +272,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
         // 登録フォーム カラム情報
         $this->arrFormKeyList = $objFormParam->getKeyList();
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         // CSVからの読み込み、入力エラーチェック
@@ -349,7 +349,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
             $objFormParam->addParam(
                     $item['disp_name'],
                     $col,
-                    constant($item['size_const_type']),
+                    defined($item['size_const_type']) ? constant($item['size_const_type']) : $item['size_const_type'],
                     $item['mb_convert_kana_option'],
                     $arrErrorCheckTypes,
                     $item['default'],
@@ -388,7 +388,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
      */
     public function lfInitTableInfo()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->arrProductColumn = $objQuery->listTableFields('dtb_products');
         $this->arrProductClassColumn = $objQuery->listTableFields('dtb_products_class');
     }
@@ -566,6 +566,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
                     break;
                 case 'stock_unlimited':
                     $arrCSVFrame[$key]['default'] = UNLIMITED_FLG_LIMITED;
+                    break;
                 default:
                     break;
             }
@@ -862,7 +863,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
         $count = count($arrItems);
         $where = $tblkey .' IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', $count) . ')';
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $db_count = $objQuery->count($table, $where, $arrItems);
         if ($count != $db_count) {
             return false;

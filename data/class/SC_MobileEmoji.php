@@ -29,6 +29,7 @@ define('MOBILE_EMOJI_SUBSTITUTE', '');
 
 /**
  * 携帯端末の絵文字を扱うクラス
+ * @deprecated
  */
 class SC_MobileEmoji
 {

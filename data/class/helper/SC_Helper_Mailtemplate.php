@@ -39,7 +39,7 @@ class SC_Helper_Mailtemplate
      */
     public function get($template_id, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $where = 'template_id = ?';
         if (!$has_deleted) {
@@ -58,7 +58,7 @@ class SC_Helper_Mailtemplate
      */
     public function getList($has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $where = '';
         if (!$has_deleted) {
@@ -78,7 +78,7 @@ class SC_Helper_Mailtemplate
      */
     public function save($sqlval)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $template_id = $sqlval['template_id'];
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
