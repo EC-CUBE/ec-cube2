@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 商品選択 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
@@ -132,7 +132,7 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
      */
     public function getProductList($arrProductId, &$objProduct)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 表示順序
         $order = 'update_date DESC, product_id DESC';
@@ -173,7 +173,7 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
     {
         $where = $whereAndBind['where'];
         $bind = $whereAndBind['bind'];
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setWhere($where);
         // 取得範囲の指定(開始行番号、行数のセット)
         $objQuery->setLimitOffset($page_max, $startno);
@@ -195,7 +195,7 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
         $where = $whereAndBind['where'];
         $bind = $whereAndBind['bind'];
         // 検索結果対象となる商品の数を取得
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setWhere($where);
         $linemax = $objProduct->findProductCount($objQuery, $bind);
 

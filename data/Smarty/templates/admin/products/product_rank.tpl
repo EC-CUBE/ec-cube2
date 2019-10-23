@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -89,7 +89,7 @@
                                 <!--{* 商品画像 *}-->
                                 <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProductsList[cnt].main_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65;" alt="<!--{$arrProducts[cnt].name|h}-->" />
                             </td>
-                            <!--{assign var=rank value=`$rank+1`}-->
+                            <!--{assign var=rank value="`$rank+1`"}-->
                             <td align="center">
                                 <!--{$rank}-->
                                 <!--{if $arrProductsList[cnt].status == "2"}--><br />(非公開)<!--{/if}-->

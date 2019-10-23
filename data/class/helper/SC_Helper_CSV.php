@@ -1,15 +1,15 @@
 <?php
   /*
-   * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+   * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
    *
-   * http://www.lockon.co.jp/
+   * http://www.ec-cube.co.jp/
    */
 
   /**
    * CSV 関連 のヘルパークラス.
    *
    * @package Page
-   * @author LOCKON CO.,LTD.
+   * @author EC-CUBE CO.,LTD.
    * @version $Id$
    */
 class SC_Helper_CSV
@@ -68,7 +68,7 @@ class SC_Helper_CSV
      */
     public function sfDownloadCsv($csv_id, $where = '', $arrVal = array(), $order = '', $is_download = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // CSV出力タイトル行の作成
         $arrOutput = SC_Utils_Ex::sfSwapArray($this->sfGetCsvOutput($csv_id, 'status = ' . CSV_COLUMN_STATUS_FLG_ENABLE));
@@ -113,7 +113,7 @@ class SC_Helper_CSV
      */
     public function sfGetCsvOutput($csv_id = '', $where = '', $arrVal = array(), $order = 'rank, no')
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $cols = 'no, csv_id, col, disp_name, rank, status, rw_flg, mb_convert_kana_option, size_const_type, error_check_types';
         $table = 'dtb_csv';
@@ -206,11 +206,16 @@ class SC_Helper_CSV
      */
     public function cbOutputCSV($data)
     {
+        // mb_convert_variablesで変換できない文字は"?"にする
+        mb_substitute_character(SUBSTITUTE_CHAR);
         // 1行目のみヘッダーを出力する
         if ($this->output_header) {
-            fputcsv($this->fpOutput, array_keys($data));
+            $header = array_keys($data);
+            mb_convert_variables('cp932', CHAR_CODE, $header);
+            fputcsv($this->fpOutput, $header);
             $this->output_header = false;
         }
+        mb_convert_variables('cp932', CHAR_CODE, $data);
         fputcsv($this->fpOutput, $data);
         SC_Utils_Ex::extendTimeOut();
 
@@ -229,7 +234,7 @@ class SC_Helper_CSV
      */
     public function sfDownloadCsvFromSql($sql, $arrVal = array(), $file_head = 'csv', $arrHeader = null, $is_download = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         if (!$is_download) {
             ob_start();
@@ -237,9 +242,12 @@ class SC_Helper_CSV
 
         $this->fpOutput =& SC_Helper_CSV_Ex::fopen_for_output_csv();
 
+        // mb_convert_variablesで変換できない文字は"?"にする
+        mb_substitute_character(SUBSTITUTE_CHAR);
         // ヘッダー構築
         $this->output_header = false;
         if (is_array($arrHeader)) {
+            mb_convert_variables('cp932', CHAR_CODE, $arrHeader);
             fputcsv($this->fpOutput, $arrHeader);
         } elseif (is_null($arrHeader)) {
             // ループバック内でヘッダーを出力する
@@ -359,7 +367,6 @@ class SC_Helper_CSV
     {
         $fp = fopen($filename, 'w');
 
-        stream_filter_append($fp, 'convert.iconv.utf-8/cp932');
         stream_filter_append($fp, 'convert.eccube_lf2crlf');
 
         return $fp;

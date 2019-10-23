@@ -1,9 +1,9 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -82,7 +82,7 @@
                         style="<!--{$arrErr.zip01|sfGetErrorColor}-->;" class="boxShort text data-role-none" />&nbsp;－&nbsp;<input type="tel" name="zip02"
                         value="<!--{$arrForm.zip02.value|default:$arrData.zip02|h}-->"
                         maxlength="<!--{$smarty.const.ZIP02_LEN}-->"
-                        style="<!--{$arrErr.zip02|sfGetErrorColor}-->;" class="boxShort text data-role-none" />&nbsp;&nbsp;<a href="http://www.post.japanpost.jp/zipcode/" target="_blank" rel="external"><span class="fn">郵便番号検索</span></a>
+                        style="<!--{$arrErr.zip02|sfGetErrorColor}-->;" class="boxShort text data-role-none" />&nbsp;&nbsp;<a href="https://www.post.japanpost.jp/zipcode/" target="_blank" rel="external"><span class="fn">郵便番号検索</span></a>
                 </p>
 
                 <a href="javascript:eccube.getAddress('<!--{$smarty.const.INPUT_ZIP_URLPATH}-->', '<!--{$key1}-->', '<!--{$key2}-->', '<!--{$key3}-->', '<!--{$key4}-->');" class="btn_sub btn_inputzip" rel="external">郵便番号から住所自動入力</a>
@@ -93,7 +93,7 @@
                 <span class="attention"><!--{$arrErr.pref}--><!--{$arrErr.addr01}--><!--{$arrErr.addr02}--></span>
                 <select name="pref" style="<!--{$arrErr.pref|sfGetErrorColor}-->" class="boxHarf top data-role-none">
                     <option value="" selected="selected">都道府県</option>
-                    <!--{html_options options=$arrPref selected=$arrForm.pref.value|default:$arrData.pref|h}-->
+                    <!--{html_options options=$arrPref selected=$arrForm.pref.value|default:$arrData.pref}-->
                 </select>
 
                 <input type="text" name="addr01"

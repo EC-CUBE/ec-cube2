@@ -1,9 +1,9 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,7 +58,7 @@ function fnChangeVisible(check_id, mod_id){
                     <div id="agreement">
                         ===ソフトウェア使用許諾書にご同意下さい===<br/>
                         <br/>
-                        株式会社ロックオン(以下「弊社」という)では、お客様が本ソフトウェアをご利用になるためには、下記「ソフトウェア使用契約書」の内容を承諾して頂くことが条件になって<br/>
+                        株式会社イーシーキューブ(以下「弊社」という)では、お客様が本ソフトウェアをご利用になるためには、下記「ソフトウェア使用契約書」の内容を承諾して頂くことが条件になって<br/>
                         おります。本ソフトウェアをインストールまたはコピー、ご使用になった時点で下記「ソフトウェア使用許諾書」にご同意いただいたものとみなします。<br/><br/>
                         --------------------- ソフトウェア使用許諾書 ---------------------<br/><br/>
                         1.ライセンス<br/><br/>

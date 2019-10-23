@@ -3,9 +3,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -74,11 +74,12 @@ class Test_Utils
    * $orig_arrayが直接変更されます。
    * 
    * @static
-   * @param orig_array 追加先の配列
-   * @param new_array 追加要素を持つ配列
+   * @param array $orig_array 追加先の配列
+   * @param array $new_array 追加要素を持つ配列
    */
   public static function array_append(&$orig_array, $new_array)
   {
+    if (!is_array($new_array)) return;
     foreach ($new_array as $element) {
       $orig_array[] = $element;
     }

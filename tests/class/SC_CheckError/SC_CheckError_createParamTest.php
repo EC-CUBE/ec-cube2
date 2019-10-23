@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,21 +21,18 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
 
-class SC_CheckError_createParamTest extends Common_TestCase
+class SC_CheckError_createParamTest extends SC_CheckError_AbstractTestCase
 {
     protected $old_reporting_level;
-    protected $arrForm;
-    protected $objErr;
 
     protected function setUp()
     {
         parent::setUp();
         $this->old_reporting_level = error_reporting();
         error_reporting($this->old_reporting_level ^ (E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE));
-        $this->arrForm = array('form' => array(0=> 'A', 1 => "B", 2 => 'C'));
+        $this->target_func = 'EXIST_CHECK';
+        $this->arrForm = [self::FORM_NAME => [0 => 'A', 1 => "B", 2 => 'C']];
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
 
     }
@@ -50,46 +47,40 @@ class SC_CheckError_createParamTest extends Common_TestCase
 
     public function testArrParamIsCaracter()
     {
-        $this->objErr->doFunc(array('EXIST_CHECK', "aabbcc_1234") ,array('EXIST_CHECK'));
+        $this->objErr->doFunc(['EXIST_CHECK', "aabbcc_1234"], ['EXIST_CHECK']);
 
-        $this->expected = array('form' => array (0 => 'A',1 => 'B', 2 => 'C'),
-                                'aabbcc_1234' => '');
+        $this->expected = [self::FORM_NAME => [0 => 'A',1 => 'B', 2 => 'C'],
+                                'aabbcc_1234' => ''];
         $this->actual = $this->objErr->arrParam;
-        $this->verify('arrParam is normal character');
+        $this->assertEquals($this->expected, $this->actual);
     }
 
     public function testArrParamIsIllegalCaracter()
     {
-        $this->objErr->doFunc(array('EXIST_CHECK', "aabbcc_1234-") ,array('EXIST_CHECK'));
+        $this->objErr->doFunc(['EXIST_CHECK', "aabbcc_1234-"],['EXIST_CHECK']);
 
-        $this->expected = array('form' => array (0 => 'A',1 => 'B', 2 => 'C'));
+        $this->expected = [self::FORM_NAME => [0 => 'A',1 => 'B', 2 => 'C']];
         $this->actual = $this->objErr->arrParam;
-        $this->verify('arrParam is Illegal character');
+        $this->assertEquals($this->expected, $this->actual, 'arrParam is Illegal character');
     }
 
 
     public function testArrParamIsIllegalValue()
     {
 
-        $this->arrForm = array('form' => '/../\\\.');
-        $this->objErr = new SC_CheckError_Ex($this->arrForm);
-
-        $this->objErr->doFunc(array('EXIST_CHECK', "form") ,array('EXIST_CHECK'));
+        $this->arrForm = [self::FORM_NAME => '/../\\\.'];
+        $this->scenario();
 
         $this->expected = "※ EXIST_CHECKに禁止された記号の並びまたは制御文字が入っています。<br />";
-        $this->actual = $this->objErr->arrErr['form'];
         $this->verify('arrParam is Illegal value');
     }
 
     public function testArrParamIsIllegalValue2()
     {
-        $this->arrForm = array('form' => "\x00");
-        $this->objErr = new SC_CheckError_Ex($this->arrForm);
-
-        $this->objErr->doFunc(array('EXIST_CHECK', "form") ,array('EXIST_CHECK'));
+        $this->arrForm = [self::FORM_NAME => "\x00"];
+        $this->scenario();
 
         $this->expected = "※ EXIST_CHECKに禁止された記号の並びまたは制御文字が入っています。<br />";
-        $this->actual = $this->objErr->arrErr['form'];
         $this->verify('arrParam is Illegal value2');
     }
 }

@@ -7,9 +7,9 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -61,7 +61,7 @@ class SC_Utils_sfGetHashString_authTypeHmacTest extends Common_TestCase
   public function testSfGetHashString_暗号化ありの設定になっていてsaltがない場合_文字列が変換される()
   {
     $input = 'hello, world';
-    $output = SC_Utils::sfGetHashString($input);
+    $output = SC_Utils::sfGetHashString($input, '');
 
     $this->assertNotEquals('入力前後の文字列', $input, $output);
   }

@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 高度なデータベース管理 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
@@ -107,7 +107,7 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
      */
     public function lfDoChange(&$objFormParam)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrTarget = $this->lfGetTargetData($objFormParam);
         $message = '';
         if (is_array($arrTarget) && count($arrTarget) == 0) {
@@ -138,7 +138,7 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
      */
     public function lfGetTargetData(&$objFormParam)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrIndexFlag    = $objFormParam->getValue('indexflag');
         $arrIndexFlagNew = $objFormParam->getValue('indexflag_new');
         $arrTableName    = $objFormParam->getValue('table_name');
@@ -185,7 +185,7 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
     public function lfGetIndexList()
     {
         // データベースからインデックス設定一覧を取得する
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('table_name, column_name');
         $arrIndexList = $objQuery->select('table_name , column_name , recommend_flg, recommend_comment', 'dtb_index_list');
 

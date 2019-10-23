@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@
 /**
  * アプリケーションの初期設定クラス.
  *
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class SC_Initial
@@ -35,7 +35,7 @@ class SC_Initial
     public function __construct()
     {
         /** EC-CUBEのバージョン */
-        define('ECCUBE_VERSION', '2.13.5');
+        define('ECCUBE_VERSION', '2.17.0');
     }
 
     /**
@@ -71,7 +71,15 @@ class SC_Initial
         define('CONFIG_REALFILE', realpath(dirname(__FILE__)) . '/../config/config.php');
         if (file_exists(CONFIG_REALFILE)) {
             require_once CONFIG_REALFILE;
+
+            // heroku用
+        } else if (getenv('DATABASE_URL')) {
+            ini_set( 'display_errors', 1 );
+            copy(realpath(dirname(__FILE__)) . '/../../tests/config.php', CONFIG_REALFILE);
+
+            require_once CONFIG_REALFILE;
         }
+
     }
 
     /**
@@ -134,10 +142,17 @@ class SC_Initial
         //ロケールを明示的に設定
         $res = setlocale(LC_ALL, LOCALE);
         if ($res === FALSE) {
-            // TODO: Windows上のロケール設定が正常に働かない場合があることに暫定的に対応
-            // ''を指定するとApache実行環境の環境変数が使われる
-            // See also: http://php.net/manual/ja/function.setlocale.php
-            setlocale(LC_ALL, '');
+            if ('\\' === DIRECTORY_SEPARATOR && PHP_VERSION_ID >= 70000) {
+                // Windows 版 PHP7 以降の fgetcsv 関数は、日本語のロケールで
+                // UTF-8 のファイルを正常にパースできないため、ロケールを英語に設定する
+                // see https://github.com/EC-CUBE/ec-cube/issues/1780#issuecomment-248557386
+                setlocale(LC_ALL, 'English_United States.1252');
+            } else {
+                // TODO: Windows上のロケール設定が正常に働かない場合があることに暫定的に対応
+                // ''を指定するとApache実行環境の環境変数が使われる
+                // See also: http://php.net/manual/ja/function.setlocale.php
+                setlocale(LC_ALL, '');
+            }
         }
 
         // #1849 (文字エンコーディングの検出を制御する)

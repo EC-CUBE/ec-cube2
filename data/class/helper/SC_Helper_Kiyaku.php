@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ class SC_Helper_Kiyaku
      */
     public function getKiyaku($kiyaku_id, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'kiyaku_id = ?';
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
@@ -57,7 +57,7 @@ class SC_Helper_Kiyaku
      */
     public function getList($has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'kiyaku_id, kiyaku_title, kiyaku_text';
         $where = '';
         if (!$has_deleted) {
@@ -78,7 +78,7 @@ class SC_Helper_Kiyaku
      */
     public function saveKiyaku($sqlval)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $kiyaku_id = $sqlval['kiyaku_id'];
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
@@ -146,7 +146,7 @@ class SC_Helper_Kiyaku
      */
     public function isTitleExist($title, $kiyaku_id = NULL)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $where  = 'del_flg = 0 AND kiyaku_title = ?';
         $arrVal = array($title);

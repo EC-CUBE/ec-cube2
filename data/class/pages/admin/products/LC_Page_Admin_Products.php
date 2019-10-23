@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 商品管理 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Products extends LC_Page_Admin_Ex
@@ -89,7 +89,7 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
         $objDb = new SC_Helper_DB_Ex();
         $objFormParam = new SC_FormParam_Ex();
         $objProduct = new SC_Product_Ex();
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // パラメーター情報の初期化
         $this->lfInitParam($objFormParam);
@@ -246,7 +246,7 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
      */
     public function doDelete($where, $arrParam = array())
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $product_ids = $objQuery->getCol('product_id', "dtb_products", $where, $arrParam);
 
         $sqlval['del_flg']     = 1;
@@ -365,7 +365,7 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
      */
     public function getNumberOfLines($where, $arrValues)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         return $objQuery->count('dtb_products', $where, $arrValues);
     }
@@ -383,7 +383,7 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
      */
     public function findProducts($where, $arrValues, $limit, $offset, $order, &$objProduct)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 読み込む列とテーブルの指定
         $col = 'product_id, name, main_list_image, status, product_code_min, product_code_max, price02_min, price02_max, stock_min, stock_max, stock_unlimited_min, stock_unlimited_max, update_date';

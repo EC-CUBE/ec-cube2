@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,6 +42,7 @@ class SC_Helper_Plugin
      * 有効なプラグインのロード. プラグインエンジンが有効になっていない場合は
      * プラグインエンジン自身のインストール処理を起動する
      *
+     * @param bool $plugin_activate_flg プラグインを有効化する場合 true
      * @return void
      */
     public function load($plugin_activate_flg = true)
@@ -86,9 +87,10 @@ class SC_Helper_Plugin
     /**
      * SC_Helper_Plugin オブジェクトを返す（Singletonパターン）
      *
-     * @return object SC_Helper_Pluginオブジェクト
+     * @param bool $plugin_activate_flg プラグインを有効化する場合 true
+     * @return SC_Helper_Plugin SC_Helper_Pluginオブジェクト
      */
-    public static function getSingletonInstance($plugin_activate_flg = true)
+    public static function getSingletonInstance($plugin_activate_flg = PLUGIN_ACTIVATE_FLAG)
     {
         if (!isset($GLOBALS['_SC_Helper_Plugin_instance'])) {
             // プラグインのローダーがDB接続を必要とするため、

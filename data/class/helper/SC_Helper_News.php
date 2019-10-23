@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ class SC_Helper_News
      */
     public static function getNews($news_id, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*, cast(news_date as date) as cast_news_date';
         $where = 'news_id = ?';
         if (!$has_deleted) {
@@ -60,7 +60,7 @@ class SC_Helper_News
      */
     public function getList($dispNumber = 0, $pageNumber = 0, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*, cast(news_date as date) as cast_news_date';
         $where = '';
         if (!$has_deleted) {
@@ -88,7 +88,7 @@ class SC_Helper_News
      */
     public function saveNews($sqlval)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $news_id = $sqlval['news_id'];
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';

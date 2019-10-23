@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/order/LC_Page_Admin_Order_Ex
  * 受注メール管理 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Order_Mail extends LC_Page_Admin_Order_Ex
@@ -88,7 +88,7 @@ class LC_Page_Admin_Order_Mail extends LC_Page_Admin_Order_Ex
 
         //メール本文の確認例は初めの1受注とする
         if (!SC_Utils_Ex::isBlank($this->order_id_array)) {
-            $order_id_array = split(',', $this->order_id_array);
+            $order_id_array = explode(',', $this->order_id_array);
             $post['order_id'] = intval($order_id_array[0]);
             $this->order_id_count = count($order_id_array);
         }
@@ -153,7 +153,7 @@ class LC_Page_Admin_Order_Mail extends LC_Page_Admin_Order_Ex
      */
     public function getMailHistory($order_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'send_date, subject, template_id, send_id';
         $where = 'order_id = ?';
         $objQuery->setOrder('send_date DESC');

@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 受注管理 のページクラス
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Order extends LC_Page_Admin_Ex
@@ -405,7 +405,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      */
     public function doDelete($where, $arrParam = array())
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $sqlval['del_flg']     = 1;
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
         $objQuery->update('dtb_order', $sqlval, $where, $arrParam);
@@ -437,7 +437,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      */
     public function getNumberOfLines($where, $arrValues)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         return $objQuery->count('dtb_order', $where, $arrValues);
     }
@@ -454,7 +454,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      */
     public function findOrders($where, $arrValues, $limit, $offset, $order)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         if ($limit != 0) {
             $objQuery->setLimitOffset($limit, $offset);
         }

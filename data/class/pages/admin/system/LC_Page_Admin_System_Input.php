@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * システム管理 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex
@@ -189,8 +189,8 @@ class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex
             $objFormParam->addParam('パスワード', 'password', '', '', array('EXIST_CHECK'));
             $objFormParam->addParam('パスワード(確認)', 'password02', '', '', array('EXIST_CHECK'));
         } else {
-            $objFormParam->addParam('パスワード', 'password', '', '', array('EXIST_CHECK', 'GRAPH_CHECK'));
-            $objFormParam->addParam('パスワード(確認)', 'password02', '', '', array('EXIST_CHECK', 'GRAPH_CHECK'));
+            $objFormParam->addParam('パスワード', 'password', '', '', array('EXIST_CHECK', 'PASSWORD_CHAR_CHECK'));
+            $objFormParam->addParam('パスワード(確認)', 'password02', '', '', array('EXIST_CHECK', 'PASSWORD_CHAR_CHECK'));
         }
         $objFormParam->addParam('権限', 'authority', INT_LEN, '', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('稼働/非稼働', 'work', INT_LEN, '', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
@@ -216,10 +216,10 @@ class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex
         // ログインID・パスワードの文字数チェック
         $objErr = new SC_CheckError_Ex();
         if ($mode == 'new') {
-            $objErr->doFunc(array('パスワード', 'password', ID_MIN_LEN, ID_MAX_LEN), array('NUM_RANGE_CHECK'));
+            $objErr->doFunc(array('パスワード', 'password', PASSWORD_MIN_LEN, PASSWORD_MAX_LEN), array('NUM_RANGE_CHECK'));
             $objErr->doFunc(array('ログインID', 'login_id', ID_MIN_LEN, ID_MAX_LEN), array('NUM_RANGE_CHECK'));
         } elseif ($mode == 'edit') {
-            $objErr->doFunc(array('パスワード', 'password', ID_MIN_LEN, ID_MAX_LEN), array('SPTAB_CHECK', 'NUM_RANGE_CHECK'));
+            $objErr->doFunc(array('パスワード', 'password', PASSWORD_MIN_LEN, PASSWORD_MAX_LEN), array('SPTAB_CHECK', 'NUM_RANGE_CHECK'));
             $objErr->doFunc(array('ログインID', 'login_id', ID_MIN_LEN, ID_MAX_LEN), array('SPTAB_CHECK', 'NUM_RANGE_CHECK'));
         }
         $objErr->doFunc(array('パスワード', 'パスワード(確認)', 'password', 'password02'), array('EQUAL_CHECK'));
@@ -263,7 +263,7 @@ class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex
         $columns = 'name,department,login_id,authority, work';
         $where   = 'member_id = ?';
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         return $objQuery->getRow($columns, $table, $where, array($id));
     }
@@ -277,7 +277,7 @@ class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex
      */
     public function memberDataExists($where, $val)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $table = 'dtb_member';
 
@@ -316,7 +316,7 @@ class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex
      */
     public function insertMemberData($arrMemberData)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // INSERTする値を作成する.
         $salt                  = SC_Utils_Ex::sfGetRandomString(10);
@@ -347,7 +347,7 @@ class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex
      */
     public function updateMemberData($member_id, $arrMemberData)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // Updateする値を作成する.
         $sqlVal = array();

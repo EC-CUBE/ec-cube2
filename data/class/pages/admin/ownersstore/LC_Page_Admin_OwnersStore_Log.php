@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * オーナーズストア：インストールログ のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_OwnersStore_Log extends LC_Page_Admin_Ex
@@ -99,7 +99,7 @@ FROM
     ) AS modules ON dtb_module_update_logs.module_id = modules.module_id
 ORDER BY update_date DESC
 END;
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->getAll($sql);
 
         return isset($arrRet) ? $arrRet : array();
@@ -130,7 +130,7 @@ FROM
 WHERE
     log_id = ?
 END;
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->getAll($sql, array($log_id));
 
         return isset($arrRet[0]) ? $arrRet[0] : array();

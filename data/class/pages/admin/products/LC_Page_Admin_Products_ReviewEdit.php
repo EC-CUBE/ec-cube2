@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_REALDIR . 'pages/admin/products/LC_Page_Admin_Products_Review
  * レビュー編集 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Products_ReviewEdit extends LC_Page_Admin_Products_Review
@@ -133,7 +133,7 @@ class LC_Page_Admin_Products_ReviewEdit extends LC_Page_Admin_Products_Review
      */
     public function lfGetReviewData($review_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $select='review_id, A.product_id, reviewer_name, sex, recommend_level, ';
         $select.='reviewer_url, title, comment, A.status, A.create_date, A.update_date, name';
         $from = 'dtb_review AS A LEFT JOIN dtb_products AS B ON A.product_id = B.product_id ';
@@ -155,7 +155,7 @@ class LC_Page_Admin_Products_ReviewEdit extends LC_Page_Admin_Products_Review
      */
     public function lfRegistReviewData($review_id, &$objFormParam)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrValues = $objFormParam->getDbArray();
         $arrValues['update_date'] = 'CURRENT_TIMESTAMP';
         $objQuery->update('dtb_review', $arrValues, 'review_id = ?', array($review_id));

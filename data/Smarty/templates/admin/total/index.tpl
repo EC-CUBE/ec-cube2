@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -63,27 +63,27 @@
                     <!--{/if}-->
                     <select name="search_startyear"    style="<!--{$arrErr.search_startyear|sfGetErrorColor}-->">
                         <option value="">----</option>
-                        <!--{html_options options=$arrYear selected=$arrForm.search_startyear.value|h}-->
+                        <!--{html_options options=$arrYear selected=$arrForm.search_startyear.value}-->
                     </select>年
                     <select name="search_startmonth" style="<!--{$arrErr.search_startyear|sfGetErrorColor}-->">
                         <option value="">--</option>
-                        <!--{html_options options=$arrMonth selected=$arrForm.search_startmonth.value|h}-->
+                        <!--{html_options options=$arrMonth selected=$arrForm.search_startmonth.value}-->
                     </select>月
                     <select name="search_startday" style="<!--{$arrErr.search_startyear|sfGetErrorColor}-->">
                         <option value="">--</option>
-                        <!--{html_options options=$arrDay selected=$arrForm.search_startday.value|h}-->
+                        <!--{html_options options=$arrDay selected=$arrForm.search_startday.value}-->
                     </select>日～
                     <select name="search_endyear" style="<!--{$arrErr.search_endyear|sfGetErrorColor}-->">
                         <option value="">----</option>
-                        <!--{html_options options=$arrYear selected=$arrForm.search_endyear.value|h}-->
+                        <!--{html_options options=$arrYear selected=$arrForm.search_endyear.value}-->
                     </select>年
                     <select name="search_endmonth" style="<!--{$arrErr.search_endyear|sfGetErrorColor}-->">
                         <option value="">--</option>
-                        <!--{html_options options=$arrMonth selected=$arrForm.search_endmonth.value|h}-->
+                        <!--{html_options options=$arrMonth selected=$arrForm.search_endmonth.value}-->
                     </select>月
                     <select name="search_endday" style="<!--{$arrErr.search_endyear|sfGetErrorColor}-->">
                         <option value="">--</option>
-                        <!--{html_options options=$arrDay selected=$arrForm.search_endday.value|h}-->
+                        <!--{html_options options=$arrDay selected=$arrForm.search_endday.value}-->
                     </select>日
                     <a class="btn-normal" href="javascript:;" onclick="eccube.fnFormModeSubmit('search_form2', 'search', '', ''); return false;" name="subm">期間で集計する</a>
                 </form>

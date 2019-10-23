@@ -5,9 +5,9 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -51,7 +51,7 @@ class SC_Helper_Purchase_getShippingPrefTest extends SC_Helper_Purchase_TestBase
     $this->setUpShipping($this->getMultipleShipping());
 
     $this->expected = array('東京都', '沖縄県', '埼玉県');
-    $this->actual = SC_Helper_Purchase::getShippingPref();
+    $this->actual = SC_Helper_Purchase::getShippingPref(false); //is_multipleではないはず,受け取り先のさらに先のdefaultが falseなので falseを設定
 
     $this->verify('配送先の都道府県');
   }

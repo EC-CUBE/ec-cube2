@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -179,10 +179,10 @@
             <td class="right">
                 <!--{$arrForm.quantity.value[$product_index]|h}-->
             </td>
-                <!--{assign var=price value=`$arrForm.price.value[$product_index]`}-->
-                <!--{assign var=quantity value=`$arrForm.quantity.value[$product_index]`}-->
-                <!--{assign var=tax_rate value=`$arrForm.tax_rate.value[$product_index]`}-->
-                <!--{assign var=tax_rule value=`$arrForm.tax_rule.value[$product_index]`}-->
+                <!--{assign var=price value="`$arrForm.price.value[$product_index]`"}-->
+                <!--{assign var=quantity value="`$arrForm.quantity.value[$product_index]`"}-->
+                <!--{assign var=tax_rate value="`$arrForm.tax_rate.value[$product_index]`"}-->
+                <!--{assign var=tax_rule value="`$arrForm.tax_rule.value[$product_index]`"}-->
             <td class="right"><!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|n2s}--> 円<br />(税率<!--{$tax_rate|n2s}-->%)</td>
             <td class="right"><!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|sfMultiply:$quantity|n2s}-->円</td>
         </tr>
@@ -382,7 +382,7 @@
                 </td>
             </tr>
 
-            <!--{if $arrForm.payment_info|@count > 0}-->
+            <!--{if !empty($arrForm.payment_info)}-->
             <tr>
                 <th><!--{$arrForm.payment_type}-->情報</th>
                 <td>

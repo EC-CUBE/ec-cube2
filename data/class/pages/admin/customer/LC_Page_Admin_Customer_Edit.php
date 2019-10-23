@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 会員情報修正 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
@@ -241,7 +241,7 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
         $arrErr = SC_Helper_Customer_Ex::sfCustomerMypageErrorCheck($objFormParam, true);
 
         // メアド重複チェック(共通ルーチンは使えない)
-        $objQuery   =& SC_Query_Ex::getSingletonInstance();
+        $objQuery   = SC_Query_Ex::getSingletonInstance();
         $col = 'email, email_mobile, customer_id';
         $table = 'dtb_customer';
         $where = 'del_flg <> 1 AND (email Like ? OR email_mobile Like ?)';
@@ -311,7 +311,7 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
         if (SC_Utils_Ex::isBlank($customer_id)) {
             return array('0', array(), NULL);
         }
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $page_max = SEARCH_PMAX;
         $table = 'dtb_order';
         $where = 'customer_id = ? AND del_flg <> 1';

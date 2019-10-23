@@ -1,9 +1,9 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,11 +27,11 @@
         </div>
         <div class="header_utility">
             <!--{* ▼HeaderInternal COLUMN *}-->
-            <!--{if $arrPageLayout.HeaderInternalNavi|@count > 0}-->
+            <!--{if !empty($arrPageLayout.HeaderInternalNavi)}-->
                 <!--{foreach key=HeaderInternalNaviKey item=HeaderInternalNaviItem from=$arrPageLayout.HeaderInternalNavi}-->
                     <!-- ▼<!--{$HeaderInternalNaviItem.bloc_name}--> -->
                     <!--{if $HeaderInternalNaviItem.php_path != ""}-->
-                        <!--{include_php file=$HeaderInternalNaviItem.php_path items=$HeaderInternalNaviItem}-->
+                        <!--{include_php_ex file=$HeaderInternalNaviItem.php_path items=$HeaderInternalNaviItem}-->
                     <!--{else}-->
                         <!--{include file=$HeaderInternalNaviItem.tpl_path items=$HeaderInternalNaviItem}-->
                     <!--{/if}-->

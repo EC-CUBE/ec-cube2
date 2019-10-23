@@ -5,9 +5,9 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -48,7 +48,9 @@ class SC_Helper_DB_sfCreateBasisDataCache extends SC_Helper_DB_TestBase
     /////////////////////////////////////////
     public function testsfCreateBasisDataCache_ファイル操作に成功した場合_TRUEを返す()
     {
-        unlink($this->cashFilePath);
+        if (file_exists($this->cashFilePath)) {
+            unlink($this->cashFilePath);
+        }
         $arrData = array(
             'id' => '1',
             'company_name' => 'testshop'
@@ -62,7 +64,7 @@ class SC_Helper_DB_sfCreateBasisDataCache extends SC_Helper_DB_TestBase
 
 class SC_Helper_DB_sfCreateBasisDataCacheMock extends SC_Helper_DB_Ex
 {
-    function sfGetBasisData()
+    public function sfGetBasisData($force = false)
     {
         $arrData = array(
             'id' => '1',

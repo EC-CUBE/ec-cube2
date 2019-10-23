@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -46,7 +46,7 @@
         【購入金額】<br>
         商品合計：<!--{$tpl_total_inctax[$cartKey]|n2s}-->円<br>
         <!--{if $smarty.const.USE_POINT !== false}-->
-            <!--{assign var=discount value=`$arrForm.use_point*$smarty.const.POINT_VALUE`}-->
+            <!--{assign var=discount value="`$arrForm.use_point*$smarty.const.POINT_VALUE`"}-->
             ポイント値引き：-<!--{$discount|n2s|default:0}-->円<br>
         <!--{/if}-->
         送料：<!--{$arrForm.deliv_fee|n2s}-->円<br>
@@ -62,7 +62,7 @@
             ご使用ポイント：-<!--{$arrForm.use_point|n2s|default:0}-->Pt<br>
             <!--{if $arrForm.birth_point > 0}-->お誕生月ポイント：+<!--{$arrForm.birth_point|n2s|default:0}-->Pt<br><!--{/if}-->
             今回加算予定のポイント：+<!--{$arrForm.add_point|n2s|default:0}-->Pt<br>
-            <!--{assign var=total_point value=`$tpl_user_point-$arrForm.use_point+$arrForm.add_point`}-->
+            <!--{assign var=total_point value="`$tpl_user_point-$arrForm.use_point+$arrForm.add_point`"}-->
             加算後のポイント：<!--{$total_point|n2s}-->Pt<br>
 
             <br>

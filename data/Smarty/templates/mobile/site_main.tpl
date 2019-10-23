@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,16 +27,16 @@
         <a name="top" id="top"></a>
         <!--{* Moba8リクエスト用 *}-->
         <!--{if "sfRequestMoba8"|function_exists === TRUE}-->
-            <!--{include file=`$smarty.const.MODULE_REALDIR`mdl_moba8/request_moba8.tpl}-->
+            <!--{include file="`$smarty.const.MODULE_REALDIR`mdl_moba8/request_moba8.tpl"}-->
         <!--{/if}-->
 
         <!--{* ▼HeaderHeaderTop COLUMN *}-->
-        <!--{if $arrPageLayout.HeaderTopNavi|@count > 0}-->
+        <!--{if !empty($arrPageLayout.HeaderTopNavi)}-->
             <!--{* ▼上ナビ *}-->
             <!--{foreach key=HeaderTopNaviKey item=HeaderTopNaviItem from=$arrPageLayout.HeaderTopNavi}-->
                 <!-- ▼<!--{$HeaderTopNaviItem.bloc_name}--> -->
                 <!--{if $HeaderTopNaviItem.php_path != ""}-->
-                    <!--{include_php file=$HeaderTopNaviItem.php_path items=$HeaderTopNaviItem}-->
+                    <!--{include_php_ex file=$HeaderTopNaviItem.php_path items=$HeaderTopNaviItem}-->
                 <!--{else}-->
                     <!--{include file=$HeaderTopNaviItem.tpl_path items=$HeaderTopNaviItem}-->
                 <!--{/if}-->
@@ -53,12 +53,12 @@
         <!--{* ▲HEADER *}-->
 
         <!--{* ▼TOP COLUMN *}-->
-        <!--{if $arrPageLayout.TopNavi|@count > 0}-->
+        <!--{if !empty($arrPageLayout.TopNavi)}-->
             <!--{* ▼上ナビ *}-->
             <!--{foreach key=TopNaviKey item=TopNaviItem from=$arrPageLayout.TopNavi}-->
                 <!-- ▼<!--{$TopNaviItem.bloc_name}--> -->
                 <!--{if $TopNaviItem.php_path != ""}-->
-                    <!--{include_php file=$TopNaviItem.php_path items=$TopNaviItem}-->
+                    <!--{include_php_ex file=$TopNaviItem.php_path items=$TopNaviItem}-->
                 <!--{else}-->
                     <!--{include file=$TopNaviItem.tpl_path items=$TopNaviItem}-->
                 <!--{/if}-->
@@ -69,11 +69,11 @@
         <!--{* ▲TOP COLUMN *}-->
 
         <!--{* ▼メイン上部 *}-->
-        <!--{if $arrPageLayout.MainHead|@count > 0}-->
+        <!--{if !empty($arrPageLayout.MainHead)}-->
             <!--{foreach key=MainHeadKey item=MainHeadItem from=$arrPageLayout.MainHead}-->
                 <!-- ▼<!--{$MainHeadItem.bloc_name}--> -->
                 <!--{if $MainHeadItem.php_path != ""}-->
-                    <!--{include_php file=$MainHeadItem.php_path items=$MainHeadItem}-->
+                    <!--{include_php_ex file=$MainHeadItem.php_path items=$MainHeadItem}-->
                 <!--{else}-->
                     <!--{include file=$MainHeadItem.tpl_path items=$MainHeadItem}-->
                 <!--{/if}-->
@@ -87,11 +87,11 @@
         <!--▲MAIN-->
 
         <!--{* ▼メイン下部 *}-->
-        <!--{if $arrPageLayout.MainFoot|@count > 0}-->
+        <!--{if !empty($arrPageLayout.MainFoot)}-->
             <!--{foreach key=MainFootKey item=MainFootItem from=$arrPageLayout.MainFoot}-->
                 <!-- ▼<!--{$MainFootItem.bloc_name}--> -->
                 <!--{if $MainFootItem.php_path != ""}-->
-                    <!--{include_php file=$MainFootItem.php_path items=$MainFootItem}-->
+                    <!--{include_php_ex file=$MainFootItem.php_path items=$MainFootItem}-->
                 <!--{else}-->
                     <!--{include file=$MainFootItem.tpl_path items=$MainFootItem}-->
                 <!--{/if}-->
@@ -101,12 +101,12 @@
         <!--{* ▲メイン下部 *}-->
 
         <!--{* ▼BOTTOM COLUMN*}-->
-        <!--{if $arrPageLayout.BottomNavi|@count > 0}-->
+        <!--{if !empty($arrPageLayout.BottomNavi)}-->
             <!--{* ▼下ナビ *}-->
             <!--{foreach key=BottomNaviKey item=BottomNaviItem from=$arrPageLayout.BottomNavi}-->
                 <!-- ▼<!--{$BottomNaviItem.bloc_name}--> -->
                 <!--{if $BottomNaviItem.php_path != ""}-->
-                    <!--{include_php file=$BottomNaviItem.php_path items=$BottomNaviItem}-->
+                    <!--{include_php_ex file=$BottomNaviItem.php_path items=$BottomNaviItem}-->
                 <!--{else}-->
                     <!--{include file=$BottomNaviItem.tpl_path items=$BottomNaviItem}-->
                 <!--{/if}-->
@@ -123,12 +123,12 @@
         <!--{* ▲FOOTER *}-->
 
         <!--{* ▼FooterBottom COLUMN *}-->
-        <!--{if $arrPageLayout.FooterBottomNavi|@count > 0}-->
+        <!--{if !empty($arrPageLayout.FooterBottomNavi)}-->
             <!--{* ▼上ナビ *}-->
             <!--{foreach key=FooterBottomNaviKey item=FooterBottomNaviItem from=$arrPageLayout.FooterBottomNavi}-->
                 <!-- ▼<!--{$FooterBottomNaviItem.bloc_name}--> -->
                 <!--{if $FooterBottomNaviItem.php_path != ""}-->
-                    <!--{include_php file=$FooterBottomNaviItem.php_path items=$BottomNaviItem}-->
+                    <!--{include_php_ex file=$FooterBottomNaviItem.php_path items=$BottomNaviItem}-->
                 <!--{else}-->
                     <!--{include file=$FooterBottomNaviItem.tpl_path items=$FooterBottomNaviItem}-->
                 <!--{/if}-->

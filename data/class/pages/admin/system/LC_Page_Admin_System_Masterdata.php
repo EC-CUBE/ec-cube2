@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * マスターデータ管理 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
@@ -184,7 +184,7 @@ class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
         }
 
         // マスターデータを更新
-        $masterData->objQuery =& SC_Query_Ex::getSingletonInstance();
+        $masterData->objQuery = SC_Query_Ex::getSingletonInstance();
         $masterData->objQuery->begin();
         $masterData->deleteMasterData($master_data_name, false);
         // TODO カラム名はメタデータから取得した方が良い

@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ class SC_Helper_Maker
      */
     public function getMaker($maker_id, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'maker_id = ?';
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
@@ -58,7 +58,7 @@ class SC_Helper_Maker
      */
     public function getByName($name, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'name = ?';
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
@@ -76,7 +76,7 @@ class SC_Helper_Maker
      */
     public function getList($has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'maker_id, name';
         $where = '';
         if (!$has_deleted) {
@@ -97,7 +97,7 @@ class SC_Helper_Maker
      */
     public function saveMaker($sqlval)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $maker_id = $sqlval['maker_id'];
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';

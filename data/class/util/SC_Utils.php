@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@
  * :XXX: 内部でインスタンスを生成している関数は, Helper クラスへ移動するべき...
  *
  * @package Util
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id:SC_Utils.php 15532 2007-08-31 14:39:46Z nanasess $
  */
 class SC_Utils
@@ -188,12 +188,11 @@ class SC_Utils
             // TODO 警告表示させる？
             // sfErrorHeader('>> referrerが無効になっています。');
         } else {
-            $domain  = SC_Utils_Ex::sfIsHTTPS() ? HTTPS_URL : HTTP_URL;
-            $pattern = sprintf('|^%s.*|', $domain);
-            $referer = $_SERVER['HTTP_REFERER'];
+            $domain  = parse_url(HTTP_URL);
+            $referer = parse_url($_SERVER['HTTP_REFERER']);
 
             // 管理画面から以外の遷移の場合はエラー画面を表示
-            if (!preg_match($pattern, $referer)) {
+            if ($domain['host'] !== $referer['host']) {
                 if ($disp_error) SC_Utils_Ex::sfDispError(INVALID_MOVE_ERRORR);
                 return false;
             }
@@ -658,6 +657,10 @@ class SC_Utils
         return $default;
     }
 
+    /**
+     * エラー時のカラー(CSS)を設定
+     * @param string $val
+     */
     public function sfGetErrorColor($val)
     {
         if ($val != '') {
@@ -751,15 +754,15 @@ class SC_Utils
     /**
      * ポイント付与
      * $product_id が使われていない。
-     * @param  int   $price
+     * @param  float   $price
      * @param  float $point_rate
      * @param  int   $rule
      * @return double
      */
     public static function sfPrePoint($price, $point_rate, $rule = POINT_RULE)
     {
-        $real_point = $point_rate / 100;
-        $ret = $price * $real_point;
+        $real_point = (float) $point_rate / 100;
+        $ret = (float) $price * $real_point;
         $ret = SC_Helper_TaxRule_Ex::roundByCalcRule($ret, $rule);
 
         return $ret;
@@ -772,7 +775,7 @@ class SC_Utils
         $sql.= 'from dtb_class inner join dtb_classcategory on dtb_class.class_id = dtb_classcategory.class_id ';
         $sql.= 'where dtb_class.del_flg = 0 AND dtb_classcategory.del_flg = 0 ';
         $sql.= 'group by dtb_class.class_id, dtb_class.name';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrList = $objQuery->getAll($sql);
         // キーと値をセットした配列を取得
         $arrRet = SC_Utils_Ex::sfArrKeyValue($arrList, 'class_id', 'count');
@@ -796,7 +799,7 @@ class SC_Utils
         if (!$classcategory_id2) {
           $classcategory_id2 = 0;
         }
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $ret = $objQuery->get('product_class_id', 'dtb_products_class', $where, Array($product_id, $classcategory_id1, $classcategory_id2));
 
         return $ret;
@@ -1557,7 +1560,7 @@ class SC_Utils
      */
     public static function sfGetAddress($zipcode)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $masterData = new SC_DB_MasterData_Ex();
         $arrPref = $masterData->getMasterData('mtb_pref');
@@ -1761,9 +1764,7 @@ class SC_Utils
     /**
      * 値を JSON 形式にして返す.
      *
-     * この関数は, json_encode() 又は Services_JSON::encode() のラッパーです.
-     * json_encode() 関数が使用可能な場合は json_encode() 関数を使用する.
-     * 使用できない場合は, Services_JSON::encode() 関数を使用する.
+     * この関数は, json_encode() のラッパーです.
      *
      * @param  mixed  $value JSON 形式にエンコードする値
      * @return string JSON 形式にした文字列
@@ -1772,22 +1773,13 @@ class SC_Utils
      */
     public static function jsonEncode($value)
     {
-        if (function_exists('json_encode')) {
-            return json_encode($value);
-        } else {
-            GC_Utils_Ex::gfPrintLog(' *use Services_JSON::encode(). faster than using the json_encode!');
-            $objJson = new Services_JSON();
-
-            return $objJson->encode($value);
-        }
+        return json_encode($value);
     }
 
     /**
      * JSON 文字列をデコードする.
      *
-     * この関数は, json_decode() 又は Services_JSON::decode() のラッパーです.
-     * json_decode() 関数が使用可能な場合は json_decode() 関数を使用する.
-     * 使用できない場合は, Services_JSON::decode() 関数を使用する.
+     * この関数は, json_decode() のラッパーです.
      *
      * @param  string $json JSON 形式にエンコードされた文字列
      * @return mixed  デコードされた PHP の型
@@ -1796,14 +1788,7 @@ class SC_Utils
      */
     public static function jsonDecode($json)
     {
-        if (function_exists('json_decode')) {
-            return json_decode($json);
-        } else {
-            GC_Utils_Ex::gfPrintLog(' *use Services_JSON::decode(). faster than using the json_decode!');
-            $objJson = new Services_JSON();
-
-            return $objJson->decode($json);
-        }
+        return json_decode($json);
     }
 
     /**
@@ -1899,7 +1884,8 @@ class SC_Utils
      */
     public static function copyDirectory($source_path, $dest_path)
     {
-        $handle=opendir($source_path);
+        if (!is_dir($source_path)) return;
+        $handle = opendir($source_path);
         while ($filename = readdir($handle)) {
             if ($filename === '.' || $filename === '..') continue;
             $cur_path = $source_path . $filename;
@@ -1919,12 +1905,15 @@ class SC_Utils
     /**
      * 文字列を区切り文字を挟み反復する
      * @param  string $input      繰り返す文字列。
-     * @param  string $multiplier input を繰り返す回数。
+     * @param  int $multiplier input を繰り返す回数。
      * @param  string $separator  区切り文字
      * @return string
      */
     public static function repeatStrWithSeparator($input, $multiplier, $separator = ',')
     {
+        if ($multiplier < 1) {
+            return '';
+        }
         return implode($separator, array_fill(0, $multiplier, $input));
     }
 

@@ -32,7 +32,9 @@
  */
 function smarty_function_from_to($params, &$smarty)
 {
-    require_once $smarty->_get_plugin_filepath('shared', 'escape_special_chars');
+    if (!is_callable('smarty_function_escape_special_chars')) {
+        require_once(SMARTY_PLUGINS_DIR . 'shared.escape_special_chars.php');
+    }
 
     $from = null;
     $to = null;

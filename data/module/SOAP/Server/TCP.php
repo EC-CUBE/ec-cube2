@@ -64,7 +64,7 @@ class SOAP_Server_TCP extends SOAP_Server {
             echo $server->getMessage()."\n";
         }
         
-        $handler = &new SOAP_Server_TCP_Handler;
+        $handler = new SOAP_Server_TCP_Handler;
         $handler->setSOAPServer($this);
         
         // hand over the object that handles server events

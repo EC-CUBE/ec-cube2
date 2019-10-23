@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ class SC_Helper_Holiday
      */
     public function get($holiday_id, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'holiday_id = ?';
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
@@ -57,7 +57,7 @@ class SC_Helper_Holiday
      */
     public function getList($has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'holiday_id, title, month, day';
         $where = '';
         if (!$has_deleted) {
@@ -78,7 +78,7 @@ class SC_Helper_Holiday
      */
     public function save($sqlval)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $holiday_id = $sqlval['holiday_id'];
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
@@ -147,7 +147,7 @@ class SC_Helper_Holiday
      */
     public function isDateExist($month, $day, $holiday_id = NULL)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'del_flg = 0 AND month = ? AND day = ?';
         $arrVal = array($month, $day);
         if (!SC_Utils_Ex::isBlank($holiday_id)) {

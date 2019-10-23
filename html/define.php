@@ -12,6 +12,7 @@ set_include_path(realpath(dirname(__FILE__) . '/' . HTML2DATA_DIR . 'module') . 
  * ※ IIS は、POST 時にファイル名を使用しないと不具合が発生する。(http://support.microsoft.com/kb/247536/ja)
  */
 define('USE_FILENAME_DIR_INDEX', null);
+require_once HTML_REALDIR . HTML2DATA_DIR . 'vendor/autoload.php';
 
 // bufferを初期化する
 while (ob_get_level() > 0 && ob_get_level() > 0) {

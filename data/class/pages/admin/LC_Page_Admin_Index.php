@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 管理者ログイン のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Index extends LC_Page_Admin_Ex
@@ -100,7 +100,7 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
     public function lfInitParam(&$objFormParam)
     {
         $objFormParam->addParam('ID', 'login_id', ID_MAX_LEN, '', array('EXIST_CHECK', 'ALNUM_CHECK' ,'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('PASSWORD', 'password', ID_MAX_LEN, '', array('EXIST_CHECK', 'GRAPH_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('PASSWORD', 'password', PASSWORD_MAX_LEN, '', array('EXIST_CHECK', 'GRAPH_CHECK', 'MAX_LENGTH_CHECK'));
     }
 
     /**
@@ -136,7 +136,7 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
      */
     public function lfIsLoginMember($login_id, $pass)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         //パスワード、saltの取得
         $cols = 'password, salt';
         $table = 'dtb_member';
@@ -161,7 +161,7 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
      */
     public function lfDoLogin($login_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         //メンバー情報取得
         $cols = 'member_id, authority, login_date, name';
         $table = 'dtb_member';
@@ -223,7 +223,7 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
         GC_Utils_Ex::gfPrintLog($str_log);
 
         // 最終ログイン日時更新
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $sqlval = array();
         $sqlval['login_date'] = date('Y-m-d H:i:s');
         $table = 'dtb_member';

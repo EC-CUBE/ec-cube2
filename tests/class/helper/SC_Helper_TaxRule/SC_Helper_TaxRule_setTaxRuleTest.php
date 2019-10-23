@@ -46,4 +46,23 @@ class SC_Helper_TaxRule_setTaxRuleTest extends SC_Helper_TaxRule_TestBase
         $this->actual = $result[0];
         $this->verify();
     }
+
+    /**
+     * del_flg を考慮する
+     * @see https://github.com/EC-CUBE/eccube-2_13/issues/304
+     */
+    public function testSetDelflgOfSetTaxRule()
+    {
+        $apply_date = date('Y-m-d H:i:s');
+        $_SESSION['member_id'] = 1;
+        $this->objTaxRule->setTaxRule(1, 10, $apply_date);
+        $arrTaxRule = $this->objQuery->getRow('*', 'dtb_tax_rule', 'apply_date = ?', [$apply_date]);
+        // del_flg を立てる
+        SC_Helper_TaxRule_Ex::deleteTaxRuleData($arrTaxRule['tax_rule_id']);
+
+        $this->objTaxRule->setTaxRule(1, 10, $apply_date);
+        $actualTaxRule = $this->objQuery->getRow('*', 'dtb_tax_rule', 'del_flg = 0 AND apply_date = ?', [$apply_date]);
+
+        $this->assertNotEquals($arrTaxRule['tax_rule_id'], $actualTaxRule['tax_rule_id']);
+    }
 }

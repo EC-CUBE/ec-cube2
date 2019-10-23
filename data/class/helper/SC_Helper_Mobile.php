@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,8 +25,9 @@
  * モバイルのヘルパークラス.
  *
  * @package Helper
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
+ * @deprecated
  */
 class SC_Helper_Mobile
 {
@@ -135,7 +136,7 @@ class SC_Helper_Mobile
 
         $url = $matches[1];
         $time = date('Y-m-d H:i:s', time() - MOBILE_SESSION_LIFETIME);
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         foreach ($_REQUEST as $key => $value) {
             $session_id = $objQuery->get('session_id', 'dtb_mobile_ext_session_id',
@@ -320,7 +321,7 @@ class SC_Helper_Mobile
             $session_id = session_id();
         }
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // GC
         $time = date('Y-m-d H:i:s', time() - MOBILE_SESSION_LIFETIME);
@@ -363,7 +364,7 @@ class SC_Helper_Mobile
      */
     public function gfRegisterKaraMail($token, $email)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // GC
         $time = date('Y-m-d H:i:s', time() - MOBILE_SESSION_LIFETIME);
@@ -394,7 +395,7 @@ class SC_Helper_Mobile
      */
     public function gfFinishKaraMail($token)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $arrRow = $objQuery->getRow(
             'session_id, next_url, email',
@@ -433,7 +434,7 @@ class SC_Helper_Mobile
      */
     public function sfMobileSetExtSessionId($param_key, $param_value, $url)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // GC
         $time = date('Y-m-d H:i:s', time() - MOBILE_SESSION_LIFETIME);

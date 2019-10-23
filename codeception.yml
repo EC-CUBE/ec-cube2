@@ -1,0 +1,17 @@
+actor: Tester
+paths:
+    tests: ctests
+    log: ctests/_output
+    data: ctests/_data
+    helpers: ctests/_support
+settings:
+    bootstrap: _bootstrap.php
+    colors: true
+    memory_limit: 1024M
+modules:
+    config:
+        Db:
+            dsn: ''
+            user: ''
+            password: ''
+            dump: ctests/_data/dump.sql

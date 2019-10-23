@@ -1,10 +1,52 @@
 {
+    "name": "ec-cube/eccube-2_13",
+    "description": "EC-CUBE 2.13-stable",
+    "type": "project",
+    "homepage": "http://www.ec-cube.net/",
+    "license": [
+       "GPL-2.0",
+       "Commercial"
+    ],
+    "support": {
+        "issues": "https://github.com/EC-CUBE/eccube-2_13/issues"
+    },
     "config": {
-        "disable-tls": true,
-        "secure-http": false
+        "vendor-dir": "data/vendor",
+        "platform": {
+            "php": "5.4.16"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
     },
     "require-dev": {
-        "satooshi/php-coveralls": "1.0",
-        "phpunit/phpunit": "3.7.*"
+        "captbaritone/mailcatcher-codeception-module": "1.2.1",
+        "codeception/codeception": "*",
+        "fzaninotto/faker": "^1.8",
+        "php-coveralls/php-coveralls": "^1.1"
+    },
+    "require": {
+        "php": ">=5.4.16",
+        "ext-gd": "*",
+        "ext-mbstring": "*",
+        "bondas83/mdb2_driver_mysqli": "^1.5",
+        "mobiledetect/mobiledetectlib": "^2.8",
+        "nanasess/mdb2_driver_pgsql": "^1.5",
+        "pear/archive_tar": "^1.4.3",
+        "pear/mail": "*",
+        "pear/pear-core-minimal": "^1.10",
+        "pear/text_password": "*",
+        "pear/xml_parser": "*",
+        "pear/xml_serializer": "*",
+        "pear/xml_util": "*",
+        "setasign/fpdf": "1.7",
+        "setasign/fpdi-fpdf": "1.6",
+        "silverorange/mdb2": "2.5.2-b.5",
+        "smarty/smarty": "*"
+    },
+    "autoload": {
+        "classmap": [
+            "data/class",
+            "data/class_extends"
+        ]
     }
 }

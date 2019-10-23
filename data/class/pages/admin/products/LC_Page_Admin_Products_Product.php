@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/products/LC_Page_Admin_Produ
  * 商品登録 のページクラス
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
@@ -160,7 +160,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
                     $product_id = $this->lfRegistProduct($objUpFile, $objDownFile, $arrForm);
 
                     // 件数カウントバッチ実行
-                    $objQuery =& SC_Query_Ex::getSingletonInstance();
+                    $objQuery = SC_Query_Ex::getSingletonInstance();
                     $objDb = new SC_Helper_DB_Ex();
                     $objDb->sfCountCategory($objQuery);
                     $objDb->sfCountMaker($objQuery);
@@ -315,6 +315,9 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         $objFormParam->addParam('公開・非公開', 'status', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('商品ステータス', 'product_status', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
 
+        if (OPTION_PRODUCT_TAX_RULE) {
+            $objFormParam->addParam('消費税率', 'tax_rate', PERCENTAGE_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        }
         if (!$arrPost['has_product_class']) {
             // 新規登録, 規格なし商品の編集の場合
             $objFormParam->addParam('商品種別', 'product_type_id', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
@@ -325,9 +328,10 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
             $objFormParam->addParam('商品コード', 'product_code', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
             $objFormParam->addParam(NORMAL_PRICE_TITLE, 'price01', PRICE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK', 'ZERO_START'));
             $objFormParam->addParam(SALE_PRICE_TITLE, 'price02', PRICE_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK', 'ZERO_START'));
-            if (OPTION_PRODUCT_TAX_RULE) {
-                $objFormParam->addParam('消費税率', 'tax_rate', PERCENTAGE_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-            }
+            // 商品規格ごとの税率設定は廃止
+            // if (OPTION_PRODUCT_TAX_RULE) {
+            //     $objFormParam->addParam('消費税率', 'tax_rate', PERCENTAGE_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+            // }
             $objFormParam->addParam('在庫数', 'stock', AMOUNT_LEN, 'n', array('SPTAB_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK', 'ZERO_START'));
             $objFormParam->addParam('在庫無制限', 'stock_unlimited', INT_LEN, 'n', array('SPTAB_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
         }
@@ -600,7 +604,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
             if ($arrForm['product_id'] == '') {
                 $arrRet = SC_Helper_TaxRule_Ex::getTaxRule();
             } else {
-                $arrRet = SC_Helper_TaxRule_Ex::getTaxRule($arrForm['product_id'], $arrForm['product_class_id']);
+                $arrRet = SC_Helper_TaxRule_Ex::getTaxRule($arrForm['product_id']);
             }
             $arrForm['tax_rate'] = $arrRet['tax_rate'];
         }
@@ -829,7 +833,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         }
         $where .= ')';
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists('dtb_products', $where, $sqlval);
 
         return $exists;
@@ -843,7 +847,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
      */
     public function lfGetProductData_FromDB($product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrProduct = array();
 
         // 商品データ取得
@@ -907,7 +911,7 @@ __EOF__;
      */
     public function lfGetRecommendProductsData_FromDB($product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRecommendProducts = array();
 
         $col = 'recommend_product_id,';
@@ -997,7 +1001,7 @@ __EOF__;
      */
     public function lfRegistProduct(&$objUpFile, &$objDownFile, $arrList)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objDb = new SC_Helper_DB_Ex();
 
         // 配列の添字を定義
@@ -1073,7 +1077,7 @@ __EOF__;
                     $arrProductsClass = $objQuery->select($col, $table, $where, array($arrList['copy_product_id']));
 
                     // 規格データ登録
-                    $objQuery =& SC_Query_Ex::getSingletonInstance();
+                    $objQuery = SC_Query_Ex::getSingletonInstance();
                     foreach ($arrProductsClass as $arrData) {
                         $sqlval = $arrData;
                         $sqlval['product_class_id'] = $objQuery->nextVal('dtb_products_class_product_class_id');
@@ -1132,8 +1136,8 @@ __EOF__;
         $objProduct->setProductStatus($product_id, $arrList['product_status']);
 
         // 税情報設定
-        if (OPTION_PRODUCT_TAX_RULE && !$objDb->sfHasProductClass($product_id)) {
-            SC_Helper_TaxRule_Ex::setTaxRuleForProduct($arrList['tax_rate'], $arrList['product_id'], $arrList['product_class_id']);
+        if (OPTION_PRODUCT_TAX_RULE) {
+            SC_Helper_TaxRule_Ex::setTaxRuleForProduct($arrList['tax_rate'], $arrList['product_id'], 0);
         }
 
         // 関連商品登録
@@ -1152,7 +1156,7 @@ __EOF__;
      */
     public function lfInsertDummyProductClass($arrList)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objDb = new SC_Helper_DB_Ex();
 
         // 配列の添字を定義
@@ -1186,7 +1190,7 @@ __EOF__;
      */
     public function lfUpdateProductClass($arrList)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $sqlval = array();
 
         $sqlval['deliv_fee'] = $arrList['deliv_fee'];

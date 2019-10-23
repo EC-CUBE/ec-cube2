@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ class SC_Helper_Delivery
      */
     public function get($deliv_id, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 配送業者一覧の取得
         $col = '*';
@@ -76,7 +76,7 @@ class SC_Helper_Delivery
      */
     public function getList($product_type_id = null, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $where = '';
         $arrVal = array();
@@ -105,7 +105,7 @@ class SC_Helper_Delivery
      */
     public function save($sqlval)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         // お届け時間
@@ -258,7 +258,7 @@ class SC_Helper_Delivery
         if ($arrDeliv['deliv_id'] == '') {
             $ret = $objDb->sfIsRecord('dtb_deliv', 'service_name', array($arrDeliv['service_name']));
         } else {
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $ret = (($objQuery->count('dtb_deliv', 'deliv_id != ? AND service_name = ? AND del_flg = 0', array($arrDeliv['deliv_id'], $arrDeliv['service_name'])) > 0) ? true : false);
         }
 
@@ -284,7 +284,7 @@ class SC_Helper_Delivery
      */
     public static function getDelivTime($deliv_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('time_id');
         $results = $objQuery->select('time_id, deliv_time', 'dtb_delivtime', 'deliv_id = ?', array($deliv_id));
         $arrDelivTime = array();
@@ -303,7 +303,7 @@ class SC_Helper_Delivery
      */
     public static function getPayments($deliv_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('rank');
 
         return $objQuery->getCol('payment_id', 'dtb_payment_options', 'deliv_id = ?', array($deliv_id), MDB2_FETCHMODE_ORDERED);
@@ -318,7 +318,7 @@ class SC_Helper_Delivery
      */
     public static function getDelivFee($pref_id, $deliv_id = 0)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         if (!is_array($pref_id)) {
             $pref_id = array($pref_id);
         }
@@ -347,7 +347,7 @@ __EOS__;
      */
     public static function getDelivFeeList($deliv_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('pref');
         $col = 'fee_id, fee, pref';
         $where = 'deliv_id = ?';

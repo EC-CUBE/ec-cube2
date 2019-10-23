@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,7 +58,7 @@
             <tr>
                 <td colspan="2">
                     <!--{assign var=key value="bloc_html"}-->
-                    <textarea class="top" id="<!--{$key}-->" name="<!--{$key}-->" rows="<!--{$text_row}-->" style="width: 99%;"><!--{"\n"}--><!--{$arrForm[$key].value|smarty:nodefaults|h}--></textarea>
+                    <textarea class="top" id="<!--{$key}-->" name="<!--{$key}-->" rows="<!--{$text_row}-->" style="width: 99%;"><!--{"\n"}--><!--{$arrForm[$key].value|h nofilter}--></textarea>
                     <input type="hidden" name="html_area_row" value="<!--{$text_row}-->" />
                     <div>
                         <a id="resize-btn" class="btn-normal" href="javascript:;" onclick="eccube.toggleRows('#resize-btn', '#bloc_html', 50, 13); return false;">拡大</a>

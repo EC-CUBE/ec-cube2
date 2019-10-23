@@ -255,9 +255,9 @@ define('TEL_ITEM_LEN', 6);
 /** 電話番号総数 */
 define('TEL_LEN', 12);
 /** フロント画面用：パスワードの最小文字数 */
-define('PASSWORD_MIN_LEN', 4);
+define('PASSWORD_MIN_LEN', 8);
 /** フロント画面用：パスワードの最大文字数 */
-define('PASSWORD_MAX_LEN', STEXT_LEN);
+define('PASSWORD_MAX_LEN', SMTEXT_LEN);
 /** 検査数値用桁数(INT) */
 define('INT_LEN', 9);
 /** クレジットカードの文字数 (*モジュールで使用) */
@@ -457,7 +457,7 @@ define('ECCUBE_INFO', true);
 /** 外部サイトHTTP取得タイムアウト時間(秒) */
 define('HTTP_REQUEST_TIMEOUT', "5");
 /** 郵便番号CSVのZIPアーカイブファイルの取得元 */
-define('ZIP_DOWNLOAD_URL', "http://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip");
+define('ZIP_DOWNLOAD_URL', "https://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip");
 /** フックポイント(プレプロセス) */
 define('HOOK_POINT_PREPROCESS', "LC_Page_preProcess");
 /** フックポイント(プロセス) */
@@ -486,3 +486,5 @@ define('PENDING_ORDER_CANCEL_TIME', 900);
 define('PENDING_ORDER_CANCEL_FLAG', true);
 /** API機能を有効にする(true:する false:しない) */
 define('API_ENABLE_FLAG', false);
+/** UTF-8依存文字が入力された際に表示する文字(Unicode値の整数 デフォルト: ?) */
+define('SUBSTITUTE_CHAR', 63);

@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -64,7 +64,7 @@
                     <span class="attention"><!--{$arrErr[$key]}--></span>
                     <select name="template_id" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" onchange="eccube.setModeAndSubmit('change', '', '');">
                     <option value="" selected="selected">選択してください</option>
-                    <!--{html_options options=$arrMAILTEMPLATE selected=$arrForm[$key].value|h}-->
+                    <!--{html_options options=$arrMAILTEMPLATE selected=$arrForm[$key].value}-->
                     </select>
                 </td>
             </tr>

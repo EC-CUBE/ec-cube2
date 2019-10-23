@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 規格分類 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id:LC_Page_Admin_Products_ClassCategory.php 15532 2007-08-31 14:39:46Z nanasess $
  */
 class LC_Page_Admin_Products_ClassCategory extends LC_Page_Admin_Ex
@@ -154,7 +154,7 @@ class LC_Page_Admin_Products_ClassCategory extends LC_Page_Admin_Ex
      */
     public function lfGetClassCat($class_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $where = 'del_flg <> 1 AND class_id = ?';
         $objQuery->setOrder('rank DESC'); // XXX 降順
@@ -171,7 +171,7 @@ class LC_Page_Admin_Products_ClassCategory extends LC_Page_Admin_Ex
      */
     public function lfGetClassName($class_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $where = 'class_id = ?';
         $name = $objQuery->get('name', 'dtb_class', $where, array($class_id));
@@ -187,7 +187,7 @@ class LC_Page_Admin_Products_ClassCategory extends LC_Page_Admin_Ex
      */
     public function lfGetClassCatName($classcategory_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'classcategory_id = ?';
         $name = $objQuery->get('name', 'dtb_classcategory', $where, array($classcategory_id));
 
@@ -202,7 +202,7 @@ class LC_Page_Admin_Products_ClassCategory extends LC_Page_Admin_Ex
      */
     public function lfInsertClass($arrForm)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
         // 親規格IDの存在チェック
         $where = 'del_flg <> 1 AND class_id = ?';
@@ -232,7 +232,7 @@ class LC_Page_Admin_Products_ClassCategory extends LC_Page_Admin_Ex
      */
     public function lfUpdateClass($arrForm)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // UPDATEする値を作成する。
         $sqlval['name'] = $arrForm['name'];
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
@@ -251,7 +251,7 @@ class LC_Page_Admin_Products_ClassCategory extends LC_Page_Admin_Ex
      */
     public function lfCheckError(&$objFormParam)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrForm = $objFormParam->getHashArray();
         // パラメーターの基本チェック
         $arrErr = $objFormParam->checkError();

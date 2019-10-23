@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,7 +28,7 @@ require_once CLASS_REALDIR . 'pages/error/LC_Page_Error.php';
  * システムエラーや例外が発生した場合の表示ページ
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Error_SystemError extends LC_Page_Error
@@ -109,9 +109,12 @@ class LC_Page_Error_SystemError extends LC_Page_Error
 
     /**
      * トランザクショントークンに関して処理しないようにオーバーライド
+     *
+     * @param  boolean $is_admin 管理画面でエラー表示をする場合 true
      */
-    public function doValidToken()
+    public function doValidToken($is_admin = false)
     {
+        // nothing.
     }
 
     /**

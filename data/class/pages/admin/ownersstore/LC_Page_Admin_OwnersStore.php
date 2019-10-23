@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * オーナーズストア：プラグイン管理 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
@@ -339,7 +339,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
      */
     public function installPlugin($archive_file_name, $key)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         // 一時展開ディレクトリにファイルがある場合は事前に削除.
@@ -766,7 +766,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
      */
     public function updatePriority($plugin_id, $priority)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // UPDATEする値を作成する。
         $sqlval['priority'] = $priority;
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
@@ -787,7 +787,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
     public function registerData($arrPluginInfo, $mode = 'install')
     {
         // プラグイン情報をDB登録.
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
         $arr_sqlval_plugin = array();
         $arr_sqlval_plugin['plugin_name'] = $arrPluginInfo['PLUGIN_NAME'];
@@ -950,7 +950,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
      */
     public function updatePluginEnable($plugin_id, $enable_flg)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // UPDATEする値を作成する。
         $sqlval['enable'] = $enable_flg;
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
@@ -971,7 +971,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
     public function deletePlugin($plugin_id, $plugin_code)
     {
         $arrErr = array();
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         SC_Plugin_Util_Ex::deletePluginByPluginId($plugin_id);
@@ -1055,7 +1055,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
 
         $conflict_alert_message = '';
         $arrConflictPluginName = array();
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         foreach ($hookPoints as $hookPoint) {
             // 競合するプラグインを取得する,
             $table = 'dtb_plugin_hookpoint AS T1 LEFT JOIN dtb_plugin AS T2 ON T1.plugin_id = T2.plugin_id';
@@ -1101,7 +1101,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
      */
     public function getHookPoint($plugin_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $table = 'dtb_plugin_hookpoint';
         $where = 'plugin_id = ?';

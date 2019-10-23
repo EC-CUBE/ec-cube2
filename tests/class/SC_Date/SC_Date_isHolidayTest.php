@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -70,6 +70,8 @@ class SC_Date_isHolidayTest extends Common_TestCase
             $objQuery->insert('dtb_holiday', $item);
         }
         $objQuery->insert('dtb_baseinfo', $baseInfo);
+        $objDb = new SC_Helper_DB_Ex();
+        $objDb->sfGetBasisData(true);
     }
 
     protected function tearDown()

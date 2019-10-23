@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  * パスワード発行 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Forgot extends LC_Page_Ex
@@ -146,7 +146,7 @@ class LC_Page_Forgot extends LC_Page_Ex
     public function lfCheckForgotMail(&$arrForm, &$arrReminder)
     {
         $errmsg = NULL;
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = '(email = ? OR email_mobile = ?) AND name01 = ? AND name02 = ? AND del_flg = 0';
         $arrVal = array($arrForm['email'], $arrForm['email'], $arrForm['name01'], $arrForm['name02']);
         $result = $objQuery->select('reminder, status', 'dtb_customer', $where, $arrVal);
@@ -196,7 +196,7 @@ class LC_Page_Forgot extends LC_Page_Ex
     public function lfCheckForgotSecret(&$arrForm, &$arrReminder)
     {
         $errmsg = '';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $cols = 'customer_id, reminder, reminder_answer, salt';
         $table = 'dtb_customer';
         $where = '(email = ? OR email_mobile = ?)'

@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,17 +21,26 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/*  [名称] SC_Customer
- *  [概要] 会員管理クラス
+/**
+ * 会員管理クラス
  */
 class SC_Customer
 {
-    /** 会員情報 */
+    /**
+     * 会員情報
+     * @var array
+     */
     public $customer_data;
 
     /**
-     * @param string $email
-     * @param string $pass
+     * メールアドレスとパスワードを使用して認証結果を返す.
+     *
+     * 認証に成功した場合は SC_Customer::customer_data に会員情報を格納する
+     *
+     * @param string $email メールアドレス
+     * @param string $pass パスワード
+     * @param bool $mobile email_mobile も検索対象とする場合 true
+     * @return bool
      */
     public function getCustomerDataFromEmailPass($pass, $email, $mobile = false)
     {
@@ -44,7 +53,7 @@ class SC_Customer
         }
         // 本登録された会員のみ
         $sql = 'SELECT * FROM dtb_customer WHERE (email = ?' . $sql_mobile . ') AND del_flg = 0 AND status = 2';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $result = $objQuery->getAll($sql, $arrValues);
         if (empty($result)) {
             return false;
@@ -68,6 +77,7 @@ class SC_Customer
      * FIXME
      * @return boolean 該当する会員が存在する場合は true、それ以外の場合
      *                 は false を返す。
+     * @deprecated
      */
     public function checkMobilePhoneId()
     {
@@ -82,7 +92,7 @@ class SC_Customer
         }
 
         // 携帯端末IDが一致し、本登録された会員を検索する。
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists('dtb_customer', 'mobile_phone_id = ? AND del_flg = 0 AND status = 2', array($_SESSION['mobile']['phone_id']));
 
         return $exists;
@@ -95,6 +105,7 @@ class SC_Customer
      * @param  string  $pass パスワード
      * @return boolean 該当する会員が存在し、パスワードが合っている場合は true、
      *                 それ以外の場合は false を返す。
+     * @deprecated
      */
     public function getCustomerDataFromMobilePhoneIdPass($pass)
     {
@@ -110,7 +121,7 @@ class SC_Customer
 
         // 携帯端末IDが一致し、本登録された会員を検索する。
         $sql = 'SELECT * FROM dtb_customer WHERE mobile_phone_id = ? AND del_flg = 0 AND status = 2';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         @list($data) = $objQuery->getAll($sql, array($_SESSION['mobile']['phone_id']));
 
         // パスワードが合っている場合は、会員情報をcustomer_dataに格納してtrueを返す。
@@ -128,6 +139,7 @@ class SC_Customer
      * 携帯端末IDを登録する。
      *
      * @return void
+     * @deprecated
      */
     public function updateMobilePhoneId()
     {
@@ -139,7 +151,7 @@ class SC_Customer
             return;
         }
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $sqlval = array('mobile_phone_id' => $_SESSION['mobile']['phone_id']);
         $where = 'customer_id = ? AND del_flg = 0 AND status = 2';
         $objQuery->update('dtb_customer', $sqlval, $where, array($this->customer_data['customer_id']));
@@ -147,30 +159,38 @@ class SC_Customer
         $this->customer_data['mobile_phone_id'] = $_SESSION['mobile']['phone_id'];
     }
 
-    // パスワードを確認せずにログイン
+    /**
+     * パスワードを確認せずにログイン
+     *
+     * @param string $email メールアドレス
+     */
     public function setLogin($email)
     {
         // 本登録された会員のみ
         $sql = 'SELECT * FROM dtb_customer WHERE (email = ? OR email_mobile = ?) AND del_flg = 0 AND status = 2';
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $result = $objQuery->getAll($sql, array($email, $email));
-        $data = isset($result[0]) ? $result[0] : '';
+        $data = isset($result[0]) ? $result[0] : array();
         $this->customer_data = $data;
         $this->startSession();
     }
 
-    // セッション情報を最新の情報に更新する
+    /**
+     * セッション情報を最新の情報に更新する
+     */
     public function updateSession()
     {
         $sql = 'SELECT * FROM dtb_customer WHERE customer_id = ? AND del_flg = 0';
         $customer_id = $this->getValue('customer_id');
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->getAll($sql, array($customer_id));
-        $this->customer_data = isset($arrRet[0]) ? $arrRet[0] : '';
+        $this->customer_data = isset($arrRet[0]) ? $arrRet[0] : array();
         $_SESSION['customer'] = $this->customer_data;
     }
 
-    // ログイン情報をセッションに登録し、ログに書き込む
+    /**
+     * ログイン情報をセッションに登録し、ログに書き込む
+     */
     public function startSession()
     {
         $_SESSION['customer'] = $this->customer_data;
@@ -178,7 +198,9 @@ class SC_Customer
         GC_Utils_Ex::gfPrintLog('access : user='.$this->customer_data['customer_id'] ."\t".'ip='. $this->getRemoteHost(), CUSTOMER_LOG_REALFILE, false);
     }
 
-    // ログアウト　$_SESSION['customer']を解放し、ログに書き込む
+    /**
+     * ログアウト　$_SESSION['customer']を解放し、ログに書き込む
+     */
     public function EndSession()
     {
         // セッション情報破棄の前にcustomer_idを保存
@@ -199,14 +221,19 @@ class SC_Customer
         GC_Utils_Ex::gfPrintLog($log, CUSTOMER_LOG_REALFILE, false);
     }
 
-    // ログインに成功しているか判定する。
+    /**
+     * ログインに成功しているか判定する。
+     *
+     * @param bool $dont_check_email_mobile
+     * @return bool ログインに成功している場合は true
+     */
     public function isLoginSuccess($dont_check_email_mobile = false)
     {
         // ログイン時のメールアドレスとDBのメールアドレスが一致している場合
         if (isset($_SESSION['customer']['customer_id'])
             && SC_Utils_Ex::sfIsInt($_SESSION['customer']['customer_id'])
         ) {
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $email = $objQuery->get('email', 'dtb_customer', 'customer_id = ?', array($_SESSION['customer']['customer_id']));
             if ($email == $_SESSION['customer']['email']) {
                 // モバイルサイトの場合は携帯のメールアドレスが登録されていることもチェックする。
@@ -224,12 +251,17 @@ class SC_Customer
         return false;
     }
 
-    // パラメーターの取得
+    /**
+     * パラメーターの取得
+     *
+     * @param string $keyname パラメーターのキー名
+     * @return string|int|null パラメータの値
+     */
     public function getValue($keyname)
     {
         // ポイントはリアルタイム表示
         if ($keyname == 'point') {
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $point = $objQuery->get('point', 'dtb_customer', 'customer_id = ?', array($_SESSION['customer']['customer_id']));
             $_SESSION['customer']['point'] = $point;
 
@@ -239,9 +271,8 @@ class SC_Customer
         }
     }
 
-    // パラメーターのセット
-
     /**
+     * パラメーターのセット
      * @param string $keyname
      * @param string $val
      */
@@ -250,10 +281,11 @@ class SC_Customer
         $_SESSION['customer'][$keyname] = $val;
     }
 
-    // パラメーターがNULLかどうかの判定
-
     /**
+     * パラメーターがNULLかどうかの判定
+     *
      * @param string $keyname
+     * @return bool
      */
     public function hasValue($keyname)
     {
@@ -264,7 +296,11 @@ class SC_Customer
         return false;
     }
 
-    // 誕生日月であるかどうかの判定
+    /**
+     * 誕生日月であるかどうかの判定
+     *
+     * @return bool
+     */
     public function isBirthMonth()
     {
         if (isset($_SESSION['customer']['birth'])) {
@@ -299,10 +335,14 @@ class SC_Customer
         }
     }
 
-    //受注関連の会員情報を更新
+    /**
+     * 受注関連の会員情報を更新
+     *
+     * @param int $customer_id
+     */
     public function updateOrderSummary($customer_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $col = <<< __EOS__
             SUM( payment_total) AS buy_total,
@@ -328,7 +368,7 @@ __EOS__;
      *
      * @param  string  $login_email ログインメールアドレス
      * @param  string  $login_pass  ログインパスワード
-     * @return boolean|null ログインに成功した場合 true; 失敗した場合 false
+     * @return bool ログインに成功した場合 true; 失敗した場合 false
      */
     public function doLogin($login_email, $login_pass)
     {

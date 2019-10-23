@@ -1,9 +1,9 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -115,7 +115,7 @@
                     <tr>
                         <th colspan="4" class="alignR" scope="row">値引き（ポイントご使用時）</th>
                         <td class="alignR">
-                            <!--{assign var=discount value=`$arrForm.use_point*$smarty.const.POINT_VALUE`}-->
+                            <!--{assign var=discount value="`$arrForm.use_point*$smarty.const.POINT_VALUE`"}-->
                             -<!--{$discount|n2s|default:0}-->円</td>
                     </tr>
                     <!--{/if}-->
@@ -158,7 +158,7 @@
                         <td>+<!--{$arrForm.add_point|n2s|default:0}-->Pt</td>
                     </tr>
                     <tr>
-                    <!--{assign var=total_point value=`$tpl_user_point-$arrForm.use_point+$arrForm.add_point`}-->
+                    <!--{assign var=total_point value="`$tpl_user_point-$arrForm.use_point+$arrForm.add_point`"}-->
                         <th scope="row">加算後のポイント</th>
                         <td><!--{$total_point|n2s}-->Pt</td>
                     </tr>

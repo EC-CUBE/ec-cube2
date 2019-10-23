@@ -737,7 +737,7 @@ INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (5, 'blink', 5);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (6, 'br', 6);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (7, 'center', 7);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (8, 'font', 8);
-INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (9, 'h', 9);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (9, 'span', 9);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (10, 'hr', 10);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (11, 'img', 11);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (12, 'li', 12);
@@ -747,6 +747,21 @@ INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (15, 'div', 15);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (16, 'i', 16);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (17, 'u', 17);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (18, 's', 18);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (19, 'h1', 19);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (20, 'h2', 20);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (21, 'h3', 21);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (22, 'h4', 22);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (23, 'h5', 23);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (24, 'h6', 24);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (25, 'tbody', 25);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (26, 'thead', 26);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (27, 'tfoot', 27);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (28, 'th', 28);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (29, 'ul', 29);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (30, 'ol', 30);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (31, 'dl', 31);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (32, 'dt', 32);
+INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (33, 'dd', 33);
 
 INSERT INTO mtb_authority (id, name, rank) VALUES (0, 'システム管理者', 0);
 INSERT INTO mtb_authority (id, name, rank) VALUES (1, '店舗オーナー', 1);
@@ -837,6 +852,7 @@ INSERT INTO mtb_mobile_domain (id, name, rank) VALUES (7, 'willcom.com', 6);
 INSERT INTO mtb_mobile_domain (id, name, rank) VALUES (8, 'emnet.ne.jp', 7);
 INSERT INTO mtb_mobile_domain (id, name, rank) VALUES (9, 'i.softbank.jp', 8);
 INSERT INTO mtb_mobile_domain (id, name, rank) VALUES (10, 'emobile.ne.jp', 9);
+INSERT INTO mtb_mobile_domain (id, name, rank) VALUES (11, 'au.com', 10);
 
 INSERT INTO mtb_order_status (id, name, rank) VALUES (7, '決済処理中', 0);
 INSERT INTO mtb_order_status (id, name, rank) VALUES (1, '新規受付', 1);
@@ -1154,8 +1170,8 @@ INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ZIP01_LEN', '3', 20
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ZIP02_LEN', '4', 201, '郵便番号2');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('TEL_ITEM_LEN', '6', 202, '電話番号各項目制限');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('TEL_LEN', '12', 203, '電話番号総数');
-INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PASSWORD_MIN_LEN', '4', 204, 'フロント画面用：パスワードの最小文字数');
-INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PASSWORD_MAX_LEN', 'STEXT_LEN', 205, 'フロント画面用：パスワードの最大文字数');
+INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PASSWORD_MIN_LEN', '8', 204, 'フロント画面用：パスワードの最小文字数');
+INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PASSWORD_MAX_LEN', 'SMTEXT_LEN', 205, 'フロント画面用：パスワードの最大文字数');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('INT_LEN', '9', 206, '検査数値用桁数(INT)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('CREDIT_NO_LEN', '4', 207, 'クレジットカードの文字数 (*モジュールで使用)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('SEARCH_CATEGORY_LEN', '18', 208, '検索カテゴリ最大表示文字数(byte)');
@@ -1255,7 +1271,7 @@ INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('DEVICE_TYPE_PC', '1
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('DEVICE_TYPE_ADMIN', '99', 1103, '端末種別: 管理画面');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ECCUBE_INFO', 'true', 1218, 'EC-CUBE更新情報取得 (true:取得する false:取得しない)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('HTTP_REQUEST_TIMEOUT', '"5"', 1219, '外部サイトHTTP取得タイムアウト時間(秒)');
-INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ZIP_DOWNLOAD_URL', '"http://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip"', 1224, '郵便番号CSVのZIPアーカイブファイルの取得元');
+INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ZIP_DOWNLOAD_URL', '"https://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip"', 1224, '郵便番号CSVのZIPアーカイブファイルの取得元');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('HOOK_POINT_PREPROCESS', '"LC_Page_preProcess"', 1301, 'フックポイント(プレプロセス)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('HOOK_POINT_PROCESS', '"LC_Page_process"', 1302, 'フックポイント(プロセス)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PLUGIN_ACTIVATE_FLAG', 'true', 1303, 'プラグインのロード可否フラグ)');
@@ -1270,6 +1286,7 @@ INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('TAX_RULE_PRIORITY',
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PENDING_ORDER_CANCEL_TIME', '900', 1418, '決済処理中ステータスのロールバックを行う時間の設定(秒) ');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PENDING_ORDER_CANCEL_FLAG', 'true', 1419, '決済処理中ステータスのロールバックをするか(true:する false:しない)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('API_ENABLE_FLAG', 'false', 1420, 'API機能を有効にする(true:する false:しない)');
+INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('SUBSTITUTE_CHAR', '63', 1421, 'UTF-8依存文字が入力された際に表示する文字(Unicode値の整数 デフォルト: ?)');
 
 INSERT INTO dtb_index_list (table_name, column_name, recommend_flg, recommend_comment) VALUES ('dtb_customer', 'email_mobile', 0, '会員数増加時のログイン処理速度を向上させたいときに試してみてください');
 INSERT INTO dtb_index_list (table_name, column_name, recommend_flg, recommend_comment) VALUES ('dtb_products', 'name', 2, '商品名検索速度を向上させたいときに試してみてください');

@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,7 +45,7 @@ class SC_Helper_Bloc
      */
     public function getBloc($bloc_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $where = 'bloc_id = ? AND device_type_id = ?';
         $arrRet = $objQuery->getRow($col, 'dtb_bloc', $where, array($bloc_id, $this->device_type_id));
@@ -68,7 +68,7 @@ class SC_Helper_Bloc
      */
     public function getList()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $where = 'device_type_id = ?';
         $table = 'dtb_bloc';
@@ -85,7 +85,7 @@ class SC_Helper_Bloc
      */
     public function getWhere($where = '', $sqlval = array())
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $where = 'device_type_id = ? ' . (SC_Utils_Ex::isBlank($where) ? $where : 'AND ' . $where);
         array_unshift($sqlval, $this->device_type_id);
@@ -103,7 +103,7 @@ class SC_Helper_Bloc
      */
     public function save($sqlval)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         // blod_id が空の場合は新規登録
@@ -158,7 +158,7 @@ class SC_Helper_Bloc
      */
     public function delete($bloc_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         $arrExists = $this->getWhere('bloc_id = ? AND deletable_flg = 1', array($bloc_id));

@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -81,7 +81,7 @@ function fnTargetSelf(){
                 <label for="header-chk"><input type="checkbox" name="header_chk" id="header-chk" value="1" <!--{if $arrForm.header_chk.value == "1"}-->checked="checked"<!--{/if}--> />共通のヘッダーを使用する</label>&nbsp;
                 <label for="footer-chk"><input type="checkbox" name="footer_chk" id="footer-chk" value="1" <!--{if $arrForm.footer_chk.value == "1"}-->checked="checked"<!--{/if}--> />共通のフッターを使用する</label>
                 <div>
-                    <textarea id="tpl_data" class="top" name="tpl_data" rows="<!--{$text_row}-->" style="width: 98%;"><!--{"\n"}--><!--{$arrForm.tpl_data.value|h|smarty:nodefaults}--></textarea>
+                    <textarea id="tpl_data" class="top" name="tpl_data" rows="<!--{$text_row}-->" style="width: 98%;"><!--{"\n"}--><!--{$arrForm.tpl_data.value|h}--></textarea>
                     <input type="hidden" name="html_area_row" value="<!--{$text_row}-->" /><br />
                     <a id="resize-btn" class="btn-normal" href="javascript:;" onclick="eccube.toggleRows('#resize-btn', '#tpl_data', 50, 13); return false;"><span>拡大</span></a>
                 </div>

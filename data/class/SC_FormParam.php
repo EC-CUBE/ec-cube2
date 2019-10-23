@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@
  * :XXX: addParam と setParam で言う「パラメーター」が用語として競合しているように感じる。(2009/10/17 Seasoft 塚田)
  *
  * @package SC
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  */
 class SC_FormParam
 {
@@ -70,8 +70,7 @@ class SC_FormParam
         $backtraces = debug_backtrace();
         // 呼び出し元のクラスを取得
         $class = $backtraces[1]['class'];
-        $objPage = $backtraces[1]['object'];
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($objPage->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         if (is_object($objPlugin)) {
             $objPlugin->doAction('SC_FormParam_construct', array($class, $this));
         }
@@ -207,6 +206,7 @@ class SC_FormParam
                     case 'NUM_CHECK':
                     case 'EMAIL_CHECK':
                     case 'EMAIL_CHAR_CHECK':
+                    case 'PASSWORD_CHAR_CHECK':
                     case 'ALNUM_CHECK':
                     case 'GRAPH_CHECK':
                     case 'KANA_CHECK':

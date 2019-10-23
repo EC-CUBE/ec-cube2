@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,12 +40,12 @@
                 <meta name="robots" content="<!--{$arrPageLayout.meta_robots|h}-->">
             <!--{/if}-->
             <!--{* ▼Head COLUMN *}-->
-            <!--{if $arrPageLayout.HeadNavi|@count > 0}-->
+            <!--{if !empty($arrPageLayout.HeadNavi)}-->
                 <!--{* ▼上ナビ *}-->
                 <!--{foreach key=HeadNaviKey item=HeadNaviItem from=$arrPageLayout.HeadNavi}-->
                     <!-- ▼「<!--{$HeadNaviItem.bloc_name|h}-->」ブロック -->
                     <!--{if $HeadNaviItem.php_path != ""}-->
-                        <!--{include_php file=$HeadNaviItem.php_path items=$HeadNaviItem}-->
+                        <!--{include_php_ex file=$HeadNaviItem.php_path items=$HeadNaviItem}-->
                     <!--{else}-->
                         <!--{include file=$HeadNaviItem.tpl_path items=$HeadNaviItem}-->
                     <!--{/if}-->

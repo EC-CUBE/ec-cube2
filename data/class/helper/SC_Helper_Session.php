@@ -1,15 +1,15 @@
 <?php
 /*
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  */
 
 /**
  * セッション関連のヘルパークラス.
  *
  * @package Helper
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class SC_Helper_Session
@@ -24,12 +24,14 @@ class SC_Helper_Session
     public function __construct()
     {
         $this->objDb = new SC_Helper_DB_Ex();
-        session_set_save_handler(array(&$this, 'sfSessOpen'),
-                                 array(&$this, 'sfSessClose'),
-                                 array(&$this, 'sfSessRead'),
-                                 array(&$this, 'sfSessWrite'),
-                                 array(&$this, 'sfSessDestroy'),
-                                 array(&$this, 'sfSessGc'));
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_set_save_handler(array(&$this, 'sfSessOpen'),
+                                     array(&$this, 'sfSessClose'),
+                                     array(&$this, 'sfSessRead'),
+                                     array(&$this, 'sfSessWrite'),
+                                     array(&$this, 'sfSessDestroy'),
+                                     array(&$this, 'sfSessGc'));
+        }
 
         // 通常よりも早い段階(オブジェクトが破棄される前)でセッションデータを書き込んでセッションを終了する
         // XXX APC による MDB2 の破棄タイミングによる不具合を回避する目的
@@ -66,7 +68,7 @@ class SC_Helper_Session
      */
     public function sfSessRead($id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->select('sess_data', 'dtb_session', 'sess_id = ?', array($id));
         if (empty($arrRet)) {
             return '';
@@ -84,7 +86,7 @@ class SC_Helper_Session
      */
     public function sfSessWrite($id, $sess_data)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists('dtb_session', 'sess_id = ?', array($id));
         $sqlval = array();
         if ($exists) {
@@ -116,7 +118,7 @@ class SC_Helper_Session
      */
     public function sfSessDestroy($id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->delete('dtb_session', 'sess_id = ?', array($id));
 
         return true;
@@ -132,7 +134,7 @@ class SC_Helper_Session
     public function sfSessGc($maxlifetime)
     {
         // MAX_LIFETIME以上更新されていないセッションを削除する。
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $limit = date("Y-m-d H:i:s",time() - MAX_LIFETIME);
         $where = "update_date < '". $limit . "' ";
         $objQuery->delete('dtb_session', $where);

@@ -1,9 +1,9 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -103,7 +103,7 @@
                 <div class="attention"><!--{$arrErr[$key1]}--></div>
                 <select name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
                     <option value="" selected="selected">国を選択</option>
-                    <!--{html_options options=$arrCountry selected=$arrForm[$key1].value|h|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
+                    <!--{html_options options=$arrCountry selected=$arrForm[$key1].value|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
                 </select>
             </dd>
 
@@ -129,7 +129,7 @@
                         value="<!--{$arrForm[$key2].value|h}-->"
                         maxlength="<!--{$arrForm[$key2].length}-->"
                         style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" class="boxShort text data-role-none" />&nbsp;
-                    <a href="http://www.post.japanpost.jp/zipcode/" target="_blank"><span class="fn">郵便番号検索</span></a>
+                    <a href="https://www.post.japanpost.jp/zipcode/" target="_blank"><span class="fn">郵便番号検索</span></a>
                 </p>
 
                 <a href="javascript:eccube.getAddress('<!--{$smarty.const.INPUT_ZIP_URLPATH}-->', 'order_zip01', 'order_zip02', 'order_pref', 'order_addr01');" class="btn_sub btn_inputzip">郵便番号から住所自動入力</a>
@@ -323,7 +323,7 @@
                     <div class="attention"><!--{$arrErr[$key1]}--></div>
                     <select name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
                         <option value="" selected="selected">国を選択</option>
-                        <!--{html_options options=$arrCountry selected=$arrForm[$key1].value|h|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
+                        <!--{html_options options=$arrCountry selected=$arrForm[$key1].value|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
                     </select>
                 </dd>
 
@@ -349,7 +349,7 @@
                             value="<!--{$arrForm[$key2].value|h}-->"
                             maxlength="<!--{$arrForm[$key2].length}-->"
                             style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" class="boxShort text data-role-none" />&nbsp;
-                        <a href="http://www.post.japanpost.jp/zipcode/" target="_blank"><span class="fn">郵便番号検索</span></a>
+                        <a href="https://www.post.japanpost.jp/zipcode/" target="_blank"><span class="fn">郵便番号検索</span></a>
                     </p>
 
                     <a href="javascript:eccube.getAddress('<!--{$smarty.const.INPUT_ZIP_URLPATH}-->', 'shipping_zip01', 'shipping_zip02', 'shipping_pref', 'shipping_addr01');" class="btn_sub btn_inputzip">郵便番号から住所自動入力</a>

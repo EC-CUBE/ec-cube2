@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,7 +30,7 @@ if (file_exists(MODULE_REALDIR . 'mdl_gmopg/inc/function.php')) {
  * 商品詳細 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id:LC_Page_Products_Detail.php 15532 2007-08-31 14:39:46Z nanasess $
  */
 class LC_Page_Products_Detail extends LC_Page_Ex
@@ -291,7 +291,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
         $this->arrRelativeCat = SC_Helper_DB_Ex::sfGetMultiCatTree($product_id);
 
         // 商品ステータスを取得
-        $this->productStatus = $objProduct->getProductStatus($product_id);
+        $this->productStatus = $objProduct->getProductStatus(array($product_id));
 
         // 画像ファイル指定がない場合の置換処理
         $this->arrProduct['main_image']
@@ -473,7 +473,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
     public function lfPreGetRecommendProducts($product_id)
     {
         $objProduct = new SC_Product_Ex();
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $objQuery->setOrder('rank DESC');
         $arrRecommendData = $objQuery->select('recommend_product_id, comment', 'dtb_recommend_products as t1 left join dtb_products as t2 on t1.recommend_product_id = t2.product_id', 't1.product_id = ? and t2.del_flg = 0 and t2.status = 1', array($product_id));
@@ -483,7 +483,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
             $recommendProductIds[] = $recommend['recommend_product_id'];
         }
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrProducts = $objProduct->getListByProductIds($objQuery, $recommendProductIds);
 
         foreach ($arrRecommendData as $key => $arrRow) {
@@ -540,7 +540,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
      */
     public function lfGetReviewData($product_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         //商品ごとのレビュー情報を取得する
         $col = 'create_date, reviewer_url, reviewer_name, recommend_level, title, comment';
         $from = 'dtb_review';
@@ -591,7 +591,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
 
             return false;
         } else {
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $exists = $objQuery->exists('dtb_customer_favorite_products', 'customer_id = ? AND product_id = ?', array($customer_id, $favorite_product_id));
 
             if (!$exists) {
@@ -652,7 +652,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
                 if (!$this->lfRegistFavoriteProduct($this->objFormParam->getValue('favorite_product_id'), $objCustomer->getValue('customer_id'))) {
                     SC_Response_Ex::actionExit(); 
                 }
-                $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+                $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
                 $objPlugin->doAction('LC_Page_Products_Detail_action_add_favorite', array($this));
             }
         }
@@ -671,7 +671,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
             $this->arrErr = $this->lfCheckError($this->mode, $this->objFormParam);
             if (count($this->arrErr) == 0) {
                 if ($this->lfRegistFavoriteProduct($this->objFormParam->getValue('favorite_product_id'), $objCustomer->getValue('customer_id'))) {
-                    $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+                    $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
                     $objPlugin->doAction('LC_Page_Products_Detail_action_add_favorite_sphone', array($this));
                     print 'true';
                     SC_Response_Ex::actionExit();

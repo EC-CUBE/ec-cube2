@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,13 +43,14 @@ define('INSTALL_LOG', './temp/install.log');
 ini_set('max_execution_time', 300);
 
 $objPage = new StdClass;
+$objPage->arrErr = array();
 $objPage->arrDB_TYPE = array(
     'pgsql' => 'PostgreSQL',
-    'mysql' => 'MySQL',
+    'mysqli' => 'MySQL',
 );
 $objPage->arrDB_PORT = array(
     'pgsql' => '',
-    'mysql' => '',
+    'mysqli' => '',
 );
 $objPage->arrMailBackend = array('mail' => 'mail',
                                  'smtp' => 'SMTP',
@@ -700,8 +701,8 @@ function lfInitWebParam($objWebParam)
 
     $objWebParam->addParam('店名', 'shop_name', MTEXT_LEN, '', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'), $shop_name);
     $objWebParam->addParam('管理者：メールアドレス', 'admin_mail', null, '', array('EXIST_CHECK', 'EMAIL_CHECK', 'EMAIL_CHAR_CHECK'), $admin_mail);
-    $objWebParam->addParam('管理者：ログインID', 'login_id', ID_MAX_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'ALNUM_CHECK'));
-    $objWebParam->addParam('管理者：パスワード', 'login_pass', ID_MAX_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'ALNUM_CHECK'));
+    $objWebParam->addParam('管理者：ログインID', 'login_id', ID_MAX_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'GRAPH_CHECK'));
+    $objWebParam->addParam('管理者：パスワード', 'login_pass', PASSWORD_MAX_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'PASSWORD_CHAR_CHECK'));
     $objWebParam->addParam('管理機能：ディレクトリ', 'admin_dir', ID_MAX_LEN, 'a', array('EXIST_CHECK', 'SPTAB_CHECK', 'ALNUM_CHECK'), $oldAdminDir);
     $objWebParam->addParam('管理機能：SSL制限', 'admin_force_ssl', 1, 'n', array('SPTAB_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'), $admin_force_ssl);
     $objWebParam->addParam('管理機能：IP制限', 'admin_allow_hosts', LTEXT_LEN, 'an', array('IP_CHECK', 'MAX_LENGTH_CHECK'), $admin_allow_hosts);
@@ -781,7 +782,7 @@ function lfCheckWebError($objWebParam)
     $objErr->doFunc(array('管理者：ログインID', 'login_id', ID_MIN_LEN, ID_MAX_LEN), array('SPTAB_CHECK', 'NUM_RANGE_CHECK'));
 
     // パスワードのチェック
-    $objErr->doFunc(array('管理者：パスワード', 'login_pass', ID_MIN_LEN, ID_MAX_LEN), array('SPTAB_CHECK', 'NUM_RANGE_CHECK'));
+    $objErr->doFunc(array('管理者：パスワード', 'login_pass', PASSWORD_MIN_LEN, PASSWORD_MAX_LEN), array('SPTAB_CHECK', 'NUM_RANGE_CHECK'));
 
     // 管理機能ディレクトリのチェック
     $objErr->doFunc(array('管理機能：ディレクトリ', 'admin_dir', ID_MIN_LEN, ID_MAX_LEN), array('SPTAB_CHECK', 'NUM_RANGE_CHECK'));
@@ -789,7 +790,10 @@ function lfCheckWebError($objWebParam)
     $oldAdminDir = SC_Utils_Ex::sfTrimURL(ADMIN_DIR);
     $newAdminDir = $objWebParam->getValue('admin_dir');
     if ($newAdminDir) {
-        if ($oldAdminDir !== $newAdminDir AND file_exists(HTML_REALDIR . $newAdminDir) and $newAdminDir != 'admin') {
+        if ($newAdminDir == 'admin') { // admin を禁止する
+            $objErr->arrErr['admin_dir'] = '※ 別の名前を指定してください。';
+
+        } else if ($oldAdminDir !== $newAdminDir AND file_exists(HTML_REALDIR . $newAdminDir) and $newAdminDir != 'admin') {
             $objErr->arrErr['admin_dir'] = '※ 指定した管理機能ディレクトリは既に存在しています。別の名前を指定してください。';
         }
     }
@@ -850,15 +854,24 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
 
             // MySQL 用の初期化
             // XXX SC_Query を使うようにすれば、この処理は不要となる
-            if ($arrDsn['phptype'] === 'mysql') {
-                $objDB->exec('SET SESSION storage_engine = InnoDB');
+            if ($arrDsn['phptype'] === 'mysqli') {
+                if ($objDB->getConnection()->server_version >= 50705) {
+                    $objDB->exec('SET SESSION defaut_storage_engine = InnoDB');
+                } else {
+                    $objDB->exec('SET SESSION storage_engine = InnoDB');
+                }
                 $objDB->exec("SET SESSION sql_mode = 'ANSI'");
             }
 
-            $sql_split = split(';', $sql);
+            $sql_split = explode(';', $sql);
             foreach ($sql_split as $key => $val) {
                 SC_Utils::sfFlush(true);
                 if (trim($val) != '') {
+                    if ($arrDsn['phptype'] === 'mysqli') {
+                        // rank は予約語なので MySQL8 から引用符をつけないとエラーになる
+                        $dbFactory = SC_DB_DBFactory_Ex::getInstance($arrDsn['phptype']);
+                        $val = $dbFactory->sfChangeReservedWords($val);
+                    }
                     $ret = $objDB->query($val);
                     if (PEAR::isError($ret) && $disp_err) {
                         $arrErr['all'] = '>> ' . $ret->message . '<br />';
@@ -1023,6 +1036,12 @@ function lfMakeConfigFile()
         define('AUTH_MAGIC', $auth_magic);
     }
 
+    if ($objDBParam->getValue('db_type') == 'mysqli' && $objDBParam->getValue('db_port') == '') {
+        $db_port = 'FALSE';
+    } else {
+        $db_port = "'".$objDBParam->getValue('db_port')."'";
+    }
+
     // FIXME 変数出力はエスケープすべき
     $config_data = "<?php\n"
                  . "define('ECCUBE_INSTALL', 'ON');\n"
@@ -1035,7 +1054,7 @@ function lfMakeConfigFile()
                  . "define('DB_PASSWORD', '"           . $objDBParam->getValue('db_password') . "');\n"
                  . "define('DB_SERVER', '"             . $objDBParam->getValue('db_server') . "');\n"
                  . "define('DB_NAME', '"               . $objDBParam->getValue('db_name') . "');\n"
-                 . "define('DB_PORT', '"               . $objDBParam->getValue('db_port') . "');\n"
+                 . "define('DB_PORT', "                . $db_port . ");\n"
                  . "define('ADMIN_DIR', '"             . $objWebParam->getValue('admin_dir') . "/');\n"
                  . "define('ADMIN_FORCE_SSL', "        . $force_ssl . ");\n"
                  . "define('ADMIN_ALLOW_HOSTS', '"     . serialize($allow_hosts) . "');\n"
@@ -1095,7 +1114,6 @@ function getSequences()
 {
     return array(
         array('dtb_best_products', 'best_id'),
-        array('dtb_bloc', 'bloc_id'),
         array('dtb_category', 'category_id'),
         array('dtb_class', 'class_id'),
         array('dtb_classcategory', 'classcategory_id'),
@@ -1113,7 +1131,6 @@ function getSequences()
         array('dtb_order', 'order_id'),
         array('dtb_order_detail', 'order_detail_id'),
         array('dtb_other_deliv', 'other_deliv_id'),
-        array('dtb_pagelayout', 'page_id'),
         array('dtb_payment', 'payment_id'),
         array('dtb_products_class', 'product_class_id'),
         array('dtb_products', 'product_id'),
@@ -1165,7 +1182,7 @@ function getArrayDsn(SC_FormParam $objDBParam)
         'username'  => $arrRet['db_user'],
         'password'  => $arrRet['db_password'],
         'database'  => $arrRet['db_name'],
-        'port'      => $arrRet['db_port'],
+        'port'      => ($arrRet['db_port'] == '' && $arrRet['db_type'] == 'mysqli')?false:$arrRet['db_port'], // mysqliはfalseにしないとつながらない
     );
 
     // 文字列形式の DSN との互換処理

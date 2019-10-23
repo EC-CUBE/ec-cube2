@@ -1,9 +1,9 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -75,7 +75,7 @@ $(function() {
                     </td>
                 </tr>
                 <tr>
-                    <th>ログインID<span class="attention">※</span><br/>半角英数字<!--{$smarty.const.ID_MIN_LEN}-->～<!--{$smarty.const.ID_MAX_LEN}-->文字</th>
+                    <th>ログインID<span class="attention">※</span><br/>半角英数字記号<!--{$smarty.const.ID_MIN_LEN}-->～<!--{$smarty.const.ID_MAX_LEN}-->文字</th>
                     <td>
                     <!--{assign var=key value="login_id"}-->
                     <span class="attention"><!--{$arrErr[$key]}--></span>
@@ -84,7 +84,7 @@ $(function() {
                     </td>
                 </tr>
                 <tr>
-                    <th>パスワード<span class="attention">※</span><br/>半角英数字<!--{$smarty.const.ID_MIN_LEN}-->～<!--{$smarty.const.ID_MAX_LEN}-->文字</th>
+                    <th>パスワード<span class="attention">※</span><br/>半角英数字記号<!--{$smarty.const.PASSWORD_MIN_LEN}-->～<!--{$smarty.const.PASSWORD_MAX_LEN}-->文字</th>
                     <td>
                     <!--{assign var=key value="login_pass"}-->
                     <span class="attention"><!--{$arrErr[$key]}--></span>

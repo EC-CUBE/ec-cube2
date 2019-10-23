@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  * 会員登録のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Regist extends LC_Page_Ex
@@ -72,7 +72,8 @@ class LC_Page_Regist extends LC_Page_Ex
                 $registSecretKey    = $this->lfRegistData($_GET);   //本会員登録（フラグ変更）
                 $this->lfSendRegistMail($registSecretKey);          //本会員登録完了メール送信
 
-                SC_Response_Ex::sendRedirect('complete.php', array('ci' => SC_Helper_Customer_Ex::sfGetCustomerId($registSecretKey)));
+                $_SESSION['registered_customer_id'] = SC_Helper_Customer_Ex::sfGetCustomerId($registSecretKey);
+                SC_Response_Ex::sendRedirect('complete.php');
                 break;
             //--　それ以外のアクセスは無効とする
             default:
@@ -112,7 +113,7 @@ class LC_Page_Regist extends LC_Page_Ex
      */
     public function lfCheckError($array)
     {
-        $objErr     = new SC_CheckError_Ex($array);
+        $objErr = new SC_CheckError_Ex($array);
 
         if (preg_match("/^[[:alnum:]]+$/", $array['id'])) {
             if (!is_numeric(SC_Helper_Customer_Ex::sfGetCustomerId($array['id'], true))) {

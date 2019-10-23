@@ -3,9 +3,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -61,15 +61,6 @@
         <!--{$tpl_onload}-->
     });
 //]]></script>
-<!--{* ▼Head COLUMN*}-->
-<!--{if $arrPageLayout.HeadNavi|@count > 0}-->
-    <!--{foreach key=HeadNaviKey item=HeadNaviItem from=$arrPageLayout.HeadNavi}-->
-        <!--{if $HeadNaviItem.php_path != ""}-->
-            <!--{include_php file=$HeadNaviItem.php_path}-->
-        <!--{/if}-->
-    <!--{/foreach}-->
-<!--{/if}-->
-<!--{* ▲Head COLUMN*}-->
 </head>
 
 <body class="<!--{if strlen($tpl_authority) >= 1}-->authority_<!--{$tpl_authority}--><!--{/if}-->">
@@ -159,7 +150,7 @@
 <!--{* ▼FOOTER *}-->
 <div id="footer">
     <div id="footer-contents">
-        <div id="copyright">Copyright &copy; 2000-<!--{$smarty.now|date_format:"%Y"}--> LOCKON CO.,LTD. All Rights Reserved.</div>
+        <div id="copyright">Copyright &copy; 2000-<!--{$smarty.now|date_format:"%Y"}--> EC-CUBE CO.,LTD. All Rights Reserved.</div>
         <div id="topagetop">
             <ul class="sites">
                 <li><a href="#top" class="btn-tool-format">PAGE TOP</a></li>

@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -199,21 +199,6 @@ class SC_Helper_HandleError
         SC_Helper_HandleError_Ex::$under_error_handling = true;
 
         ob_clean();
-
-        // 絵文字変換・除去フィルターが有効か評価する。
-        $loaded_ob_emoji = false;
-        $arrObs = ob_get_status(true);
-        foreach ($arrObs as $arrOb) {
-            if ($arrOb['name'] === 'SC_MobileEmoji::handler') {
-                $loaded_ob_emoji = true;
-                break;
-            }
-        }
-
-        // 絵文字変換・除去フィルターが無効で、利用できる場合、有効にする。
-        if (!$loaded_ob_emoji && class_exists('SC_MobileEmoji')) {
-            ob_start(array('SC_MobileEmoji', 'handler'));
-        }
 
         require_once CLASS_EX_REALDIR . 'page_extends/error/LC_Page_Error_SystemError_Ex.php';
         $objPage = new LC_Page_Error_SystemError_Ex();

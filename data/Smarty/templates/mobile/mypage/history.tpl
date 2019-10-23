@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -59,10 +59,10 @@
             <!--{$arrProductType[$orderDetail.product_type_id]}--><br>
         <!--{/if}-->
         単価：
-        <!--{assign var=price value=`$orderDetail.price`}-->
-        <!--{assign var=quantity value=`$orderDetail.quantity`}-->
-        <!--{assign var=tax_rate value=`$orderDetail.tax_rate`}-->
-        <!--{assign var=tax_rule value=`$orderDetail.tax_rule`}-->
+        <!--{assign var=price value="`$orderDetail.price`"}-->
+        <!--{assign var=quantity value="`$orderDetail.quantity`"}-->
+        <!--{assign var=tax_rate value="`$orderDetail.tax_rate`"}-->
+        <!--{assign var=tax_rule value="`$orderDetail.tax_rule`"}-->
         <!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|n2s|h}-->円<br>
         数量：<!--{$quantity|h}--><br>
         小計：<!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|sfMultiply:$quantity|n2s}-->円<br>

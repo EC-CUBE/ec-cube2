@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@
  * また, SC_DB_DBFactory クラスの関数を必ずオーバーライドしている必要がある.
  *
  * @package DB
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id:SC_DB_DBFactory_MYSQL.php 15267 2007-08-09 12:31:52Z nanasess $
  */
 class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
@@ -45,7 +45,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      */
     public function sfGetDBVersion($dsn = '')
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance($dsn);
+        $objQuery = SC_Query_Ex::getSingletonInstance($dsn);
         $val = $objQuery->getOne('select version()');
 
         return 'MySQL ' . $val;
@@ -70,7 +70,8 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
         $sql = $this->sfChangeTrunc($sql);
         // ARRAY_TO_STRINGをGROUP_CONCATに変換する
         $sql = $this->sfChangeArrayToString($sql);
-
+        // rank に引用符をつける
+        $sql = $this->sfChangeReservedWords($sql);
         return $sql;
     }
 
@@ -81,7 +82,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      */
     public function getCharSet()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->getAll("SHOW VARIABLES LIKE 'char%'");
 
         return $arrRet;
@@ -160,7 +161,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
                 )
         )
 __EOS__;
-        
+
         return $sql;
     }
 
@@ -245,7 +246,7 @@ __EOS__;
      */
     public function findTableNames($expression = '')
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $sql = 'SHOW TABLES LIKE '. $objQuery->quote('%' . $expression . '%');
         $arrColList = $objQuery->getAll($sql);
         $arrColList = SC_Utils_Ex::sfSwapArray($arrColList, false);
@@ -327,7 +328,7 @@ __EOS__;
      */
     public function sfGetCreateIndexDefinition($table, $name, $definition)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrTblInfo = $objQuery->getTableInfo($table);
         foreach ($arrTblInfo as $fieldInfo) {
             if (array_key_exists($fieldInfo['name'], $definition['fields'])) {
@@ -340,6 +341,15 @@ __EOS__;
         }
 
         return $definition;
+    }
+
+    /**
+     * 予約語に引用符を付与する.
+     */
+    public function sfChangeReservedWords($sql)
+    {
+        $changesql = preg_replace('/(^|[^\w])RANK([^\w]|$)/i', '$1`RANK`$2', $sql);
+        return $changesql;
     }
 
     /**
@@ -360,7 +370,11 @@ __EOS__;
      */
     public function initObjQuery(SC_Query &$objQuery)
     {
-        $objQuery->exec('SET SESSION storage_engine = InnoDB');
+        if ($objQuery->conn->getConnection()->server_version >= 50705) {
+            $objQuery->exec('SET SESSION default_storage_engine = InnoDB');
+        } else {
+            $objQuery->exec('SET SESSION storage_engine = InnoDB');
+        }
         $objQuery->exec("SET SESSION sql_mode = 'ANSI'");
     }
 }

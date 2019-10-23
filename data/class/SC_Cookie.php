@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,10 +40,13 @@ class SC_Cookie
 
     /**
      * @param string $key
+     * @param string $val
+     * @param bool $secure
+     * @param bool $httponly
      */
-    public function setCookie($key, $val)
+    public function setCookie($key, $val, $secure = false, $httponly = true)
     {
-        setcookie($key, $val, $this->expire, ROOT_URLPATH, DOMAIN_NAME);
+        setcookie($key, $val, $this->expire, ROOT_URLPATH, DOMAIN_NAME, $secure, $httponly);
     }
 
     /**

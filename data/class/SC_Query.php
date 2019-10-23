@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@
  *
  * TODO エラーハンドリング, ロギング方法を見直す
  *
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class SC_Query
@@ -72,6 +72,14 @@ class SC_Query
             // 連続クエリ実行時に問題が生じる。
             'result_buffering' => false,
         );
+
+        //  fix for PHP7.2
+        if (!array_key_exists('_MDB2_dsninfo_default', $GLOBALS)) {
+            $GLOBALS['_MDB2_dsninfo_default'] = [];
+        }
+        if (!array_key_exists('_MDB2_databases', $GLOBALS)) {
+            $GLOBALS['_MDB2_databases'] = [];
+        }
 
         if ($new) {
             $this->conn = MDB2::connect($dsn, $options);
@@ -1040,7 +1048,7 @@ class SC_Query
         // #1658 (SC_Query の各種メソッドでプレースホルダの数に誤りがあるとメモリリークが発生する) 対応
         // TODO 現状は PEAR 内のバックトレースを抑制することで、メモリーリークの影響を小さくしている。
         //      根本的には、そのバックトレースが、どこに居座っているかを特定して、対策すべき。
-        $pear_property =& PEAR5::getStaticProperty('PEAR_Error', 'skiptrace');
+        $pear_property =& PEAR::getStaticProperty('PEAR_Error', 'skiptrace');
         $bak = $pear_property;
         $pear_property = true;
 

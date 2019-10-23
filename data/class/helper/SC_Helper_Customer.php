@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -41,7 +41,7 @@ class SC_Helper_Customer
      */
     public function sfEditCustomerData($arrData, $customer_id = null)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
         $old_version_flag = false;
@@ -132,7 +132,7 @@ class SC_Helper_Customer
      */
     public function sfGetCustomerPoint($order_id, $use_point, $add_point)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $arrRet = $objQuery->select('customer_id', 'dtb_order', 'order_id = ?', array($order_id));
         $customer_id = $arrRet[0]['customer_id'];
@@ -164,7 +164,7 @@ class SC_Helper_Customer
     public function sfCheckRegisterUserFromEmail($email)
     {
         $objCustomer = new SC_Customer_Ex();
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // ログインしている場合、すでに登録している自分のemailの場合
         if ($objCustomer->isLoginSuccess(true)
@@ -212,7 +212,7 @@ class SC_Helper_Customer
      */
     public function sfCustomerEmailDuplicationCheck($customer_id, $email)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $arrResults = $objQuery->getRow('email, email_mobile',
                                         'dtb_customer', 'customer_id = ?',
@@ -235,10 +235,15 @@ class SC_Helper_Customer
      */
     public function sfGetCustomerData($customer_id, $mask_flg = true)
     {
-        $objQuery       =& SC_Query_Ex::getSingletonInstance();
+        $objQuery       = SC_Query_Ex::getSingletonInstance();
 
         // 会員情報DB取得
-        $ret        = $objQuery->select('*', 'dtb_customer', 'customer_id=?', array($customer_id));
+        $ret        = $objQuery->select('*', 'dtb_customer', 'customer_id=? AND del_flg = 0', array($customer_id));
+
+        if (empty($ret)) {
+            trigger_error('存在しない会員IDです。', E_USER_ERROR);
+        }
+
         $arrForm    = $ret[0];
 
         // 確認項目に複製
@@ -248,7 +253,7 @@ class SC_Helper_Customer
         // 誕生日を年月日に分ける
         if (isset($arrForm['birth'])) {
             $birth = explode(' ', $arrForm['birth']);
-            list($arrForm['year'], $arrForm['month'], $arrForm['day']) = explode('-', $birth[0]);
+            list($arrForm['year'], $arrForm['month'], $arrForm['day']) = array_map("intval",explode('-', $birth[0]));
         }
 
         if ($mask_flg) {
@@ -273,10 +278,10 @@ class SC_Helper_Customer
      */
     public function sfGetCustomerDataFromId($customer_id, $add_where = '', $arrAddVal = array())
     {
-        $objQuery   =& SC_Query_Ex::getSingletonInstance();
+        $objQuery   = SC_Query_Ex::getSingletonInstance();
 
         if ($add_where == '') {
-            $where = 'customer_id = ?';
+            $where = 'customer_id = ? AND del_flg = 0';
             $arrData = $objQuery->getRow('*', 'dtb_customer', $where, array($customer_id));
         } else {
             $where = $add_where;
@@ -298,7 +303,7 @@ class SC_Helper_Customer
      */
     public function sfGetUniqSecretKey()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         do {
             $uniqid = SC_Utils_Ex::sfGetUniqRandomId('r');
@@ -318,7 +323,7 @@ class SC_Helper_Customer
      */
     public function sfGetCustomerId($uniqid, $check_status = false)
     {
-        $objQuery   =& SC_Query_Ex::getSingletonInstance();
+        $objQuery   = SC_Query_Ex::getSingletonInstance();
 
         $where      = 'secret_key = ?';
 
@@ -425,7 +430,7 @@ class SC_Helper_Customer
      */
     public function sfCustomerRegisterParam(&$objFormParam, $isAdmin = false, $is_mypage = false, $prefix = '')
     {
-        $objFormParam->addParam('パスワード', $prefix . 'password', PASSWORD_MAX_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'GRAPH_CHECK'));
+        $objFormParam->addParam('パスワード', $prefix . 'password', PASSWORD_MAX_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'PASSWORD_CHAR_CHECK'));
         $objFormParam->addParam('パスワード確認用の質問の答え', $prefix . 'reminder_answer', STEXT_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('パスワード確認用の質問', $prefix . 'reminder', STEXT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('性別', $prefix . 'sex', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
@@ -438,7 +443,7 @@ class SC_Helper_Customer
 
         if (SC_Display_Ex::detectDevice() !== DEVICE_TYPE_MOBILE) {
             $objFormParam->addParam('メールアドレス', $prefix . 'email', null, 'a', array('NO_SPTAB', 'EXIST_CHECK', 'EMAIL_CHECK', 'SPTAB_CHECK', 'EMAIL_CHAR_CHECK'));
-            $objFormParam->addParam('パスワード(確認)', $prefix . 'password02', PASSWORD_MAX_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'GRAPH_CHECK'), '', false);
+            $objFormParam->addParam('パスワード(確認)', $prefix . 'password02', PASSWORD_MAX_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'PASSWORD_CHAR_CHECK'), '', false);
             if (!$isAdmin) {
                 $objFormParam->addParam('メールアドレス(確認)', $prefix . 'email02', null, 'a', array('NO_SPTAB', 'EXIST_CHECK', 'EMAIL_CHECK', 'SPTAB_CHECK', 'EMAIL_CHAR_CHECK'), '', false);
             }
@@ -667,7 +672,7 @@ class SC_Helper_Customer
      */
     public function sfGetSearchData($arrParam, $limitMode = '')
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objSelect = new SC_CustomerList_Ex($arrParam, 'customer');
 
         $page_max = SC_Utils_Ex::sfGetSearchPageMax($arrParam['search_page_max']);
@@ -682,7 +687,7 @@ class SC_Helper_Customer
         $arrData = $objQuery->getAll($objSelect->getList(), $objSelect->arrVal);
 
         // 該当全体件数の取得
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $linemax = $objQuery->getOne($objSelect->getListCount(), $objSelect->arrVal);
 
         // ページ送りの取得
@@ -703,7 +708,7 @@ class SC_Helper_Customer
      */
     public function checkTempCustomer($login_email)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $where = 'email = ? AND status = 1 AND del_flg = 0';
         $exists = $objQuery->exists('dtb_customer', $where, array($login_email));

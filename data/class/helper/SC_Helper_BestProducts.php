@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ class SC_Helper_BestProducts
      */
     public function getBestProducts($best_id, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $where = 'best_id = ?';
         if (!$has_deleted) {
@@ -59,7 +59,7 @@ class SC_Helper_BestProducts
      */
     public function getByRank($rank, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $where = 'rank = ?';
         if (!$has_deleted) {
@@ -80,7 +80,7 @@ class SC_Helper_BestProducts
      */
     public function getList($dispNumber = 0, $pageNumber = 0, $has_deleted = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $where = '';
         if (!$has_deleted) {
@@ -108,7 +108,7 @@ class SC_Helper_BestProducts
      */
     public function saveBestProducts($sqlval)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $best_id = $sqlval['best_id'];
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
@@ -140,7 +140,7 @@ class SC_Helper_BestProducts
      */
     public function deleteBestProducts($best_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $table = 'dtb_best_products';
         $arrVal = array('del_flg' => 1);
@@ -231,7 +231,7 @@ class SC_Helper_BestProducts
      */
     public function changeRank($best_id, $rank)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $table = 'dtb_best_products';
         $sqlval = array('rank' => $rank);

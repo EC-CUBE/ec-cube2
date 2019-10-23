@@ -3,9 +3,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,7 +28,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 管理画面ホーム のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Home extends LC_Page_Admin_Ex
@@ -132,7 +132,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
      */
     public function lfGetCustomerCnt()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'COUNT(customer_id)';
         $table = 'dtb_customer';
         $where = 'del_flg = 0 AND status = 2';
@@ -148,7 +148,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
      */
     public function lfGetOrderYesterday($method)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // TODO: DBFactory使わないでも共通化できそうな気もしますが
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
@@ -165,7 +165,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
      */
     public function lfGetOrderMonth($method)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $month = date('Y/m', mktime());
 
         // TODO: DBFactory使わないでも共通化できそうな気もしますが
@@ -182,7 +182,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
      */
     public function lfGetTotalCustomerPoint()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $col = 'SUM(point)';
         $where = 'del_flg = 0';
@@ -198,7 +198,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
      */
     public function lfGetReviewYesterday()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // TODO: DBFactory使わないでも共通化できそうな気もしますが
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
@@ -214,7 +214,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
      */
     public function lfGetReviewNonDisp()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $table = 'dtb_review AS A LEFT JOIN dtb_products AS B ON A.product_id = B.product_id';
         $where = 'A.del_flg = 0 AND A.status = 2 AND B.del_flg = 0';
@@ -229,7 +229,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
      */
     public function lfGetSoldOut()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $cols = 'product_id, name';
         $table = 'dtb_products';
@@ -248,7 +248,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
      */
     public function lfGetNewOrder()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $objQuery->setOrder('order_detail_id');
         $sql_product_name = $objQuery->getSql('product_name', 'dtb_order_detail', 'order_id = dtb_order.order_id');

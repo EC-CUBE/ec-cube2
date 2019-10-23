@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@
         <input type="hidden" name="header_row" value="<!--{$header_row}-->" />
         <input type="hidden" name="device_type_id" value="<!--{$device_type_id|h}-->" />
 
-        <textarea id="header-area" class="top" name="header" rows="<!--{$header_row}-->" style="width: 100%;"><!--{"\n"}--><!--{$header_data|h|smarty:nodefaults}--></textarea>
+        <textarea id="header-area" class="top" name="header" rows="<!--{$header_row}-->" style="width: 100%;"><!--{"\n"}--><!--{$header_data|h}--></textarea>
         <div class="btn">
             <a id="header-area-resize-btn" class="btn-normal" href="javascript:;" onclick="eccube.toggleRows('#header-area-resize-btn', '#header-area', 50, 13); $('input[name=header_row]').val($('#header-area').attr('rows'));return false;"><span>拡大</span></a>
         </div>
@@ -62,7 +62,7 @@
         <input type="hidden" name="footer_row" value="<!--{$footer_row}-->" />
         <input type="hidden" name="device_type_id" value="<!--{$device_type_id|h}-->" />
 
-        <textarea id="footer-area" class="top" name="footer" rows="<!--{$footer_row}-->" style="width: 100%;"><!--{"\n"}--><!--{$footer_data|h|smarty:nodefaults}--></textarea>
+        <textarea id="footer-area" class="top" name="footer" rows="<!--{$footer_row}-->" style="width: 100%;"><!--{"\n"}--><!--{$footer_data|h}--></textarea>
         <div class="btn">
             <a id="footer-area-resize-btn" class="btn-normal" href="javascript:;" onclick="eccube.toggleRows('#footer-area-resize-btn', '#footer-area', 50, 13); $('input[name=footer_row]').val($('#footer-area').attr('rows'));return false;"><span>拡大</span></a>
         </div>

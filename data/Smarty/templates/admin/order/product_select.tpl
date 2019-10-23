@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -177,8 +177,8 @@
                         <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProducts[cnt].main_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65;" alt="<!--{$arrRecommend[$recommend_no].name|h}-->" />
                     </td>
                     <td>
-                        <!--{assign var=codemin value=`$arrProducts[cnt].product_code_min`}-->
-                        <!--{assign var=codemax value=`$arrProducts[cnt].product_code_max`}-->
+                        <!--{assign var=codemin value="`$arrProducts[cnt].product_code_min`"}-->
+                        <!--{assign var=codemax value="`$arrProducts[cnt].product_code_max`"}-->
                         <!--{* 商品コード *}-->
                         <!--{if $codemin != $codemax}-->
                             <!--{$codemin|h}-->～<!--{$codemax|h}-->
@@ -196,7 +196,7 @@
                             <dl>
                                 <dt><!--{$tpl_class_name1[$id]|h}-->：</dt>
                                 <dd>
-                                    <select name="classcategory_id1" id="<!--{$class1}-->" style="<!--{$arrErr[$class1]|sfGetErrorColor}-->"    onchange="fnSetClassCategories(this.form);">
+                                    <select name="classcategory_id1" id="<!--{$class1}-->" style="<!--{$arrErr[$class1]|sfGetErrorColor}-->">
                                         <!--{html_options options=$arrClassCat1[$id] selected=$arrForm[$class1]}-->
                                     </select>
                                     <!--{if $arrErr[$class1] != ""}-->
@@ -212,7 +212,7 @@
                             <dl>
                                 <dt><!--{$tpl_class_name2[$id]|h}-->：</dt>
                                 <dd>
-                                    <select name="classcategory_id2" id="<!--{$class2}-->" style="<!--{$arrErr[$class2]|sfGetErrorColor}-->" onchange="fnCheckStock(this.form);"></select>
+                                    <select name="classcategory_id2" id="<!--{$class2}-->" style="<!--{$arrErr[$class2]|sfGetErrorColor}-->"></select>
                                     <!--{if $arrErr[$class2] != ""}-->
                                     <br /><span class="attention">※ <!--{$tpl_class_name2[$id]}-->を入力して下さい。</span>
                                     <!--{/if}-->

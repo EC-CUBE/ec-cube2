@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  * 商品一覧 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Products_List extends LC_Page_Ex
@@ -208,7 +208,7 @@ class LC_Page_Products_List extends LC_Page_Ex
      */
     public function lfGetProductsList($searchCondition, $disp_number, $startno, &$objProduct)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $arrOrderVal = array();
 
@@ -246,7 +246,7 @@ class LC_Page_Products_List extends LC_Page_Ex
         // 表示すべきIDとそのIDの並び順を一気に取得
         $arrProductId = $objProduct->findProductIdsOrder($objQuery, array_merge($searchCondition['arrval'], $arrOrderVal));
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrProducts = $objProduct->getListByProductIds($objQuery, $arrProductId);
 
         // 規格を設定
@@ -319,7 +319,7 @@ class LC_Page_Products_List extends LC_Page_Ex
      */
     public function lfGetSearchConditionDisp($arrSearchData)
     {
-        $objQuery   =& SC_Query_Ex::getSingletonInstance();
+        $objQuery   = SC_Query_Ex::getSingletonInstance();
         $arrSearch  = array('category' => '指定なし', 'maker' => '指定なし', 'name' => '指定なし');
         // カテゴリ検索条件
         if ($arrSearchData['category_id'] > 0) {
@@ -349,7 +349,7 @@ class LC_Page_Products_List extends LC_Page_Ex
     public function lfGetProductAllNum($searchCondition)
     {
         // 検索結果対象となる商品の数を取得
-        $objQuery   =& SC_Query_Ex::getSingletonInstance();
+        $objQuery   = SC_Query_Ex::getSingletonInstance();
         $objQuery->setWhere($searchCondition['where_for_count']);
         $objProduct = new SC_Product_Ex();
 

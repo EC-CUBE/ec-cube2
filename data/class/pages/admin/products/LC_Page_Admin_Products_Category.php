@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * カテゴリ管理 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
@@ -100,7 +100,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
                 // DnDしたカテゴリと移動先のセットを分解する
                 $keys = explode('-', $_POST['keySet']);
                 if ($keys[0] && $keys[1]) {
-                    $objQuery =& SC_Query_Ex::getSingletonInstance();
+                    $objQuery = SC_Query_Ex::getSingletonInstance();
                     $objQuery->begin();
 
                     // 移動したデータのrank、level、parent_category_idを取得
@@ -284,7 +284,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
      */
     public function checkError(&$objFormParam, $add)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 入力項目チェック
         $arrErr = $objFormParam->checkError();
@@ -345,7 +345,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
     {
         $category_id = $objFormParam->getValue('category_id');
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
         $up_id = $this->lfGetUpRankID($objQuery, 'dtb_category', 'parent_category_id', 'category_id', $category_id);
         if ($up_id != '') {
@@ -373,7 +373,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
     {
         $category_id = $objFormParam->getValue('category_id');
 
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
         $down_id = $this->lfGetDownRankID($objQuery, 'dtb_category', 'parent_category_id', 'category_id', $category_id);
         if ($down_id != '') {
@@ -419,7 +419,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
         if (!$parent_category_id) {
             $parent_category_id = 0;
         }
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col   = 'category_id, category_name, level, rank';
         $where = 'del_flg = 0 AND parent_category_id = ?';
         $objQuery->setOption('ORDER BY rank DESC');
@@ -435,7 +435,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
      */
     public function updateCategory($category_id, $arrCategory)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $arrCategory['update_date']   = 'CURRENT_TIMESTAMP';
 
@@ -453,7 +453,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
      */
     public function registerCategory($arrCategory)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $parent_category_id = $arrCategory['parent_category_id'];
 
@@ -500,7 +500,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
      */
     public function isOverLevel($parent_category_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $level = $objQuery->get('level', 'dtb_category', 'category_id = ?', array($parent_category_id));
 
         return $level >= LEVEL_MAX;

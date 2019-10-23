@@ -5,9 +5,9 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,13 +33,19 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  */
 class SC_Helper_Purchase_setShipmentItemTempTest extends SC_Helper_Purchase_TestBase
 {
+  /** @var int */
+  private $product_id;
+  /** @var array */
+  private $productsClass;
   private $helper;
 
   protected function setUp()
   {
     parent::setUp();
-    $this->setUpProductClass();
-    $this->setUpProducts();
+
+    $this->product_id = $this->objGenerator->createProduct(null);
+    $this->objQuery->setOrder('product_class_id');
+    $this->productsClass = $this->objQuery->getRow('*', 'dtb_products_class', 'product_id = ?', [$this->product_id]);
 
     $_SESSION['shipping']['1001']['shipment_item'] = array(
       '1001' => array('productsClass' => array('price02' => 9000))
@@ -72,16 +78,17 @@ class SC_Helper_Purchase_setShipmentItemTempTest extends SC_Helper_Purchase_Test
 
   public function testSetShipmentItemTemp_製品情報が存在しない場合_DBから取得した値が反映される()
   {
-    $this->helper->setShipmentItemTemp('1001', '1002', 10);
+    $quantity = 10;
+    $this->helper->setShipmentItemTemp('1001', $this->productsClass['product_class_id'], $quantity);
 
     $this->expected = array(
       'shipping_id' => '1001',
-      'product_class_id' => '1002',
-      'quantity' => 10,
-      'price' => '2500',
-      'total_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax(25000),
+      'product_class_id' => $this->productsClass['product_class_id'],
+      'quantity' => $quantity,
+      'price' => $this->productsClass['price02'],
+      'total_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax($this->productsClass['price02']) * $quantity,
     );
-    $result = $_SESSION['shipping']['1001']['shipment_item']['1002'];
+    $result = $_SESSION['shipping']['1001']['shipment_item'][$this->productsClass['product_class_id']];
     unset($result['productsClass']);
     $this->actual = $result;
 

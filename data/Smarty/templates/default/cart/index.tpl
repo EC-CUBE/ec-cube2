@@ -1,9 +1,9 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,7 +38,7 @@
             <!--{/if}-->
         <!--{/if}-->
 
-        <p class="totalmoney_area">
+        <div class="totalmoney_area">
             <!--{* カゴの中に商品がある場合にのみ表示 *}-->
             <!--{if count($cartKeys) > 1}-->
                 <span class="attentionSt"><!--{foreach from=$cartKeys item=key name=cartKey}--><!--{$arrProductType[$key]|h}--><!--{if !$smarty.foreach.cartKey.last}-->、<!--{/if}--><!--{/foreach}-->は同時購入できません。<br />
@@ -53,7 +53,7 @@
             <!--{if strlen($tpl_message) != 0}-->
                 <p class="attention"><!--{$tpl_message|h|nl2br}--></p>
             <!--{/if}-->
-        </p>
+        </div>
 
         <!--{if count($cartItems) > 0}-->
             <!--{foreach from=$cartKeys item=key}-->

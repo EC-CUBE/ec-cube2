@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -62,7 +62,7 @@ class SC_Helper_Purchase
      */
     public function completeOrder($orderStatus = ORDER_NEW)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objSiteSession = new SC_SiteSession_Ex();
         $objCartSession = new SC_CartSession_Ex();
         $objCustomer = new SC_Customer_Ex();
@@ -121,7 +121,7 @@ class SC_Helper_Purchase
      */
     public function cancelOrder($order_id, $orderStatus = ORDER_CANCEL, $is_delete = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $in_transaction = $objQuery->inTransaction();
         if (!$in_transaction) {
             $objQuery->begin();
@@ -164,7 +164,7 @@ class SC_Helper_Purchase
      */
     public function rollbackOrder($order_id, $orderStatus = ORDER_CANCEL, $is_delete = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $in_transaction = $objQuery->inTransaction();
         if (!$in_transaction) {
             $objQuery->begin();
@@ -176,8 +176,8 @@ class SC_Helper_Purchase
         $uniqid = $objSiteSession->getUniqId();
         
         if (!empty($arrOrderTemp)) {
-            
-            $_SESSION = array_merge($_SESSION, unserialize($arrOrderTemp['session']));
+            $tempSession = unserialize($arrOrderTemp['session']);
+            $_SESSION = array_merge($_SESSION, $tempSession === false ? [] : $tempSession);
 
             $objCartSession = new SC_CartSession_Ex();
             $objCustomer = new SC_Customer_Ex();
@@ -249,7 +249,7 @@ class SC_Helper_Purchase
      */
     public function getOrderTemp($uniqId)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         return $objQuery->getRow('*', 'dtb_order_temp', 'order_temp_id = ?', array($uniqId));
     }
@@ -262,7 +262,7 @@ class SC_Helper_Purchase
      */
     public function getOrderTempByOrderId($order_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         return $objQuery->getRow('*', 'dtb_order_temp', 'order_id = ?', array($order_id));
     }
@@ -283,7 +283,7 @@ class SC_Helper_Purchase
             return;
         }
         $params['device_type_id'] = SC_Display_Ex::detectDevice();
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // 存在するカラムのみを対象とする
         $cols = $objQuery->listTableFields('dtb_order_temp');
         $sqlval = array();
@@ -324,7 +324,7 @@ class SC_Helper_Purchase
         if ($has_shipment_item) {
             $arrReturn = array();
             foreach ($_SESSION['shipping'] as $key => $arrVal) {
-                if (count($arrVal['shipment_item']) == 0) continue;
+                if (is_array($arrVal['shipment_item']) && count($arrVal['shipment_item']) == 0) continue;
                 $arrReturn[$key] = $arrVal;
             }
 
@@ -588,19 +588,19 @@ class SC_Helper_Purchase
             case '3':
                 $start_day = 5;
                 break;
-                //1週間以内
+                //1週間以降
             case '4':
                 $start_day = 8;
                 break;
-                //2週間以内
+                //2週間以降
             case '5':
                 $start_day = 15;
                 break;
-                //3週間以内
+                //3週間以降
             case '6':
                 $start_day = 22;
                 break;
-                //1ヶ月以内
+                //1ヶ月以降
             case '7':
                 $start_day = 32;
                 break;
@@ -663,7 +663,7 @@ class SC_Helper_Purchase
      */
     public function registerShipping($order_id, $arrParams, $convert_shipping_date = true)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $table = 'dtb_shipping';
         $where = 'order_id = ?';
         $objQuery->delete($table, $where, array($order_id));
@@ -706,7 +706,7 @@ class SC_Helper_Purchase
      */
     public function registerShipmentItem($order_id, $shipping_id, $arrParams)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $table = 'dtb_shipment_item';
         $where = 'order_id = ? AND shipping_id = ?';
         $objQuery->delete($table, $where, array($order_id, $shipping_id));
@@ -759,11 +759,11 @@ class SC_Helper_Purchase
      * @param array          $orderParams    登録する受注情報の配列
      * @param SC_CartSession $objCartSession カート情報のインスタンス
      * @param integer        $cartKey        登録を行うカート情報のキー
-     * @param integer 受注ID
+     * @return integer 受注ID
      */
     public function registerOrderComplete($orderParams, &$objCartSession, $cartKey)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 不要な変数を unset
         $unsets = array('mailmaga_flg', 'deliv_check', 'point_check', 'password',
@@ -910,7 +910,7 @@ class SC_Helper_Purchase
      */
     public function getOrder($order_id, $customer_id = null)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'order_id = ?';
         $arrValues = array($order_id);
         if (!SC_Utils_Ex::isBlank($customer_id)) {
@@ -930,7 +930,7 @@ class SC_Helper_Purchase
      */
     public function getOrderDetail($order_id, $has_order_status = true)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $dbFactory  = SC_DB_DBFactory_Ex::getInstance();
         $col = <<< __EOS__
             T3.product_id,
@@ -1011,7 +1011,7 @@ __EOS__;
      */
     public function getShippings($order_id, $has_items = true)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrResults = array();
         $objQuery->setOrder('shipping_id');
         $arrShippings = $objQuery->select('*', 'dtb_shipping', 'order_id = ?',
@@ -1043,7 +1043,7 @@ __EOS__;
      */
     public function getShipmentItems($order_id, $shipping_id, $has_detail = true)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objProduct = new SC_Product_Ex();
         $arrResults = array();
         $objQuery->setOrder('order_detail_id');
@@ -1113,7 +1113,7 @@ __EOS__;
      */
     public function sfUpdateOrderStatus($orderId, $newStatus = null, $newAddPoint = null, $newUsePoint = null, &$sqlval = array())
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrOrderOld = $objQuery->getRow('status, add_point, use_point, customer_id', 'dtb_order', 'order_id = ?', array($orderId));
 
         // 対応状況が変更無しの場合、DB値を引き継ぐ
@@ -1221,7 +1221,7 @@ __EOS__;
      */
     public function sfUpdateOrderNameCol($order_id, $temp_table = false)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         if ($temp_table) {
             $tgt_table = 'dtb_order_temp';
@@ -1356,7 +1356,7 @@ __EOS__;
      */
     public function getNextOrderID()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         return $objQuery->nextVal('dtb_order_order_id');
     }
@@ -1383,7 +1383,7 @@ __EOS__;
         $term = PENDING_ORDER_CANCEL_TIME;
         if (!SC_Utils_Ex::isBlank($term) && preg_match("/^[0-9]+$/", $term)) {
             $target_time = strtotime('-' . $term . ' sec');
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $arrVal = array(date('Y/m/d H:i:s', $target_time), ORDER_PENDING);
             $objQuery->begin();
             $arrOrders = $objQuery->select('order_id', 'dtb_order', 'create_date <= ? and status = ? and del_flg = 0', $arrVal);
@@ -1403,7 +1403,7 @@ __EOS__;
         $objCustomer = new SC_Customer_Ex();
         if ($objCustomer->isLoginSuccess(true)) {
             $customer_id = $objCustomer->getValue('customer_id');
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $arrVal = array($customer_id, ORDER_PENDING);
             $objQuery->setOrder('create_date desc');
             $objQuery->begin();
@@ -1445,7 +1445,7 @@ __EOS__;
         if (!SC_Utils_Ex::isBlank($_SESSION['order_id'])) {
             $order_id = $_SESSION['order_id'];
             unset($_SESSION['order_id']);
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $objQuery->begin();
             $arrOrder =  SC_Helper_Purchase_Ex::getOrder($order_id);
             if ($arrOrder['status'] == ORDER_PENDING) {

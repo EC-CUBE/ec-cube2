@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * デザイン管理 のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Design extends LC_Page_Admin_Ex
@@ -239,7 +239,7 @@ class LC_Page_Admin_Design extends LC_Page_Admin_Ex
     public function savePreviewData($page_id, &$objLayout)
     {
         $arrPageData = $objLayout->getPageProperties(DEVICE_TYPE_PC, $page_id);
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrPageData[0]['page_id'] = 0;
         $objQuery->update('dtb_pagelayout', $arrPageData[0], 'page_id = 0 AND device_type_id = ?', array(DEVICE_TYPE_PC));
 
@@ -258,7 +258,7 @@ class LC_Page_Admin_Design extends LC_Page_Admin_Ex
         $page_id = $is_preview ? 0 : $objFormParam->getValue('page_id');
         $device_type_id = $objFormParam->getValue('device_type_id');
         $bloc_cnt = $objFormParam->getValue('bloc_cnt');
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
         $objQuery->delete('dtb_blocposition', 'page_id = ? AND device_type_id = ?',
                           array($page_id, $device_type_id));

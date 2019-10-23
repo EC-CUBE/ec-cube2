@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@
 /**
  * カートセッション管理クラス
  *
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class SC_CartSession
@@ -54,7 +54,7 @@ class SC_CartSession
     {
         $this->key_tmp = 'savecart_' . $key_tmp;
         // すでに情報がなければ現状のカート情報を記録しておく
-        if (count($_SESSION[$this->key_tmp]) == 0) {
+        if (!isset($_SESSION[$this->key_tmp])) {
             $_SESSION[$this->key_tmp] = $this->cartSession[$productTypeId];
         }
         // 1世代古いコピー情報は、削除しておく
@@ -140,7 +140,8 @@ class SC_CartSession
     public function getMax($productTypeId)
     {
         $max = 0;
-        if (count($this->cartSession[$productTypeId]) > 0) {
+        if (is_array($this->cartSession[$productTypeId])
+            && count($this->cartSession[$productTypeId]) > 0) {
             foreach ($this->cartSession[$productTypeId] as $key => $value) {
                 if (is_numeric($key)) {
                     if ($max < $key) {
@@ -159,7 +160,7 @@ class SC_CartSession
         $total = 0;
         $max = $this->getMax($productTypeId);
         for ($i = 0; $i <= $max; $i++) {
-            $total+= $this->cartSession[$productTypeId][$i]['quantity'];
+            $total+= (int)$this->cartSession[$productTypeId][$i]['quantity'];
         }
 
         return $total;
@@ -187,7 +188,7 @@ class SC_CartSession
                 $this->cartSession[$productTypeId][$i]['productsClass']['product_class_id'],
                 $pref_id, $country_id);
 
-            $total+= ($incTax * $quantity);
+            $total += ($incTax * (int) $quantity);
         }
 
         return $total;
@@ -207,7 +208,7 @@ class SC_CartSession
                 $this->cartSession[$productTypeId][$i]['productsClass']['product_class_id'],
                 $pref_id, $country_id);
 
-            $total+= ($tax * $quantity);
+            $total += ($tax * (int) $quantity);
         }
 
         return $total;
@@ -234,7 +235,7 @@ class SC_CartSession
                 $point_rate = $this->cartSession[$productTypeId][$i]['point_rate'];
 
                 $point = SC_Utils_Ex::sfPrePoint($price, $point_rate);
-                $total+= ($point * $quantity);
+                $total += ($point * (int) $quantity);
             }
         }
 
@@ -294,6 +295,9 @@ class SC_CartSession
     }
 
     // キーが一致した商品の削除
+    /**
+     * @deprecated 本体では使用していないメソッドです
+     */
     public function delProductKey($keyname, $val, $productTypeId)
     {
         $max = $this->getMax($productTypeId);
@@ -352,7 +356,7 @@ class SC_CartSession
      * @param  integer $productTypeId 商品種別ID
      * @param  integer $key
      * @return void
-     *
+     * @deprecated 本体では使用していないメソッドです
      * MEMO: せっかく一回だけ読み込みにされてますが、税率対応の関係でちょっと保留
      */
     public function setCartSession4getCartList($productTypeId, $key)
@@ -371,7 +375,7 @@ class SC_CartSession
         $quantity = $this->cartSession[$productTypeId][$key]['quantity'];
         $incTax = SC_Helper_TaxRule_Ex::sfCalcIncTax($price,
             $this->cartSession[$productTypeId][$key]['productsClass']['product_id'],
-            $this->cartSession[$productTypeId][$key]['id'][0]);
+            $this->cartSession[$productTypeId][$key]['id']);
 
         $total = $incTax * $quantity;
 
@@ -578,6 +582,7 @@ class SC_CartSession
      * @param  integer $cart_no       カート番号
      * @param  integer $productTypeId 商品種別ID
      * @return integer 商品規格ID
+     * @deprecated 本体では使用していないメソッドです
      */
     public function getProductClassId($cart_no, $productTypeId)
     {
@@ -638,7 +643,7 @@ class SC_CartSession
                         $this->setProductValue($arrItem['id'], 'quantity', $limit, $productTypeId);
                         $total_inctax = $limit * SC_Helper_TaxRule_Ex::sfCalcIncTax($arrItem['price'],
                             $product['product_id'],
-                            $arrItem['id'][0]);
+                            $arrItem['id']);
                         $this->setProductValue($arrItem['id'], 'total_inctax', $total_inctax, $productTypeId);
                         $tpl_message .= '※「' . $product['name'] . '」は販売制限(または在庫が不足)しております。';
                         $tpl_message .= "一度に数量{$limit}を超える購入はできません。\n";

@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  * 商品並べ替え のページクラス.
  *
  * @package Page
- * @author LOCKON CO.,LTD.
+ * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
 class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
@@ -108,7 +108,7 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
     public function lfGetProduct($category_id)
     {
         // FIXME SC_Product クラスを使用した実装
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'alldtl.product_id, name, main_list_image, product_code_min, product_code_max, status';
         $objProduct = new SC_Product();
         $table = $objProduct->alldtlSQL();
@@ -142,7 +142,7 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
      */
     public function lfRenumber($parent_category_id)
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $sql = <<< __EOS__
             UPDATE dtb_product_categories
@@ -150,18 +150,17 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
                 rank =
                     (
                         SELECT COUNT(*)
-                        FROM dtb_product_categories t_in
-                        WHERE t_in.category_id = dtb_product_categories.category_id
-                            AND (
-                                t_in.rank < dtb_product_categories.rank
-                                OR (
-                                    t_in.rank = dtb_product_categories.rank
-                                    AND t_in.product_id < dtb_product_categories.product_id
-                                )
+                        FROM (SELECT product_id,rank FROM dtb_product_categories WHERE category_id = dtb_product_categories.category_id) t_in
+                        WHERE
+                            t_in.rank < dtb_product_categories.rank
+                            OR (
+                                t_in.rank = dtb_product_categories.rank
+                                AND t_in.product_id < dtb_product_categories.product_id
                             )
                     ) + 1
             WHERE dtb_product_categories.category_id = ?
 __EOS__;
+
         $arrRet = $objQuery->query($sql, array($parent_category_id));
 
         return $arrRet;

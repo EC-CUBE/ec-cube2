@@ -2,9 +2,9 @@
 /*
  * This file is part of EC-CUBE
  *
- * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
  *
- * http://www.lockon.co.jp/
+ * http://www.ec-cube.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -95,7 +95,7 @@ class SC_Response
     public function actionExit()
     {
         // ローカルフックポイント処理
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
 
         if (is_object($objPlugin)) {
             $arrBacktrace = debug_backtrace();
@@ -130,7 +130,7 @@ class SC_Response
     public function sendRedirect($location, $arrQueryString = array(), $inheritQueryString = false, $useSsl = null)
     {
         // ローカルフックポイント処理
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance($this->plugin_activate_flg);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
 
         if (is_object($objPlugin)) {
             $arrBacktrace = debug_backtrace();
