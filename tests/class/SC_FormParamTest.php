@@ -1,6 +1,6 @@
 <?php
 
-class SC_FromParamTest extends Common_TestCase
+class SC_FormParamTest extends Common_TestCase
 {
     /**
      * @var SC_FormParam
