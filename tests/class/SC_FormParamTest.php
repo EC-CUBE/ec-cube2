@@ -493,5 +493,20 @@ class SC_FormParamTest extends Common_TestCase
         $this->actual = @$this->objFormParam->checkError(false);
         $this->verify();
     }
-        
+
+    public function testConstructorHookPoint()
+    {
+        $phpunit = $this;
+        $actualInstance = null;
+
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
+        $objPlugin->arrRegistedPluginActions['SC_FormParam_construct'][] = [['function' => function ($class, $objFormParam) use ($phpunit, &$actualInstance) {
+            $phpunit->assertEquals('SC_FormParamTest', $class, 'backtrace から取得した呼び出し元のクラスが渡ってくるはず');
+            $phpunit->assertInstanceOf('SC_FormParam_Ex', $objFormParam);
+            $actualInstance = $objFormParam;
+        }]];
+
+        $objFormParam = new SC_FormParam_Ex();
+        $this->assertSame($objFormParam, $actualInstance, 'フックポイントのコールバック関数で同一インスタンスが取得できるはず');
+    }
 }
