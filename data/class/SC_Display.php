@@ -84,10 +84,11 @@ class SC_Display
      * リロードを行う.
      *
      * SC_Response::reload() のラッパーです.
+     * @deprecated SC_Response::reload() を使用してください
      */
     public function reload($queryString = array(), $removeQueryString = false)
     {
-        $this->response->reload($queryString, $removeQueryString);
+        SC_Response_Ex::reload($queryString, $removeQueryString);
     }
 
     public function noAction()
