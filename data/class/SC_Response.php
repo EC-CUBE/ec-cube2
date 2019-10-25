@@ -92,7 +92,7 @@ class SC_Response
      * アプリケーションのexit処理をする。以降の出力は基本的に停止する。
      * 各クラス内では、exit を直接呼び出さない。
      */
-    public function actionExit()
+    public static function actionExit()
     {
         // ローカルフックポイント処理
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
@@ -132,7 +132,7 @@ class SC_Response
      * @return void
      * @static
      */
-    public function sendRedirect($location, $arrQueryString = array(), $inheritQueryString = false, $useSsl = null)
+    public static function sendRedirect($location, $arrQueryString = array(), $inheritQueryString = false, $useSsl = null)
     {
         // ローカルフックポイント処理
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
@@ -242,7 +242,7 @@ class SC_Response
      * @return void
      * @static
      */
-    public function sendRedirectFromUrlPath($location, $arrQueryString = array(), $inheritQueryString = false, $useSsl = null)
+    public static function sendRedirectFromUrlPath($location, $arrQueryString = array(), $inheritQueryString = false, $useSsl = null)
     {
         $location = ROOT_URLPATH . ltrim($location, '/');
         SC_Response_Ex::sendRedirect($location, $arrQueryString, $inheritQueryString, $useSsl);
@@ -251,7 +251,7 @@ class SC_Response
     /**
      * @static
      */
-    public function reload($arrQueryString = array(), $removeQueryString = false)
+    public static function reload($arrQueryString = array(), $removeQueryString = false)
     {
         // 現在の URL を取得
         $netUrl = new Net_URL($_SERVER['REQUEST_URI']);
