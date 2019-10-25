@@ -145,6 +145,11 @@ class SC_Response
                     $parent_class_name = get_parent_class($backtrace['object']);
                     $objPlugin->doAction($parent_class_name . '_action_' . $backtrace['object']->getMode(), array($backtrace['object']));
 
+                    $class_name = get_class($backtrace['object']);
+                    if ($class_name != $parent_class_name) {
+                        $objPlugin->doAction($class_name . '_action_' . $backtrace['object']->getMode(), array($backtrace['object']));
+                    }
+
                     break;
                 } elseif (array_key_exists('object', $backtrace) && is_object($backtrace['object'])) {
                     $pattern = '/^[a-zA-Z0-9_]+$/';
@@ -156,6 +161,11 @@ class SC_Response
                     }
                     $parent_class_name = get_parent_class($backtrace['object']);
                     $objPlugin->doAction($parent_class_name . '_action_' . $mode, array($backtrace['object']));
+
+                    $class_name = get_class($backtrace['object']);
+                    if ($class_name != $parent_class_name) {
+                        $objPlugin->doAction($class_name . '_action_' . $mode, array($backtrace['object']));
+                    }
 
                     break;
                 }
