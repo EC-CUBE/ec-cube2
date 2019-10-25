@@ -114,7 +114,7 @@ class SC_Response
             }
         }
 
-        exit;
+        static::exitWrapper();
         // デストラクタが実行される。
     }
 
@@ -231,7 +231,7 @@ class SC_Response
         $url = $netUrl->getURL();
 
         header("Location: $url");
-        exit;
+        static::exitWrapper();
     }
 
     /**
@@ -363,5 +363,12 @@ class SC_Response
         header("Content-type: application/octet-stream; name={$file_name}");
         header('Cache-Control: ');
         header('Pragma: ');
+    }
+
+    /**
+     * exit をスキップする場合はオーバーライドすること.
+     */
+    protected static function exitWrapper() {
+        exit;
     }
 }
