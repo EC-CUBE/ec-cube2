@@ -40,10 +40,13 @@ class SC_Cookie
 
     /**
      * @param string $key
+     * @param string $val
+     * @param bool $secure
+     * @param bool $httponly
      */
-    public function setCookie($key, $val)
+    public function setCookie($key, $val, $secure = false, $httponly = true)
     {
-        setcookie($key, $val, $this->expire, ROOT_URLPATH, DOMAIN_NAME);
+        setcookie($key, $val, $this->expire, ROOT_URLPATH, DOMAIN_NAME, $secure, $httponly);
     }
 
     /**
