@@ -1,0 +1,22 @@
+{
+  "name": "eccube-2_13",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:nobuhiko/eccube-2_13.git",
+  "author": "のぶ <nobuhiko.kimoto@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "css-loader": "^3.2.0",
+    "jquery": "3",
+    "jquery-colorbox": "^1.6.4",
+    "jquery-migrate": "^3.1.0",
+    "style-loader": "^1.0.0",
+    "url-loader": "^2.2.0",
+    "webpack": "^4.41.2"
+  },
+  "devDependencies": {
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.9.0"
+  }
+}

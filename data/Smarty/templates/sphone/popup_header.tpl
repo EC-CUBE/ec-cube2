@@ -32,13 +32,11 @@
     <link rel="stylesheet" media="only screen" href="<!--{$TPL_URLPATH}-->css/import.css" />
     <link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.colorbox/colorbox.css" type="text/css" media="all" />
 
-    <script src="<!--{$TPL_URLPATH}-->js/jquery-1.9.1.min.js"></script>
     <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.js"></script>
     <script src="<!--{$TPL_URLPATH}-->js/eccube.sphone.js"></script>
     <!-- #2342 次期メジャーバージョン(2.14)にてeccube.legacy.jsは削除予定.モジュール、プラグインの互換性を考慮して2.13では残します. -->
     <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.legacy.js"></script>
     <script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/eccube.sphone.legacy.js"></script>
-    <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.colorbox/jquery.colorbox-min.js"></script>
     <script src="<!--{$TPL_URLPATH}-->js/jquery.biggerlink.js"></script>
     <script type="text/javascript">
         $(function(){
