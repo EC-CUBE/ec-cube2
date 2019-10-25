@@ -63,6 +63,7 @@
         <!--{* jQuery Mobile *}-->
         <link rel="stylesheet" media="only screen" href="<!--{$TPL_URLPATH}-->js/jquery.mobile/jquery.mobile-1.3.1.min.css" />
         <script src="<!--{$TPL_URLPATH}-->js/config.js"></script>
+        <script src="<!--{$TPL_URLPATH}-->js/jquery.mobile/jquery.mobile-1.3.1.min.js"></script>
 
         <!--{* スマートフォンカスタマイズ用CSS *}-->
         <link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.colorbox/colorbox.css" type="text/css" media="all" />
@@ -70,7 +71,6 @@
         <!--{* スマートフォンカスタマイズ用JS *}-->
         <script src="<!--{$TPL_URLPATH}-->js/jquery.autoResizeTextAreaQ-0.1.js"></script>
         <script src="<!--{$TPL_URLPATH}-->js/jquery.flickslide.js"></script>
-        <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.colorbox/jquery.colorbox-min.js"></script>
 
         <!--{* iPhone用アイコン画像 *}-->
         <link rel="apple-touch-icon" href="<!--{$TPL_URLPATH}-->img/common/apple-touch-icon.png" />
