@@ -49,6 +49,10 @@
         <link rel="stylesheet" media="only screen" href="<!--{$TPL_URLPATH}-->css/import.css" />
 
         <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.js"></script>
+        <script type="text/javascript">    
+          var $jq3 = $.noConflict(true);
+        </script>
+        <script src="<!--{$TPL_URLPATH}-->js/jquery-1.9.1.min.js"></script>
         <script src="<!--{$TPL_URLPATH}-->js/eccube.sphone.js"></script>
         <script src="<!--{$TPL_URLPATH}-->js/jquery.biggerlink.js"></script>
         <script>//<![CDATA[
