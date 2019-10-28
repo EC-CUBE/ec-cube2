@@ -3,11 +3,13 @@ var path = require('path');
 var webpack = require("webpack");
 
 module.exports = {
-  entry: path.join(__dirname, "data", "eccube.js"),
-  //devtool: 'source-map',
+  entry: {
+    eccube: './data/eccube.js',
+  },
+  devtool: 'source-map',
   output: {
     path: path.join(__dirname, "html/js"),
-    filename: "eccube.js"
+    filename: '[name].js',
   },
   resolve: {
       alias: {
