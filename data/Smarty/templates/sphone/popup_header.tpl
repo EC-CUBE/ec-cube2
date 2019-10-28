@@ -30,7 +30,6 @@
     <meta name="format-detection" content="telephone=no">
     <!--{* 共通CSS *}-->
     <link rel="stylesheet" media="only screen" href="<!--{$TPL_URLPATH}-->css/import.css" />
-    <link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.colorbox/colorbox.css" type="text/css" media="all" />
 
     <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.js"></script>
     <script src="<!--{$TPL_URLPATH}-->js/eccube.sphone.js"></script>
@@ -48,7 +47,6 @@
 
     <!--{* スマートフォンカスタマイズ用JS *}-->
     <script src="<!--{$TPL_URLPATH}-->js/jquery.autoResizeTextAreaQ-0.1.js"></script>
-    <script src="<!--{$TPL_URLPATH}-->js/jquery.flickslide.js"></script>
 
     <title><!--{$arrSiteInfo.shop_name|h}--><!--{if $tpl_subtitle|strlen >= 1}--> / <!--{$tpl_subtitle|h}--><!--{elseif $tpl_title|strlen >= 1}--> / <!--{$tpl_title|h}--><!--{/if}--></title>
     <!--{if $arrPageLayout.author|strlen >= 1}-->

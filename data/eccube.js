@@ -8,7 +8,12 @@ $(() => {
   $.migrateMute = true;
 });
 require( "jquery-colorbox" );
+require( 'jquery-colorbox/example2/colorbox.css' );
 require( "jquery-easing" );
+
+require( 'slick-carousel' );
+require( 'slick-carousel/slick/slick.css' );
+require( 'slick-carousel/slick/slick-theme.css' );
 
 /*
 * This file is part of EC-CUBE

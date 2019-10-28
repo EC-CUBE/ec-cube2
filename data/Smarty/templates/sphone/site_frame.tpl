@@ -49,10 +49,6 @@
         <link rel="stylesheet" media="only screen" href="<!--{$TPL_URLPATH}-->css/import.css" />
 
         <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.js"></script>
-        <script type="text/javascript">    
-          var $jq3 = $.noConflict(true);
-        </script>
-        <script src="<!--{$TPL_URLPATH}-->js/jquery-1.9.1.min.js"></script>
         <script src="<!--{$TPL_URLPATH}-->js/eccube.sphone.js"></script>
         <script src="<!--{$TPL_URLPATH}-->js/jquery.biggerlink.js"></script>
         <script>//<![CDATA[
@@ -66,12 +62,8 @@
         <script src="<!--{$TPL_URLPATH}-->js/config.js"></script>
         <script src="<!--{$TPL_URLPATH}-->js/jquery.mobile/jquery.mobile-1.3.1.min.js"></script>
 
-        <!--{* スマートフォンカスタマイズ用CSS *}-->
-        <link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.colorbox/colorbox.css" type="text/css" media="all" />
-
         <!--{* スマートフォンカスタマイズ用JS *}-->
         <script src="<!--{$TPL_URLPATH}-->js/jquery.autoResizeTextAreaQ-0.1.js"></script>
-        <script src="<!--{$TPL_URLPATH}-->js/jquery.flickslide.js"></script>
 
         <!--{* iPhone用アイコン画像 *}-->
         <link rel="apple-touch-icon" href="<!--{$TPL_URLPATH}-->img/common/apple-touch-icon.png" />

@@ -11,6 +11,7 @@
     "jquery-colorbox": "^1.6.4",
     "jquery-easing": "^0.0.1",
     "jquery-migrate": "^3.1.0",
+    "slick-carousel": "^1.8.1",
     "style-loader": "^1.0.0",
     "url-loader": "^2.2.0",
     "webpack": "^4.41.2"
@@ -19,7 +20,6 @@
     "babel-eslint": "^10.0.3",
     "browser-sync-webpack-plugin": "^2.2.2",
     "eslint": "^6.6.0",
-    "eslint-config-airbnb": "^18.0.1",
     "eslint-config-jquery": "^2.0.0",
     "eslint-plugin-import": "^2.18.2",
     "webpack-cli": "^3.3.9",
