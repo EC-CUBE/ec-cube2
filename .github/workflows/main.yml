@@ -120,7 +120,6 @@ jobs:
         choco install -y mysql --version 5.7.18
         mysql --user=root -e "CREATE DATABASE `myapp_test`;"
         mysql --user=root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';FLUSH PRIVILEGES;"
-        mysql --user=root --password=password -h 127.0.0.1 -e "SELECT version();"
 
     - name: Setup to EC-CUBE
       env:
