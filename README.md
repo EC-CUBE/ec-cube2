@@ -1,9 +1,9 @@
 # EC-CUBE 2.17系
 
-[![GitHub Actions status](https://github.com/EC-CUBE/eccube-2_13/workflows/CI/CD%20for%20EC-CUBE/badge.svg)](https://github.com/EC-CUBE/eccube-2_13/actions)
-[![Build Status](https://travis-ci.org/EC-CUBE/eccube-2_13.svg)](https://travis-ci.org/EC-CUBE/eccube-2_13)
-[![Build status](https://ci.appveyor.com/api/projects/status/4k58ucq2smwc4h7n/branch/master?svg=true)](https://ci.appveyor.com/project/ECCUBE/eccube-2-13/branch/master)
-[![Coverage Status](https://coveralls.io/repos/EC-CUBE/eccube-2_13/badge.png)](https://coveralls.io/r/EC-CUBE/eccube-2_13)
+[![GitHub Actions status](https://github.com/EC-CUBE/ec-cube2/workflows/CI/CD%20for%20EC-CUBE/badge.svg)](https://github.com/EC-CUBE/ec-cube2/actions)
+[![Build Status](https://travis-ci.org/EC-CUBE/ec-cube2.svg)](https://travis-ci.org/EC-CUBE/ec-cube2)
+[![AppVeyor](https://img.shields.io/appveyor/ci/ECCUBE/ec-cube2)](https://ci.appveyor.com/project/ECCUBE/ec-cube2/branch/master)
+[![Coveralls github](https://img.shields.io/coveralls/github/EC-CUBE/ec-cube2)](https://coveralls.io/r/EC-CUBE/ec-cube2)
 [![PHP Versions Supported](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](#php-version-support)
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
@@ -57,7 +57,7 @@ EC-CUBEのインストールは、以下の方法があります。
 
 ### パッケージを使用してインストールする
 
-[EC-CUBE のパッケージ](https://github.com/EC-CUBE/eccube-2_13/releases)をダウンロードし、解凍してください。
+[EC-CUBE のパッケージ](https://github.com/EC-CUBE/ec-cube2/releases)をダウンロードし、解凍してください。
 
 FTP/SSHを使用し、ファイルをサーバへアップロードしてください。
 ※ファイル数が多いためエラーが発生することがございます。エラー発生時は分割してアップロードをお願いします。
@@ -74,8 +74,8 @@ FTP/SSHを使用し、ファイルをサーバへアップロードしてくだ�
 以下をコマンドラインで実行します。
 
 ```shell
-git clone https://github.com/EC-CUBE/eccube-2_13.git
-cd eccube-2_13
+git clone https://github.com/EC-CUBE/ec-cube2.git
+cd ec-cube2
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
