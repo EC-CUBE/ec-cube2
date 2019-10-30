@@ -142,6 +142,10 @@ class SC_SendMailTest extends Common_TestCase
         $this->verify();
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testGetBackendParams()
     {
         $this->objQuery->update('dtb_baseinfo', ['email04' => 'test@example.com']);
