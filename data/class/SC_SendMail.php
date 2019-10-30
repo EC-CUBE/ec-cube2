@@ -359,8 +359,7 @@ class SC_SendMail
                 $arrParams = array();
                 $objDb = new SC_Helper_DB_Ex();
                 $objSite = $objDb->sfGetBasisData();
-                if(!empty($objSite['email04']) && strpos($objSite['email04'],"@") > 0)
-                {
+                if (!empty($objSite['email04']) && strpos($objSite['email04'], '@') > 0) {
                     $arrParams[] = "-f ".$objSite['email04'];
                 }
                 break;
