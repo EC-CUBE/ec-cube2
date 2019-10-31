@@ -1,8 +1,8 @@
 {
     "name": "EC-CUBE2",
     "description": "EC-CUBE2 on Heroku",
-    "website": "https://github.com/EC-CUBE/eccube-2_13",
-    "repository": "https://github.com/EC-CUBE/eccube-2_13",
+    "website": "https://github.com/EC-CUBE/ec-cube2",
+    "repository": "https://github.com/EC-CUBE/ec-cube2",
     "keywords": ["php", "ec", "e-commerce", "ec-cube"],
     "scripts": {
         "postdeploy": "php ./setup_heroku.php"

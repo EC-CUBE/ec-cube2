@@ -136,7 +136,7 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
      * @preserveGlobalState disabled
      *
      * 基本税率と同じ税率を設定すると商品別税率を削除する
-     * @see https://github.com/EC-CUBE/eccube-2_13/issues/304
+     * @see https://github.com/EC-CUBE/ec-cube2/issues/304
      */
     public function testDeletedProductTaxRate()
     {
