@@ -118,7 +118,7 @@ switch ($mode) {
         //入力値のエラーチェック
         $objPage->arrErr = lfCheckDBError($objDBParam);
         if (count($objPage->arrErr) == 0) {
-            if ($err = renameAdminDir($objWebParam->getValue('admin_dir')) !== true) {
+            if (($err = renameAdminDir($objWebParam->getValue('admin_dir'))) !== true) {
                 $objPage->arrErr['all'] .= $err;
                 $objPage = lfDispStep2($objPage);
             } else {
