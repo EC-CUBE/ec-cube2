@@ -88,7 +88,7 @@ jobs:
         DBPASS: ${{ matrix.dbpass }}
         DBNAME: myapp_test
         DBPORT: ${{ matrix.dbport }}
-        DBHOST: 127.0.0.1
+        DBSERVER: 127.0.0.1
         HTTP_URL: http://localhost:8085/
         HTTPS_URL: http://localhost:8085/
       run: |
@@ -213,8 +213,8 @@ jobs:
         DBPASS: ${{ matrix.dbpass }}
         DBNAME: myapp_test
         DBPORT: ${{ matrix.dbport }}
-        DBHOST: 127.0.0.1
-      run: mysql --user=${DBUSER} --password=${DBPASS} -h ${DBHOST} -P ${DBPORT} -e "CREATE DATABASE ${DBNAME} DEFAULT COLLATE=utf8_general_ci;"
+        DBSERVER: 127.0.0.1
+      run: mysql --user=${DBUSER} --password=${DBPASS} -h ${DBSERVER} -P ${DBPORT} -e "CREATE DATABASE ${DBNAME} DEFAULT COLLATE=utf8_general_ci;"
 
     - name: CREATE pgsql DATABASE
       if: matrix.db == 'pgsql'
@@ -225,11 +225,11 @@ jobs:
         DBPASS: ${{ matrix.dbpass }}
         DBNAME: myapp_test
         DBPORT: ${{ matrix.dbport }}
-        DBHOST: 127.0.0.1
+        DBSERVER: 127.0.0.1
       run: |
         sudo apt-fast install -y postgresql-client
         export PGPASSWORD=${DBPASS}
-        psql -h ${DBHOST} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};"
+        psql -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};"
 
     - name: Run to Codeception
       env:
@@ -239,7 +239,7 @@ jobs:
         DBPASS: ${{ matrix.dbpass }}
         DBNAME: myapp_test
         DBPORT: ${{ matrix.dbport }}
-        DBHOST: 127.0.0.1
+        DBSERVER: 127.0.0.1
         HTTP_URL: http://localhost:8085/
         HTTPS_URL: http://localhost:8085/
       run: |

@@ -31,7 +31,7 @@ modules:
             url: 'http://127.0.0.1'
             port: '1080'
         Db:
-            dsn: %DB%:host=%DBHOST%;dbname=%DBNAME%
+            dsn: %DB%:host=%DBSERVER%;dbname=%DBNAME%
             user: %DBUSER%
             password: %DBPASS%
 

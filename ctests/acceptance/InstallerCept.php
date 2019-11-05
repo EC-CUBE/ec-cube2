@@ -43,7 +43,7 @@ defined('DB_USER') or define('DB_USER', getenv('DBUSER'));
 defined('DB_NAME') or define('DB_NAME', getenv('DBNAME'));
 defined('DB_PASSWORD') or define('DB_PASSWORD', getenv('DBPASS') );
 defined('DB_PORT') or define('DB_PORT', getenv('DBPORT'));
-defined('DB_SERVER') or define('DB_SERVER', getenv('DBHOST'));
+defined('DB_SERVER') or define('DB_SERVER', getenv('DBSERVER'));
 
 $I->selectOption('select[name=db_type]', DB_TYPE);
 $I->fillField('input[name=db_server]', DB_SERVER);
