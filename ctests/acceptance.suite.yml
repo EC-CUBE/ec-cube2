@@ -11,6 +11,7 @@ modules:
         - WebDriver
         - Asserts
         - MailCatcherGuzzle5
+        - Db
     config:
         PhpBrowser:
             url: 'http://localhost:8085/'
@@ -29,6 +30,10 @@ modules:
         MailCatcherGuzzle5:
             url: 'http://127.0.0.1'
             port: '1080'
+        Db:
+            dsn: %DB%:host=%DBHOST%;dbname=%DBNAME%
+            user: %DBUSER%
+            password: %DBPASS%
 
 env:
     travis:

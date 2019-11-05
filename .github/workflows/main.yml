@@ -136,6 +136,107 @@ jobs:
 
     - name: Run to PHPUnit
       run: data/vendor/bin/phpunit --exclude-group classloader
+
+  install-to-linux:
+    name: Install to Linux
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ ubuntu-18.04 ]
+        php: [ 5.4, 5.5, 5.6, 7.1, 7.2, 7.3 ]
+        db: [ mysql, pgsql ]
+        include:
+          - db: mysql
+            dbport: '3306'
+            dbuser: 'root'
+            dbpass: 'root'
+          - db: pgsql
+            dbport: '5432'
+            dbuser: 'postgres'
+            dbpass: 'password'
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      mailcatcher:
+        image: schickling/mailcatcher
+        ports:
+          - 1080:1080
+          - 1025:1025
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Setup PHP
+      uses: nanasess/setup-php@master
+      with:
+        php-version: ${{ matrix.php }}
+
+    - name: Install to Composer
+      run: composer install --no-interaction -o
+
+    - name: setup-chromedriver
+      uses: nanasess/setup-chromedriver@master
+      with:
+        chromedriver-version: '77.0.3865.40'
+
+    - name: Run chromedriver
+      run: |
+        export DISPLAY=:99
+        chromedriver --url-base=/wd/hub &
+        echo ">>> Started chrome-driver"
+        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+        echo ">>> Started xvfb"
+    - name: CREATE mysql DATABASE
+      if: matrix.db == 'mysql'
+      env:
+        DB: ${{ matrix.db }}
+        USER: ${{ matrix.dbuser }}
+        DBUSER: ${{ matrix.dbuser }}
+        DBPASS: ${{ matrix.dbpass }}
+        DBNAME: myapp_test
+        DBPORT: ${{ matrix.dbport }}
+        DBHOST: 127.0.0.1
+      run: mysql --user=${DBUSER} --password=${DBPASS} -h ${DBHOST} -P ${DBPORT} -e "CREATE DATABASE ${DBNAME} DEFAULT COLLATE=utf8_general_ci;"
+
+    - name: CREATE pgsql DATABASE
+      if: matrix.db == 'pgsql'
+      env:
+        DB: ${{ matrix.db }}
+        USER: ${{ matrix.dbuser }}
+        DBUSER: ${{ matrix.dbuser }}
+        DBPASS: ${{ matrix.dbpass }}
+        DBNAME: myapp_test
+        DBPORT: ${{ matrix.dbport }}
+        DBHOST: 127.0.0.1
+      run: |
+        sudo apt-fast install -y postgresql-client
+        export PGPASSWORD=${DBPASS}
+        psql -h ${DBHOST} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};"
+
+    - name: Run to Codeception
+      env:
+        DB: ${{ matrix.db }}
+        USER: ${{ matrix.dbuser }}
+        DBUSER: ${{ matrix.dbuser }}
+        DBPASS: ${{ matrix.dbpass }}
+        DBNAME: myapp_test
+        DBPORT: ${{ matrix.dbport }}
+        DBHOST: 127.0.0.1
+        HTTP_URL: http://localhost:8085/
+        HTTPS_URL: http://localhost:8085/
+      run: |
+        php data/vendor/bin/codecept build
+        php -S 0.0.0.0:8085 -t html/ &
+        php data/vendor/bin/codecept run --env chrome --steps acceptance InstallerCept
+
   deploy:
     name: Deploy
     runs-on: ubuntu-18.04
