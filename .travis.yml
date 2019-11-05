@@ -27,7 +27,7 @@ addons:
 
 env:
     global:
-        - DBNAME=myapp_test HTTP_URL=http://localhost:8085/ HTTPS_URL=http://localhost:8085/
+        - DBNAME=myapp_test DBHOST=127.0.0.1 HTTP_URL=http://localhost:8085/ HTTPS_URL=http://localhost:8085/
     matrix:
         - DB=mysql USER=root DBPASS=' ' DBUSER=root
         - DB=pgsql USER=postgres DBPASS=password DBUSER=postgres
