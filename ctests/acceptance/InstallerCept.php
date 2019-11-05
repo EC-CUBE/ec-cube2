@@ -1,4 +1,7 @@
 <?php
+/**
+ * @group installer
+ */
 $I = new AcceptanceTester($scenario);
 $faker = Codeception\Util\Fixtures::get('faker');
 $I->wantTo('正常にインストール可能か検証する');

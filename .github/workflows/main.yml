@@ -94,7 +94,7 @@ jobs:
       run: |
         php data/vendor/bin/codecept build
         php -S 0.0.0.0:8085 -t html/ &
-        php data/vendor/bin/codecept run --env chrome --steps
+        php data/vendor/bin/codecept run --env chrome --skip-group installer --steps
   run-on-windows:
     name: Run on Windows
     runs-on: ${{ matrix.operating-system }}
@@ -245,7 +245,7 @@ jobs:
       run: |
         php data/vendor/bin/codecept build
         php -S 0.0.0.0:8085 -t html/ &
-        php data/vendor/bin/codecept run --env chrome --steps acceptance InstallerCept
+        php data/vendor/bin/codecept run --env chrome --group installer --steps acceptance InstallerCept
 
   deploy:
     name: Deploy
