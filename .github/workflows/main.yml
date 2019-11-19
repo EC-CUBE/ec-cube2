@@ -71,7 +71,9 @@ jobs:
         chromedriver-version: '77.0.3865.40'
 
     - name: Run to PHPUnit
-      run: data/vendor/bin/phpunit --exclude-group classloader
+      run: |
+        data/vendor/bin/phpunit --exclude-group classloader
+        data/vendor/bin/phpunit --group classloader
 
     - name: Run chromedriver
       run: |
@@ -136,6 +138,7 @@ jobs:
 
     - name: Run to PHPUnit
       run: data/vendor/bin/phpunit --exclude-group classloader
+
   deploy:
     name: Deploy
     runs-on: ubuntu-18.04
