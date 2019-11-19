@@ -49,7 +49,7 @@ class SC_Helper_Purchase_clearShipmentItemTempTest extends SC_Helper_Purchase_Te
   {
     $this->setUpShipping($this->getMultipleShipping());
 
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $helper->clearShipmentItemTemp(); // default:null
 
     $this->expected = array('00001'=>null, '00002'=>null, '00003'=>null);
@@ -64,7 +64,7 @@ class SC_Helper_Purchase_clearShipmentItemTempTest extends SC_Helper_Purchase_Te
   {
     $this->setUpShipping($this->getMultipleShipping());
 
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $helper->clearShipmentItemTemp('00001');
 
     $this->expected = array('00001'=>null, '00002'=>array('商品2'), '00003'=>array());
@@ -79,7 +79,7 @@ class SC_Helper_Purchase_clearShipmentItemTempTest extends SC_Helper_Purchase_Te
   {
     $this->setUpShipping($this->getMultipleShipping());
 
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $helper->clearShipmentItemTemp('00004');
 
     $this->expected = array('00001'=>array('商品1'), '00002'=>array('商品2'), '00003'=>array());
@@ -96,7 +96,7 @@ class SC_Helper_Purchase_clearShipmentItemTempTest extends SC_Helper_Purchase_Te
     // 内容を配列でないように変更
     $_SESSION['shipping']['00001'] = 'temp';
 
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $helper->clearShipmentItemTemp('00001');
 
     // '00001'は配列でないので全体を取得

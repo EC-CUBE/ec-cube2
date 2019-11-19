@@ -40,7 +40,7 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
   protected function setUp()
   {
     parent::setUp();
-    $this->customer = new SC_Customer();
+    $this->customer = new SC_Customer_Ex();
     $this->customer->setValue('customer_id', '1001');
     $this->customer->setValue('name01', '姓01');
     $this->customer->setValue('name02', '名01');
@@ -77,7 +77,7 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
     User_Utils::setLoginState(FALSE, $this->customer_array, $this->objQuery);
 
     $this->expected = array();
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $helper->copyFromCustomer($dest, $this->customer);
     $this->actual = $dest;
 
@@ -118,7 +118,7 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
       'order_company_name' => '',
       'order_zipcode' => ''
     );
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $helper->copyFromCustomer($dest, $this->customer);
     $this->actual = $dest;
 
@@ -140,7 +140,7 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
       'customer_id' => '1001',
       'update_date' => 'CURRENT_TIMESTAMP'
     );
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $helper->copyFromCustomer($dest, $this->customer, $prefix, $keys);
     $this->actual = $dest;
 
@@ -163,7 +163,7 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
       'customer_id' => '1001',
       'update_date' => 'CURRENT_TIMESTAMP'
     );
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $helper->copyFromCustomer($dest, $this->customer, $prefix, $keys);
     $this->actual = $dest;
 

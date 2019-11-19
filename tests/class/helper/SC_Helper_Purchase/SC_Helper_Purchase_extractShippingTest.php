@@ -47,7 +47,7 @@ class SC_Helper_Purchase_extractShippingTest extends SC_Helper_Purchase_TestBase
   /////////////////////////////////////////
   public function testExtractShipping__予め指定されたキーだけが抽出される()
   {
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $helper->arrShippingKey = array('id', 'name', 'code');
     $arrSrc = array(
       'shipping_id' => '1001',

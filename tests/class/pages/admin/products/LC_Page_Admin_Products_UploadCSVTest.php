@@ -19,7 +19,7 @@ class LC_Page_Admin_Products_UploadCSVTest extends Common_TestCase
     {
         parent::tearDown();
         // ロケールを初期化する
-        $initial = new SC_Initial();
+        $initial = new SC_Initial_Ex();
         $initial->phpconfigInit();
     }
 

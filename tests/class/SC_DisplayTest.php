@@ -36,7 +36,7 @@ class SC_DisplayTest extends Common_TestCase
         $_SERVER['REQUEST_URI'] = '/cart';
         $this->objDisplay->setPrevURL();
 
-        $objCartSession = new SC_CartSession();
+        $objCartSession = new SC_CartSession_Ex();
         $this->assertEquals('/cart', $objCartSession->getPrevURL());
     }
 
@@ -57,7 +57,7 @@ class SC_DisplayTest extends Common_TestCase
 
     public function testPrepareWithAdmin()
     {
-        $objPage = new LC_Page_Admin_Index();
+        $objPage = new LC_Page_Admin_Index_Ex();
         $objPage->setTemplate(__DIR__.'/../../data/Smarty/templates/admin/home.tpl');
         $this->objDisplay->prepare($objPage, true);
 
