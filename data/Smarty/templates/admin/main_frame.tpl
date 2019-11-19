@@ -32,7 +32,6 @@
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/reset.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/admin_contents.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/admin_file_manager.css" type="text/css" media="all" />
-<link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.colorbox/colorbox.css" type="text/css" media="all" />
 <!--{if $tpl_mainno eq "basis" && $tpl_subno eq "index"}-->
 <!--{if ($smarty.server.HTTPS != "") && ($smarty.server.HTTPS != "off")}-->
 <script type="text/javascript" src="https://maps-api-ssl.google.com/maps/api/js?sensor=false"></script>
@@ -40,18 +39,9 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <!--{/if}-->
 <!--{/if}-->
-<!--[if lt IE 9]>
-<script src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery-1.11.1.min.js"></script>
-<![endif]-->
-<!--[if gte IE 9]><!-->
-<script src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery-2.1.1.min.js"></script>
-<!--<![endif]-->
 <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.js"></script>
+
 <script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/eccube.admin.js"></script>
-<!-- #2342 次期メジャーバージョン(2.14)にてeccube.legacy.js,eccube.admin.legacy.jsは削除予定.モジュール、プラグインの互換性を考慮して2.13では残します. -->
-<script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.legacy.js"></script>
-<script type="text/javascript" src="<!--{$TPL_URLPATH}-->js/eccube.admin.legacy.js"></script>
-<script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.colorbox/jquery.colorbox-min.js"></script>
 <title><!--{$smarty.const.ADMIN_TITLE}--></title>
 <link rel="shortcut icon" href="<!--{$TPL_URLPATH}-->img/common/favicon.ico" />
 <link rel="icon" type="image/vnd.microsoft.icon" href="<!--{$TPL_URLPATH}-->img/common/favicon.ico" />
