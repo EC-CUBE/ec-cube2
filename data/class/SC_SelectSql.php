@@ -21,7 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/* ---- SQL文を作るクラス ---- */
+/**
+ * SQL文を作るクラス
+ *
+ * SC_CustomerList からのみ参照されている
+ */
 class SC_SelectSql
 {
     public $sql;
@@ -33,15 +37,24 @@ class SC_SelectSql
     public $arrSql;
     public $arrVal;
 
-    //--　コンストラクタ。
-    public function __construct($array = '')
+    /**
+     * コンストラクタ
+     *
+     * @param array $array
+     */
+    public function __construct($array = [])
     {
         if (is_array($array)) {
             $this->arrSql = $array;
         }
     }
 
-    //-- SQL分生成
+    /**
+     * SQL文生成
+     *
+     * @param string $mode
+     * @return string
+     */
     public function getSql($mode = '')
     {
         $this->sql = $this->select .' '. $this->where .' '. $this->group .' ';
@@ -53,7 +66,9 @@ class SC_SelectSql
         return $this->sql;
     }
 
-        // 検索用
+    /**
+     * @deprecated 本体で使用していないため非推奨
+     */
     public function addSearchStr($val)
     {
         $return = '%' .$val. '%';
@@ -61,10 +76,13 @@ class SC_SelectSql
         return $return;
     }
 
-    //-- 範囲検索（○　~　○　まで）
-
     /**
+     * 範囲検索
+     *
+     * @param int $from
+     * @param int $to
      * @param string $column
+     * @return array
      */
     public function selectRange($from, $to, $column)
     {
@@ -89,10 +107,17 @@ class SC_SelectSql
         return $return;
     }
 
-    //--　期間検索（○年○月○日か~○年○月○日まで）
-
     /**
+     * 期間検索（○年○月○日か~○年○月○日まで）
+     *
+     * @param int $from_year
+     * @param int $from_month
+     * @param int $from_day
+     * @param int $to_year
+     * @param int $to_month
+     * @param int $to_day
      * @param string $column
+     * @return array
      */
     public function selectTermRange($from_year, $from_month, $from_day, $to_year, $to_month, $to_day, $column)
     {
@@ -133,10 +158,13 @@ class SC_SelectSql
         return $return;
     }
 
-    // checkboxなどで同一カラム内で単一、もしくは複数選択肢が有る場合　例: AND ( sex = xxx OR sex = xxx OR sex = xxx) AND ...
-
     /**
+     * checkboxなどで同一カラム内で単一、もしくは複数選択肢が有る場合
+     *
+     * 例: AND ( sex = xxx OR sex = xxx OR sex = xxx) AND ...
+     * @param array $arr
      * @param string $ItemStr
+     * @return array
      */
     public function setItemTerm($arr, $ItemStr)
     {
@@ -163,10 +191,12 @@ class SC_SelectSql
         return $return;
     }
 
-    //　NULL値が必要な場合
-
     /**
+     * NULL値が必要な場合
+     *
+     * @param array $arr
      * @param string $ItemStr
+     * @return array
      */
     public function setItemTermWithNull($arr, $ItemStr)
     {
@@ -187,7 +217,11 @@ class SC_SelectSql
 
         return $return;
     }
-    // NULLもしくは''で検索する場合
+
+    /**
+     * NULLもしくは''で検索する場合
+     * @deprecated 本体で使用していないため非推奨
+     */
     public function setItemTermWithNullAndSpace($arr, $ItemStr)
     {
         $return = array();
@@ -208,13 +242,15 @@ class SC_SelectSql
         return $return;
     }
 
-    /* 複数のカラムでORで優先検索する場合　例：　AND ( item_flag1 = xxx OR item_flag2 = xxx OR item_flag3 = xxx) AND ...
-
-        配列の構造例　
-        if ($_POST['show_site1']) $arrShowsite_1 = array('column' => 'show_site1',
-                                                            'value'  => $_POST['show_site1']);
-
-    */
+    /**
+     * 複数のカラムでORで優先検索する場合　例：　AND ( item_flag1 = xxx OR item_flag2 = xxx OR item_flag3 = xxx) AND ...
+     *
+     * 配列の構造例　
+     * if ($_POST['show_site1']) $arrShowsite_1 = array('column' => 'show_site1',
+     * 'value'  => $_POST['show_site1']);
+     *
+     * @deprecated 本体で使用していないため非推奨
+     */
     public function setWhereByOR($arrWhere)
     {
         $count = count($arrWhere);
@@ -252,6 +288,9 @@ class SC_SelectSql
         return $where;
     }
 
+    /**
+     * @param string $where
+     */
     public function setWhere($where)
     {
         if ($where != '') {
@@ -268,14 +307,20 @@ class SC_SelectSql
      */
     public function setOrder($order)
     {
-            $this->order =  'ORDER BY ' . $order;
+        $this->order =  'ORDER BY ' . $order;
     }
 
+    /**
+     * @deprecated 本体で使用していないため非推奨
+     */
     public function setGroup($group)
     {
         $this->group =  'GROUP BY ' . $group;
     }
 
+    /**
+     * @deprecated 本体で使用していないため非推奨
+     */
     public function clearSql()
     {
         $this->select = '';
@@ -284,6 +329,9 @@ class SC_SelectSql
         $this->order = '';
     }
 
+    /**
+     * @deprecated 本体で使用していないため非推奨
+     */
     public function setSelect($sql)
     {
         $this->select = $sql;
