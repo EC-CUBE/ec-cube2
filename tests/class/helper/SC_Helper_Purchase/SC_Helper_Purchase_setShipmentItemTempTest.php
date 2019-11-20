@@ -50,7 +50,7 @@ class SC_Helper_Purchase_setShipmentItemTempTest extends SC_Helper_Purchase_Test
     $_SESSION['shipping']['1001']['shipment_item'] = array(
       '1001' => array('productsClass' => array('price02' => 9000))
     );
-    $this->helper = new SC_Helper_Purchase();
+    $this->helper = new SC_Helper_Purchase_Ex();
   }
 
   protected function tearDown()

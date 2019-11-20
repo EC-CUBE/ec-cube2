@@ -56,7 +56,7 @@ class SC_Helper_Purchase_getShippingsTest extends SC_Helper_Purchase_TestBase
     $order_id = '100'; // 存在しないID
 
     $this->expected = array();
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $this->actual = $helper->getShippings($order_id);
 
     $this->verify('配送情報');
@@ -75,7 +75,7 @@ class SC_Helper_Purchase_getShippingsTest extends SC_Helper_Purchase_TestBase
     );
     $this->expected['shipment_item_count'] = 3;
 
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $result = $helper->getShippings($order_id);
 
     $this->actual['count'] = count($result);
@@ -100,7 +100,7 @@ class SC_Helper_Purchase_getShippingsTest extends SC_Helper_Purchase_TestBase
     );
     $this->expected['shipment_item_count'] = 0;
 
-    $helper = new SC_Helper_Purchase();
+    $helper = new SC_Helper_Purchase_Ex();
     $result = $helper->getShippings($order_id, false);
     $this->actual['count'] = count($result);
     // shipping_idごとの配列になっているのでshipping_idで抽出

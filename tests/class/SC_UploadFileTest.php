@@ -17,7 +17,7 @@ class SC_UploadFileTest extends Common_TestCase
         foreach ([$this->saveDir, $this->tempDir] as $dir) {
             mkdir($dir, 0777, true);
         }
-        $this->objUpFile = new SC_UploadFile($this->tempDir, $this->saveDir);
+        $this->objUpFile = new SC_UploadFile_Ex($this->tempDir, $this->saveDir);
         copy(IMAGE_SAVE_REALDIR.'ice500.jpg', $this->tempDir.'/ice500.jpg');
 
         $_FILES = [

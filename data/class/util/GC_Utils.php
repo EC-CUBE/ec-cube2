@@ -56,7 +56,7 @@ class GC_Utils
     public function gfGetCallerInfo($forLogInfo = true)
     {
         // バックトレースを取得する
-        $traces = debug_backtrace(false);
+        $traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5);
         $bklv = 1;
         if ($forLogInfo === true) {
             $bklv = 3;
@@ -79,7 +79,7 @@ class GC_Utils
     public function getDebugBacktrace($arrBacktrace = null)
     {
         if (is_null($arrBacktrace)) {
-            $arrBacktrace = debug_backtrace(false);
+            $arrBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         }
         $arrReturn = array();
         foreach (array_reverse($arrBacktrace) as $arrLine) {

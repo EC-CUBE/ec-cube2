@@ -77,8 +77,8 @@ if (!is_writable($temp_dir)) {
 $objView = new SC_InstallView_Ex($ownDir . 'templates', $ownDir . 'temp');
 
 // パラメーター管理クラス
-$objWebParam = new SC_FormParam();
-$objDBParam = new SC_FormParam();
+$objWebParam = new SC_FormParam_Ex();
+$objDBParam = new SC_FormParam_Ex();
 // パラメーター情報の初期化
 $objWebParam = lfInitWebParam($objWebParam);
 $objDBParam = lfInitDBParam($objDBParam);
@@ -587,7 +587,7 @@ function lfDispComplete($objPage)
     $sqlval['mypage_tpl'] = 'default1';
     $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
     $sqlval['country_id'] = DEFAULT_COUNTRY_ID;
-    $objQuery = new SC_Query($arrDsn);
+    $objQuery = new SC_Query_Ex($arrDsn);
     $cnt = $objQuery->count('dtb_baseinfo');
     if ($cnt > 0) {
         $objQuery->update('dtb_baseinfo', $sqlval);
@@ -644,7 +644,7 @@ function lfInitWebParam($objWebParam)
 
     // 店名、管理者メールアドレスを取得する。(再インストール時)
     if (defined('DEFAULT_DSN')) {
-        $objQuery = new SC_Query();
+        $objQuery = new SC_Query_Ex();
         $tables = $objQuery->listTables();
 
         if (!PEAR::isError($tables) && in_array('dtb_baseinfo', $tables)) {
@@ -761,7 +761,7 @@ function lfCheckWebError($objWebParam)
 {
     // 入力データを渡す。
     $arrRet = $objWebParam->getHashArray();
-    $objErr = new SC_CheckError($arrRet);
+    $objErr = new SC_CheckError_Ex($arrRet);
     $objErr->arrErr = $objWebParam->checkError();
 
     // ディレクトリ名のみ取得する
@@ -804,7 +804,7 @@ function lfCheckDBError($objDBParam)
     // 入力データを渡す。
     $arrRet = $objDBParam->getHashArray();
 
-    $objErr = new SC_CheckError($arrRet);
+    $objErr = new SC_CheckError_Ex($arrRet);
     $objErr->arrErr = $objDBParam->checkError();
 
     if (count($objErr->arrErr) == 0) {

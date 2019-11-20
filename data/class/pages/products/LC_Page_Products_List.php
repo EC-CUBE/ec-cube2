@@ -489,12 +489,20 @@ class LC_Page_Products_List extends LC_Page_Ex
         $this->arrProducts = $this->setStatusDataTo($this->arrProducts, $this->arrSTATUS, $this->arrSTATUS_IMAGE);
         SC_Product_Ex::setPriceTaxTo($this->arrProducts);
 
-        // 一覧メイン画像の指定が無い商品のための処理
-        foreach ($this->arrProducts as $key=>$val) {
-            $this->arrProducts[$key]['main_list_image'] = SC_Utils_Ex::sfNoImageMainList($val['main_list_image']);
+        $arrJson = array();
+        foreach ($this->arrProducts as $key => &$val) {
+            if ($key == "productStatus") {
+                $arrJson[$key] = $val;
+            } else {
+                // 一覧メイン画像の指定が無い商品のための処理
+                $val['main_list_image'] = SC_Utils_Ex::sfNoImageMainList($val['main_list_image']);
+
+                // JSON用に並び順を維持するために配列に入れ直す
+                $arrJson[] = $val;
+            }
         }
 
-        echo SC_Utils_Ex::jsonEncode($this->arrProducts);
+        echo SC_Utils_Ex::jsonEncode($arrJson);
         SC_Response_Ex::actionExit();
     }
 

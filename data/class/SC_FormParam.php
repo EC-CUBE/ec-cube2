@@ -67,7 +67,7 @@ class SC_FormParam
 
         // SC_FormParamのフックポイント
         // TODO: debug_backtrace以外にいい方法があれば良いが、一旦これで
-        $backtraces = debug_backtrace();
+        $backtraces = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS, 2);
         // 呼び出し元のクラスを取得
         $class = $backtraces[1]['class'];
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
