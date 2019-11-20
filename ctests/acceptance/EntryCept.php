@@ -11,9 +11,15 @@ $I->wantTo('会員登録が正常にできるかを確認する');
 $I->amOnPage('/entry/kiyaku.php');
 $I->see('ご利用規約');
 
+$I->expect('body の class 名が出力されている');
+$I->seeElement(['css' => 'body'], ['class' => 'LC_Page_Entry_Kiyaku']);
+
 // 同意するをクリック
 $I->click(['xpath' => '//*[@id="form1"]/div/ul/li[2]/a']);
 $I->see('会員登録(入力ページ)');
+
+$I->expect('body の class 名が出力されている');
+$I->seeElement(['css' => 'body'], ['class' => 'LC_Page_Entry']);
 
 $form = [
     'name01' => $faker->lastName,

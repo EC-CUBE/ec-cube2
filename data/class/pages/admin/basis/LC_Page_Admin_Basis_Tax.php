@@ -53,7 +53,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
         $this->arrTAXCALCRULE = $masterData->getMasterData('mtb_taxrule');
 
         //適用時刻の項目値設定
-        $this->objDate = new SC_Date();
+        $this->objDate = new SC_Date_Ex();
         //適用時間の年を、「現在年~現在年＋2」の範囲に設定
         for ($year=date("Y"); $year<=date("Y") + 2;$year++) {
             $arrYear[$year] = $year;

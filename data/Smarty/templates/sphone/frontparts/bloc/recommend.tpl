@@ -47,7 +47,13 @@
 <script type="application/javascript">
     <!--//
     $(function(){
-        $('#recommend_area ul li').flickSlide({target:'#recommend_area>ul', duration:5000});
+      $('#recommend_area ul').slick({
+        dots: false,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        adaptiveHeight: true
+      });
     });
     //-->
 </script>

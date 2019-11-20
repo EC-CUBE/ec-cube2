@@ -1,0 +1,12 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true,
+    "jquery": true
+  },
+   "plugins": [
+    "import"
+  ],
+  "parser": "babel-eslint",
+  "extends": "jquery"
+}

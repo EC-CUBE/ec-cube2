@@ -110,7 +110,7 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
         // FIXME SC_Product クラスを使用した実装
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'alldtl.product_id, name, main_list_image, product_code_min, product_code_max, status';
-        $objProduct = new SC_Product();
+        $objProduct = new SC_Product_Ex();
         $table = $objProduct->alldtlSQL();
         $table.= ' LEFT JOIN dtb_product_categories AS T5 ON alldtl.product_id = T5.product_id';
         $where = 'del_flg = 0 AND category_id = ?';

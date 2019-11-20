@@ -75,7 +75,7 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
         $objPurchase->cancelPendingOrder(PENDING_ORDER_CANCEL_FLAG);
 
         $objCustomer    = new SC_Customer_Ex();
-        $objProduct  = new SC_Product();
+        $objProduct  = new SC_Product_Ex();
 
         if (!SC_Utils_Ex::sfIsInt($_GET['order_id'])) {
             SC_Utils_Ex::sfDispSiteError(CUSTOMER_ERROR);

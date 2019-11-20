@@ -7,5 +7,8 @@ $I->seeElement('#site_description');
 
 $I->seeElement('#main_image');
 
+$I->expect('body の class 名が出力されている');
+$I->seeElement(['css' => 'body'], ['class' => 'LC_Page_Index']);
+
 $I->expect('システムエラーが出ていない');
 $I->dontSeeElement('.error');

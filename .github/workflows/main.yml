@@ -1,7 +1,17 @@
 name: CI/CD for EC-CUBE
 on:
   push:
+    branches:
+      - master
+    tags:
+      - '*'
+    paths:
+      - '**'
+      - '!*.md'
   pull_request:
+    paths:
+      - '**'
+      - '!*.md'
   release:
     types: [ published ]
 
@@ -71,7 +81,9 @@ jobs:
         chromedriver-version: '77.0.3865.40'
 
     - name: Run to PHPUnit
-      run: data/vendor/bin/phpunit --exclude-group classloader
+      run: |
+        data/vendor/bin/phpunit --exclude-group classloader
+        data/vendor/bin/phpunit --group classloader
 
     - name: Run chromedriver
       run: |
@@ -138,6 +150,7 @@ jobs:
       run: |
         data/vendor/bin/phpunit --exclude-group classloader
         data/vendor/bin/phpunit --group classloader
+
   deploy:
     name: Deploy
     runs-on: ubuntu-18.04
