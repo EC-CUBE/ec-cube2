@@ -90,4 +90,5 @@ php composer.phar install --no-dev --no-interaction -o
 
 ---
 
-EC-CUBE3系及び4系については、[EC-CUBE/ec-cube](https://github.com/EC-CUBE/ec-cube)にて開発を行っております。
+- EC-CUBE4系については、 [EC-CUBE/ec-cube](https://github.com/EC-CUBE/ec-cube) にて開発を行っております。
+- EC-CUBE3系については、 [EC-CUBE/ec-cube3](https://github.com/EC-CUBE/ec-cube3) にて開発を行っております。
