@@ -53,6 +53,18 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
+
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
     - name: Setup PHP
       uses: nanasess/setup-php@master
       with:
@@ -126,6 +138,17 @@ jobs:
       uses: nanasess/setup-php@master
       with:
         php-version: ${{ matrix.php }}
+
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**\composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
 
     - name: Install to Composer
       run: composer install --no-interaction -o
@@ -267,6 +290,19 @@ jobs:
     - name: Checkout
       if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
       uses: actions/checkout@master
+
+    - name: Get Composer Cache Directory
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      id: composer-cache
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v1
+      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
 
     - name: Install to Composer
       if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
