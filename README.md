@@ -49,7 +49,7 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 | 必須      | pgsql / mysqli (利用するデータベースに合わせること) <br> pdo_pgsql / pdo_mysql (利用するデータベースに合わせること) <br> pdo <br> mbstring <br> zlib <br> ctype <br> session <br> JSON <br> xml <br> libxml <br> OpenSSL <br> zip <br> cURL <br> gd                                      |
 | 推奨      | hash <br> APCu / WinCache (利用する環境に合わせること) <br> Zend OPcache <br> mcrypt                                                                                                                                                                                                     |
 
-#### インストール方法
+## インストール方法
 
 EC-CUBEのインストールは、以下の方法があります。
 
