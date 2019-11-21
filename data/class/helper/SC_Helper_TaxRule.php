@@ -119,7 +119,7 @@ class SC_Helper_TaxRule
      * @param int $option_product_tax_rule 商品別税率を有効にする場合 1, 無効の場合 0
      * @return array 税設定情報
      *
-     * @see https://github.com/EC-CUBE/eccube-2_13/pull/301
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/301
      */
     public static function getTaxRule($product_id = 0, $product_class_id = 0, $pref_id = 0, $country_id = 0, $option_product_tax_rule = OPTION_PRODUCT_TAX_RULE)
     {

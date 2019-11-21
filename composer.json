@@ -1,6 +1,6 @@
 {
-    "name": "ec-cube/eccube-2_13",
-    "description": "EC-CUBE 2.13-stable",
+    "name": "ec-cube/ec-cube2",
+    "description": "EC-CUBE 2.x",
     "type": "project",
     "homepage": "http://www.ec-cube.net/",
     "license": [
@@ -8,7 +8,7 @@
        "Commercial"
     ],
     "support": {
-        "issues": "https://github.com/EC-CUBE/eccube-2_13/issues"
+        "issues": "https://github.com/EC-CUBE/ec-cube2/issues"
     },
     "config": {
         "vendor-dir": "data/vendor",
@@ -16,7 +16,10 @@
             "php": "5.4.16"
         },
         "optimize-autoloader": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "preferred-install": {
+            "*": "dist"
+        }
     },
     "require-dev": {
         "captbaritone/mailcatcher-codeception-module": "1.2.1",

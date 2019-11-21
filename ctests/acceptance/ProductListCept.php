@@ -26,7 +26,7 @@ $I->expect('50件まで一覧表示する');
 $I->selectOption(['css' => '#page_navi_top > div > div.change > select'], '50件');
 
 $I->expect('カテゴリにアクセスすると商品が絞り込まれる');
-$I->comment('see https://github.com/EC-CUBE/eccube-2_13/pull/273');
+$I->comment('see https://github.com/EC-CUBE/ec-cube2/pull/273');
 $products_in_category = $I->grabMultiple(['css' => '#undercolumn > form > div > div.listrightbloc > h3 > a']);
 
 if (count($products_in_category) <= 50) {
