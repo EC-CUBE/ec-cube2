@@ -142,9 +142,18 @@ class SC_SendMailTest extends Common_TestCase
         $this->verify();
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testGetBackendParams()
     {
-        $this->expected = [];
+        $this->objQuery->update('dtb_baseinfo', ['email04' => 'test@example.com']);
+        $objDb = new SC_Helper_DB_Ex();
+        $objSite = $objDb->sfGetBasisData();
+        $this->expected = [
+            '-f '.$objSite['email04']
+        ];
         $this->actual = $this->objSendMail->getBackendParams('mail');
         $this->verify();
 
