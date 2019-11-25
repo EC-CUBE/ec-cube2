@@ -4,7 +4,7 @@ var webpack = require("webpack");
 
 module.exports = {
     entry: {
-        eccube: './data/eccube.js',
+        eccube: ['@babel/polyfill', './data/eccube.js'],
     },
     devtool: 'source-map',
     output: {
