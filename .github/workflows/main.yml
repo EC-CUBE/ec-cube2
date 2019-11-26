@@ -180,7 +180,9 @@ jobs:
       shell: bash
 
     - name: Run to PHPUnit
-      run: data/vendor/bin/phpunit --exclude-group classloader
+      run: |
+        data/vendor/bin/phpunit --exclude-group classloader
+        data/vendor/bin/phpunit --group classloader
 
   install-to-linux:
     name: Install to Linux

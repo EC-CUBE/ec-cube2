@@ -54,7 +54,7 @@ class LoadClassFileChangeTest extends Common_TestCase
      */
     private function createPlugin()
     {
-        $realdir = PLUGIN_UPLOAD_REALDIR;
+        $realdir = str_replace('\\', '/', PLUGIN_UPLOAD_REALDIR); // Normalize of PATH_SEPARATOR
         $plugin_info = <<< __EOS__
 <?php
 class plugin_info {
@@ -74,7 +74,7 @@ class AutoloadingPlugin extends SC_Plugin_Base
 {
     public function loadClassFileChange(&\$classname, &\$classpath) {
         if (\$classname === "SC_Product_Ex") {
-            \$classpath = "${realdir}/AutoloadingPlugin/Autoloading_SC_Product.php";
+            \$classpath = "${realdir}AutoloadingPlugin/Autoloading_SC_Product.php";
             \$classname = "Autoloading_SC_Product";
         }
     }
