@@ -32,6 +32,14 @@ define('INSTALL_FUNCTION', true);
 define('INSTALL_INFO_URL', 'http://www.ec-cube.net/install_info/index.php');
 define("DEFAULT_COUNTRY_ID", 392);
 
+$dir = preg_replace('|install/.*$|', '', $_SERVER['REQUEST_URI']);
+$normal_url = 'http://' . $_SERVER['HTTP_HOST'] . $dir;
+defined('HTTP_URL') or define('HTTP_URL', $normal_url);
+defined('HTTPS_URL') or define('HTTPS_URL', $normal_url);
+$url_dir = preg_replace('|^https?://[a-zA-Z0-9_:~=&\?\.\-]+|', '', $normal_url);
+defined('ROOT_URLPATH') or define('ROOT_URLPATH', $url_dir);
+defined('ADMIN_DIR') or define('ADMIN_DIR', '');
+
 require_once HTML_REALDIR . HTML2DATA_DIR . 'require_base.php';
 ob_start();
 // ▲require.php 相当
@@ -110,7 +118,7 @@ switch ($mode) {
         //入力値のエラーチェック
         $objPage->arrErr = lfCheckDBError($objDBParam);
         if (count($objPage->arrErr) == 0) {
-            if ($err = renameAdminDir($objWebParam->getValue('admin_dir')) !== true) {
+            if (($err = renameAdminDir($objWebParam->getValue('admin_dir'))) !== true) {
                 $objPage->arrErr['all'] .= $err;
                 $objPage = lfDispStep2($objPage);
             } else {
@@ -625,6 +633,7 @@ function lfDispComplete($objPage)
     $objPage->tpl_sslurl = $secure_url;
     //EC-CUBEオフィシャルサイトからのお知らせURL
     $objPage->install_info_url = INSTALL_INFO_URL;
+    $objPage->admin_dir = $objWebParam->getValue('admin_dir');
     return $objPage;
 }
 
@@ -632,20 +641,6 @@ function lfDispComplete($objPage)
 function lfInitWebParam($objWebParam)
 {
     global $objDb;
-
-    if (defined('HTTP_URL')) {
-        $normal_url = HTTP_URL;
-    } else {
-        $dir = preg_replace('|install/.*$|', '', $_SERVER['REQUEST_URI']);
-        $normal_url = 'http://' . $_SERVER['HTTP_HOST'] . $dir;
-    }
-
-    if (defined('HTTPS_URL')) {
-        $secure_url = HTTPS_URL;
-    } else {
-        $dir = preg_replace('|install/.*$|', '', $_SERVER['REQUEST_URI']);
-        $secure_url = 'http://' . $_SERVER['HTTP_HOST'] . $dir;
-    }
 
     // 店名、管理者メールアドレスを取得する。(再インストール時)
     if (defined('DEFAULT_DSN')) {
@@ -706,8 +701,8 @@ function lfInitWebParam($objWebParam)
     $objWebParam->addParam('管理機能：ディレクトリ', 'admin_dir', ID_MAX_LEN, 'a', array('EXIST_CHECK', 'SPTAB_CHECK', 'ALNUM_CHECK'), $oldAdminDir);
     $objWebParam->addParam('管理機能：SSL制限', 'admin_force_ssl', 1, 'n', array('SPTAB_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'), $admin_force_ssl);
     $objWebParam->addParam('管理機能：IP制限', 'admin_allow_hosts', LTEXT_LEN, 'an', array('IP_CHECK', 'MAX_LENGTH_CHECK'), $admin_allow_hosts);
-    $objWebParam->addParam('URL(通常)', 'normal_url', MTEXT_LEN, '', array('EXIST_CHECK', 'URL_CHECK', 'MAX_LENGTH_CHECK'), $normal_url);
-    $objWebParam->addParam('URL(セキュア)', 'secure_url', MTEXT_LEN, '', array('EXIST_CHECK', 'URL_CHECK', 'MAX_LENGTH_CHECK'), $secure_url);
+    $objWebParam->addParam('URL(通常)', 'normal_url', MTEXT_LEN, '', array('EXIST_CHECK', 'URL_CHECK', 'MAX_LENGTH_CHECK'), HTTP_URL);
+    $objWebParam->addParam('URL(セキュア)', 'secure_url', MTEXT_LEN, '', array('EXIST_CHECK', 'URL_CHECK', 'MAX_LENGTH_CHECK'), HTTPS_URL);
     $objWebParam->addParam('ドメイン', 'domain', MTEXT_LEN, '', array('MAX_LENGTH_CHECK'));
     $objWebParam->addParam('メーラーバックエンド', 'mail_backend', STEXT_LEN, 'a', array('MAX_LENGTH_CHECK', 'EXIST_CHECK'), $mail_backend);
     $objWebParam->addParam('SMTPホスト', 'smtp_host', STEXT_LEN, 'a', array('MAX_LENGTH_CHECK'), $smtp_host);
@@ -992,9 +987,6 @@ function lfMakeConfigFile()
     // 語尾に'/'をつける
     $secure_url = rtrim($secure_url, '/') . '/';
 
-    // ディレクトリの取得
-    $url_dir = preg_replace('|^https?://[a-zA-Z0-9_:~=&\?\.\-]+|', '', $normal_url);
-
     //管理機能SSL制限
     if ($objWebParam->getValue('admin_force_ssl') == 1 and strpos($secure_url, 'https://') !== FALSE) {
         $force_ssl = 'TRUE';
@@ -1047,7 +1039,7 @@ function lfMakeConfigFile()
                  . "define('ECCUBE_INSTALL', 'ON');\n"
                  . "define('HTTP_URL', '"              . $normal_url . "');\n"
                  . "define('HTTPS_URL', '"             . $secure_url . "');\n"
-                 . "define('ROOT_URLPATH', '"          . $url_dir . "');\n"
+                 . "define('ROOT_URLPATH', '"          . ROOT_URLPATH . "');\n"
                  . "define('DOMAIN_NAME', '"           . $objWebParam->getValue('domain') . "');\n"
                  . "define('DB_TYPE', '"               . $objDBParam->getValue('db_type') . "');\n"
                  . "define('DB_USER', '"               . $objDBParam->getValue('db_user') . "');\n"
@@ -1156,6 +1148,7 @@ function renameAdminDir($adminDir)
     }
 
     $oldAdminDir = SC_Utils_Ex::sfTrimURL(ADMIN_DIR);
+    $oldAdminDir = $oldAdminDir == '' ? 'admin' : $oldAdminDir;
     if ($adminDir === $oldAdminDir) {
         return true;
     }
