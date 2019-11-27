@@ -9,9 +9,131 @@
 /* メインイメージ
 ----------------------------------------------- */
 #main_image {
-    margin-bottom: 10px;
+    padding-bottom: 24px;
     text-align: center;
 }
+
+.comment_area,
+.img_frame {
+    padding-bottom: 24px;
+}
+
+@media screen and (min-width: 768px) {
+    .content_center {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+        -webkit-align-items: space-between;
+    }
+
+    .comment_area,
+    .img_frame {
+        max-width: 50%;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+        -webkit-align-items: space-between;
+    }
+}
+
+.comment_area .txt_center {
+    clear: both;
+    text-align: center;
+    padding: 0 16px;
+}
+
+.img_right,
+.img_left {
+    width: 50%;
+    padding: 0 16px;
+}
+
+.comment_area h4 {
+    font-size: 3.2rem;
+    margin: 0 0 8px;
+}
+
+.comment_area h5 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.comment_area p {
+    font-size: 2rem;
+    margin: 24px 0;
+}
+
+@media screen and (max-width: 768px) {
+    .comment_area,
+    .img_frame {
+        clear: both;
+    }
+
+    .img_right,
+    .img_left {
+        padding: 0 8px;
+    }
+
+    .comment_area h4 {
+        font-size: 2.4rem;
+        padding-top: 24px;
+    }
+
+    .comment_area h5,
+    .comment_area p {
+        font-size: 1.6rem;
+    }
+}
+
+a.btn-success {
+    background-color: #5cb1b1;
+    border-color: #5cb1b1;
+    color: #fff;
+}
+
+.pickup_item {
+    padding: 0 8px;
+}
+
+@media screen and (min-width: 768px) {
+    #recommend_area .block_body {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-justify-content: flex-start;
+        justify-content: flex-start;
+        -webkit-align-items: flex-start;
+    }
+
+    .pickup_item {
+        padding: 0 16px;
+    }
+}
+
+.pickup_item .item_photo {
+    margin: 0 0 15px;
+}
+
+.pickup_item dt {
+    color: #9a947e;
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 0 0 8px;
+}
+
+.pickup_item dd {
+    color: #525263;
+    font-size: 1.4rem;
+    font-weight: normal;
+    padding: 0 0 15px;
+}
+
+.more_link.text-warning {
+    color: #9a947e;
+    font-weight: bold;
+}
+
 
 /* ==============================================
 ▼下層
@@ -57,27 +179,23 @@ div#mynavi_area {
 div#mycontents_area {
     width: 100%;
 }
+
 div#mynavi_area .mynavi_list {
     margin-bottom: 20px;
     width: 100%;
+    text-align: center;
 }
+
 div#mynavi_area .mynavi_list li {
-    margin: 0 15px 5px 0;
-    padding-left: 15px;
-    float: left;
-    background: url('../img/icon/ico_arrow_01.gif') no-repeat left ;
-    font-size: 120%;
+    font-size: 1.4rem;
+    display: inline-block;
+    padding: 16px;
 }
 
 div#mynavi_area div.point_announce {
     margin-bottom: 30px;
-    padding: 10px;
-    border: solid 1px #ffcc62;
-    background-color: #fffaf0;
-}
-div#mynavi_area div.point_announce p {
-    padding-left: 20px;
-    background: url('../img/icon/ico_point.gif') no-repeat left ;
+    padding: 16px;
+    text-align: center;
 }
 
 div#mycontents_area p.inforamtion {
@@ -91,24 +209,35 @@ div#mypagecolumn h4 {
     font-size: 120%;
 }
 
+div#mypagecolumn .btn_area ul li,
+#undercolumn .btn_area ul li {
+    width: 50%;
+    padding: 0 16px;
+    display: inline-block;
+    width: 250px;
+    margin: 15px auto;
+}
 
 /* 購入履歴一覧/詳細
 ----------------------------------------------- */
 div#mycontents_area div.mycondition_area {
     margin: 0 auto 20px 0;
-    padding: 10px;
+    padding: 10px 10%;
     border: solid 1px #ccc;
     width: 97%;
     background: #f9f9f9;
 }
+
 div#mycontents_area div.mycondition_area p {
     float: left;
 }
+
 div#mycontents_area div.mycondition_area .btn {
     width: 160px;
     margin-top: 15px;
     float: right;
 }
+
 .add_address {
     margin-bottom: 20px;
 }
@@ -118,7 +247,7 @@ div#mycontents_area div.mycondition_area .btn {
 ----------------------------------------------- */
 div#mycontents_area .message_area {
     margin: 30px auto;
-    padding: 30px;
+    padding: 30px 30%;
     border: 1px solid #ccc;
     text-align: center;
 }
@@ -136,7 +265,7 @@ div#undercolumn_entry {
 
 div#undercolumn_entry .kiyaku_text {
     margin: 20px auto;
-    padding: 10px;
+    padding: 10px 3%;
     border: solid 1px #ccc;
     width: 94%;
     background: #fff;
@@ -148,31 +277,72 @@ div#undercolumn_entry .kiyaku_text {
 =============================================== */
 div#undercolumn_login {
     margin: 0 auto;
-    width: 100%;
+    width: 65%;
+    padding: 0 16px;
+}
+
+@media screen and (max-width: 768px) {
+    div#undercolumn_login {
+        width: 100%;
+    }
+}
+
+div#undercolumn_login.shopping_login {
+    float: left;
+}
+
+#nonmember_block {
+    margin: 0 auto;
+    width: 35%;
+    padding: 0 16px;
+    float: right;
 }
 
 div#undercolumn_login .login_area {
     margin-bottom: 30px;
 }
 
+div#undercolumn_login .login_area .menber_image {
+    text-align: center;
+    padding: 0 0 16px;
+    margin: 0 auto;
+    width: 60px;
+}
+
 div#undercolumn_login .login_area .inputbox {
-    margin: 15px auto 15px auto;
-    padding: 15px 20px 10px 20px;
+    margin: 15px auto;
+    padding: 40px 16px;
     background: #f0f0f0;
+    max-width: 100%;
+}
+
+div#nonmember_block .column .column_inner {
+    background: #f0f0f0 none repeat scroll 0 0;
+    margin: 15px auto;
+    max-width: 100%;
+    padding: 80px 16px;
+}
+
+div#nonmember_block .column .column_inner .message {
+    max-width: 230px;
+    margin: 0 auto;
 }
 
 div#undercolumn_login .login_area .inputbox .btn_area {
     margin-top: 0;
 }
 
+div#undercolumn_login .login_area .inputbox dd {
+    margin-bottom: 16px;
+}
 
 /* ==============================================
 ▼エラー
 =============================================== */
 div#undercolumn_error .message_area {
-    width: 80%;
+    width: 78%;
     margin: 30px auto;
-    padding: 30px;
+    padding: 30px 10%;
     border: 1px solid #ccc;
     text-align: center;
 }
@@ -189,25 +359,30 @@ div#undercolumn_error .message_area .error {
 ----------------------------------------------- */
 .pagenumber_area {
     padding-bottom: 10px;
-    background: url("../img/background/line_dot_01.gif") repeat-x bottom ;
 }
+
 .pagecond_area {
     margin-bottom: 20px;
-    padding: 10px;
+    padding: 10px 10%;
 }
+
 .pagenumber_area {
     margin: 20px 0;
 }
+
 .pagecond_area {
     border: 1px solid #ccc;
 }
+
 .pagenumber_area .navi {
     width: 100%;
     text-align: left;
 }
+
 .pagenumber_area .navi li {
     display: inline;
 }
+
 .pagenumber_area .change {
     float: right;
     text-align: right;
@@ -217,32 +392,40 @@ div#undercolumn_error .message_area .error {
 
 /* レイアウト
 ----------------------------------------------- */
+.list_frame {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-align-items: space-between;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.list_frame form {
+    width: 25%;
+}
 div.list_area {
-    padding: 0 0 30px 0;
-    width: 100%;
-    overflow: auto;
+    overflow: hidden;
+    position: relative;
 }
 
-div.listphoto {
-    float: left;
+div.list_area h3 {
+    color: #525263 !important;
+    line-height: 4rem;
+    font-size: 4rem;
+    font-weight: normal !important;
 }
 
-/* メインカラム用 1カラム時*/
-#main_column.colnum1 div.listrightbloc {
-    float: right;
-    width: 74%;
+div.list_area .price {
+    color: #525263 !important;
+    font-weight: bold !important;
 }
 
-/* メインカラム用 2カラム時*/
-#main_column.colnum2 div.listrightbloc {
-    float: right;
-    width: 80%;
-}
-
-/* メインカラム用 3カラム時*/
-#main_column.colnum3 div.listrightbloc {
-    float: right;
-    width: 74%;
+@media screen and (max-width: 768px) {
+    div.list_area {
+        width: 50%;
+        padding: 0 8px 30px;
+    }
 }
 
 
@@ -253,21 +436,24 @@ div.listrightbloc ul.status_icon {
     margin-bottom: 10px;
     width: 100%;
 }
+
 div.listrightbloc ul.status_icon li {
-    margin-right: 5px;
+    margin-right: 2%;
     float: left;
+    width: 31%;
 }
 
 /* 商品名 */
 div.listrightbloc h3 {
     font-weight: bold;
-    font-size: 120%;
+    font-size: 100%;
 }
 
 /* コメント */
 div.listrightbloc .listcomment {
     margin: 0 0 10px 0;
     text-align: left;
+    font-size: 80%;
 }
 
 /* 商品詳細を見る */
@@ -280,7 +466,7 @@ div.listrightbloc .pricebox {
     margin: 0 0 10px 0;
 }
 
-/* 買い物カゴ */
+/* 買い物かご */
 div.listrightbloc .cart_area {
     padding: 10px;
     border: 1px solid #cef0f4;
@@ -292,19 +478,23 @@ div.listrightbloc .cart_area {
 div.listrightbloc .classlist {
     margin-bottom: 10px;
     padding-bottom: 10px;
-    background: url("../img/background/line_dot_02.gif") repeat-x bottom ;
+    background: url("../img/background/line_dot_02.gif") repeat-x bottom;
 }
+
 div.listrightbloc dl {
     width: 100%;
 }
+
 div.listrightbloc dt {
     display: inline-block;
     vertical-align: top;
 }
+
 div.listrightbloc dd {
     padding-bottom: 10px;
     display: inline-block;
 }
+
 div.listrightbloc dd p.attention {
     margin-top: 5px;
 }
@@ -312,20 +502,25 @@ div.listrightbloc dd p.attention {
 /* カゴに入れる */
 div.listrightbloc .cartin {
     margin: 0;
-    float :right;
 }
+
 div.listrightbloc .cartin .quantity {
-    padding: 3px 10px 0 0;
-    width: 150px;
-    float :left;
-    text-align: right;
+    padding: 3px 10% 0 0;
+    width: 80%;
+    text-align: left;
 }
+
 div.listrightbloc .cartin .quantity .box {
     width: 70px;
 }
+
 div.listrightbloc .cartin_btn {
-    width: 160px;
-    float :left;
+    width: 100%;
+    padding-top: 15px;
+}
+
+div.listrightbloc .cartin_btn input {
+    max-width: 100%;
 }
 
 
@@ -349,45 +544,53 @@ div.listrightbloc .cartin_btn {
 /* レイアウト
 ----------------------------------------------- */
 /* 1カラム用 */
-#main_column.colnum1 div#detailphotobloc {
-    width: 37%;
-    float: left;
+div#detailphotobloc {
+    width: 100%;
+    text-align: center;
 }
-#main_column.colnum1 #detailrightbloc {
-    width: 63%;
-    float: right;
+
+div#detailphotobloc img {
+    max-width: 100%;
 }
+
+div#detailrightbloc {
+    width: 90%;
+    padding: 10px 5%;
+}
+
+@media screen and (max-width: 768px) {
+    div#detailrightbloc {
+        width: 100%;
+        padding: 10px 16px;
+    }
+}
+
 #main_column.colnum1 div.subtext {
     margin-bottom: 20px;
     float: left;
     width: 69%;
 }
+
 #main_column.colnum1 div.subphotoimg {
     float: right;
     width: 25%;
     text-align: right;
 }
+
 #main_column.colnum1 p.subtext {
     margin-bottom: 20px;
 }
 
-/* 2カラム用 */
-#main_column.colnum2 div#detailphotobloc {
-    float: left;
-    width: 37%;
-}
-#main_column.colnum2 #detailrightbloc {
-    float: right;
-    width: 63%;
-}
 #main_column.colnum2 div.subtext {
     margin-bottom: 20px;
     float: left;
     width: 73%;
 }
+
 #main_column.colnum2 p.subtext {
     margin-bottom: 20px;
 }
+
 #main_column.colnum2 div.subphotoimg {
     float: right;
     width: 25%;
@@ -395,22 +598,16 @@ div.listrightbloc .cartin_btn {
 }
 
 /* 3カラム用 */
-#main_column.colnum3 div#detailphotobloc {
-    float: left;
-    width: 49%;
-}
-#main_column.colnum3 #detailrightbloc {
-    float: right;
-    width: 50%;
-}
 #main_column.colnum3 div.subtext {
     margin-bottom: 20px;
     float: left;
     width: 63%;
 }
+
 #main_column.colnum3 p.subtext {
     margin-bottom: 20px;
 }
+
 #main_column.colnum3 div.subphotoimg {
     float: right;
     width: 35%;
@@ -419,25 +616,39 @@ div.listrightbloc .cartin_btn {
 
 /* 商品情報 各種設定
 ----------------------------------------------- */
-#detailrightbloc h2 {
-    margin: 0 0 10px 0;
-    padding: 0 0 15px 0;
-    color: #666;
-    background: url("../img/background/line_dot_01.gif") repeat-x bottom ;
-    font-weight: bold;
-    font-size: 160%;
+
+div#detailphotobloc .subphotoimg li {
+    float: left;
+    height: auto;
+    margin: 0;
+    padding: 16px;
+    width: 33.3333%;
 }
+
+#detailrightbloc h2 {
+    padding: 0 0 15px 0;
+    color: #525263;
+    font-weight: normal;
+    font-size: 3.2rem;
+    margin-bottom: 10px;
+}
+
 #detailrightbloc .point,
 #detailrightbloc .relative_cat {
     margin: 0 0 10px 0;
     padding: 0 0 10px 0;
-    background: url("../img/background/line_dot_01.gif") repeat-x bottom ;
+    border-bottom: 1px dotted #ccc;
 }
+
 #detailrightbloc .main_comment {
     margin-bottom: 20px;
 }
 
 /* 商品コード */
+#detailrightbloc .product_code {
+    margin-bottom: 10px;
+}
+
 #detailrightbloc .product_code dt,
 #detailrightbloc .product_code dd {
     display: inline;
@@ -445,13 +656,15 @@ div.listrightbloc .cartin_btn {
 
 /* 商品ステータス */
 #detailrightbloc ul.status_icon {
-    margin-bottom: 10px;
+    margin: 16px 0;
     width: 100%;
 }
+
 #detailrightbloc ul.status_icon li {
-    margin-right: 5px;
-    margin-bottom: 3px;
     float: left;
+    padding: 4px;
+    background: #f8f8f8;
+    border: 1px solid #ccc;
 }
 
 /* 通常価格 */
@@ -461,9 +674,22 @@ div.listrightbloc .cartin_btn {
 }
 
 /* 販売価格 */
+#detailrightbloc .sale_price {
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 4px;
+}
+
 #detailrightbloc .sale_price dt,
 #detailrightbloc .sale_price dd {
     display: inline;
+    font-size: 2.8rem;
+    font-weight: bold;
+}
+
+#detailrightbloc .sale_price dd .mini {
+    font-size: 1.6rem;
+    font-weight: normal;
+    margin-left: 10px;
 }
 
 /* ポイント */
@@ -477,18 +703,20 @@ div.listrightbloc .cartin_btn {
     margin-bottom: 10px;
     padding-bottom: 10px;
     width: 100%;
-    background: url("../img/background/line_dot_02.gif") repeat-x bottom ;
+    background: url("../img/background/line_dot_02.gif") repeat-x bottom;
 }
+
 #detailrightbloc .classlist {
     margin-bottom: 5px;
 }
+
 #detailrightbloc ul {
     margin-bottom: 10px;
     width: 100%;
 }
+
 #detailrightbloc ul li {
     vertical-align: top;
-    float: left;
 }
 
 /* メーカー */
@@ -503,45 +731,78 @@ div.listrightbloc .cartin_btn {
     display: inline;
 }
 
-/* 関連カテゴリ */
-#detailrightbloc .relative_cat dd {
-    margin-left: 1em;
+
+/* 買い物かご */
+#detailrightbloc .cart_area {
+    padding-top: 10px;
 }
 
-/* 買い物カゴ */
-#detailrightbloc .cart_area {
-    padding: 10px;
-    background-color: #ecf5ff;
-    border: 1px solid #cef0f4;
+#detailrightbloc .cart_area select {
+    min-width: 350px;
 }
+
+#detailrightbloc .quantity {
+    margin: 14px auto;
+}
+
 #detailrightbloc .quantity dt,
 #detailrightbloc .quantity dd {
     display: inline;
 }
+
 #detailrightbloc .cartin {
     text-align: center;
-}
-#detailrightbloc .cartin_btn {
-    text-align: center;
-}
-#detailrightbloc .favorite_btn {
-    text-align: center;
     margin-top: 10px;
+    padding-bottom: 16px;
 }
 
+#detailrightbloc .favorite_btn {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#detailrightbloc .favorite_btn a {
+    max-width: 66.6667% !important;
+}
+
+#detailrightbloc .cartin_btn {
+    height: 56px;
+    line-height: 56px;
+    padding-bottom: 0;
+    padding-top: 0;
+    vertical-align: middle;
+    width: 66.6667%;
+}
+
+@media screen and (max-width: 768px) {
+    #detailrightbloc .cartin_btn {
+        width: 100%;
+    }
+}
+
+#detailrightbloc .cartin_btn a {
+    background-color: #de5d50;
+    border-color: #de5d50;
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+}
 
 /* お客様の声
 ----------------------------------------------- */
 div#customervoice_area {
     clear: both;
-    padding: 35px 0 0 0;
+    padding: 32px 16px;
 }
 
 div#customervoice_area h2 {
     margin-bottom: 20px;
     padding: 6px 0 8px 10px;
-    border-top: solid 1px #f90;
-    background: url('../img/background/bg_tit_sub_01.jpg') repeat-x left bottom;
+    border-bottom: solid 1px #ccc;
+    color: #525263;
+    font-size: 2.4rem;
 }
 
 div#customervoice_area .review_bloc {
@@ -553,18 +814,17 @@ div#customervoice_area .review_bloc {
 div#customervoice_area .review_bloc p {
     padding-top: 3px;
     margin-right: 10px;
-    float: left;
 }
 
 div#customervoice_area .review_bloc .review_btn {
-    float: right;
-    width: 160px;
+    width: 100%;
+    text-align: center;
 }
 
 div#customervoice_area ul li {
     padding-bottom: 15px;
     margin-bottom: 15px;
-    background: url("../img/background/line_dot_01.gif") repeat-x bottom ;
+    background: url("../img/background/line_dot_01.gif") repeat-x bottom;
 }
 
 div#customervoice_area .voicetitle {
@@ -586,10 +846,13 @@ div#whobought_area {
 }
 
 div#whobought_area h2 {
-    border-top: solid 1px #f90;
-    background: url('../img/background/bg_tit_sub_01.jpg') repeat-x left bottom;
-    padding: 5px 0 8px 10px;
-    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 6px 0 8px 10px;
+    border-bottom: solid 1px #ccc;
+    color: #525263;
+    font-size: 2.4rem;
+}
+
 }
 
 
@@ -607,6 +870,7 @@ div#undercolumn_cart .point_announce {
     text-align: center;
     line-height: 140%;
 }
+
 div#undercolumn_cart .totalmoney_area {
     margin-bottom: 20px;
 }
@@ -650,9 +914,11 @@ div#undercolumn_shopping .pay_area {
     margin: 0 auto 30px;
     width: 100%;
 }
+
 div#undercolumn_shopping .pay_area02 {
     margin: 40px auto 30px auto;
 }
+
 div#undercolumn_shopping .pay_area02 .txtarea {
     margin: 5px 0 0 0;
     padding: 2px;
@@ -660,6 +926,7 @@ div#undercolumn_shopping .pay_area02 .txtarea {
     width: 99%;
     height: 150px;
 }
+
 div#undercolumn_shopping .pay_area02 .select-msg {
     margin-bottom: 10px;
 }
@@ -718,7 +985,6 @@ div#undercolumn_shopping .point_area .point_announce li {
     font-size: 10px;
 }
 
-
 /* ==============================================
 ▼検索結果
 =============================================== */
@@ -729,3 +995,173 @@ p.condition_area {
     width: 566px;
 }
 
+
+/*768px*/
+@media screen and (min-width: 768px) {
+    .list_area {
+        display: block;
+        cursor: pointer;
+    }
+
+    div.listphoto {
+        margin: 0 0 8px;
+    }
+
+    /* 商品名 */
+    div.listrightbloc h3 {
+        color: #525263;
+        margin: 0 0 8px;
+        font-weight: normal;
+    }
+
+    /* 価格 */
+    div.listrightbloc .pricebox {
+        font-weight: bold;
+    }
+
+    div.listrightbloc .pricebox,
+    div.listrightbloc .listcomment {
+        font-size: 100%;
+    }
+
+    /* カゴに入れる */
+    div.listrightbloc .cartin {
+        float: right;
+    }
+
+    div.listrightbloc .cartin .quantity {
+        padding: 3px 10px 0 0;
+        width: 150px;
+        float: left;
+        text-align: right;
+    }
+
+    div.listrightbloc .cartin .quantity .box {
+        width: 70px;
+    }
+
+    div.listrightbloc .cartin_btn {
+        width: 160px;
+        float: left;
+        padding-top: 0;
+    }
+
+
+}
+
+/*1024px*/
+@media screen and (min-width: 1024px) {
+    /* レイアウト
+    ----------------------------------------------- */
+    /* 1カラム用 */
+    #main_column.colnum1 div#detailphotobloc {
+        width: 50%;
+        float: left;
+        padding: 0 16px;
+    }
+
+    #main_column.colnum1 #detailrightbloc {
+        width: 50%;
+        float: right;
+        padding: 0 16px;
+    }
+
+    #main_column.colnum1 div.subtext {
+        margin-bottom: 20px;
+        float: left;
+        width: 69%;
+    }
+
+    #main_column.colnum1 div.subphotoimg {
+        float: right;
+        width: 25%;
+        text-align: right;
+    }
+
+    #main_column.colnum1 p.subtext {
+        margin-bottom: 20px;
+    }
+
+    /* 2カラム用 */
+    #main_column.colnum2 div#detailphotobloc {
+        float: left;
+        width: 37%;
+    }
+
+    #main_column.colnum2 #detailrightbloc {
+        float: right;
+        width: 63%;
+        padding: 0;
+    }
+
+    #main_column.colnum2 div.subtext {
+        margin-bottom: 20px;
+        float: left;
+        width: 73%;
+    }
+
+    #main_column.colnum2 p.subtext {
+        margin-bottom: 20px;
+    }
+
+    #main_column.colnum2 div.subphotoimg {
+        float: right;
+        width: 25%;
+        text-align: right;
+    }
+
+    /* 3カラム用 */
+    #main_column.colnum3 div#detailphotobloc {
+        float: left;
+        width: 49%;
+    }
+
+    #main_column.colnum3 #detailrightbloc {
+        float: right;
+        width: 50%;
+        padding: 0;
+    }
+
+    #main_column.colnum3 div.subtext {
+        margin-bottom: 20px;
+        float: left;
+        width: 63%;
+    }
+
+    #main_column.colnum3 p.subtext {
+        margin-bottom: 20px;
+    }
+
+    #main_column.colnum3 div.subphotoimg {
+        float: right;
+        width: 35%;
+        text-align: right;
+    }
+
+    #detailrightbloc .cartin {
+        margin-top: 0;
+    }
+
+    div#customervoice_area .review_bloc {
+        padding: 0 0 0 16px;
+        line-height: 45px;
+    }
+
+    div#customervoice_area .review_bloc p {
+        float: left;
+    }
+
+    div#customervoice_area .review_bloc .review_btn {
+        float: right;
+        width: 200px;
+    }
+
+    div#customervoice_area .review_bloc .review_btn a {
+        color: #fff;
+        display: block;
+        font-size: 1.6rem;
+        background: #666;
+        font-weight: normal;
+    }
+
+}

@@ -4,10 +4,12 @@
  インヘッダーブロック
 ************************************************ */
 #headerInternalColumn {
-    margin-top: 5px;
-    float: right;
-    width: 520px;
-    height: 35px;
+}
+@media screen and (max-width : 768px){
+#headerInternalColumn {
+    position: absolute;
+    right: 50px;
+}
 }
 
 /* ログイン（ヘッダー用）
@@ -56,6 +58,7 @@
     vertical-align: middle;
 }
 
+
 /* ***********************************************
 追加ブロック
 ************************************************ */
@@ -86,3 +89,73 @@
     margin-bottom: 8px;
 }
 
+
+/*768px*/
+@media screen and (min-width : 768px){
+
+#header_login_area {
+    padding: 0 2%;
+}
+#topcolumn {
+    height: auto;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-align-items: space-between;
+}
+#header_login_area ul.formlist li {
+    margin-bottom: 5px;
+}
+#header_login_area ul.formlist li.mail {
+    width: 80%;
+}
+#header_login_area ul.formlist li.btn {
+    width: 20%;
+}
+#header_login_area ul.formlist li.password {
+    clear: none;
+    width: 33%;
+}
+#topcolumn .pc.drawer_block {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-items: flex-start;
+}
+}
+
+/*1024px*/
+@media screen and (min-width : 1024px) {
+#headerInternalColumn {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+    -webkit-align-items: flex-end;
+}
+#header_login_area {
+    height: 30px;
+    padding: 0 1.5%;
+}
+#header_login_area ul.formlist li {
+    margin-bottom: 0;
+}
+#header_login_area ul.formlist li.mail {
+    width: 33%;
+}
+#header_login_area ul.formlist li.btn {
+    width: 10%;
+}
+#header_login_area ul.formlist li.password {
+    clear: none;
+    width: 21%;
+}
+#header_login_area ul.formlist li.forgot {
+    font-size: 90%;
+    width: 19%;
+}
+
+
+}

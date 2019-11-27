@@ -6,29 +6,29 @@
 /* 共通
 ----------------------------------------------- */
 div#windowcolumn {
-    border-top: solid 3px #f90;
-    width: 560px;
+    width: 98%;
     height: 100%;
-    margin: 15px 15px 0 15px;
+    margin: 0 1%;
     background: #fff;
 }
 
 div#windowcolumn h2 {
-    margin-bottom: 10px;
-    padding: 8px;
-    border-top: solid 1px #ebeced;
-    color: #f60;
-    background: url("../img/background/bg_tit_sub_01.jpg") repeat-x left bottom;
-    background-color: #fef3d8;
-    font-size: 170%;
+    border-bottom: 1px solid #ccc;
+    border-top: 0 none;
+    margin: 0 16px 48px;
+    padding: 16px 0 12px;
+    font-size: 1.6rem;
 }
 
 div#window_area {
     margin: 15px auto 0 auto;
     padding-bottom: 20px;
-    width: 540px;
+    width: 98%;
     min-height: 300px;
     height: auto !important;
+}
+.area350 {
+    width: 98%;
 }
 
 div#window_area p.information {
@@ -43,20 +43,26 @@ div#window_area .message {
     font-size: 140%;
 }
 div#window_area table {
-    width: 540px;
+    width: 98%;
 }
-
+div#windowcolumn .btn_area {
+    margin: 20px auto 0;
+    max-width: 250px;
+}
 /* お客様の声の書き込み、新しいお届け先の追加・変更
 ----------------------------------------------- */
 div#window_area #forgot {
     margin: 0 auto;
-    padding: 20px;
-    width: 440px;
+    padding: 20px 2%;
+    width: 96%;
     border: 1px solid #ccc;
     text-align: left;
 }
 div#window_area #forgot .mailaddres {
     margin-bottom: 10px;
+}
+div#window_area #forgot .mailaddres .box300 {
+    width: 60%;
 }
 
 div#window_area #forgot p {
@@ -75,7 +81,7 @@ div#cartimage {
 
 div#bigimage img,
 div#cartimage img {
-    padding: 10px;
+    padding: 10px 0;
     background-color: #fff;
 }
 
@@ -85,18 +91,18 @@ div#zipsearchcolumn {
     margin: 15px auto 0 auto;
     border-top: 5px solid #ffa85c;
     border-bottom: 5px solid #ffa85c;
-    width: 460px;
+    width: 48%;
     background-color: #fff;
 }
 
 div#zipsearchcolumn h2 {
     margin: 0 0 15px 0;
-    width: 460px;
+    width: 48%;
 }
 
 div#zipsearch_area {
     margin: 15px auto 0 auto;
-    width: 460px;
+    width: 48%;
 }
 
 div#zipsearchcolumn .btn {
@@ -105,7 +111,7 @@ div#zipsearchcolumn .btn {
 }
 
 div#zipsearch_area #completebox p {
-    padding: 60px 5px;
+    padding: 60px 1%;
     text-align: center;
 }
 

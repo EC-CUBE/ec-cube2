@@ -30,26 +30,22 @@
 .side_column {
     overflow-x: hidden; /* IE6 表示乱れ防止 */
 }
-.side_column .block_body,
-#main_column .block_body {
-    border: solid 1px #ccc;
-    border-top: none;
-}
 .side_column .block_body .box {
     border: solid 1px #ccc;
-    width: 145px;
+    width: 15%;
 }
 
 /* 外枠
 ----------------------------------------------- */
-#container .block_outer {
-    padding: 0 15px 10px; /* #container の背景色を欠けさせないため敢えて padding */
-}
 #container #main_column .block_outer {
-    padding: 0 0 20px;
+    padding: 0 0 10px;
+}
+
+#container .block_outer {
+    padding: 0 0 20px; /* #container の背景色を欠けさせないため敢えて padding */
 }
 #container .side_column .block_outer {
-    padding: 0 7% 10px;
+    padding: 0 0 10px;
 }
 
 /* リスト
@@ -58,14 +54,22 @@
 #container .block_outer .block_body dl.formlist {
     margin-bottom: 8px;
 }
+#container .block_outer #login_area .block_body dl.formlist {
+    margin:0 0 8px 4%;
+    float: left;
+    width: 46%;
+}
 #container .block_outer .block_body dl.formlist dd {
     margin-bottom: 5px;
 }
 #container .block_outer .block_body dl.formlist dt {
     margin-bottom: 3px;
-    padding-left: 15px;
+    padding-left: 5%;
     background: url("../img/icon/ico_arrow_03.gif") no-repeat left;
     font-size: 90%;
+}
+#container .block_outer #login_area .block_body dl.formlist dt {
+    padding-left: 10%;
 }
 #container .block_outer .block_body dl.formlist span {
     vertical-align: top;
@@ -75,29 +79,27 @@
 /* タイトル
 ----------------------------------------------- */
 /* タイトルの背景 白 */
+#category_area h2,
 #login_area h2,
 #search_area h2,
 #calender_area h2,
 #cart_area h2,
 #cart h2 {
-    padding: 5px 0 8px 10px;
+    padding: 5px 0 8px 5%;
     border-style: solid;
     border-color: #f90 #ccc #ccc;
     border-width: 1px 1px 0;
     background: url('../img/background/bg_tit_bloc_01.jpg') repeat-x left bottom;
-    font-size: 14px;
+    font-size: 0.875em;
 }
 #category_area h2 {
-    border-top: solid 1px #f90;
-    background: url('../img/background/bg_tit_bloc_01.jpg') repeat-x left bottom;
-    padding: 5px 0 8px 10px;
-    font-size: 14px;
+    border-left: none;
+    border-right: none;
 }
 
 /* タイトルの背景 オレンジ */
-#recommend_area h2,
-#news_area h2 {
-    padding: 5px 0 8px 10px;
+#recommend_area h2 {
+    padding: 5px 0 8px 1%;
     border-style: solid;
     border-color: #f90 #ccc #ccc;
     border-width: 1px 1px 0;
@@ -112,13 +114,38 @@
 /* ===============================================
 ▼新着情報
 =============================================== */
+#news_section {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-align-items: space-between;
+}
+#news_area {
+    background: #f8f8f8 none repeat scroll 0 0;
+    margin-bottom: 32px;
+}
+@media screen and (min-width : 768px){
+#news_area {
+    margin-bottom: 32px;
+    width: 75%;
+}
+}
+
+#news_area h2 {
+    padding: 16px;
+    text-align: left;
+    font-size: 2.4rem;
+    font-weight: bold;
+}
 #news_area .news_contents {
-    padding: 10px;
+    /*padding: 10px;*/
     max-height: 260px;
     height: auto !important; /* hack? */
     height: 260px; /* hack? */
-    overflow: auto;
-    overflow-y: scroll;
+    font-size: 1.6rem;
+    background: url("../img/icon/arrow.png") no-repeat 98% 20px;
+    background-size: 25px;
 }
 #news_area dl.newslist {
     background: url("../img/background/line_dot_01.gif") repeat-x bottom;
@@ -127,100 +154,363 @@
     background: none;
 }
 #news_area dl.newslist dt {
+    cursor: pointer;
+    padding: 16px;
+    font-size: 1.6rem;
+}
+.newslist dt .news_title {
     margin-bottom: 5px;
+    padding-left: 7em;
+}
+.newslist dt .date {
+    float: left;
+    width: 6em;
+}
+#news_area dl.newslist dt span {
+    display: block;
 }
 #news_area dl.newslist dd {
     margin-bottom: 10px;
     padding-bottom: 10px;
+    display: none;
 }
 
+.txt_bnr {
+    background: #f8f8f8 none repeat scroll 0 0;
+    border: 1px solid #d9d9d9;
+    font-weight: bold;
+    margin: 0 16px;
+    padding: 16px;
+    text-align: center;
+}
+@media screen and (min-width : 768px){
+.txt_bnr_area {
+    width: 25%;
+}
+.txt_bnr {
+    margin: 0 0 0 16px;
+}
+}
+.txt_bnr strong {
+    color: #de5d50;
+    font-size: 2rem;
+}
+.txt_bnr strong strong {
+    font-size: 3.2rem;
+}
 
 /* ===============================================
 ▼現在のカゴの中
 =============================================== */
-#cart_area .information {
-    padding: 10px;
-}
-#cart_area .postage {
-    margin-top: 10px;
-    padding-top: 10px;
-    background: url("../img/background/line_dot_01.gif") repeat-x top;
-}
-#cart_area .postage .point_announce {
-    padding: 2px 0 2px 20px;
-    background: url("../img/icon/ico_price.gif") no-repeat left top;
-}
-#cart_area .btn {
-    padding: 10px 0;
-    background: url("../img/background/line_dot_01.gif") repeat-x top #f7f7e6;
-    text-align: center;
+#cart_area {
+    position: relative;
+    font-size: 12px;
+    width: 256px;
 }
 
+#cart_area ul {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-items: flex-start;
+}
+#cart_area .cart a {
+    outline: medium none;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px;
+    position: absolute;
+    top: 16px;
+    left: 50px;
+    background: #de5d50;
+    color: #fff;
+    padding: 3px 8px;
+    line-height: 100%;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
+@media screen and (max-width : 768px){
+#cart_area .cart a {
+    left: 25px;
+    top: 4px;
+    padding: 3px 5px;
+}
+}
+#cart_area span {
+    font-size: 16px;
+}
+#cart_area li {
+}
+.cart_img {
+    height: 44px;
+    line-height: 40px;
+    position: relative;
+    padding: 0 8px;
+    cursor: pointer;
+}
+.cart_img .cart {
+     max-width: 30px;
+}
+#cart_area .cart_price {
+    height: 44px;
+    line-height: 44px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.popup_cart {
+    width: auto;
+    min-width: 250px;
+    max-width: 350px;
+    padding: 16px;
+    display: none;
+    position: absolute;
+    top: 44px;
+    right: 0;
+    z-index: 1;
+    background: #f3f3f3;
+}
+.popup_cart .next_button {
+    text-align: center;
+}
 
 /* ===============================================
 ▼カテゴリ
 =============================================== */
-#container #category_area .block_body {
-    background-color: #fffaf0;
+#container #category_area {
+    clear: both;
+    padding-top: 20px;
+    text-align: center;
+    font-weight: bold;
 }
 
-#category_area li {
-    padding-left: 5px;
+    .category-nav > li {
+        text-align: left;
+        margin: 0 1em;
+        position: relative;
+    }
+    .category-nav ul {
+        position: static;
+        height: auto;
+        width: auto;
+        overflow: visible;
+        z-index: 3;
+        background: #fff;
+    }
+    .category-nav > li > a {
+        position: relative;
+        display: inline-block;
+        color: #2e3233;
+        overflow: visible;
+        -webkit-transition: color 0.3s, box-shadow 0.3s;
+        -moz-transition: color 0.3s, box-shadow 0.3s;
+        transition: color 0.3s, box-shadow 0.3s;
+    }
+
+
+#container .category-nav {
+    border-top: 1px solid #D9D9D9;
+    border-bottom: 1px solid #D9D9D9;
+    text-align: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    margin-bottom: 30px;
 }
-#category_area li.level1 {
-    border-bottom: solid 1px #ccc;
+
+#container .category-nav .toggle {
+    display: none;
 }
-#category_area li.level1 p {
-    padding-left: 20px;
-    margin: 7px 3px;
+#container .category-nav > li {
+    margin: 0;
+    background: #fff;
 }
-#category_area li.level1 p {
-    background: url("../img/icon/ico_arrow_01.gif") 2px 3px no-repeat;
-}
-#category_area li.level1 li p {
-    background: url("../img/icon/ico_level.gif") 7px 7px no-repeat;
-}
-#category_area li a {
+#container .category-nav li ul {
     display: block;
-    padding: 0;
-}
-a.onlink:link {
-    color: #f00;
-    text-decoration: underline;
-}
-a.onlink:visited {
-    color: #f00;
-}
-a.onlink:hover {
-    color: #f00;
 }
 
+#container .category-nav li {
+    position: relative;
+}
+#container .category-nav > li > a {
+    padding: 0 1em;
+    height: 55px;
+    line-height: 55px;
+    border-bottom: none;
+}
+#container .category-nav li a {
+    display: block;
+    line-height: 55px;
+}
+#container .category-nav li ul {
+    position: absolute;
+    z-index: 100;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    /*box-shadow: 1px 1px 2px rgba(0,0,0,0.1);*/
+}
+#container .category-nav li ul li {
+    float: left;
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    transition: .2s;
+}
+#container .category-nav li ul li a {
+    text-align: left;
+}
+#container .category-nav > li:hover > a {}
+#container .category-nav > li:hover li:hover > a {  background: rgba(204, 204, 204, 0.1)}
+#container .category-nav > li:hover > ul > li {
+    overflow: visible;
+    height: 50px;
+}
+#container .category-nav li ul li ul {
+    top: 0;
+    left: 100%;
+}
+#container .category-nav li:last-child ul li ul {
+    left: 100%;
+    width: 100%;
+}
+#container .category-nav li ul li ul:before {
+    position: absolute;
+    content: ">";
+    top: 13px;
+    left: -15px;
+    width: 0;
+    height: 0;
+}
+#container .category-nav li:last-child ul li ul:before {
+    position: absolute;
+    content: ">";
+    top: 13px;
+    left: -15px;
+    width: 0;
+    height: 0;
+    /*
+    content: "<";
+    top: 13px;
+    left: 200%;
+    margin-left: -15px;
+    */
+}
+#container .category-nav li ul li:hover > ul > li {
+    overflow: visible;
+    height: 50px;
+}
+#container .category-nav li ul li ul li a {}
+#container .category-nav li:hover ul li ul li a:hover {  background: rgba(204, 204, 204, 0.1)}
 
+#container .category-nav ul > li > a,
+#container .category-nav ul > li > ul > li > a,
+#container .category-nav ul > li > ul > li > ul > li a {
+    padding-left: 10px;
+}
+#btn_menu {
+    margin: 0;
+    position: absolute;
+    right: 15px;
+    top: 0;
+    z-index: 11;
+}
+.nav-trigger {
+    cursor: pointer;
+    display: block;
+    height: 44px;
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+    z-index: 3;
+}
+.nav-trigger span::before {
+    top: -6px;
+}
+.nav-trigger span::before,
+.nav-trigger span::after {
+    backface-visibility: hidden;
+    content: "";
+    right: 0;
+    transform: translateZ(0px);
+    transform-origin: 0 50% 0;
+    transition: transform 0.3s ease 0.3s;
+}
+.nav-trigger {
+    color: transparent !important;
+}
+.nav-trigger span,
+.nav-trigger span::before,
+.nav-trigger span::after {
+    background: #525263 none repeat scroll 0 0;
+    display: inline-block;
+    height: 3px;
+    position: absolute;
+    width: 24px;
+}
+*::before, *::after {
+    box-sizing: border-box;
+}
+.nav-trigger span::after {
+    top: 6px;
+}
+.nav-trigger span::before,
+.nav-trigger span::after {
+    backface-visibility: hidden;
+    content: "";
+    right: 0;
+    transform: translateZ(0px);
+    transform-origin: 0 50% 0;
+    transition: transform 0.3s ease 0.3s;
+}
+.nav-trigger span,
+.nav-trigger span::before,
+.nav-trigger span::after {
+    background: #525263 none repeat scroll 0 0;
+    display: inline-block;
+    height: 3px;
+    position: absolute;
+    width: 24px;
+}
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+.nav-trigger span {
+    margin-top: -2px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transition: background 0.3s ease 0.3s;
+}
+.nav-trigger span,
+.nav-trigger span::before,
+.nav-trigger span::after {
+    background: #525263 none repeat scroll 0 0;
+    display: inline-block;
+    height: 3px;
+    position: absolute;
+    width: 24px;
+}
+.category-nav ul {
+    display: none;
+}
+}
 /* ===============================================
 ▼ガイドリンク
 =============================================== */
 #guide_area {
     border: none;
+    text-align: center;
+    clear: both;
 }
 #guide_area li {
-    margin-bottom: 5px;
-    letter-spacing: -0.05em;
-}
-ul.button_like li {
-    margin: 0;
-    padding: 0 0 1px 0;
-    background: url("../img/background/bg_btn_list.jpg") bottom repeat-x;
-}
-ul.button_like li a {
-    margin: 0;
-    padding: 10px 15px 10px 10px;
-    border: 1px solid;
-    border-bottom: none;
-    border-color: #ccc;
-    display: block;
-    background: url("../img/icon/ico_arrow_02.gif") no-repeat right;
-    text-decoration: none;
-    outline: none;
+    display: inline-block;
+    margin: 0 8px 8px;
 }
 
 
@@ -228,53 +518,176 @@ ul.button_like li a {
 ▼ログイン（サイド用）
 ※ヘッダー用はbloc_alpha.css内に記述
 =============================================== */
-#container div#login_area .block_body {
-    padding: 10px;
+#container div#login_area {
+    font-size: 1.6rem;
+}
+#container div#login_area a {
+    color: #525263;
+    display: block;
+    font-size: 1.4rem;
+    height: 50px;
+    line-height: 50px;
+    overflow: hidden;
+    padding-left: 30px;
+    margin-left: 20px;
+    text-overflow: ellipsis;
+    transform: translateZ(0px);
+    transition: transform 0.3s ease 0s, opacity 0.3s ease 0s;
+    white-space: nowrap;
+}
+.logout input[type='submit'] {
+    background-color: none;
+    border-color: none;
+    display: block;
+    font-size: 1.4rem;
+    font-weight: normal;
+    width: 100%;
+    color: #666;
+    font-size: 1.4rem;
+    height: 50px;
+    line-height: 50px;
 }
 
-#container div#login_area .block_body p {
-    margin-bottom: 5px;
+#container div#login_area .mypage a,
+#container div#login_area .entry a {
+    background: url("../img/icon/menber.png") no-repeat left center;
+    background-size: 25px;
 }
-
-#container div#login_area .block_body .btn {
-    text-align: center;
-}
-#container .login_area dl.formlist {
-    margin-bottom: 8px;
-    width: 450px;
-}
-#container .login_area dl.formlist dt {
-    margin-bottom: 3px;
-    padding-left: 15px;
-    color: #333;
-    background: url("../img/icon/ico_arrow_03.gif") no-repeat left;
-    width: 120px;
-    float: left;
-    font-size: 90%;
-}
-#container .login_area dl.formlist dd {
-    margin-bottom: 5px;
-    float: right;
-    width: 300px;
-    vertical-align: bottom;
-    text-align: left;
-}
-#container div#login_area .block_body .mini {
-    margin-top: 5px;
-    letter-spacing: -0.01em;
+#container div#login_area .logout input[type='submit'],
+#container div#login_area .login a {
+    background: url("../img/icon/loock.png") no-repeat left center;
+    background-size: 25px;
 }
 
 
 /* ===============================================
 ▼検索
 =============================================== */
-#container div#search_area .block_body {
-    padding: 10px;
+#search_area form {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-items: flex-start;
 }
-#container div#search_area .block_body .btn {
+#search_area .block_body .btn {
     text-align: center;
 }
+#search_area .block_body .box145 {
+    border: 1px solid #ccc;
+    border-radius: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    font-size: 1.6rem;
+    height: 50px;
+    padding: 0.5em 1em;
+    max-width: 180px;
+    margin-right: 30px;
+}
+div#search_area .block_body .input_search {
+    border-bottom: 1px solid #ccc;
+    height: 50px;
+    margin-left: 1%;
+    padding: 0 50px 0 1em;
+    position: relative;
+}
+div#search_area .block_body input[type="text"] {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 0 none;
+    box-shadow: none;
+    box-sizing: border-box;
+    font-size: 1.6rem;
+    height: 50px;
+    padding: 0.5em 0;
+    display: inline-block;
+    width: 100%;
+}
+.search_btn {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 0 none;
+    display: block;
+    height: 44px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    white-space: nowrap;
+    width: 44px;
+    z-index: 1;
+}
+.search_btn input[type='image'] {
+    width: 25px;
+    max-width: 25px;
+    padding-top: 12px;
+}
+.search_btn input[type='image']:hover {
+}
+#search {
+    background: #ebebeb none repeat scroll 0 0;
+    padding: 16px 8px;
+}
 
+
+@media screen and (max-width : 768px){
+#drawer .category-nav {
+    margin-bottom: 16px;
+}
+.category-nav a {
+    border-bottom: 1px solid #e8e8e8;
+    color: #525263;
+    display: block;
+    font-size: 1.6rem;
+    font-weight: bold;
+    height: 50px;
+    line-height: 50px;
+    overflow: hidden;
+    padding: 0 10px;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.category-nav a.has-toggle {
+    padding-right: 50px;
+}
+.category-nav a:link, .category-nav a:visited, .category-nav a:hover, .category-nav a:active {
+    text-decoration: none;
+}
+.category-nav a:hover {
+    background: rgba(204, 204, 204, 0.1) none repeat scroll 0 0;
+}
+.category-nav a .toggle {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    top: 5px;
+    vertical-align: middle;
+    width: 40px;
+}
+.category-nav .active > .toggle .cb {
+    transform: rotate(-180deg);
+}
+.category-nav li > a:hover {
+    background: rgba(204, 204, 204, 0.1) none repeat scroll 0 0;
+}
+.category-nav li > a.active {
+    background: rgba(204, 204, 204, 0.1) none repeat scroll 0 0;
+}
+.category-nav ul {
+    display: none;
+}
+.category-nav ul > li > a {
+    padding-left: 18px;
+}
+.category-nav ul > li > ul > li > a {
+    padding-left: 26px;
+}
+.category-nav ul > li > ul > li > ul > li a {
+    padding-left: 42px;
+}
+}
 
 /* ===============================================
 ▼カレンダー
@@ -288,29 +701,35 @@ ul.button_like li a {
     background-color: #f1f9fc;
 }
 #calender_area table {
+    width: 47.5%;
+    float: left;
+    margin: 0 1%;
+    font-size: 70%;
     background: #fff;
-    border: none;
-    width: 150px;
-    margin: 0 auto 5px;
-    font-size: 90%;
+    border-right: 1px solid #ccc;
+}
+#calender_area  tbody tr {
+    display: table-row;
 }
 #calender_area table td {
-    padding: 1px 3px;
+    padding: 1px 0;
     border-top: 1px solid #ccc;
     border-right: none;
     text-align: center;
+    display: table-cell;
 }
-#calender_area th {
-    padding: 1px 3px;
+#calender_area table th {
+    padding: 1px 0;
     background: #fff;
     border: none;
     text-align: center;
+    display: table-cell;
 }
 #calender_area table .month {
     margin-bottom: 5px;
-    padding-left: 12px;
+    padding-left: 12%;
     background: url("../img/icon/ico_arrow_04.gif") no-repeat left;
-    font-size: 120%;
+    font-size: 100%;
 }
 #calender_area .off {
     color: #f00;
@@ -320,7 +739,7 @@ ul.button_like li a {
     font-weight: bold;
 }
 #calender_area .information {
-    margin-left: 10px;
+    margin-left: 10%;
     font-size: 90%;
 }
 
@@ -336,11 +755,16 @@ ul.button_like li a {
 =============================================== */
 /* 共通
 ----------------------------------------------- */
-#recommend_area .block_body,
+
+#recommend_area .block_body .product_item,
 #whobought_area .product_item {
-    padding: 10px 0 10px;
     border: none;
-    background: url("../img/background/line_dot_01.gif") repeat-x bottom;
+    padding: 0 8px 8px;
+}
+@media screen and (min-width : 768px){
+#recommend_area .block_body .product_item,
+#whobought_area .product_item {
+}
 }
 
 #recommend_area .block_body p,
@@ -365,15 +789,44 @@ ul.button_like li a {
 }
 
 
+/* 商品説明テキスト
+----------------------------------------------- */
+#recommend_area .block_body .productContents,
+#whobought_area .productContents {
+    margin-bottom: 10px;
+}
+
+/* サイドカラム用 */
+.side_column #recommend_area .block_body .productContents {
+    clear: both;
+}
+
+
+/*768px*/
+@media screen and (min-width : 768px){
+#cart_area {
+    border: 1px solid #d9d9d9;
+}
+.cart_img {
+    padding: 0 85px 0 9px;
+    line-height: 44px;
+}
+}
+
+/*1024px*/
+@media screen and (min-width : 1024px) {
+
+/* 外枠
+----------------------------------------------- */
+#container .block_outer {
+    padding: 0 7% 10px; /* #container の背景色を欠けさせないため敢えて padding */
+}
+#container .side_column .block_outer {
+    padding: 0 7% 10px;
+}
+
 /* 画像
 ----------------------------------------------- */
-/* メインカラム用 */
-#main_column #recommend_area .block_body .productImage,
-#whobought_area .product_item .productImage {
-    margin-bottom: 10px;
-    float: left;
-    width: 90px;
-}
 /* サイドカラム用 */
 .side_column #recommend_area .block_body .productImage {
     float: none;
@@ -382,40 +835,109 @@ ul.button_like li a {
 }
 
 
-/* 左右の振り分け
------------------------------------------------ */
-#main_column #recommend_area .product_item,
-#whobought_area .product_item {
-    float: left;
-    width: 47.5%;
-    padding-left: 1%;
-    padding-right: 1%;
-}
-
-
 /* 商品説明テキスト
 ----------------------------------------------- */
-/* メインカラム用 1カラム時*/
-#main_column.colnum1 #recommend_area .block_body .productContents {
-    float: right;
-    width: 74%;
-}
-
-/* メインカラム用 2カラム時*/
-#main_column.colnum2 #recommend_area .block_body .productContents,
-#main_column.colnum2 #whobought_area .productContents {
-    float: right;
-    width: 74%;
-}
-
-/* メインカラム用 3カラム時*/
-#main_column.colnum3 #recommend_area .block_body .productContents,
-#main_column.colnum3 #whobought_area .productContents {
-    float: right;
-    width: 67%;
-}
 
 /* サイドカラム用 */
 .side_column #recommend_area .block_body .productContents {
     clear: both;
+}
+
+/* ===============================================
+▼ログイン（サイド用）
+※ヘッダー用はbloc_alpha.css内に記述
+=============================================== */
+#container .login_area input[type='password'],
+#container .login_area input[type='text'] {
+    width: 100%;
+}
+#container .login_area dl.formlist dt {
+    margin-bottom: 3px;
+    padding-left: 15px;
+    color: #333;
+    background: url("../img/icon/ico_arrow_03.gif") no-repeat left;
+    width: 90px;
+    float: left;
+    font-size: 90%;
+}
+#container .login_area dl.formlist dd {
+    margin: 0 auto 5px;
+    width: 85%;
+    vertical-align: bottom;
+}
+#container .login_area .btn_area {
+    margin: 0 auto;
+    width: 85%;
+    vertical-align: bottom;
+    text-align: left !important;
+}
+#container .login_area .btn_area .login_memory {
+    width: 50px;
+    float: left;
+    padding: 16px 0;
+}
+#container .login_area .btn_area ul {
+    float: left;
+    width: 250px;
+}
+#container .login_area .btn_area ul li {
+    width: 250px;
+    margin: 0;
+}
+#container div#login_area .block_body .mini {
+    margin-top: 5px;
+    letter-spacing: -0.01em;
+}
+#container .block_outer .block_body dl.formlist dt {
+    padding-left: 10%;
+}
+
+#calender_area table {
+    float: none;
+    width: 90%;
+    margin: 0 auto 5px;
+    font-size: 90%;
+}
+#container .login_area dl.formlist {
+    margin-bottom: 8px;
+}
+#container .block_outer #login_area .block_body dl.formlist {
+    margin:0 0 8px 0;
+    float: none;
+    width: 100%;
+}
+#container div#login_area .block_body {
+    padding: 10px;
+}
+
+
+/* カテゴリー
+----------------------------------------------- */
+#btn_menu {
+    display: none;
+}
+/* カート
+----------------------------------------------- */
+#cart_area .cart-trigger {
+    position: relative;
+    right: 0;
+}
+#cart_area .cart-trigger {
+    position: absolute;
+    top: 0;
+}
+#cart_area ul {
+    min-width: 256px;
+    margin: 0;
+}
+.cart-trigger,
+.nav-trigger {
+    cursor: pointer;
+    display: block;
+    height: 44px;
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+    z-index: 3;
+}
 }
