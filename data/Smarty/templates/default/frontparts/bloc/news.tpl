@@ -1,9 +1,9 @@
 <!--{*
  * This file is part of EC-CUBE
  *
- * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ * Copyright(c) 2000-2014 LOCKON CO.,LTD. All Rights Reserved.
  *
- * http://www.ec-cube.co.jp/
+ * http://www.lockon.co.jp/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,28 +21,38 @@
  *}-->
 
 <!--{strip}-->
-    <div class="block_outer">
-        <div id="news_area">
-            <h2><img src="<!--{$TPL_URLPATH}-->img/title/tit_bloc_news.png" alt="新着情報" /><span class="rss"><a href="<!--{$smarty.const.ROOT_URLPATH}-->rss/<!--{$smarty.const.DIR_INDEX_PATH}-->" target="_blank"><img src="<!--{$TPL_URLPATH}-->img/button/btn_rss.jpg" alt="RSS" /></a></span></h2>
-            <div class="block_body">
-                <div class="news_contents">
+<section id="news_section">
+    <div id="news_area">
+        <h2>新着情報</h2>
+        <div class="block_body">
+            <div class="news_contents accordion">
                 <!--{section name=data loop=$arrNews}-->
                 <!--{assign var="date_array" value="-"|explode:$arrNews[data].cast_news_date}-->
                 <dl class="newslist">
-                    <dt><!--{$date_array[0]}-->年<!--{$date_array[1]}-->月<!--{$date_array[2]}-->日</dt>
-                    <dt>
-                        <a
-                            <!--{if $arrNews[data].news_url}--> href="<!--{$arrNews[data].news_url}-->" <!--{if $arrNews[data].link_method eq "2"}--> target="_blank"
-                                <!--{/if}-->
+                    <dt><span class="date"><!--{$date_array[0]}-->.<!--{$date_array[1]}-->.
+                            <!--{$date_array[2]}--></span><span class="news_title"><a
+                            <!--{if $arrNews[data].news_url}--> href="<!--{$arrNews[data].news_url}-->"
+                            <!--{if $arrNews[data].link_method eq "2"}--> target="_blank"
+                            <!--{/if}-->
                             <!--{/if}-->
                         >
-                            <!--{$arrNews[data].news_title|h|nl2br}--></a>
-                    </dt>
-                    <dd class="mini"><!--{$arrNews[data].news_comment|h|nl2br}--></dd>
+                            <!--{$arrNews[data].news_title|h|nl2br}--></a></span></dt>
+                    <dd><!--{$arrNews[data].news_comment|h|nl2br}--></dd>
                 </dl>
                 <!--{/section}-->
-                </div>
             </div>
         </div>
     </div>
+    <div class="txt_bnr_area">
+        <div class="txt_bnr">
+            <strong>
+                5,000以上の購入で
+                <br/>
+                <strong>配送料無料</strong>
+            </strong>
+            <br/>
+            一部地域は除く
+        </div>
+    </div>
+</section>
 <!--{/strip}-->
