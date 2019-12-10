@@ -359,6 +359,7 @@ jobs:
         rm -rf $GITHUB_WORKSPACE/.git
         rm -rf $GITHUB_WORKSPACE/.gitignore
         rm -rf $GITHUB_WORKSPACE/.github
+        rm -rf $GITHUB_WORKSPACE/.editorconfig
         rm -rf $GITHUB_WORKSPACE/.travis.yml
         rm -rf $GITHUB_WORKSPACE/appveyor.yml
         rm -rf $GITHUB_WORKSPACE/.coveralls.yml

@@ -1,0 +1,44 @@
+; top-most EditorConfig file
+root = true
+
+; Unix-style newlines
+[*]
+charset = utf-8
+end_of_line = LF
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{php,html,tpl,sh,sql,css,xml}]
+indent_style = space
+indent_size = 4
+
+[*.{yml,yaml,json,js}]
+indent_style = space
+indent_size = 2
+
+[html/user_data/**.js]
+indent_style = space
+indent_size = 4
+
+[composer.json]
+indent_style = space
+indent_size = 4
+
+[ctests/**.{yml,yaml}]
+indent_style = space
+indent_size = 4
+
+[codeception.yml]
+indent_style = space
+indent_size = 4
+
+[phpunit.xml{,.dist}]
+indent_style = space
+indent_size = 4
+
+[.htaccess]
+indent_style = space
+indent_size = 4
+
+[COMMIT_EDITMSG]
+max_line_length = 0
