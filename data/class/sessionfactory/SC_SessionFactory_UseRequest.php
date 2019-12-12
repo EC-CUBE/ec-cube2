@@ -178,7 +178,7 @@ class SC_SessionFactory_UseRequest extends SC_SessionFactory_Ex
         // セッションIDの存在をチェックする。
         $objSession = new SC_Helper_Session_Ex();
         if ($objSession->sfSessRead($sessionId) === null) {
-            GC_Utils_Ex::gfPrintLog("Non-existent session id : sid=$sessionId");
+            GC_Utils_Ex::gfPrintLog("Non-existent session id : sid=".substr(sha1($sessionId), 0, 8));
 
             return false;
         }
@@ -282,7 +282,7 @@ class LC_UseRequest_State
         if (isset($_SESSION[$namespace]) && is_array($_SESSION[$namespace])) {
             return true;
         }
-        GC_Utils_Ex::gfPrintLog("NameSpace $namespace not found in session data : sid=" . session_id());
+        GC_Utils_Ex::gfPrintLog("NameSpace $namespace not found in session data : sid=" . substr(sha1(session_id()), 0, 8));
 
         return false;
     }
@@ -348,7 +348,7 @@ class LC_UseRequest_State
             return true;
         }
         $date = date('Y/m/d H:i:s', $expire);
-        GC_Utils_Ex::gfPrintLog("Session expired at $date : sid=" . session_id());
+        GC_Utils_Ex::gfPrintLog("Session expired at $date : sid=" . substr(sha1(session_id()), 0, 8));
 
         return false;
     }
@@ -385,7 +385,7 @@ class LC_UseRequest_State
             return true;
         }
 
-        $msg = sprintf('Ip Addr mismatch : %s != %s(expected) : sid=%s', $_SERVER['REMOTE_ADDR'], $ip, session_id());
+        $msg = sprintf('Ip Addr mismatch : %s != %s(expected) : sid=%s', $_SERVER['REMOTE_ADDR'], $ip, substr(sha1(session_id()), 0, 8));
         GC_Utils_Ex::gfPrintLog($msg);
 
         return false;
@@ -472,7 +472,7 @@ class LC_UseRequest_State_PC extends LC_UseRequest_State
             return true;
         }
         $msg = sprintf('User agent model mismatch : %s != %s(expected), sid=%s',
-                       $_SERVER['HTTP_USER_AGENT'], $ua, session_id());
+                       $_SERVER['HTTP_USER_AGENT'], $ua, substr(sha1(session_id()), 0, 8));
         GC_Utils_Ex::gfPrintLog($msg);
 
         return false;

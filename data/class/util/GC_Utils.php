@@ -195,7 +195,8 @@ class GC_Utils
                 $msg .= 'customer_id = ' . $_SESSION['customer']['customer_id'] . "\n";
             }
             if (GC_Utils_Ex::isAdminFunction()) {
-                $msg .= 'login_id = ' . $_SESSION['login_id'] . '(' . $_SESSION['authority'] . ')' . '[' . session_id() . ']' . "\n";
+
+                $msg .= 'login_id = ' . $_SESSION['login_id'] . '(' . $_SESSION['authority'] . ')' . '[' . substr(sha1(session_id()), 0, 8) . ']' . "\n";
             }
             $msg .= GC_Utils_Ex::toStringBacktrace(GC_Utils_Ex::getDebugBacktrace());
         }
