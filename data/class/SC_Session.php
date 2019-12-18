@@ -47,7 +47,7 @@ class SC_Session
     {
         // セッション情報の保存
         if (isset($_SESSION['cert'])) {
-            $this->sid = session_id();
+            $this->sid = substr(sha1(session_id()), 0, 8);
             $this->cert = $_SESSION['cert'];
             $this->login_id  = $_SESSION['login_id'];
             // 管理者:0, 店舗オーナー:1, 閲覧:2, 販売担当:3 (XXX 現状 0, 1 を暫定実装。2, 3 は未実装。)

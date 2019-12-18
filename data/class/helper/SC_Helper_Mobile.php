@@ -173,7 +173,7 @@ class SC_Helper_Mobile
         // セッションIDの存在をチェックする。
         $objSession = new SC_Helper_Session_Ex();
         if ($objSession->sfSessRead($sessionId) === null) {
-            GC_Utils_Ex::gfPrintLog("Non-existent session id : sid=$sessionId");
+            GC_Utils_Ex::gfPrintLog("Non-existent session id : sid=".substr(sha1($sessionId), 0, 8));
 
             return false;
         }
@@ -198,7 +198,7 @@ class SC_Helper_Mobile
         // 有効期限を過ぎていないかどうかをチェックする。
         if (intval(@$_SESSION['mobile']['expires']) < time()) {
             $msg = 'Session expired at ' . date('Y/m/d H:i:s', @$_SESSION['mobile']['expires'])
-                 . ' : sid=' . session_id();
+                 . ' : sid=' . substr(sha1(session_id()), 0, 8);
             GC_Utils_Ex::gfPrintLog($msg);
 
             return false;
@@ -209,7 +209,7 @@ class SC_Helper_Mobile
         if (@$_SESSION['mobile']['model'] != $model) {
             $msg = 'User agent model mismatch : '
                  . '"$model" != "' . @$_SESSION['mobile']['model']
-                 . '" (expected), sid=' . session_id();
+                 . '" (expected), sid=' . substr(sha1(session_id()), 0, 8);
             GC_Utils_Ex::gfPrintLog($msg);
 
             return false;
