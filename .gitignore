@@ -1,8 +1,11 @@
 !.gitmodule
 composer.phar
 /data/vendor/
+/node_modules/
 *.cache
 *.log
+*.log.*
+*.tpl.php
 /data/config/config.php
 /data/cache/*
 /data/Smarty/templates_c/*
@@ -17,6 +20,7 @@ composer.phar
 !/html/template/install
 /phpunit.xml
 /tests/tmp/*
+/ctests/_output/*
 /reports/*
 .idea
 vagrant
