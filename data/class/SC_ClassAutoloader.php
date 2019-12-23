@@ -36,7 +36,7 @@ class SC_ClassAutoloader
      * LC_* には対応していない。
      * @return void
      */
-    public static function autoload($class)
+    public static function autoload($class, $plugin_upload_realdir = PLUGIN_UPLOAD_REALDIR)
     {
         $arrClassNamePart = explode('_', $class);
         $is_ex = end($arrClassNamePart) === 'Ex';
@@ -66,7 +66,7 @@ class SC_ClassAutoloader
         // プラグイン向けフックポイント
         // MEMO: プラグインのローダーがDB接続を必要とするため、SC_Queryがロードされた後のみ呼び出される。
         //       プラグイン情報のキャッシュ化が行われれば、全部にフックさせることを可能に？
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance(true);
+        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance(true, $plugin_upload_realdir);
         if (is_object($objPlugin)) {
             // 元の設定を一時保存
             $plugin_class = $class;

@@ -124,11 +124,11 @@ class SC_Plugin_Util
      *
      * @return array $arrPluginDirectory
      */
-    public function getPluginDirectory()
+    public function getPluginDirectory($plugin_upload_realdir = PLUGIN_UPLOAD_REALDIR)
     {
         $arrPluginDirectory = array();
-        if (is_dir(PLUGIN_UPLOAD_REALDIR)) {
-            if ($dh = opendir(PLUGIN_UPLOAD_REALDIR)) {
+        if (is_dir($plugin_upload_realdir)) {
+            if ($dh = opendir($plugin_upload_realdir)) {
                 while (($pluginDirectory = readdir($dh)) !== false) {
                     $arrPluginDirectory[] = $pluginDirectory;
                 }
