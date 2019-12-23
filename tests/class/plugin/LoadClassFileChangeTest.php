@@ -32,6 +32,8 @@ class LoadClassFileChangeTest extends Common_TestCase
 
     /**
      * loadClassFileChange で拡張したクラスのテストケース.
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testLoadExtendedClass()
     {

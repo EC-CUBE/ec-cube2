@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @group classloader
+ */
 class LoadClassFileChangeCustomDirTest extends Common_TestCase
 {
     protected function setUp()
@@ -30,6 +33,10 @@ class LoadClassFileChangeCustomDirTest extends Common_TestCase
         $this->objQuery->insert('dtb_plugin_hookpoint', $hookpointValues);
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testLOading()
     {
         //  __DIR__.'/../fixtures/plugin/ に配置したプラグインをオートロード対象にする
