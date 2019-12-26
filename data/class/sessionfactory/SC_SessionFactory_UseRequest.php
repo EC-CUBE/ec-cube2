@@ -238,7 +238,7 @@ class SC_SessionFactory_UseRequest extends SC_SessionFactory_Ex
 }
 /**
  * セッションデータ管理クラスの基底クラス
- *
+ * @deprecated
  */
 class LC_UseRequest_State
 {
@@ -429,7 +429,7 @@ class LC_UseRequest_State
 
 /**
  * PCサイト用のセッションデータ管理クラス
- *
+ * @deprecated
  */
 class LC_UseRequest_State_PC extends LC_UseRequest_State
 {
@@ -493,7 +493,7 @@ class LC_UseRequest_State_PC extends LC_UseRequest_State
 
 /**
  * モバイルサイト用のセッションデータ管理クラス
- *
+ * @deprecated
  */
 class LC_UseRequest_State_Mobile extends LC_UseRequest_State
 {

@@ -93,6 +93,8 @@ script:
   - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist --group classloader ; fi
   - if [ $COVERAGE ] ; then phpdbg -qrr data/vendor/bin/phpunit -c phpunit.xml.dist --exclude-group classloader ; fi
   - if [ ! $COVERAGE ] ; then php data/vendor/bin/codecept run --env chrome --skip-group installer --steps ; fi
+  - sed -e 's|http://|https://|g' -i.bak data/config/config.php
+  - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist tests/class/SC_SessionFactoryTest.php ; fi
 
 after_script:
   - if [ $COVERAGE ] ; then php data/vendor/bin/coveralls -v ; fi

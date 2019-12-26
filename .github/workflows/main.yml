@@ -96,6 +96,8 @@ jobs:
       run: |
         data/vendor/bin/phpunit --exclude-group classloader
         data/vendor/bin/phpunit --group classloader
+        sed 's|http://|https://|g' -i.bak data/config/config.php
+        data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
 
     - name: Run chromedriver
       run: |
@@ -183,6 +185,8 @@ jobs:
       run: |
         data/vendor/bin/phpunit --exclude-group classloader
         data/vendor/bin/phpunit --group classloader
+        sed 's|http://|https://|g' -i.bak data/config/config.php
+        data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
 
   install-to-linux:
     name: Install to Linux
