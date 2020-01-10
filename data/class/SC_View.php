@@ -148,7 +148,7 @@ class SC_View
             // フックポイントを実行.
             $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
             if ($objPlugin) {
-                $objPlugin->doAction('prefilterTransform', array(&$source, $this->objPage, $template->smarty->_current_file));
+                $objPlugin->doAction('prefilterTransform', array(&$source, $this->objPage, $this->getCurrentTemplateFile($template)));
             }
         }
 
@@ -167,7 +167,7 @@ class SC_View
             // フックポイントを実行.
             $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
             if ($objPlugin) {
-                $objPlugin->doAction('outputfilterTransform', array(&$source, $this->objPage, $template->smarty->_current_file));
+                $objPlugin->doAction('outputfilterTransform', array(&$source, $this->objPage, $this->getCurrentTemplateFile($template)));
             }
         }
 
@@ -266,4 +266,22 @@ class SC_View
         return preg_replace($pattern, $replace, $tpl_source);
     }
 
+    /**
+     * 現在のテンプレートファイルパスを返す.
+     *
+     * 2.13(Smarty2) との後方互換用.
+     * 2.13 で使用していた $template->smarty->_current_file は $template->source->filepath の後方互換用変数だが
+     * 以下ような振舞いの違いがある
+     * - Smarty2: テンプレートディレクトリからの相対パス
+     * - Smarty3: テンプレートディレクトリからの絶対パス
+     * この関数は 2.13 と同様にテンプレートディレクトリからの相対パスを返す
+     *
+     * @param Smarty_Internal_Template $template
+     * @return string 現在のテンプレートファイルパス
+     */
+    public function getCurrentTemplateFile(Smarty_Internal_Template $template)
+    {
+        $current_file = str_replace($template->smarty->getTemplateDir(), '', $template->source->filepath);
+        return str_replace('\\', '/', $current_file); // Windows 向けにパスの区切り文字を正規化する
+    }
 }
