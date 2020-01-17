@@ -17,14 +17,6 @@ php:
   - 7.3
   - 7.4
 
-addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - dpkg  # see https://github.com/travis-ci/travis-ci/issues/9361
-      - google-chrome-stable
-
 env:
     global:
         - DBNAME=myapp_test DBSERVER=127.0.0.1 HTTP_URL=http://localhost:8085/ HTTPS_URL=http://localhost:8085/
@@ -65,6 +57,9 @@ matrix:
     # Use for coverage report
     - php: 7.3
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
+
+before_install:
+  - if [[ $DIST = 'trusty' ]]; then sudo apt-get -y install google-chrome-stable --allow-unauthenticated ; fi
 
 before_script:
   - if [[ $DB = 'mysql' ]]; then mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';" ; fi
