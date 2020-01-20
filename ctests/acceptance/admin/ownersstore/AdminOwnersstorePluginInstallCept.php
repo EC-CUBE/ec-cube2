@@ -26,9 +26,11 @@ if ($tar->create(['PrefilterTransformPlugin.php', 'plugin_info.php'])) {
 $I->expect('プラグインをインストールします');
 $I->click(['css' => '#system > table > tbody > tr > td > a']); // インストールボタン
 
+$I->wait(1);
 $I->seeInPopup('プラグインをインストールしても宜しいでしょうか？');
 $I->acceptPopup();
 
+$I->wait(1);
 $I->seeInPopup('プラグインをインストールしました');
 $I->acceptPopup();
 
@@ -37,9 +39,11 @@ $I->amOnPage('/admin/ownersstore/');
 $I->expect('プラグインを有効化します');
 $I->click(['css' => '#system > table.system-plugin > tbody > tr:nth-child(2) > td.plugin_info > div > label > input[type=checkbox]']);  // 有効化ボタン
 
+$I->wait(1);
 $I->seeInPopup('プラグインを有効にしても宜しいですか？');
 $I->acceptPopup();
 
+$I->wait(1);
 $I->seeInPopup('有効にしました。');
 $I->acceptPopup();
 
@@ -52,17 +56,21 @@ $I->amOnPage('/admin/ownersstore/');
 $I->expect('プラグインを無効化します');
 $I->click(['css' => '#system > table.system-plugin > tbody > tr:nth-child(2) > td.plugin_info > div > label > input[type=checkbox]']);  // 無効化ボタン
 
+$I->wait(1);
 $I->seeInPopup('プラグインを無効にしても宜しいですか？');
 $I->acceptPopup();
 
+$I->wait(1);
 $I->seeInPopup('無効にしました。');
 $I->acceptPopup();
 
 $I->expect('プラグインを削除します');
 $I->click(['css' => '#system > table.system-plugin > tbody > tr:nth-child(2) > td.plugin_info > div > a:nth-child(6)']); // 削除ボタン
 
+$I->wait(1);
 $I->seeInPopup('プラグインを削除しても宜しいですか？');
 $I->acceptPopup();
 
+$I->wait(1);
 $I->seeInPopup('削除しました');
 $I->acceptPopup();
