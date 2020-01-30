@@ -33,13 +33,6 @@
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/admin_contents.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/admin_file_manager.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.colorbox/colorbox.css" type="text/css" media="all" />
-<!--{if $tpl_mainno eq "basis" && $tpl_subno eq "index"}-->
-<!--{if ($smarty.server.HTTPS != "") && ($smarty.server.HTTPS != "off")}-->
-<script type="text/javascript" src="https://maps-api-ssl.google.com/maps/api/js?sensor=false"></script>
-<!--{else}-->
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<!--{/if}-->
-<!--{/if}-->
 <!--[if lt IE 9]>
 <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery-1.11.1.min.js"></script>
 <![endif]-->
