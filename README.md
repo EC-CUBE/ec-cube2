@@ -1,7 +1,11 @@
-# EC-CUBE 2.13系 / 2.17系(開発中)
-[![Build Status](https://travis-ci.org/EC-CUBE/eccube-2_13.svg)](https://travis-ci.org/EC-CUBE/eccube-2_13)
-[![Build status](https://ci.appveyor.com/api/projects/status/4k58ucq2smwc4h7n/branch/master?svg=true)](https://ci.appveyor.com/project/ECCUBE/eccube-2-13/branch/master)
-[![Coverage Status](https://coveralls.io/repos/EC-CUBE/eccube-2_13/badge.png)](https://coveralls.io/r/EC-CUBE/eccube-2_13)
+# EC-CUBE 2.17系
+
+[![GitHub Actions status](https://github.com/EC-CUBE/ec-cube2/workflows/CI/CD%20for%20EC-CUBE/badge.svg)](https://github.com/EC-CUBE/ec-cube2/actions)
+[![Build Status](https://travis-ci.org/EC-CUBE/ec-cube2.svg)](https://travis-ci.org/EC-CUBE/ec-cube2)
+[![AppVeyor](https://img.shields.io/appveyor/ci/ECCUBE/ec-cube2)](https://ci.appveyor.com/project/ECCUBE/ec-cube2/branch/master)
+[![Coveralls github](https://img.shields.io/coveralls/github/EC-CUBE/ec-cube2)](https://coveralls.io/r/EC-CUBE/ec-cube2)
+[![PHP Versions Supported](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](#php-version-support)
+[![GitHub All Releases](https://img.shields.io/github/downloads/EC-CUBE/ec-cube2/total)](https://github.com/EC-CUBE/ec-cube2/releases)
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ---
@@ -9,7 +13,7 @@
 ## EC-CUBE Trac について
 
 EC-CUBE 2.13系については、2014年10月以前に利用されていた、[EC-CUBE Trac](http://svn.ec-cube.net/open_trac/) と[SVN](http://svn.ec-cube.net/open/)がございますので、合わせてご参照ください。
-新規のご投稿やコミットはいただけませんが、GitHubに移されていない不具合の情報や過去の経緯などをご確認いただけます。  
+新規のご投稿やコミットはいただけませんが、GitHubに移されていない不具合の情報や過去の経緯などをご確認いただけます。
 
 EC-CUBE Trac にある議論の再開や不具合の修正についても、GitHubにIssueを再作成していただいたり、Pull requestをいただけますと幸いです。
 
@@ -23,26 +27,68 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 
 本リポジトリでは、以下方針で開発を行っています。
 
-### 2.13系
+### 2.17系
 
-* 保守と不具合修正を行います。
-* 修正時は `master` に対してPull requestを作成してください。
+* EC-CUBE 2.13 系の PHP7 対応バージョンです。
+* `master` ブランチで開発を行っています。
 
-### 2.17系(開発中)
+#### システム要件
 
-* EC-CUBE 2.13系に対して、PHP7対応を行うバージョンです。
-* ブランチ `improve/php7` で開発を行っています。  
-修正時は `improve/php7` に対してPull requestを作成してください。
-* 2.17系に関連するIssueについては、[マイルストーン 2.17.0](https://github.com/EC-CUBE/eccube-2_13/milestone/5)を参照してください。
+| 分類      | ソフトウェア         | Version                                                                 |
+|-----------|----------------------|-------------------------------------------------------------------------|
+| WebServer | IIS                  | 8.x or higher                                                           |
+| WebServer | Apache               | 2.4.x or higher<br> (mod_rewrite / mod_ssl 必須)                        |
+| PHP       | PHP                  | 5.4.16 or higher                                                        |
+| Database  | PostgreSQL           | 9.x or higher                                                           |
+| Database  | MySQL                | 5.x / 8.x or higher<br> (InnoDBエンジン 必須)                           |
 
-##### 2.17系 システム要件の変更
+##### 必要な PHP Extensions
 
-動作にはPHP5.4以降が必要になります。
+| 分類           | Extensions                                                                                                                                                                                                                                                                               |
+|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 必須      | pgsql / mysqli (利用するデータベースに合わせること) <br> pdo_pgsql / pdo_mysql (利用するデータベースに合わせること) <br> pdo <br> mbstring <br> zlib <br> ctype <br> session <br> JSON <br> xml <br> libxml <br> OpenSSL <br> zip <br> cURL <br> gd                                      |
+| 推奨      | hash <br> APCu / WinCache (利用する環境に合わせること) <br> Zend OPcache <br> mcrypt                                                                                                                                                                                                     |
 
-##### 2.17系 インストールについて
+## インストール方法
 
-Composerを導入に伴い、clone後に`composer install`の実行が必要です。
+EC-CUBEのインストールは、以下の方法があります。
+
+1. パッケージを使用してインストールする
+1. コマンドラインからインストールする
+
+### パッケージを使用してインストールする
+
+[EC-CUBE のパッケージ](https://github.com/EC-CUBE/ec-cube2/releases)をダウンロードし、解凍してください。
+
+FTP/SSHを使用し、ファイルをサーバへアップロードしてください。
+※ファイル数が多いためエラーが発生することがございます。エラー発生時は分割してアップロードをお願いします。
+
+データベースを作成し、Webサーバを起動してください。
+*DocumentRoot を `{EC-CUBEをアップロードしたディレクトリ}/html` に設定しておく必要があります。*
+
+ブラウザからEC-CUBEにアクセスするとWebインストーラが表示されますので、指示にしたがってインストールしてください。
+
+### コマンドラインからインストールする
+
+- *不具合修正やバージョンアップに追従しやすくしたい場合におすすめです。*
+
+以下をコマンドラインで実行します。
+
+```shell
+git clone https://github.com/EC-CUBE/ec-cube2.git
+cd ec-cube2
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+php composer.phar install --no-dev --no-interaction -o
+```
+
+データベースを作成し、Webサーバを起動してください。
+*DocumentRoot を `{EC-CUBEをアップロードしたディレクトリ}/html` に設定しておく必要があります。*
+
+ブラウザからEC-CUBEにアクセスするとWebインストーラが表示されますので、指示にしたがってインストールしてください。
 
 ---
 
-上記に含まれない新規機能開発や構造の変化を伴う修正等については、[EC-CUBE/ec-cube](https://github.com/EC-CUBE/ec-cube)にて開発を行っております。
+- EC-CUBE4系については、 [EC-CUBE/ec-cube](https://github.com/EC-CUBE/ec-cube) にて開発を行っております。
+- EC-CUBE3系については、 [EC-CUBE/ec-cube3](https://github.com/EC-CUBE/ec-cube3) にて開発を行っております。

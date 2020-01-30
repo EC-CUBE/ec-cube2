@@ -1,3 +1,4 @@
+
 <?php
 
 class SC_SessionTest extends Common_TestCase
@@ -59,7 +60,7 @@ class SC_SessionTest extends Common_TestCase
 
     public function testGetSID()
     {
-        $this->expected = session_id();
+        $this->expected = substr(sha1(session_id()), 0, 8);
         $this->actual = $this->objSession->GetSID();
         $this->assertNotNull($this->actual);
         $this->verify();

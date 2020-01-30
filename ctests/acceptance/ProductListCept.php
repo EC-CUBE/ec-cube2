@@ -5,6 +5,9 @@ $I->amOnPage('/products/list.php');
 $I->see('EC-CUBE発!世界中を旅して見つけた立方体グルメを立方隊長が直送！');
 $I->seeElement('#site_description');
 
+$I->expect('body の class 名が出力されている');
+$I->seeElement(['css' => 'body'], ['class' => 'LC_Page_Products_List']);
+
 $I->expect('50件まで一覧表示する');
 $I->selectOption(['css' => '#page_navi_top > div > div.change > select'], '50件');
 $all_products = $I->grabMultiple(['css' => '#undercolumn > form > div > div.listrightbloc > h3 > a']);
@@ -23,7 +26,7 @@ $I->expect('50件まで一覧表示する');
 $I->selectOption(['css' => '#page_navi_top > div > div.change > select'], '50件');
 
 $I->expect('カテゴリにアクセスすると商品が絞り込まれる');
-$I->comment('see https://github.com/EC-CUBE/eccube-2_13/pull/273');
+$I->comment('see https://github.com/EC-CUBE/ec-cube2/pull/273');
 $products_in_category = $I->grabMultiple(['css' => '#undercolumn > form > div > div.listrightbloc > h3 > a']);
 
 if (count($products_in_category) <= 50) {

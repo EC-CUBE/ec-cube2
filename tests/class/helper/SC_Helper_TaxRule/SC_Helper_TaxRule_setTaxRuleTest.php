@@ -49,7 +49,7 @@ class SC_Helper_TaxRule_setTaxRuleTest extends SC_Helper_TaxRule_TestBase
 
     /**
      * del_flg を考慮する
-     * @see https://github.com/EC-CUBE/eccube-2_13/issues/304
+     * @see https://github.com/EC-CUBE/ec-cube2/issues/304
      */
     public function testSetDelflgOfSetTaxRule()
     {

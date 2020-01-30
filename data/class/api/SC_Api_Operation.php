@@ -416,6 +416,10 @@ class SC_Api_Operation
      */
     public function sendApiResponse($type, $response_outer_name, &$arrResponse)
     {
+        if (API_ENABLE_FLAG == false) {
+            http_response_code(403);
+            return;
+        }
         switch ($type) {
             case 'xml':
                 SC_Api_Utils_Ex::sendResponseXml($response_outer_name, $arrResponse);

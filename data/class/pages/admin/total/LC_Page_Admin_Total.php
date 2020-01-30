@@ -322,7 +322,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             if ($interval < 1) {
                 $interval = 1;
             }
-            $objGraphLine = new SC_Graph_Line();
+            $objGraphLine = new SC_Graph_Line_Ex();
 
             // 値のセット
             $objGraphLine->setData($arrList);
@@ -380,7 +380,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $pngname = $this->lfGetGraphPng($type);
             $path = GRAPH_REALDIR . $pngname;
 
-            $objGraphPie = new SC_Graph_Pie();
+            $objGraphPie = new SC_Graph_Pie_Ex();
 
             // データをセットする
             $objGraphPie->setData($arrList);
@@ -431,7 +431,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $pngname = $this->lfGetGraphPng($type);
             $path = GRAPH_REALDIR . $pngname;
 
-            $objGraphBar = new SC_Graph_Bar();
+            $objGraphBar = new SC_Graph_Bar_Ex();
 
             foreach ($arrList as $key => $value) {
                 $arrKey[] = preg_replace('/～/u', '-', $key);

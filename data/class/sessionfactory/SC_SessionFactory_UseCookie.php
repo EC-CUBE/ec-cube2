@@ -46,7 +46,7 @@ class SC_SessionFactory_UseCookie extends SC_SessionFactory_Ex
         ini_set('session.cache_limiter', 'none');
         // (session.auto_start などで)セッションが開始されていた場合に備えて閉じる。(FIXME: 保存する必要はない。破棄で良い。)
         session_write_close();
-        session_set_cookie_params(0, ROOT_URLPATH, DOMAIN_NAME, false, true);
+        session_set_cookie_params(0, ROOT_URLPATH, DOMAIN_NAME, $this->getSecureOption(), true);
         // セッション開始
         // FIXME EC-CUBE をネストしてインストールした場合を考慮して、一意とすべき
         session_name('ECSESSID');
@@ -61,6 +61,17 @@ class SC_SessionFactory_UseCookie extends SC_SessionFactory_Ex
     public function useCookie()
     {
         return true;
+    }
+
+    /**
+     * secure オプションの値を返す.
+     *
+     * この値をもとに secure オプションを設定する.
+     * @return bool HTTP_URL 及び HTTPS_URL が https の場合は true
+     */
+    protected function getSecureOption()
+    {
+        return (strpos(HTTP_URL, 'https') !== false && strpos(HTTPS_URL, 'https') !== false);
     }
 }
 /*

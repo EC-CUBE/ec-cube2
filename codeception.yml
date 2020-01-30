@@ -15,3 +15,5 @@ modules:
             user: ''
             password: ''
             dump: ctests/_data/dump.sql
+params:
+    - env

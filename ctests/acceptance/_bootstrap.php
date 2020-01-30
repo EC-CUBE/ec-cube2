@@ -6,6 +6,12 @@ $config = parse_ini_file(__DIR__.'/config.ini', true);
 $faker = Faker\Factory::create('ja_JP');
 Codeception\Util\Fixtures::add('faker', $faker);
 
+if (!file_exists(__DIR__.'/../../data/config/config.php')
+    || !defined('ECCUBE_INSTALL') || ECCUBE_INSTALL != 'ON') {
+    echo 'EC-CUBE is not yet installed.';
+    return;
+}
+
 /** @var SC_Query $objQuery */
 $objQuery = SC_Query_Ex::getSingletonInstance();
 

@@ -15,19 +15,11 @@ php:
   - 7.1
   - 7.2
   - 7.3
-  - 7.4snapshot
-
-addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - dpkg  # see https://github.com/travis-ci/travis-ci/issues/9361
-      - google-chrome-stable
+  - 7.4
 
 env:
     global:
-        - DBNAME=myapp_test HTTP_URL=http://localhost:8085/ HTTPS_URL=http://localhost:8085/
+        - DBNAME=myapp_test DBSERVER=127.0.0.1 HTTP_URL=http://localhost:8085/ HTTPS_URL=http://localhost:8085/
     matrix:
         - DB=mysql USER=root DBPASS=' ' DBUSER=root
         - DB=pgsql USER=postgres DBPASS=password DBUSER=postgres
@@ -59,13 +51,15 @@ matrix:
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
     - php: 7.2
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
-    - php: 7.4snapshot
+    - php: 7.4
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
   allow_failures:
-    - php: 7.4snapshot
     # Use for coverage report
     - php: 7.3
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
+
+before_install:
+  - if [[ $DIST = 'trusty' ]]; then sudo apt-get -y install google-chrome-stable --allow-unauthenticated ; fi
 
 before_script:
   - if [[ $DB = 'mysql' ]]; then mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';" ; fi
@@ -93,7 +87,9 @@ script:
   - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist --exclude-group classloader ; fi
   - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist --group classloader ; fi
   - if [ $COVERAGE ] ; then phpdbg -qrr data/vendor/bin/phpunit -c phpunit.xml.dist --exclude-group classloader ; fi
-  - if [ ! $COVERAGE ] ; then php data/vendor/bin/codecept run --env chrome --steps ; fi
+  - if [ ! $COVERAGE ] ; then php data/vendor/bin/codecept run --env chrome --skip-group installer --steps ; fi
+  - sed -e 's|http://|https://|g' -i.bak data/config/config.php
+  - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist tests/class/SC_SessionFactoryTest.php ; fi
 
 after_script:
   - if [ $COVERAGE ] ; then php data/vendor/bin/coveralls -v ; fi

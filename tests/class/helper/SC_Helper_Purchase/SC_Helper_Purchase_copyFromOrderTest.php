@@ -86,7 +86,7 @@ class SC_Helper_Purchase_copyFromOrderTest extends SC_Helper_Purchase_TestBase
        'shipping_fax02' => '2345',
        'shipping_fax03' => '6789'
      );
-     $helper = new SC_Helper_Purchase();
+     $helper = new SC_Helper_Purchase_Ex();
      $helper->copyFromOrder($dest, $src);
      $this->actual = $dest;
 
@@ -106,7 +106,7 @@ class SC_Helper_Purchase_copyFromOrderTest extends SC_Helper_Purchase_TestBase
        'output_name01' => '姓',
        'output_name02' => '名'
      );
-     $helper = new SC_Helper_Purchase();
+     $helper = new SC_Helper_Purchase_Ex();
      $helper->copyFromOrder($dest, $src, 'output', 'input', array('name01', 'name02'));
      $this->actual = $dest;
 

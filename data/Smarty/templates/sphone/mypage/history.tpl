@@ -146,7 +146,9 @@
                 <div><span class="mini">送料：</span><!--{$tpl_arrOrderData.deliv_fee|n2s}-->円</div>
                 <div><span class="mini">手数料：</span><!--{$tpl_arrOrderData.charge|n2s}-->円</div>
                 <div><span class="mini">合計：</span><span class="price fb"><!--{$tpl_arrOrderData.payment_total|n2s}-->円</span></div>
-                <div><span class="mini">今回加算ポイント：</span><!--{$tpl_arrOrderData.add_point|n2s|default:0}-->Pt</div>
+                <!--{if $smarty.const.USE_POINT !== false}-->
+                    <div><span class="mini">今回加算ポイント：</span><!--{$tpl_arrOrderData.add_point|n2s|default:0}-->Pt</div>
+                <!--{/if}-->
             </div>
         </div><!-- /.formBox -->
 

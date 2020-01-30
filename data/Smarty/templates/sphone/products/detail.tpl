@@ -30,12 +30,25 @@
         eccube.setClassCategories($form, product_id, $sele1, $sele2, classcat_id2_selected);
     }
     $(function(){
-        $('#detailphotoblock ul li').flickSlide({target:'#detailphotoblock>ul', duration:5000, parentArea:'#detailphotoblock', height: 200});
-        $('#whobought_area ul li').flickSlide({target:'#whobought_area>ul', duration:5000, parentArea:'#whobought_area', height: 80});
 
-        //お勧め商品のリンクを張り直し(フリックスライドによるエレメント生成後)
-        $('#whobought_area li').biggerlink();
+      $('#detailphotoblock ul').slick({
+        centerMode: true,
+        dots: false,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        adaptiveHeight: true
+      });
+      
+      $('#whobought_area ul').slick({
+        dots: false,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 3,
+        adaptiveHeight: true
+      });
     });
+
     //サブエリアの表示/非表示
     var speed = 500;
     var stateSub = 0;

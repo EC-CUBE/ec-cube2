@@ -153,9 +153,9 @@
             },
             success: function(result){
                 var productStatus = result.productStatus;
-                for (var product_id in result) {
-                    if (isNaN(product_id)) continue;
-                    var product = result[product_id];
+                for (var key in result) {
+                    if (isNaN(key)) continue;
+                    var product = result[key];
                     var productHtml = "";
                     var maxCnt = $(".list_area").length - 1;
                     var productEl = $(".list_area").get(maxCnt);

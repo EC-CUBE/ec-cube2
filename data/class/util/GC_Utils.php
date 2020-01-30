@@ -56,7 +56,7 @@ class GC_Utils
     public function gfGetCallerInfo($forLogInfo = true)
     {
         // バックトレースを取得する
-        $traces = debug_backtrace(false);
+        $traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5);
         $bklv = 1;
         if ($forLogInfo === true) {
             $bklv = 3;
@@ -79,7 +79,7 @@ class GC_Utils
     public function getDebugBacktrace($arrBacktrace = null)
     {
         if (is_null($arrBacktrace)) {
-            $arrBacktrace = debug_backtrace(false);
+            $arrBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         }
         $arrReturn = array();
         foreach (array_reverse($arrBacktrace) as $arrLine) {
@@ -195,7 +195,8 @@ class GC_Utils
                 $msg .= 'customer_id = ' . $_SESSION['customer']['customer_id'] . "\n";
             }
             if (GC_Utils_Ex::isAdminFunction()) {
-                $msg .= 'login_id = ' . $_SESSION['login_id'] . '(' . $_SESSION['authority'] . ')' . '[' . session_id() . ']' . "\n";
+
+                $msg .= 'login_id = ' . $_SESSION['login_id'] . '(' . $_SESSION['authority'] . ')' . '[' . substr(sha1(session_id()), 0, 8) . ']' . "\n";
             }
             $msg .= GC_Utils_Ex::toStringBacktrace(GC_Utils_Ex::getDebugBacktrace());
         }
