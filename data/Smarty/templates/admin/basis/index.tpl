@@ -23,85 +23,6 @@
 *}-->
 
 <script type="text/javascript">//<![CDATA[
-var map;
-var marker;
-
-$(function() {
-    var geocoder = new google.maps.Geocoder();
-
-    $("#codeAddress").click(function() {
-        var result = true;
-        var address = $("#addr01").val() + $("#addr02").val();
-        if (geocoder && address) {
-            geocoder.geocode({'address': address}, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    latlng = results[0].geometry.location;
-                    $("#latitude").val(latlng.lat());
-                    $("#longitude").val(latlng.lng());
-                } else {
-                    alert('所在地の場所が見つかりません');
-                }
-            });
-        } else {
-            alert('所在地の場所が見つかりません');
-        }
-    });
-
-    $("a#mapAddress").colorbox({
-        inline: true,
-        width: 360,
-        onComplete: function() {
-            var lat = $("#latitude").val();
-            var lng = $("#longitude").val();
-
-            var latlng;
-            if (lat && lng) {
-                latlng = new google.maps.LatLng(lat, lng);
-            } else {
-                var address = $("#addr01").val() + $("#addr02").val();
-                if (geocoder) {
-                    geocoder.geocode({address: address}, function(results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
-                            latlng = results[0].geometry.location;
-                        }
-                    });
-                }
-            }
-
-            if (!latlng || lat < -85 || 85 < lat) {
-                // 座標が取得できない,またはマップ外の座標が指定された場合は北緯35度東経135度から取得
-                latlng = new google.maps.LatLng(35, 135);
-            }
-
-            var mapOptions = {
-                zoom: 15,
-                center: latlng,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-
-            if (!map) {
-                map = new google.maps.Map(document.getElementById("maps"), mapOptions);
-            } else {
-                map.panTo(latlng);
-            }
-
-            if (!marker) {
-                marker = new google.maps.Marker({map: map, position: latlng});
-                marker.setDraggable(true);
-            } else {
-                marker.setPosition(latlng);
-            }
-
-            // TODO Maker のダブルクリックにも対応したい
-            $("#inputPoint").click(function() {
-                latlng = marker.getPosition();
-                $("#latitude").val(latlng.lat());
-                $("#longitude").val(latlng.lng());
-                $.colorbox.close();
-            });
-        },
-    });
-});
 //]]></script>
 <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
@@ -290,35 +211,10 @@ $(function() {
             </tr>
         </table>
 
-        <h2>地図設定</h2>
-        <table>
-            <tr>
-                <th>緯度/経度情報</th>
-                <td>
-                    <span class="attention"><!--{$arrErr.latitude}--></span>
-                    <span class="attention"><!--{$arrErr.longitude}--></span>
-                    緯度: <input type="text" name="latitude" value="<!--{$arrForm.latitude|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" style="<!--{if $arrErr.latitude != ""}-->background-color: <!--{$smarty.const.ERR_COLOR}-->;<!--{/if}-->" id="latitude" />
-                    経度: <input type="text" name="longitude" value="<!--{$arrForm.longitude|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" style="<!--{if $arrErr.longitude != ""}-->background-color: <!--{$smarty.const.ERR_COLOR}-->;<!--{/if}-->" id="longitude" />
-                    <a class="btn-normal" href="javascript:;" name="codeAddress" id="codeAddress" onclick="">所在地より自動取得</a>
-                    <a href="#maparea" id="mapAddress">地図で設定</a>
-                </td>
-            </tr>
-        </table>
-
         <div class="btn-area">
             <ul>
                 <li><a class="btn-action" href="javascript:;" onclick="eccube.submitForm(); return false;"><span class="btn-next">確認ページへ</span></a></li>
             </ul>
-        </div>
-    </div>
-    <div style="display: none">
-        <div id="maparea">
-            <div id="maps" style="width: 300px;height: 300px;"></div>
-            <div class="btn-area">
-                <ul>
-                    <li><a class="btn-normal" href="javascript:;" id="inputPoint">この位置を入力</a></li>
-                </ul>
-            </div>
         </div>
     </div>
     <!--{* ▲登録テーブルここまで *}-->

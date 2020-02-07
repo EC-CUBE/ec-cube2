@@ -51,14 +51,6 @@
 
 <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.js"></script>
 
-<!--{if $tpl_page_class_name === "LC_Page_Abouts"}-->
-    <!--{if ($smarty.server.HTTPS != "") && ($smarty.server.HTTPS != "off")}-->
-        <script type="text/javascript" src="https://maps-api-ssl.google.com/maps/api/js?sensor=false"></script>
-    <!--{else}-->
-        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-    <!--{/if}-->
-<!--{/if}-->
-
 <script type="text/javascript">//<![CDATA[
     <!--{$tpl_javascript}-->
     $(function(){
