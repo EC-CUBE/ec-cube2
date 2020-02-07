@@ -68,7 +68,7 @@ class SC_Helper_Session
      */
     public function sfSessRead($id)
     {
-        if ($id !== $_COOKIE['legacy-ECSESSID']) {
+        if (empty($_COOKIE['ECSESSID']) && $id !== $_COOKIE['legacy-ECSESSID']) {
             // session_id と $_COOKIE['legacy-ECSESSID'] が異なる場合は ECSESSID の cookie が拒否されたと見なす
             GC_Utils_Ex::gfPrintLog('replace session id: '.$id.'=>'.$_COOKIE['legacy-ECSESSID']);
             $id = $_COOKIE['legacy-ECSESSID']; // $_COOKIE['legacy-ECSESSID'] からセッションデータを読み込む
