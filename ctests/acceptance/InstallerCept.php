@@ -58,8 +58,9 @@ $I->see('データベースの初期化');
 $I->click('次へ進む');
 
 $I->see('データベースの初期化');
-$I->waitForText('○：テーブルの作成に成功しました。', 30);
-$I->waitForText('○：シーケンスの作成に成功しました。', 30);
+$I->dontSee('×：テーブルの作成に失敗しました。');
+$I->waitForText('○：テーブルの作成に成功しました。', 60);
+$I->waitForText('○：シーケンスの作成に成功しました。', 60);
 $I->click('次へ進む');
 
 $I->expect('STEP4');
@@ -76,3 +77,28 @@ $I->fillField('input[name=password]', $password);
 $I->click(['css' => '.btn-tool-format']);
 
 $I->see('ログイン : 管理者 様');
+
+$I->expect('TOPページを確認します');
+$I->click(['id' => 'logo']);
+$I->see('インストール完了後に /install フォルダを削除してください。');
+
+$I->expect('/install/index.php を削除します');
+$install_dir = __DIR__.'/../../html/install';
+unlink($install_dir.'/'.DIR_INDEX_FILE);
+$I->click(['id' => 'logo']);
+$I->see('インストール完了後に /install フォルダを削除してください。');
+
+$I->expect('/install を削除します');
+$files = new RecursiveIteratorIterator(
+    new RecursiveDirectoryIterator($install_dir, FilesystemIterator::SKIP_DOTS),
+    RecursiveIteratorIterator::CHILD_FIRST
+);
+foreach ($files as $file) {
+    /** @var SplFileInfo $file */
+    $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getRealPath());
+}
+rmdir($install_dir);
+
+$I->expect('/install が削除されていることを確認します');
+$I->click(['id' => 'logo']);
+$I->dontSee('インストール完了後に /install フォルダを削除してください。');

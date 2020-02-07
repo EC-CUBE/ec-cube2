@@ -21,42 +21,42 @@ env:
     global:
         - DBNAME=myapp_test DBSERVER=127.0.0.1 HTTP_URL=http://localhost:8085/ HTTPS_URL=http://localhost:8085/
     matrix:
-        - DB=mysql USER=root DBPASS=' ' DBUSER=root
-        - DB=pgsql USER=postgres DBPASS=password DBUSER=postgres
-        - DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true # Use for coverage report
+        - DB=mysql USER=root DBPASS=' ' DBUSER=root DBPORT=3306
+        - DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432
+        - DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true # Use for coverage report
 
 matrix:
   fast_finish: true
   include:
     - php: 5.4
       dist: trusty
-      env: DB=mysql USER=root DBPASS=' ' DBUSER=root DIST=trusty
+      env: DB=mysql USER=root DBPASS=' ' DBUSER=root DBPORT=3306 DIST=trusty
     - php: 5.4
       dist: trusty
-      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DIST=trusty
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 DIST=trusty
     - php: 5.5
       dist: trusty
-      env: DB=mysql USER=root DBPASS=' ' DBUSER=root DIST=trusty
+      env: DB=mysql USER=root DBPASS=' ' DBUSER=root DBPORT=3306 DIST=trusty
     - php: 5.5
       dist: trusty
-      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DIST=trusty
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 DIST=trusty
   exclude:
     - php: 5.4
     - php: 5.5
     - php: 5.6
-      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
     - php: 7.0
-      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
     - php: 7.1
-      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
     - php: 7.2
-      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
     - php: 7.4
-      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
   allow_failures:
     # Use for coverage report
     - php: 7.3
-      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres COVERAGE=true
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
 
 before_install:
   - if [[ $DIST = 'trusty' ]]; then sudo apt-get -y install google-chrome-stable --allow-unauthenticated ; fi
@@ -90,6 +90,10 @@ script:
   - if [ ! $COVERAGE ] ; then php data/vendor/bin/codecept run --env chrome --skip-group installer --steps ; fi
   - sed -e 's|http://|https://|g' -i.bak data/config/config.php
   - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist tests/class/SC_SessionFactoryTest.php ; fi
+  - rm ./data/config/config.php
+  - if [ $DB = 'pgsql' ] ; then psql -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "DROP DATABASE ${DBNAME};"; psql -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};" ; fi
+  ## Travis の mysql はパスワードが空なのでスキップ
+  - if [ ! $COVERAGE ] && [ $DB = 'pgsql' ] ; then php data/vendor/bin/codecept run --env chrome --group installer --steps ; fi
 
 after_script:
   - if [ $COVERAGE ] ; then php data/vendor/bin/coveralls -v ; fi
