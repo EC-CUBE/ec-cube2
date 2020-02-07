@@ -46,11 +46,17 @@ class SC_SessionFactory_UseCookie extends SC_SessionFactory_Ex
         ini_set('session.cache_limiter', 'none');
         // (session.auto_start などで)セッションが開始されていた場合に備えて閉じる。(FIXME: 保存する必要はない。破棄で良い。)
         session_write_close();
-        session_set_cookie_params(0, ROOT_URLPATH, DOMAIN_NAME, $this->getSecureOption(), true);
+        // FIXME PHP7.3 or higher
+        session_set_cookie_params(0, ROOT_URLPATH, DOMAIN_NAME.'; SameSite=None', $this->getSecureOption(), true);
+        $params = session_get_cookie_params();
         // セッション開始
         // FIXME EC-CUBE をネストしてインストールした場合を考慮して、一意とすべき
         session_name('ECSESSID');
         session_start();
+        if (session_id() !== '') {
+            // SameSite=None を未サポートの UA 向けに cookie を発行する
+            setcookie('legacy-'.session_name(), session_id(), $params['lifetime'], ROOT_URLPATH, $params['domain'], $params['secure'], true);
+        }
     }
 
     /**
