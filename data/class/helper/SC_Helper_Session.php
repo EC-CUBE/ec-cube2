@@ -73,6 +73,7 @@ class SC_Helper_Session
             // session_id と $_COOKIE['legacy-ECSESSID'] が異なる場合は ECSESSID の cookie が拒否されたと見なす
             GC_Utils_Ex::gfPrintLog('replace session id: ECSESSID=>legacy-ECSESSID');
             $id = $_COOKIE['legacy-ECSESSID']; // $_COOKIE['legacy-ECSESSID'] からセッションデータを読み込む
+            unset($_COOKIE['legacy-ECSESSID']);
         }
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->select('sess_data', 'dtb_session', 'sess_id = ?', array($id));
