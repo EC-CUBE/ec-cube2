@@ -71,7 +71,7 @@ class SC_SessionFactory_UseCookie extends SC_SessionFactory_Ex
         session_name('ECSESSID');
         session_start();
         if (session_id() !== '') {
-            // SameSite=None を未サポートの UA 向けに cookie を発行する. secure option 必須
+            // SameSite=None を未サポートの UA 向けに 互換用 cookie を発行する. secure option 必須
             setcookie('legacy-'.session_name(), session_id(), $params['lifetime'], $params['path'], $params['domain'], true, true);
         }
     }
