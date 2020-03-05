@@ -349,6 +349,7 @@ __EOS__;
     public function sfChangeReservedWords($sql)
     {
         $changesql = preg_replace('/(^|[^\w])RANK([^\w]|$)/i', '$1`RANK`$2', $sql);
+        $changesql = preg_replace('/``/i', '`', $changesql); // 2重エスケープ問題の対処
         return $changesql;
     }
 
