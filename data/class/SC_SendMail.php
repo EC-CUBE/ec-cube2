@@ -133,15 +133,15 @@ class SC_SendMail
     // 件名の設定
     public function setSubject($subject)
     {
-        $this->subject = mb_encode_mimeheader($subject, 'JIS', 'B', "\n");
+        $this->subject = mb_encode_mimeheader($subject, 'ISO-2022-JP-MS', 'B', "\n");
         $this->subject = str_replace(array("\r\n", "\r"), "\n", $this->subject);
     }
 
     // 本文の設定
     public function setBody($body)
     {
-        // iso-2022-jpだと特殊文字が？で送信されるのでJISを使用する
-        $this->body = mb_convert_encoding($body, 'JIS', CHAR_CODE);
+        // iso-2022-jpだと特殊文字が？で送信されるのでISO-2022-JP-MSを使用する
+        $this->body = mb_convert_encoding($body, 'ISO-2022-JP-MS', CHAR_CODE);
         $this->body = str_replace(array("\r\n", "\r"), "\n", $this->body);
     }
 
@@ -189,7 +189,7 @@ class SC_SendMail
             if ($name != '') {
                 // 制御文字を変換する。
                 $_name = $name;
-                $_name = mb_encode_mimeheader($_name, 'JIS', 'B', "\n");
+                $_name = mb_encode_mimeheader($_name, 'ISO-2022-JP-MS', 'B', "\n");
                 $_name = str_replace('"', '\"', $_name);
                 $name_address = sprintf('"%s" <%s>', $_name, $mail_address);
             } else {
