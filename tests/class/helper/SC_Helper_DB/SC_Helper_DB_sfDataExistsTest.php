@@ -28,7 +28,7 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
  * SC_Helper_DB::sfDataExists()のテストクラス.
  *
  * @author Hiroko Tamagawa
- * @version $Id: SC_Helper_DB_sfDataExists.php 22567 2013-02-18 10:09:54Z shutta $
+ * @version $Id$
  */
 class SC_Helper_DB_sfDataExists extends SC_Helper_DB_TestBase
 {

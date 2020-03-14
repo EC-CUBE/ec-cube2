@@ -21,7 +21,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Helper.php,v 1.5 2005/10/22 09:51:53 quipo Exp $
+ * @version $Id$
  */
 
 /**

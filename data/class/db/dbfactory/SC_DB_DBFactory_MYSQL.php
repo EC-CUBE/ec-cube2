@@ -30,7 +30,7 @@
  *
  * @package DB
  * @author EC-CUBE CO.,LTD.
- * @version $Id:SC_DB_DBFactory_MYSQL.php 15267 2007-08-09 12:31:52Z nanasess $
+ * @version $Id$
  */
 class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
 {

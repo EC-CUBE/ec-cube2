@@ -26,7 +26,7 @@
  *
  * @package Helper
  * @author AMUAMU
- * @version $Id:$
+ * @version $Id$
  */
 class SC_Helper_TaxRule
 {

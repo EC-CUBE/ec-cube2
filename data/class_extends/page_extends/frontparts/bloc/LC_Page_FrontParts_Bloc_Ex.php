@@ -30,7 +30,7 @@ require_once CLASS_REALDIR . 'pages/frontparts/bloc/LC_Page_FrontParts_Bloc.php'
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id: LC_Page_FrontParts_Bloc_Ex.php $
+ * @version $Id$
  */
 class LC_Page_FrontParts_Bloc_Ex extends LC_Page_FrontParts_Bloc
 {

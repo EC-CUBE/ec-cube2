@@ -30,7 +30,7 @@ require_once CLASS_REALDIR . 'pages/mypage/LC_Page_Mypage_DownLoad.php';
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id: LC_Page_Mypage_Download_Ex.php $
+ * @version $Id$
  */
 class LC_Page_Mypage_Download_Ex extends LC_Page_Mypage_Download
 {

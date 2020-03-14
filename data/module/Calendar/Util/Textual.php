@@ -22,7 +22,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Textual.php,v 1.2 2004/08/16 13:13:09 hfuecks Exp $
+ * @version $Id$
  */
 
 /**

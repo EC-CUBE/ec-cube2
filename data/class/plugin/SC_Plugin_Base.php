@@ -28,7 +28,7 @@
  *
  * @package Plugin
  * @author EC-CUBE CO.,LTD.
- * @version $Id: $
+ * @version $Id$
  */
 abstract class SC_Plugin_Base
 {

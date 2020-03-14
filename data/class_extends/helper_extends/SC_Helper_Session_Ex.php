@@ -30,7 +30,7 @@ require_once CLASS_REALDIR . 'helper/SC_Helper_Session.php';
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id:SC_Helper_Session_Ex.php 16741 2007-11-08 00:43:24Z adachi $
+ * @version $Id$
  */
 class SC_Helper_Session_Ex extends SC_Helper_Session
 {

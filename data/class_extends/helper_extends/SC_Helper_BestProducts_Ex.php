@@ -30,7 +30,7 @@ require_once CLASS_REALDIR . 'helper/SC_Helper_BestProducts.php';
  *
  * @package Helper
  * @author pineray
- * @version $Id:$
+ * @version $Id$
  */
 class SC_Helper_BestProducts_Ex extends SC_Helper_BestProducts
 {

@@ -22,7 +22,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Weeks.php,v 1.3 2005/10/22 10:28:49 quipo Exp $
+ * @version $Id$
  */
 
 /**

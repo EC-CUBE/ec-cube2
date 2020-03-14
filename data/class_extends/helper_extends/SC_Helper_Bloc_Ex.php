@@ -30,7 +30,7 @@ require_once CLASS_REALDIR . 'helper/SC_Helper_Bloc.php';
  *
  * @package Helper
  * @author pineray
- * @version $Id:$
+ * @version $Id$
  */
 class SC_Helper_Bloc_Ex extends SC_Helper_Bloc
 {

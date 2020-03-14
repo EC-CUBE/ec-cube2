@@ -30,7 +30,7 @@
  *
  * @package Util
  * @author EC-CUBE CO.,LTD.
- * @version $Id:SC_Utils.php 15532 2007-08-31 14:39:46Z nanasess $
+ * @version $Id$
  */
 class SC_Utils
 {
