@@ -807,7 +807,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
      * @param  SC_UploadFile_Ex $objUpFile SC_UploadFileインスタンス
      * @return boolean
      */
-    public function lfHasSameProductImage($product_id, $arrImageKey, $image_file_name, &$objUpFile)
+    public function lfHasSameProductImage($product_id, $arrImageKey, $image_file_name, $objUpFile)
     {
         if (!SC_Utils_Ex::sfIsInt($product_id)) return false;
         if (!$arrImageKey) return false;
