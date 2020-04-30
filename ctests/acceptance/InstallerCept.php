@@ -32,6 +32,7 @@ $I->fillField('input[name=login_pass]', $password);
 $I->fillField('input[name=admin_dir]', $admindirectory);
 
 $I->click('>> オプション設定');
+$I->wait(1);
 $I->selectOption('input[name=mail_backend]', 'smtp');
 $I->fillField('input[name=smtp_host]', '127.0.0.1');
 $I->fillField('input[name=smtp_port]', '1025');
@@ -44,6 +45,7 @@ defined('DB_NAME') or define('DB_NAME', getenv('DBNAME'));
 defined('DB_PASSWORD') or define('DB_PASSWORD', getenv('DBPASS') );
 defined('DB_PORT') or define('DB_PORT', getenv('DBPORT'));
 defined('DB_SERVER') or define('DB_SERVER', getenv('DBSERVER'));
+$I->wait(1);
 
 $I->selectOption('select[name=db_type]', DB_TYPE);
 $I->fillField('input[name=db_server]', DB_SERVER);
@@ -52,6 +54,7 @@ $I->fillField('input[name=db_name]', DB_NAME);
 $I->fillField('input[name=db_user]', DB_USER);
 $I->fillField('input[name=db_password]', DB_PASSWORD);
 $I->click('次へ進む');
+$I->wait(1);
 
 $I->expect('STEP3');
 $I->see('データベースの初期化');
@@ -63,14 +66,17 @@ $I->waitForText('○：テーブルの作成に成功しました。', 60);
 $I->waitForText('○：シーケンスの作成に成功しました。', 60);
 $I->click('次へ進む');
 
+$I->wait(1);
 $I->expect('STEP4');
 $I->see('サイト情報について');
 $I->click('次へ進む');
 
+$I->wait(1);
 $I->see('インストールが完了しました。');
 $I->seeInDatabase('dtb_member', ['login_id' => $user]);
 $I->click('管理画面へログインする');
 
+$I->wait(1);
 $I->seeInCurrentUrl('/'.$admindirectory);
 $I->fillField('input[name=login_id]', $user);
 $I->fillField('input[name=password]', $password);
