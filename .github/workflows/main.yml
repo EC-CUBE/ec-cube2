@@ -38,12 +38,12 @@ jobs:
             dbname: 'eccube_db'
     services:
       mysql:
-         image: mysql:8
-         env:
-           MYSQL_ROOT_PASSWORD: password
-         ports:
-           - 3306:3306
-         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       postgres:
         image: postgres:12
         env:
@@ -107,6 +107,7 @@ jobs:
         data/vendor/bin/phpunit --group classloader
         sed 's|http://|https://|g' -i.bak data/config/config.php
         data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
+        mv data/config/config.php.bak data/config/config.php
 
     - name: Run chromedriver
       run: |
@@ -130,6 +131,10 @@ jobs:
         php data/vendor/bin/codecept build
         php -S 0.0.0.0:8085 -t html/ &
         php data/vendor/bin/codecept run --env chrome --skip-group installer --steps
+    - name: Failure log
+      if: failure()
+      run: tail -n 300 data/logs/*
+
   run-on-windows:
     name: Run on Windows
     runs-on: ${{ matrix.operating-system }}
@@ -174,8 +179,8 @@ jobs:
     - name: Setup to database
       run: |
         choco install -y mysql --version 5.7.18
-        mysql --user=root -e "CREATE DATABASE `eccube_db`;"
-        mysql --user=root -e "ALTER USER 'root'@'127.0.0.1' IDENTIFIED WITH mysql_native_password BY 'password';FLUSH PRIVILEGES;"
+        mysql --user=root -e "CREATE DATABASE eccube_db DEFAULT COLLATE=utf8_general_ci;"
+        mysql --user=root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;FLUSH PRIVILEGES;"
 
     - name: Setup to EC-CUBE
       env:
@@ -185,6 +190,7 @@ jobs:
         DBPASS: password
         DBNAME: eccube_db
         DBPORT: 3306
+        DBSERVER: 127.0.0.1
         HTTP_URL: http://localhost:8085/
         HTTPS_URL: http://localhost:8085/
       run: bash eccube_install.sh mysql
@@ -216,15 +222,15 @@ jobs:
             dbport: '5432'
             dbuser: 'postgres'
             dbpass: 'password'
-            dbname: 'dccube_db'
+            dbname: 'eccube_db'
     services:
       mysql:
-         image: mysql:8
-         env:
-           MYSQL_ROOT_PASSWORD: password
-         ports:
-           - 3306:3306
-         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       postgres:
         image: postgres:12
         env:
