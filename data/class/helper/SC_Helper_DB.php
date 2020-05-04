@@ -30,6 +30,8 @@
  */
 class SC_Helper_DB
 {
+    const BASIS_DATA_CACHE_REALFILE = MASTER_DATA_REALDIR . 'dtb_baseinfo.serial';
+
     /** ルートカテゴリ取得フラグ */
     public $g_root_on;
 
@@ -116,20 +118,32 @@ class SC_Helper_DB
     /**
      * 店舗基本情報を取得する.
      *
-     * 引数 $force が false の場合は, 初回のみ DB 接続し,
-     * 2回目以降はキャッシュされた結果を使用する.
+     * 引数 $force が false の場合は, キャッシュされた結果を使用する.
      *
-     * @param  boolean $force 強制的にDB取得するか
+     * @param  boolean $force キャッシュファイルを生成し、ローカルキャッシュを削除するか
      * @return array   店舗基本情報の配列
      */
     public function sfGetBasisData($force = false)
     {
         static $arrData = null;
 
-        if ($force || is_null($arrData)) {
-            $objQuery = SC_Query_Ex::getSingletonInstance();
+        // キャッシュファイルが存在しない場合、キャッシュファイルを生成する
+        if (!$force && !file_exists(SC_Helper_DB_Ex::BASIS_DATA_CACHE_REALFILE)) {
+            $force = true;
+        }
 
-            $arrData = $objQuery->getRow('*', 'dtb_baseinfo');
+        if ($force) {
+            // キャッシュファイルを生成
+            $success = SC_Helper_DB_Ex::sfCreateBasisDataCache();
+
+            // ローカルキャッシュを削除
+            $arrData = null;
+        }
+
+        // ローカルキャッシュが無い場合、キャッシュファイルを読み込む
+        if (is_null($arrData)) {
+            // キャッシュデータファイルを読み込む
+            $arrData = SC_Helper_DB_Ex::getBasisDataFromCacheFile();
         }
 
         return $arrData;
@@ -138,29 +152,61 @@ class SC_Helper_DB
     /**
      * 基本情報のキャッシュデータを取得する
      *
+     * エラー画面表示で直接呼ばれる。キャッシュファイルが存在しなくとも空の配列を応答することで、(幾らかの情報欠落などはあるかもしれないが) エラー画面の表示できるよう考慮している。
      * @param  boolean $generate キャッシュファイルが無い時、DBのデータを基にキャッシュを生成するか
      * @return array   店舗基本情報の配列
+     * @deprecated 2.17.1 本体で使用されていないため非推奨
      */
     public function sfGetBasisDataCache($generate = false)
     {
-        // テーブル名
-        $name = 'dtb_baseinfo';
-        // キャッシュファイルパス
-        $filepath = MASTER_DATA_REALDIR . $name . '.serial';
+        $cacheData = [];
+
         // ファイル存在確認
-        if (!file_exists($filepath) && $generate) {
+        if (!file_exists(SC_Helper_DB_Ex::BASIS_DATA_CACHE_REALFILE) && $generate) {
             // 存在していなければキャッシュ生成
-            $this->sfCreateBasisDataCache();
+            SC_Helper_DB_Ex::sfCreateBasisDataCache();
         }
-        // 戻り値初期化
-        $cacheData = array();
-        // キャッシュファイルが存在すれば読み込む
-        if (file_exists($filepath)) {
-            // キャッシュデータファイルを読み込みアンシリアライズした配列を取得
-            $cacheData = unserialize(file_get_contents($filepath));
-        }
-        // return
+
+        $cacheData = SC_Helper_DB_Ex::getBasisDataFromCacheFile(true);
+
         return $cacheData;
+    }
+
+    /**
+     * 基本情報のキャッシュデータを取得する
+     *
+     * エラー画面表示で直接呼ばれる。キャッシュファイルが存在しなくとも空の配列を応答することで、(幾らかの情報欠落などはあるかもしれないが) エラー画面の表示できるよう考慮している。
+     * @param  boolean $ignore_error エラーを無視するか
+     * @return array   店舗基本情報の配列
+     */
+    public function getBasisDataFromCacheFile($ignore_error = false)
+    {
+        $arrReturn = [];
+
+        // ファイル存在確認
+        if (file_exists(SC_Helper_DB_Ex::BASIS_DATA_CACHE_REALFILE)) {
+            // キャッシュデータファイルを読み込みアンシリアライズした配列を取得
+            $arrReturn = unserialize(file_get_contents(SC_Helper_DB_Ex::BASIS_DATA_CACHE_REALFILE));
+        }
+        elseif (!$ignore_error) {
+            throw new Exception('基本情報のキャッシュデータファイルが存在しません。');
+        }
+
+        return $arrReturn;
+    }
+
+    /**
+     * 店舗基本情報をDBから取得する.
+     *
+     * @return array   店舗基本情報の配列
+     */
+    public function getBasisDataFromDB()
+    {
+        $objQuery = SC_Query_Ex::getSingletonInstance();
+
+        $arrReturn = $objQuery->getRow('*', 'dtb_baseinfo');
+
+        return $arrReturn;
     }
 
     /**
@@ -176,16 +222,12 @@ class SC_Helper_DB
      */
     public function sfCreateBasisDataCache()
     {
-        // テーブル名
-        $name = 'dtb_baseinfo';
-        // キャッシュファイルパス
-        $filepath = MASTER_DATA_REALDIR . $name . '.serial';
         // データ取得
-        $arrData = $this->sfGetBasisData(true);
+        $arrData = SC_Helper_DB_Ex::getBasisDataFromDB();
         // シリアライズ
         $data = serialize($arrData);
         // ファイルを書き出しモードで開く
-        $handle = fopen($filepath, 'w');
+        $handle = fopen(SC_Helper_DB_Ex::BASIS_DATA_CACHE_REALFILE, 'w');
         if (!$handle) {
             // ファイル生成失敗
             return false;

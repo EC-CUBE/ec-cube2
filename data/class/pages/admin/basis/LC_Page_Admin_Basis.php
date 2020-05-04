@@ -108,7 +108,7 @@ class LC_Page_Admin_Basis extends LC_Page_Admin_Ex
                 $this->tpl_onload .= "window.alert('SHOPマスターの登録が完了しました。');";
             // breakはつけない
             default:
-                $arrRet = $objDb->sfGetBasisData(true);
+                $arrRet = $objDb->getBasisDataFromDB();
                 $objFormParam->setParam($arrRet);
                 $this->arrForm = $objFormParam->getHashArray();
                 $this->arrForm['regular_holiday_ids'] = explode('|', $this->arrForm['regular_holiday_ids']);
