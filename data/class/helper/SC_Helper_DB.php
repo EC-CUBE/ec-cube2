@@ -1687,6 +1687,9 @@ __EOS__;
             $objQuery->insert('dtb_baseinfo', $arrData);
             GC_Utils_Ex::gfPrintLog('dtb_baseinfo に INSERT を実行しました。');
         }
+
+        // キャッシュデータファイルを生成する
+        SC_Helper_DB_Ex::sfCreateBasisDataCache();
     }
 
     /**

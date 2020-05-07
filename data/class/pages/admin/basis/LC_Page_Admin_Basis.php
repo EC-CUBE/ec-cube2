@@ -103,8 +103,6 @@ class LC_Page_Admin_Basis extends LC_Page_Admin_Ex
                 $arrData = $objFormParam->getDbArray();
                 SC_Helper_DB_Ex::registerBasisData($arrData);
 
-                // キャッシュファイル更新
-                $objDb->sfCreateBasisDataCache();
                 $this->tpl_onload .= "window.alert('SHOPマスターの登録が完了しました。');";
             // breakはつけない
             default:
