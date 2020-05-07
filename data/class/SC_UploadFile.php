@@ -330,21 +330,29 @@ class SC_UploadFile
     }
 
     // フォームに渡す用のファイル情報配列を返す
-    public function getFormFileList($temp_url, $save_url, $real_size = false)
+    public function getFormFileList($temp_url = null, $save_url = null, $real_size = false)
     {
         $arrRet = array();
         $cnt = 0;
         foreach ($this->keyname as $val) {
             if (isset($this->temp_file[$cnt]) && $this->temp_file[$cnt] != '') {
-                // パスのスラッシュ/が連続しないようにする。
-                $arrRet[$val]['filepath'] = rtrim($temp_url, '/') . '/' . $this->temp_file[$cnt];
-
+                $real_filepath =
                 $arrRet[$val]['real_filepath'] = $this->temp_dir . $this->temp_file[$cnt];
+                if (is_null($temp_url)) {
+                    $arrRet[$val]['filepath'] = ROOT_URLPATH . substr($real_filepath, strlen(HTML_REALDIR));
+                } else {
+                    // パスのスラッシュ/が連続しないようにする。
+                    $arrRet[$val]['filepath'] = rtrim($temp_url, '/') . '/' . $this->temp_file[$cnt];
+                }
             } elseif (isset($this->save_file[$cnt]) && $this->save_file[$cnt] != '') {
-                // パスのスラッシュ/が連続しないようにする。
-                $arrRet[$val]['filepath'] = rtrim($save_url, '/') . '/' . $this->save_file[$cnt];
-
+                $real_filepath =
                 $arrRet[$val]['real_filepath'] = $this->save_dir . $this->save_file[$cnt];
+                if (is_null($save_url)) {
+                    $arrRet[$val]['filepath'] = ROOT_URLPATH . substr($real_filepath, strlen(HTML_REALDIR));
+                } else {
+                    // パスのスラッシュ/が連続しないようにする。
+                    $arrRet[$val]['filepath'] = rtrim($save_url, '/') . '/' . $this->save_file[$cnt];
+                }
             }
             if (isset($arrRet[$val]['filepath']) && !empty($arrRet[$val]['filepath'])) {
                 if ($real_size) {

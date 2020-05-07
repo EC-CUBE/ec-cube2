@@ -566,7 +566,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
         // DBからのデータを引き継ぐ
         $objUpFile->setDBFileList($arrProduct);
         // ファイル表示用配列を渡す
-        $arrFile = $objUpFile->getFormFileList(IMAGE_TEMP_URLPATH, IMAGE_SAVE_URLPATH, true);
+        $arrFile = $objUpFile->getFormFileList(null, null, true);
 
         // サブ画像の有無を判定
         $subImageFlag = false;
