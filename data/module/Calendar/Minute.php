@@ -21,7 +21,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Minute.php,v 1.1 2004/05/24 22:25:42 quipo Exp $
+ * @version $Id$
  */
 
 /**

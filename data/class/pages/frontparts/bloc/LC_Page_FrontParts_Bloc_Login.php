@@ -28,7 +28,7 @@ require_once CLASS_EX_REALDIR . 'page_extends/frontparts/bloc/LC_Page_FrontParts
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id:LC_Page_FrontParts_Bloc_Login.php 15532 2007-08-31 14:39:46Z nanasess $
+ * @version $Id$
  */
 class LC_Page_FrontParts_Bloc_Login extends LC_Page_FrontParts_Bloc_Ex
 {

@@ -30,7 +30,7 @@ require_once CLASS_REALDIR . 'helper/SC_Helper_TaxRule.php';
  *
  * @package Helper
  * @author AMUAMU
- * @version $Id:$
+ * @version $Id$
  */
 class SC_Helper_TaxRule_Ex extends SC_Helper_TaxRule
 {

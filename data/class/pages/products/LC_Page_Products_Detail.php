@@ -31,7 +31,7 @@ if (file_exists(MODULE_REALDIR . 'mdl_gmopg/inc/function.php')) {
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id:LC_Page_Products_Detail.php 15532 2007-08-31 14:39:46Z nanasess $
+ * @version $Id$
  */
 class LC_Page_Products_Detail extends LC_Page_Ex
 {
