@@ -186,6 +186,9 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
                 foreach ($objRet->data as $product) {
                     $tmp = get_object_vars($product);
                     if (!isset($arrProducts[$tmp['product_id']])) {
+                        if ($tmp['download_flg'] == 1) {
+                            $tmp['status'] = "2.13系のモジュールは十分に動作確認できてない場合があります" ;
+                        }
                         $arrProducts[$tmp['product_id']] = $tmp;
                     }
                 }
