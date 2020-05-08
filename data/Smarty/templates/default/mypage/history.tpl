@@ -82,6 +82,7 @@
                     <td class="alignC">
                     <!--{if $orderDetail.product_type_id == $smarty.const.PRODUCT_TYPE_DOWNLOAD}-->
                         <!--{if $orderDetail.is_downloadable}-->
+                            <!--{assign var="downloadable" value="1"}-->
                             <a target="_self" href="<!--{$smarty.const.ROOT_URLPATH}-->mypage/download.php?order_id=<!--{$tpl_arrOrderData.order_id}-->&product_class_id=<!--{$orderDetail.product_class_id}-->">ダウンロード</a>
                         <!--{else}-->
                             <!--{if $orderDetail.payment_date == "" && $orderDetail.effective == "0"}-->
@@ -153,6 +154,7 @@
         <!--{/if}-->
         <!-- 使用ポイントここまで -->
 
+        <!--{if $downloadable != 1}-->
         <!--{foreach item=shippingItem name=shippingItem from=$arrShipping}-->
             <h3>お届け先<!--{if $isMultiple}--><!--{$smarty.foreach.shippingItem.iteration}--><!--{/if}--></h3>
             <!--{if $isMultiple}-->
@@ -249,6 +251,7 @@
                 </tbody>
             </table>
         <!--{/foreach}-->
+        <!--{/if}-->
 
         <br />
 
