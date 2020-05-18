@@ -138,7 +138,7 @@ class SC_FormParam
             } else {
                 $this->html_disp_name[$index] = $this->disp_name[$index];
             }
-            if ($this->arrDefault[$key] != '') {
+            if (strlen($this->arrDefault[$key]) >= 1) {
                 $this->html_disp_name[$index] .= ' [省略時初期値: ' . $this->arrDefault[$key] . ']';
             }
             if ($this->input_db[$index] == false) {
