@@ -26,7 +26,7 @@
  *
  * @package Helper
  * @author pineray
- * @version $Id:$
+ * @version $Id$
  */
 class SC_Helper_Mailtemplate
 {

@@ -31,7 +31,7 @@ require_once CLASS_REALDIR . 'pages/admin/ownersstore/LC_Page_Admin_OwnersStore_
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id: $
+ * @version $Id$
  */
 class LC_Page_Admin_OwnersStore_PluginHookPointList_Ex extends LC_Page_Admin_OwnersStore_PluginHookPointList
 {

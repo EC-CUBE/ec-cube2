@@ -180,7 +180,7 @@ class SC_Helper_HandleError
         }
 
         $error_type_name = GC_Utils_Ex::getErrorTypeName($arrError['type']);
-        $errstr = "Fatal error($error_type_name): {$arrError[message]} on [{$arrError[file]}({$arrError[line]})]";
+        $errstr = "Fatal error($error_type_name): {$arrError['message']} on [{$arrError['file']}({$arrError['line']})]";
 
         GC_Utils_Ex::gfPrintLog($errstr, ERROR_LOG_REALFILE, true);
 
