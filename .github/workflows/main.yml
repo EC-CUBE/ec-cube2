@@ -99,7 +99,7 @@ jobs:
     - name: setup-chromedriver
       uses: nanasess/setup-chromedriver@master
       with:
-        chromedriver-version: '2.43'
+        chromedriver-version: 2.43
 
     - name: Run to PHPUnit
       run: |
@@ -272,7 +272,7 @@ jobs:
     - name: setup-chromedriver
       uses: nanasess/setup-chromedriver@master
       with:
-        chromedriver-version: '2.43'
+        chromedriver-version: 2.43
 
     - name: Run chromedriver
       run: |
