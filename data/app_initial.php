@@ -53,7 +53,12 @@ require_once(CLASS_EX_REALDIR . 'helper_extends/SC_Helper_Plugin_Ex.php');
 
 // クラスのオートローディングを定義する
 require_once(CLASS_EX_REALDIR . 'SC_ClassAutoloader_Ex.php');
-spl_autoload_register(array('SC_ClassAutoloader_Ex', 'autoload'), true, true);
+spl_autoload_register(
+    function ($class) {
+        SC_ClassAutoloader_Ex::autoload($class, __DIR__.'/downloads/plugin/');
+    },
+    true, true
+);
 
 SC_Helper_HandleError_Ex::load();
 
