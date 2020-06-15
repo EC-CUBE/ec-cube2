@@ -102,12 +102,14 @@ jobs:
         chromedriver-version: 2.43
 
     - name: Run to PHPUnit
+      run: data/vendor/bin/phpunit --exclude-group classloader
+    - name: Run to PHPUnit classloader
+      run: data/vendor/bin/phpunit --group classloader
+    - name: Run to PHPUnit SessionFactory
       run: |
-        data/vendor/bin/phpunit --exclude-group classloader
-        data/vendor/bin/phpunit --group classloader
         sed 's|http://|https://|g' -i.bak data/config/config.php
         data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
-        mv data/config/config.php.bak data/config/config.php
+    - run: mv data/config/config.php.bak data/config/config.php
 
     - name: Run chromedriver
       run: |
@@ -131,9 +133,18 @@ jobs:
         php data/vendor/bin/codecept build
         php -S 0.0.0.0:8085 -t html/ &
         php data/vendor/bin/codecept run --env chrome --skip-group installer --steps
-    - name: Failure log
+    - name: Upload evidence
       if: failure()
-      run: tail -n 300 data/logs/*
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-evidence
+        path: ctests/_output/
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
+        path: data/logs
 
   run-on-windows:
     name: Run on Windows
@@ -197,11 +208,19 @@ jobs:
       shell: bash
 
     - name: Run to PHPUnit
+      run: data/vendor/bin/phpunit --exclude-group classloader
+    - name: Run to PHPUnit classloader
+      run: data/vendor/bin/phpunit --group classloader
+    - name: Run to PHPUnit SessionFactory
       run: |
-        data/vendor/bin/phpunit --exclude-group classloader
-        data/vendor/bin/phpunit --group classloader
         sed 's|http://|https://|g' -i.bak data/config/config.php
         data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-php${{ matrix.php }}-${{ matrix.db }}-logs
+        path: data\logs
 
   install-to-linux:
     name: Install to Linux
@@ -323,6 +342,19 @@ jobs:
         php data/vendor/bin/codecept build
         php -S 0.0.0.0:8085 -t html/ &
         php data/vendor/bin/codecept run --env chrome --group installer --steps acceptance InstallerCept
+
+    - name: Upload evidence
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: install-linux-php${{ matrix.php }}-evidence
+        path: ctests/_output/
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: install-linux-php${{ matrix.php }}-logs
+        path: html/install/temp/
 
   deploy:
     name: Deploy
