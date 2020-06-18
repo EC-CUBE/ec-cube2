@@ -8,14 +8,13 @@ services:
   - postgresql
   - xvfb
 php:
-  - 5.4
-  - 5.5
   - 5.6
   - 7.0
   - 7.1
   - 7.2
   - 7.3
   - 7.4
+  - nightly
 
 env:
     global:
@@ -41,8 +40,6 @@ matrix:
       dist: trusty
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 DIST=trusty
   exclude:
-    - php: 5.4
-    - php: 5.5
     - php: 5.6
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
     - php: 7.0
@@ -53,13 +50,16 @@ matrix:
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
     - php: 7.4
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
+    - php: nightly
+      env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
   allow_failures:
+    - php: nightly
     # Use for coverage report
     - php: 7.3
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
 
 before_install:
-  - if [[ $DIST = 'trusty' ]]; then sudo apt-get -y install google-chrome-stable --allow-unauthenticated ; fi
+  - if [[ $DIST = 'trusty' ]]; then sudo apt-get -y install dpkg google-chrome-stable --allow-unauthenticated ; fi
 
 before_script:
   - if [[ $DB = 'mysql' ]]; then mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';" ; fi
@@ -84,12 +84,12 @@ before_script:
 
 script:
   - mkdir -p reports/coverage
-  - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist --exclude-group classloader ; fi
-  - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist --group classloader ; fi
+  - if [ ! $COVERAGE ] ; then data/vendor/bin/phpunit -c phpunit.xml.dist --exclude-group classloader ; fi
+  - if [ ! $COVERAGE ] ; then data/vendor/bin/phpunit -c phpunit.xml.dist --group classloader ; fi
   - if [ $COVERAGE ] ; then phpdbg -qrr data/vendor/bin/phpunit -c phpunit.xml.dist --exclude-group classloader ; fi
   - if [ ! $COVERAGE ] ; then php data/vendor/bin/codecept run --env chrome --skip-group installer --steps ; fi
   - sed -e 's|http://|https://|g' -i.bak data/config/config.php
-  - if [ ! $COVERAGE ] ; then php data/vendor/bin/phpunit -c phpunit.xml.dist tests/class/SC_SessionFactoryTest.php ; fi
+  - if [ ! $COVERAGE ] ; then data/vendor/bin/phpunit -c phpunit.xml.dist tests/class/SC_SessionFactoryTest.php ; fi
   - rm ./data/config/config.php
   - if [ $DB = 'pgsql' ] ; then psql -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "DROP DATABASE ${DBNAME};"; psql -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};" ; fi
   ## Travis の mysql はパスワードが空なのでスキップ
