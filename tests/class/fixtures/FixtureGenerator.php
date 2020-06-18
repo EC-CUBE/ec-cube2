@@ -548,7 +548,7 @@ class FixtureGenerator
         $discount = $add_discount === 0 ? $this->faker->numberBetween(0, $subtotal) : $add_discount;
         $charge = $add_charge === 0 ? $this->faker->numberBetween(0, $subtotal) : $add_charge;
         $payment_ids = $this->objQuery->getCol('payment_id', 'dtb_payment_options', 'deliv_id = ?', [$deliv_id]);
-        $paymentValues = $this->objQuery->getRow('*', 'dtb_payment', 'payment_id = ?', [$this->faker->numberBetween(0, count($payment_ids) - 1)]);
+        $paymentValues = $this->objQuery->getRow('*', 'dtb_payment', 'payment_id = ?', $payment_ids[$this->faker->numberBetween(0, count($payment_ids) - 1)]);
 
         $values = [
             'order_temp_id' => SC_Utils_Ex::sfGetRandomString(10),

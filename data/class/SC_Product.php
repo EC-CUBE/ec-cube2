@@ -693,7 +693,7 @@ __EOS__;
     /**
      * @param string $tablename
      */
-    public function getProductDispConditions($tablename = null)
+    public static function getProductDispConditions($tablename = null)
     {
         $tablename = ($tablename) ? $tablename . '.' : null;
 

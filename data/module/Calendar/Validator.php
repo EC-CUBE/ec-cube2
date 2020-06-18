@@ -69,7 +69,7 @@ class Calendar_Validator
      * @param object subclass of Calendar
      * @access public
      */
-    function Calendar_Validator(& $calendar)
+    public function __construct(& $calendar)
     {
         $this->calendar = & $calendar;
         $this->cE = & $calendar->getEngine();

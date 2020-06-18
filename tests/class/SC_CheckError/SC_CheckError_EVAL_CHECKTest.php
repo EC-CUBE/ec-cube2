@@ -23,6 +23,10 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
 
     public function testEVAL_CHECKWithInvalid()
     {
+        if (PHP_VERSION_ID >= 80000) {
+            $this->markTestSkipped('ArgumentCountError in PHP8');
+
+        }
         $this->evaluation = "define('AAA')";
         $this->expected = '※ form の形式が不正です。<br />';
 

@@ -166,7 +166,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
     public function lfGetOrderMonth($method)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $month = date('Y/m', mktime());
+        $month = date('Y/m');
 
         // TODO: DBFactory使わないでも共通化できそうな気もしますが
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();

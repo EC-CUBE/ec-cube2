@@ -37,7 +37,7 @@ class SC_Helper_BestProducts
      * @param  boolean $has_deleted 削除されたおすすめ商品も含む場合 true; 初期値 false
      * @return array
      */
-    public function getBestProducts($best_id, $has_deleted = false)
+    public static function getBestProducts($best_id, $has_deleted = false)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
@@ -57,7 +57,7 @@ class SC_Helper_BestProducts
      * @param  boolean $has_deleted 削除されたおすすめ商品も含む場合 true; 初期値 false
      * @return array
      */
-    public function getByRank($rank, $has_deleted = false)
+    public static function getByRank($rank, $has_deleted = false)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
@@ -78,7 +78,7 @@ class SC_Helper_BestProducts
      * @param  boolean $has_deleted 削除されたおすすめ商品も含む場合 true; 初期値 false
      * @return array
      */
-    public function getList($dispNumber = 0, $pageNumber = 0, $has_deleted = false)
+    public static function getList($dispNumber = 0, $pageNumber = 0, $has_deleted = false)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
@@ -106,7 +106,7 @@ class SC_Helper_BestProducts
      * @param  array    $sqlval
      * @return multiple 登録成功:おすすめ商品ID, 失敗:FALSE
      */
-    public function saveBestProducts($sqlval)
+    public static function saveBestProducts($sqlval)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -138,7 +138,7 @@ class SC_Helper_BestProducts
      * @param  integer $best_id おすすめ商品ID
      * @return void
      */
-    public function deleteBestProducts($best_id)
+    public static function deleteBestProducts($best_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -155,13 +155,12 @@ class SC_Helper_BestProducts
      * @param  array $productIDs 商品ID
      * @return void
      */
-    public function deleteByProductIDs($productIDs)
+    public static function deleteByProductIDs($productIDs)
     {
-        $objDb = new SC_Helper_DB_Ex();
-        $arrList = $this->getList();
+        $arrList = SC_Helper_BestProducts_Ex::getList();
         foreach ($arrList as $recommend) {
             if (in_array($recommend['product_id'], $productIDs)) {
-                $this->deleteBestProducts($recommend['best_id']);
+                SC_Helper_BestProducts_Ex::deleteBestProducts($recommend['best_id']);
             }
         }
     }
@@ -172,25 +171,25 @@ class SC_Helper_BestProducts
      * @param  integer $best_id おすすめ商品ID
      * @return void
      */
-    public function rankUp($best_id)
+    public static function rankUp($best_id)
     {
-        $arrBestProducts = $this->getBestProducts($best_id);
+        $arrBestProducts = SC_Helper_BestProducts_Ex::getBestProducts($best_id);
         $rank = $arrBestProducts['rank'];
 
         if ($rank > 1) {
             // 表示順が一つ上のIDを取得する
-            $arrAboveBestProducts = $this->getByRank($rank - 1);
+            $arrAboveBestProducts = SC_Helper_BestProducts_Ex::getByRank($rank - 1);
             $above_best_id = $arrAboveBestProducts['best_id'];
 
             if ($above_best_id) {
                 // 一つ上のものを一つ下に下げる
-                $this->changeRank($above_best_id, $rank);
+                SC_Helper_BestProducts_Ex::changeRank($above_best_id, $rank);
             } else {
                 // 無ければ何もしない。(歯抜けの場合)
             }
 
             // 一つ上に上げる
-            $this->changeRank($best_id, $rank - 1);
+            SC_Helper_BestProducts_Ex::changeRank($best_id, $rank - 1);
         }
     }
 
@@ -200,25 +199,25 @@ class SC_Helper_BestProducts
      * @param  integer $best_id おすすめ商品ID
      * @return void
      */
-    public function rankDown($best_id)
+    public static function rankDown($best_id)
     {
-        $arrBestProducts = $this->getBestProducts($best_id);
+        $arrBestProducts = SC_Helper_BestProducts_Ex::getBestProducts($best_id);
         $rank = $arrBestProducts['rank'];
 
         if ($rank < RECOMMEND_NUM) {
             // 表示順が一つ下のIDを取得する
-            $arrBelowBestProducts = $this->getByRank($rank + 1);
+            $arrBelowBestProducts = SC_Helper_BestProducts_Ex::getByRank($rank + 1);
             $below_best_id = $arrBelowBestProducts['best_id'];
 
             if ($below_best_id) {
                 // 一つ下のものを一つ上に上げる
-                $this->changeRank($below_best_id, $rank);
+                SC_Helper_BestProducts_Ex::changeRank($below_best_id, $rank);
             } else {
                 // 無ければ何もしない。(歯抜けの場合)
             }
 
             // 一つ下に下げる
-            $this->changeRank($best_id, $rank + 1);
+            SC_Helper_BestProducts_Ex::changeRank($best_id, $rank + 1);
         }
     }
 
@@ -229,7 +228,7 @@ class SC_Helper_BestProducts
      * @param integer $rank 変更したいrank値
      * @return void
      */
-    public function changeRank($best_id, $rank)
+    public static function changeRank($best_id, $rank)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 

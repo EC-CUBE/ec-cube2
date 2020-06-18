@@ -59,9 +59,9 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
     $old_update_date = $this->objQuery->get('update_date', 'dtb_order', 'order_id = ?', array($order_id));
     $customer_point =  $this->objQuery->get('point', 'dtb_customer', 'customer_id = ?', array($this->customer_ids[0]));
 
-    $this->helper->usePoint = false;
-    $this->helper->addPoint = false;
-    $this->helper->sfUpdateOrderStatus($order_id); // 引数は最低限だけ指定
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = false;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = false;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id); // 引数は最低限だけ指定
 
     $this->expected = array(
       'order' => array(
@@ -99,13 +99,13 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
   {
     $order_id = $this->order_ids[0];
     $old_dates = $this->objQuery->select(
-      'update_date, commit_date, payment_date', 
+      'update_date, commit_date, payment_date',
       'dtb_order', 'order_id = ?', array($order_id));
     $customer_point =  $this->objQuery->get('point', 'dtb_customer', 'customer_id = ?', array($this->customer_ids[0]));
 
-    $this->helper->usePoint = false;
-    $this->helper->addPoint = false;
-    $this->helper->sfUpdateOrderStatus($order_id, ORDER_DELIV, 50, 45);
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = false;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = false;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_DELIV, 50, 45);
 
     $this->expected = array(
       'order' => array(
@@ -126,23 +126,23 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
     $this->verify();
 
     $new_dates = $this->objQuery->select(
-      'update_date, commit_date, payment_date', 
+      'update_date, commit_date, payment_date',
       'dtb_order', 'order_id = ?', array($order_id));
-    $this->assertUpdate($new_dates, $old_dates, 'update_date', '受注情報');  
-    $this->assertUpdate($new_dates, $old_dates, 'commit_date', '発送日');  
-    $this->assertUpdate($new_dates, $old_dates, 'payment_date', '入金日', false);  
+    $this->assertUpdate($new_dates, $old_dates, 'update_date', '受注情報');
+    $this->assertUpdate($new_dates, $old_dates, 'commit_date', '発送日');
+    $this->assertUpdate($new_dates, $old_dates, 'payment_date', '入金日', false);
   }
 
   public function testSfUpdateOrderStatus_対応状況が入金済みに変更された場合_入金日が更新される()
   {
     $order_id = $this->order_ids[1];
     $old_dates = $this->objQuery->select(
-      'update_date, commit_date, payment_date', 
+      'update_date, commit_date, payment_date',
       'dtb_order', 'order_id = ?', array($order_id));
 
-    $this->helper->usePoint = false;
-    $this->helper->addPoint = false;
-    $this->helper->sfUpdateOrderStatus($order_id, ORDER_PRE_END, 50, 45);
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = false;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = false;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_PRE_END, 50, 45);
 
     $this->expected = array(
       'order' => array(
@@ -158,23 +158,24 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
     $this->verify();
 
     $new_dates = $this->objQuery->select(
-      'update_date, commit_date, payment_date', 
+      'update_date, commit_date, payment_date',
       'dtb_order', 'order_id = ?', array($order_id));
-    $this->assertUpdate($new_dates, $old_dates, 'update_date', '受注情報');  
-    $this->assertUpdate($new_dates, $old_dates, 'commit_date', '発送日', false);  
-    $this->assertUpdate($new_dates, $old_dates, 'payment_date', '入金日');  
+    $this->assertUpdate($new_dates, $old_dates, 'update_date', '受注情報');
+    $this->assertUpdate($new_dates, $old_dates, 'commit_date', '発送日', false);
+    $this->assertUpdate($new_dates, $old_dates, 'payment_date', '入金日');
   }
 
   public function testSfUpdateOrderStatus_変更前の対応状況が利用対象の場合_変更前の使用ポイントを戻す()
   {
     $order_id = $this->order_ids[1];
     $old_dates = $this->objQuery->select(
-      'update_date, commit_date, payment_date', 
+      'update_date, commit_date, payment_date',
       'dtb_order', 'order_id = ?', array($order_id));
     $customer_point =  $this->objQuery->get('point', 'dtb_customer', 'customer_id = ?', array($this->customer_ids[1]));
 
-    $this->helper->addPoint = false; // 加算は強制的にfalseにしておく
-    $this->helper->sfUpdateOrderStatus($order_id, ORDER_CANCEL, 0, 45);
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = null;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = false; // 加算は強制的にfalseにしておく
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_CANCEL, 0, 45);
 
     $this->expected = array(
       'order' => array(
@@ -199,10 +200,12 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
   {
     $order_id = $this->order_ids[0];
     $old_dates = $this->objQuery->select(
-      'update_date, commit_date, payment_date', 
+      'update_date, commit_date, payment_date',
       'dtb_order', 'order_id = ?', array($order_id));
 
-    $this->helper->sfUpdateOrderStatus($order_id, ORDER_NEW, 50, 45);
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = null;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = null;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_NEW, 50, 45);
 
     $this->expected = array(
       'order' => array(
@@ -227,11 +230,12 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
   {
     $order_id = $this->order_ids[1];
     $old_dates = $this->objQuery->select(
-      'update_date, commit_date, payment_date', 
+      'update_date, commit_date, payment_date',
       'dtb_order', 'order_id = ?', array($order_id));
 
-    $this->helper->usePoint = false; // 使用対象は強制的にfalseにしておく
-    $this->helper->sfUpdateOrderStatus($order_id, ORDER_CANCEL, 50, 45);
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = null;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = false; // 使用対象は強制的にfalseにしておく
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_CANCEL, 50, 45);
 
     $this->expected = array(
       'order' => array(
@@ -256,10 +260,12 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
   {
     $order_id = $this->order_ids[0];
     $old_dates = $this->objQuery->select(
-      'update_date, commit_date, payment_date', 
+      'update_date, commit_date, payment_date',
       'dtb_order', 'order_id = ?', array($order_id));
 
-    $this->helper->sfUpdateOrderStatus($order_id, ORDER_DELIV, 50, 0);
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = null;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = null;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_DELIV, 50, 0);
 
     $this->expected = array(
       'order' => array(
@@ -284,12 +290,12 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
   {
     $order_id = $this->order_ids[0];
     $old_dates = $this->objQuery->select(
-      'update_date, commit_date, payment_date', 
+      'update_date, commit_date, payment_date',
       'dtb_order', 'order_id = ?', array($order_id));
 
-    $this->helper->usePoint = true;
-    $this->helper->addPoint = true;
-    $this->helper->sfUpdateOrderStatus($order_id, ORDER_PRE_END, 40, 25);
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = true;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = true;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_PRE_END, 40, 25);
 
     $this->expected = array(
       'order' => array(
@@ -298,7 +304,7 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         'use_point' => '25' // 引数の設定どおりになる
       ),
       'customer' => array(
-        'point' => '105' // 変更前の状態で-10pt,変更後の状態で+15pt 
+        'point' => '105' // 変更前の状態で-10pt,変更後の状態で+15pt
       )
     );
     $this->actual['order'] = array_shift($this->objQuery->select(
@@ -314,12 +320,12 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
   {
     $order_id = $this->order_ids[0];
     $old_dates = $this->objQuery->select(
-      'update_date, commit_date, payment_date', 
+      'update_date, commit_date, payment_date',
       'dtb_order', 'order_id = ?', array($order_id));
 
-    $this->helper->usePoint = true;
-    $this->helper->addPoint = true;
-    $this->helper->sfUpdateOrderStatus($order_id, ORDER_PRE_END, 0, 50);
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = true;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = true;
+    SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_PRE_END, 0, 50);
 
     $this->expected = array(
       'order' => array(
@@ -328,7 +334,7 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         'use_point' => '50' // 引数の設定どおりになる
       ),
       'customer' => array(
-        'point' => '40' // 変更前の状態で-10pt,変更後の状態で-50pt 
+        'point' => '40' // 変更前の状態で-10pt,変更後の状態で-50pt
       )
     );
     $this->actual['order'] = array_shift($this->objQuery->select(
@@ -366,23 +372,22 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
 class SC_Helper_Purchase_sfUpdateOrderStatusMock extends SC_Helper_Purchase
 {
 
-  var $usePoint;
-  var $addPoint;
+  public static $usePoint;
+  public static $addPoint;
 
-  function isUsePoint($status)
+  public static function isUsePoint($status)
   {
-    if (is_null($this->usePoint)) {
+    if (static::$usePoint === null) {
       return parent::isUsePoint($status);
     }
-    return $this->usePoint;
+    return static::$usePoint;
   }
 
-  function isAddPoint($status)
+  public static function isAddPoint($status)
   {
-    if (is_null($this->addPoint)) {
+    if (static::$addPoint === null) {
       return parent::isAddPoint($status);
     }
-    return $this->addPoint;
+    return static::$addPoint;
   }
 }
-

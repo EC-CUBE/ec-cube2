@@ -54,9 +54,9 @@ class Calendar_Second extends Calendar
      * @param int minute e.g. 31
      * @param int second e.g. 45
      */
-    function Calendar_Second($y, $m, $d, $h, $i, $s)
+    public function __construct($y, $m, $d, $h, $i, $s)
     {
-        Calendar::Calendar($y, $m, $d, $h, $i, $s);
+        Calendar::__construct($y, $m, $d, $h, $i, $s);
     }
 
     /**

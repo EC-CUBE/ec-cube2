@@ -47,7 +47,7 @@ class SC_Session_getUniqIdTest extends Common_TestCase
         $this->actual = $this->objSiteSession->getUniqId();
         $this->verify('ユニークID');
     }
-    
+
     public function testGetUniqId_新たにユニークなID取得する()
     {
         $_SESSION['site']['uniqid'] = '';
@@ -59,7 +59,7 @@ class SC_Session_getUniqIdTest extends Common_TestCase
 
 class SC_SiteSession_Mock extends SC_SiteSession_Ex
 {
-    function setUniqId()
+    public static function setUniqId()
     {
         $_SESSION['site']['uniqid'] = '1234567890';
     }

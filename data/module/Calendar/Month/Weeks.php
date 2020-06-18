@@ -79,9 +79,9 @@ class Calendar_Month_Weeks extends Calendar_Month
      * @param int (optional) first day of week (e.g. 0 for Sunday, 2 for Tuesday etc.)
      * @access public
      */
-    function Calendar_Month_Weeks($y, $m, $firstDay=null)
+    public function __construct($y, $m, $firstDay=null)
     {
-        Calendar_Month::Calendar_Month($y, $m, $firstDay);
+        Calendar_Month::_construct($y, $m, $firstDay);
     }
 
     /**

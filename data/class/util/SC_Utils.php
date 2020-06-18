@@ -157,7 +157,7 @@ class SC_Utils
      *
      * @deprecated 2.12.0 trigger_error($debugMsg, E_USER_ERROR) を使用すること
      */
-    public function sfDispException($debugMsg = null)
+    public static function sfDispException($debugMsg = null)
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         trigger_error($debugMsg, E_USER_ERROR);
@@ -243,7 +243,7 @@ class SC_Utils
      *  @param  obj  SC_Session, SC_SiteSession
      *  @return bool
      */
-    public function sfIsValidTransition($objSess)
+    public static function sfIsValidTransition($objSess)
     {
         // 前画面からPOSTされるuniqidが正しいものかどうかをチェック
         $uniqid = $objSess->getUniqId();
@@ -320,7 +320,7 @@ class SC_Utils
      */
     public static function sfIsZeroFilling($value)
     {
-        if (strlen($value) > 1 && $value{0} === '0')
+        if (strlen($value) > 1 && (strpos($value, '0') === 0))
 
             return true;
 
@@ -362,7 +362,7 @@ class SC_Utils
     /**
      * @deprecated
      */
-    public function sfMergeCBValue($keyname, $max)
+    public static function sfMergeCBValue($keyname, $max)
     {
         $conv = '';
         $cnt = 1;
@@ -381,7 +381,7 @@ class SC_Utils
     /**
      * @deprecated
      */
-    public function sfMergeCheckBoxes($array, $max)
+    public static function sfMergeCheckBoxes($array, $max)
     {
         $ret = '';
         $arrTmp = array();
@@ -405,7 +405,7 @@ class SC_Utils
     /**
      * @deprecated
      */
-    public function sfMergeParamCheckBoxes($array)
+    public static function sfMergeParamCheckBoxes($array)
     {
         $ret = '';
         if (is_array($array)) {
@@ -427,7 +427,7 @@ class SC_Utils
     /**
      * @deprecated
      */
-    public function sfSearchCheckBoxes($array)
+    public static function sfSearchCheckBoxes($array)
     {
         $max = max($array);
         $ret = '';
@@ -445,7 +445,7 @@ class SC_Utils
     /**
      * @deprecated
      */
-    public function sfSplitCheckBoxes($val)
+    public static function sfSplitCheckBoxes($val)
     {
         $arrRet = array();
         $len = strlen($val);
@@ -462,7 +462,7 @@ class SC_Utils
     /**
      * @deprecated
      */
-    public function sfMergeCBSearchValue($keyname, $max)
+    public static function sfMergeCBSearchValue($keyname, $max)
     {
         $conv = '';
         $cnt = 1;
@@ -481,7 +481,7 @@ class SC_Utils
     /**
      * @deprecated
      */
-    public function sfSplitCBValue($val, $keyname = '')
+    public static function sfSplitCBValue($val, $keyname = '')
     {
         $arr = array();
         $len = strlen($val);
@@ -534,7 +534,7 @@ class SC_Utils
      * キーと値をセットした配列を取得(値が複数の場合)
      * 使用されていない
      */
-    public function sfArrKeyValues($arrList, $keyname, $valname, $len_max = '', $keysize = '', $connect = '')
+    public static function sfArrKeyValues($arrList, $keyname, $valname, $len_max = '', $keysize = '', $connect = '')
     {
         $max = count($arrList);
 
@@ -616,7 +616,7 @@ class SC_Utils
      *
      * 使用されていない
      */
-    public function sfCheckSetTerm($start_year, $start_month, $start_day, $end_year, $end_month, $end_day)
+    public static function sfCheckSetTerm($start_year, $start_month, $start_day, $end_year, $end_month, $end_day)
     {
         // 期間指定
         $error = 0;
@@ -640,13 +640,13 @@ class SC_Utils
     }
 
     // エラー箇所の背景色を変更するためのfunction SC_Viewで読み込む
-    public function sfSetErrorStyle()
+    public static function sfSetErrorStyle()
     {
         return 'style="background-color:'.ERR_COLOR.'"';
     }
 
     // 一致した値のキー名を取得
-    public function sfSearchKey($array, $word, $default)
+    public static function sfSearchKey($array, $word, $default)
     {
         foreach ($array as $key => $val) {
             if ($val == $word) {
@@ -661,7 +661,7 @@ class SC_Utils
      * エラー時のカラー(CSS)を設定
      * @param string $val
      */
-    public function sfGetErrorColor($val)
+    public static function sfGetErrorColor($val)
     {
         if ($val != '') {
             return 'background-color:' . ERR_COLOR;
@@ -670,7 +670,7 @@ class SC_Utils
         return '';
     }
 
-    public function sfGetEnabled($val)
+    public static function sfGetEnabled($val)
     {
         if (! $val) {
             return ' disabled="disabled"';
@@ -679,7 +679,7 @@ class SC_Utils
         return '';
     }
 
-    public function sfGetChecked($param, $value)
+    public static function sfGetChecked($param, $value)
     {
         if ((string) $param === (string) $value) {
             return 'checked="checked"';
@@ -688,7 +688,7 @@ class SC_Utils
         return '';
     }
 
-    public function sfTrim($str)
+    public static function sfTrim($str)
     {
         $ret = preg_replace("/^[　 \n\r]*/u", '', $str);
         $ret = preg_replace("/[　 \n\r]*$/u", '', $ret);
@@ -737,7 +737,7 @@ class SC_Utils
      *
      * 使用されていない
      */
-    public function sfRound($value, $pow = 0)
+    public static function sfRound($value, $pow = 0)
     {
         $adjust = pow(10, $pow-1);
 
@@ -814,7 +814,7 @@ class SC_Utils
     }
 
     /* DBから取り出した日付の文字列を調整する。*/
-    public function sfDispDBDate($dbdate, $time = true)
+    public static function sfDispDBDate($dbdate, $time = true)
     {
         list($y, $m, $d, $H, $M) = preg_split('/[- :]/', $dbdate);
 
@@ -885,7 +885,7 @@ class SC_Utils
     }
 
     /* かけ算をする（Smarty用) */
-    public function sfMultiply($num1, $num2)
+    public static function sfMultiply($num1, $num2)
     {
         return $num1 * $num2;
     }
@@ -992,7 +992,7 @@ class SC_Utils
         return $outpath;
     }
 
-    public function sfCutString($str, $len, $byte = true, $commadisp = true)
+    public static function sfCutString($str, $len, $byte = true, $commadisp = true)
     {
         if ($byte) {
             if (strlen($str) > ($len + 2)) {
@@ -1119,13 +1119,13 @@ class SC_Utils
      *
      * XXX この関数を使っている箇所は、ほぼ設計誤りと思われる。変数にフェッチするか、出力時のエンコーディングで対応すべきと見受ける。
      */
-    public function sfMbConvertEncoding($str, $encode = CHAR_CODE)
+    public static function sfMbConvertEncoding($str, $encode = CHAR_CODE)
     {
         return mb_convert_encoding($str, $encode);
     }
 
     // 2つの配列を用いて連想配列を作成する
-    public function sfArrCombine($arrKeys, $arrValues)
+    public static function sfArrCombine($arrKeys, $arrValues)
     {
         if (count($arrKeys) <= 0 and count($arrValues) <= 0) return array();
 
@@ -1302,7 +1302,7 @@ class SC_Utils
      *
      * 使用されていない
      */
-    public function sfGetFileVersion($path)
+    public static function sfGetFileVersion($path)
     {
         if (file_exists($path)) {
             $src_fp = fopen($path, 'rb');
@@ -1331,7 +1331,7 @@ class SC_Utils
      * @return array 変換後の配列
      * @see mb_convert_kana
      */
-    public function mbConvertKanaWithArray($array, $arrConvList)
+    public static function mbConvertKanaWithArray($array, $arrConvList)
     {
         foreach ($arrConvList as $key => $val) {
             if (isset($array[$key])) {
@@ -1382,7 +1382,7 @@ class SC_Utils
      *
      * @deprecated 2.12.0 GC_Utils_Ex::printXMLDeclaration を使用すること
      */
-    public function printXMLDeclaration()
+    public static function printXMLDeclaration()
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         GC_Utils_Ex::printXMLDeclaration();
@@ -1396,7 +1396,7 @@ class SC_Utils
      * @param array $array
      * @return string
      */
-    public function getTableTag($array)
+    public static function getTableTag($array)
     {
         $html = '<table>';
         $html.= '<tr>';
@@ -1442,7 +1442,7 @@ class SC_Utils
      * @param string &$filename ファイル名
      * @return string
      */
-    public function sfNoImageMainList($filename = '')
+    public static function sfNoImageMainList($filename = '')
     {
         if (strlen($filename) == 0 || substr($filename, -1, 1) == '/') {
             $filename .= 'noimage_main_list.jpg';
@@ -1498,7 +1498,7 @@ class SC_Utils
      *
      * @deprecated 2.12.0 GC_Utils_Ex::getUrl を使用すること
      */
-    public function sfGetUrl()
+    public static function sfGetUrl()
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
 
@@ -1510,7 +1510,7 @@ class SC_Utils
      *
      * @deprecated 2.12.0 GC_Utils_Ex::toStringBacktrace を使用すること
      */
-    public function sfBacktraceToString($arrBacktrace)
+    public static function sfBacktraceToString($arrBacktrace)
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
 
@@ -1522,7 +1522,7 @@ class SC_Utils
      *
      * @deprecated 2.12.0 GC_Utils_Ex::isAdminFunction を使用すること
      */
-    public function sfIsAdminFunction()
+    public static function sfIsAdminFunction()
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
 
@@ -1534,7 +1534,7 @@ class SC_Utils
      *
      * @deprecated 2.12.0 GC_Utils_Ex::isFrontFunction を使用すること
      */
-    public function sfIsFrontFunction()
+    public static function sfIsFrontFunction()
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
 
@@ -1546,7 +1546,7 @@ class SC_Utils
      *
      * @deprecated 2.12.0 GC_Utils_Ex::isInstallFunction を使用すること
      */
-    public function sfIsInstallFunction()
+    public static function sfIsInstallFunction()
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
 
@@ -1604,7 +1604,7 @@ class SC_Utils
      *
      * @deprecated 2.12.0 microtime(true) を使用する。
      */
-    public function sfMicrotimeFloat()
+    public static function sfMicrotimeFloat()
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
 

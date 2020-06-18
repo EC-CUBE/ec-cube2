@@ -60,9 +60,9 @@ class Calendar_Hour extends Calendar
      * @param int hour e.g. 13
      * @access public
      */
-    function Calendar_Hour($y, $m, $d, $h)
+    public function __construct($y, $m, $d, $h)
     {
-        Calendar::Calendar($y, $m, $d, $h);
+        Calendar::__construct($y, $m, $d, $h);
     }
 
    /**

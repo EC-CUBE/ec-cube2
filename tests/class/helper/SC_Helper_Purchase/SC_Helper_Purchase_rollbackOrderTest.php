@@ -136,7 +136,7 @@ class SC_Helper_Purchase_rollbackOrderMock extends SC_Helper_Purchase
     );
   }
 
-  function getOrderTempByOrderId($order_id)
+  public function getOrderTempByOrderId($order_id)
   {
     $this->testResult['getOrderTempByOrderId'] = array(
       'order_id' => $order_id
@@ -161,4 +161,3 @@ class SC_Helper_Purchase_rollbackOrderMock extends SC_Helper_Purchase
     );
   }
 }
-

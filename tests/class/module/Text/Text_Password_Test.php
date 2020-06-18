@@ -49,6 +49,13 @@ require_once 'Text/Password.php';
  */
 class Text_Password_Test extends Common_TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        if (PHP_VERSION_ID >= 80000) {
+            $this->markTestIncomplete('TypeError in PHP8');
+        }
+    }
     public function testCreate()
     {
         $password = Text_Password::create();

@@ -373,7 +373,7 @@ class SC_Helper_TaxRule
      * @param  int $tax_rule_id 税規約ID
      * @return void
      */
-    public function deleteTaxRuleData($tax_rule_id)
+    public static function deleteTaxRuleData($tax_rule_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 

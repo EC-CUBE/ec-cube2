@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "769df9c0beb3fc3885ad2242a658148b",
+    "content-hash": "8bbc0940731a08ae8baef854bbec43aa",
     "packages": [
         {
             "name": "bondas83/mdb2_driver_mysqli",
@@ -107,16 +107,16 @@
         },
         {
             "name": "nanasess/mdb2_driver_pgsql",
-            "version": "1.5.1",
+            "version": "dev-php8-compatibility",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nanasess/MDB2_Driver_pgsql.git",
-                "reference": "c4c9b45f1f46bc48101ddb1557330d0ef828a314"
+                "reference": "a78adaa5c4070e8db1c7b82b3613d4396d90cdb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/MDB2_Driver_pgsql/zipball/c4c9b45f1f46bc48101ddb1557330d0ef828a314",
-                "reference": "c4c9b45f1f46bc48101ddb1557330d0ef828a314",
+                "url": "https://api.github.com/repos/nanasess/MDB2_Driver_pgsql/zipball/a78adaa5c4070e8db1c7b82b3613d4396d90cdb6",
+                "reference": "a78adaa5c4070e8db1c7b82b3613d4396d90cdb6",
                 "shasum": ""
             },
             "require": {
@@ -158,7 +158,7 @@
                 }
             ],
             "description": "This is the PostgreSQL MDB2 driver.",
-            "time": "2019-11-20T02:21:00+00:00"
+            "time": "2020-06-19T00:22:10+00:00"
         },
         {
             "name": "pear/archive_tar",
@@ -3475,6 +3475,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "nanasess/mdb2_driver_pgsql": 20,
         "silverorange/mdb2": 10
     },
     "prefer-stable": false,

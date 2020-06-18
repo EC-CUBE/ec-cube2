@@ -38,7 +38,7 @@ class GC_Utils
      * @param  mixed $obj
      * @return void
      */
-    public function gfDebugLog($obj)
+    public static function gfDebugLog($obj)
     {
         if (USE_VERBOSE_LOG === true) {
             $msg = "DEBUG\n"
@@ -53,7 +53,7 @@ class GC_Utils
      * @param  int    $forLogInfo ログ出力用に利用するかどうか(1:ログ出力用に利用する)
      * @return string 呼び出し元クラス、関数名、行数の文字列表現
      */
-    public function gfGetCallerInfo($forLogInfo = true)
+    public static function gfGetCallerInfo($forLogInfo = true)
     {
         // バックトレースを取得する
         $traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5);
@@ -76,7 +76,7 @@ class GC_Utils
      *
      * エラーハンドリングに関わる情報を切り捨てる。
      */
-    public function getDebugBacktrace($arrBacktrace = null)
+    public static function getDebugBacktrace($arrBacktrace = null)
     {
         if (is_null($arrBacktrace)) {
             $arrBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -123,7 +123,7 @@ class GC_Utils
      *
      * @deprecated 2.12.0
      */
-    public function gfGetLogStr($mess, $log_level = 'Info')
+    public static function gfGetLogStr($mess, $log_level = 'Info')
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         // メッセージの前に、ログ出力元関数名とログ出力関数呼び出し部分の行数を付与
@@ -142,7 +142,7 @@ class GC_Utils
      *
      * @deprecated 2.12.0 GC_Utils_Ex::gfPrintLog を使用すること
      */
-    public function gfAdminLog($mess, $log_level = 'Info')
+    public static function gfAdminLog($mess, $log_level = 'Info')
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         // ログレベル=Debugの場合は、DEBUG_MODEがtrueの場合のみログ出力する
@@ -159,7 +159,7 @@ class GC_Utils
      *
      * @deprecated 2.12.0 GC_Utils_Ex::gfPrintLog を使用すること
      */
-    public function gfFrontLog($mess, $log_level = 'Info')
+    public static function gfFrontLog($mess, $log_level = 'Info')
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         // ログレベル=Debugの場合は、DEBUG_MODEがtrueの場合のみログ出力する
@@ -217,7 +217,7 @@ class GC_Utils
      * @param  string  $path     ファイルパス
      * @return void
      */
-    public function gfLogRotation($max_log, $max_size, $path)
+    public static function gfLogRotation($max_log, $max_size, $path)
     {
         // ファイルが存在しない場合、終了
         if (!file_exists($path)) return;
@@ -283,7 +283,7 @@ class GC_Utils
      * [注釈] -
      *----------------------------------------------------------------------------------------------------------------------*/
 
-    public function gfMailHeaderAddr($str)
+    public static function gfMailHeaderAddr($str)
     {
         $addrs = explode(',', $str); //アドレスを配列に入れる
         $mailaddrs = array();
@@ -307,7 +307,7 @@ class GC_Utils
      * @param  array  $arrBacktrace バックトレース
      * @return string テキストで表現したバックトレース
      */
-    public function toStringBacktrace($arrBacktrace)
+    public static function toStringBacktrace($arrBacktrace)
     {
         $string = '';
 
@@ -331,7 +331,7 @@ class GC_Utils
      * @param  integer        $error_type エラー型
      * @return string|integer エラー定数名
      */
-    public function getErrorTypeName($error_type)
+    public static function getErrorTypeName($error_type)
     {
         $arrDefinedConstants = get_defined_constants(true);
 
@@ -362,7 +362,7 @@ class GC_Utils
      *
      * @return string 現在のURL
      */
-    public function getUrl()
+    public static function getUrl()
     {
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
             $url = 'https://';
@@ -383,7 +383,7 @@ class GC_Utils
      *
      * @return bool 管理機能か
      */
-    public function isAdminFunction()
+    public static function isAdminFunction()
     {
         return defined('ADMIN_FUNCTION') && ADMIN_FUNCTION === true;
     }
@@ -415,7 +415,7 @@ class GC_Utils
      *
      * @return string XML宣言の文字列
      */
-    public function printXMLDeclaration()
+    public static function printXMLDeclaration()
     {
         $ua = $_SERVER['HTTP_USER_AGENT'];
         if (!preg_match('/MSIE/', $ua) || preg_match('/MSIE 7/', $ua)) {

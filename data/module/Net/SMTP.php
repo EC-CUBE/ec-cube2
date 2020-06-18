@@ -152,7 +152,7 @@ class Net_SMTP
      * @access  public
      * @since   1.0
      */
-    function Net_SMTP($host = null, $port = null, $localhost = null, $pipelining = false)
+    public function __construct($host = null, $port = null, $localhost = null, $pipelining = false)
     {
         if (isset($host)) {
             $this->host = $host;
@@ -354,7 +354,7 @@ class Net_SMTP
     /**
      * Return the SMTP server's greeting string.
      *
-     * @return  string  A string containing the greeting string, or null if a 
+     * @return  string  A string containing the greeting string, or null if a
      *                  greeting has not been received.
      *
      * @access  public
@@ -515,9 +515,9 @@ class Net_SMTP
     function auth($uid, $pwd , $method = '', $tls = true, $authz = '')
     {
         /* We can only attempt a TLS connection if one has been requested,
-         * we're running PHP 5.1.0 or later, have access to the OpenSSL 
-         * extension, are connected to an SMTP server which supports the 
-         * STARTTLS extension, and aren't already connected over a secure 
+         * we're running PHP 5.1.0 or later, have access to the OpenSSL
+         * extension, are connected to an SMTP server which supports the
+         * STARTTLS extension, and aren't already connected over a secure
          * (SSL) socket connection. */
         if ($tls && version_compare(PHP_VERSION, '5.1.0', '>=') &&
             extension_loaded('openssl') && isset($this->_esmtp['STARTTLS']) &&
@@ -962,8 +962,8 @@ class Net_SMTP
 
         /* Now we can send the message body data. */
         if (is_resource($data)) {
-            /* Stream the contents of the file resource out over our socket 
-             * connection, line by line.  Each line must be run through the 
+            /* Stream the contents of the file resource out over our socket
+             * connection, line by line.  Each line must be run through the
              * quoting routine. */
             while ($line = fgets($data, 1024)) {
                 $this->quotedata($line);
@@ -973,15 +973,15 @@ class Net_SMTP
             }
         } else {
             /*
-             * Break up the data by sending one chunk (up to 512k) at a time.  
+             * Break up the data by sending one chunk (up to 512k) at a time.
              * This approach reduces our peak memory usage.
              */
             for ($offset = 0; $offset < $size;) {
                 $end = $offset + 512000;
 
                 /*
-                 * Ensure we don't read beyond our data size or span multiple 
-                 * lines.  quotedata() can't properly handle character data 
+                 * Ensure we don't read beyond our data size or span multiple
+                 * lines.  quotedata() can't properly handle character data
                  * that's split across two line break boundaries.
                  */
                 if ($end >= $size) {

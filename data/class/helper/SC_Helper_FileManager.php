@@ -36,7 +36,7 @@ class SC_Helper_FileManager
      * @param  string $dir 取得するディレクトリパス
      * @return void
      */
-    public function sfGetFileList($dir)
+    public static function sfGetFileList($dir)
     {
         $arrFileList = array();
         $arrDirList = array();
@@ -90,7 +90,7 @@ class SC_Helper_FileManager
      * @param  string $dir ディレクトリ
      * @return integer
      */
-    public function sfGetDirSize($dir)
+    public static function sfGetDirSize($dir)
     {
         $bytes = 0;
         if (file_exists($dir)) {
@@ -105,7 +105,7 @@ class SC_Helper_FileManager
                         $bytes += filesize($path);
                     } elseif (is_dir($path) && $file != '..' && $file != '.') {
                         // 下層ファイルのバイト数を取得する為、再帰的に呼び出す。
-                        $bytes += SC_Helper_FileManager::sfGetDirSize($path);
+                        $bytes += SC_Helper_FileManager_Ex::sfGetDirSize($path);
                     }
                 }
             } else {

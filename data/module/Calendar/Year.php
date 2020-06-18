@@ -57,9 +57,9 @@ class Calendar_Year extends Calendar
      * @param int year e.g. 2003
      * @access public
      */
-    function Calendar_Year($y)
+    public function __construct($y)
     {
-        Calendar::Calendar($y);
+        Calendar::__construct($y);
     }
 
     /**

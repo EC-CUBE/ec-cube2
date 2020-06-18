@@ -1748,6 +1748,9 @@ class SC_CheckError
      */
     public function evalCheck($value)
     {
+        if ($value === '' || $value === null) {
+            return true;
+        }
         return @eval('return is_scalar(' . $value . ');');
     }
 

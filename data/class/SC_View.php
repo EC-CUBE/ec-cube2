@@ -42,7 +42,7 @@ class SC_View
 
         $this->_smarty->left_delimiter = '<!--{';
         $this->_smarty->right_delimiter = '}-->';
-        $this->_smarty->registerPlugin('modifier', 'sfDispDBDate', array('SC_Utils_Ex', 'sfDispDBDate'));
+        $this->_smarty->registerPlugin('modifier', 'sfDispDBDate', function ($dbdate, $time = true) { return SC_Utils_Ex::sfDispDBDate($dbdate, $time); });
         $this->_smarty->registerPlugin('modifier', 'sfGetErrorColor', array('SC_Utils_Ex', 'sfGetErrorColor'));
         $this->_smarty->registerPlugin('modifier', 'sfTrim', array('SC_Utils_Ex', 'sfTrim'));
         $this->_smarty->registerPlugin('modifier', 'sfCalcIncTax', array('SC_Helper_DB_Ex', 'sfCalcIncTax'));

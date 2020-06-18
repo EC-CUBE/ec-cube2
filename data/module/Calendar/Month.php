@@ -59,9 +59,9 @@ class Calendar_Month extends Calendar
      * @param int $firstDay first day of the week [optional]
      * @access public
      */
-    function Calendar_Month($y, $m, $firstDay=null)
+    public function __construct($y, $m, $firstDay=null)
     {
-        Calendar::Calendar($y, $m);
+        Calendar::__construct($y, $m);
         $this->firstDay = $this->defineFirstDayOfWeek($firstDay);
     }
 

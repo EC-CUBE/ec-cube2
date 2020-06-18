@@ -105,10 +105,10 @@ class SC_Initial
      */
     public function setErrorReporting()
     {
-        error_reporting(E_ALL & ~E_NOTICE);
+        error_reporting(E_ALL);
         // PHP 5.3.0対応
         if (error_reporting() > 6143) {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+            error_reporting(E_ALL);
         }
     }
 
@@ -123,8 +123,10 @@ class SC_Initial
     public function phpconfigInit()
     {
         ini_set('html_errors', '1');
-        ini_set('mbstring.http_input', CHAR_CODE);
-        ini_set('mbstring.http_output', CHAR_CODE);
+        if (PHP_VERSION_ID <= 56000) {
+            ini_set('mbstring.http_input', CHAR_CODE);
+            ini_set('mbstring.http_output', CHAR_CODE);
+        }
         ini_set('auto_detect_line_endings', 1);
         ini_set('default_charset', CHAR_CODE);
         ini_set('mbstring.detect_order', 'auto');
