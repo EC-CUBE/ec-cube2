@@ -385,10 +385,10 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
             } else {
                 $sqlval['create_date'] = $arrList['update_date'];
                 // 新規登録
-                $category_id = $this->registerCategory($sqlval['parent_category_id'],
-                                        $sqlval['category_name'],
-                                        $_SESSION['member_id'],
-                                        $sqlval['category_id']);
+                $this->registerCategory($sqlval['parent_category_id'],
+                    $sqlval['category_name'],
+                    $_SESSION['member_id'],
+                    $sqlval['category_id']);
             }
             $category_id = $sqlval['category_id'];
             // TODO: 削除時処理
