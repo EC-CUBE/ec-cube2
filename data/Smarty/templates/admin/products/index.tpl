@@ -172,7 +172,7 @@ function lfnDispChange(){
     </form>
 
 
-    <!--{if count($arrErr) == 0 and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete')}-->
+    <!--{if empty($arrErr) and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete')}-->
 
         <!--★★検索結果一覧★★-->
         <form name="form1" id="form1" method="post" action="?">
@@ -199,7 +199,7 @@ function lfnDispChange(){
                 <a class="btn-tool" href="javascript:;" onclick="eccube.setModeAndSubmit('csv','',''); return false;">CSV ダウンロード</a>
                 <a class="btn-tool" href="../contents/csv.php?tpl_subno_csv=product">CSV 出力項目設定</a>
             </div>
-            <!--{if count($arrProducts) > 0}-->
+            <!--{if !empty($arrProducts)}-->
 
                 <!--{include file=$tpl_pager}-->
 

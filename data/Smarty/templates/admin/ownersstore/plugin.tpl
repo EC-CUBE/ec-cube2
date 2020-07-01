@@ -137,7 +137,7 @@
 
         <!--▼プラグイン一覧ここから-->
         <h2>プラグイン一覧</h2>
-        <!--{if count($plugins) > 0}-->
+        <!--{if !empty($plugins)}-->
             <span class="attention"><!--{$arrErr.plugin_error}--></span>
             <table class="system-plugin" width="900">
                 <col width="10%" />

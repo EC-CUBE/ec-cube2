@@ -27,7 +27,7 @@
     <div class="btn">
         <a class="btn-action" href="./template_input.php"><span class="btn-next">テンプレートを新規入力</span></a>
     </div>
-    <!--{if count($arrTemplates) > 0}-->
+    <!--{if !empty($arrTemplates)}-->
     <div id="mail" class="contents-main">
         <table class="list center">
         <col width="15%" />

@@ -22,7 +22,7 @@
  */
 *}-->
 
-<!--{if $tpl_mode|strlen == 0 || $arrErr|@count >= 1}-->
+<!--{if $tpl_mode|strlen == 0 || !empty($arrErr)}-->
     <style type="text/css">
 
     </style>

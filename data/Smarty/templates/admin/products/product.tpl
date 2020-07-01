@@ -432,7 +432,7 @@
     </div>
 
     <!--{if $smarty.const.OPTION_RECOMMEND == 1}-->
-    <!--{if count($arrRecommend) > 0}-->
+    <!--{if !empty($arrRecommend)}-->
     <div id="recommend_select" style="">
     <!--{else}-->
     <div id="recommend_select" style="display:none">
@@ -475,7 +475,7 @@
     <!--{/if}-->
 
     <div class="btn-area">
-        <!--{if count($arrSearchHidden) > 0}-->
+        <!--{if !empty($arrSearchHidden)}-->
         <!--▼検索結果へ戻る-->
         <ul>
             <li><a class="btn-action" href="javascript:;" onclick="eccube.changeAction('<!--{$smarty.const.ADMIN_PRODUCTS_URLPATH}-->'); eccube.setModeAndSubmit('search','',''); return false;"><span class="btn-prev">検索画面に戻る</span></a></li>

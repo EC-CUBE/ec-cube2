@@ -40,7 +40,7 @@
 
         <div class="totalmoney_area">
             <!--{* カゴの中に商品がある場合にのみ表示 *}-->
-            <!--{if count($cartKeys) > 1}-->
+            <!--{if !empty($cartKeys) && count($cartKeys) > 1}-->
                 <span class="attentionSt"><!--{foreach from=$cartKeys item=key name=cartKey}--><!--{$arrProductType[$key]|h}--><!--{if !$smarty.foreach.cartKey.last}-->、<!--{/if}--><!--{/foreach}-->は同時購入できません。<br />
                     お手数ですが、個別に購入手続きをお願い致します。
                 </span>
@@ -55,7 +55,7 @@
             <!--{/if}-->
         </div>
 
-        <!--{if count($cartItems) > 0}-->
+        <!--{if !empty($cartItems)}-->
             <!--{foreach from=$cartKeys item=key}-->
                 <div class="form_area">
                     <form name="form<!--{$key|h}-->" id="form<!--{$key|h}-->" method="post" action="?">

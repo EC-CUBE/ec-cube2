@@ -53,7 +53,7 @@
         <!--▼画面右-->
         <div id="products-rank-right">
             <h2><!--{* jQuery で挿入される *}--></h2>
-            <!--{if count($arrProductsList) > 0}-->
+            <!--{if !empty($arrProductsList)}-->
 
                 <p class="remark"><span class="attention"><!--{$tpl_linemax}-->件</span>が該当しました。</p>
                 <div class="pager">
@@ -94,7 +94,7 @@
                                 <!--{$rank}-->
                                 <!--{if $arrProductsList[cnt].status == "2"}--><br />(非公開)<!--{/if}-->
                             </td>
-                            <td align="center">
+s                            <td align="center">
                             <!--{* 移動 *}-->
                             <!--{if !(count($arrProductsList) == 1 && $rank == 1)}-->
                             <input type="text" name="pos-<!--{$arrProductsList[cnt].product_id}-->" size="3" class="box3" />番目へ<a href="?" onclick="eccube.setModeAndSubmit('move','product_id', '<!--{$arrProductsList[cnt].product_id}-->'); return false;">移動</a><br />
