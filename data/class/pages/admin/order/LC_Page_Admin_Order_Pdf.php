@@ -121,8 +121,8 @@ class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
 
         // 今日の日付をセット
         $arrForm['year']  = date('Y');
-        $arrForm['month'] = date('m');
-        $arrForm['day']   = date('d');
+        $arrForm['month'] = date('n');
+        $arrForm['day']   = date('j');
 
         // メッセージ
         $arrForm['msg1'] = 'このたびはお買上げいただきありがとうございます。';
