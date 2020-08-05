@@ -225,13 +225,14 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
         $arrProductsClass = $objQuery->select('*', 'dtb_products_class', 'product_id = ?', array($product_id));
         $arrExists = array();
         foreach ($arrProductsClass as $val) {
-            $arrExists[$val['product_class_id']] = $val;
+            $arrExists[$val['classcategory_id1']][$val['classcategory_id2']] = $val['product_class_id'];
         }
+
+        $arrOrderDetail = $objQuery->select('DISTINCT product_class_id', 'dtb_order_detail', 'product_id = ?', array($product_id));
+        $arrOrderExists = array_column($arrOrderDetail, 'product_class_id');
 
         // デフォルト値として設定する値を取得しておく
         $arrDefault = $this->getProductsClass($product_id);
-
-        $objQuery->delete('dtb_products_class', 'product_id = ? AND (classcategory_id1 <> 0 OR classcategory_id2 <> 0)', array($product_id));
 
         for ($i = 0; $i < $total; $i++) {
             $del_flg = SC_Utils_Ex::isBlank($arrList['check'][$i]) ? 1 : 0;
@@ -266,18 +267,19 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
 
             $arrPC['create_date'] = 'CURRENT_TIMESTAMP';
             // 更新の場合は, product_class_id を使い回す
-            if (!SC_Utils_Ex::isBlank($arrList['product_class_id'][$i])) {
-                $arrPC['product_class_id'] = $arrList['product_class_id'][$i];
-            } else {
+            if (!SC_Utils_Ex::isBlank($arrExists[$arrList['classcategory_id1'][$i]][$arrList['classcategory_id2'][$i]])) {
+                $product_class_id = $arrExists[$arrList['classcategory_id1'][$i]][$arrList['classcategory_id2'][$i]];
+                if ($del_flg == 0 || in_array($product_class_id, $arrOrderExists) == true) {
+                    $objQuery->update('dtb_products_class', $arrPC, 'product_class_id = ?',
+                                      array($product_class_id));
+                } else {
+                    $objQuery->delete('dtb_products_class', 'product_class_id = ?',
+                                      array($product_class_id));
+                }
+            } elseif ($del_flg == 0) {
                 $arrPC['product_class_id'] = $objQuery->nextVal('dtb_products_class_product_class_id');
+                $objQuery->insert('dtb_products_class', $arrPC);
             }
-
-            /*
-             * チェックを入れない商品は product_type_id が NULL になるので, 0 を入れる
-             */
-            $arrPC['product_type_id'] = SC_Utils_Ex::isBlank($arrPC['product_type_id']) ? 0 : $arrPC['product_type_id'];
-
-            $objQuery->insert('dtb_products_class', $arrPC);
 
             // 商品規格ごとの税率設定は廃止
             // if (OPTION_PRODUCT_TAX_RULE) {
@@ -457,7 +459,7 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
     {
         $product_id = $objFormParam->getValue('product_id');
         $objProduct = new SC_Product_Ex();
-        $existsProductsClass = $objProduct->getProductsClassFullByProductId($product_id);
+        $existsProductsClass = $objProduct->getProductsClassFullByProductId($product_id, true);
 
         // 規格のデフォルト値(全ての組み合わせ)を取得し, フォームに反映
         $class_id1 = $existsProductsClass[0]['class_id1'];
@@ -548,8 +550,17 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
         $where = 'product_id = ? AND classcategory_id1 = 0 AND classcategory_id2 = 0';
         $objQuery->update('dtb_products_class', array('del_flg' => 0), $where, array($product_id));
 
+        // 販売済規格データの論理削除
+        $arrProductsClass = $objQuery->select('DISTINCT product_class_id', 'dtb_order_detail', 'product_id = ?', array($product_id));
+        $arrExists = array_column($arrProductsClass, 'product_class_id');
+        if ($arrExists) {
+            $where = 'product_id = ? AND (classcategory_id1 <> 0 OR classcategory_id2 <> 0)';
+            $where.= ' AND product_class_id IN('. join(',', $arrExists). ')';
+            $objQuery->update('dtb_products_class', array('del_flg' => 1), $where, array($product_id));
+        }
+
         // 商品規格データの削除
-        $where = 'product_id = ? AND (classcategory_id1 <> 0 OR classcategory_id2 <> 0)';
+        $where = 'product_id = ? AND (classcategory_id1 <> 0 OR classcategory_id2 <> 0) AND del_flg = 0';
         $objQuery->delete('dtb_products_class', $where, array($product_id));
 
         $objQuery->commit();
