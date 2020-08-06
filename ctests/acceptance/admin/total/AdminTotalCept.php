@@ -32,7 +32,7 @@ $I->click('月度で集計する');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -47,7 +47,7 @@ $I->click('期間で集計する');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -61,7 +61,7 @@ $I->click('月別');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -75,7 +75,7 @@ $I->click('年別');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -90,7 +90,7 @@ $I->click('曜日別');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -104,7 +104,7 @@ $I->click('時間別');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -137,7 +137,8 @@ $I->click('月度で集計する');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -152,7 +153,7 @@ $I->click('期間で集計する');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -166,7 +167,7 @@ $I->click('会員');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -180,7 +181,7 @@ $I->click('非会員');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -213,7 +214,7 @@ $I->click('月度で集計する');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -228,7 +229,7 @@ $I->click('期間で集計する');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -242,7 +243,7 @@ $I->click('会員');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -256,7 +257,7 @@ $I->click('非会員');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -289,7 +290,7 @@ $I->click('月度で集計する');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -304,7 +305,7 @@ $I->click('期間で集計する');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -337,7 +338,7 @@ $I->click('月度で集計する');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
@@ -352,7 +353,7 @@ $I->click('期間で集計する');
 
 $I->expect('グラフの表示を確認する');
 $message = $I->grabPageSource();
-if (strpos('該当するデータはありません。', $message) !== false) {
+if (preg_match('/該当するデータはありません。/u', $message)) {
     $I->see('該当するデータはありません。', ['css' => '.message']);
 } else {
     $I->waitForElement(['css' => '#graph-image > img']);
