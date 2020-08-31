@@ -40,7 +40,7 @@ define('ZIP_CSV_UTF8_REALFILE', DATA_REALDIR . 'downloads/KEN_ALL_utf-8.CSV');
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id:LC_Page_Admin_Basis_ZipInstall.php 16741 2007-11-08 00:43:24Z adachi $
+ * @version $Id$
  */
 class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
 {

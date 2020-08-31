@@ -800,8 +800,10 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $arrStockData = array();
         for ($i = 0; $i < $max; $i++) {
             if (!empty($arrDetail[$i]['product_id'])) {
-                $arrPreDetail = $objQuery->select('*', 'dtb_order_detail', 'order_id = ? AND product_class_id = ?', array($order_id, $arrDetail[$i]['product_class_id']));
-                if (!empty($arrPreDetail) && $arrPreDetail[0]['quantity'] != $arrDetail[$i]['quantity']) {
+                $cols = 'od.*, pc.del_flg';
+                $from = 'dtb_order_detail AS od LEFT JOIN dtb_products_class AS pc ON od.product_class_id = pc.product_class_id';
+                $arrPreDetail = $objQuery->select($cols, $from, 'order_id = ? AND od.product_class_id = ?', array($order_id, $arrDetail[$i]['product_class_id']));
+                if (!empty($arrPreDetail) && $arrPreDetail[0]['quantity'] != $arrDetail[$i]['quantity'] && $arrPreDetail[0]['del_flg'] == 0) {
                     // 数量が変更された商品
                     $arrStockData[$k]['product_class_id'] = $arrDetail[$i]['product_class_id'];
                     $arrStockData[$k]['quantity'] = $arrPreDetail[0]['quantity'] - $arrDetail[$i]['quantity'];

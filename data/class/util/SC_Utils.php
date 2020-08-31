@@ -30,7 +30,7 @@
  *
  * @package Util
  * @author EC-CUBE CO.,LTD.
- * @version $Id:SC_Utils.php 15532 2007-08-31 14:39:46Z nanasess $
+ * @version $Id$
  */
 class SC_Utils
 {
@@ -45,9 +45,9 @@ class SC_Utils
             header('Location: ' . $install_url);
             exit;
         }
-        $path = HTML_REALDIR . 'install/' . DIR_INDEX_FILE;
+        $path = HTML_REALDIR . 'install';
         if (file_exists($path)) {
-            SC_Utils_Ex::sfErrorHeader('&gt;&gt; /install/' . DIR_INDEX_FILE . ' は、インストール完了後にファイルを削除してください。');
+            SC_Utils_Ex::sfErrorHeader('&gt;&gt; インストール完了後に /install フォルダを削除してください。');
         }
     }
 

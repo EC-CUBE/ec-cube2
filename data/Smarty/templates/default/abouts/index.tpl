@@ -22,33 +22,6 @@
  */
 *}-->
 
-<!--{if $arrSiteInfo.latitude && $arrSiteInfo.longitude}-->
-    <script type="text/javascript">//<![CDATA[
-        $(function() {
-            $("#maps").css({
-                'margin-top': '15px',
-                'margin-left': 'auto',
-                'margin-right': 'auto',
-                'width': '98%',
-                'height': '300px'
-            });
-            var lat = <!--{$arrSiteInfo.latitude}-->
-            var lng = <!--{$arrSiteInfo.longitude}-->
-            if (lat && lng) {
-                var latlng = new google.maps.LatLng(lat, lng);
-                var mapOptions = {
-                    zoom: 15,
-                    center: latlng,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-                var map = new google.maps.Map($("#maps").get(0), mapOptions);
-                var marker = new google.maps.Marker({map: map, position: latlng});
-            } else {
-                $("#maps").remove();
-            }
-        });
-    //]]></script>
-<!--{/if}-->
 <div id="undercolumn">
 
     <div id="undercolumn_aboutus">
@@ -122,6 +95,5 @@
 
         </table>
 
-        <div id="maps"></div>
     </div>
 </div>

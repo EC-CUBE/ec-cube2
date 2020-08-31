@@ -45,7 +45,7 @@ class SC_Helper_Plugin
      * @param bool $plugin_activate_flg プラグインを有効化する場合 true
      * @return void
      */
-    public function load($plugin_activate_flg = true)
+    public function load($plugin_activate_flg = true, $plugin_upload_realdir = PLUGIN_UPLOAD_REALDIR)
     {
         if (!defined('CONFIG_REALFILE') || !file_exists(CONFIG_REALFILE)) return; // インストール前
         if (GC_Utils_Ex::isInstallFunction()) return; // インストール中
@@ -53,11 +53,11 @@ class SC_Helper_Plugin
         // 有効なプラグインを取得
         $arrPluginDataList = SC_Plugin_Util_Ex::getEnablePlugin();
         // pluginディレクトリを取得
-        $arrPluginDirectory = SC_Plugin_Util_Ex::getPluginDirectory();
+        $arrPluginDirectory = SC_Plugin_Util_Ex::getPluginDirectory($plugin_upload_realdir);
         foreach ($arrPluginDataList as $arrPluginData) {
             // プラグイン本体ファイル名が取得したプラグインディレクトリ一覧にある事を確認
             if (array_search($arrPluginData['plugin_code'], $arrPluginDirectory) !== false) {
-                $plugin_file_path = PLUGIN_UPLOAD_REALDIR . $arrPluginData['plugin_code'] . '/' . $arrPluginData['class_name'] . '.php';
+                $plugin_file_path = $plugin_upload_realdir . $arrPluginData['plugin_code'] . '/' . $arrPluginData['class_name'] . '.php';
                 // プラグイン本体ファイルが存在しない場合
                 if (!file_exists($plugin_file_path)) {
                     // エラー出力
@@ -90,7 +90,7 @@ class SC_Helper_Plugin
      * @param bool $plugin_activate_flg プラグインを有効化する場合 true
      * @return SC_Helper_Plugin SC_Helper_Pluginオブジェクト
      */
-    public static function getSingletonInstance($plugin_activate_flg = PLUGIN_ACTIVATE_FLAG)
+    public static function getSingletonInstance($plugin_activate_flg = PLUGIN_ACTIVATE_FLAG, $plugin_upload_realdir = PLUGIN_UPLOAD_REALDIR)
     {
         if (!isset($GLOBALS['_SC_Helper_Plugin_instance'])) {
             // プラグインのローダーがDB接続を必要とするため、
@@ -101,7 +101,7 @@ class SC_Helper_Plugin
             }
 
             $GLOBALS['_SC_Helper_Plugin_instance'] = new SC_Helper_Plugin_Ex();
-            $GLOBALS['_SC_Helper_Plugin_instance']->load($plugin_activate_flg);
+            $GLOBALS['_SC_Helper_Plugin_instance']->load($plugin_activate_flg, $plugin_upload_realdir);
         }
 
         return $GLOBALS['_SC_Helper_Plugin_instance'];

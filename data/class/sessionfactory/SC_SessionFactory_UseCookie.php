@@ -46,11 +46,34 @@ class SC_SessionFactory_UseCookie extends SC_SessionFactory_Ex
         ini_set('session.cache_limiter', 'none');
         // (session.auto_start などで)セッションが開始されていた場合に備えて閉じる。(FIXME: 保存する必要はない。破棄で良い。)
         session_write_close();
-        session_set_cookie_params(0, ROOT_URLPATH, DOMAIN_NAME, $this->getSecureOption(), true);
+        $params = array(
+            'lifetime' => 0,
+            'path' => ROOT_URLPATH,
+            'domain' => DOMAIN_NAME,
+            'secure' => $this->getSecureOption(),
+            'httponly' => true,
+            'samesite' => ''
+        );
+        if ($this->getSecureOption()) {
+            $params['samesite'] = 'None'; // require secure option
+        }
+        if (PHP_VERSION_ID >= 70300) {
+            session_set_cookie_params($params);
+        } else {
+            $samesite = '';
+            if (!empty($params['samesite'])) {
+                $samesite = '; SameSite='.$params['samesite'];
+            }
+            session_set_cookie_params($params['lifetime'], $params['path'].$samesite, $params['domain'], $params['secure'], $params['httponly']);
+        }
         // セッション開始
         // FIXME EC-CUBE をネストしてインストールした場合を考慮して、一意とすべき
         session_name('ECSESSID');
         session_start();
+        if (session_id() !== '') {
+            // SameSite=None を未サポートの UA 向けに 互換用 cookie を発行する. secure option 必須
+            setcookie('legacy-'.session_name(), session_id(), $params['lifetime'], $params['path'], $params['domain'], true, true);
+        }
     }
 
     /**

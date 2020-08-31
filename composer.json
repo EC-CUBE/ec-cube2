@@ -25,7 +25,9 @@
         "captbaritone/mailcatcher-codeception-module": "1.2.1",
         "codeception/codeception": "*",
         "fzaninotto/faker": "^1.8",
-        "php-coveralls/php-coveralls": "^1.1"
+        "php-coveralls/php-coveralls": "^1.1",
+        "php5friends/codeception-phpunit48-wrapper": ">=6.0.20",
+        "php5friends/phpunit48": ">=4.8.41"
     },
     "require": {
         "php": ">=5.4.16",

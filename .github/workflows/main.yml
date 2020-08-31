@@ -2,7 +2,7 @@ name: CI/CD for EC-CUBE
 on:
   push:
     branches:
-      - master
+      - '*'
     tags:
       - '*'
     paths:
@@ -29,14 +29,23 @@ jobs:
           - db: mysql
             dbport: '3306'
             dbuser: 'root'
-            dbpass: 'root'
+            dbpass: 'password'
+            dbname: 'eccube_db'
           - db: pgsql
             dbport: '5432'
             dbuser: 'postgres'
             dbpass: 'password'
+            dbname: 'eccube_db'
     services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       postgres:
-        image: postgres:11
+        image: postgres:12
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
@@ -52,7 +61,7 @@ jobs:
           - 1025:1025
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Get Composer Cache Directory
       id: composer-cache
@@ -79,7 +88,7 @@ jobs:
         USER: ${{ matrix.dbuser }}
         DBUSER: ${{ matrix.dbuser }}
         DBPASS: ${{ matrix.dbpass }}
-        DBNAME: myapp_test
+        DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
         HTTP_URL: http://localhost:8085/
         HTTPS_URL: http://localhost:8085/
@@ -90,14 +99,17 @@ jobs:
     - name: setup-chromedriver
       uses: nanasess/setup-chromedriver@master
       with:
-        chromedriver-version: '77.0.3865.40'
+        chromedriver-version: 2.43
 
     - name: Run to PHPUnit
+      run: data/vendor/bin/phpunit --exclude-group classloader
+    - name: Run to PHPUnit classloader
+      run: data/vendor/bin/phpunit --group classloader
+    - name: Run to PHPUnit SessionFactory
       run: |
-        data/vendor/bin/phpunit --exclude-group classloader
-        data/vendor/bin/phpunit --group classloader
         sed 's|http://|https://|g' -i.bak data/config/config.php
         data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
+    - run: mv data/config/config.php.bak data/config/config.php
 
     - name: Run chromedriver
       run: |
@@ -112,7 +124,7 @@ jobs:
         USER: ${{ matrix.dbuser }}
         DBUSER: ${{ matrix.dbuser }}
         DBPASS: ${{ matrix.dbpass }}
-        DBNAME: myapp_test
+        DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
         DBSERVER: 127.0.0.1
         HTTP_URL: http://localhost:8085/
@@ -121,6 +133,19 @@ jobs:
         php data/vendor/bin/codecept build
         php -S 0.0.0.0:8085 -t html/ &
         php data/vendor/bin/codecept run --env chrome --skip-group installer --steps
+    - name: Upload evidence
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-evidence
+        path: ctests/_output/
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
+        path: data/logs
+
   run-on-windows:
     name: Run on Windows
     runs-on: ${{ matrix.operating-system }}
@@ -131,7 +156,7 @@ jobs:
         php: [ 5.5, 5.6, 7.1, 7.2, 7.3, 7.4 ]
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Composer install
       uses: nanasess/composer-installer-action@master
@@ -165,8 +190,8 @@ jobs:
     - name: Setup to database
       run: |
         choco install -y mysql --version 5.7.18
-        mysql --user=root -e "CREATE DATABASE `myapp_test`;"
-        mysql --user=root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';FLUSH PRIVILEGES;"
+        mysql --user=root -e "CREATE DATABASE eccube_db DEFAULT COLLATE=utf8_general_ci;"
+        mysql --user=root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;FLUSH PRIVILEGES;"
 
     - name: Setup to EC-CUBE
       env:
@@ -174,19 +199,28 @@ jobs:
         USER: root
         DBUSER: root
         DBPASS: password
-        DBNAME: myapp_test
+        DBNAME: eccube_db
         DBPORT: 3306
+        DBSERVER: 127.0.0.1
         HTTP_URL: http://localhost:8085/
         HTTPS_URL: http://localhost:8085/
       run: bash eccube_install.sh mysql
       shell: bash
 
     - name: Run to PHPUnit
+      run: data/vendor/bin/phpunit --exclude-group classloader
+    - name: Run to PHPUnit classloader
+      run: data/vendor/bin/phpunit --group classloader
+    - name: Run to PHPUnit SessionFactory
       run: |
-        data/vendor/bin/phpunit --exclude-group classloader
-        data/vendor/bin/phpunit --group classloader
         sed 's|http://|https://|g' -i.bak data/config/config.php
         data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-php${{ matrix.php }}-${{ matrix.db }}-logs
+        path: data\logs
 
   install-to-linux:
     name: Install to Linux
@@ -195,20 +229,29 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-18.04 ]
-        php: [ 5.4, 5.5, 5.6, 7.1, 7.2, 7.3 ]
+        php: [ 5.4, 5.5, 5.6, 7.1, 7.2, 7.3, 7.4 ]
         db: [ mysql, pgsql ]
         include:
           - db: mysql
             dbport: '3306'
             dbuser: 'root'
-            dbpass: 'root'
+            dbpass: 'password'
+            dbname: 'eccube_db'
           - db: pgsql
             dbport: '5432'
             dbuser: 'postgres'
             dbpass: 'password'
+            dbname: 'eccube_db'
     services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       postgres:
-        image: postgres:11
+        image: postgres:12
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
@@ -224,7 +267,7 @@ jobs:
           - 1025:1025
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Get Composer Cache Directory
       id: composer-cache
@@ -248,7 +291,7 @@ jobs:
     - name: setup-chromedriver
       uses: nanasess/setup-chromedriver@master
       with:
-        chromedriver-version: '77.0.3865.40'
+        chromedriver-version: 2.43
 
     - name: Run chromedriver
       run: |
@@ -264,7 +307,7 @@ jobs:
         USER: ${{ matrix.dbuser }}
         DBUSER: ${{ matrix.dbuser }}
         DBPASS: ${{ matrix.dbpass }}
-        DBNAME: myapp_test
+        DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
         DBSERVER: 127.0.0.1
       run: mysql --user=${DBUSER} --password=${DBPASS} -h ${DBSERVER} -P ${DBPORT} -e "CREATE DATABASE ${DBNAME} DEFAULT COLLATE=utf8_general_ci;"
@@ -276,7 +319,7 @@ jobs:
         USER: ${{ matrix.dbuser }}
         DBUSER: ${{ matrix.dbuser }}
         DBPASS: ${{ matrix.dbpass }}
-        DBNAME: myapp_test
+        DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
         DBSERVER: 127.0.0.1
       run: |
@@ -290,7 +333,7 @@ jobs:
         USER: ${{ matrix.dbuser }}
         DBUSER: ${{ matrix.dbuser }}
         DBPASS: ${{ matrix.dbpass }}
-        DBNAME: myapp_test
+        DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
         DBSERVER: 127.0.0.1
         HTTP_URL: http://localhost:8085/
@@ -300,6 +343,19 @@ jobs:
         php -S 0.0.0.0:8085 -t html/ &
         php data/vendor/bin/codecept run --env chrome --group installer --steps acceptance InstallerCept
 
+    - name: Upload evidence
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: install-linux-php${{ matrix.php }}-evidence
+        path: ctests/_output/
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: install-linux-php${{ matrix.php }}-logs
+        path: html/install/temp/
+
   deploy:
     name: Deploy
     runs-on: ubuntu-18.04
@@ -307,7 +363,7 @@ jobs:
     steps:
     - name: Checkout
       if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Get Composer Cache Directory
       if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )

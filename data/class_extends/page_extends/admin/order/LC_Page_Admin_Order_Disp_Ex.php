@@ -30,7 +30,7 @@ require_once CLASS_REALDIR . 'pages/admin/order/LC_Page_Admin_Order_Disp.php';
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id: LC_Page_Admin_Order_Disp_Ex.php 20764 2011-03-22 06:26:40Z nanasess $
+ * @version $Id$
  */
 class LC_Page_Admin_Order_Disp_Ex extends LC_Page_Admin_Order_Disp
 {

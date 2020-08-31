@@ -613,7 +613,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         $arrForm['arrHidden'] = array_merge((array) $arrHidden, (array) $objDownFile->getHiddenFileList());
 
         // 画像ファイル表示用データ取得
-        $arrForm['arrFile'] = $objUpFile->getFormFileList(IMAGE_TEMP_URLPATH, IMAGE_SAVE_URLPATH);
+        $arrForm['arrFile'] = $objUpFile->getFormFileList();
 
         // ダウンロード商品実ファイル名取得
         $arrForm['down_realfilename'] = $objDownFile->getFormDownFile();
@@ -643,7 +643,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         // hidden に渡す値は serialize する
         $arrForm['category_id'] = SC_Utils_Ex::jsonEncode($arrForm['category_id']);
         // 画像ファイル用データ取得
-        $arrForm['arrFile'] = $objUpFile->getFormFileList(IMAGE_TEMP_URLPATH, IMAGE_SAVE_URLPATH);
+        $arrForm['arrFile'] = $objUpFile->getFormFileList();
         // ダウンロード商品実ファイル名取得
         $arrForm['down_realfilename'] = $objDownFile->getFormDownFile();
 
@@ -788,7 +788,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
                 $objImage->moveTempImage($temp_file, $objUpFile->save_dir);
                 $arrImageKey[] = $arrKeyName[$key];
                 if (!empty($arrSaveFile[$key])
-                    && !$this->lfHasSameProductImage($product_id, $arrImageKey, $arrSaveFile[$key])
+                    && !$this->lfHasSameProductImage($product_id, $arrImageKey, $arrSaveFile[$key], $objUpFile)
                     && !in_array($temp_file, $arrSaveFile)
                 ) {
                     $objImage->deleteImage($arrSaveFile[$key], $objUpFile->save_dir);
@@ -808,9 +808,10 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
      * @param  string  $product_id      商品ID
      * @param  string  $arrImageKey     対象としない画像カラム名
      * @param  string  $image_file_name 画像ファイル名
+     * @param  SC_UploadFile_Ex $objUpFile SC_UploadFileインスタンス
      * @return boolean
      */
-    public function lfHasSameProductImage($product_id, $arrImageKey, $image_file_name)
+    public function lfHasSameProductImage($product_id, $arrImageKey, $image_file_name, $objUpFile)
     {
         if (!SC_Utils_Ex::sfIsInt($product_id)) return false;
         if (!$arrImageKey) return false;
@@ -825,7 +826,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         $where = implode(' OR ', $arrWhere);
         $where = "del_flg = ? AND ((product_id <> ? AND ({$where}))";
 
-        $arrKeyName = $this->objUpFile->keyname;
+        $arrKeyName = $objUpFile->keyname;
         foreach ($arrKeyName as $key => $keyname) {
             if (in_array($keyname, $arrImageKey)) continue;
             $where .= " OR {$keyname} = ?";
@@ -1104,7 +1105,7 @@ __EOF__;
             foreach ($arrKeyName as $key => $keyname) {
                 if ($arrRet[$keyname] && !$arrSaveFile[$key]) {
                     $arrImageKey[] = $keyname;
-                    $has_same_image = $this->lfHasSameProductImage($arrList['product_id'], $arrImageKey, $arrRet[$keyname]);
+                    $has_same_image = $this->lfHasSameProductImage($arrList['product_id'], $arrImageKey, $arrRet[$keyname], $objUpFile);
                     if (!$has_same_image) {
                         $objImage->deleteImage($arrRet[$keyname], $objUpFile->save_dir);
                     }

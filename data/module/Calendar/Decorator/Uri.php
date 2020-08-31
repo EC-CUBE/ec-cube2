@@ -22,7 +22,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Uri.php,v 1.3 2004/08/16 09:04:20 hfuecks Exp $
+ * @version $Id$
  */
 
 /**

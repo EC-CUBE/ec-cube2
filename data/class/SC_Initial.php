@@ -35,7 +35,7 @@ class SC_Initial
     public function __construct()
     {
         /** EC-CUBEのバージョン */
-        define('ECCUBE_VERSION', '2.17.0');
+        define('ECCUBE_VERSION', '2.17.1');
     }
 
     /**
@@ -54,7 +54,6 @@ class SC_Initial
         $this->complementParameter();       // defineConstants メソッドより後で実行
         $this->phpconfigInit();             // defineConstants メソッドより後で実行
         $this->createCacheDir();            // defineConstants メソッドより後で実行
-        $this->stripslashesDeepGpc();
         $this->resetSuperglobalsRequest();  // stripslashesDeepGpc メソッドより後で実行
         $this->setTimezone();               // 本当はエラーハンドラーより先に読みたい気も
         $this->normalizeHostname();         // defineConstants メソッドより後で実行
@@ -170,10 +169,17 @@ class SC_Initial
         // DirectoryIndex の実ファイル名
         SC_Initial_Ex::defineIfNotDefined('DIR_INDEX_FILE', 'index.php');
 
-        $useFilenameDirIndex = is_bool(USE_FILENAME_DIR_INDEX)
-            ? USE_FILENAME_DIR_INDEX
-            : (isset($_SERVER['SERVER_SOFTWARE']) ? substr($_SERVER['SERVER_SOFTWARE'], 0, 13) == 'Microsoft-IIS' : false)
-        ;
+        $useFilenameDirIndex = false;
+        if (is_bool(USE_FILENAME_DIR_INDEX)) {
+            $useFilenameDirIndex = USE_FILENAME_DIR_INDEX;
+        } else {
+            if (isset($_SERVER['SERVER_SOFTWARE'])) {
+                if (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false
+                    || strpos($_SERVER['SERVER_SOFTWARE'], 'Symfony') !== false) {
+                    $useFilenameDirIndex = true;
+                }
+            }
+        }
 
         // DIR_INDEX_FILE にアクセスする時の URL のファイル名部を定義する
         if ($useFilenameDirIndex === true) {
@@ -445,38 +451,6 @@ class SC_Initial
         define('UNLIMITED_FLG_UNLIMITED', '1');
         /** 無制限フラグ： 制限有り */
         define('UNLIMITED_FLG_LIMITED', '0');
-    }
-
-    /**
-     * クォートされた文字列のクォート部分を再帰的に取り除く.
-     *
-     * {@link http://jp2.php.net/manual/ja/function.get-magic-quotes-gpc.php PHP Manual} の記事を参考に実装。
-     * $_REQUEST は後続の処理で再構成されるため、本処理では外している。
-     * この関数は, PHP5以上を対象とし, PHP4 の場合は何もしない.
-     *
-     * @return void
-     */
-    public function stripslashesDeepGpc()
-    {
-        // Strip magic quotes from request data.
-        if (get_magic_quotes_gpc()
-            && version_compare(PHP_VERSION, '5.0.0', '>=')) {
-            // Create lamba style unescaping function (for portability)
-            $quotes_sybase = strtolower(ini_get('magic_quotes_sybase'));
-            $unescape_function = (empty($quotes_sybase) || $quotes_sybase === 'off') ? 'stripslashes($value)' : 'str_replace("\'\'","\'",$value)';
-            $stripslashes_deep = create_function('&$value, $fn', '
-                if (is_string($value)) {
-                    $value = ' . $unescape_function . ';
-                } elseif (is_array($value)) {
-                    foreach ($value as &$v) $fn($v, $fn);
-                }
-            ');
-
-            // Unescape data
-            $stripslashes_deep($_POST, $stripslashes_deep);
-            $stripslashes_deep($_GET, $stripslashes_deep);
-            $stripslashes_deep($_COOKIE, $stripslashes_deep);
-        }
     }
 
     /**

@@ -30,7 +30,7 @@ require_once CLASS_REALDIR . 'pages/admin/basis/LC_Page_Admin_Basis_Tax.php';
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id: LC_Page_Admin_Basis_Tax_Ex.php 22567 2013-03-09 12:18:54Z yomoro $
+ * @version $Id$
  */
 class LC_Page_Admin_Basis_Tax_Ex extends LC_Page_Admin_Basis_Tax
 {

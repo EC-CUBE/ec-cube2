@@ -30,7 +30,7 @@ require_once CLASS_REALDIR . 'pages/admin/basis/LC_Page_Admin_Basis_Holiday.php'
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id:LC_Page_Admin_Basis_Ex.php 15532 2007-08-31 14:39:46Z nanasess $
+ * @version $Id$
  */
 class LC_Page_Admin_Basis_Holiday_Ex extends LC_Page_Admin_Basis_Holiday
 {
