@@ -1547,7 +1547,7 @@ __EOS__;
      * @param  int $tax
      * @param  int $tax_rule
      * @return double 税金付与した金額
-     * @deprecated SC_Helper_TaxRule::sfCalcIncTax() を使用してください
+     * @deprecated SC_Helper_TaxRule::calcTax() を使用してください
      */
     public static function sfCalcIncTax($price, $tax = null, $tax_rule = null)
     {
