@@ -218,7 +218,9 @@ class SC_Response
             $netUrl->querystring = array_merge($netUrl->querystring, $arrQueryStringBackup);
         }
 
-        $netUrl->querystring = array_merge($netUrl->querystring, $arrQueryString);
+        foreach ($arrQueryString as $name => $value) {
+            $netUrl->addQueryString($name, $value);
+        }
 
         $session = SC_SessionFactory_Ex::getInstance();
         if ((SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE)
