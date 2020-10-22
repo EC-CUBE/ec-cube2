@@ -46,6 +46,11 @@ class LC_Page_Admin extends LC_Page_Ex
         $this->sendAdditionalHeader();
         $this->template = MAIN_FRAME;
 
+        // ADMIN_DIR チェック
+        if (stripos($_SERVER['REQUEST_URI'], rtrim(ROOT_URLPATH.ADMIN_DIR, '/')) === false) {
+            SC_Utils_Ex::sfDispError(AUTH_ERROR);
+        }
+
         //IP制限チェック
         $allow_hosts = unserialize(ADMIN_ALLOW_HOSTS);
         if (is_array($allow_hosts) && count($allow_hosts) > 0) {
