@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-
 <div id="total" class="contents-main">
     <!--{* 検索条件設定テーブルここから *}-->
     <table summary="検索条件設定テーブル" class="input-form form">
@@ -110,15 +109,6 @@
             <div class="btn">
                 <a class="btn-normal" href="javascript:;" onclick="eccube.setModeAndSubmit('csv','',''); return false;"><span>CSVダウンロード</span></a>
             </div>
-
-            <!--{* グラフ表示 *}-->
-                <!--{if $install_GD}-->
-                <div id="graph-image">
-                    <!--{* <img src="<!--{$tpl_image}-->?<!--{$cashtime}-->" alt="グラフ"> *}-->
-                    <img src="?draw_image=true&amp;type=<!--{$smarty.post.type|h}-->&amp;mode=search&amp;search_form=<!--{$smarty.post.search_form|h}-->&amp;page=<!--{$smarty.post.page|h}-->&amp;search_startyear_m=<!--{$smarty.post.search_startyear_m|h}-->&amp;search_startmonth_m=<!--{$smarty.post.search_startmonth_m|h}-->&amp;search_startyear=<!--{$smarty.post.search_startyear|h}-->&amp;search_startmonth=<!--{$smarty.post.search_startmonth|h}-->&amp;search_startday=<!--{$smarty.post.search_startday|h}-->&amp;search_endyear=<!--{$smarty.post.search_endyear|h}-->&amp;search_endmonth=<!--{$smarty.post.search_endmonth|h}-->&amp;search_endday=<!--{$smarty.post.search_endday|h}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->" alt="グラフ" />
-                </div>
-                <!--{/if}-->
-            <!--{* グラフ表示 *}-->
 
             <!--{* ▼検索結果テーブルここから *}-->
             <!--{include file=$tpl_page_type}-->

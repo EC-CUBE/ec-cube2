@@ -21,6 +21,30 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
+<div style="margin:20px 10px; padding:0; width:100%; height:350px;" id="graphField">Now Loading ...</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = data = google.visualization.arrayToDataTable([
+          ['職業', '売上'],
+        <!--{foreach from=$arrResults key="key" item="item" name="line"}-->
+          ['<!--{$item.job_name}-->', <!--{$item.total|default:0}-->],
+        <!--{/foreach }-->
+        ]);
+
+        var options = {
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('graphField'));
+
+        chart.draw(data, options);
+      }
+</script>
 
 <table id="total-job" class="list">
     <tr>
