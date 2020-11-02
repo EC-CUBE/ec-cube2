@@ -188,8 +188,8 @@ class GC_Utils
         if (strlen($path) === 0) {
             $path = GC_Utils_Ex::isAdminFunction() ? ADMIN_LOG_REALFILE : LOG_REALFILE;
         }
-
-        $msg = "$today [{$_SERVER['SCRIPT_NAME']}] $msg from {$_SERVER['REMOTE_ADDR']}\n";
+        $remote_addr = array_key_exists('REMOTE_ADDR', $_SERVER) ? 'from '.$_SERVER['REMOTE_ADDR'] : '';
+        $msg = "$today [{$_SERVER['SCRIPT_NAME']}] $msg {$remote_addr}\n";
         if ($verbose) {
             if (GC_Utils_Ex::isFrontFunction()) {
                 $msg .= 'customer_id = ' . $_SESSION['customer']['customer_id'] . "\n";
