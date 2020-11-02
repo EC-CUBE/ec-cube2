@@ -35,7 +35,7 @@ class SC_Initial
     public function __construct()
     {
         /** EC-CUBEのバージョン */
-        define('ECCUBE_VERSION', '2.17.0');
+        define('ECCUBE_VERSION', '2.17.1');
     }
 
     /**
@@ -171,10 +171,17 @@ class SC_Initial
         // DirectoryIndex の実ファイル名
         SC_Initial_Ex::defineIfNotDefined('DIR_INDEX_FILE', 'index.php');
 
-        $useFilenameDirIndex = is_bool(USE_FILENAME_DIR_INDEX)
-            ? USE_FILENAME_DIR_INDEX
-            : (isset($_SERVER['SERVER_SOFTWARE']) ? substr($_SERVER['SERVER_SOFTWARE'], 0, 13) == 'Microsoft-IIS' : false)
-        ;
+        $useFilenameDirIndex = false;
+        if (is_bool(USE_FILENAME_DIR_INDEX)) {
+            $useFilenameDirIndex = USE_FILENAME_DIR_INDEX;
+        } else {
+            if (isset($_SERVER['SERVER_SOFTWARE'])) {
+                if (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false
+                    || strpos($_SERVER['SERVER_SOFTWARE'], 'Symfony') !== false) {
+                    $useFilenameDirIndex = true;
+                }
+            }
+        }
 
         // DIR_INDEX_FILE にアクセスする時の URL のファイル名部を定義する
         if ($useFilenameDirIndex === true) {
