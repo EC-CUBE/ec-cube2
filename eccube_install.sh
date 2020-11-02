@@ -184,27 +184,27 @@ create_config_php()
 {
     cat > "./${CONFIG_PHP}" <<__EOF__
 <?php
-define('ECCUBE_INSTALL', 'ON');
-define('HTTP_URL', '${HTTP_URL}');
-define('HTTPS_URL', '${HTTPS_URL}');
-define('ROOT_URLPATH', '${ROOT_URLPATH}');
-define('DOMAIN_NAME', '${DOMAIN_NAME}');
-define('DB_TYPE', '${DB}');
-define('DB_USER', '${DBUSER}');
-define('DB_PASSWORD', '${CONFIGPASS:-$DBPASS}');
-define('DB_SERVER', '${DBSERVER}');
-define('DB_NAME', '${DBNAME}');
-define('DB_PORT', '${DBPORT}');
-define('ADMIN_DIR', '${ADMIN_DIR}');
-define('ADMIN_FORCE_SSL', FALSE);
-define('ADMIN_ALLOW_HOSTS', 'a:0:{}');
-define('AUTH_MAGIC', '${AUTH_MAGIC}');
-define('PASSWORD_HASH_ALGOS', 'sha256');
-define('MAIL_BACKEND', '${MAIL_BACKEND}');
-define('SMTP_HOST', '${SMTP_HOST}');
-define('SMTP_PORT', '${SMTP_PORT}');
-define('SMTP_USER', '${SMTP_USER}');
-define('SMTP_PASSWORD', '${SMTP_PASSWORD}');
+defined('ECCUBE_INSTALL') or define('ECCUBE_INSTALL', 'ON');
+defined('HTTP_URL') or define('HTTP_URL', '${HTTP_URL}');
+defined('HTTPS_URL') or define('HTTPS_URL', '${HTTPS_URL}');
+defined('ROOT_URLPATH') or define('ROOT_URLPATH', '${ROOT_URLPATH}');
+defined('DOMAIN_NAME') or define('DOMAIN_NAME', '${DOMAIN_NAME}');
+defined('DB_TYPE') or define('DB_TYPE', '${DB}');
+defined('DB_USER') or define('DB_USER', '${DBUSER}');
+defined('DB_PASSWORD') or define('DB_PASSWORD', '${CONFIGPASS:-$DBPASS}');
+defined('DB_SERVER') or define('DB_SERVER', '${DBSERVER}');
+defined('DB_NAME') or define('DB_NAME', '${DBNAME}');
+defined('DB_PORT') or define('DB_PORT', '${DBPORT}');
+defined('ADMIN_DIR') or define('ADMIN_DIR', '${ADMIN_DIR}');
+defined('ADMIN_FORCE_SSL') or define('ADMIN_FORCE_SSL', FALSE);
+defined('ADMIN_ALLOW_HOSTS') or define('ADMIN_ALLOW_HOSTS', 'a:0:{}');
+defined('AUTH_MAGIC') or define('AUTH_MAGIC', '${AUTH_MAGIC}');
+defined('PASSWORD_HASH_ALGOS') or define('PASSWORD_HASH_ALGOS', 'sha256');
+defined('MAIL_BACKEND') or define('MAIL_BACKEND', '${MAIL_BACKEND}');
+defined('SMTP_HOST') or define('SMTP_HOST', '${SMTP_HOST}');
+defined('SMTP_PORT') or define('SMTP_PORT', '${SMTP_PORT}');
+defined('SMTP_USER') or define('SMTP_USER', '${SMTP_USER}');
+defined('SMTP_PASSWORD') or define('SMTP_PASSWORD', '${SMTP_PASSWORD}');
 
 __EOF__
 
