@@ -39,7 +39,7 @@
         slidesToShow: 1,
         adaptiveHeight: true
       });
-      
+
       $('#whobought_area ul').slick({
         dots: false,
         infinite: true,
@@ -380,7 +380,7 @@
             </div>
             </div>
 
-            <!--{if count($arrReview) > 0}-->
+            <!--{if !empty($arrReview)}-->
             <ul>
                 <!--{section name=cnt loop=$arrReview}-->
                     <li>

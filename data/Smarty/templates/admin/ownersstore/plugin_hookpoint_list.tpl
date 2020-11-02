@@ -61,7 +61,7 @@
 <div id="system" class="contents-main">
     <!--▼プラグイン一覧ここから-->
     <h2>フックポイント別プラグイン一覧</h2>
-    <!--{if count($arrHookPoint) > 0}-->
+    <!--{if !empty($arrHookPoint)}-->
 
         <span class="attention"><!--{$arrErr.plugin_error}--></span>
         <table class="system-plugin" width="900">

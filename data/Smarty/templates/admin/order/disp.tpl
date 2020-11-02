@@ -238,7 +238,7 @@
         <!--{assign var=key value="shipping_id"}-->
         <!--{if $tpl_shipping_quantity > 1}-->
 
-            <!--{if count($arrShipping.shipment_product_class_id) > 0}-->
+            <!--{if !empty($arrShipping.shipment_product_class_id)}-->
                 <table class="list" id="order-edit-products">
                     <tr>
                         <th class="id">商品コード</th>

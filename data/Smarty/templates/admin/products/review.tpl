@@ -109,7 +109,7 @@
     </form>
 
 
-    <!--{if count($arrErr) == 0 and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete')}-->
+    <!--{if empty($arrErr) and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete')}-->
 
         <!--★★検索結果一覧★★-->
         <form name="form1" id="form1" method="post" action="?">

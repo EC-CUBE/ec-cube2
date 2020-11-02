@@ -98,7 +98,7 @@
             <li><a class="btn-action" href="javascript:;" onclick="eccube.fnFormModeSubmit('form1', 'edit', '', ''); return false;"><span class="btn-next">この内容で登録する</span></a></li>
         </ul>
     </div>
-    <!--{if count($arrTaxrule) > 0}-->
+    <!--{if !empty($arrTaxrule)}-->
     <table class="list">
         <col width="22%" />
         <col width="23%" />

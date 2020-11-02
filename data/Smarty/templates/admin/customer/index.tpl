@@ -82,7 +82,7 @@
             </div>
         </div>
     </form>
-    <!--{if count($arrErr) == 0 and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete' or $smarty.post.mode == 'resend_mail')}-->
+    <!--{if empty($arrErr) and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete' or $smarty.post.mode == 'resend_mail')}-->
 
         <!--★★検索結果一覧★★-->
         <form name="form1" id="form1" method="post" action="?">
@@ -106,7 +106,7 @@
                 <a class="btn-normal" href="javascript:;" onclick="eccube.setModeAndSubmit('csv','',''); return false;">CSV ダウンロード</a>
                 <a class="btn-normal" href="javascript:;" onclick="location.href='../contents/csv.php?tpl_subno_csv=customer'">CSV 出力項目設定</a>
             </div>
-            <!--{if count($arrData) > 0}-->
+            <!--{if !empty($arrData)}-->
 
             <!--{include file=$tpl_pager}-->
 

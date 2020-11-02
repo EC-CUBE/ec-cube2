@@ -314,7 +314,7 @@
         <!--検索条件設定テーブルここまで-->
     </form>
 
-    <!--{if count($arrErr) == 0 and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete')}-->
+    <!--{if empty($arrErr) and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete')}-->
 
         <!--★★検索結果一覧★★-->
         <form name="form1" id="form1" method="post" action="?">
@@ -341,7 +341,7 @@
                 <a class="btn-normal" href="javascript:;" onclick="fnSelectCheckSubmit('pdf.php'); return false;"><span>PDF一括出力</span></a>
                 <a class="btn-normal" href="javascript:;" onclick="fnSelectMailCheckSubmit('mail.php'); return false;"><span>メール一括通知</span></a>
             </div>
-            <!--{if count($arrResults) > 0}-->
+            <!--{if !empty($arrResults)}-->
 
                 <!--{include file=$tpl_pager}-->
 
