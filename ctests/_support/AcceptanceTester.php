@@ -56,4 +56,17 @@ class AcceptanceTester extends \Codeception\Actor
 
         return end($files);
     }
+
+    /**
+     * _blankで開いたウィンドウに切り替え
+     */
+    public function switchToNewWindow()
+    {
+        $this->wait(1);
+        $this->executeInSelenium(function ($webdriver) {
+            $handles = $webdriver->getWindowHandles();
+            $last_window = end($handles);
+            $webdriver->switchTo()->window($last_window);
+        });
+    }
 }
