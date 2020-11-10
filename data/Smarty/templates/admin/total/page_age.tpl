@@ -20,7 +20,42 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-*}-->
+ *}-->
+<div style="margin:20px 10px; padding:0; width:100%; height:350px;" id="graphField">Now Loading ...</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = data = google.visualization.arrayToDataTable([
+          ['年齢', '売上'],
+        <!--{foreach from=$arrResults key="key" item="item" name="line"}-->
+          ['<!--{$item.age_name}-->', <!--{$item.total|default:0}-->],
+        <!--{/foreach }-->
+        ]);
+
+        var options = {
+          legend: { position: 'none' },
+          chart: { title: '',
+                   subtitle: '' },
+          bars: 'horizontal', 
+          axes: {
+            x: {
+              0: { side: 'top', label: 'Percentage'} // Top x-axis.
+            }
+          },
+          bar: { groupWidth: "90%" }
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('graphField'));
+
+        chart.draw(data, options);
+      }
+</script>
+
 
 <table id="total-age" class="list">
     <tr>

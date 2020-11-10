@@ -21,6 +21,41 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
+<div style="margin:20px 10px; padding:0; width:100%; height:350px;" id="graphField">Now Loading ...</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+
+    var data = data = google.visualization.arrayToDataTable([
+
+      ['日付', '合計'],
+      <!--{foreach from=$arrResults key="key" item="item" name="line"}-->
+      <!--{if !$smarty.foreach.line.last}-->
+      [
+        <!--{if $smarty.post.type == "year" || $smarty.post.type == "wday" || $smarty.post.type == "hour"}-->
+        "<!--{$item.str_date}-->",
+        <!--{else}-->
+        new Date(<!--{$item.str_date|date_format:'%Y'}-->, <!--{$item.str_date|date_format:'%m'-1}-->, <!--{$item.str_date|date_format:'%d'}-->),
+        <!--{/if}-->
+      <!--{$item.total|default:0}-->
+      ],
+      <!--{/if}-->
+      <!--{/foreach }-->
+    ]);
+    var options = {
+      hAxis: { title:'日付', titleTextStyle:{italic:false} },
+      vAxis: { title:'売上',  titleTextStyle:{italic:false} },
+      crosshair: { trigger: 'both' }
+    };
+    var chart = new google.visualization.LineChart(document.getElementById('graphField'));
+
+    chart.draw(data, options);
+  }
+</script>
 
 <table id="total-term" class="list">
     <tr>
