@@ -13,12 +13,12 @@ jobs:
     steps:
       - name: TAG_NAME for schedule
         if: github.event_name == 'schedule'
-        run: echo "::set-env name=TAG_NAME::eccube2-weekly-$(date +%Y%m%d)"
+        run: echo "TAG_NAME=eccube2-weekly-$(date +%Y%m%d)" >> $GITHUB_ENV
       - name: TAG_NAME for release
         if: github.event_name == 'release'
         env:
           TAG_NAME: ${{ github.event.release.tag_name }}
-        run: echo "::set-env name=TAG_NAME::${TAG_NAME}"
+        run: echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
       - name: Create Release
         if: github.event_name == 'schedule'
         id: create_release
