@@ -134,8 +134,6 @@ class LC_Page_Rss_Products extends LC_Page_Ex
         }
         // 値の整形
         foreach (array_keys($arrProduct) as $key) {
-            //販売価格を税込みに編集
-            $arrProduct[$key]['price02'] = SC_Helper_DB_Ex::sfCalcIncTax($arrProduct[$key]['price02']);
             // 画像ファイルのURLセット
             if (file_exists(IMAGE_SAVE_REALDIR . $arrProduct[$key]['main_list_image'])) {
                 $dir = IMAGE_SAVE_RSS_URL;
