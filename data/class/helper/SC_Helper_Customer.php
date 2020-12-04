@@ -233,7 +233,7 @@ class SC_Helper_Customer
      * @access public
      * @return array 会員情報の配列を返す
      */
-    public function sfGetCustomerData($customer_id, $mask_flg = true)
+    public static function sfGetCustomerData($customer_id, $mask_flg = true)
     {
         $objQuery       = SC_Query_Ex::getSingletonInstance();
 
@@ -276,7 +276,7 @@ class SC_Helper_Customer
      * @access public
      * @return array 対象会員データ
      */
-    public function sfGetCustomerDataFromId($customer_id, $add_where = '', $arrAddVal = array())
+    public static function sfGetCustomerDataFromId($customer_id, $add_where = '', $arrAddVal = array())
     {
         $objQuery   = SC_Query_Ex::getSingletonInstance();
 
