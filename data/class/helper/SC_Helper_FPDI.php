@@ -34,7 +34,8 @@ class SC_Helper_FPDI extends PDF_Japanese
         $bak = $this->enable_conv_sjis;
         $this->enable_conv_sjis = false;
 
-        call_user_func_array(array(parent, 'SJISMultiCell'), $arrArg);
+        list($w, $h, $txt, $border, $align, $fill) = $arrArg;
+        parent::SJISMulticell($w, $h, $txt, $border, $align, $fill);
 
         $this->enable_conv_sjis = $bak;
     }

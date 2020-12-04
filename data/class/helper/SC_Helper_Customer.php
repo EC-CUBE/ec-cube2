@@ -130,7 +130,7 @@ class SC_Helper_Customer
      * @param  integer $add_point 加算ポイント
      * @return array   最終ポイントの配列
      */
-    public function sfGetCustomerPoint($order_id, $use_point, $add_point)
+    public static function sfGetCustomerPoint($order_id, $use_point, $add_point)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
