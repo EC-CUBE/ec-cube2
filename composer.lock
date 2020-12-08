@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4700f7b6b59d6185c3ec5e25d1d2cac4",
+    "content-hash": "9b7779ca9641a986ac4800baffdbf4a6",
     "packages": [
         {
             "name": "bondas83/mdb2_driver_mysqli",
@@ -171,6 +171,45 @@
                 "source": "https://github.com/nanasess/MDB2_Driver_pgsql"
             },
             "time": "2019-11-20T02:21:00+00:00"
+        },
+        {
+            "name": "nanasess/php8-compat",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nanasess/php8-compat.git",
+                "reference": "e4d2bfc5b38d5240088eda85b761dceba498db6e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nanasess/php8-compat/zipball/e4d2bfc5b38d5240088eda85b761dceba498db6e",
+                "reference": "e4d2bfc5b38d5240088eda85b761dceba498db6e",
+                "shasum": ""
+            },
+            "require-dev": {
+                "php5friends/phpunit48": ">=4.8.42"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/each.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kentaro Ohkouchi",
+                    "email": "nanasess@fsm.ne.jp"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/nanasess/php8-compat/issues",
+                "source": "https://github.com/nanasess/php8-compat/tree/1.0.0"
+            },
+            "time": "2020-12-08T04:46:03+00:00"
         },
         {
             "name": "pear/archive_tar",
