@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8bbc0940731a08ae8baef854bbec43aa",
+    "content-hash": "4700f7b6b59d6185c3ec5e25d1d2cac4",
     "packages": [
         {
             "name": "bondas83/mdb2_driver_mysqli",
@@ -693,16 +693,16 @@
         },
         {
             "name": "setasign/fpdf",
-            "version": "1.7",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Setasign/FPDF.git",
-                "reference": "08de62a76d5860e0fd679a3fb4f8e2b7e6019ea1"
+                "reference": "d77904018090c17dc9f3ab6e944679a7a47e710a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/FPDF/zipball/08de62a76d5860e0fd679a3fb4f8e2b7e6019ea1",
-                "reference": "08de62a76d5860e0fd679a3fb4f8e2b7e6019ea1",
+                "url": "https://api.github.com/repos/Setasign/FPDF/zipball/d77904018090c17dc9f3ab6e944679a7a47e710a",
+                "reference": "d77904018090c17dc9f3ab6e944679a7a47e710a",
                 "shasum": ""
             },
             "type": "library",
@@ -713,7 +713,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "no usage restriction"
+                "MIT"
             ],
             "authors": [
                 {
@@ -729,9 +729,9 @@
                 "pdf"
             ],
             "support": {
-                "source": "https://github.com/Setasign/FPDF/tree/1.7"
+                "source": "https://github.com/Setasign/FPDF/tree/1.8.2"
             },
-            "time": "2015-05-11T08:23:28+00:00"
+            "time": "2019-12-08T10:32:10+00:00"
         },
         {
             "name": "setasign/fpdi",
@@ -785,55 +785,6 @@
                 "source": "https://github.com/Setasign/FPDI/tree/master"
             },
             "time": "2017-05-11T14:25:49+00:00"
-        },
-        {
-            "name": "setasign/fpdi-fpdf",
-            "version": "1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Setasign/FPDI-FPDF.git",
-                "reference": "cefe1ae6e87b38e659ebb5089da493cb23deeb0b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/FPDI-FPDF/zipball/cefe1ae6e87b38e659ebb5089da493cb23deeb0b",
-                "reference": "cefe1ae6e87b38e659ebb5089da493cb23deeb0b",
-                "shasum": ""
-            },
-            "require": {
-                "setasign/fpdf": "1.7.*",
-                "setasign/fpdi": "1.6.*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "fpdi_bridge.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jan Slabon",
-                    "email": "jan.slabon@setasign.com",
-                    "homepage": "https://www.setasign.com"
-                }
-            ],
-            "description": "Kind of metadata package for dependencies of the latest versions of FPDI and FPDF.",
-            "homepage": "https://www.setasign.com/fpdi",
-            "keywords": [
-                "fpdf",
-                "fpdi",
-                "pdf"
-            ],
-            "support": {
-                "issues": "https://github.com/Setasign/FPDI-FPDF/issues",
-                "source": "https://github.com/Setasign/FPDI-FPDF/tree/master"
-            },
-            "abandoned": true,
-            "time": "2015-10-12T15:37:35+00:00"
         },
         {
             "name": "silverorange/mdb2",
