@@ -413,7 +413,7 @@ class SC_Helper_Mail
      * @return　array メールテンプレート情報を格納した配列
      * @todo   表示順も引数で変更できるように
      */
-    public function sfGetMailmagaTemplate($template_id = null)
+    public static function sfGetMailmagaTemplate($template_id = null)
     {
         // 初期化
         $where = '';
