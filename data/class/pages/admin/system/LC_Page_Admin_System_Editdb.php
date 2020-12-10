@@ -198,7 +198,7 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
             }
             // インデックスが設定されているかを取得
             $idx_name = $table . '_' . $arrIndex['column_name'] . '_key';
-            if (array_search($idx_name, $arrIndexes) === false) {
+            if (is_array($arrIndexes) && array_search($idx_name, $arrIndexes) === false) {
                 $arrIndexList[$key]['indexflag'] = '';
             } else {
                 $arrIndexList[$key]['indexflag'] = '1';
