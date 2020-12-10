@@ -319,7 +319,7 @@ class SC_Helper_FileManager
      * @param  string  $value    書き込み内容
      * @return boolean ファイルの書き込みに成功した場合 true
      */
-    public function sfWriteFile($filename, $value)
+    public static function sfWriteFile($filename, $value)
     {
         if (!is_dir(dirname($filename))) {
             SC_Utils_Ex::recursiveMkdir(dirname($filename), 0777);
@@ -342,7 +342,7 @@ class SC_Helper_FileManager
      * @param  string  $template_code テンプレートコード
      * @return boolean 成功した場合 true; 失敗した場合 false
      */
-    public function downloadArchiveFiles($dir, $template_code)
+    public static function downloadArchiveFiles($dir, $template_code)
     {
         // ダウンロードされるファイル名
         $dlFileName = 'tpl_package_' . $template_code . '_' . date('YmdHis') . '.tar.gz';
@@ -382,7 +382,7 @@ class SC_Helper_FileManager
      * @param  string  $path アーカイブパス
      * @return boolean Archive_Tar::extractModify()のエラー
      */
-    public function unpackFile($path)
+    public static function unpackFile($path)
     {
         // 圧縮フラグTRUEはgzip解凍をおこなう
         $tar = new Archive_Tar($path, true);

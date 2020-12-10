@@ -215,7 +215,7 @@ class SC_Helper_Mail
      * @param integer $order_id 受注ID
      * @return array 配送情報を格納した配列
      */
-    function sfGetShippingData($order_id)
+    public function sfGetShippingData($order_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -322,7 +322,10 @@ class SC_Helper_Mail
         $objQuery->insert('dtb_mail_history', $sqlval);
     }
 
-    /* 会員登録があるかどうかのチェック(仮会員を含まない) */
+    /**
+     * 会員登録があるかどうかのチェック(仮会員を含まない)
+     * @deprecated 本体では使用されていないため非推奨
+     */
     public function sfCheckCustomerMailMaga($email)
     {
         $col = 'email, mailmaga_flg, customer_id';
@@ -471,7 +474,7 @@ class SC_Helper_Mail
      * @param integer $send_id dtb_send_history の情報
      * @return　void
      */
-    public function sfSendMailmagazine($send_id)
+    public static function sfSendMailmagazine($send_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objDb = new SC_Helper_DB_Ex();
