@@ -56,7 +56,7 @@ class Calendar_Second extends Calendar
      */
     public function __construct($y, $m, $d, $h, $i, $s)
     {
-        Calendar::__construct($y, $m, $d, $h, $i, $s);
+        parent::__construct($y, $m, $d, $h, $i, $s);
     }
 
     /**

@@ -1324,7 +1324,7 @@ __EOS__;
         SC_SiteSession_Ex::unsetUniqId();
 
         // セッションの配送情報を破棄する.
-        SC_Helper_Purchase_Ex::unsetAllShippingTemp(true);
+        static::unsetAllShippingTemp(true);
         $objCustomer->updateSession();
     }
 

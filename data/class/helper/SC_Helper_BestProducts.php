@@ -157,10 +157,10 @@ class SC_Helper_BestProducts
      */
     public static function deleteByProductIDs($productIDs)
     {
-        $arrList = SC_Helper_BestProducts_Ex::getList();
+        $arrList = static::getList();
         foreach ($arrList as $recommend) {
             if (in_array($recommend['product_id'], $productIDs)) {
-                SC_Helper_BestProducts_Ex::deleteBestProducts($recommend['best_id']);
+                static::deleteBestProducts($recommend['best_id']);
             }
         }
     }
@@ -173,23 +173,23 @@ class SC_Helper_BestProducts
      */
     public static function rankUp($best_id)
     {
-        $arrBestProducts = SC_Helper_BestProducts_Ex::getBestProducts($best_id);
+        $arrBestProducts = static::getBestProducts($best_id);
         $rank = $arrBestProducts['rank'];
 
         if ($rank > 1) {
             // 表示順が一つ上のIDを取得する
-            $arrAboveBestProducts = SC_Helper_BestProducts_Ex::getByRank($rank - 1);
+            $arrAboveBestProducts = static::getByRank($rank - 1);
             $above_best_id = $arrAboveBestProducts['best_id'];
 
             if ($above_best_id) {
                 // 一つ上のものを一つ下に下げる
-                SC_Helper_BestProducts_Ex::changeRank($above_best_id, $rank);
+                static::changeRank($above_best_id, $rank);
             } else {
                 // 無ければ何もしない。(歯抜けの場合)
             }
 
             // 一つ上に上げる
-            SC_Helper_BestProducts_Ex::changeRank($best_id, $rank - 1);
+            static::changeRank($best_id, $rank - 1);
         }
     }
 
@@ -201,23 +201,23 @@ class SC_Helper_BestProducts
      */
     public static function rankDown($best_id)
     {
-        $arrBestProducts = SC_Helper_BestProducts_Ex::getBestProducts($best_id);
+        $arrBestProducts = static::getBestProducts($best_id);
         $rank = $arrBestProducts['rank'];
 
         if ($rank < RECOMMEND_NUM) {
             // 表示順が一つ下のIDを取得する
-            $arrBelowBestProducts = SC_Helper_BestProducts_Ex::getByRank($rank + 1);
+            $arrBelowBestProducts = static::getByRank($rank + 1);
             $below_best_id = $arrBelowBestProducts['best_id'];
 
             if ($below_best_id) {
                 // 一つ下のものを一つ上に上げる
-                SC_Helper_BestProducts_Ex::changeRank($below_best_id, $rank);
+                static::changeRank($below_best_id, $rank);
             } else {
                 // 無ければ何もしない。(歯抜けの場合)
             }
 
             // 一つ下に下げる
-            SC_Helper_BestProducts_Ex::changeRank($best_id, $rank + 1);
+            static::changeRank($best_id, $rank + 1);
         }
     }
 

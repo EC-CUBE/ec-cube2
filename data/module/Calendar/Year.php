@@ -59,7 +59,7 @@ class Calendar_Year extends Calendar
      */
     public function __construct($y)
     {
-        Calendar::__construct($y);
+        parent::__construct($y);
     }
 
     /**

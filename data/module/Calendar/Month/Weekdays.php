@@ -90,7 +90,7 @@ class Calendar_Month_Weekdays extends Calendar_Month
      */
     function __construct($y, $m, $firstDay=null)
     {
-        Calendar_Month::__construct($y, $m, $firstDay);
+        parent::__construct($y, $m, $firstDay);
     }
 
     /**

@@ -63,7 +63,7 @@ class Calendar_Minute extends Calendar
      */
     public function __construct($y, $m, $d, $h, $i)
     {
-        Calendar::__construct($y, $m, $d, $h, $i);
+        parent::__construct($y, $m, $d, $h, $i);
     }
 
     /**

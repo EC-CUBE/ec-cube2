@@ -82,7 +82,7 @@ class Calendar_Day extends Calendar
      */
     function __construct($y, $m, $d)
     {
-        Calendar::__construct($y, $m, $d);
+        parent::__construct($y, $m, $d);
     }
 
     /**

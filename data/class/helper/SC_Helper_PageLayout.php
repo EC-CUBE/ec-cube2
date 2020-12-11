@@ -58,7 +58,7 @@ class SC_Helper_PageLayout
             trigger_error('ページ情報を取得できませんでした。', E_USER_WARNING);
         }
 
-        $objPage->tpl_mainpage = self::getTemplatePath($device_type_id) . $arrPageData[0]['filename'] . '.tpl';
+        $objPage->tpl_mainpage = static::getTemplatePath($device_type_id) . $arrPageData[0]['filename'] . '.tpl';
 
         if (!file_exists($objPage->tpl_mainpage)) {
             $msg = 'メイン部のテンプレートが存在しません。[' . $objPage->tpl_mainpage . ']';
@@ -250,7 +250,7 @@ __EOF__;
         }
 
         // tplファイルの削除
-        $del_tpl = self::getTemplatePath($device_type_id) . $filename . '.tpl';
+        $del_tpl = static::getTemplatePath($device_type_id) . $filename . '.tpl';
         if (file_exists($del_tpl)) {
             unlink($del_tpl);
         }

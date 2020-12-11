@@ -81,7 +81,7 @@ class Calendar_Month_Weeks extends Calendar_Month
      */
     public function __construct($y, $m, $firstDay=null)
     {
-        Calendar_Month::_construct($y, $m, $firstDay);
+        parent::_construct($y, $m, $firstDay);
     }
 
     /**
