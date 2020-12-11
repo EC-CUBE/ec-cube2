@@ -94,7 +94,7 @@
                                 <!--{$rank}-->
                                 <!--{if $arrProductsList[cnt].status == "2"}--><br />(非公開)<!--{/if}-->
                             </td>
-s                            <td align="center">
+                            <td align="center">
                             <!--{* 移動 *}-->
                             <!--{if !(count($arrProductsList) == 1 && $rank == 1)}-->
                             <input type="text" name="pos-<!--{$arrProductsList[cnt].product_id}-->" size="3" class="box3" />番目へ<a href="?" onclick="eccube.setModeAndSubmit('move','product_id', '<!--{$arrProductsList[cnt].product_id}-->'); return false;">移動</a><br />
