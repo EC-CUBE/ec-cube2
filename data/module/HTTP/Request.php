@@ -801,7 +801,7 @@ class HTTP_Request
                 $this->_url = new Net_URL($redirect);
                 $this->addHeader('Host', $this->_generateHostHeader());
             // Absolute path
-            } elseif (strpos($$redirect, '/') === 0) {
+            } elseif (strpos($redirect, '/') === 0) {
                 $this->_url->path = $redirect;
 
             // Relative path
