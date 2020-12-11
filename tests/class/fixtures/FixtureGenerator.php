@@ -380,7 +380,7 @@ class FixtureGenerator
      */
     public function createCategories($max_depth = 5, $max_generations = 30)
     {
-        $depth = $this->faker->numberBetween(1, $max_depth);
+        $depth = $this->faker->numberBetween(2, $max_depth);
         $generations = $this->faker->numberBetween($depth, $max_generations);
         $hierarchy = array_pad([], $depth, '');
         $faker = $this->faker;
