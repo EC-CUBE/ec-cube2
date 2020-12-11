@@ -123,7 +123,7 @@ class SC_Initial
     public function phpconfigInit()
     {
         ini_set('html_errors', '1');
-        if (PHP_VERSION_ID <= 56000) {
+        if (PHP_VERSION_ID < 56000) {
             ini_set('mbstring.http_input', CHAR_CODE);
             ini_set('mbstring.http_output', CHAR_CODE);
         }
