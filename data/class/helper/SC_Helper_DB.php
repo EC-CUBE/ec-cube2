@@ -181,7 +181,7 @@ class SC_Helper_DB
         // キャッシュファイルパス
         $filepath = MASTER_DATA_REALDIR . $name . '.serial';
         // データ取得
-        $arrData = self::sfGetBasisData(true);
+        $arrData = static::sfGetBasisData(true);
         // シリアライズ
         $data = serialize($arrData);
         // ファイルを書き出しモードで開く
@@ -844,7 +844,7 @@ __EOS__;
         $from = $objProduct->alldtlSQL($where_products_class);
         foreach ($arrTgtCategory_id as $category_id) {
             $arrWhereVal = array();
-            list($tmp_where, $arrTmpVal) = SC_Helper_DB_Ex::sfGetCatWhere($category_id);
+            list($tmp_where, $arrTmpVal) = static::sfGetCatWhere($category_id);
             if ($tmp_where != '') {
                 $sql_where_product_ids = 'product_id IN (SELECT product_id FROM dtb_product_categories WHERE ' . $tmp_where . ')';
                 $arrWhereVal = $arrTmpVal;
@@ -890,7 +890,7 @@ __EOS__;
      */
     public static function sfGetChildsID($table, $pid_name, $id_name, $id)
     {
-        $arrRet = SC_Helper_DB_Ex::sfGetChildrenArray($table, $pid_name, $id_name, $id);
+        $arrRet = static::sfGetChildrenArray($table, $pid_name, $id_name, $id);
 
         return $arrRet;
     }

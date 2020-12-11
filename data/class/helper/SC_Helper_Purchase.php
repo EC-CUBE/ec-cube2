@@ -1089,7 +1089,7 @@ __EOS__;
             $objMail->setPage($objPage);
         }
 
-        $arrOrder = SC_Helper_Purchase::getOrder($order_id);
+        $arrOrder = SC_Helper_Purchase_Ex::getOrder($order_id);
         if (empty($arrOrder)) {
             return false; // 失敗
         }
