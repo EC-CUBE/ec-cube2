@@ -398,7 +398,7 @@ class HTTP_Request
     */
     function reset($url, $params = array())
     {
-        $this->HTTP_Request($url, $params);
+        self::__construct($url, $params);
     }
 
     /**
@@ -1204,7 +1204,7 @@ class HTTP_Response
     * @param  Net_Socket    socket to read the response from
     * @param  array         listeners attached to request
     */
-    function HTTP_Response(&$sock, &$listeners)
+    function __construct(&$sock, &$listeners)
     {
         $this->_sock      =& $sock;
         $this->_listeners =& $listeners;
