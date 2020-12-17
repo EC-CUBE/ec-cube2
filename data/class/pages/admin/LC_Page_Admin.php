@@ -46,9 +46,9 @@ class LC_Page_Admin extends LC_Page_Ex
         $this->sendAdditionalHeader();
         $this->template = MAIN_FRAME;
 
-        // ADMIN_DIR チェック
         if (stripos($_SERVER['REQUEST_URI'], rtrim(ROOT_URLPATH.ADMIN_DIR, '/')) === false) {
-            SC_Utils_Ex::sfDispError(AUTH_ERROR);
+            // ADMIN_DIR 以外からのリクエストは認証を要求する
+            SC_Utils_Ex::sfIsSuccess(new SC_Session_Ex());
         }
 
         //IP制限チェック
