@@ -1490,7 +1490,7 @@ class SC_Utils
      */
     public static function sfGetRandomString($length = 1)
     {
-        return Text_Password::create($length);
+        return substr(bin2hex(openssl_random_pseudo_bytes($length)), 0, $length);
     }
 
     /**

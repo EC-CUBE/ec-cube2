@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b7779ca9641a986ac4800baffdbf4a6",
+    "content-hash": "8f1f9f3d22adcf3ade55490419746cbc",
     "packages": [
         {
             "name": "bondas83/mdb2_driver_mysqli",
@@ -500,59 +500,6 @@
                 "source": "https://github.com/pear/PEAR_Exception"
             },
             "time": "2019-12-10T10:24:42+00:00"
-        },
-        {
-            "name": "pear/text_password",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Text_Password.git",
-                "reference": "9d112ec647e7e2efb78bd10dd9aaed21c899d739"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Text_Password/zipball/9d112ec647e7e2efb78bd10dd9aaed21c899d739",
-                "reference": "9d112ec647e7e2efb78bd10dd9aaed21c899d739",
-                "shasum": ""
-            },
-            "require": {
-                "pear/pear_exception": "*",
-                "php": ">=5.2.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Text": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Martin Jansen",
-                    "email": "mj@php.net",
-                    "role": "Lead"
-                },
-                {
-                    "name": "Olivier Vanhoucke",
-                    "email": "olivier@php.net",
-                    "role": "Lead"
-                }
-            ],
-            "description": "More info available on: http://pear.php.net/package/Text_Password",
-            "support": {
-                "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Text_Password",
-                "source": "https://github.com/pear/Text_Password"
-            },
-            "time": "2016-02-26T19:57:20+00:00"
         },
         {
             "name": "pear/xml_parser",

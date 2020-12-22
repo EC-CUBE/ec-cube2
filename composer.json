@@ -40,7 +40,6 @@
         "pear/archive_tar": "^1.4.3",
         "pear/mail": "*",
         "pear/pear-core-minimal": "^1.10",
-        "pear/text_password": "*",
         "pear/xml_parser": "*",
         "pear/xml_serializer": "*",
         "pear/xml_util": "*",
