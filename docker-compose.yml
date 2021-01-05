@@ -5,10 +5,6 @@ networks:
     driver: bridge
 
 volumes:
-  pg-database:
-    driver: local
-  mysql-database:
-    driver: local
   mailcatcher-data:
     driver: local
 
@@ -21,14 +17,11 @@ services:
     build:
       context: .
     volumes:
-      - ".:/var/www/app:delegated"
       ### 同期対象からコストの重いフォルダを除外 #####################
       - "vendor:/var/www/app/data/vendor"
     ports:
       - 8080:80
       - 4430:443
-    depends_on:
-      - mysql
     environment:
       TZ: Asia/Tokyo
       PHP_POST_MAX_SIZE: 10M
@@ -37,54 +30,20 @@ services:
       PHP_ERROR_REPORTING: "E_ALL"
       PHP_ERROR_LOG: "/proc/self/fd/2"
       # EC-CUBE2 Config
-      HTTP_URL: http://localhost:8080/
-      HTTPS_URL: http://localhost:8080/
+      HTTP_URL: https://localhost:4430/
+      HTTPS_URL: https://localhost:4430/
       ROOT_URLPATH: /
       DOMAIN_NAME: ~
-      DB_TYPE: mysql
-      DB_USER: eccube_db_user
-      DB_PASSWORD: password
-      DB_SERVER: mysql
-      DB_NAME: eccube_db
-      DB_PORT: ~
       ADMIN_DIR: admin/
       ADMIN_FORCE_SSL: 'false'
       ADMIN_ALLOW_HOSTS: 'a:0:{}'
       AUTH_MAGIC: ~
       PASSWORD_HASH_ALGOS: sha256
       MAIL_BACKEND: smtp
-      SMTP_HOST: ~
-      SMTP_PORT: ~
+      SMTP_HOST: 127.0.0.1
+      SMTP_PORT: 1025
       SMTP_USER: ~
       SMTP_PASSWORD: ~
-    networks:
-      - backend
-
-  ### MySQL ##################################
-  mysql:
-    image: mysql:5.7
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
-    ports:
-      - '13306:3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: eccube_db
-      MYSQL_USER: eccube_db_user
-      MYSQL_PASSWORD: password
-    networks:
-      - backend
-
-  ### Postgres ################################
-  postgres:
-    image: postgres
-    environment:
-      - POSTGRES_DB=eccube_db
-      - POSTGRES_USER=eccube_db_user
-      - POSTGRES_PASSWORD=password
-    ports:
-      - 15432:5432
-    volumes:
-      - pg-database:/var/lib/postgresql/data
     networks:
       - backend
 
