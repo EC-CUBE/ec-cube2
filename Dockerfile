@@ -28,7 +28,7 @@ RUN chmod +x /wait-for-*.sh
 COPY composer.json ${ECCUBE_PREFIX}/composer.json
 COPY composer.lock ${ECCUBE_PREFIX}/composer.lock
 
-RUN composer selfupdate
+RUN composer selfupdate --2
 RUN composer install --no-scripts --no-autoloader --no-dev -d ${ECCUBE_PREFIX}
 
 COPY . ${ECCUBE_PREFIX}
