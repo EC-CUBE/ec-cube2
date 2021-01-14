@@ -40,7 +40,7 @@ services:
       AUTH_MAGIC: ~
       PASSWORD_HASH_ALGOS: sha256
       MAIL_BACKEND: smtp
-      SMTP_HOST: 127.0.0.1
+      SMTP_HOST: mailcatcher
       SMTP_PORT: 1025
       SMTP_USER: ~
       SMTP_PASSWORD: ~
