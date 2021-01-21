@@ -296,7 +296,8 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
     public function saveMultipleShippings($uniqid, &$objFormParam, &$objCustomer, &$objPurchase, &$objAddress)
     {
         $arrParams = $objFormParam->getSwapArray();
-
+        $arrValues = array();
+        $arrItemTemp = array();
         foreach ($arrParams as $arrParam) {
             $other_deliv_id = $arrParam['shipping'];
 

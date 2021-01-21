@@ -46,6 +46,12 @@ class LC_Page_AbstractMypage extends LC_Page_Ex
         $this->tpl_mainno       = 'mypage';
     }
 
+    /** @return void */
+    public function action()
+    {
+        // nothing
+    }
+
     /**
      * Page のプロセス.
      *

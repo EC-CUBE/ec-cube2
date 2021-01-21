@@ -77,6 +77,9 @@ class LC_Page_FrontParts_Bloc_Cart extends LC_Page_FrontParts_Bloc_Ex
      */
     public function lfGetCartData(&$objCart)
     {
+        $products_total = 0;
+        $total_quantity = 0;
+        $is_deliv_free = false;
         $arrCartKeys = $objCart->getKeys();
         foreach ($arrCartKeys as $cart_key) {
             // 購入金額合計

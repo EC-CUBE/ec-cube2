@@ -136,7 +136,7 @@ class LC_Page_Admin_System_Parameter extends LC_Page_Admin_Ex
      *
      * @access private
      * @param  array $arrForm $_POST 値
-     * @return void
+     * @return array
      */
     public function errorCheck(&$arrKeys, &$arrForm)
     {

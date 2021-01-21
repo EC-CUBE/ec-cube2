@@ -95,7 +95,7 @@ class LC_Page_Products_CategoryList extends LC_Page_Ex
      *
      * @param  string  $category_id カテゴリID
      * @param  boolean $count_check 有効な商品がないカテゴリを除くかどうか
-     * @return void
+     * @return array
      */
     public function lfGetCategories($category_id, $count_check = false)
     {

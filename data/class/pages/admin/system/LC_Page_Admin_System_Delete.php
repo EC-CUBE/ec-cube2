@@ -65,9 +65,10 @@ class LC_Page_Admin_System_Delete extends LC_Page_Admin_Ex
         // パラメーターの初期化
         $this->initParam($objFormParam, $_GET);
 
+        $id = 0;
         // パラメーターの検証
         if ($objFormParam->checkError()
-            || !SC_Utils_ex::sfIsInt($id = $objFormParam->getValue('id'))) {
+            || !SC_Utils_Ex::sfIsInt($id = $objFormParam->getValue('id'))) {
             GC_Utils_Ex::gfPrintLog("error id=$id");
             SC_Utils_Ex::sfDispError(INVALID_MOVE_ERRORR);
         }

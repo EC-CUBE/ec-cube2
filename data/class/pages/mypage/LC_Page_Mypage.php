@@ -113,7 +113,7 @@ class LC_Page_Mypage extends LC_Page_AbstractMypage_Ex
      * @param mixed $customer_id
      * @param integer $startno     0以上の場合は受注履歴を返却する -1の場合は件数を返す
      * @access private
-     * @return void
+     * @return array|null
      */
     public function lfGetOrderHistory($customer_id, $startno = -1)
     {

@@ -274,7 +274,7 @@ __EOS__;
 
         //出力用バッファをクリアする
         @ob_end_clean();
-
+        $range = 0;
         //HTTP_RANGEがセットされていた場合
         if (isset($_SERVER['HTTP_RANGE'])) {
             // 二回目以降のリクエスト

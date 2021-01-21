@@ -69,7 +69,7 @@ class SC_Utils
         $urlpath = substr($_SERVER['SCRIPT_FILENAME'], strlen(HTML_REALDIR));
         // / を 0、/foo/ を 1 としたディレクトリー階層数
         $dir_level = substr_count($urlpath, '/');
-        $installer_url .= str_repeat('../', $dir_level) . $installer;
+        $installer_url = str_repeat('../', $dir_level) . $installer;
 
         return $installer_url;
     }
@@ -628,6 +628,8 @@ class SC_Utils
         if ($end_month || $end_day || $end_year) {
             if (! checkdate($end_month, $end_day, $end_year)) $error = 2;
         }
+        $date1 = null;
+        $date2 = null;
         if (! $error) {
             $date1 = $start_year .'/'.sprintf('%02d', $start_month) .'/'.sprintf('%02d', $start_day) .' 000000';
             $date2 = $end_year   .'/'.sprintf('%02d', $end_month)   .'/'.sprintf('%02d', $end_day)   .' 235959';
@@ -740,7 +742,7 @@ class SC_Utils
     public static function sfRound($value, $pow = 0)
     {
         $adjust = pow(10, $pow-1);
-
+        $ret = 0;
         // 整数且つ0でなければ桁数指定を行う
         if (SC_Utils_Ex::sfIsInt($adjust) and $pow > 1) {
             $ret = (round($value * $adjust)/$adjust);
@@ -822,7 +824,7 @@ class SC_Utils
             if ($time) {
                 $str = sprintf('%04d/%02d/%02d %02d:%02d', $y, $m, $d, $H, $M);
             } else {
-                $str = sprintf('%04d/%02d/%02d', $y, $m, $d, $H, $M);
+                $str = sprintf('%04d/%02d/%02d', $y, $m, $d);
             }
         } else {
             $str = '';
@@ -1185,7 +1187,7 @@ class SC_Utils
         static $count = 0;
         $count++;  // 無限ループ回避
         $dir = dirname($path);
-        if (preg_match("|^[/]$|", $dir) || preg_match("|^[A-Z]:[\\]$|", $dir) || $count > 256) {
+        if (preg_match("|^[/]$|", $dir) || preg_match("|^[A-Z]:\\$|", $dir) || $count > 256) {
             // ルートディレクトリで終了
             return;
         } else {
@@ -1304,6 +1306,7 @@ class SC_Utils
      */
     public static function sfGetFileVersion($path)
     {
+        $version = '';
         if (file_exists($path)) {
             $src_fp = fopen($path, 'rb');
             if ($src_fp) {
