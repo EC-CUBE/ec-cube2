@@ -49,7 +49,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
      *
      * @return void
      */
-    public function process($mode)
+    public function process()
     {
         $mode = $this->getMode();
         $objLog  = new LC_Upgrade_Helper_Log;

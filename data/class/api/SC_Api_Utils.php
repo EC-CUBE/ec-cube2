@@ -51,7 +51,7 @@ class SC_Api_Utils
      *
      * @return string 秘密鍵文字列
      */
-    public function getOperationSubConfig($operation_name, $key_name = '', $arrApiConfig = '')
+    public static function getOperationSubConfig($operation_name, $key_name = '', $arrApiConfig = '')
     {
         if (SC_Utils_Ex::isBlank($arrApiConfig)) {
             $arrApiConfig = SC_Api_Utils_Ex::getAuthConfig($operation_name);
@@ -79,7 +79,7 @@ class SC_Api_Utils
      * @param  string $operation_name
      * @return array  設定配列
      */
-    public function getApiConfig($operation_name)
+    public static function getApiConfig($operation_name)
     {
         // 設定優先度 DB > plugin default > base
         $objQuery = SC_Query_Ex::getSingletonInstance();
@@ -114,7 +114,7 @@ class SC_Api_Utils
      * @param text $operation_name
      @ @rturn void
      */
-    public function printApiLog($msg, $start_time = '' , $operation_name = '')
+    public static function printApiLog($msg, $start_time = '' , $operation_name = '')
     {
         if (!SC_Utils_Ex::isBlank($operation_name)) {
             $msg = 'API_' . $operation_name . ':' . $msg;
@@ -132,7 +132,7 @@ class SC_Api_Utils
      * @param  array  $arrParam       リクエストパラメーター
      * @return object APIオペレーションクラスオブジェクト
      */
-    public function loadApiOperation($operation_name, $arrParam = array())
+    public static function loadApiOperation($operation_name, $arrParam = array())
     {
         // API_UPLOADのほうが優先
         // API_UPLOAD > API_CLASS_EX > API_CLASS
@@ -192,7 +192,7 @@ class SC_Api_Utils
     /**
      * @param string $response_outer_name
      */
-    public function sendResponseJson($response_outer_name, &$arrResponse)
+    public static function sendResponseJson($response_outer_name, &$arrResponse)
     {
         if (isset($arrResponse["callback"])) {
             $callback = $arrResponse["callback"];
@@ -210,7 +210,7 @@ class SC_Api_Utils
     /**
      * @param string $response_outer_name
      */
-    public function sendResponsePhp($response_outer_name, &$arrResponse)
+    public static function sendResponsePhp($response_outer_name, &$arrResponse)
     {
         header('Content-Type: application/php; charset=UTF-8');
         $arrResponse['response_name'] = $response_outer_name;
@@ -220,7 +220,7 @@ class SC_Api_Utils
     /**
      * @param string $response_outer_name
      */
-    public function sendResponseXml($response_outer_name, &$arrResponse)
+    public static function sendResponseXml($response_outer_name, &$arrResponse)
     {
         require_once 'XML/Serializer.php';
 

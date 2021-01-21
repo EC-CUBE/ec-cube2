@@ -475,7 +475,7 @@ class SC_Initial
      * @param  string  $value 定数の値。
      * @return void
      */
-    public function defineIfNotDefined($name, $value = null)
+    public static function defineIfNotDefined($name, $value = null)
     {
         if (!defined($name)) {
             define($name, $value);

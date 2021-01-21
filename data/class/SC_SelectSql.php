@@ -69,7 +69,7 @@ class SC_SelectSql
     /**
      * @deprecated 本体で使用していないため非推奨
      */
-    public function addSearchStr($val)
+    public static function addSearchStr($val)
     {
         $return = '%' .$val. '%';
 

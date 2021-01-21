@@ -378,7 +378,7 @@ class Net_URL
     * @param  string $path URL path to resolve
     * @return string      The result
     */
-    function resolvePath($path)
+    static function resolvePath($path)
     {
         $path = explode('/', str_replace('//', '/', $path));
 

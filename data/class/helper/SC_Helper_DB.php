@@ -57,7 +57,7 @@ class SC_Helper_DB
      *               テーブルが存在しない場合 false,
      *               引数 $add == false でカラムが存在しない場合 false
      */
-    public function sfColumnExists($tableName, $colName, $colType = '', $dsn = '', $add = false)
+    public static function sfColumnExists($tableName, $colName, $colType = '', $dsn = '', $add = false)
     {
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
         $dsn = $dbFactory->getDSN($dsn);
@@ -79,7 +79,7 @@ class SC_Helper_DB
 
         // カラムを追加する
         if ($add) {
-            return $this->sfColumnAdd($tableName, $colName, $colType);
+            return static::sfColumnAdd($tableName, $colName, $colType);
         }
 
         return false;
@@ -89,7 +89,7 @@ class SC_Helper_DB
      * @param string $colType
      * @param string $tableName
      */
-    public function sfColumnAdd($tableName, $colName, $colType)
+    public static function sfColumnAdd($tableName, $colName, $colType)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 

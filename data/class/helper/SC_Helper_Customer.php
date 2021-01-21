@@ -210,7 +210,7 @@ class SC_Helper_Customer
      * @param  string  $email       チェック対象のメールアドレス
      * @return boolean メールアドレスが重複する場合 true
      */
-    public function sfCustomerEmailDuplicationCheck($customer_id, $email)
+    public static function sfCustomerEmailDuplicationCheck($customer_id, $email)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 

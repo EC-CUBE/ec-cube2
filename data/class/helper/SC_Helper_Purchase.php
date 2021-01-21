@@ -119,7 +119,7 @@ class SC_Helper_Purchase
      * @param  boolean $is_delete   受注データを論理削除する場合 true
      * @return void
      */
-    public function cancelOrder($order_id, $orderStatus = ORDER_CANCEL, $is_delete = false)
+    public static function cancelOrder($order_id, $orderStatus = ORDER_CANCEL, $is_delete = false)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $in_transaction = $objQuery->inTransaction();
@@ -133,9 +133,9 @@ class SC_Helper_Purchase
             $arrParams['del_flg'] = 1;
         }
 
-        $this->registerOrder($order_id, $arrParams);
+        static::registerOrder($order_id, $arrParams);
 
-        $arrOrderDetail = $this->getOrderDetail($order_id);
+        $arrOrderDetail = static::getOrderDetail($order_id);
         foreach ($arrOrderDetail as $arrDetail) {
             $objQuery->update('dtb_products_class', array(),
                               'product_class_id = ?', array($arrDetail['product_class_id']),
@@ -162,7 +162,7 @@ class SC_Helper_Purchase
      * @param  boolean $is_delete   受注データを論理削除する場合 true
      * @return string  受注一時ID
      */
-    public function rollbackOrder($order_id, $orderStatus = ORDER_CANCEL, $is_delete = false)
+    public static function rollbackOrder($order_id, $orderStatus = ORDER_CANCEL, $is_delete = false)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $in_transaction = $objQuery->inTransaction();
@@ -170,8 +170,8 @@ class SC_Helper_Purchase
             $objQuery->begin();
         }
 
-        $this->cancelOrder($order_id, $orderStatus, $is_delete);
-        $arrOrderTemp = $this->getOrderTempByOrderId($order_id);
+        static::cancelOrder($order_id, $orderStatus, $is_delete);
+        $arrOrderTemp = static::getOrderTempByOrderId($order_id);
         $objSiteSession = new SC_SiteSession_Ex();
         $uniqid = $objSiteSession->getUniqId();
 
@@ -186,8 +186,8 @@ class SC_Helper_Purchase
             $objSiteSession->unsetUniqId();
             $uniqid = $objSiteSession->getUniqId();
             $arrOrderTemp['del_flg'] = 0;
-            $this->saveOrderTemp($uniqid, $arrOrderTemp, $objCustomer);
-            $this->verifyChangeCart($uniqid, $objCartSession);
+            static::saveOrderTemp($uniqid, $arrOrderTemp, $objCustomer);
+            static::verifyChangeCart($uniqid, $objCartSession);
             $objSiteSession->setRegistFlag();
         }
 
@@ -211,7 +211,7 @@ class SC_Helper_Purchase
      * @param  SC_CartSession $objCartSession
      * @return void
      */
-    public function verifyChangeCart($uniqId, &$objCartSession)
+    public static function verifyChangeCart($uniqId, &$objCartSession)
     {
         $cartKey = $objCartSession->getKey();
 
@@ -260,7 +260,7 @@ class SC_Helper_Purchase
      * @param  integer $order_id 受注ID
      * @return array   受注一時情報の配列
      */
-    public function getOrderTempByOrderId($order_id)
+    public static function getOrderTempByOrderId($order_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -277,7 +277,7 @@ class SC_Helper_Purchase
      * @param  SC_Customer $objCustomer SC_Customer インスタンス
      * @return void
      */
-    public function saveOrderTemp($uniqId, $params, &$objCustomer = NULL)
+    public static function saveOrderTemp($uniqId, $params, &$objCustomer = NULL)
     {
         if (SC_Utils_Ex::isBlank($uniqId)) {
             return;
@@ -832,7 +832,7 @@ class SC_Helper_Purchase
      * @param  array   $arrParams 受注情報の連想配列
      * @return integer 受注ID
      */
-    public function registerOrder($order_id, $arrParams)
+    public static function registerOrder($order_id, $arrParams)
     {
         $table = 'dtb_order';
         $where = 'order_id = ?';
@@ -841,11 +841,11 @@ class SC_Helper_Purchase
 
         $exists = $objQuery->exists($table, $where, array($order_id));
         if ($exists) {
-            $this->sfUpdateOrderStatus($order_id, $arrValues['status'],
+            static::sfUpdateOrderStatus($order_id, $arrValues['status'],
                                        $arrValues['add_point'],
                                        $arrValues['use_point'],
                                        $arrValues);
-            $this->sfUpdateOrderNameCol($order_id);
+            static::sfUpdateOrderNameCol($order_id);
 
             $arrValues['update_date'] = 'CURRENT_TIMESTAMP';
             $objQuery->update($table, $arrValues, $where, array($order_id));
@@ -867,11 +867,11 @@ class SC_Helper_Purchase
             $arrValues['update_date'] = 'CURRENT_TIMESTAMP';
             $objQuery->insert($table, $arrValues);
 
-            $this->sfUpdateOrderStatus($order_id, $status,
+            static::sfUpdateOrderStatus($order_id, $status,
                                        $arrValues['add_point'],
                                        $arrValues['use_point'],
                                        $arrValues);
-            $this->sfUpdateOrderNameCol($order_id);
+            static::sfUpdateOrderNameCol($order_id);
         }
 
         return $order_id;
@@ -1218,7 +1218,7 @@ __EOS__;
      * @param boolean $temp_table 更新対象は「受注_Temp」か
      * @static
      */
-    public function sfUpdateOrderNameCol($order_id, $temp_table = false)
+    public static function sfUpdateOrderNameCol($order_id, $temp_table = false)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
