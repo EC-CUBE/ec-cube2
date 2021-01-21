@@ -238,7 +238,7 @@ class Calendar_Decorator
      * @return mixed either an object subclass of Calendar or false
      * @access public
      */
-    function fetch()
+    function fetch($decorator = null)
     {
         return $this->calendar->fetch();
     }
@@ -248,7 +248,7 @@ class Calendar_Decorator
      * @return array
      * @access public
      */
-    function fetchAll()
+    function fetchAll($decorator = null)
     {
         return $this->calendar->fetchAll();
     }

@@ -51,6 +51,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
      */
     public function process($mode)
     {
+        $mode = $this->getMode();
         $objLog  = new LC_Upgrade_Helper_Log;
         $objLog->start($mode);
 

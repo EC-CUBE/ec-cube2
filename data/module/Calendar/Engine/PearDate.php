@@ -26,7 +26,7 @@
 /**
  * Load PEAR::Date class
  */
-require_once 'Date.php';
+//require_once 'Date.php';
 
 /**
  * Performs calendar calculations based on the PEAR::Date class

@@ -402,7 +402,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
      * @param  string|integer $line     処理中の行数
      * @return void
      */
-    public function lfRegistProduct($objQuery, $line = '', &$objFormParam)
+    public function lfRegistProduct($objQuery, $line, &$objFormParam)
     {
         $objProduct = new SC_Product_Ex();
         // 登録データ対象取得

@@ -63,7 +63,7 @@ class Calendar_Second extends Calendar
      * Overwrite build
      * @return NULL
      */
-    function build()
+    function build($sDates = [])
     {
         return null;
     }
@@ -72,7 +72,7 @@ class Calendar_Second extends Calendar
      * Overwrite fetch
      * @return NULL
      */
-    function fetch()
+    function fetch($decorator = null)
     {
         return null;
     }
@@ -81,7 +81,7 @@ class Calendar_Second extends Calendar
      * Overwrite fetchAll
      * @return NULL
      */
-    function fetchAll()
+    function fetchAll($decorator = null)
     {
         return null;
     }
