@@ -81,7 +81,7 @@ class Calendar_Month_Weeks extends Calendar_Month
      */
     public function __construct($y, $m, $firstDay=null)
     {
-        parent::_construct($y, $m, $firstDay);
+        parent::__construct($y, $m, $firstDay);
     }
 
     /**
@@ -98,10 +98,10 @@ class Calendar_Month_Weeks extends Calendar_Month
         require_once CALENDAR_ROOT.'Week.php';
         $numWeeks = $this->tableHelper->getNumWeeks();
         for ($i=1, $d=1; $i<=$numWeeks; $i++,
-            $d+=$this->cE->getDaysInWeek(
-                $this->thisYear(),
-                $this->thisMonth(),
-                $this->thisDay()) ) {
+                 $d+=$this->cE->getDaysInWeek(
+                     $this->thisYear(),
+                     $this->thisMonth(),
+                     $this->thisDay()) ) {
             $this->children[$i] = new Calendar_Week(
                 $this->year, $this->month, $d, $this->tableHelper->getFirstDay());
         }

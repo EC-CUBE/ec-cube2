@@ -52,6 +52,9 @@ require_once CALENDAR_ROOT.'Calendar.php';
  */
 class Calendar_Month extends Calendar
 {
+    /** @var int */
+    public $firstDay;
+
     /**
      * Constructs Calendar_Month
      * @param int $y year e.g. 2003

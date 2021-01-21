@@ -599,6 +599,7 @@ class Net_SMTP
      *               kind of failure, or true on success.
      * @access private
      * @since  1.1.0
+     * @deprecated 本体で使用されていないため非推奨
      */
     function _authDigest_MD5($uid, $pwd, $authz = '')
     {
@@ -649,6 +650,7 @@ class Net_SMTP
      *               kind of failure, or true on success.
      * @access private
      * @since  1.1.0
+     * @deprecated 本体で使用されていないため非推奨
      */
     function _authCRAM_MD5($uid, $pwd)
     {
@@ -1057,7 +1059,7 @@ class Net_SMTP
      */
     function send_from($path)
     {
-        return sendFrom($path);
+        return self::sendFrom($path);
     }
 
     /**
@@ -1096,7 +1098,7 @@ class Net_SMTP
      */
     function soml_from($path)
     {
-        return somlFrom($path);
+        return self::somlFrom($path);
     }
 
     /**
@@ -1135,7 +1137,7 @@ class Net_SMTP
      */
     function saml_from($path)
     {
-        return samlFrom($path);
+        return self::samlFrom($path);
     }
 
     /**

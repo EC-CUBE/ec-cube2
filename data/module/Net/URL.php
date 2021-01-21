@@ -58,11 +58,17 @@ class Net_URL
     */
     var $username;
 
+    /** @var string */
+    var $user;
+
     /**
     * Password
     * @var string
     */
     var $password;
+
+    /** @var string */
+    var $pass;
 
     /**
     * Host
@@ -291,6 +297,7 @@ class Net_URL
     */
     function getQueryString()
     {
+        $querystring = '';
         if (!empty($this->querystring)) {
             foreach ($this->querystring as $name => $value) {
                 // Encode var name
@@ -307,8 +314,6 @@ class Net_URL
                 }
             }
             $querystring = implode(ini_get('arg_separator.output'), $querystring);
-        } else {
-            $querystring = '';
         }
 
         return $querystring;

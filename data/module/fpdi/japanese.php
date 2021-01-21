@@ -44,6 +44,7 @@ function AddSJIShwFont($family='SJIS-hw')
 {
 	// Add SJIS font with half-width Latin
 	$name='KozMinPro-Regular-Acro';
+	$cw = array();
 	for($i=32;$i<=126;$i++)
 		$cw[chr($i)]=500;
 	$CMap='90ms-RKSJ-H';
@@ -111,6 +112,7 @@ function SJISMultiCell($w, $h, $txt, $border=0, $align='L', $fill=false)
 	if($nb>0 && $s[$nb-1]=="\n")
 		$nb--;
 	$b=0;
+	$b2='';
 	if($border)
 	{
 		if($border==1)

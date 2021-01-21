@@ -1441,6 +1441,7 @@ class HTTP_Response
     */
     function _decodeGzip($data)
     {
+        $oldEncoding = null;
         if (HTTP_REQUEST_MBSTRING) {
             $oldEncoding = mb_internal_encoding();
             mb_internal_encoding('iso-8859-1');

@@ -22,6 +22,7 @@
 /**
  * @package Calendar
  * @version $Id$
+ * @deprecated 本体で使用されていないため非推奨
  */
 /**
  * Load PEAR::Date class
