@@ -37,6 +37,8 @@ class LC_Page_Cart extends LC_Page_Ex
 
     /** 動作モード */
     public $mode;
+    /** @var array */
+    public $cartKeys;
 
     /** メッセージ */
     public $tpl_message = '';

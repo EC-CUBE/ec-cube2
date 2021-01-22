@@ -34,6 +34,9 @@ require_once CLASS_REALDIR . 'pages/upgrade/LC_Page_Upgrade_Base.php';
  */
 class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
 {
+    /** @var SC_FormParam */
+    public $objForm;
+
     /**
      * Page を初期化する.
      *

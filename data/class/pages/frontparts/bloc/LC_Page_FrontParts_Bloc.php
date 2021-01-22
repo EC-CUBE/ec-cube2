@@ -32,6 +32,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_FrontParts_Bloc extends LC_Page_Ex
 {
+    /** @var array */
+    public $arrCartList;
+
     /**
      * Page を初期化する.
      *

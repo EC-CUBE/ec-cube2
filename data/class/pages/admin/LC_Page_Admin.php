@@ -36,6 +36,9 @@ class LC_Page_Admin extends LC_Page_Ex
     public $tpl_maintitle;
     public $tpl_subtitle;
 
+    /** @var array */
+    public $arrTAXRULE;
+
     /**
      * Page を初期化する.
      *
