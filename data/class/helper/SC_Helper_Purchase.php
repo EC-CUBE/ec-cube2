@@ -296,7 +296,7 @@ class SC_Helper_Purchase
         $sqlval['session'] = serialize($_SESSION);
         if (!empty($objCustomer)) {
             // 注文者の情報を常に最新に保つ
-            $this->copyFromCustomer($sqlval, $objCustomer);
+            static::copyFromCustomer($sqlval, $objCustomer);
         }
         $exists = SC_Helper_Purchase_Ex::getOrderTemp($uniqId);
 
@@ -483,7 +483,7 @@ class SC_Helper_Purchase
      * @param  array       $keys        コピー対象のキー
      * @return void
      */
-    public function copyFromCustomer(&$dest, &$objCustomer, $prefix = 'order',
+    public static function copyFromCustomer(&$dest, &$objCustomer, $prefix = 'order',
         $keys = array('name01', 'name02', 'kana01', 'kana02', 'company_name',
             'sex', 'zip01', 'zip02', 'country_id', 'zipcode', 'pref', 'addr01', 'addr02',
             'tel01', 'tel02', 'tel03', 'fax01', 'fax02', 'fax03',
@@ -851,7 +851,7 @@ class SC_Helper_Purchase
             $objQuery->update($table, $arrValues, $where, array($order_id));
         } else {
             if (SC_Utils_Ex::isBlank($order_id)) {
-                $order_id = $this->getNextOrderID();
+                $order_id = static::getNextOrderID();
             }
             /*
              * 新規受付の場合は対応状況 null で insert し,
@@ -1353,7 +1353,7 @@ __EOS__;
      *
      * @return integer
      */
-    public function getNextOrderID()
+    public static function getNextOrderID()
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
