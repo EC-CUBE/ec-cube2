@@ -186,10 +186,10 @@ class SC_Initial
         // DIR_INDEX_FILE にアクセスする時の URL のファイル名部を定義する
         if ($useFilenameDirIndex === true) {
             // ファイル名を使用する
-            define('DIR_INDEX_PATH', DIR_INDEX_FILE);
+            SC_Initial_Ex::defineIfNotDefined('DIR_INDEX_PATH', DIR_INDEX_FILE);
         } else {
             // ファイル名を使用しない
-            define('DIR_INDEX_PATH', '');
+            SC_Initial_Ex::defineIfNotDefined('DIR_INDEX_PATH', '');
         }
     }
 
