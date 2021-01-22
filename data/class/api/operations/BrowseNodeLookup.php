@@ -73,7 +73,7 @@ class API_BrowseNodeLookup extends SC_Api_Abstract_Ex
                 $arrData = array(
                     'BrowseNodeId' => $category_id,
                     'Name' => $arrCategory['category_name'],
-                    'PageURL' =>  HTTP_URL . 'products/list.php?category_id=' . $arr['category_id'],
+                    'PageURL' =>  HTTP_URL . 'products/list.php?category_id=' . $arrCategory['category_id'],
                     'has_children' => count($arrChildren) > 0
                 );
             } else {

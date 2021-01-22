@@ -211,6 +211,7 @@ __EOF__;
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         // page_id が空でない場合にはdeleteを実行
+        $ret = null;
         if ($page_id != '') {
             $arrPageData = $this->getPageProperties($device_type_id, $page_id);
             $ret = $objQuery->delete('dtb_pagelayout', 'page_id = ? AND device_type_id = ?', array($page_id, $device_type_id));

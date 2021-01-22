@@ -38,6 +38,9 @@ class SC_Query
     public $groupby = '';
     public $order = '';
     public $force_run = false;
+    /** @var SC_DB_DBFactory */
+    public $dbFactory;
+
     /** シングルトン動作のためのインスタンスプール配列。キーは DSN の識別情報。 */
     public static $arrPoolInstance = array();
 
@@ -285,7 +288,7 @@ class SC_Query
         if (PEAR::isError($affected) && $this->force_run) {
             return;
         }
-
+        $result = null;
         while ($data = $affected->fetchRow($fetchmode)) {
             $result = call_user_func($cbFunc, $data);
             if ($result === false) {
@@ -1141,7 +1144,7 @@ class SC_Query
      *
      * @param string 実行するSQL文
      * @param  array $arrVal プレースホルダに挿入する配列
-     * @return void
+     * @return array
      */
     private function lfStartDbTraceLog(&$objSth, &$arrVal)
     {

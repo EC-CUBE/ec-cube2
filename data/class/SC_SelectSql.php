@@ -169,6 +169,7 @@ class SC_SelectSql
     public function setItemTerm($arr, $ItemStr)
     {
         $return = array();
+        $item = '';
         foreach ($arr as $data) {
             if (count($arr) > 1) {
                 if (!is_null($data)) {
@@ -254,6 +255,7 @@ class SC_SelectSql
     public function setWhereByOR($arrWhere)
     {
         $count = count($arrWhere);
+        $statement = '';
 
         for ($i = 0; $i < $count; $i++) {
             if (isset($arrWhere[$i]['value'])) {

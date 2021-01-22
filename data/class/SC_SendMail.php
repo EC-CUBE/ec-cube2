@@ -32,6 +32,18 @@ class SC_SendMail
     public $replay_to;     // replay_to
     public $return_path;   // return_path
     public $objMail;
+    /** @var array */
+    public $arrRecip;
+    /** @var string */
+    public $backend;
+    /** @var string */
+    public $host;
+    /** @var int */
+    public $port;
+    /** @var string */
+    public $from;
+    /** @var string */
+    public $reply_to;
 
     /**
      * コンストラクタ

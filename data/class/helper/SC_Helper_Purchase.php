@@ -71,7 +71,7 @@ class SC_Helper_Purchase
         $objQuery->begin();
         if (!$objSiteSession->isPrePage()) {
             // エラー時は、正当なページ遷移とは認めない
-            $objSiteSess->setNowPage('');
+            $objSiteSession->setNowPage('');
 
             SC_Utils_Ex::sfDispSiteError(PAGE_ERROR, $objSiteSession);
         }
@@ -630,6 +630,7 @@ class SC_Helper_Purchase
     {
         $masterData = new SC_DB_MasterData_Ex();
         $arrWDAY = $masterData->getMasterData('mtb_wday');
+        $arrDate = array();
         //お届け可能日のスタート値がセットされていれば
         if ($start_day >= 1) {
             $now_time = time();

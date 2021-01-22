@@ -34,7 +34,7 @@ class SC_Helper_FileManager
      * 指定パス配下のディレクトリ取得する.
      *
      * @param  string $dir 取得するディレクトリパス
-     * @return void
+     * @return array
      */
     public static function sfGetFileList($dir)
     {
@@ -410,7 +410,7 @@ class SC_Helper_FileManager
      *
      * @param  string  $path       削除対象のディレクトリまたはファイルのパス
      * @param  boolean $del_myself $pathそのものを削除するか. true なら削除する.
-     * @return void
+     * @return bool
      */
     public static function deleteFile($path, $del_myself = true)
     {

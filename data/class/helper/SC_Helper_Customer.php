@@ -60,6 +60,7 @@ class SC_Helper_Customer
             $salt = SC_Utils_Ex::sfGetRandomString(10);
             $arrData['salt'] = $salt;
         }
+        $is_password_updated = false;
         //-- パスワードの更新がある場合は暗号化
         if ($arrData['password'] == DEFAULT_PASSWORD or $arrData['password'] == '') {
             //更新しない

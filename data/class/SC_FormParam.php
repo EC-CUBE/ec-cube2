@@ -46,6 +46,7 @@ class SC_FormParam
     public $length = array();
     public $convert = array();
     public $arrCheck = array();
+    public $check_dir;
 
     /**
      * 何も入力されていないときに表示する値

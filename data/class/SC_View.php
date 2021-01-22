@@ -29,6 +29,9 @@ class SC_View
     /** @var LC_Page */
     public $objPage;
 
+    /** @var int */
+    public $time_start;
+
     // コンストラクタ
     public function __construct()
     {

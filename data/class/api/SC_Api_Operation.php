@@ -190,6 +190,14 @@ class SC_Api_Operation
     }
 
     /**
+     * @deprecated
+     */
+    protected static function checkHost($operation_name)
+    {
+        return self::checkIp($operation_name);
+    }
+
+    /**
      * ApiAccessKeyに対応した秘密鍵を取得する。
      *
      * @param  string $access_key
@@ -302,7 +310,11 @@ class SC_Api_Operation
         $objFormParam->convParam();
 
         $arrErr = SC_Api_Operation_Ex::checkParam($objFormParam);
-
+        $arrOperationRequestValid = array();
+        $operation_name = '';
+        $response_group_name = '';
+        $objApiOperation = null;
+        $arrResponseBody = array();
         // API機能が有効であるかをチェック.
         if (API_ENABLE_FLAG == false) {
             $arrErr['ECCUBE.Function.Disable'] = 'API機能が無効です。';

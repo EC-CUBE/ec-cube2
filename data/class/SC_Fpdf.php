@@ -31,9 +31,32 @@ define('PDF_TEMPLATE_REALDIR', TEMPLATE_ADMIN_REALDIR . 'pdf/');
 
 class SC_Fpdf extends SC_Helper_FPDI
 {
+    /** @var string */
+    public $tpl_pdf;
+    /** @var int */
+    public $pdf_download;
+    /** @var string */
+    public $tpl_title;
+    /** @var string */
+    public $tpl_dispmode;
+    /** @var array */
+    public $arrPref;
+    /** @var array */
+    public $width_cell;
+    /** @var array */
+    public $label_cell;
+    /** @var array */
+    public $arrMessage;
+    /** @var array */
+    public $arrData;
+    /** @var array */
+    public $arrDisp;
+    /** @var bool */
+    public $disp_mode;
+    /** @var int */
+    public $pageno;
     public function __construct($download, $title, $tpl_pdf = 'nouhinsyo1.pdf')
     {
-        parent::__construct();
         // デフォルトの設定
         $this->tpl_pdf = PDF_TEMPLATE_REALDIR . $tpl_pdf;  // テンプレートファイル
         $this->pdf_download = $download;      // PDFのダウンロード形式（0:表示、1:ダウンロード）
@@ -291,16 +314,16 @@ class SC_Fpdf extends SC_Helper_FPDI
     /**
      * 備考の出力を行う
      *
-     * @return string 変更後の文字列
+     * @return void
      */
     private function setEtcData()
     {
         $this->Cell(0, 10, '', 0, 1, 'C', 0, '');
         $this->SetFont('Gothic', 'B', 9);
-        $this->MultiCell(0, 6, '＜ 備考 ＞', 'T', 2, 'L', 0, '');
+        $this->MultiCell(0, 6, '＜ 備考 ＞', 'T', 2, 'L');
         $this->SetFont('SJIS', '', 8);
         $text = SC_Utils_Ex::rtrim($this->arrData['etc1'] . "\n" . $this->arrData['etc2'] . "\n" . $this->arrData['etc3']);
-        $this->MultiCell(0, 4, $text, '', 2, 'L', 0, '');
+        $this->MultiCell(0, 4, $text, '', 2, 'L');
     }
 
     public function createPdf()

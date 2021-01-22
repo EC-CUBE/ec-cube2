@@ -42,6 +42,11 @@ class SC_Helper_DB
     /** 選択中カテゴリID */
     public $g_category_id;
 
+    /** @var bool */
+    public $g_maker_on;
+    /** @var array */
+    public $g_maker_id;
+
     /**
      * カラムの存在チェックと作成を行う.
      *

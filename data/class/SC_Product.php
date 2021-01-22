@@ -48,6 +48,10 @@ class SC_Product
     public $classCats1;
     /** 検索用並び替え条件配列 */
     public $arrOrderData;
+    /** @var array */
+    public $product_class_id;
+    /** @var array */
+    public $product_type;
 
     /**
      * 商品検索結果の並び順を指定する。

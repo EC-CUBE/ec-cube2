@@ -57,6 +57,9 @@ class SC_UploadFile
     /** 画像の場合:true */
     public $image = array();
 
+    /** @var int */
+    public $file_max;
+
     // ファイル管理クラス
     public function __construct($temp_dir, $save_dir)
     {
@@ -356,6 +359,8 @@ class SC_UploadFile
             }
             if (isset($arrRet[$val]['filepath']) && !empty($arrRet[$val]['filepath'])) {
                 if ($real_size) {
+                    $width = 0;
+                    $height = 0;
                     if (is_file($arrRet[$val]['real_filepath'])) {
                         list($width, $height) = getimagesize($arrRet[$val]['real_filepath']);
                     }
@@ -544,7 +549,7 @@ class SC_UploadFile
         $file = $this->temp_file[$arrImageKey[$keyname]];
         $filepath = $this->temp_dir . $file;
 
-        $path = $this->makeThumb($filepath, $to_w, $to_h);
+        $path = $this->makeThumb($filepath, $to_w, $to_h, '');
 
         // ファイル名だけ返す
         return basename($path);

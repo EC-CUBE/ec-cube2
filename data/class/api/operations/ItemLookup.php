@@ -43,6 +43,7 @@ class API_ItemLookup extends SC_Api_Abstract_Ex
     {
         $arrRequest = $this->doInitParam($arrParam);
         if (!$this->isParamError()) {
+            $arrProduct = array();
             $objProduct = new SC_Product_Ex();
 
             switch ($arrRequest['IdType']) {
@@ -69,7 +70,7 @@ class API_ItemLookup extends SC_Api_Abstract_Ex
 
                 return true;
             } else {
-                $this->addError('ItemLookup.Error', '※ 要求された情報は見つかりませんでした。');
+                $this->addError(array('ItemLookup.Error' => '※ 要求された情報は見つかりませんでした。'));
             }
         }
 

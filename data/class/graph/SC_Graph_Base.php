@@ -150,6 +150,7 @@ class SC_Graph_Base
     public $text_top;
     public $mark_color;
     public $arrLegend;
+    public $grid_color;
 
     /** グラフ背景 */
     public $ARR_GRAPH_RGB;
@@ -177,6 +178,8 @@ class SC_Graph_Base
 
     /** グリッド線色 */
     public $ARR_GRID_COLOR;
+
+    public $ARR_MARK_COLOR;
 
     // コンストラクタ
     public function __construct($bgw, $bgh, $left, $top)
@@ -499,6 +502,7 @@ class SC_Graph_Base
             return NULL;
         }
         $i = 0;
+        $dark = array();
         foreach ($array as $val) {
             $dark[$i] = $val - 45;
             if ($dark[$i] < 0) {

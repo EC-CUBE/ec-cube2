@@ -54,7 +54,7 @@ class SC_Api_Utils
     public static function getOperationSubConfig($operation_name, $key_name = '', $arrApiConfig = '')
     {
         if (SC_Utils_Ex::isBlank($arrApiConfig)) {
-            $arrApiConfig = SC_Api_Utils_Ex::getAuthConfig($operation_name);
+            $arrApiConfig = SC_Api_Utils_Ex::getApiConfig($operation_name);
         }
         if (!SC_Utils_Ex::isBlank($arrApiConfig['sub_data'])) {
             $arrData = @unserialize($arrApiConfig['sub_data']);
