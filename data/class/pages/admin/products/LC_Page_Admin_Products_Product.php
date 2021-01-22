@@ -1153,7 +1153,7 @@ __EOF__;
      * 規格を設定していない商品を商品規格テーブルに登録
      *
      * @param  array $arrList
-     * @return void
+     * @return int
      */
     public function lfInsertDummyProductClass($arrList)
     {

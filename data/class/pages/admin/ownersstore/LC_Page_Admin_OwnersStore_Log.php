@@ -102,7 +102,7 @@ END;
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->getAll($sql);
 
-        return isset($arrRet) ? $arrRet : array();
+        return $arrRet;
     }
 
     public function initParam()

@@ -228,7 +228,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      * 入力内容のチェックを行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
-     * @return void
+     * @return array
      */
     public function lfCheckError(&$objFormParam)
     {

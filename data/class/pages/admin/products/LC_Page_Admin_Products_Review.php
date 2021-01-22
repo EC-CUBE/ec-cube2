@@ -131,7 +131,7 @@ class LC_Page_Admin_Products_Review extends LC_Page_Admin_Ex
      * 入力内容のチェックを行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
-     * @return void
+     * @return array
      */
     public function lfCheckError(&$objFormParam)
     {
@@ -338,14 +338,12 @@ class LC_Page_Admin_Products_Review extends LC_Page_Admin_Ex
      * @param  array  $arrWhereVal WHERE文の判定値
      * @return array  レビュー一覧
      */
-    public function lfGetReview($arrForm, $where, $arrWhereVal)
+    public function lfGetReview($arrForm, $where, $arrWhereVal = array())
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // ページ送りの処理
         $page_max = SC_Utils_Ex::sfGetSearchPageMax($arrForm['search_page_max']);
-
-        if (!isset($arrWhereVal)) $arrWhereVal = array();
 
         $from = 'dtb_review AS A LEFT JOIN dtb_products AS B ON A.product_id = B.product_id ';
         $linemax = $objQuery->count($from, $where, $arrWhereVal);

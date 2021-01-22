@@ -209,6 +209,7 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
         $objFileManager = new SC_Helper_FileManager_Ex();
 
         $arrFileList = $objFileManager->sfGetFileList($css_dir);
+        $arrCSSList = array();
         foreach ($arrFileList as $val) {
             if (!$val['is_dir']) {
                 $arrCSSList[] = array(

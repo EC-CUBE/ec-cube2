@@ -480,6 +480,7 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
             }
         }
         // 重複チェック 同じカテゴリ内に同名の存在は許可されない
+        $parent_category_id = '';
         if (array_search('category_name', $this->arrFormKeyList) !== FALSE
             && $item['category_name'] != ''
         ) {

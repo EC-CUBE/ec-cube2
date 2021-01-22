@@ -89,8 +89,6 @@ class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
         // 入力値の変換
         $this->objFormParam->convParam();
 
-        // どんな状態の時に isset($arrRet) == trueになるんだ? これ以前に$arrRet無いが、、、、
-        if (!isset($arrRet)) $arrRet = array();
         switch ($this->getMode()) {
             case 'confirm':
 

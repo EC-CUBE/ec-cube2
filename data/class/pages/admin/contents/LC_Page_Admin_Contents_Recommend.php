@@ -74,7 +74,7 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
         $arrPost = $objFormParam->getHashArray();
 
         $objRecommend = new SC_Helper_BestProducts_Ex();
-
+        $arrItems = array();
         switch ($this->getMode()) {
             case 'down': //商品の並び替えをする。
                 $objRecommend->rankDown($arrPost['best_id']);

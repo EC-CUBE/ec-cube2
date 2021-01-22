@@ -55,11 +55,12 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
         //適用時刻の項目値設定
         $this->objDate = new SC_Date_Ex();
         //適用時間の年を、「現在年~現在年＋2」の範囲に設定
+        $arrYear = array();
         for ($year=date("Y"); $year<=date("Y") + 2;$year++) {
             $arrYear[$year] = $year;
         }
         $this->arrYear = $arrYear;
-
+        $arrMinutes = array();
         for ($minutes=0; $minutes< 60; $minutes++) {
             $arrMinutes[$minutes] = $minutes;
         }
@@ -119,7 +120,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
                     // エラーが存在する場合、メッセージを表示する為に代入
                     $this->arrErr['product_tax_flg'] = $arrErr['product_tax_flg'];
                 }
-                
+
                 break;
 
             // 編集処理
@@ -155,7 +156,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
                 $TaxRule['apply_date_year'] = $tmp_ymd[0];
                 $TaxRule['apply_date_month'] = $tmp_ymd[1];
                 $TaxRule['apply_date_day'] = $tmp_ymd[2];
-                $tmp_hm = array_map("intval",explode(":", $tmp[1]));                
+                $tmp_hm = array_map("intval",explode(":", $tmp[1]));
                 $TaxRule['apply_date_hour'] = $tmp_hm[0];
                 $TaxRule['apply_date_minutes'] = $tmp_hm[1];
 

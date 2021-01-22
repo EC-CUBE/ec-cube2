@@ -361,7 +361,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
     /**
      * 入力チェックを行う.
      *
-     * @return void
+     * @return array
      */
     public function lfCheckError(&$objFormParam)
     {

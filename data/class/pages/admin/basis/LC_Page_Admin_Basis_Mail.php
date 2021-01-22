@@ -70,6 +70,7 @@ class LC_Page_Admin_Basis_Mail extends LC_Page_Admin_Ex
 
         $mode = $this->getMode();
 
+        $post = array();
         if (!empty($_POST)) {
             $objFormParam = new SC_FormParam_Ex();
             $this->lfInitParam($mode, $objFormParam);
