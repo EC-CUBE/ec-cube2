@@ -33,6 +33,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/frontparts/bloc/LC_Page_FrontParts
  */
 class LC_Page_FrontParts_Bloc_Calendar extends LC_Page_FrontParts_Bloc_Ex
 {
+    /** @var array */
+    public $arrCalendar;
+
     /**
      * Page を初期化する.
      *

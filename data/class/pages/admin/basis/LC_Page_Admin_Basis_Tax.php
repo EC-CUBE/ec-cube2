@@ -34,6 +34,12 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
 {
     /** エラー情報 */
     public $arrErr;
+    /** @var array */
+    public $arrEnable;
+    /** @var int */
+    public $tpl_tax_rule_id;
+    /** @var array */
+    public $arrTaxrule;
 
     /**
      * Page を初期化する.

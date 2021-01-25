@@ -34,6 +34,8 @@ class LC_Page_FrontParts_Bloc extends LC_Page_Ex
 {
     /** @var array */
     public $arrCartList;
+    /** @var array */
+    public $blocItems;
 
     /**
      * Page を初期化する.

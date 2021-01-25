@@ -32,6 +32,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/mypage/LC_Page_AbstractMypage_Ex.p
  */
 class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
 {
+    /** @var string */
+    public $refusal_transactionid;
+
     /**
      * Page を初期化する.
      *

@@ -40,6 +40,18 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
         'plsql_profiler_runid', // Postgres Plus Advanced Server 9.1
         'snapshot_num',         // Postgres Plus Advanced Server 9.1
     );
+    /** @var array */
+    public $arrBkupList;
+    /** @var string */
+    public $bkup_dir;
+    /** @var string */
+    public $bkup_ext;
+    /** @var string */
+    public $tpl_restore_msg;
+    /** @var resource */
+    public $fpOutput;
+    /** @var string */
+    public $tpl_restore_name;
 
     /** ヘッダーを出力するか (cbOutputCSV 用) */
     private $output_header = false;

@@ -32,6 +32,15 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
 {
+    /** @var array */
+    public $arrMasterDataName;
+    /** @var string */
+    public $masterDataName;
+    /** @var string */
+    public $errorMessage;
+    /** @var array */
+    public $arrMasterData;
+
     /**
      * Page を初期化する.
      *

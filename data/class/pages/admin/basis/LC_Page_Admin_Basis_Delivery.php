@@ -32,6 +32,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Basis_Delivery extends LC_Page_Admin_Ex
 {
+    /** @var array */
+    public $arrDelivList;
+
     /**
      * Page を初期化する.
      *

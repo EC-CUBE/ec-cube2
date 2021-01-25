@@ -32,6 +32,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/order/LC_Page_Admin_Order_Ex
  */
 class LC_Page_Admin_Order_Disp extends LC_Page_Admin_Order_Ex
 {
+    /** @var string */
+    public $tpl_subnavi;
+
     public $arrShippingKeys = array(
         'shipping_id',
         'shipping_name01',

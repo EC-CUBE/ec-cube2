@@ -32,6 +32,13 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Entry_Kiyaku extends LC_Page_Ex
 {
+    /** @var int */
+    public $max;
+    /** @var int */
+    public $offset;
+    /** @var string */
+    public $tpl_kiyaku_text;
+
     /**
      * Page を初期化する.
      *

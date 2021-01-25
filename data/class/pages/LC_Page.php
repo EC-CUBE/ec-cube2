@@ -97,6 +97,21 @@ class LC_Page
     public $arrPageLayout;
     /** @var string */
     public $tpl_page_class_name;
+    /** @var array */
+    public $tpl_class_name1;
+    /** @var array */
+    public $tpl_class_name2;
+    /** @var bool */
+    public $tpl_classcat_find1;
+    /** @var bool */
+    public $tpl_classcat_find2;
+    /** @var int */
+    public $tpl_product_class_id;
+    /** @var array */
+    public $arrClassCat1;
+    /** @var bool */
+    public $tpl_stock_find;
+
     /** @var bool */
     public $isLogin;
     /** @var string */
@@ -123,6 +138,12 @@ class LC_Page
     public $tpl_login_memory;
     /** @var int */
     public $tpl_user_point;
+    /** @var int */
+    public $tpl_order_id;
+    /** @var string */
+    public $tpl_subject;
+    /** @var string */
+    public $tpl_body;
     /** @var array */
     public $CONF;
     /** @var array */
@@ -143,6 +164,8 @@ class LC_Page
     public $arrMailMagazineType;
     /** @var array */
     public $arrMailTEMPLATE;
+    /** @var array */
+    public $arrMAILTEMPLATE;
     /** @var SC_Date */
     public $objDate;
     /** @var array */
@@ -179,7 +202,7 @@ class LC_Page
     public $arrPayments;
     /** @var string */
     public $tpl_error;
-    /** @var int */
+    /** @var string */
     public $tpl_pageno;
     /** @var int */
     public $tpl_pager;
@@ -191,6 +214,8 @@ class LC_Page
     public $arrPageMax;
     /** @var int */
     public $linemax;
+    /** @var string */
+    public $tpl_strnavi;
     /** @var SC_PageNavi */
     public $objNavi;
     /** @var array */
@@ -219,6 +244,50 @@ class LC_Page
     public $tpl_mode;
     /** @var array */
     public $arrNews;
+    /** @var int */
+    public $maker_id;
+    /** @var int */
+    public $category_id;
+    /** @var int */
+    public $tpl_category_id;
+    /** @var int */
+    public $tpl_product_id;
+    /** @var int */
+    public $tpl_total_inctax;
+    /** @var int */
+    public $tpl_total_tax;
+    /** @var int */
+    public $tpl_total_point;
+    /** @var int */
+    public $passlen;
+    /** @var string */
+    public $device_type;
+    /** @var array */
+    public $arrCatList;
+    /** @var array */
+    public $arrSearchData;
+    /** @var SC_FormParam */
+    public $objFormParam;
+    /** @var array */
+    public $arrMaker;
+    /** @var array */
+    public $arrRecommend;
+    /** @var array */
+    public $arrProductsList;
+    /** @var array */
+    public $arrRECOMMEND;
+    /** @var array */
+    public $arrReview;
+    /** @var array */
+    public $arrWDAY;
+    /** @var array */
+    public $arrOrder;
+    /** @var string */
+    public $tpl_navi;
+    /** @var string */
+    public $tpl_mypageno;
+    /** @var int */
+    public $tpl_addrmax;
 
     /**
      * Page を初期化する.

@@ -32,6 +32,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Mypage_RefusalComplete extends LC_Page_Ex
 {
+    /** @var bool */
+    public $point_disp;
+
     /**
      * Page を初期化する.
      *

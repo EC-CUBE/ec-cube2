@@ -32,6 +32,15 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Shopping_Payment extends LC_Page_Ex
 {
+    /** @var bool */
+    public $is_single_deliv;
+    /** @var bool */
+    public $is_download;
+    /** @var string */
+    public $tpl_back_url;
+    /** @var bool */
+    public $img_show;
+
     /**
      * Page を初期化する.
      *

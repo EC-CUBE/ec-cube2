@@ -39,9 +39,14 @@ class LC_Page_Cart extends LC_Page_Ex
     public $mode;
     /** @var array */
     public $cartKeys;
-
-    /** メッセージ */
-    public $tpl_message = '';
+    /** @var int */
+    public $tpl_all_total_inctax;
+    /** @var string */
+    public $tpl_prev_url;
+    /** @var array */
+    public $cartItems;
+    /** @var int */
+    public $tpl_deliv_free;
 
     /**
      * Page を初期化する.

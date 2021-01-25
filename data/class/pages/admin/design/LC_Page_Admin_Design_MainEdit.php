@@ -32,6 +32,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
 {
+    /** @var array */
+    public $arrPageList;
+
     /**
      * Page を初期化する.
      *

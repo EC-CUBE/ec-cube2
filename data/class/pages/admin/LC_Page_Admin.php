@@ -38,6 +38,102 @@ class LC_Page_Admin extends LC_Page_Ex
 
     /** @var array */
     public $arrTAXRULE;
+    /** @var int */
+    public $line_max;
+    /** @var array */
+    public $arrDeviceType;
+    /** @var int */
+    public $device_type_id;
+    /** @var int */
+    public $page_id;
+    /** @var array */
+    public $arrBlocs;
+    /** @var int */
+    public $bloc_cnt;
+    /** @var array */
+    public $arrPageData;
+    /** @var array */
+    public $arrEditPage;
+    /** @var int */
+    public $text_row;
+    /** @var array */
+    public $arrRegistYear;
+    /** @var array */
+    public $arrBirthYear;
+    /** @var array */
+    public $arrTemplate;
+    /** @var array */
+    public $arrORDERSTATUS;
+    /** @var array */
+    public $arrORDERSTATUS_COLOR;
+    /** @var array */
+    public $arrResults;
+    /** @var array */
+    public $arrAllShipping;
+    /** @var int */
+    public $tpl_shipping_quantity;
+    /** @var array */
+    public $arrSearchHidden;
+    /** @var array */
+    public $arrPRODUCTSTATUS_COLOR;
+    /** @var array */
+    public $arrDISP;
+    /** @var array */
+    public $arrAUTHORITY;
+    /** @var array */
+    public $arrWORK;
+    /** @var array */
+    public $arrStartYear;
+    /** @var array */
+    public $arrStartMonth;
+    /** @var array */
+    public $arrStartDay;
+    /** @var array */
+    public $arrEndYear;
+    /** @var array */
+    public $arrEndMonth;
+    /** @var array */
+    public $arrEndDay;
+    /** @var array */
+    public $arrCatKey;
+    /** @var array */
+    public $arrCatVal;
+    /** @var array */
+    public $arrList;
+    /** @var array */
+    public $arrTree;
+    /** @var array */
+    public $arrParentID;
+    /** @var string */
+    public $tpl_bread_crumbs;
+    /** @var array */
+    public $arrClass;
+    /** @var array */
+    public $arrClassCatCount;
+    /** @var int */
+    public $tpl_class_id;
+    /** @var string */
+    public $tpl_class_name;
+    /** @var array */
+    public $arrClassCat;
+    /** @var int */
+    public $tpl_classcategory_id;
+    /** @var array */
+    public $arrAllowedTag;
+    /** @var int */
+    public $csv_id;
+    /** @var SC_Helper_DB */
+    public $objDb;
+    /** @var bool */
+    public $tpl_is_format_default;
+    /** @var bool */
+    public $tpl_is_update;
+    /** @var int */
+    public $max_upload_csv_size;
+    /** @var array */
+    public $arrTitle;
+    /** @var int */
+    public $tpl_pagemax;
 
     /**
      * Page を初期化する.

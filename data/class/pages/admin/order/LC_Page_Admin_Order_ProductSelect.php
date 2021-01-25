@@ -32,6 +32,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
 {
+    /** @var int */
+    public $tpl_no;
+    /** @var int */
+    public $shipping_id;
+
     /**
      * Page を初期化する.
      *

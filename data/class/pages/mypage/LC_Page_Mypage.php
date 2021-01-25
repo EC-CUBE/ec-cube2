@@ -35,6 +35,13 @@ class LC_Page_Mypage extends LC_Page_AbstractMypage_Ex
     /** ページナンバー */
     public $tpl_pageno;
 
+    /** @var int */
+    public $tpl_mypageno;
+    /** @var string */
+    public $json_payment;
+    /** @var int */
+    public $json_customer_order_status;
+
     /**
      * Page を初期化する.
      *

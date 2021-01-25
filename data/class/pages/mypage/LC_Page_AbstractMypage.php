@@ -32,6 +32,19 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_AbstractMypage extends LC_Page_Ex
 {
+    /** @var string */
+    public $tpl_valid_phone_id;
+    /** @var string */
+    public $CustomerName1;
+    /** @var string */
+    public $CustomerName2;
+    /** @var string */
+    public $CustomerPoint;
+    /** @var array */
+    public $arrCustomerOrderStatus;
+    /** @var int */
+    public $dispNumber;
+
     /**
      * Page を初期化する.
      *

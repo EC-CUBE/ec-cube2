@@ -32,6 +32,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/frontparts/bloc/LC_Page_FrontParts
  */
 class LC_Page_FrontParts_Bloc_NaviHeader extends LC_Page_FrontParts_Bloc_Login_Ex
 {
+    /** @var int */
+    public $freeRule;
+
     /**
      * Page を初期化する.
      *

@@ -31,6 +31,19 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 {
+    /** @var bool */
+    public $install_GD;
+    /** @var string */
+    public $tpl_graphsubtitle;
+    /** @var string */
+    public $tpl_titleimage;
+    /** @var array */
+    public $arrSearchForm1;
+    /** @var array */
+    public $arrSearchForm2;
+    /** @var string */
+    public $tpl_page_type;
+
     /**
      * Page を初期化する.
      *

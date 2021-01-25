@@ -33,6 +33,8 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
 {
     public $arrLogList = array();
+    /** @var string */
+    public $tpl_ec_log;
 
     /**
      * Page を初期化する.

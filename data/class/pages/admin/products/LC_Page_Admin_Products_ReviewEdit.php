@@ -32,6 +32,9 @@ require_once CLASS_REALDIR . 'pages/admin/products/LC_Page_Admin_Products_Review
  */
 class LC_Page_Admin_Products_ReviewEdit extends LC_Page_Admin_Products_Review
 {
+    /** @var bool */
+    public $tpl_status_change;
+
     /**
      * Page を初期化する.
      *

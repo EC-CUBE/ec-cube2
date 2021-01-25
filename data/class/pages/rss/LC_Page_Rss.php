@@ -32,6 +32,14 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Rss extends LC_Page_Ex
 {
+    /** @var string */
+    public $encode;
+    /** @var string */
+    public $description;
+    /** @var string */
+    public $site_title;
+    /** @var string */
+    public $email;
     /**
      * Page を初期化する.
      *

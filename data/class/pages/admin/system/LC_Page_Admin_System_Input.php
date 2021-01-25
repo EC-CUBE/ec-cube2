@@ -32,6 +32,13 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex
 {
+    /** @var string */
+    public $tpl_member_id;
+    /** @var string */
+    public $tpl_old_login_id;
+    /** @var string */
+    public $tpl_onfocus;
+
     /**
      * Page を初期化する.
      *

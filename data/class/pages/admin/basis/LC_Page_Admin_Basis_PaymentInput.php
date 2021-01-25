@@ -35,6 +35,15 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
     /** SC_UploadFile インスタンス */
     public $objUpFile;
 
+    /** @var bool */
+    public $charge_flg;
+
+    /** @var int */
+    public $tpl_payment_id;
+
+    /** @var array */
+    public $arrFile;
+
     /**
      * Page を初期化する.
      *

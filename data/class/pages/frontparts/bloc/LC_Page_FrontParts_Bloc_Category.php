@@ -33,6 +33,12 @@ require_once CLASS_EX_REALDIR . 'page_extends/frontparts/bloc/LC_Page_FrontParts
 class LC_Page_FrontParts_Bloc_Category extends LC_Page_FrontParts_Bloc_Ex
 {
     public $arrParentID;
+    /** @var array */
+    public $arrCat;
+    /** @var array */
+    public $arrTree;
+    /** @var int */
+    public $root_parent_id;
 
     /**
      * Page を初期化する.

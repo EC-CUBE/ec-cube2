@@ -32,6 +32,17 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
 {
+    /** @var array */
+    public $SHORTTEXT_MAX;
+    /** @var array */
+    public $MIDDLETEXT_MAX;
+    /** @var array */
+    public $LONGTEXT_MAX;
+    /** @var array */
+    public $arrType;
+    /** @var array */
+    public $arrDownload;
+
     /**
      * Page を初期化する.
      *

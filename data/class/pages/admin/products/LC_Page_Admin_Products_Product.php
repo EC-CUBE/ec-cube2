@@ -32,6 +32,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/products/LC_Page_Admin_Produ
  */
 class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
 {
+    /** @var int */
+    public $tpl_json_category_id;
+
     /**
      * Page を初期化する.
      *

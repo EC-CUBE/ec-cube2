@@ -32,6 +32,19 @@ require_once CLASS_EX_REALDIR . 'page_extends/mypage/LC_Page_AbstractMypage_Ex.p
  */
 class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
 {
+    /** @var bool */
+    public $is_price_change;
+    /** @var array */
+    public $tpl_arrOrderData;
+    /** @var array */
+    public $tpl_arrOrderDetail;
+    /** @var array */
+    public $tpl_arrMailHistory;
+    /** @var bool */
+    public $isAU;
+    /** @var string */
+    public $phpsessid;
+
     /**
      * Page を初期化する.
      *

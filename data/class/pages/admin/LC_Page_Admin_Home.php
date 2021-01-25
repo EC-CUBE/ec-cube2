@@ -33,6 +33,31 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Home extends LC_Page_Admin_Ex
 {
+    /** @var string */
+    public $db_version;
+    /** @var string */
+    public $php_version;
+    /** @var int */
+    public $customer_cnt;
+    /** @var int */
+    public $order_yesterday_amount;
+    /** @var int */
+    public $order_yesterday_cnt;
+    /** @var int */
+    public $order_month_amount;
+    /** @var int */
+    public $order_month_cnt;
+    /** @var int */
+    public $customer_point;
+    /** @var int */
+    public $review_yesterday_cnt;
+    /** @var int */
+    public $review_nondisp_cnt;
+    /** @var array */
+    public $arrSoldout;
+    /** @var array */
+    public $arrNewOrder;
+
     /**
      * Page を初期化する.
      *

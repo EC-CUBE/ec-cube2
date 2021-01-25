@@ -32,6 +32,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Products_CategoryList extends LC_Page_Ex
 {
+    /** @var array */
+    public $arrCategory;
+    /** @var array */
+    public $arrChildren;
+
     /**
      * Page を初期化する.
      *
