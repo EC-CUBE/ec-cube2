@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f1f9f3d22adcf3ade55490419746cbc",
+    "content-hash": "f57259789994cfd124ac4c1967926f3b",
     "packages": [
         {
             "name": "bondas83/mdb2_driver_mysqli",
@@ -115,16 +115,16 @@
         },
         {
             "name": "nanasess/mdb2_driver_pgsql",
-            "version": "dev-php8-compatibility",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nanasess/MDB2_Driver_pgsql.git",
-                "reference": "a78adaa5c4070e8db1c7b82b3613d4396d90cdb6"
+                "reference": "2de1eb18e9e57061e45e91bfca8af77416bdae7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/MDB2_Driver_pgsql/zipball/a78adaa5c4070e8db1c7b82b3613d4396d90cdb6",
-                "reference": "a78adaa5c4070e8db1c7b82b3613d4396d90cdb6",
+                "url": "https://api.github.com/repos/nanasess/MDB2_Driver_pgsql/zipball/2de1eb18e9e57061e45e91bfca8af77416bdae7d",
+                "reference": "2de1eb18e9e57061e45e91bfca8af77416bdae7d",
                 "shasum": ""
             },
             "require": {
@@ -170,7 +170,7 @@
                 "issues": "https://github.com/nanasess/MDB2_Driver_pgsql/issues",
                 "source": "https://github.com/nanasess/MDB2_Driver_pgsql"
             },
-            "time": "2019-11-20T02:21:00+00:00"
+            "time": "2020-11-08T11:33:26+00:00"
         },
         {
             "name": "nanasess/php8-compat",
@@ -3665,7 +3665,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "nanasess/mdb2_driver_pgsql": 20,
         "silverorange/mdb2": 10
     },
     "prefer-stable": false,

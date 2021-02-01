@@ -35,7 +35,7 @@
         "ext-mbstring": "*",
         "bondas83/mdb2_driver_mysqli": "^1.5",
         "mobiledetect/mobiledetectlib": "^2.8",
-        "nanasess/mdb2_driver_pgsql": "dev-php8-compatibility",
+        "nanasess/mdb2_driver_pgsql": "^1.5",
         "nanasess/php8-compat": "^1.0",
         "pear/archive_tar": "^1.4.3",
         "pear/mail": "*",

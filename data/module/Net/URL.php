@@ -298,6 +298,7 @@ class Net_URL
     function getQueryString()
     {
         $querystring = '';
+        $querystrings = array();
         if (!empty($this->querystring)) {
             foreach ($this->querystring as $name => $value) {
                 // Encode var name
@@ -305,15 +306,15 @@ class Net_URL
 
                 if (is_array($value)) {
                     foreach ($value as $k => $v) {
-                        $querystring[] = $this->useBrackets ? sprintf('%s[%s]=%s', $name, $k, $v) : ($name . '=' . $v);
+                        $querystrings[] = $this->useBrackets ? sprintf('%s[%s]=%s', $name, $k, $v) : ($name . '=' . $v);
                     }
                 } elseif (!is_null($value)) {
-                    $querystring[] = $name . '=' . $value;
+                    $querystrings[] = $name . '=' . $value;
                 } else {
-                    $querystring[] = $name;
+                    $querystrings[] = $name;
                 }
             }
-            $querystring = implode(ini_get('arg_separator.output'), $querystring);
+            $querystring = implode(ini_get('arg_separator.output'), $querystrings);
         }
 
         return $querystring;
