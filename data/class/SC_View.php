@@ -42,7 +42,8 @@ class SC_View
     {
         // include_phpの利用のためSmartyBCを呼び出す、ホントはinclude_phpをなくしたいそうすれば、blank.tplもなくせる
         $this->_smarty = new SmartyBC;
-
+        // see https://github.com/smarty-php/smarty/issues/605#issuecomment-742832333
+        $this->_smarty->setErrorReporting(E_ALL & ~E_WARNING & ~E_NOTICE);
         $this->_smarty->left_delimiter = '<!--{';
         $this->_smarty->right_delimiter = '}-->';
         $this->_smarty->registerPlugin('modifier', 'sfDispDBDate', function ($dbdate, $time = true) { return SC_Utils_Ex::sfDispDBDate($dbdate, $time); });
