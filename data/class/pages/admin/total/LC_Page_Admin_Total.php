@@ -566,7 +566,8 @@ __EOS__;
             }
         }
 
-        $tpl_image = $this->lfGetGraphPie($arrTotalResults, 'member_name', 'member', '(売上比率)', $sdate, $edate);
+        $tpl_image = DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'member_name', 'member', '(売上比率)', $sdate, $edate) : '';
+
 
         return array($arrTotalResults, $tpl_image);
     }
@@ -598,7 +599,7 @@ __EOS__;
         $objQuery->setOrder('total DESC');
         $arrTotalResults = $objQuery->select($col, $from, $where, $arrWhereVal);
 
-        $tpl_image  = $this->lfGetGraphPie($arrTotalResults, 'product_name', 'products_' . $type, '(売上比率)', $sdate, $edate);
+        $tpl_image = DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'product_name', 'products_' . $type, '(売上比率)', $sdate, $edate) : '';
 
         return array($arrTotalResults, $tpl_image);
     }
@@ -635,7 +636,8 @@ __EOS__;
             }
 
         }
-        $tpl_image     = $this->lfGetGraphPie($arrTotalResults, 'job_name', 'job_' . $type, '(売上比率)', $sdate, $edate);
+
+        $tpl_image = DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'job_name', 'job_' . $type, '(売上比率)', $sdate, $edate) : '';
 
         return array($arrTotalResults, $tpl_image);
     }
@@ -672,7 +674,8 @@ __EOS__;
             }
 
         }
-        $tpl_image = $this->lfGetGraphBar($arrTotalResults, 'age_name', 'age_' . $type, '(年齢)', '(売上合計)', $sdate, $edate);
+
+        $tpl_image = DRAW_IMAGE ? $this->lfGetGraphBar($arrTotalResults, 'age_name', 'age_' . $type, '(年齢)', '(売上合計)', $sdate, $edate) : '';
 
         return array($arrTotalResults, $tpl_image);
     }
@@ -726,8 +729,9 @@ __EOS__;
         $arrTotalResults = $objQuery->select($col, 'dtb_order', $where, $arrWhereVal);
 
         $arrTotalResults = $this->lfAddBlankLine($arrTotalResults, $type, $sdate, $edate);
-        // todo GDない場合の処理
-        $tpl_image       = $this->lfGetGraphLine($arrTotalResults, 'str_date', 'term_' . $type, $xtitle, $ytitle, $sdate, $edate, $xincline);
+
+        $tpl_image = DRAW_IMAGE ? $this->lfGetGraphLine($arrTotalResults, 'str_date', 'term_' . $type, $xtitle, $ytitle, $sdate, $edate, $xincline) : '';
+
         $arrTotalResults = $this->lfAddTotalLine($arrTotalResults);
 
         return array($arrTotalResults, $tpl_image);
@@ -815,7 +819,10 @@ __EOS__;
                 }
             }
             // 平均値の計算
-            $arrTotal['total_average'] = $arrTotal['total'] / $arrTotal['total_order'];
+            $arrTotal['total_average'] = 0;
+            if ($arrTotal['total_order'] > 0) {
+                $arrTotal['total_average'] = $arrTotal['total'] / $arrTotal['total_order'];
+            }
             if (is_nan($arrTotal['total_average'])) {
                 $arrTotal['total_average'] = 0;
             }
