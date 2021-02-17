@@ -4,8 +4,8 @@
     "type": "project",
     "homepage": "http://www.ec-cube.net/",
     "license": [
-       "GPL-2.0",
-       "Commercial"
+        "GPL-2.0",
+        "Commercial"
     ],
     "support": {
         "issues": "https://github.com/EC-CUBE/ec-cube2/issues"
@@ -43,8 +43,8 @@
         "pear/xml_parser": "*",
         "pear/xml_serializer": "*",
         "pear/xml_util": "*",
-        "setasign/fpdf": "1.7",
-        "setasign/fpdi-fpdf": "1.6",
+        "setasign/fpdf": "^1.8",
+        "setasign/fpdi": "^1.6",
         "silverorange/mdb2": "2.5.2-b.5",
         "smarty/smarty": "*"
     },
