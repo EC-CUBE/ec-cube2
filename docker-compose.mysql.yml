@@ -1,0 +1,50 @@
+version: '3'
+
+volumes:
+  mysql-database:
+    driver: local
+
+services:
+  ec-cube:
+    command: apache2-foreground
+    entrypoint: /wait-for-mysql.sh
+    depends_on:
+      - mysql
+    environment:
+      TZ: Asia/Tokyo
+      PHP_POST_MAX_SIZE: 10M
+      PHP_UPLOAD_MAX_FILESIZE: 10M
+      PHP_LOG_ERRORS: "On"
+      PHP_ERROR_REPORTING: "E_ALL"
+      PHP_ERROR_LOG: "/proc/self/fd/2"
+      # EC-CUBE2 Config
+      HTTP_URL: https://localhost:4430/
+      HTTPS_URL: https://localhost:4430/
+      ROOT_URLPATH: /
+      DOMAIN_NAME: ~
+      DB_TYPE: mysql
+      DB_USER: eccube_db_user
+      DB_PASSWORD: password
+      DB_SERVER: mysql
+      DB_NAME: eccube_db
+      DB_PORT: ~
+      ADMIN_DIR: admin/
+      ADMIN_FORCE_SSL: 'false'
+      ADMIN_ALLOW_HOSTS: 'a:0:{}'
+      AUTH_MAGIC: ~
+      PASSWORD_HASH_ALGOS: sha256
+
+  mysql:
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+    ports:
+      - '13306:3306'
+    volumes:
+      - mysql-database:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: eccube_db
+      MYSQL_USER: eccube_db_user
+      MYSQL_PASSWORD: password
+    networks:
+      - backend

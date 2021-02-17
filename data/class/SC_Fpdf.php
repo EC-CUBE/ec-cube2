@@ -33,7 +33,7 @@ class SC_Fpdf extends SC_Helper_FPDI
 {
     public function __construct($download, $title, $tpl_pdf = 'nouhinsyo1.pdf')
     {
-        $this->FPDF();
+        parent::__construct();
         // デフォルトの設定
         $this->tpl_pdf = PDF_TEMPLATE_REALDIR . $tpl_pdf;  // テンプレートファイル
         $this->pdf_download = $download;      // PDFのダウンロード形式（0:表示、1:ダウンロード）

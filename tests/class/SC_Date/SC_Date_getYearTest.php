@@ -84,6 +84,7 @@ class SC_Date_getYearTest extends Common_TestCase
     public function testGetYear_最大値がメンバ変数の配列を返す()
     {
         $this->expected = '2020';
+        $this->objDate->setStartYear('2018');
         $this->objDate->setEndYear('2020');
         $this->actual = max($this->objDate->getYear());
 

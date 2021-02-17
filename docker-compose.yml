@@ -1,0 +1,57 @@
+version: '3'
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  mailcatcher-data:
+    driver: local
+
+  ### ignore folder volume #####
+  vendor:
+    driver: local
+
+services:
+  ec-cube:
+    build:
+      context: .
+    volumes:
+      ### 同期対象からコストの重いフォルダを除外 #####################
+      - "vendor:/var/www/app/data/vendor"
+    ports:
+      - 8080:80
+      - 4430:443
+    environment:
+      TZ: Asia/Tokyo
+      PHP_POST_MAX_SIZE: 10M
+      PHP_UPLOAD_MAX_FILESIZE: 10M
+      PHP_LOG_ERRORS: "On"
+      PHP_ERROR_REPORTING: "E_ALL"
+      PHP_ERROR_LOG: "/proc/self/fd/2"
+      # EC-CUBE2 Config
+      HTTP_URL: https://localhost:4430/
+      HTTPS_URL: https://localhost:4430/
+      ROOT_URLPATH: /
+      DOMAIN_NAME: ~
+      ADMIN_DIR: admin/
+      ADMIN_FORCE_SSL: 'false'
+      ADMIN_ALLOW_HOSTS: 'a:0:{}'
+      AUTH_MAGIC: ~
+      PASSWORD_HASH_ALGOS: sha256
+      MAIL_BACKEND: smtp
+      SMTP_HOST: mailcatcher
+      SMTP_PORT: 1025
+      SMTP_USER: ~
+      SMTP_PASSWORD: ~
+    networks:
+      - backend
+
+  ### Mailcatcher ##################################
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    networks:
+      - backend
