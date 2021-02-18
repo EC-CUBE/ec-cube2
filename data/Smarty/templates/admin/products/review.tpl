@@ -51,7 +51,7 @@
                     <!--{assign var=key value=search_recommend_level}-->
                     <select name="<!--{$key}-->">
                         <option value="" selected="selected">選択してください</option>
-                        <!--{html_options options=$arrRECOMMEND selected=$arrForm[$key].value}-->
+                        <!--{html_options options=$arrRECOMMEND selected=$arrForm[$key]}-->
                     </select>
                 </td>
             </tr>
