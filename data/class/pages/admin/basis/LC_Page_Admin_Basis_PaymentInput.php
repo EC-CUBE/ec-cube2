@@ -152,7 +152,7 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
     /* ファイル情報の初期化 */
     public function lfInitFile()
     {
-        $this->objUpFile->addFile('ロゴ画像', 'payment_image', array('gif','jpeg','jpg','png'), IMAGE_SIZE, false, CLASS_IMAGE_WIDTH, CLASS_IMAGE_HEIGHT);
+        $this->objUpFile->addFile('ロゴ画像', 'payment_image', array('gif','jpeg','jpg','png'), IMAGE_SIZE, false);
 
         return $this->objUpFile;
     }
