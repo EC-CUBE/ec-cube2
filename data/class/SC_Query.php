@@ -1155,7 +1155,9 @@ class SC_Query
         if (!isset($arrInfo['http_request_id'])) {
             $arrInfo['http_request_id'] = uniqid();
         }
-
+        if (!isset($arrInfo['count'])) {
+            $arrInfo['count'] = 0;
+        }
         $arrStartInfo = array(
             'http_request_id'   => $arrInfo['http_request_id'],
             'time_start'        => microtime(true),

@@ -603,7 +603,7 @@ class SC_CheckError
 
         // 全ての項目が満たされていない場合を判定(一部だけ入力されている状態)
         if ($cnt > 0 && $cnt < 3) {
-            $this->arrErr[$keyname1] .=
+            $this->arrErr[$keyname1] =
                 "※ {$disp_name}は全ての項目を入力してください。<br />";
         }
 
@@ -613,13 +613,13 @@ class SC_CheckError
             $input_var = $this->arrParam[$keyname];
 
             if (strlen($input_var) > 0 && strlen($input_var) > $telItemLen) {
-                $this->arrErr[$keyname] .= sprintf(
+                $this->arrErr[$keyname] = sprintf(
                     '※ %sは%d字以内で入力してください。<br />',
                     $disp_name . $i,
                     $telItemLen
                 );
             } elseif ($this->numelicCheck($input_var)) {
-                $this->arrErr[$keyname] .=
+                $this->arrErr[$keyname] =
                     "※ {$disp_name}{$i}は数字で入力してください。<br />";
             }
 
@@ -628,7 +628,7 @@ class SC_CheckError
 
         // 合計値チェック
         if ($total_count > $telLen) {
-            $this->arrErr[$keyname3] .=
+            $this->arrErr[$keyname3] =
                 "※ {$disp_name}は{$telLen}文字以内で入力してください。<br />";
         }
     }
@@ -1670,11 +1670,11 @@ class SC_CheckError
         $register_user_flg = SC_Helper_Customer_Ex::sfCheckRegisterUserFromEmail($this->arrParam[$keyname]);
         switch ($register_user_flg) {
             case 1:
-                $this->arrErr[$keyname] .=
+                $this->arrErr[$keyname] =
                     "※ すでに会員登録で使用されている{$disp_name}です。<br />";
                 break;
             case 2:
-                $this->arrErr[$keyname] .=
+                $this->arrErr[$keyname] =
                     "※ 退会から一定期間の間は、同じ{$disp_name}を使用することはできません。<br />";
                 break;
             default:
