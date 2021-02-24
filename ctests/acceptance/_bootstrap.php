@@ -67,7 +67,10 @@ if ($num < $config['fixture_order_num']) {
         $discount = $faker->numberBetween(0, $charge);
         $order_count_per_customer = $objQuery->count('dtb_order', 'customer_id = ?', [$customer_id]);
         for ($i = $order_count_per_customer; $i < $config['fixture_order_num'] / count($customer_ids); $i++) {
-            $objGenerator->createOrder($customer_id, $target_product_class_ids, 1, $charge, $discount, $faker->numberBetween(1, 7));
+            // キャンセルと決済処理中は除外して注文を生成する
+            $target_statuses = [ORDER_NEW, ORDER_PAY_WAIT, ORDER_PRE_END, ORDER_BACK_ORDER, ORDER_DELIV];
+            $order_status_id = $target_statuses[$faker->numberBetween(0, count($target_statuses) - 1)];
+            $objGenerator->createOrder($customer_id, $target_product_class_ids, 1, $charge, $discount, $order_status_id);
             echo '.';
         }
     }
