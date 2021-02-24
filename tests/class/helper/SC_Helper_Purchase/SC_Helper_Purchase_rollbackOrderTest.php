@@ -55,7 +55,7 @@ class SC_Helper_Purchase_rollbackOrderTest extends SC_Helper_Purchase_TestBase
 
     $uniqid = $this->helper->rollbackOrder($order_id);
 
-    $this->actual['testResult'] = $this->helper->testResult;
+    $this->actual['testResult'] = $_SESSION['testResult'];
     $this->actual['siteRegist'] = $_SESSION['site']['regist_success'];
     $this->expected = array(
       'testResult' => array(
@@ -93,7 +93,7 @@ class SC_Helper_Purchase_rollbackOrderTest extends SC_Helper_Purchase_TestBase
 
     $uniqid = $this->helper->rollbackOrder($order_id, ORDER_DELIV, true);
 
-    $this->actual['testResult'] = $this->helper->testResult;
+    $this->actual['testResult'] = $_SESSION['testResult'];
     $this->actual['siteRegist'] = $_SESSION['site']['regist_success'];
     $this->expected = array(
       'testResult' => array(
@@ -127,18 +127,18 @@ class SC_Helper_Purchase_rollbackOrderMock extends SC_Helper_Purchase
 {
   public $testResult = array();
 
-  function cancelOrder($order_id, $orderStatus = ORDER_CANCEL, $is_delete = false)
+  public static function cancelOrder($order_id, $orderStatus = ORDER_CANCEL, $is_delete = false)
   {
-    $this->testResult['cancelOrder'] = array(
+    $_SESSION['testResult']['cancelOrder'] = array(
       'order_id' => $order_id,
       'orderStatus' => $orderStatus,
       'is_delete' => $is_delete
     );
   }
 
-  public function getOrderTempByOrderId($order_id)
+  public static function getOrderTempByOrderId($order_id)
   {
-    $this->testResult['getOrderTempByOrderId'] = array(
+    $_SESSION['testResult']['getOrderTempByOrderId'] = array(
       'order_id' => $order_id
     );
     return array(
@@ -146,17 +146,17 @@ class SC_Helper_Purchase_rollbackOrderMock extends SC_Helper_Purchase
     );
   }
 
-  function saveOrderTemp($uniqid, $arrOrderTemp, &$objCustomer = null)
+  public static function saveOrderTemp($uniqid, $arrOrderTemp, &$objCustomer = null)
   {
-    $this->testResult['saveOrderTemp'] = array(
+    $_SESSION['testResult']['saveOrderTemp'] = array(
       'uniqid' => $uniqid,
       'arrOrderTemp' => $arrOrderTemp
     );
   }
 
-  function verifyChangeCart($uniqid, &$objCartSession)
+  public static function verifyChangeCart($uniqid, &$objCartSession)
   {
-    $this->testResult['verifyChangeCart'] = array(
+    $_SESSION['testResult']['verifyChangeCart'] = array(
       'uniqid' => $uniqid
     );
   }

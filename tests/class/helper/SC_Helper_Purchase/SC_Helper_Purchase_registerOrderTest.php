@@ -204,7 +204,7 @@ class SC_Helper_Purchase_registerOrderMock extends SC_Helper_Purchase
         );
     }
 
-  function sfUpdateOrderNameCol($order_id, $temp_table = false)
+  public static function sfUpdateOrderNameCol($order_id, $temp_table = false)
     {
         $_SESSION['testResult']['sfUpdateOrderNameCol'] = $order_id;
     }

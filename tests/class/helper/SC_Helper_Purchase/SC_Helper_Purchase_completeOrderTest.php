@@ -147,7 +147,7 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
 class SC_Helper_Purchase_completeOrderMock extends SC_Helper_Purchase
 {
 
-  function verifyChangeCart($uniqId, &$objCartSession)
+  static function verifyChangeCart($uniqId, &$objCartSession)
   {
     $_SESSION['testResult']['verifyChangeCart'] = array('uniqId'=>$uniqId);
   }

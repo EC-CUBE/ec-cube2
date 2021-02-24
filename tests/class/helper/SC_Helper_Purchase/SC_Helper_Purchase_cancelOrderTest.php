@@ -163,7 +163,7 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
 class SC_Helper_Purchase_cancelOrderMock extends SC_Helper_Purchase
 {
 
-  function registerOrder($order_id, $params)
+  static function registerOrder($order_id, $params)
   {
     $_SESSION['testResult']['registerOrder'] = array(
       'order_id' => $order_id,
