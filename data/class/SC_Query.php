@@ -1151,7 +1151,10 @@ class SC_Query
         if (!defined('SQL_QUERY_LOG_MODE') || SQL_QUERY_LOG_MODE === 0) {
             return;
         }
-        $arrInfo = $GLOBALS['_SC_Query_TraceLogInfo'];
+        if (!array_key_exists('_SC_Query_TraceLogInfo', $GLOBALS)) {
+            $GLOBALS['_SC_Query_TraceLogInfo'] = array();
+        }
+        $arrInfo =& $GLOBALS['_SC_Query_TraceLogInfo'];
         if (!isset($arrInfo['http_request_id'])) {
             $arrInfo['http_request_id'] = uniqid();
         }
