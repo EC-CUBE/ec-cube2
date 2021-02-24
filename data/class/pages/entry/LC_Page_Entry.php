@@ -231,7 +231,6 @@ class LC_Page_Entry extends LC_Page_Ex
         $objMailText->assign('name01', $arrForm['name01']);
         $objMailText->assign('name02', $arrForm['name02']);
         $objMailText->assign('uniqid', $uniqid);
-        $objMailText->assignobj($this);
 
         $objHelperMail  = new SC_Helper_Mail_Ex();
         $objHelperMail->setPage($this);

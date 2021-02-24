@@ -377,7 +377,6 @@ class SC_Helper_Mail
         $objMailText->assign('name02', $arrCustomerData['name02']);
         $objMailText->assign('uniqid', $arrCustomerData['secret_key']);
         $objMailText->assignobj($arrCustomerData);
-        $objMailText->assignobj($this);
 
         $objHelperMail  = new SC_Helper_Mail_Ex();
         // 仮会員が有効の場合

@@ -166,7 +166,6 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
         $objMailText->assign('CONF', $CONF);
         $objMailText->assign('name01', $arrCustomerData['name01']);
         $objMailText->assign('name02', $arrCustomerData['name02']);
-        $objMailText->assignobj($this);
 
         $objHelperMail  = new SC_Helper_Mail_Ex();
         $objHelperMail->setPage($this);
