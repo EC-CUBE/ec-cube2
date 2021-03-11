@@ -32,6 +32,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Products_Maker extends LC_Page_Admin_Ex
 {
+    /** @var int */
+    public $tpl_maker_id;
+
     /**
      * Page を初期化する.
      *

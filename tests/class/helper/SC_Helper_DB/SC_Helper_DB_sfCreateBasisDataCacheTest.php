@@ -64,7 +64,7 @@ class SC_Helper_DB_sfCreateBasisDataCache extends SC_Helper_DB_TestBase
 
 class SC_Helper_DB_sfCreateBasisDataCacheMock extends SC_Helper_DB_Ex
 {
-    public function sfGetBasisData($force = false)
+    public static function sfGetBasisData($force = false)
     {
         $arrData = array(
             'id' => '1',

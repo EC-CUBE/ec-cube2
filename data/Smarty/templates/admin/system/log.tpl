@@ -28,7 +28,7 @@
     }
 </style>
 
-<!--{if count($arrErr) >= 1}-->
+<!--{if !empty($arrErr) && count($arrErr) >= 1}-->
     <div class="attention">
         <!--{foreach from=$arrErr item=err}-->
             <!--{$err}-->

@@ -50,7 +50,7 @@
 
     <div id="products" class="contents-main">
 
-        <!--{if count($arrForm.check.value) > 0}-->
+        <!--{if !empty($arrForm.check.value)}-->
             <!--{assign var=key1 value="class_id1"}-->
             <!--{assign var=key2 value="class_id2"}-->
             <!--{assign var=class_id1 value=$arrForm[$key1].value|h}-->
@@ -112,7 +112,7 @@
         <div class="btn-area">
             <ul>
                 <li><a class="btn-action" href="javascript:;" onclick="eccube.fnFormModeSubmit('form1', 'confirm_return','',''); return false"><span class="btn-prev">前へ戻る</span></a></li>
-            <!--{if count($arrForm.check.value) > 0}-->
+            <!--{if !empty($arrForm.check.value)}-->
                 <li><a class="btn-action" href="javascript:;" onclick="eccube.fnFormModeSubmit('form1', 'complete','',''); return false;"><span class="btn-next">この内容で登録する</span></a></li>
             <!--{/if}-->
             </ul>

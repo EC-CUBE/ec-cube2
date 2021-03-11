@@ -81,6 +81,7 @@ class SC_ClassAutoloader
             if (is_array($plugin_class) && count($plugin_class) > 0) {
                 $arrPluginClassName = $plugin_class;
                 $arrPluginClassPath = $plugin_classpath;
+                $parent_classname = null;
 
                 foreach ($arrPluginClassName as $key => $plugin_class) {
                     $plugin_classpath = $arrPluginClassPath[$key];

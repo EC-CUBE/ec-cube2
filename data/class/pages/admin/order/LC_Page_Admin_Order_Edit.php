@@ -32,6 +32,20 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/order/LC_Page_Admin_Order_Ex
  */
 class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
 {
+    /** @var array */
+    public $arrYearShippingDate;
+    /** @var array */
+    public $arrMonthShippingDate;
+    /** @var array */
+    public $arrDayShippingDate;
+
+    /** @var array */
+    public $arrBirthMonth;
+    /** @var array */
+    public $arrBirthDay;
+    /** @var int */
+    public $top_shipping_id;
+
     public $arrShippingKeys = array(
         'shipping_id',
         'shipping_name01',
@@ -520,6 +534,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
          * $arrProductQuantity[$shipping_id] = お届け先ごとの配送商品数量
          */
         $arrShipmentForm = array();
+        $arrQuantity = array();
         $arrShippingIds = $objFormParam->getValue('shipping_id');
         foreach ($arrShippingIds as $shipping_id) {
             $item_index = 0;
@@ -1106,7 +1121,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 : $objFormParam->getValue('order_tax_rule');
 
             $arrProductClassIds = $objFormParam->getValue('product_class_id');
-
+            $arrAddProducts = array();
             foreach($arrProductClassIds as $key => $product_class_id) {
                 if ($product_class_id == $pre_shipment_product_class_id) {
                     foreach ($this->arrProductKeys as $insert_key) {

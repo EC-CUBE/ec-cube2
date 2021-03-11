@@ -30,8 +30,16 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
-class LC_Page_RSS extends LC_Page_Ex
+class LC_Page_Rss extends LC_Page_Ex
 {
+    /** @var string */
+    public $encode;
+    /** @var string */
+    public $description;
+    /** @var string */
+    public $site_title;
+    /** @var string */
+    public $email;
     /**
      * Page を初期化する.
      *

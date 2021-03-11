@@ -50,9 +50,9 @@ class Calendar_Decorator_Wrapper extends Calendar_Decorator
      * @param object subclass of Calendar
      * @access public
      */
-    function Calendar_Decorator_Wrapper(&$Calendar)
+    function __construct(&$Calendar)
     {
-        parent::Calendar_Decorator($Calendar);
+        parent::__construct($Calendar);
     }
 
     /**
@@ -61,7 +61,7 @@ class Calendar_Decorator_Wrapper extends Calendar_Decorator
      * @return object instance of named decorator
      * @access public
      */
-    function & fetch($decorator)
+    function & fetch($decorator = null)
     {
         $Calendar = parent::fetch();
         if ($Calendar) {
@@ -78,7 +78,7 @@ class Calendar_Decorator_Wrapper extends Calendar_Decorator
      * @return array
      * @access public
      */
-    function fetchAll($decorator)
+    function fetchAll($decorator = null)
     {
         $children = parent::fetchAll();
         foreach ($children as $key => $Calendar) {

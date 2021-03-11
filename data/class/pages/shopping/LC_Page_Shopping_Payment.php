@@ -32,6 +32,15 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Shopping_Payment extends LC_Page_Ex
 {
+    /** @var bool */
+    public $is_single_deliv;
+    /** @var bool */
+    public $is_download;
+    /** @var string */
+    public $tpl_back_url;
+    /** @var bool */
+    public $img_show;
+
     /**
      * Page を初期化する.
      *
@@ -163,7 +172,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
                     $deliv_id = $this->arrDeliv[0]['deliv_id'];
                     $objFormParam->setValue('deliv_id', $deliv_id);
                 }
-                
+
                 $arrSelectedDeliv = $this->getSelectedDeliv($objCartSess, $deliv_id);
                 $this->arrPayment = $arrSelectedDeliv['arrPayment'];
                 $this->arrDelivTime = $arrSelectedDeliv['arrDelivTime'];
@@ -458,7 +467,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
      * @param  string  $mode            フォームパラメーター 'mode' の文字列
      * @return string  モバイル用テンプレートのパス
      */
-    public function getMobileMainpage($is_single_deliv = true, $mode)
+    public function getMobileMainpage($is_single_deliv = true, $mode = null)
     {
         switch ($mode) {
             case 'select_deliv':

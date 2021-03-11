@@ -32,6 +32,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
 {
+    /** @var int */
+    public $tpl_start_row;
+    /** @var int */
+    public $tpl_disppage;
+
     /**
      * Page を初期化する.
      *

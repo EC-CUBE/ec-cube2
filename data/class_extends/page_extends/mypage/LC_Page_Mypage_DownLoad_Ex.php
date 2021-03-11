@@ -32,7 +32,7 @@ require_once CLASS_REALDIR . 'pages/mypage/LC_Page_Mypage_DownLoad.php';
  * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
-class LC_Page_Mypage_Download_Ex extends LC_Page_Mypage_Download
+class LC_Page_Mypage_DownLoad_Ex extends LC_Page_Mypage_DownLoad
 {
     /**
      * Page を初期化する.

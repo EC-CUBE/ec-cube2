@@ -403,7 +403,7 @@
                         <br />
                         <!--{if $tpl_shipping_quantity <= 1}-->
                             <a class="btn-normal" href="javascript:;" name="change" onclick="eccube.openWindow('<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->order/product_select.php?no=<!--{$product_index}-->&amp;order_id=<!--{$arrForm.order_id.value|h}-->&amp;shipping_id=<!--{$top_shipping_id}-->', 'search', '615', '500', {menubar:'no'}); return false;">変更</a>
-                            <!--{if count($arrForm.quantity.value) > 1}-->
+                            <!--{if !empty($arrForm.quantity.value) && count($arrForm.quantity.value) > 1}-->
                                 <a class="btn-normal" href="javascript:;" name="delete" onclick="eccube.setValue('delete_no', <!--{$product_index}-->, 'form1'); eccube.setValue('select_shipping_id', '<!--{$top_shipping_id}-->', 'form1'); eccube.setModeAndSubmit('delete_product','anchor_key','order_products'); return false;">削除</a>
                             <!--{/if}-->
                         <!--{/if}-->
@@ -427,7 +427,7 @@
                     <!--{assign var=tax_rate value="`$arrForm.tax_rate.value[$product_index]`"}-->
                     <!--{assign var=tax_rule value="`$arrForm.tax_rule.value[$product_index]`"}-->
                     <input type="hidden" name="tax_rule[<!--{$product_index}-->]" value="<!--{$arrForm.tax_rule.value[$product_index]|h}-->" id="tax_rule_<!--{$product_index}-->" />
-    
+
                     <td class="right">
                         <!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|n2s}--> 円<br />
                         <!--{assign var=key value="tax_rate"}-->
@@ -535,7 +535,7 @@
                 <h2>届け先商品情報&nbsp;<a class="btn-normal" href="javascript:;" name="add_product" onclick="eccube.openWindow('<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->order/product_select.php?order_id=<!--{$arrForm.order_id.value|h}-->&shipping_id=<!--{$shipping_index}-->', 'search', '615', '500', {menubar:'no'}); return false;">商品の追加</a>
                 </h2>
 
-                <!--{if count($arrShipping.shipment_product_class_id) > 0}-->
+                <!--{if !empty($arrShipping.shipment_product_class_id)}-->
                     <table class="list order-edit-products">
                         <tr>
                             <th class="id">商品コード</th>
@@ -564,7 +564,7 @@
                                     <!--{$arrShipping[$key1][$item_index]|h}-->/<!--{$arrShipping[$key2][$item_index]|default:"(なし)"|h}-->/<!--{$arrShipping[$key3][$item_index]|default:"(なし)"|h}-->
                                     <br />
                                     <a class="btn-normal" href="javascript:;" name="change" onclick="eccube.openWindow('<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->order/product_select.php?no=<!--{$item_index}-->&amp;order_id=<!--{$arrForm.order_id.value|h}-->&amp;shipping_id=<!--{$shipping_index}-->', 'search', '615', '500', {menubar:'no'}); return false;">変更</a>
-                                    <!--{if $arrShipping.shipment_product_class_id|@count > 1}-->
+                                    <!--{if !empty($arrShipping.shipment_product_class_id)}-->
                                     <a class="btn-normal" href="javascript:;" name="delete" onclick="eccube.setValue('delete_no', <!--{$item_index}-->, 'form1'); eccube.setValue('select_shipping_id', <!--{$shipping_index}-->, 'form1'); eccube.setModeAndSubmit('delete_product','anchor_key','order_products'); return false;">削除</a>
                                     <!--{/if}-->
                                 </td>
@@ -793,7 +793,7 @@
 
         <div class="btn-area">
             <ul>
-                <!--{if count($arrSearchHidden) > 0}-->
+                <!--{if !empty($arrSearchHidden)}-->
                 <li><a class="btn-action" href="javascript:;" onclick="eccube.changeAction('<!--{$smarty.const.ADMIN_ORDER_URLPATH}-->'); eccube.setModeAndSubmit('search','',''); return false;"><span class="btn-prev">検索画面に戻る</span></a></li>
                 <!--{/if}-->
                 <li><a class="btn-action" href="javascript:;" onclick="return fnFormConfirm(); return false;"><span class="btn-next">この内容で登録する</span></a></li>

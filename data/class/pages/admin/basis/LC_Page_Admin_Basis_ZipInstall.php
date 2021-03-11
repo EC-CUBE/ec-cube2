@@ -56,6 +56,13 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
     /** 日本郵便から取得した ZIP アーカイブファイルの保管パス */
     public $zip_csv_temp_realfile;
 
+    /** @var bool */
+    public $tpl_zip_download_url_empty;
+    /** @var bool */
+    public $tpl_zip_function_not_exists;
+    /** @var bool */
+    public $tpl_skip_update_csv;
+
     /**
      * Page を初期化する.
      *

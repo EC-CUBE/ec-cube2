@@ -32,6 +32,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/frontparts/bloc/LC_Page_FrontParts
  */
 class LC_Page_FrontParts_Bloc_Cart extends LC_Page_FrontParts_Bloc_Ex
 {
+    /** @var bool */
+    public $hasDownload;
+
     /**
      * Page を初期化する.
      *
@@ -77,6 +80,9 @@ class LC_Page_FrontParts_Bloc_Cart extends LC_Page_FrontParts_Bloc_Ex
      */
     public function lfGetCartData(&$objCart)
     {
+        $products_total = 0;
+        $total_quantity = 0;
+        $is_deliv_free = false;
         $arrCartKeys = $objCart->getKeys();
         foreach ($arrCartKeys as $cart_key) {
             // 購入金額合計

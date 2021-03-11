@@ -32,6 +32,7 @@ class SC_Helper_Transform
     protected $objDOM;
     protected $arrSmartyTagsOrg;
     protected $arrSmartyTagsSub;
+    protected $snip_count;
     protected $smarty_tags_idx;
     protected $arrErr;
     protected $arrElementTree;

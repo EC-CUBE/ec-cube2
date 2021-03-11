@@ -53,7 +53,7 @@ class SC_Helper_DB_sfColumnExists extends SC_Helper_DB_TestBase
         $this->actual = $this->helper->sfColumnExists($tableName, $colName);
         $this->verify();
     }
-    
+
     public function testSfColumnExists_指定のカラムが存在しない場合_FALSEを返す()
     {
         $tableName = 'dtb_news';
@@ -78,8 +78,7 @@ class SC_Helper_DB_sfColumnExists extends SC_Helper_DB_TestBase
 
 class SC_Helper_DB_sfColumnExistsMock extends SC_Helper_DB_Ex
 {
-    function sfColumnAdd($tableName, $colName, $colType) {
+    static function sfColumnAdd($tableName, $colName, $colType) {
         return true;
     }
 }
-

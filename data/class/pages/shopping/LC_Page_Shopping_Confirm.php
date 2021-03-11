@@ -32,6 +32,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Shopping_Confirm extends LC_Page_Ex
 {
+    /** @var array */
+    public $arrCartItems;
+    /** @var bool */
+    public $use_module;
+
     /**
      * Page を初期化する.
      *

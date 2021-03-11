@@ -77,7 +77,7 @@
                 <th class="menu edit">編集</th>
                 <th class="action delete">削除</th>
             </tr>
-            <!--{if count($arrCSSList) > 0}-->
+            <!--{if !empty($arrCSSList)}-->
             <!--{foreach key=key item=item from=$arrCSSList}-->
             <tr>
                 <td style="background:<!--{if $item.css_name == $css_name}--><!--{$smarty.const.SELECT_RGB}--><!--{else}-->#ffffff<!--{/if}-->;"><!--{$item.file_name|h}--></td>

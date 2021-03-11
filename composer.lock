@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6895b8c275efbdcec30d28030c8ebb5",
+    "content-hash": "43f7d15e44e1f4f4dd5880a0990581c7",
     "packages": [
         {
             "name": "bondas83/mdb2_driver_mysqli",
@@ -59,16 +59,16 @@
         },
         {
             "name": "mobiledetect/mobiledetectlib",
-            "version": "2.8.34",
+            "version": "2.8.37",
             "source": {
                 "type": "git",
                 "url": "https://github.com/serbanghita/Mobile-Detect.git",
-                "reference": "6f8113f57a508494ca36acbcfa2dc2d923c7ed5b"
+                "reference": "9841e3c46f5bd0739b53aed8ac677fa712943df7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/6f8113f57a508494ca36acbcfa2dc2d923c7ed5b",
-                "reference": "6f8113f57a508494ca36acbcfa2dc2d923c7ed5b",
+                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/9841e3c46f5bd0739b53aed8ac677fa712943df7",
+                "reference": "9841e3c46f5bd0739b53aed8ac677fa712943df7",
                 "shasum": ""
             },
             "require": {
@@ -109,22 +109,28 @@
             ],
             "support": {
                 "issues": "https://github.com/serbanghita/Mobile-Detect/issues",
-                "source": "https://github.com/serbanghita/Mobile-Detect/tree/2.8.34"
+                "source": "https://github.com/serbanghita/Mobile-Detect/tree/2.8.37"
             },
-            "time": "2019-09-18T18:44:20+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/serbanghita",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-02-19T21:22:57+00:00"
         },
         {
             "name": "nanasess/mdb2_driver_pgsql",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nanasess/MDB2_Driver_pgsql.git",
-                "reference": "c4c9b45f1f46bc48101ddb1557330d0ef828a314"
+                "reference": "2de1eb18e9e57061e45e91bfca8af77416bdae7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/MDB2_Driver_pgsql/zipball/c4c9b45f1f46bc48101ddb1557330d0ef828a314",
-                "reference": "c4c9b45f1f46bc48101ddb1557330d0ef828a314",
+                "url": "https://api.github.com/repos/nanasess/MDB2_Driver_pgsql/zipball/2de1eb18e9e57061e45e91bfca8af77416bdae7d",
+                "reference": "2de1eb18e9e57061e45e91bfca8af77416bdae7d",
                 "shasum": ""
             },
             "require": {
@@ -170,20 +176,59 @@
                 "issues": "https://github.com/nanasess/MDB2_Driver_pgsql/issues",
                 "source": "https://github.com/nanasess/MDB2_Driver_pgsql"
             },
-            "time": "2019-11-20T02:21:00+00:00"
+            "time": "2020-11-08T11:33:26+00:00"
         },
         {
-            "name": "pear/archive_tar",
-            "version": "1.4.10",
+            "name": "nanasess/php8-compat",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pear/Archive_Tar.git",
-                "reference": "bbb4f10f71a1da2715ec6d9a683f4f23c507a49b"
+                "url": "https://github.com/nanasess/php8-compat.git",
+                "reference": "e4d2bfc5b38d5240088eda85b761dceba498db6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pear/Archive_Tar/zipball/bbb4f10f71a1da2715ec6d9a683f4f23c507a49b",
-                "reference": "bbb4f10f71a1da2715ec6d9a683f4f23c507a49b",
+                "url": "https://api.github.com/repos/nanasess/php8-compat/zipball/e4d2bfc5b38d5240088eda85b761dceba498db6e",
+                "reference": "e4d2bfc5b38d5240088eda85b761dceba498db6e",
+                "shasum": ""
+            },
+            "require-dev": {
+                "php5friends/phpunit48": ">=4.8.42"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/each.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kentaro Ohkouchi",
+                    "email": "nanasess@fsm.ne.jp"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/nanasess/php8-compat/issues",
+                "source": "https://github.com/nanasess/php8-compat/tree/1.0.0"
+            },
+            "time": "2020-12-08T04:46:03+00:00"
+        },
+        {
+            "name": "pear/archive_tar",
+            "version": "1.4.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pear/Archive_Tar.git",
+                "reference": "2b87b41178cc6d4ad3cba678a46a1cae49786011"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pear/Archive_Tar/zipball/2b87b41178cc6d4ad3cba678a46a1cae49786011",
+                "reference": "2b87b41178cc6d4ad3cba678a46a1cae49786011",
                 "shasum": ""
             },
             "require": {
@@ -240,7 +285,17 @@
                 "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Archive_Tar",
                 "source": "https://github.com/pear/Archive_Tar"
             },
-            "time": "2020-09-15T14:13:23+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/mrook",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/michielrook",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2021-02-16T10:50:50+00:00"
         },
         {
             "name": "pear/console_getopt",
@@ -461,59 +516,6 @@
                 "source": "https://github.com/pear/PEAR_Exception"
             },
             "time": "2019-12-10T10:24:42+00:00"
-        },
-        {
-            "name": "pear/text_password",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pear/Text_Password.git",
-                "reference": "9d112ec647e7e2efb78bd10dd9aaed21c899d739"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pear/Text_Password/zipball/9d112ec647e7e2efb78bd10dd9aaed21c899d739",
-                "reference": "9d112ec647e7e2efb78bd10dd9aaed21c899d739",
-                "shasum": ""
-            },
-            "require": {
-                "pear/pear_exception": "*",
-                "php": ">=5.2.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Text": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Martin Jansen",
-                    "email": "mj@php.net",
-                    "role": "Lead"
-                },
-                {
-                    "name": "Olivier Vanhoucke",
-                    "email": "olivier@php.net",
-                    "role": "Lead"
-                }
-            ],
-            "description": "More info available on: http://pear.php.net/package/Text_Password",
-            "support": {
-                "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Text_Password",
-                "source": "https://github.com/pear/Text_Password"
-            },
-            "time": "2016-02-26T19:57:20+00:00"
         },
         {
             "name": "pear/xml_parser",
@@ -1245,16 +1247,16 @@
         },
         {
             "name": "fzaninotto/faker",
-            "version": "v1.9.1",
+            "version": "v1.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "fc10d778e4b84d5bd315dad194661e091d307c6f"
+                "reference": "848d8125239d7dbf8ab25cb7f054f1a630e68c2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/fc10d778e4b84d5bd315dad194661e091d307c6f",
-                "reference": "fc10d778e4b84d5bd315dad194661e091d307c6f",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/848d8125239d7dbf8ab25cb7f054f1a630e68c2e",
+                "reference": "848d8125239d7dbf8ab25cb7f054f1a630e68c2e",
                 "shasum": ""
             },
             "require": {
@@ -1293,9 +1295,10 @@
             ],
             "support": {
                 "issues": "https://github.com/fzaninotto/Faker/issues",
-                "source": "https://github.com/fzaninotto/Faker/tree/v1.9.1"
+                "source": "https://github.com/fzaninotto/Faker/tree/v1.9.2"
             },
-            "time": "2019-12-12T13:22:17+00:00"
+            "abandoned": true,
+            "time": "2020-12-11T09:56:16+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

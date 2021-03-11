@@ -291,7 +291,7 @@ class SC_Response
      * @license http://www.gnu.org/licenses/fdl.html GFDL (邦訳)
      * @static
      */
-    public function sendHttpStatus($statusCode)
+    public static function sendHttpStatus($statusCode)
     {
         $protocol = $_SERVER['SERVER_PROTOCOL'];
         $httpVersion = (strpos($protocol, '1.1') !== false) ? '1.1' : '1.0';

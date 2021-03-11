@@ -34,7 +34,7 @@ require_once '../' . ADMIN_DIR . 'require.php';
 $mode = isset($_POST['mode']) ? $_POST['mode'] : '';
 $objPage = lfPageFactory($mode);
 $objPage->init();
-$objPage->process($mode);
+$objPage->process();
 
 function lfPageFactory($mode)
 {

@@ -20,6 +20,9 @@ class SC_Helper_CSV
     /** 項目名 */
     public $arrSubnaviName;
 
+    /** @var resource */
+    public $fpOutput;
+
     /** ヘッダーを出力するか (cbOutputCSV 用) */
     private $output_header = false;
 
@@ -78,6 +81,7 @@ class SC_Helper_CSV
         $cols = SC_Utils_Ex::sfGetCommaList($arrOutputCols, true);
 
         // 商品の場合
+        $from = '';
         if ($csv_id == 1) {
             // この WHERE 句を足さないと無効な規格も出力される。現行仕様と合わせる為追加。
             $inner_where = 'dtb_products_class.del_flg = 0';

@@ -32,6 +32,13 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Design_Bloc extends LC_Page_Admin_Ex
 {
+    /** @var string */
+    public $tpl_subno_edit;
+    /** @var int */
+    public $bloc_id;
+    /** @var array */
+    public $arrBlocList;
+
     /**
      * Page を初期化する.
      *

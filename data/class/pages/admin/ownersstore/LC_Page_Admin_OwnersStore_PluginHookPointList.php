@@ -33,6 +33,12 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_OwnersStore_PluginHookPointList extends LC_Page_Admin_Ex
 {
+    /** @var array */
+    public $arrUse;
+    /** @var array */
+    public $arrConflict;
+    /** @var array */
+    public $arrHookPoint;
 
     // }}}
     // {{{ functions

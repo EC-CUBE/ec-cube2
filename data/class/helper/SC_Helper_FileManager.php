@@ -34,9 +34,9 @@ class SC_Helper_FileManager
      * 指定パス配下のディレクトリ取得する.
      *
      * @param  string $dir 取得するディレクトリパス
-     * @return void
+     * @return array
      */
-    public function sfGetFileList($dir)
+    public static function sfGetFileList($dir)
     {
         $arrFileList = array();
         $arrDirList = array();
@@ -90,7 +90,7 @@ class SC_Helper_FileManager
      * @param  string $dir ディレクトリ
      * @return integer
      */
-    public function sfGetDirSize($dir)
+    public static function sfGetDirSize($dir)
     {
         $bytes = 0;
         if (file_exists($dir)) {
@@ -105,7 +105,7 @@ class SC_Helper_FileManager
                         $bytes += filesize($path);
                     } elseif (is_dir($path) && $file != '..' && $file != '.') {
                         // 下層ファイルのバイト数を取得する為、再帰的に呼び出す。
-                        $bytes += SC_Helper_FileManager::sfGetDirSize($path);
+                        $bytes += SC_Helper_FileManager_Ex::sfGetDirSize($path);
                     }
                 }
             } else {
@@ -319,7 +319,7 @@ class SC_Helper_FileManager
      * @param  string  $value    書き込み内容
      * @return boolean ファイルの書き込みに成功した場合 true
      */
-    public function sfWriteFile($filename, $value)
+    public static function sfWriteFile($filename, $value)
     {
         if (!is_dir(dirname($filename))) {
             SC_Utils_Ex::recursiveMkdir(dirname($filename), 0777);
@@ -342,7 +342,7 @@ class SC_Helper_FileManager
      * @param  string  $template_code テンプレートコード
      * @return boolean 成功した場合 true; 失敗した場合 false
      */
-    public function downloadArchiveFiles($dir, $template_code)
+    public static function downloadArchiveFiles($dir, $template_code)
     {
         // ダウンロードされるファイル名
         $dlFileName = 'tpl_package_' . $template_code . '_' . date('YmdHis') . '.tar.gz';
@@ -382,7 +382,7 @@ class SC_Helper_FileManager
      * @param  string  $path アーカイブパス
      * @return boolean Archive_Tar::extractModify()のエラー
      */
-    public function unpackFile($path)
+    public static function unpackFile($path)
     {
         // 圧縮フラグTRUEはgzip解凍をおこなう
         $tar = new Archive_Tar($path, true);
@@ -410,7 +410,7 @@ class SC_Helper_FileManager
      *
      * @param  string  $path       削除対象のディレクトリまたはファイルのパス
      * @param  boolean $del_myself $pathそのものを削除するか. true なら削除する.
-     * @return void
+     * @return bool
      */
     public static function deleteFile($path, $del_myself = true)
     {

@@ -32,6 +32,10 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Shopping_Deliv extends LC_Page_Ex
 {
+    /** @var array */
+    public $arrAddr;
+
+
     /**
      * Page を初期化する.
      *

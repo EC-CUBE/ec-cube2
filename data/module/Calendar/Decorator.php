@@ -56,7 +56,7 @@ class Calendar_Decorator
      * Constructs the Calendar_Decorator
      * @param object subclass to Calendar to decorate
      */
-    function Calendar_Decorator(& $calendar)
+    function __construct(& $calendar)
     {
         $this->calendar = & $calendar;
     }
@@ -238,7 +238,7 @@ class Calendar_Decorator
      * @return mixed either an object subclass of Calendar or false
      * @access public
      */
-    function fetch()
+    function fetch($decorator = null)
     {
         return $this->calendar->fetch();
     }
@@ -248,7 +248,7 @@ class Calendar_Decorator
      * @return array
      * @access public
      */
-    function fetchAll()
+    function fetchAll($decorator = null)
     {
         return $this->calendar->fetchAll();
     }

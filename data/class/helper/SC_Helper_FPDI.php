@@ -3,7 +3,7 @@
 require DATA_REALDIR . 'module/fpdi/japanese.php';
 
 // japanese.php のバグ回避
-$GLOBALS[SJIS_widths] = $SJIS_widths;
+$GLOBALS['SJIS_widths'] = $SJIS_widths;
 
 class SC_Helper_FPDI extends PDF_Japanese
 {
@@ -15,7 +15,7 @@ class SC_Helper_FPDI extends PDF_Japanese
      *
      * @return void
      */
-    public function AddSJISFont()
+    public function AddSJISFont($family='SJIS')
     {
         parent::AddSJISFont();
         $cw = $GLOBALS['SJIS_widths'];
@@ -24,7 +24,7 @@ class SC_Helper_FPDI extends PDF_Japanese
         $this->AddCIDFonts('Gothic', 'KozGoPro-Medium-Acro,MS-PGothic,Osaka', $cw, $c_map, $registry);
     }
 
-    public function SJISMultiCell()
+    public function SJISMultiCell($w, $h, $txt, $border=0, $align='L', $fill=false)
     {
         $arrArg = func_get_args();
 
@@ -34,7 +34,8 @@ class SC_Helper_FPDI extends PDF_Japanese
         $bak = $this->enable_conv_sjis;
         $this->enable_conv_sjis = false;
 
-        call_user_func_array(array(parent, 'SJISMultiCell'), $arrArg);
+        list($w, $h, $txt, $border, $align, $fill) = $arrArg;
+        parent::SJISMulticell($w, $h, $txt, $border, $align, $fill);
 
         $this->enable_conv_sjis = $bak;
     }

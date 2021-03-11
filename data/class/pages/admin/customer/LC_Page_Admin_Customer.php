@@ -32,6 +32,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
 {
+    /** @var bool */
+    public $is_delete;
+    /** @var bool */
+    public $is_resendmail;
+
     /**
      * Page を初期化する.
      *
@@ -187,7 +192,7 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
             return false;
         }
         //仮登録メール再送
-        $resend_flg = true; 
+        $resend_flg = true;
         // 登録メール再送
         $objHelperMail = new SC_Helper_Mail_Ex();
         $objHelperMail->setPage($this);

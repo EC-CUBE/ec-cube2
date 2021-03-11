@@ -46,7 +46,8 @@ if ($num < ($config['fixture_product_num'] + 2)) {
 
     $category_ids = $objGenerator->createCategories();
     foreach ($product_ids as $product_id) {
-        $objGenerator->relateProductCategories($product_id, array_rand(array_flip($category_ids), $faker->numberBetween(2, count($category_ids) - 1)));
+        $num = $faker->numberBetween(2, count($category_ids) - 1);
+        $objGenerator->relateProductCategories($product_id, array_rand(array_flip($category_ids), $num >= 2 ? $num : 2));
     }
     $objDb = new SC_Helper_DB_Ex();
     $objDb->sfCountCategory($objQuery);

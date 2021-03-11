@@ -69,7 +69,7 @@ class Calendar_Validator
      * @param object subclass of Calendar
      * @access public
      */
-    function Calendar_Validator(& $calendar)
+    public function __construct(& $calendar)
     {
         $this->calendar = & $calendar;
         $this->cE = & $calendar->getEngine();
@@ -239,7 +239,8 @@ class Calendar_Validator
      */
     function fetch()
     {
-        $error = each ($this->errors);
+        $error = current($this->errors);
+        next($this->errors);
         if ($error) {
             return $error['value'];
         } else {
@@ -285,7 +286,7 @@ class Calendar_Validation_Error
      * @param string Validation error message
      * @access protected
      */
-    function Calendar_Validation_Error($unit,$value,$message)
+    function __construct($unit,$value,$message)
     {
         $this->unit    = $unit;
         $this->value   = $value;

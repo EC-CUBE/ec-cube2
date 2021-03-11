@@ -53,7 +53,7 @@
         <!--▼画面右-->
         <div id="products-rank-right">
             <h2><!--{* jQuery で挿入される *}--></h2>
-            <!--{if count($arrProductsList) > 0}-->
+            <!--{if !empty($arrProductsList)}-->
 
                 <p class="remark"><span class="attention"><!--{$tpl_linemax}-->件</span>が該当しました。</p>
                 <div class="pager">

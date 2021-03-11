@@ -71,7 +71,7 @@
         <span class="attention"><!--{$arrErr.list_name}--></span><br />
         <!--{/if}-->
         <!--{* 一覧が存在する場合のみ表示する *}-->
-        <!--{if count($arrBkupList) > 0}-->
+        <!--{if !empty($arrBkupList)}-->
             <table class="list">
                 <tr>
                     <th>バックアップ名</th>

@@ -119,11 +119,11 @@ class SC_Helper_Plugin
         if (is_array($arrArgs) === false) {
             array(&$arrArgs);
         }
-
+        $arrSaveArgs = array();
+        $arrClassName = array();
+        $arrClassPath = array();
         if ($hook_point == 'loadClassFileChange') {
             $arrSaveArgs = $arrArgs;
-            $arrClassName = array();
-            $arrClassPath = array();
         }
 
         if (array_key_exists($hook_point, $this->arrRegistedPluginActions)

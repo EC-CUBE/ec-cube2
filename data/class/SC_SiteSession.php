@@ -64,25 +64,25 @@ class SC_SiteSession
     }
 
     /* ユニークIDの取得 */
-    public function getUniqId()
+    public static function getUniqId()
     {
         // ユニークIDがセットされていない場合はセットする。
         if (!isset($_SESSION['site']['uniqid']) || $_SESSION['site']['uniqid'] == '') {
-            $this->setUniqId();
+            static::setUniqId();
         }
 
         return $_SESSION['site']['uniqid'];
     }
 
     /* ユニークIDのセット */
-    public function setUniqId()
+    public static function setUniqId()
     {
         // 予測されないようにランダム文字列を付与する。
         $_SESSION['site']['uniqid'] = SC_Utils_Ex::sfGetUniqRandomId();
     }
 
     /* ユニークIDのチェック */
-    public function checkUniqId()
+    public static function checkUniqId()
     {
         if (!empty($_POST['uniqid'])) {
             if ($_POST['uniqid'] != $_SESSION['site']['uniqid']) {
@@ -94,13 +94,13 @@ class SC_SiteSession
     }
 
     /* ユニークIDの解除 */
-    public function unsetUniqId()
+    public static function unsetUniqId()
     {
         $_SESSION['site']['uniqid'] = '';
     }
 
     /* 登録成功を記録 */
-    public function setRegistFlag()
+    public static function setRegistFlag()
     {
         $_SESSION['site']['regist_success'] = true;
     }

@@ -42,7 +42,7 @@
 </div>
 
 <div class="popup_cart">
-    <!--{if count($arrCartList) > 0}-->
+    <!--{if !empty($arrCartList)}-->
         <h2><a rel="external" href="<!--{$smarty.const.CART_URL|h}-->">カートの中</a></h2>
         <!--{foreach from=$arrCartList item=key}-->
             <div class="product_type">

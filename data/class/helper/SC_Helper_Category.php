@@ -104,7 +104,7 @@ class SC_Helper_Category
     /**
      * カテゴリーツリーの取得.
      *
-     * @return type
+     * @return array
      */
     public function getTree()
     {

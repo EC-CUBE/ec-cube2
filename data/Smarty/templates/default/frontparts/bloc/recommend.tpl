@@ -21,7 +21,7 @@
  *}-->
 
 <!--{strip}-->
-    <!--{if count($arrBestProducts) > 0}-->
+    <!--{if !empty($arrBestProducts)}-->
         <div class="block_outer clearfix">
             <div id="recommend_area">
                 <h2><img src="<!--{$TPL_URLPATH}-->img/title/tit_bloc_recommend.png" alt="*" class="title_icon" /></h2>

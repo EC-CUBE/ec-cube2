@@ -384,11 +384,6 @@ function lfDispStep0($objPage)
         $hasErr = true;
     }
 
-    if (get_magic_quotes_gpc()) {
-        $mess .= ">> ×：PHPの設定ディレクティブ「magic_quotes_gpc」が有効になっています。\n";
-        $hasErr = true;
-    }
-
     // 問題点を検出している場合
     if ($hasErr) {
         $objPage->tpl_mode = 'return_step0';

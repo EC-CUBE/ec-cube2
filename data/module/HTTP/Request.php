@@ -60,13 +60,13 @@ require_once 'Net/URL.php';
 /**#@+
  * Constants for HTTP request methods
  */
-define('HTTP_REQUEST_METHOD_GET',     'GET',     true);
-define('HTTP_REQUEST_METHOD_HEAD',    'HEAD',    true);
-define('HTTP_REQUEST_METHOD_POST',    'POST',    true);
-define('HTTP_REQUEST_METHOD_PUT',     'PUT',     true);
-define('HTTP_REQUEST_METHOD_DELETE',  'DELETE',  true);
-define('HTTP_REQUEST_METHOD_OPTIONS', 'OPTIONS', true);
-define('HTTP_REQUEST_METHOD_TRACE',   'TRACE',   true);
+define('HTTP_REQUEST_METHOD_GET',     'GET');
+define('HTTP_REQUEST_METHOD_HEAD',    'HEAD');
+define('HTTP_REQUEST_METHOD_POST',    'POST');
+define('HTTP_REQUEST_METHOD_PUT',     'PUT');
+define('HTTP_REQUEST_METHOD_DELETE',  'DELETE');
+define('HTTP_REQUEST_METHOD_OPTIONS', 'OPTIONS');
+define('HTTP_REQUEST_METHOD_TRACE',   'TRACE');
 /**#@-*/
 
 /**#@+
@@ -86,8 +86,8 @@ define('HTTP_REQUEST_ERROR_GZIP_CRC',       256);
 /**#@+
  * Constants for HTTP protocol versions
  */
-define('HTTP_REQUEST_HTTP_VER_1_0', '1.0', true);
-define('HTTP_REQUEST_HTTP_VER_1_1', '1.1', true);
+define('HTTP_REQUEST_HTTP_VER_1_0', '1.0');
+define('HTTP_REQUEST_HTTP_VER_1_1', '1.1');
 /**#@-*/
 
 if (extension_loaded('mbstring') && (2 & ini_get('mbstring.func_overload'))) {
@@ -309,7 +309,7 @@ class HTTP_Request
     * </ul>
     * @access public
     */
-    function HTTP_Request($url = '', $params = array())
+    public function __construct($url = '', $params = array())
     {
         $this->_method         =  HTTP_REQUEST_METHOD_GET;
         $this->_http           =  HTTP_REQUEST_HTTP_VER_1_1;
@@ -398,7 +398,7 @@ class HTTP_Request
     */
     function reset($url, $params = array())
     {
-        $this->HTTP_Request($url, $params);
+        self::__construct($url, $params);
     }
 
     /**
@@ -801,7 +801,7 @@ class HTTP_Request
                 $this->_url = new Net_URL($redirect);
                 $this->addHeader('Host', $this->_generateHostHeader());
             // Absolute path
-            } elseif ($redirect{0} == '/') {
+            } elseif (strpos($redirect, '/') === 0) {
                 $this->_url->path = $redirect;
 
             // Relative path
@@ -969,7 +969,9 @@ class HTTP_Request
             // "normal" POST request
             if (!isset($boundary)) {
                 $postdata = implode('&', array_map(
-                    create_function('$a', 'return $a[0] . \'=\' . $a[1];'),
+                    function($a) {
+                        return $a[0].'='.$a[1];
+                    },
                     $this->_flattenArray('', $this->_postData)
                 ));
 
@@ -1202,7 +1204,7 @@ class HTTP_Response
     * @param  Net_Socket    socket to read the response from
     * @param  array         listeners attached to request
     */
-    function HTTP_Response(&$sock, &$listeners)
+    function __construct(&$sock, &$listeners)
     {
         $this->_sock      =& $sock;
         $this->_listeners =& $listeners;
@@ -1439,6 +1441,7 @@ class HTTP_Response
     */
     function _decodeGzip($data)
     {
+        $oldEncoding = null;
         if (HTTP_REQUEST_MBSTRING) {
             $oldEncoding = mb_internal_encoding();
             mb_internal_encoding('iso-8859-1');

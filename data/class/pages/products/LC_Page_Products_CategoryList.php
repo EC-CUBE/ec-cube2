@@ -32,6 +32,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Products_CategoryList extends LC_Page_Ex
 {
+    /** @var array */
+    public $arrCategory;
+    /** @var array */
+    public $arrChildren;
+
     /**
      * Page を初期化する.
      *
@@ -95,7 +100,7 @@ class LC_Page_Products_CategoryList extends LC_Page_Ex
      *
      * @param  string  $category_id カテゴリID
      * @param  boolean $count_check 有効な商品がないカテゴリを除くかどうか
-     * @return void
+     * @return array
      */
     public function lfGetCategories($category_id, $count_check = false)
     {

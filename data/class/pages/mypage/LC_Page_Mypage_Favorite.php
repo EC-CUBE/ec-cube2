@@ -34,6 +34,8 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
 {
     /** ページナンバー */
     public $tpl_pageno;
+    /** @var array */
+    public $arrFavorite;
 
     /**
      * Page を初期化する.

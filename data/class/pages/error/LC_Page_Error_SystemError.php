@@ -41,6 +41,8 @@ class LC_Page_Error_SystemError extends LC_Page_Error
 
     /** デバッグ用のメッセージ配列 */
     public $arrDebugMsg = array();
+    /** @var bool */
+    public $adminPage;
 
     /**
      * Page を初期化する.

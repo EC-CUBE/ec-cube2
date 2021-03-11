@@ -32,6 +32,15 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
 {
+    /** @var int */
+    public $area_row;
+    /** @var string */
+    public $css_name;
+    /** @var string */
+    public $old_css_name;
+    /** @var array */
+    public $arrCSSList;
+
     /**
      * Page を初期化する.
      *
@@ -209,6 +218,7 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
         $objFileManager = new SC_Helper_FileManager_Ex();
 
         $arrFileList = $objFileManager->sfGetFileList($css_dir);
+        $arrCSSList = array();
         foreach ($arrFileList as $val) {
             if (!$val['is_dir']) {
                 $arrCSSList[] = array(

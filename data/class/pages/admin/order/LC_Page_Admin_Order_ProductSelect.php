@@ -32,6 +32,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
 {
+    /** @var int */
+    public $tpl_no;
+    /** @var int */
+    public $shipping_id;
+
     /**
      * Page を初期化する.
      *
@@ -147,6 +152,7 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
      */
     public function getFnOnload($arrProducts)
     {
+        $js_fnOnLoad = '';
         foreach ($arrProducts as $arrProduct) {
             $js_fnOnLoad .= "fnSetClassCategories(document.product_form{$arrProduct['product_id']});";
         }
@@ -178,7 +184,7 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
         // 取得範囲の指定(開始行番号、行数のセット)
         $objQuery->setLimitOffset($page_max, $startno);
         // 表示順序
-        $objQuery->setOrder($order);
+        $objQuery->setOrder('');
 
         // 検索結果の取得
         return $objProduct->findProductIdsOrder($objQuery, $bind);

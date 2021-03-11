@@ -32,6 +32,13 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Entry_Kiyaku extends LC_Page_Ex
 {
+    /** @var int */
+    public $max;
+    /** @var int */
+    public $offset;
+    /** @var string */
+    public $tpl_kiyaku_text;
+
     /**
      * Page を初期化する.
      *
@@ -88,7 +95,7 @@ class LC_Page_Entry_Kiyaku extends LC_Page_Ex
      */
     public function lfMakeKiyakuText($arrKiyaku, $max, $offset)
     {
-        $this->tpl_kiyaku_text = '';
+        $tpl_kiyaku_text = '';
         for ($i = 0; $i < $max; $i++) {
             if ($offset !== null && ($offset - 1) <> $i) continue;
             $tpl_kiyaku_text.=$arrKiyaku[$i]['kiyaku_title'] . "\n\n";

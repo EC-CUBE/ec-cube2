@@ -32,6 +32,15 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/order/LC_Page_Admin_Order_Ex
  */
 class LC_Page_Admin_Order_Mail extends LC_Page_Admin_Order_Ex
 {
+    /** @var array */
+    public $order_id_array;
+    /** @var int */
+    public $order_id_count;
+    /** @var array */
+    public $arrMailHistory;
+    /** @var string */
+    public $tpl_to;
+
     /**
      * Page を初期化する.
      *

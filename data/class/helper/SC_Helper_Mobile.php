@@ -295,17 +295,7 @@ class SC_Helper_Mobile
      */
     public function lfGenerateKaraMailToken()
     {
-        $token_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
-        $token_chars_length = strlen($token_chars);
-        $token_length = 10;
-        $token = '';
-
-        while ($token_length > 0) {
-            $token .= $token_chars{mt_rand(0, $token_chars_length - 1)};
-            --$token_length;
-        }
-
-        return $token;
+        return GC_Utils_Ex::gfMakePassword(10);
     }
 
     /**

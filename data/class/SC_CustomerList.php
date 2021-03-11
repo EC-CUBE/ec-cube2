@@ -40,6 +40,7 @@ class SC_CustomerList extends SC_SelectSql_Ex
 
         $objDb = new SC_Helper_DB_Ex();
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
+        $regdate_col = '';
 
         if ($mode == '') {
             // 会員本登録会員で削除していない会員
@@ -348,10 +349,9 @@ class SC_CustomerList extends SC_SelectSql_Ex
      */
     public function getListMailMagazine($is_mobile = false)
     {
-        $colomn = $this->getMailMagazineColumn($is_mobile);
         $this->select = "
             SELECT
-                $colomn
+                *
             FROM
                 dtb_customer";
 
@@ -376,6 +376,7 @@ class SC_CustomerList extends SC_SelectSql_Ex
     {
         $this->arrColumnCSV = $arrColumnCSV;
         $i = 0;
+        $state = '';
         foreach ($this->arrColumnCSV as $val) {
             if ($i != 0) $state .= ', ';
             $state .= $val['sql'];

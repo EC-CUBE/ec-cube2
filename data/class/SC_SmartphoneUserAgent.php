@@ -34,7 +34,7 @@ class SC_SmartphoneUserAgent
      *
      * @return boolean
      */
-    public function isSmartphone()
+    public static function isSmartphone()
     {
         $detect = new Mobile_Detect;
         // SPでかつPC表示OFFの場合
@@ -47,7 +47,7 @@ class SC_SmartphoneUserAgent
      *
      * @return boolean
      */
-    public function isNonSmartphone()
+    public static function isNonSmartphone()
     {
         return !SC_SmartphoneUserAgent_Ex::isSmartphone();
     }
@@ -57,7 +57,7 @@ class SC_SmartphoneUserAgent
      *
      * @return string
      */
-    public function getSmartphonePcFlag()
+    public static function getSmartphonePcFlag()
     {
         $_SESSION['pc_disp'] = empty($_SESSION['pc_disp']) ? false : $_SESSION['pc_disp'];
 

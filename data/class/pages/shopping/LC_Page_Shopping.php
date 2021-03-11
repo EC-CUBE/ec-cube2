@@ -32,6 +32,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Shopping extends LC_Page_Ex
 {
+    /** @var string */
+    public $tpl_valid_phone_id;
+
     /**
      * Page を初期化する.
      *

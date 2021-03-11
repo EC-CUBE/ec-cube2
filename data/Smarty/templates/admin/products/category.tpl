@@ -65,7 +65,7 @@
             </div>
 
             <h2><!--{* jQuery で挿入される *}--></h2>
-            <!--{if count($arrList) > 0}-->
+            <!--{if !empty($arrList)}-->
 
             <table class="list" id="categoryTable">
                 <col width="5%" />

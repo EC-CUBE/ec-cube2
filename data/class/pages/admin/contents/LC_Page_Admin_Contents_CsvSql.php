@@ -32,6 +32,17 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Contents_CsvSql extends LC_Page_Admin_Ex
 {
+    /** @var array */
+    public $tpl_subno_csv;
+    /** @var string */
+    public $sqlerr;
+    /** @var array */
+    public $arrColList;
+    /** @var array */
+    public $arrSqlList;
+    /** @var array */
+    public $arrTableList;
+
     /**
      * Page を初期化する.
      *

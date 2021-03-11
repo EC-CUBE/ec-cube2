@@ -32,6 +32,15 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
 {
+    /** @var int */
+    public $tpl_disp_max;
+    /** @var int */
+    public $checkRank;
+    /** @var array */
+    public $arrItems;
+    /** @var array */
+    public $arrCatList;
+
     /**
      * Page を初期化する.
      *
@@ -74,7 +83,7 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
         $arrPost = $objFormParam->getHashArray();
 
         $objRecommend = new SC_Helper_BestProducts_Ex();
-
+        $arrItems = array();
         switch ($this->getMode()) {
             case 'down': //商品の並び替えをする。
                 $objRecommend->rankDown($arrPost['best_id']);

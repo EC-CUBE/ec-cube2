@@ -48,6 +48,10 @@ class SC_Product
     public $classCats1;
     /** 検索用並び替え条件配列 */
     public $arrOrderData;
+    /** @var array */
+    public $product_class_id;
+    /** @var array */
+    public $product_type;
 
     /**
      * 商品検索結果の並び順を指定する。
@@ -145,7 +149,7 @@ class SC_Product
             ,del_flg
             ,update_date
 __EOS__;
-        $res = $objQuery->select($col, $this->alldtlSQL('', $product_ids));
+        $res = $objQuery->select($col, static::alldtlSQL('', $product_ids));
 
         return $res;
     }
@@ -207,7 +211,7 @@ __EOS__;
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $from = $this->alldtlSQL('', array($product_id));
+        $from = static::alldtlSQL('', array($product_id));
         $where = 'product_id = ?';
         // SC_DB_DBFactory::alldtlSQL() で生成される追加条件のため
         // product_id の配列を生成ておく
@@ -632,7 +636,7 @@ __EOS__;
      * @param array $product_ids 商品IDの配列
      * @return string 商品詳細の SQL
      */
-    public function alldtlSQL($where_products_class = '', $product_ids = array())
+    public static function alldtlSQL($where_products_class = '', $product_ids = array())
     {
         $objDBFactory = SC_DB_DBFactory_Ex::getInstance();
 
@@ -647,7 +651,7 @@ __EOS__;
      * @param  string $where 商品詳細の WHERE 句
      * @return string 商品規格詳細の SQL
      */
-    public function prdclsSQL($where = '')
+    public static function prdclsSQL($where = '')
     {
         $where_clause = '';
         if (!SC_Utils_Ex::isBlank($where)) {
@@ -693,7 +697,7 @@ __EOS__;
     /**
      * @param string $tablename
      */
-    public function getProductDispConditions($tablename = null)
+    public static function getProductDispConditions($tablename = null)
     {
         $tablename = ($tablename) ? $tablename . '.' : null;
 

@@ -178,8 +178,9 @@ class Net_Socket extends PEAR
         }
 
         if (!$fp) {
-            if ($errno == 0 && !strlen($errstr) && isset($php_errormsg)) {
-                $errstr = $php_errormsg;
+            $error = error_get_last();
+            if ($errno == 0 && !strlen($errstr) && isset($error)) {
+                $errstr = $error['message'];
             }
             @ini_set('track_errors', $old_track_errors);
             return $this->raiseError($errstr, $errno);

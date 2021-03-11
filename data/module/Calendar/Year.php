@@ -52,14 +52,17 @@ require_once CALENDAR_ROOT.'Calendar.php';
  */
 class Calendar_Year extends Calendar
 {
+    /** @var string */
+    public $firstDay;
+
     /**
      * Constructs Calendar_Year
      * @param int year e.g. 2003
      * @access public
      */
-    function Calendar_Year($y)
+    public function __construct($y)
     {
-        Calendar::Calendar($y);
+        parent::__construct($y);
     }
 
     /**

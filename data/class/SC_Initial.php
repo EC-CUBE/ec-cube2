@@ -105,11 +105,7 @@ class SC_Initial
      */
     public function setErrorReporting()
     {
-        error_reporting(E_ALL & ~E_NOTICE);
-        // PHP 5.3.0対応
-        if (error_reporting() > 6143) {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-        }
+        error_reporting(E_ALL);
     }
 
     /**
@@ -123,8 +119,10 @@ class SC_Initial
     public function phpconfigInit()
     {
         ini_set('html_errors', '1');
-        ini_set('mbstring.http_input', CHAR_CODE);
-        ini_set('mbstring.http_output', CHAR_CODE);
+        if (PHP_VERSION_ID < 50600) {
+            ini_set('mbstring.http_input', CHAR_CODE);
+            ini_set('mbstring.http_output', CHAR_CODE);
+        }
         ini_set('auto_detect_line_endings', 1);
         ini_set('default_charset', CHAR_CODE);
         ini_set('mbstring.detect_order', 'auto');
@@ -184,10 +182,10 @@ class SC_Initial
         // DIR_INDEX_FILE にアクセスする時の URL のファイル名部を定義する
         if ($useFilenameDirIndex === true) {
             // ファイル名を使用する
-            define('DIR_INDEX_PATH', DIR_INDEX_FILE);
+            SC_Initial_Ex::defineIfNotDefined('DIR_INDEX_PATH', DIR_INDEX_FILE);
         } else {
             // ファイル名を使用しない
-            define('DIR_INDEX_PATH', '');
+            SC_Initial_Ex::defineIfNotDefined('DIR_INDEX_PATH', '');
         }
     }
 
@@ -473,7 +471,7 @@ class SC_Initial
      * @param  string  $value 定数の値。
      * @return void
      */
-    public function defineIfNotDefined($name, $value = null)
+    public static function defineIfNotDefined($name, $value = null)
     {
         if (!defined($name)) {
             define($name, $value);

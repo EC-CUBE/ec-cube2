@@ -32,6 +32,10 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Mypage_DeliveryAddr extends LC_Page_Ex
 {
+    /** @var string */
+    public $validUrl;
+    /** @var string */
+    public $ParentPage;
     /**
      * Page を初期化する.
      *
@@ -187,6 +191,7 @@ class LC_Page_Mypage_DeliveryAddr extends LC_Page_Ex
      */
     public function lfRegistDataNonMember($objFormParam)
     {
+        $arrRegist = array();
         $arrRegistColumn = $objFormParam->getDbArray();
         foreach ($arrRegistColumn as $key => $val) {
             $arrRegist['shipping_' . $key ] = $val;

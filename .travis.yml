@@ -14,7 +14,7 @@ php:
   - 7.2
   - 7.3
   - 7.4
-  - nightly
+  - 8.0
 
 env:
     global:
@@ -50,7 +50,7 @@ matrix:
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
     - php: 7.4
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
-    - php: nightly
+    - php: 8.0
       env: DB=pgsql USER=postgres DBPASS=password DBUSER=postgres DBPORT=5432 COVERAGE=true
   allow_failures:
     - php: nightly

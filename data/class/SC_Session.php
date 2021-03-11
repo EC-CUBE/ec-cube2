@@ -155,7 +155,7 @@ class SC_Session
      *
      * @return bool
      */
-    public function regenerateSID()
+    public static function regenerateSID()
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
             return session_regenerate_id(true);

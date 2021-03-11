@@ -29,6 +29,9 @@ class SC_View
     /** @var LC_Page */
     public $objPage;
 
+    /** @var int */
+    public $time_start;
+
     // コンストラクタ
     public function __construct()
     {
@@ -39,10 +42,11 @@ class SC_View
     {
         // include_phpの利用のためSmartyBCを呼び出す、ホントはinclude_phpをなくしたいそうすれば、blank.tplもなくせる
         $this->_smarty = new SmartyBC;
-
+        // see https://github.com/smarty-php/smarty/issues/605#issuecomment-742832333
+        $this->_smarty->setErrorReporting(E_ALL & ~E_WARNING & ~E_NOTICE);
         $this->_smarty->left_delimiter = '<!--{';
         $this->_smarty->right_delimiter = '}-->';
-        $this->_smarty->registerPlugin('modifier', 'sfDispDBDate', array('SC_Utils_Ex', 'sfDispDBDate'));
+        $this->_smarty->registerPlugin('modifier', 'sfDispDBDate', function ($dbdate, $time = true) { return SC_Utils_Ex::sfDispDBDate($dbdate, $time); });
         $this->_smarty->registerPlugin('modifier', 'sfGetErrorColor', array('SC_Utils_Ex', 'sfGetErrorColor'));
         $this->_smarty->registerPlugin('modifier', 'sfTrim', array('SC_Utils_Ex', 'sfTrim'));
         $this->_smarty->registerPlugin('modifier', 'sfCalcIncTax', array('SC_Helper_DB_Ex', 'sfCalcIncTax'));

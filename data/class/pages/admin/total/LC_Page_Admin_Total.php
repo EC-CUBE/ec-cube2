@@ -297,7 +297,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     public function lfSetStartEndDate(&$objFormParam)
     {
         $arrRet = $objFormParam->getHashArray();
-
+        $sdate = null;
+        $edate = null;
         // 月度集計
         if ($arrRet['search_form'] == 1) {
             list($sdate, $edate) = SC_Utils_Ex::sfTermMonth($arrRet['search_startyear_m'],
@@ -366,7 +367,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $objGraphLine->drawGraph();
 
             // グラフの出力
-            if (DRAW_IMAGE) {
+            if (defined('DRAW_IMAGE') && DRAW_IMAGE) {
                 $objGraphLine->outputGraph();
                 SC_Response_Ex::actionExit();
             }
@@ -416,7 +417,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $objGraphPie->drawGraph();
 
             // グラフの出力
-            if (DRAW_IMAGE) {
+            if (defined('DRAW_IMAGE') && DRAW_IMAGE) {
                 $objGraphPie->outputGraph();
                 SC_Response_Ex::actionExit();
             }
@@ -451,6 +452,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 
             $objGraphBar = new SC_Graph_Bar_Ex();
 
+            $arrKey = array();
             foreach ($arrList as $key => $value) {
                 $arrKey[] = preg_replace('/～/u', '-', $key);
             }
@@ -471,7 +473,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 
             $objGraphBar->drawGraph();
 
-            if (DRAW_IMAGE) {
+            if (defined('DRAW_IMAGE') && DRAW_IMAGE) {
                 $objGraphBar->outputGraph();
                 SC_Response_Ex::actionExit();
             }
@@ -830,6 +832,7 @@ __EOS__;
     {
         // 検索結果が0でない場合
         if (count($arrResults) > 0) {
+            $arrTotal = array();
             // 合計の計算
             foreach ($arrResults as $arrResult) {
                 foreach ($arrResult as $key => $value) {
@@ -859,6 +862,7 @@ __EOS__;
     {
         $max = count($arrData);
         $csv_data = '';
+        $arrRet = array();
         for ($i = 0; $i < $max; $i++) {
             foreach ($arrDataCol as $val) {
                 $arrRet[$i][$val] = ($arrData[$i][$val]) ? $arrData[$i][$val] : "0";
