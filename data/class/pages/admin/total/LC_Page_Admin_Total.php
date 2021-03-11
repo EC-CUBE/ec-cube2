@@ -43,6 +43,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     public $arrSearchForm2;
     /** @var string */
     public $tpl_page_type;
+    /** @var array */
+    public $excludeOrderStatuses;
 
     /**
      * Page を初期化する.
@@ -93,6 +95,9 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             'search_endmonth',
             'search_endday',
         );
+
+        // 集計から除外する受注ステータスの配列
+        $this->excludeOrderStatuses = array(ORDER_CANCEL, ORDER_PENDING);
     }
 
     /**
@@ -550,8 +555,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, $type);
-        $where .= ' AND del_flg = 0 AND status <> ?';
-        $arrWhereVal[] = ORDER_CANCEL;
+        $where .= ' AND del_flg = 0 AND status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
+        $arrWhereVal += $this->excludeOrderStatuses;
 
         // 会員集計の取得
         $col = <<< __EOS__
@@ -594,8 +599,8 @@ __EOS__;
 
         list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, $type);
 
-        $where .= ' AND dtb_order.del_flg = 0 AND dtb_order.status <> ?';
-        $arrWhereVal[] = ORDER_CANCEL;
+        $where .= ' AND dtb_order.del_flg = 0 AND dtb_order.status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
+        $arrWhereVal += $this->excludeOrderStatuses;
 
         $col = <<< __EOS__
                 product_id,
@@ -634,8 +639,8 @@ __EOS__;
 
         $from   = 'dtb_order JOIN dtb_customer ON dtb_order.customer_id = dtb_customer.customer_id';
 
-        $where .= ' AND dtb_order.del_flg = 0 AND dtb_order.status <> ?';
-        $arrWhereVal[] = ORDER_CANCEL;
+        $where .= ' AND dtb_order.del_flg = 0 AND dtb_order.status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
+        $arrWhereVal += $this->excludeOrderStatuses;
 
         $objQuery->setGroupBy('job');
         $objQuery->setOrder('total DESC');
@@ -672,8 +677,8 @@ __EOS__;
 
         $from   = 'dtb_order';
 
-        $where .= ' AND del_flg = 0 AND status <> ?';
-        $arrWhereVal[] = ORDER_CANCEL;
+        $where .= ' AND del_flg = 0 AND status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
+        $arrWhereVal += $this->excludeOrderStatuses;  $objQuery->setGroupBy('age');
 
         $objQuery->setGroupBy('age');
         $objQuery->setOrder('age DESC');
@@ -702,8 +707,8 @@ __EOS__;
         $objQuery   = SC_Query_Ex::getSingletonInstance();
 
         list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, null, null);
-        $where .= ' AND del_flg = 0 AND status <> ?';
-        $arrWhereVal[] = ORDER_CANCEL;
+        $where .= ' AND del_flg = 0 AND status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
+        $arrWhereVal += $this->excludeOrderStatuses;
         $xincline = false;
         switch ($type) {
             case 'month':

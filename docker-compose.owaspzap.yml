@@ -1,6 +1,11 @@
 version: "3"
 
 services:
+  ec-cube:
+    environment:
+      # Use Zap Proxy
+      HTTP_URL: https://ec-cube/
+      HTTPS_URL: https://ec-cube/
   zap:
     build:
       context: ./zap

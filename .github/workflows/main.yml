@@ -97,7 +97,7 @@ jobs:
       uses: nanasess/setup-chromedriver@master
       with:
         chromedriver-version: 2.43
-
+    - run: sleep 1
     - name: Run to PHPUnit
       run: data/vendor/bin/phpunit --exclude-group classloader
     - name: Run to PHPUnit classloader
@@ -200,7 +200,8 @@ jobs:
         HTTPS_URL: http://localhost:8085/
       run: bash eccube_install.sh mysql
       shell: bash
-
+    - run: sleep 1
+      shell: bash
     - name: Run to PHPUnit
       run: data/vendor/bin/phpunit --exclude-group classloader
     - name: Run to PHPUnit classloader
