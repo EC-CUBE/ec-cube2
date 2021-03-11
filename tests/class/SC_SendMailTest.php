@@ -148,8 +148,10 @@ class SC_SendMailTest extends Common_TestCase
      */
     public function testGetBackendParams()
     {
-        $this->objQuery->update('dtb_baseinfo', ['email04' => 'test@example.com']);
         $objDb = new SC_Helper_DB_Ex();
+
+        SC_Helper_DB_Ex::registerBasisData(['email04' => 'test@example.com']);
+
         $objSite = $objDb->sfGetBasisData();
         $this->expected = [
             '-f '.$objSite['email04']

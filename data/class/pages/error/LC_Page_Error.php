@@ -70,7 +70,7 @@ class LC_Page_Error extends LC_Page_Ex
         }
 
         // キャッシュから店舗情報取得（DBへの接続は行わない）
-        $this->arrSiteInfo = SC_Helper_DB_Ex::sfGetBasisDataCache(false);
+        $this->arrSiteInfo = SC_Helper_DB_Ex::getBasisDataFromCacheFile(true);
     }
 
     /**
