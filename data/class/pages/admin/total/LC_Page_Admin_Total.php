@@ -586,7 +586,7 @@ __EOS__;
             }
         }
 
-        $tpl_image = DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'member_name', 'member', '(売上比率)', $sdate, $edate) : '';
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'member_name', 'member', '(売上比率)', $sdate, $edate) : '';
 
 
         return array($arrTotalResults, $tpl_image);
@@ -619,7 +619,7 @@ __EOS__;
         $objQuery->setOrder('total DESC');
         $arrTotalResults = $objQuery->select($col, $from, $where, $arrWhereVal);
 
-        $tpl_image = DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'product_name', 'products_' . $type, '(売上比率)', $sdate, $edate) : '';
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'product_name', 'products_' . $type, '(売上比率)', $sdate, $edate) : '';
 
         return array($arrTotalResults, $tpl_image);
     }
@@ -657,7 +657,7 @@ __EOS__;
 
         }
 
-        $tpl_image = DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'job_name', 'job_' . $type, '(売上比率)', $sdate, $edate) : '';
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'job_name', 'job_' . $type, '(売上比率)', $sdate, $edate) : '';
 
         return array($arrTotalResults, $tpl_image);
     }
@@ -695,7 +695,7 @@ __EOS__;
 
         }
 
-        $tpl_image = DRAW_IMAGE ? $this->lfGetGraphBar($arrTotalResults, 'age_name', 'age_' . $type, '(年齢)', '(売上合計)', $sdate, $edate) : '';
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphBar($arrTotalResults, 'age_name', 'age_' . $type, '(年齢)', '(売上合計)', $sdate, $edate) : '';
 
         return array($arrTotalResults, $tpl_image);
     }
@@ -750,7 +750,7 @@ __EOS__;
 
         $arrTotalResults = $this->lfAddBlankLine($arrTotalResults, $type, $sdate, $edate);
 
-        $tpl_image = DRAW_IMAGE ? $this->lfGetGraphLine($arrTotalResults, 'str_date', 'term_' . $type, $xtitle, $ytitle, $sdate, $edate, $xincline) : '';
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphLine($arrTotalResults, 'str_date', 'term_' . $type, $xtitle, $ytitle, $sdate, $edate, $xincline) : '';
 
         $arrTotalResults = $this->lfAddTotalLine($arrTotalResults);
 
