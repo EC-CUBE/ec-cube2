@@ -95,8 +95,7 @@ jobs:
 
     - name: setup-chromedriver
       uses: nanasess/setup-chromedriver@master
-      with:
-        chromedriver-version: 2.43
+
     - run: sleep 1
     - name: Run to PHPUnit
       run: data/vendor/bin/phpunit --exclude-group classloader
@@ -285,8 +284,6 @@ jobs:
 
     - name: setup-chromedriver
       uses: nanasess/setup-chromedriver@master
-      with:
-        chromedriver-version: 2.43
 
     - name: Run chromedriver
       run: |
