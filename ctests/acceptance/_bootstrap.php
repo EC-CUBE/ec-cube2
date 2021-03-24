@@ -44,7 +44,12 @@ if ($num < ($config['fixture_product_num'] + 2)) {
     $product_ids[] = $objGenerator->createProduct('規格なし商品', 0);
     echo '.'.PHP_EOL;
 
-    $category_ids = $objGenerator->createCategories();
+    $category_ids = [];
+    // 5件以上のカテゴリを生成する
+    do {
+        $category_ids = array_merge($category_ids, $objGenerator->createCategories());
+    } while (count($category_ids) < 5);
+
     foreach ($product_ids as $product_id) {
         $num = $faker->numberBetween(2, count($category_ids) - 1);
         $objGenerator->relateProductCategories($product_id, array_rand(array_flip($category_ids), $num >= 2 ? $num : 2));
