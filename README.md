@@ -1,8 +1,6 @@
 # EC-CUBE 2.17系
 
 [![GitHub Actions status](https://github.com/EC-CUBE/ec-cube2/workflows/CI/CD%20for%20EC-CUBE/badge.svg)](https://github.com/EC-CUBE/ec-cube2/actions)
-[![Build Status](https://travis-ci.org/EC-CUBE/ec-cube2.svg)](https://travis-ci.org/EC-CUBE/ec-cube2)
-[![AppVeyor](https://img.shields.io/appveyor/ci/ECCUBE/ec-cube2)](https://ci.appveyor.com/project/ECCUBE/ec-cube2/branch/master)
 [![codecov](https://codecov.io/gh/EC-CUBE/ec-cube2/branch/master/graph/badge.svg?token=4oNLGhIQwy)](https://codecov.io/gh/EC-CUBE/ec-cube2)
 [![PHP Versions Supported](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](#php-version-support)
 [![GitHub All Releases](https://img.shields.io/github/downloads/EC-CUBE/ec-cube2/total)](https://github.com/EC-CUBE/ec-cube2/releases)
