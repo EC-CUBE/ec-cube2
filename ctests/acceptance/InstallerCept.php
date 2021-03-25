@@ -5,8 +5,8 @@
 $I = new AcceptanceTester($scenario);
 $faker = Codeception\Util\Fixtures::get('faker');
 $I->wantTo('正常にインストール可能か検証する');
-// $I->amOnPage('/');
-$I->amOnPage('/install/');
+// $I->amOnPage('/'.DIR_INDEX_FILE);
+$I->amOnPage('/install/'.DIR_INDEX_FILE);
 $I->seeInCurrentUrl('/install/');
 $I->see('EC-CUBEのインストールを開始します。');
 $I->click('次へ進む');
@@ -77,7 +77,7 @@ $I->seeInDatabase('dtb_member', ['login_id' => $user]);
 $I->click('管理画面へログインする');
 
 $I->wait(1);
-$I->seeInCurrentUrl('/'.$admindirectory);
+$I->seeInCurrentUrl('/'.$admindirectory.'/'.DIR_INDEX_FILE);
 $I->fillField('input[name=login_id]', $user);
 $I->fillField('input[name=password]', $password);
 $I->click(['css' => '.btn-tool-format']);

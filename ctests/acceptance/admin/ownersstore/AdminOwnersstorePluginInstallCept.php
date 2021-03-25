@@ -2,7 +2,7 @@
 
 $I = new AcceptanceTester($scenario);
 $I->wantTo('プラグインの prefilterTransform が正常に動作するかを確認する');
-$I->amOnPage('/admin');
+$I->amOnPage('/admin/'.DIR_INDEX_FILE);
 
 $I->fillField('input[name=login_id]', 'admin');
 $I->fillField('input[name=password]', 'password');
@@ -11,7 +11,7 @@ $I->click(['css' => '.btn-tool-format']);
 $I->see('ログイン : 管理者 様');
 
 $I->amGoingTo('オーナーズストア＞プラグイン管理');
-$I->amOnPage('/admin/ownersstore/');
+$I->amOnPage('/admin/ownersstore/'.DIR_INDEX_FILE);
 
 $I->expect('プラグインを圧縮します');
 
@@ -34,7 +34,7 @@ $I->wait(1);
 $I->seeInPopup('プラグインをインストールしました');
 $I->acceptPopup();
 
-$I->amOnPage('/admin/ownersstore/');
+$I->amOnPage('/admin/ownersstore/'.DIR_INDEX_FILE);
 
 $I->expect('プラグインを有効化します');
 $I->click(['css' => '#system > table.system-plugin > tbody > tr:nth-child(2) > td.plugin_info > div > label > input[type=checkbox]']);  // 有効化ボタン
@@ -52,7 +52,7 @@ $I->amOnPage('/products/list.php');
 $I->seeInSource('<p>プラグイン仕様書の記述方法</p>');
 $I->seeInSource('<p>一部のプラグインは完全一致が使用されている</p>');
 
-$I->amOnPage('/admin/ownersstore/');
+$I->amOnPage('/admin/ownersstore/'.DIR_INDEX_FILE);
 $I->expect('プラグインを無効化します');
 $I->click(['css' => '#system > table.system-plugin > tbody > tr:nth-child(2) > td.plugin_info > div > label > input[type=checkbox]']);  // 無効化ボタン
 

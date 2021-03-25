@@ -2,7 +2,7 @@
 
 $I = new AcceptanceTester($scenario);
 $I->wantTo('おすすめ商品管理を確認する');
-$I->amOnPage('/admin/index.php');
+$I->amOnPage('/admin/'.DIR_INDEX_FILE);
 
 $I->fillField('input[name=login_id]', 'admin');
 $I->fillField('input[name=password]', 'password');
