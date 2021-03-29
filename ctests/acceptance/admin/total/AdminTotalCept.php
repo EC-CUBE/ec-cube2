@@ -4,7 +4,7 @@ if (!function_exists('ImageTTFText')) {
     $scenario->skip('Freetype not supported.');
 }
 $I->wantTo('売上集計画面を確認する');
-$I->amOnPage('/admin/'.DIR_INDEX_FILE);
+$I->amOnPage('/'.ADMIN_DIR.'/'.DIR_INDEX_FILE);
 
 $I->fillField('input[name=login_id]', 'admin');
 $I->fillField('input[name=password]', 'password');
@@ -13,7 +13,7 @@ $I->click(['css' => '.btn-tool-format']);
 $I->see('ログイン : 管理者 様');
 
 $I->amGoingTo('売上集計＞期間別集計');
-$I->amOnPage('/admin/total/'.DIR_INDEX_FILE.'?page=term');
+$I->amOnPage('/'.ADMIN_DIR.'/total/'.DIR_INDEX_FILE.'?page=term');
 
 $I->expect('日付の初期値を確認する');
 $I->seeInField('select[name=search_startyear_m]', date('Y'));
@@ -74,7 +74,7 @@ $I->assertTrue(count(file($file)) >= 2, '2行以上のファイルがダウン�
 
 
 $I->amGoingTo('売上集計＞商品別集計');
-$I->amOnPage('/admin/total/'.DIR_INDEX_FILE.'?page=products');
+$I->amOnPage('/'.ADMIN_DIR.'/total/'.DIR_INDEX_FILE.'?page=products');
 
 $I->expect('日付の初期値を確認する');
 $I->seeInField('select[name=search_startyear_m]', date('Y'));
@@ -122,7 +122,7 @@ $I->assertTrue(count(file($file)) >= 2, '2行以上のファイルがダウン�
 
 
 $I->amGoingTo('売上集計＞年代別集計');
-$I->amOnPage('/admin/total/'.DIR_INDEX_FILE.'?page=age');
+$I->amOnPage('/'.ADMIN_DIR.'/total/'.DIR_INDEX_FILE.'?page=age');
 
 $I->expect('日付の初期値を確認する');
 $I->seeInField('select[name=search_startyear_m]', date('Y'));
@@ -170,7 +170,7 @@ $I->assertTrue(count(file($file)) >= 2, '2行以上のファイルがダウン�
 
 
 $I->amGoingTo('売上集計＞職業別集計');
-$I->amOnPage('/admin/total/'.DIR_INDEX_FILE.'?page=job');
+$I->amOnPage('/'.ADMIN_DIR.'/total/'.DIR_INDEX_FILE.'?page=job');
 
 $I->expect('日付の初期値を確認する');
 $I->seeInField('select[name=search_startyear_m]', date('Y'));
@@ -204,7 +204,7 @@ $I->assertTrue(count(file($file)) >= 2, '2行以上のファイルがダウン�
 
 
 $I->amGoingTo('売上集計＞会員別集計');
-$I->amOnPage('/admin/total/'.DIR_INDEX_FILE.'?page=member');
+$I->amOnPage('/'.ADMIN_DIR.'/total/'.DIR_INDEX_FILE.'?page=member');
 
 $I->expect('日付の初期値を確認する');
 $I->seeInField('select[name=search_startyear_m]', date('Y'));

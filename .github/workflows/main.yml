@@ -98,6 +98,10 @@ jobs:
 
     - name: Install to Composer
       run: composer install --no-interaction -o
+    - name: Create ADMIN_DIR
+      run: |
+        sudo apt-fast install -y sharutils
+        echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
 
     - name: Setup to EC-CUBE
       env:
@@ -143,6 +147,7 @@ jobs:
         HTTP_URL: https://localhost:8085/
         HTTPS_URL: https://localhost:8085/
       run: |
+        mv html/admin html/${ADMIN_DIR}
         php data/vendor/bin/codecept build
         symfony serve -d --allow-http --port=8085 --document-root=html
         php data/vendor/bin/codecept run --env chrome --skip-group installer --steps

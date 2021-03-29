@@ -2,7 +2,7 @@
 
 $I = new AcceptanceTester($scenario);
 $I->wantTo('おすすめ商品管理を確認する');
-$I->amOnPage('/admin/'.DIR_INDEX_FILE);
+$I->amOnPage('/'.ADMIN_DIR.'/'.DIR_INDEX_FILE);
 
 $I->fillField('input[name=login_id]', 'admin');
 $I->fillField('input[name=password]', 'password');
@@ -11,7 +11,7 @@ $I->click(['css' => '.btn-tool-format']);
 $I->see('ログイン : 管理者 様');
 
 $I->amGoingTo('コンテンツ管理＞おすすめ商品管理');
-$I->amOnPage('/admin/contents/recommend.php');
+$I->amOnPage('/'.ADMIN_DIR.'/contents/recommend.php');
 
 $I->expect('おすすめ商品の編集を確認する');
 $I->click(['css' => '#admin-contents > div:nth-child(2) > table > tbody > tr:nth-child(2) > td:nth-child(3) > a']); // 編集ボタン

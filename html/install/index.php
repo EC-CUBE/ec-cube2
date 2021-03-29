@@ -628,7 +628,7 @@ function lfDispComplete($objPage)
     $objPage->tpl_sslurl = $secure_url;
     //EC-CUBEオフィシャルサイトからのお知らせURL
     $objPage->install_info_url = INSTALL_INFO_URL;
-    $objPage->admin_dir = $objWebParam->getValue('admin_dir');
+    $objPage->admin_dir = $objWebParam->getValue('admin_dir').'/';
     return $objPage;
 }
 

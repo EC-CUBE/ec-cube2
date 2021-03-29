@@ -4,10 +4,10 @@ $loader = require __DIR__.'/../data/vendor/autoload.php';
 if (!class_exists('PHPUnit_Framework_TestCase')) {
     class_alias('PHPUnit\Framework\TestCase', 'PHPUnit_Framework_TestCase');
 }
-defined('HTTP_URL') or define('HTTP_URL', 'http://example.com/');
+defined('HTTP_URL') or define('HTTP_URL', getenv('HTTP_URL') ? getenv('HTTP_URL') : 'http://example.com/');
 defined('HTTPS_URL') or define('HTTPS_URL', HTTP_URL);
-defined('ROOT_URLPATH') or define('ROOT_URLPATH', '/');
-defined('ADMIN_DIR') or define('ADMIN_DIR', '');
+defined('ROOT_URLPATH') or define('ROOT_URLPATH', getenv('ROOT_URLPATH') ? getenv('ROOT_URLPATH') : '/');
+defined('ADMIN_DIR') or define('ADMIN_DIR', getenv('ADMIN_DIR') ? getenv('ADMIN_DIR') : '');
 defined('HTML_REALDIR') or define('HTML_REALDIR', __DIR__.'/../html/');
 require_once __DIR__.'/../html/define.php';
 defined('DATA_REALDIR') or define('DATA_REALDIR', HTML_REALDIR . HTML2DATA_DIR);
