@@ -8,6 +8,7 @@ settings:
     bootstrap: _bootstrap.php
     colors: true
     memory_limit: 1024M
+    log: true
 modules:
     config:
         Db:
@@ -17,3 +18,12 @@ modules:
             dump: ctests/_data/dump.sql
 params:
     - env
+coverage:
+    enabled: true
+    whitelist:
+        include:
+            - ./data/class/*
+        exclude:
+            - data/class/graph/*
+            - data/class/batch/*
+            - data/class/db/dbfactory/*

@@ -5,6 +5,8 @@
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
 
 class_name: AcceptanceTester
+coverage:
+    remote: true
 modules:
     enabled:
         - AcceptanceHelper
@@ -14,10 +16,10 @@ modules:
         - Db
     config:
         PhpBrowser:
-            url: 'http://localhost:8085/'
+            url: 'http://127.0.0.1:8085/'
         WebDriver:
             browser: chrome
-            url: 'https://localhost:8085/'
+            url: 'http://127.0.0.1:8085/'
             host: 'localhost'
             port: 9515
             window_size: 1680x3000
