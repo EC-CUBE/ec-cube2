@@ -17,7 +17,7 @@ modules:
             url: 'http://localhost:8085/'
         WebDriver:
             browser: chrome
-            url: 'http://localhost:8085/'
+            url: 'https://localhost:8085/'
             host: 'localhost'
             port: 9515
             window_size: 1680x3000
@@ -26,7 +26,7 @@ modules:
                 unexpectedAlertBehaviour: 'accept'
                 elementScrollBehavior: 1
                 chromeOptions:
-                   args: ["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu"]
+                   args: ["--allow-insecure-localhost", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu"]
         MailCatcherGuzzle5:
             url: 'http://127.0.0.1'
             port: '1080'

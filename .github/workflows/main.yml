@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-18.04 ]
-        php: [ 5.4, 5.5, 5.6, 7.1, 7.2, 7.3, 7.4, 8.0 ]
+        php: [ '5.4', '5.5', '5.6', '7.1', '7.2', '7.3', '7.4', '8.0' ]
         db: [ mysql, pgsql ]
         include:
           - db: mysql
@@ -75,9 +75,33 @@ jobs:
       uses: nanasess/setup-php@master
       with:
         php-version: ${{ matrix.php }}
+    - name: Setup PHP5.6
+      if: matrix.php == '5.6'
+      run: sudo apt-fast install -y php5.6-fpm
+    - name: php-fpm
+      env:
+        PHP_VERSION: ${{ matrix.php }}
+      run: |
+        if [ -f /lib/systemd/system/php${PHP_VERSION}-fpm.service ]
+        then
+          sudo systemctl enable php${PHP_VERSION}-fpm
+        fi
+    - name: Install symfony/cli
+      # server:ca:install でエラーは出るが利用可能
+      continue-on-error: true
+      run: |
+        sudo apt-fast -y install libnss3-tools
+        wget https://get.symfony.com/cli/installer -O - | bash
+        sudo mv ~/.symfony/bin/symfony /usr/local/bin/symfony
+        symfony local:php:list
+        symfony server:ca:install
 
     - name: Install to Composer
       run: composer install --no-interaction -o
+    - name: Create ADMIN_DIR
+      run: |
+        sudo apt-fast install -y sharutils
+        echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
 
     - name: Setup to EC-CUBE
       env:
@@ -87,8 +111,8 @@ jobs:
         DBPASS: ${{ matrix.dbpass }}
         DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
-        HTTP_URL: http://localhost:8085/
-        HTTPS_URL: http://localhost:8085/
+        HTTP_URL: https://localhost:8085/
+        HTTPS_URL: https://localhost:8085/
       run: |
         sudo apt-fast install -y mysql-client postgresql-client
         ./eccube_install.sh ${DB}
@@ -102,10 +126,7 @@ jobs:
     - name: Run to PHPUnit classloader
       run: data/vendor/bin/phpunit --group classloader
     - name: Run to PHPUnit SessionFactory
-      run: |
-        sed 's|http://|https://|g' -i.bak data/config/config.php
-        data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
-    - run: mv data/config/config.php.bak data/config/config.php
+      run: data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
 
     - name: Run chromedriver
       run: |
@@ -123,11 +144,12 @@ jobs:
         DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
         DBSERVER: 127.0.0.1
-        HTTP_URL: http://localhost:8085/
-        HTTPS_URL: http://localhost:8085/
+        HTTP_URL: https://localhost:8085/
+        HTTPS_URL: https://localhost:8085/
       run: |
+        mv html/admin html/${ADMIN_DIR}
         php data/vendor/bin/codecept build
-        php -S 0.0.0.0:8085 -t html/ &
+        symfony serve -d --allow-http --port=8085 --document-root=html
         php data/vendor/bin/codecept run --env chrome --skip-group installer --steps
     - name: Upload evidence
       if: failure()
@@ -278,6 +300,25 @@ jobs:
       uses: nanasess/setup-php@master
       with:
         php-version: ${{ matrix.php }}
+    - name: php-fpm
+      env:
+        PHP_VERSION: ${{ matrix.php }}
+      run: |
+        if [ -f /lib/systemd/system/php${PHP_VERSION}-fpm.service ]
+        then
+          sudo systemctl enable php${PHP_VERSION}-fpm
+        fi
+
+    - name: Install symfony/cli
+      # server:ca:install でエラーは出るが利用可能
+      continue-on-error: true
+      run: |
+        sudo apt-fast -y install libnss3-tools
+        wget https://get.symfony.com/cli/installer -O - | bash
+        sudo mv ~/.symfony/bin/symfony /usr/local/bin/symfony
+        symfony local:php:list
+        symfony server:ca:install
+
 
     - name: Install to Composer
       run: composer install --no-interaction -o
@@ -328,11 +369,11 @@ jobs:
         DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
         DBSERVER: 127.0.0.1
-        HTTP_URL: http://localhost:8085/
-        HTTPS_URL: http://localhost:8085/
+        HTTP_URL: https://localhost:8085/
+        HTTPS_URL: https://localhost:8085/
       run: |
         php data/vendor/bin/codecept build
-        php -S 0.0.0.0:8085 -t html/ &
+        symfony serve -d --allow-http --port=8085 --document-root=html
         php data/vendor/bin/codecept run --env chrome --group installer --steps acceptance InstallerCept
 
     - name: Upload evidence
