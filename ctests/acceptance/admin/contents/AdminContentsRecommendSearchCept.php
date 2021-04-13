@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @group excludeCoverage
+ */
 $I = new AcceptanceTester($scenario);
 $I->wantTo('おすすめ商品管理を確認する');
 $I->amOnPage('/'.ADMIN_DIR.'/'.DIR_INDEX_FILE);

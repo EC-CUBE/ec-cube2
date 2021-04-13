@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @group excludeCoverage
+ */
 $I = new AcceptanceTester($scenario);
 $I->wantTo('プラグインの prefilterTransform が正常に動作するかを確認する');
 $I->amOnPage('/'.ADMIN_DIR.'/'.DIR_INDEX_FILE);

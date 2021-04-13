@@ -146,7 +146,7 @@ jobs:
         mv html/admin html/${ADMIN_DIR}
         php data/vendor/bin/codecept build
         symfony serve -d --no-tls --port=8085 --document-root=html
-        php data/vendor/bin/codecept run --env chrome,http --skip-group installer --steps --coverage --coverage-xml
+        php data/vendor/bin/codecept run --env chrome,http --skip-group installer --skip-group excludeCoverage --steps --coverage --coverage-xml
         mv ./ctests/_output/acceptance\ \(chrome,\ http\).remote.coverage.xml ctests/_output/acceptance.remote.coverage.xml
 
     - name: Upload coverage
