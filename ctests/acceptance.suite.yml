@@ -19,8 +19,8 @@ modules:
             url: 'http://127.0.0.1:8085/'
         WebDriver:
             browser: chrome
-            url: 'http://127.0.0.1:8085/'
-            host: 'localhost'
+            url: 'https://127.0.0.1:8085/'
+            host: '127.0.0.1'
             port: 9515
             window_size: 1680x3000
             wait: 10
@@ -38,11 +38,6 @@ modules:
             password: %DBPASS%
 
 env:
-    travis:
-        modules:
-            config:
-                PhpBrowser:
-                    url: 'http://localhost:8085/'
     chrome:
         modules:
             config:
@@ -52,3 +47,8 @@ env:
                         chromeOptions:
                             prefs:
                                 download.default_directory: '/tmp'
+    http:
+        modules:
+            config:
+                WebDriver:
+                    url: 'http://127.0.0.1:8085/'

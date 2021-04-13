@@ -22,7 +22,7 @@ coverage:
     enabled: true
     whitelist:
         include:
-            - ./data/class/*
+            - data/class/*
         exclude:
             - data/class/graph/*
             - data/class/batch/*

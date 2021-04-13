@@ -107,10 +107,8 @@ jobs:
         mv data/config/config.php.bak data/config/config.php
 
     - name: Install symfony/cli
-      # server:ca:install でエラーは出るが利用可能
       continue-on-error: true
       run: |
-        sudo apt-fast -y install libnss3-tools
         wget https://get.symfony.com/cli/installer -O - | bash
         sudo mv ~/.symfony/bin/symfony /usr/local/bin/symfony
         symfony local:php:list
@@ -148,12 +146,13 @@ jobs:
         mv html/admin html/${ADMIN_DIR}
         php data/vendor/bin/codecept build
         symfony serve -d --no-tls --port=8085 --document-root=html
-        php data/vendor/bin/codecept run --env chrome --skip-group installer --steps --coverage --coverage-xml
+        php data/vendor/bin/codecept run --env chrome,http --skip-group installer --steps --coverage --coverage-xml
+        mv ./ctests/_output/acceptance\ \(chrome,\ http\).remote.coverage.xml ctests/_output/acceptance.remote.coverage.xml
 
     - name: Upload coverage
       uses: codecov/codecov-action@v1
       with:
-        files: ./coverage1.xml,./coverage2.xml,./coverage3.xml,ctests/_output/acceptance (chrome).remote.coverage.xml
+        files: ./coverage1.xml,./coverage2.xml,./coverage3.xml,./ctests/_output/acceptance.remote.coverage.xml
         # token: ${{ secrets.CODECOV_TOKEN }}
         flags: tests
         # yml: ./codecov.yml

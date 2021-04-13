@@ -111,8 +111,8 @@ jobs:
         DBPASS: ${{ matrix.dbpass }}
         DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
-        HTTP_URL: https://localhost:8085/
-        HTTPS_URL: https://localhost:8085/
+        HTTP_URL: https://127.0.0.1:8085/
+        HTTPS_URL: https://127.0.0.1:8085/
       run: |
         sudo apt-fast install -y mysql-client postgresql-client
         ./eccube_install.sh ${DB}
@@ -144,8 +144,8 @@ jobs:
         DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
         DBSERVER: 127.0.0.1
-        HTTP_URL: https://localhost:8085/
-        HTTPS_URL: https://localhost:8085/
+        HTTP_URL: https://127.0.0.1:8085/
+        HTTPS_URL: https://127.0.0.1:8085/
       run: |
         mv html/admin html/${ADMIN_DIR}
         php data/vendor/bin/codecept build
@@ -217,8 +217,8 @@ jobs:
         DBNAME: eccube_db
         DBPORT: 3306
         DBSERVER: 127.0.0.1
-        HTTP_URL: http://localhost:8085/
-        HTTPS_URL: http://localhost:8085/
+        HTTP_URL: http://127.0.0.1:8085/
+        HTTPS_URL: http://127.0.0.1:8085/
       run: bash eccube_install.sh mysql
       shell: bash
     - run: sleep 1
@@ -369,8 +369,8 @@ jobs:
         DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
         DBSERVER: 127.0.0.1
-        HTTP_URL: https://localhost:8085/
-        HTTPS_URL: https://localhost:8085/
+        HTTP_URL: https://127.0.0.1:8085/
+        HTTPS_URL: https://127.0.0.1:8085/
       run: |
         php data/vendor/bin/codecept build
         symfony serve -d --allow-http --port=8085 --document-root=html
