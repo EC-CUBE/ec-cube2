@@ -29,8 +29,8 @@
         <!--{foreach item=info from=$arrInfo}-->
             <dl class="home-info-item">
                 <dt class="date"><!--{$info.disp_date|sfDispDBDate:false|h}--></dt>
-                <dt class="title"><!--{$info.title}--></dt>
-                <dd class="body"><!--{$info.body}--></dd>
+                <dt class="title"><!--{$info.title nofilter}--></dt>
+                <dd class="body"><!--{$info.body nofilter}--></dd>
             </dl>
         <!--{/foreach}-->
     </div>
