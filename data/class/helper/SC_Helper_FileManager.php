@@ -61,12 +61,14 @@ class SC_Helper_FileManager
 
                         // ディレクトリとファイルで格納配列を変える
                         if (is_dir($path)) {
+                            $path = str_replace(HTML_REALDIR, '', $path);
                             $arrDirList[$cnt]['file_name'] = $file;
                             $arrDirList[$cnt]['file_path'] = $path;
                             $arrDirList[$cnt]['file_size'] = $file_size;
                             $arrDirList[$cnt]['file_time'] = $file_time;
                             $arrDirList[$cnt]['is_dir'] = true;
                         } else {
+                            $path = str_replace(HTML_REALDIR, '', $path);
                             $arrFileList[$cnt]['file_name'] = $file;
                             $arrFileList[$cnt]['file_path'] = $path;
                             $arrFileList[$cnt]['file_size'] = $file_size;
