@@ -77,7 +77,7 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
 
         // ファイル管理クラス
         $now_dir = $this->lfCheckSelectDir($objFormParam, $objFormParam->getValue('now_dir'));
-        $objUpFile = new SC_UploadFile_Ex($now_dir, $now_dir);
+        $objUpFile = new SC_UploadFile_Ex(HTML_REALDIR.$now_dir, HTML_REALDIR.$now_dir);
         // ファイル情報の初期化
         $this->lfInitFile($objUpFile);
 
@@ -125,15 +125,16 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
                 $objFormParam->convParam();
 
                 $this->arrErr = $objFormParam->checkError();
+                $select_file = HTML_REALDIR.$objFormParam->getValue('select_file');
                 if (SC_Utils_Ex::isBlank($this->arrErr)) {
-                    if (is_dir($objFormParam->getValue('select_file'))) {
+                    if (is_dir($select_file)) {
                         $disp_error = '※ ディレクトリをダウンロードすることは出来ません。<br/>';
                         $this->setDispError('select_file', $disp_error);
                     } else {
-                        $path_exists = SC_Utils_Ex::checkFileExistsWithInBasePath($objFormParam->getValue('select_file'), USER_REALDIR);
+                        $path_exists = SC_Utils_Ex::checkFileExistsWithInBasePath($select_file, USER_REALDIR);
                         if ($path_exists) {
                             // ファイルダウンロード
-                            $objFileManager->sfDownloadFile($objFormParam->getValue('select_file'));
+                            $objFileManager->sfDownloadFile($select_file);
                             SC_Response_Ex::actionExit();
                         }
                     }
@@ -146,9 +147,10 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
                 $objFormParam->setParam($this->createSetParam($_POST));
                 $objFormParam->convParam();
                 $this->arrErr = $objFormParam->checkError();
-                $path_exists = SC_Utils::checkFileExistsWithInBasePath($objFormParam->getValue('select_file'), USER_REALDIR);
+                $select_file = HTML_REALDIR.$objFormParam->getValue('select_file');
+                $path_exists = SC_Utils::checkFileExistsWithInBasePath($select_file, USER_REALDIR);
                 if (SC_Utils_Ex::isBlank($this->arrErr) && ($path_exists)) {
-                    SC_Helper_FileManager_Ex::deleteFile($objFormParam->getValue('select_file'));
+                    SC_Helper_FileManager_Ex::deleteFile($select_file);
                 }
                 break;
             // ファイル作成
@@ -322,7 +324,8 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
         $create_dir_flg = false;
         $now_dir = $this->lfCheckSelectDir($objFormParam, $objFormParam->getValue('now_dir'));
         $objFormParam->setValue('now_dir', $now_dir);
-        $create_dir = rtrim($now_dir, '/');
+        $create_dir = HTML_REALDIR.rtrim($now_dir, '/');
+
         // ファイル作成
         if ($objFileManager->sfCreateFile($create_dir.'/'.$objFormParam->getValue('create_file'), 0755)) {
             $create_dir_flg = true;
