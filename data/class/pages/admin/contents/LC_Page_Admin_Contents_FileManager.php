@@ -77,7 +77,8 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
 
         // ファイル管理クラス
         $now_dir = $this->lfCheckSelectDir($objFormParam, $objFormParam->getValue('now_dir'));
-        $objUpFile = new SC_UploadFile_Ex(HTML_REALDIR.$now_dir, HTML_REALDIR.$now_dir);
+        $now_dir = SC_Helper_FileManager_Ex::convertToAbsolutePath($now_dir);
+        $objUpFile = new SC_UploadFile_Ex($now_dir, $now_dir);
         // ファイル情報の初期化
         $this->lfInitFile($objUpFile);
 
@@ -125,7 +126,7 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
                 $objFormParam->convParam();
 
                 $this->arrErr = $objFormParam->checkError();
-                $select_file = HTML_REALDIR.$objFormParam->getValue('select_file');
+                $select_file = SC_Helper_FileManager_Ex::convertToAbsolutePath($objFormParam->getValue('select_file'));
                 if (SC_Utils_Ex::isBlank($this->arrErr)) {
                     if (is_dir($select_file)) {
                         $disp_error = '※ ディレクトリをダウンロードすることは出来ません。<br/>';
@@ -147,7 +148,7 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
                 $objFormParam->setParam($this->createSetParam($_POST));
                 $objFormParam->convParam();
                 $this->arrErr = $objFormParam->checkError();
-                $select_file = HTML_REALDIR.$objFormParam->getValue('select_file');
+                $select_file = SC_Helper_FileManager_Ex::convertToAbsolutePath($objFormParam->getValue('select_file'));
                 $path_exists = SC_Utils::checkFileExistsWithInBasePath($select_file, USER_REALDIR);
                 if (SC_Utils_Ex::isBlank($this->arrErr) && ($path_exists)) {
                     SC_Helper_FileManager_Ex::deleteFile($select_file);
@@ -196,7 +197,7 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
         // 現在いる階層(表示用)をテンプレートに渡す
         $this->setDispPath($objFormParam);
         // 現在のディレクトリ配下のファイル一覧を取得
-        $this->arrFileList = $objFileManager->sfGetFileList(HTML_REALDIR.$objFormParam->getValue('now_dir'));
+        $this->arrFileList = $objFileManager->sfGetFileList(SC_Helper_FileManager_Ex::convertToAbsolutePath($objFormParam->getValue('now_dir')));
         // 現在の階層のディレクトリをテンプレートに渡す
         $this->setDispParam('tpl_now_file', $objFormParam->getValue('now_dir'));
         // ディレクトリツリー表示
@@ -290,7 +291,6 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
     public function createSetParam($arrVal)
     {
         $setParam = $arrVal;
-        // Windowsの場合は, ディレクトリの区切り文字を\から/に変換する
         $setParam['top_dir'] = USER_DIR;
         // 初期表示はルートディレクトリ(user_data/)を表示
         if (SC_Utils_Ex::isBlank($this->getMode())) {
@@ -324,7 +324,7 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
         $create_dir_flg = false;
         $now_dir = $this->lfCheckSelectDir($objFormParam, $objFormParam->getValue('now_dir'));
         $objFormParam->setValue('now_dir', $now_dir);
-        $create_dir = HTML_REALDIR.rtrim($now_dir, '/');
+        $create_dir = SC_Helper_FileManager_Ex::convertToAbsolutePath(rtrim($now_dir, '/'));
 
         // ファイル作成
         if ($objFileManager->sfCreateFile($create_dir.'/'.$objFormParam->getValue('create_file'), 0755)) {
@@ -474,10 +474,10 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
         $this->setTplOnLoad($tpl_onload);
 
         $tpl_javascript = '';
-        $arrTree = $objFileManager->sfGetFileTree(HTML_REALDIR.$objFormParam->getValue('top_dir'), $objFormParam->getValue('tree_status'));
+        $arrTree = $objFileManager->sfGetFileTree(SC_Helper_FileManager_Ex::convertToAbsolutePath($objFormParam->getValue('top_dir')), $objFormParam->getValue('tree_status'));
         $tpl_javascript .= "arrTree = new Array();\n";
         foreach ($arrTree as $arrVal) {
-            $arrVal['path'] = str_replace(HTML_REALDIR, '', $arrVal['path']);
+            $arrVal['path'] = SC_Helper_FileManager_Ex::convertToRelativePath($arrVal['path']);
             $tpl_javascript .= 'arrTree['.$arrVal['count'].'] = new Array('.$arrVal['count'].", '".$arrVal['type']."', '".$arrVal['path']."', ".$arrVal['rank'].',';
             if ($arrVal['open']) {
                 $tpl_javascript .= "true);\n";
