@@ -250,6 +250,7 @@ class SC_Helper_FileManager
     public function lfIsFileOpen($dir, $tree_status)
     {
         $arrTreeStatus = explode('|', $tree_status);
+        $dir = str_replace(HTML_REALDIR, '', $dir);
         if (in_array($dir, $arrTreeStatus)) {
             return true;
         }
