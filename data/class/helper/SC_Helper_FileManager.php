@@ -467,7 +467,7 @@ class SC_Helper_FileManager
         $path = SC_Helper_FileManager_Ex::convertToAbsolutePath($path);
 
         // パスを正規化して返す
-        $path = str_replace(realpath(HTML_REALDIR).'/', '', realpath($path));
+        $path = str_replace(realpath(HTML_REALDIR).DIRECTORY_SEPARATOR, '', realpath($path));
         $path = str_replace('\\', '/', $path);
         $path = $endsWithSlash ? $path.'/' : $path;
 

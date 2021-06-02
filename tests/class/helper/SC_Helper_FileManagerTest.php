@@ -94,4 +94,15 @@ class SC_Helper_FileManagerTest extends Common_TestCase
         $this->actual = SC_Helper_FileManager_Ex::convertToRelativePath($path);
         $this->verify($path.' -> '.$this->expected);
     }
+
+    private static function normalizePath($path)
+    {
+        return str_replace('\\', '/', $path);
+    }
+
+    protected function verify($message = null)
+    {
+        $this->expected = self::normalizePath($this->expected);
+        parent::verify($message);
+    }
 }
