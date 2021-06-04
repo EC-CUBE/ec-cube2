@@ -8,7 +8,7 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Kiyaku/SC_Helper_Kiyaku_Test
 class SC_Helper_Kiyaku_getListTest extends SC_Helper_Kiyaku_TestBase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objKiyaku = new SC_Helper_Kiyaku_Ex();

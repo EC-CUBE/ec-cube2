@@ -36,13 +36,13 @@ class SC_Helper_DB_TestBase extends Common_TestCase
   /** @var FixtureGenerator */
   protected $objGenerator;
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
     $this->objGenerator = new FixtureGenerator($this->objQuery);
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
   }

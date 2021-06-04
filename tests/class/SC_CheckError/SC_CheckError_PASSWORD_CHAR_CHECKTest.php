@@ -5,7 +5,7 @@ class SC_CheckError_PASSWORD_CHAR_CHECKTest extends SC_CheckError_AbstractTestCa
     /** @var Faker\Generator */
     protected $faker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'PASSWORD_CHAR_CHECK';

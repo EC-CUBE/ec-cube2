@@ -35,12 +35,12 @@ class SC_Helper_Purchase_setShipmentItemTempForSoleTest extends SC_Helper_Purcha
 {
 
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
     $_SESSION['testResult'] = null;

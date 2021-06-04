@@ -5,7 +5,7 @@ class SC_CheckError_FILE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $fileSize;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'FILE_EXIST_CHECK';

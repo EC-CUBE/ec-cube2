@@ -5,7 +5,7 @@
  */
 class LoadClassFileChangeCustomDirTest extends Common_TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $plugin_id = $this->objQuery->nextVal('dtb_plugin_plugin_id');

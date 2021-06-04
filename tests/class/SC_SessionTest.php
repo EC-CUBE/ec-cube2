@@ -8,7 +8,7 @@ class SC_SessionTest extends Common_TestCase
      */
     protected $objSession;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $_SESSION['cert'] = CERT_STRING;

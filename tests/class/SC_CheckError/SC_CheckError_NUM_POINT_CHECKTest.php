@@ -2,7 +2,7 @@
 
 class SC_CheckError_NUM_POINT_CHECKTest extends SC_CheckError_AbstractTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'NUM_POINT_CHECK';

@@ -36,7 +36,7 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
   private $arrProductsClasses;
   private $helper;
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
     $product_id = $this->objGenerator->createProduct(null, 2);
@@ -45,7 +45,7 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
     $this->helper = new SC_Helper_Purchase_cancelOrderMock();
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
   }

@@ -2,7 +2,7 @@
 
 class SC_Helper_DB_sfGetMultiCatTreeTest extends SC_Helper_DB_TestBase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }

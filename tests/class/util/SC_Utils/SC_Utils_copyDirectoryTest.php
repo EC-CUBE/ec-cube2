@@ -36,7 +36,7 @@ class SC_Utils_copyDirectoryTest extends Common_TestCase
 
   static $TMP_DIR;
 
-  protected function setUp()
+  protected function setUp(): void
   {
     // parent::setUp();
     self::$TMP_DIR = realpath(dirname(__FILE__)) . "/../../../tmp";
@@ -44,7 +44,7 @@ class SC_Utils_copyDirectoryTest extends Common_TestCase
     mkdir(self::$TMP_DIR, 0700, true);
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     // parent::tearDown();
   }

@@ -33,13 +33,13 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
 class SC_Helper_DB_sfColumnExists extends SC_Helper_DB_TestBase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->helper = new SC_Helper_DB_sfColumnExistsMock();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

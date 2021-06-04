@@ -35,13 +35,13 @@ class SC_Utils_sfGetProductClassIdTest extends Common_TestCase
 {
 
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
     $this->setUpProductsClass();
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
   }

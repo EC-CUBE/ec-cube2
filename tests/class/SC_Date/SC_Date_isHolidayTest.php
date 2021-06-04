@@ -27,7 +27,7 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 class SC_Date_isHolidayTest extends Common_TestCase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objDate = new SC_Date_Ex();
@@ -74,7 +74,7 @@ class SC_Date_isHolidayTest extends Common_TestCase
         $objDb->sfGetBasisData(true);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

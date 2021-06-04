@@ -35,13 +35,13 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
     /** @var SC_Helper_DB_Ex */
     protected $helper;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->helper = new SC_Helper_DB_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

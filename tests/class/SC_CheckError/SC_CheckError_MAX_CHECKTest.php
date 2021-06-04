@@ -5,7 +5,7 @@ class SC_CheckError_MAX_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $max;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'MAX_CHECK';

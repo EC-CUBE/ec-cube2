@@ -32,7 +32,7 @@ class SC_Helper_Maker_saveMakerTest extends SC_Helper_Maker_TestBase
 {
     var $objHelperMaker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
 
         parent::setUp();
@@ -40,7 +40,7 @@ class SC_Helper_Maker_saveMakerTest extends SC_Helper_Maker_TestBase
         $this->objHelperMaker = new SC_Helper_Maker_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

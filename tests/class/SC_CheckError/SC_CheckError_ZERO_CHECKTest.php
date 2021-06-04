@@ -2,7 +2,7 @@
 
 class SC_CheckError_ZERO_CHECKTest extends SC_CheckError_AbstractTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'ZERO_CHECK';

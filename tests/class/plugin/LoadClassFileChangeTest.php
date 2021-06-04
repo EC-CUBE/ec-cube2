@@ -5,13 +5,13 @@
  */
 class LoadClassFileChangeTest extends Common_TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->createPlugin();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $plugins = ['AutoloadingPlugin'];
         foreach ($plugins as $plugin) {

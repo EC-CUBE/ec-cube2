@@ -9,7 +9,7 @@ class SC_CheckError_ONE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var string */
     const FORM_NAME3 = 'day';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'ONE_EXIST_CHECK';

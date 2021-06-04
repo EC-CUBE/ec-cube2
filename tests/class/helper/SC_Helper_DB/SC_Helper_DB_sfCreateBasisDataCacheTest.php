@@ -33,14 +33,14 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
 class SC_Helper_DB_sfCreateBasisDataCache extends SC_Helper_DB_TestBase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->helper = new SC_Helper_DB_sfCreateBasisDataCacheMock();
         $this->cashFilePath = MASTER_DATA_REALDIR . 'dtb_baseinfo.serial';
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

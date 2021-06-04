@@ -41,13 +41,13 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     /** 実際の値 */
     protected $actual;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);
         $this->objQuery->begin();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->objQuery->rollback();
         $this->objQuery = null;

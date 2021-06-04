@@ -27,13 +27,13 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 class SC_Session_getUniqIdTest extends Common_TestCase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objSiteSession = new SC_SiteSession_Mock();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

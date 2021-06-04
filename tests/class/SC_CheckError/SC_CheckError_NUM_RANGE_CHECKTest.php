@@ -8,7 +8,7 @@ class SC_CheckError_NUM_RANGE_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $maxlength;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'NUM_RANGE_CHECK';

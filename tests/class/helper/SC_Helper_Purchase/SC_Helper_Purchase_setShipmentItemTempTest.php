@@ -39,7 +39,7 @@ class SC_Helper_Purchase_setShipmentItemTempTest extends SC_Helper_Purchase_Test
   private $productsClass;
   private $helper;
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
 
@@ -53,7 +53,7 @@ class SC_Helper_Purchase_setShipmentItemTempTest extends SC_Helper_Purchase_Test
     $this->helper = new SC_Helper_Purchase_Ex();
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
   }

@@ -34,13 +34,13 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 class SC_Helper_Purchase_registerShippingTest extends SC_Helper_Purchase_TestBase
 {
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
     $this->setUpShippingOnDb();
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
   }
