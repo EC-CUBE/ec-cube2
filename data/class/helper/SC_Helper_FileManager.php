@@ -61,12 +61,14 @@ class SC_Helper_FileManager
 
                         // ディレクトリとファイルで格納配列を変える
                         if (is_dir($path)) {
+                            $path = SC_Helper_FileManager_Ex::convertToRelativePath($path);
                             $arrDirList[$cnt]['file_name'] = $file;
                             $arrDirList[$cnt]['file_path'] = $path;
                             $arrDirList[$cnt]['file_size'] = $file_size;
                             $arrDirList[$cnt]['file_time'] = $file_time;
                             $arrDirList[$cnt]['is_dir'] = true;
                         } else {
+                            $path = SC_Helper_FileManager_Ex::convertToRelativePath($path);
                             $arrFileList[$cnt]['file_name'] = $file;
                             $arrFileList[$cnt]['file_path'] = $path;
                             $arrFileList[$cnt]['file_size'] = $file_size;
@@ -248,6 +250,7 @@ class SC_Helper_FileManager
     public function lfIsFileOpen($dir, $tree_status)
     {
         $arrTreeStatus = explode('|', $tree_status);
+        $dir = SC_Helper_FileManager_Ex::convertToRelativePath($dir);
         if (in_array($dir, $arrTreeStatus)) {
             return true;
         }
@@ -448,5 +451,56 @@ class SC_Helper_FileManager
         }
 
         return $flg;
+    }
+
+    /**
+     * パスを USER_REALDIR 以下の相対パスへ変換する.
+     *
+     * パスが USER_REALDIR の範囲外の場合は USER_DIR を返す.
+     *
+     * @param string $path 変換するパス
+     * @return string USER_REALDIR 以下の相対パス
+     */
+    public static function convertToRelativePath($path)
+    {
+        $endsWithSlash = substr($path, -1) === '/';
+        $path = SC_Helper_FileManager_Ex::convertToAbsolutePath($path);
+
+        // パスを正規化して返す
+        $path = str_replace(realpath(HTML_REALDIR).DIRECTORY_SEPARATOR, '', realpath($path));
+        $path = str_replace('\\', '/', $path);
+        $path = $endsWithSlash ? $path.'/' : $path;
+
+        return $path;
+    }
+
+    /**
+     * パスを USER_REALDIR 以下の絶対パスへ変換する.
+     *
+     * パスが USER_REALDIR の範囲外の場合は USER_REALDIR を返す.
+     *
+     * @param string $path 変換するパス
+     * @return string USER_REALDIR 以下の絶対パス
+     */
+    public static function convertToAbsolutePath($path)
+    {
+        $endsWithSlash = substr($path, -1) === '/';
+        // 絶対パスかどうか
+        if (strpos($path , '/') === 0 || preg_match('/^[a-z]:/i', $path)) {
+            $path = realpath($path);
+        } else {
+            $path = realpath(HTML_REALDIR.$path);
+        }
+
+        // USER_REALDIR 以下のパスかどうか
+        if ($path === false || strpos($path, realpath(USER_REALDIR)) === false) {
+            $path = realpath(USER_REALDIR);
+        }
+
+        // パスを正規化して返す
+        $path = str_replace('\\', '/', $path);
+        $path = $endsWithSlash ? $path.'/' : $path;
+
+        return $path;
     }
 }
