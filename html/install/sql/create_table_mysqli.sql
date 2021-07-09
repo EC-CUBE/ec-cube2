@@ -1242,3 +1242,4 @@ CREATE INDEX dtb_mobile_ext_session_id_param_key_key ON dtb_mobile_ext_session_i
 CREATE INDEX dtb_mobile_ext_session_id_param_value_key ON dtb_mobile_ext_session_id (param_value(255));
 CREATE INDEX dtb_mobile_ext_session_id_url_key ON dtb_mobile_ext_session_id (url(255));
 CREATE INDEX dtb_mobile_ext_session_id_create_date_key ON dtb_mobile_ext_session_id (create_date);
+CREATE INDEX dtb_session_update_date_key ON dtb_session (update_date);
