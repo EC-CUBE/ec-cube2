@@ -176,11 +176,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Setup PHP
-      uses: nanasess/setup-php@master
-      with:
-        php-version: ${{ matrix.php }}
-
     - name: Get Composer Cache Directory
       id: composer-cache
       run: |
@@ -191,6 +186,9 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**\composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
+
+    - run: echo "extension=gd" >> C:/tools/php/php.ini
+      shell: bash
 
     - name: Install to Composer
       run: composer install --no-interaction -o
@@ -207,6 +205,11 @@ jobs:
         choco install -y mysql --version 5.7.18
         mysql --user=root -e "CREATE DATABASE eccube_db DEFAULT COLLATE=utf8_general_ci;"
         mysql --user=root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;FLUSH PRIVILEGES;"
+
+    - name: Setup PHP
+      uses: nanasess/setup-php@master
+      with:
+        php-version: ${{ matrix.php }}
 
     - name: Setup to EC-CUBE
       env:
