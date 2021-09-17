@@ -109,7 +109,7 @@ class SC_Plugin_Util
      * プラグインIDをキーにプラグインを削除する。
      *
      * @param  string $plugin_id プラグインID.
-     * @return array  プラグインの基本情報.
+     * @return void
      */
     public static function deletePluginByPluginId($plugin_id)
     {
@@ -236,7 +236,7 @@ class SC_Plugin_Util
      * フックポイントのON/OFF変更
      *
      * @param  intger $plugin_hookpoint_id フックポイントID
-     * @return bolean $use_flg：1=ON、0=OFF
+     * @return void
      */
     public static function setPluginHookPointChangeUse($plugin_hookpoint_id, $use_flg = 0)
     {

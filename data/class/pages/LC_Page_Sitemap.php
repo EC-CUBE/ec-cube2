@@ -137,7 +137,7 @@ class LC_Page_Sitemap extends LC_Page_Ex
      * @param  string  $lastmod    ファイルの最終更新日 YYYY-MM-DD or W3C Datetime 形式
      * @param  string  $changefreq ページの更新頻度
      * @param  double  $priority   URL の優先度
-     * @return Sitemap 形式の <url />
+     * @return void
      * @see https://www.google.com/webmasters/tools/docs/ja/protocol.html#xmlTagDefinitions
      * TODO Smarty に移行すべき?
      */
@@ -173,6 +173,8 @@ class LC_Page_Sitemap extends LC_Page_Ex
                 return $arrRet;
             }
         }
+
+        return array();
     }
 
     /**

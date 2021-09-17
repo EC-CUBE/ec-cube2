@@ -347,6 +347,8 @@ class SC_Helper_Transform
             }
             // エラー画面表示
             SC_Utils_Ex::sfDispSiteError(FREE_ERROR_MSG, '', true, 'テンプレートの操作に失敗しました。' . $err_msg);
+
+            return null;
         } elseif ($this->snip_count) {
             $html = $this->objDOM->saveHTML();
             $html = preg_replace('/^.*(<html[^>]*>)/s', '$1', $html);
