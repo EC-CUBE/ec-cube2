@@ -233,7 +233,7 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
         $productId = $productData['product_id'];
         $objQuery = \SC_Query_Ex::getSingletonInstance();
 
-        $isInstalled = $objQuery->exists('dtb_module', 'module_id = ?', array($productId));
+        $isInstalled = $objQuery->exists('dtb_module', 'module_id = ? AND del_flg = 0', array($productId));
 
         $productData['installed_flg'] = $isInstalled;
     }
