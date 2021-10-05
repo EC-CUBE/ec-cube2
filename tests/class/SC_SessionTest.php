@@ -28,8 +28,62 @@ class SC_SessionTest extends Common_TestCase
     public function testIsSuccess()
     {
         $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/admin/system/index.php';
+        $_SESSION['authority'] = 0;
         $this->expected = SUCCESS;
         $this->actual = $this->objSession->IsSuccess();
+        $this->verify();
+    }
+
+    public function testIsSuccessWithBC()
+    {
+        // 下位互換チェック. 2.17.1 までのパスを登録する
+        $masterData = new SC_DB_MasterData_Ex();
+        $masterData->registMasterData('mtb_permission', ['id', 'name', 'rank'], ['/admin/system/index.php' => '0']);
+        $masterData->clearCache('mtb_permission');
+        $masterData->createCache('mtb_permission');
+
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/admin/system/index.php';
+        $_SESSION['authority'] = 0;
+        $this->expected = SUCCESS;
+        $this->actual = $this->objSession->IsSuccess();
+        $this->verify();
+    }
+
+    public function testIsSuccessWithChangeAdminDir()
+    {
+        // ADMIN_DIR = 'manager/' でアクセス権を検証する
+        $admin_dir = 'manager/';
+
+        // ADMIN_DIR を除いたパスを登録する
+        $masterData = new SC_DB_MasterData_Ex();
+        $masterData->registMasterData('mtb_permission', ['id', 'name', 'rank'], ['/system/index.php' => '0']);
+        $masterData->clearCache('mtb_permission');
+        $masterData->createCache('mtb_permission');
+
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/manager/system/index.php';
+        $_SESSION['authority'] = 0;
+        $this->objSession = new SC_Session_Ex();
+        $this->expected = SUCCESS;
+        $this->actual = $this->objSession->IsSuccess($admin_dir);
+        $this->verify();
+    }
+
+    public function testIsSuccessWithAdminDir()
+    {
+        // ADMIN_DIR = 'manager/' でアクセス権を検証する
+        $admin_dir = 'manager/';
+
+        // ADMIN_DIR を含めたパスを登録する
+        $masterData = new SC_DB_MasterData_Ex();
+        $masterData->registMasterData('mtb_permission', ['id', 'name', 'rank'], ['/'.$admin_dir.'/system/index.php' => '0']);
+        $masterData->clearCache('mtb_permission');
+        $masterData->createCache('mtb_permission');
+
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/manager/system/index.php';
+        $_SESSION['authority'] = 0;
+        $this->objSession = new SC_Session_Ex();
+        $this->expected = SUCCESS;
+        $this->actual = $this->objSession->IsSuccess($admin_dir);
         $this->verify();
     }
 
@@ -51,6 +105,61 @@ class SC_SessionTest extends Common_TestCase
         $this->actual = $this->objSession->IsSuccess();
         $this->verify();
     }
+
+    public function testIsSuccessWithPermissionErrorBC()
+    {
+        // 下位互換チェック. 2.17.1 までのパスを登録する
+        $masterData = new SC_DB_MasterData_Ex();
+        $masterData->registMasterData('mtb_permission', ['id', 'name', 'rank'], ['/admin/system/index.php' => '0']);
+        $masterData->clearCache('mtb_permission');
+        $masterData->createCache('mtb_permission');
+
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/admin/system/index.php';
+        $_SESSION['authority'] = 1;
+        $this->objSession = new SC_Session_Ex();
+        $this->expected = ACCESS_ERROR;
+        $this->actual = $this->objSession->IsSuccess();
+        $this->verify();
+    }
+
+    public function testIsSuccessWithChangeAdminDirPermissionError()
+    {
+        // ADMIN_DIR = 'manager/' でアクセス権を検証する
+        $admin_dir = 'manager/';
+
+        // ADMIN_DIR を除いたパスを登録する
+        $masterData = new SC_DB_MasterData_Ex();
+        $masterData->registMasterData('mtb_permission', ['id', 'name', 'rank'], ['/system/index.php' => '0']);
+        $masterData->clearCache('mtb_permission');
+        $masterData->createCache('mtb_permission');
+
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/manager/system/index.php';
+        $_SESSION['authority'] = 1;
+        $this->objSession = new SC_Session_Ex();
+        $this->expected = ACCESS_ERROR;
+        $this->actual = $this->objSession->IsSuccess($admin_dir);
+        $this->verify();
+    }
+
+    public function testIsSuccessWithAdminDirPermissionError()
+    {
+        // ADMIN_DIR = 'manager/' でアクセス権を検証する
+        $admin_dir = 'manager/';
+
+        // ADMIN_DIR を含めたパスを登録する
+        $masterData = new SC_DB_MasterData_Ex();
+        $masterData->registMasterData('mtb_permission', ['id', 'name', 'rank'], ['/'.$admin_dir.'/system/index.php' => '0']);
+        $masterData->clearCache('mtb_permission');
+        $masterData->createCache('mtb_permission');
+
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/manager/system/index.php';
+        $_SESSION['authority'] = 1;
+        $this->objSession = new SC_Session_Ex();
+        $this->expected = ACCESS_ERROR;
+        $this->actual = $this->objSession->IsSuccess($admin_dir);
+        $this->verify();
+    }
+
 
     public function testSetSession()
     {

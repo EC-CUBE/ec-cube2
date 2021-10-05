@@ -65,7 +65,7 @@ class SC_Session
         }
     }
     /* 認証成功の判定 */
-    public function IsSuccess()
+    public function IsSuccess($admin_dir = ADMIN_DIR)
     {
         if ($this->cert == CERT_STRING) {
             $script_path = realpath($_SERVER['SCRIPT_FILENAME']);
@@ -75,7 +75,15 @@ class SC_Session
             $arrPERMISSION = $masterData->getMasterData('mtb_permission');
 
             foreach ($arrPERMISSION as $path => $auth) {
-                $permission_path = realpath(HTML_REALDIR . $path);
+                if (stripos($path, '/admin/') === 0) {
+                    // path が /admin で始まる場合は /admin を削除
+                    $path = str_replace('/admin', '', $path);
+                } elseif (stripos($path, '/'.$admin_dir) === 0) {
+                    // path が /ADMIN_DIR で始まる場合は /ADMIN_DIR を削除
+                    $path = str_replace('/'.$admin_dir, '', $path);
+                }
+                $permission_path = realpath(HTML_REALDIR.$admin_dir.$path);
+
                 $arrPermissionPath = explode('/', str_replace('\\', '/', $permission_path));
                 $arrDiff = array_diff_assoc($arrScriptPath, $arrPermissionPath);
                 // 一致した場合は、権限チェックを行う
