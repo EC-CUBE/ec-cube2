@@ -556,6 +556,8 @@ class SC_CartSession
                 return $this->cartSession[$productTypeId][$i]['quantity'];
             }
         }
+
+        return 0;
     }
 
     /**
@@ -591,6 +593,8 @@ class SC_CartSession
                 return $this->cartSession[$productTypeId][$i]['id'];
             }
         }
+
+        return 0;
     }
 
     /**

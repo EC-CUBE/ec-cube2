@@ -441,10 +441,8 @@ class LC_UseRequest_State_PC extends LC_UseRequest_State
      *     ['ip']      => '127.0.0.1'
      *     ['expires'] => 1204699031
      * )
-     *
-     * @return LC_UseRequest_State_PC
      */
-    public function LC_UseRequest_State_PC()
+    public function __construct()
     {
         $this->namespace = 'pc';
         $this->lifetime  = SESSION_LIFETIME;
@@ -506,10 +504,8 @@ class LC_UseRequest_State_Mobile extends LC_UseRequest_State
      *     ['expires'] => 1204699031
      *     ['phone_id']=> ****
      * )
-     *
-     * @return LC_UseRequest_State_Mobile
      */
-    public function LC_UseRequest_State_Mobile()
+    public function __construct()
     {
         $this->namespace = 'mobile';
         $this->lifetime  = MOBILE_SESSION_LIFETIME;
