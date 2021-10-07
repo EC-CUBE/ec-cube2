@@ -60,6 +60,10 @@ class LC_Page_Admin_System_Delete extends LC_Page_Admin_Ex
      */
     public function action()
     {
+        if ($this->getMode() !== 'delete') {
+            SC_Utils_Ex::sfDispError(INVALID_MOVE_ERRORR);
+            SC_Response_Ex::actionExit();
+        }
         $objFormParam = new SC_FormParam_Ex;
 
         // パラメーターの初期化
