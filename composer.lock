@@ -4,59 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "43f7d15e44e1f4f4dd5880a0990581c7",
+    "content-hash": "e6c446c7f47eec9ab6790e2793226b17",
     "packages": [
-        {
-            "name": "bondas83/mdb2_driver_mysqli",
-            "version": "v1.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bondas83/mdb2_driver_mysqli.git",
-                "reference": "821854e34b8ca0655b437d441ef40251dda38ff4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bondas83/mdb2_driver_mysqli/zipball/821854e34b8ca0655b437d441ef40251dda38ff4",
-                "reference": "821854e34b8ca0655b437d441ef40251dda38ff4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "silverorange/mdb2": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "MDB2/Driver/mysqli.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Julius Smatavicius",
-                    "email": "bondas83@gmail.com"
-                }
-            ],
-            "description": "This is the Mysqli MDB2 driver.",
-            "homepage": "https://github.com/bondas83/MDB2_Driver_mysqli",
-            "keywords": [
-                "PEAR",
-                "database",
-                "mdb2",
-                "mysqli"
-            ],
-            "support": {
-                "issues": "https://github.com/bondas83/mdb2_driver_mysqli/issues",
-                "source": "https://github.com/bondas83/mdb2_driver_mysqli/tree/master"
-            },
-            "time": "2017-08-04T14:29:40+00:00"
-        },
         {
             "name": "mobiledetect/mobiledetectlib",
             "version": "2.8.37",
@@ -118,6 +67,59 @@
                 }
             ],
             "time": "2021-02-19T21:22:57+00:00"
+        },
+        {
+            "name": "nanasess/mdb2_driver_mysqli",
+            "version": "v1.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nanasess/mdb2_driver_mysqli.git",
+                "reference": "8546d4e7ab74d6c2c2d6f854de2cd80def20ce45"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nanasess/mdb2_driver_mysqli/zipball/8546d4e7ab74d6c2c2d6f854de2cd80def20ce45",
+                "reference": "8546d4e7ab74d6c2c2d6f854de2cd80def20ce45",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "silverorange/mdb2": "*"
+            },
+            "replace": {
+                "bondas83/mdb2_driver_mysqli": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "MDB2/Driver/mysqli.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Julius Smatavicius",
+                    "email": "bondas83@gmail.com"
+                }
+            ],
+            "description": "This is the Mysqli MDB2 driver.",
+            "homepage": "https://github.com/nanasess/MDB2_Driver_mysqli",
+            "keywords": [
+                "PEAR",
+                "database",
+                "mdb2",
+                "mysqli"
+            ],
+            "support": {
+                "source": "https://github.com/nanasess/mdb2_driver_mysqli/tree/v1.5.4"
+            },
+            "time": "2021-10-12T09:12:53+00:00"
         },
         {
             "name": "nanasess/mdb2_driver_pgsql",
@@ -3365,5 +3367,5 @@
     "platform-overrides": {
         "php": "5.4.16"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
