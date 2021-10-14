@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "fzaninotto/faker": "^1.8",
+        "guzzlehttp/guzzle": "^5.3",
         "php5friends/phpunit48": ">=4.8.41"
     },
     "require": {
