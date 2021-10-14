@@ -71,6 +71,13 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-composer-
 
+    - name: Install to Composer
+      run: |
+        composer install --no-interaction -o
+        composer require php5friends/codeception-phpunit48-wrapper ">=6.0.20" --dev
+        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev
+        composer require codeception/codeception "*" --dev
+
     - name: Setup PHP
       uses: nanasess/setup-php@master
       with:
@@ -95,13 +102,6 @@ jobs:
         sudo mv ~/.symfony/bin/symfony /usr/local/bin/symfony
         symfony local:php:list
         symfony server:ca:install
-
-    - name: Install to Composer
-      run: |
-        composer install --no-interaction -o
-        composer require php5friends/codeception-phpunit48-wrapper ">=6.0.20" --dev
-        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev
-        composer require codeception/codeception "*" --dev
 
     - name: Create ADMIN_DIR
       run: |
@@ -304,6 +304,13 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-composer-
 
+    - name: Install to Composer
+      run: |
+        composer install --no-interaction -o
+        composer require php5friends/codeception-phpunit48-wrapper ">=6.0.20" --dev
+        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev
+        composer require codeception/codeception "*" --dev
+
     - name: Setup PHP
       uses: nanasess/setup-php@master
       with:
@@ -326,14 +333,6 @@ jobs:
         sudo mv ~/.symfony/bin/symfony /usr/local/bin/symfony
         symfony local:php:list
         symfony server:ca:install
-
-
-    - name: Install to Composer
-      run: |
-        composer install --no-interaction -o
-        composer require php5friends/codeception-phpunit48-wrapper ">=6.0.20" --dev
-        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev
-        composer require codeception/codeception "*" --dev
 
     - name: setup-chromedriver
       uses: nanasess/setup-chromedriver@master
