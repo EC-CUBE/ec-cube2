@@ -72,8 +72,12 @@ jobs:
     - name: Install to Composer
       run: |
         composer install --no-interaction -o
-        composer remove php5friends/codeception-phpunit48-wrapper --ignore-platform-reqs --dev
+        composer require php5friends/codeception-phpunit48-wrapper ">=6.0.20" --dev
+        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev
+        composer require codeception/codeception "*" --dev
+        composer remove php5friends/codeception-phpunit48-wrapper --dev
         composer remove php5friends/phpunit48 --ignore-platform-reqs --dev
+
     - name: Create ADMIN_DIR
       run: |
         sudo apt-fast install -y sharutils
