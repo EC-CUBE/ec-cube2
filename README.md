@@ -91,8 +91,8 @@ php composer.phar install --no-dev --no-interaction -o
 
 - *開発環境におすすめです。*
 
-それぞれのコマンドの実行完了してから http://localhost:8080/ へアクセスすると、EC-CUBEのフロント画面が表示されます。
-管理画面は http://localhost:8080/admin/ へアクセスしてください。
+それぞれのコマンドの実行完了してから https://localhost:4430/ へアクセスすると、EC-CUBEのフロント画面が表示されます。
+管理画面は https://localhost:4430/admin/ へアクセスしてください。
 
 #### PostgreSQL を使用する場合
 
