@@ -8,6 +8,14 @@ class SC_SessionTest extends Common_TestCase
      */
     protected $objSession;
 
+    /**
+     * @var SC_DB_MasterData
+     */
+    protected $masterData;
+
+    /** @var string */
+    const MASTER_NAME = 'mtb_permission';
+
     protected function setUp()
     {
         parent::setUp();
@@ -17,6 +25,14 @@ class SC_SessionTest extends Common_TestCase
         $_SESSION['member_id'] = 1;
         $_SESSION['uniq_id'] = 'uniqid'; // XXX コンストラクタで使用している未使用変数
         $this->objSession = new SC_Session_Ex();
+
+        $this->masterData = new SC_DB_MasterData_Ex();
+        $this->masterData->createCache(self::MASTER_NAME);
+    }
+
+    protected function tearDown()
+    {
+        $this->masterData->createCache(self::MASTER_NAME);
     }
 
     public function testGetInstance()
@@ -27,9 +43,66 @@ class SC_SessionTest extends Common_TestCase
 
     public function testIsSuccess()
     {
-        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/admin/system/index.php';
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/'.ADMIN_DIR.'system/index.php';
+        $_SESSION['authority'] = 0;
         $this->expected = SUCCESS;
         $this->actual = $this->objSession->IsSuccess();
+        $this->verify();
+    }
+
+    public function testIsSuccessWithBC()
+    {
+        // 下位互換チェック. 2.17.1 までのパスを登録する
+        $id = '/admin/system/index.php';
+        if (!$this->hasMasterData(self::MASTER_NAME, $id)) {
+            $this->masterData->registMasterData(self::MASTER_NAME, ['id', 'name', 'rank'], [$id => '0'], false);
+            $this->masterData->createCache(self::MASTER_NAME);
+        }
+
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/'.ADMIN_DIR.'system/index.php';
+        $_SESSION['authority'] = 0;
+        $this->expected = SUCCESS;
+        $this->actual = $this->objSession->IsSuccess();
+        $this->verify();
+    }
+
+    public function testIsSuccessWithChangeAdminDir()
+    {
+        // ADMIN_DIR = 'manager/' でアクセス権を検証する
+        $admin_dir = 'manager/';
+
+        // ADMIN_DIR を除いたパスを登録する
+        $id = '/system/index.php';
+        if (!$this->hasMasterData(self::MASTER_NAME, $id)) {
+            $this->masterData->registMasterData(self::MASTER_NAME, ['id', 'name', 'rank'], [$id => '0'], false);
+            $this->masterData->createCache(self::MASTER_NAME);
+        }
+
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/manager/system/index.php';
+        $_SESSION['authority'] = 0;
+        $this->objSession = new SC_Session_Ex();
+        $this->expected = SUCCESS;
+        $this->actual = $this->objSession->IsSuccess($admin_dir);
+        $this->verify();
+    }
+
+    public function testIsSuccessWithAdminDir()
+    {
+        // ADMIN_DIR = 'manager/' でアクセス権を検証する
+        $admin_dir = 'manager/';
+
+        // ADMIN_DIR を含めたパスを登録する
+        $id = '/'.$admin_dir.'/system/index.php';
+        if (!$this->hasMasterData(self::MASTER_NAME, $id)) {
+            $this->masterData->registMasterData(self::MASTER_NAME, ['id', 'name', 'rank'], [$id => '0'], false);
+            $this->masterData->createCache(self::MASTER_NAME);
+        }
+
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/manager/system/index.php';
+        $_SESSION['authority'] = 0;
+        $this->objSession = new SC_Session_Ex();
+        $this->expected = SUCCESS;
+        $this->actual = $this->objSession->IsSuccess($admin_dir);
         $this->verify();
     }
 
@@ -44,13 +117,70 @@ class SC_SessionTest extends Common_TestCase
 
     public function testIsSuccessWithPermissionError()
     {
-        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/admin/system/index.php';
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/'.ADMIN_DIR.'system/index.php';
         $_SESSION['authority'] = 1;
         $this->objSession = new SC_Session_Ex();
         $this->expected = ACCESS_ERROR;
         $this->actual = $this->objSession->IsSuccess();
         $this->verify();
     }
+
+    public function testIsSuccessWithPermissionErrorBC()
+    {
+        // 下位互換チェック. 2.17.1 までのパスを登録する
+        $id = '/admin/system/index.php';
+        if (!$this->hasMasterData(self::MASTER_NAME, $id)) {
+            $this->masterData->registMasterData(self::MASTER_NAME, ['id', 'name', 'rank'], [$id => '0'], false);
+            $this->masterData->createCache(self::MASTER_NAME);
+        }
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/'.ADMIN_DIR.'system/index.php';
+        $_SESSION['authority'] = 1;
+        $this->objSession = new SC_Session_Ex();
+        $this->expected = ACCESS_ERROR;
+        $this->actual = $this->objSession->IsSuccess();
+        $this->verify();
+    }
+
+    public function testIsSuccessWithChangeAdminDirPermissionError()
+    {
+        // ADMIN_DIR = 'manager/' でアクセス権を検証する
+        $admin_dir = 'manager/';
+
+        // ADMIN_DIR を除いたパスを登録する
+        $id = '/system/index.php';
+        if (!$this->hasMasterData(self::MASTER_NAME, $id)) {
+            $this->masterData->registMasterData(self::MASTER_NAME, ['id', 'name', 'rank'], [$id => '0'], false);
+            $this->masterData->createCache(self::MASTER_NAME);
+        }
+
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/manager/system/index.php';
+        $_SESSION['authority'] = 1;
+        $this->objSession = new SC_Session_Ex();
+        $this->expected = ACCESS_ERROR;
+        $this->actual = $this->objSession->IsSuccess($admin_dir);
+        $this->verify();
+    }
+
+    public function testIsSuccessWithAdminDirPermissionError()
+    {
+        // ADMIN_DIR = 'manager/' でアクセス権を検証する
+        $admin_dir = 'manager/';
+
+        // ADMIN_DIR を含めたパスを登録する
+        $id = '/'.$admin_dir.'/system/index.php';
+        if (!$this->hasMasterData(self::MASTER_NAME, $id)) {
+            $this->masterData->registMasterData(self::MASTER_NAME, ['id', 'name', 'rank'], [$id => '0'], false);
+            $this->masterData->createCache(self::MASTER_NAME);
+        }
+
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/../../html/manager/system/index.php';
+        $_SESSION['authority'] = 1;
+        $this->objSession = new SC_Session_Ex();
+        $this->expected = ACCESS_ERROR;
+        $this->actual = $this->objSession->IsSuccess($admin_dir);
+        $this->verify();
+    }
+
 
     public function testSetSession()
     {
@@ -104,5 +234,12 @@ class SC_SessionTest extends Common_TestCase
         } else {
             $this->assertNotEquals($this->expected, $this->actual);
         }
+    }
+
+    private function hasMasterData($name, $id)
+    {
+        $arrMasterData = $this->masterData->getMasterData($name);
+
+        return array_key_exists($id, $arrMasterData);
     }
 }

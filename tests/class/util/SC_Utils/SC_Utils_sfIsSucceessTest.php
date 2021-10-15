@@ -101,9 +101,8 @@ class SC_Session_Mock extends SC_Session
 
   public $is_success;
 
-  function IsSuccess()
+  function IsSuccess($admin_dir = ADMIN_DIR)
   {
     return $this->is_success;
   }
 }
-
