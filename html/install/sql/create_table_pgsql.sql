@@ -1249,3 +1249,4 @@ CREATE INDEX dtb_products_class_stock_key ON dtb_products_class (product_id,stoc
 CREATE INDEX dtb_products_class_stock_unlimited_key ON dtb_products_class (product_id,stock_unlimited) WHERE del_flg = 0;
 CREATE INDEX dtb_products_class_point_rate_key ON dtb_products_class (product_id,point_rate) WHERE del_flg = 0;
 CREATE INDEX dtb_products_class_deliv_fee_key ON dtb_products_class (product_id,deliv_fee) WHERE del_flg = 0;
+CREATE INDEX dtb_session_update_date_key ON dtb_session (update_date);
