@@ -4,59 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "43f7d15e44e1f4f4dd5880a0990581c7",
+    "content-hash": "e6c446c7f47eec9ab6790e2793226b17",
     "packages": [
-        {
-            "name": "bondas83/mdb2_driver_mysqli",
-            "version": "v1.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bondas83/mdb2_driver_mysqli.git",
-                "reference": "821854e34b8ca0655b437d441ef40251dda38ff4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bondas83/mdb2_driver_mysqli/zipball/821854e34b8ca0655b437d441ef40251dda38ff4",
-                "reference": "821854e34b8ca0655b437d441ef40251dda38ff4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "silverorange/mdb2": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "MDB2/Driver/mysqli.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Julius Smatavicius",
-                    "email": "bondas83@gmail.com"
-                }
-            ],
-            "description": "This is the Mysqli MDB2 driver.",
-            "homepage": "https://github.com/bondas83/MDB2_Driver_mysqli",
-            "keywords": [
-                "PEAR",
-                "database",
-                "mdb2",
-                "mysqli"
-            ],
-            "support": {
-                "issues": "https://github.com/bondas83/mdb2_driver_mysqli/issues",
-                "source": "https://github.com/bondas83/mdb2_driver_mysqli/tree/master"
-            },
-            "time": "2017-08-04T14:29:40+00:00"
-        },
         {
             "name": "mobiledetect/mobiledetectlib",
             "version": "2.8.37",
@@ -118,6 +67,59 @@
                 }
             ],
             "time": "2021-02-19T21:22:57+00:00"
+        },
+        {
+            "name": "nanasess/mdb2_driver_mysqli",
+            "version": "v1.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nanasess/mdb2_driver_mysqli.git",
+                "reference": "8546d4e7ab74d6c2c2d6f854de2cd80def20ce45"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nanasess/mdb2_driver_mysqli/zipball/8546d4e7ab74d6c2c2d6f854de2cd80def20ce45",
+                "reference": "8546d4e7ab74d6c2c2d6f854de2cd80def20ce45",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "silverorange/mdb2": "*"
+            },
+            "replace": {
+                "bondas83/mdb2_driver_mysqli": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "MDB2/Driver/mysqli.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Julius Smatavicius",
+                    "email": "bondas83@gmail.com"
+                }
+            ],
+            "description": "This is the Mysqli MDB2 driver.",
+            "homepage": "https://github.com/nanasess/MDB2_Driver_mysqli",
+            "keywords": [
+                "PEAR",
+                "database",
+                "mdb2",
+                "mysqli"
+            ],
+            "support": {
+                "source": "https://github.com/nanasess/mdb2_driver_mysqli/tree/v1.5.4"
+            },
+            "time": "2021-10-12T09:12:53+00:00"
         },
         {
             "name": "nanasess/mdb2_driver_pgsql",
@@ -412,16 +414,16 @@
         },
         {
             "name": "pear/pear-core-minimal",
-            "version": "v1.10.10",
+            "version": "v1.10.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pear/pear-core-minimal.git",
-                "reference": "625a3c429d9b2c1546438679074cac1b089116a7"
+                "reference": "68d0d32ada737153b7e93b8d3c710ebe70ac867d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pear/pear-core-minimal/zipball/625a3c429d9b2c1546438679074cac1b089116a7",
-                "reference": "625a3c429d9b2c1546438679074cac1b089116a7",
+                "url": "https://api.github.com/repos/pear/pear-core-minimal/zipball/68d0d32ada737153b7e93b8d3c710ebe70ac867d",
+                "reference": "68d0d32ada737153b7e93b8d3c710ebe70ac867d",
                 "shasum": ""
             },
             "require": {
@@ -456,7 +458,7 @@
                 "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=PEAR",
                 "source": "https://github.com/pear/pear-core-minimal"
             },
-            "time": "2019-11-19T19:00:24+00:00"
+            "time": "2021-08-10T22:31:03+00:00"
         },
         {
             "name": "pear/pear_exception",
@@ -695,17 +697,21 @@
         },
         {
             "name": "setasign/fpdf",
-            "version": "1.8.2",
+            "version": "1.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Setasign/FPDF.git",
-                "reference": "d77904018090c17dc9f3ab6e944679a7a47e710a"
+                "reference": "b0ddd9c5b98ced8230ef38534f6f3c17308a7974"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/FPDF/zipball/d77904018090c17dc9f3ab6e944679a7a47e710a",
-                "reference": "d77904018090c17dc9f3ab6e944679a7a47e710a",
+                "url": "https://api.github.com/repos/Setasign/FPDF/zipball/b0ddd9c5b98ced8230ef38534f6f3c17308a7974",
+                "reference": "b0ddd9c5b98ced8230ef38534f6f3c17308a7974",
                 "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "ext-zlib": "*"
             },
             "type": "library",
             "autoload": {
@@ -731,9 +737,9 @@
                 "pdf"
             ],
             "support": {
-                "source": "https://github.com/Setasign/FPDF/tree/1.8.2"
+                "source": "https://github.com/Setasign/FPDF/tree/1.8.4"
             },
-            "time": "2019-12-08T10:32:10+00:00"
+            "time": "2021-08-30T07:50:06+00:00"
         },
         {
             "name": "setasign/fpdi",
@@ -840,16 +846,16 @@
         },
         {
             "name": "smarty/smarty",
-            "version": "v3.1.39",
+            "version": "v3.1.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "e27da524f7bcd7361e3ea5cdfa99c4378a7b5419"
+                "reference": "9d4f8309ed49702e0d7152f9983c3a9c4b98eb9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/e27da524f7bcd7361e3ea5cdfa99c4378a7b5419",
-                "reference": "e27da524f7bcd7361e3ea5cdfa99c4378a7b5419",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/9d4f8309ed49702e0d7152f9983c3a9c4b98eb9d",
+                "reference": "9d4f8309ed49702e0d7152f9983c3a9c4b98eb9d",
                 "shasum": ""
             },
             "require": {
@@ -897,9 +903,9 @@
                 "forum": "http://www.smarty.net/forums/",
                 "irc": "irc://irc.freenode.org/smarty",
                 "issues": "https://github.com/smarty-php/smarty/issues",
-                "source": "https://github.com/smarty-php/smarty/tree/v3.1.39"
+                "source": "https://github.com/smarty-php/smarty/tree/v3.1.40"
             },
-            "time": "2021-02-17T21:57:51+00:00"
+            "time": "2021-10-13T10:04:31+00:00"
         }
     ],
     "packages-dev": [
@@ -1359,16 +1365,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.7.0",
+            "version": "1.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3"
+                "reference": "1afdd860a2566ed3c2b0b4a3de6e23434a79ec85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/53330f47520498c0ae1f61f7e2c90f55690c06a3",
-                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/1afdd860a2566ed3c2b0b4a3de6e23434a79ec85",
+                "reference": "1afdd860a2566ed3c2b0b4a3de6e23434a79ec85",
                 "shasum": ""
             },
             "require": {
@@ -1406,12 +1412,33 @@
             ],
             "authors": [
                 {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
                 },
                 {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
                     "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
                     "homepage": "https://github.com/Tobion"
                 }
             ],
@@ -1428,9 +1455,23 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/1.7.0"
+                "source": "https://github.com/guzzle/psr7/tree/1.8.3"
             },
-            "time": "2020-09-30T07:37:11+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/psr7",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-10-05T13:56:00+00:00"
         },
         {
             "name": "guzzlehttp/ringphp",
@@ -2179,16 +2220,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc"
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/0f73288fd15629204f9d42b7055f72dacbe811fc",
-                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
                 "shasum": ""
             },
             "require": {
@@ -2212,7 +2253,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for logging libraries",
@@ -2223,9 +2264,9 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/1.1.3"
+                "source": "https://github.com/php-fig/log/tree/1.1.4"
             },
-            "time": "2020-03-23T09:12:05+00:00"
+            "time": "2021-05-03T11:20:27+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
