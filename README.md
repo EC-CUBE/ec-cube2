@@ -57,7 +57,7 @@ EC-CUBEのインストールは、以下の方法があります。
 
 ### パッケージを使用してインストールする
 
-[EC-CUBE のパッケージ](https://github.com/EC-CUBE/ec-cube2/releases)をダウンロードし、解凍してください。
+[EC-CUBE のパッケージ](https://github.com/EC-CUBE/ec-cube2/releases/latest)をダウンロードし、解凍してください。
 
 FTP/SSHを使用し、ファイルをサーバへアップロードしてください。
 ※ファイル数が多いためエラーが発生することがございます。エラー発生時は分割してアップロードをお願いします。
