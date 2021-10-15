@@ -269,7 +269,9 @@ case "${DBTYPE}" in
         cat - ${SQL_DIR}/create_table_mysqli.sql |
         ${MYSQL} -h ${DBSERVER} -u ${DBUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} ${DBNAME}
     echo "insert data..."
-    ${MYSQL} -u ${DBUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} ${DBNAME} < ${SQL_DIR}/insert_data.sql
+    echo "SET CHARACTER SET 'utf8';" |
+        cat - ${SQL_DIR}/insert_data.sql |
+        ${MYSQL} -u ${DBUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} ${DBNAME}
     echo "create sequence table..."
     create_sequence_tables
     echo "execute optional SQL..."
