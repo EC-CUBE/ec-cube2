@@ -28,7 +28,7 @@ beforeAll(async () => {
   }
 });
 
-describe.skip('お問い合わせページを表示する', () => {
+describe('お問い合わせページを表示する', () => {
   test('[E2E] お問い合わせページを表示し、ログイン状態を確認する', async () => {
     const driver = await new Builder()
       .withCapabilities(SeleniumCapabilities)
