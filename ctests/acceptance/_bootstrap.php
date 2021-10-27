@@ -4,7 +4,9 @@ require __DIR__.'/../../tests/require.php';
 $config = parse_ini_file(__DIR__.'/config.ini', true);
 
 $faker = Faker\Factory::create('ja_JP');
-Codeception\Util\Fixtures::add('faker', $faker);
+if (class_exists('Codeception\Util\Fixtures')) {
+    Codeception\Util\Fixtures::add('faker', $faker);
+}
 
 if (!file_exists(__DIR__.'/../../data/config/config.php')
     || !defined('ECCUBE_INSTALL') || ECCUBE_INSTALL != 'ON') {
@@ -16,7 +18,9 @@ if (!file_exists(__DIR__.'/../../data/config/config.php')
 $objQuery = SC_Query_Ex::getSingletonInstance();
 
 $objGenerator = new FixtureGenerator($objQuery, 'ja_JP');
-Codeception\Util\Fixtures::add('objGenerator', $objGenerator);
+if (class_exists('Codeception\Util\Fixtures')) {
+    Codeception\Util\Fixtures::add('objGenerator', $objGenerator);
+}
 
 $num = $objQuery->count('dtb_customer');
 
