@@ -413,7 +413,7 @@ class GC_Utils
      *
      * XML宣言があると問題が発生する UA は出力しない.
      *
-     * @return string XML宣言の文字列
+     * @return void
      */
     public static function printXMLDeclaration()
     {

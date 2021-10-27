@@ -1,0 +1,31 @@
+From caeb0cce2ecdcda63edec66a6f8cad8446355a0b Mon Sep 17 00:00:00 2001
+From: Kentaro Ohkouchi <nanasess@fsm.ne.jp>
+Date: Thu, 21 Oct 2021 15:37:58 +0900
+Subject: [PATCH] =?UTF-8?q?=E7=AE=A1=E7=90=86=E7=94=BB=E9=9D=A2=E3=81=AE?=
+ =?UTF-8?q?=E7=89=A9=E7=90=86=E5=89=8A=E9=99=A4=E6=A9=9F=E8=83=BD=E3=82=92?=
+ =?UTF-8?q?=E3=83=AD=E3=83=BC=E3=83=AB=E3=83=90=E3=83=83=E3=82=AF=E3=81=99?=
+ =?UTF-8?q?=E3=82=8B?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ data/class/helper/SC_Helper_DB.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/class/helper/SC_Helper_DB.php b/data/class/helper/SC_Helper_DB.php
+index 2bbb656fa..e20051f5d 100644
+--- a/data/class/helper/SC_Helper_DB.php
++++ b/data/class/helper/SC_Helper_DB.php
+@@ -1312,7 +1312,7 @@ __EOS__;
+         );
+         $objQuery->update($table, $sqlval, $where, $arrWhereVal, $arrRawSql);
+ 
+-        $objQuery->commit();
++        // $objQuery->commit();
+     }
+ 
+     /**
+-- 
+2.25.1
+

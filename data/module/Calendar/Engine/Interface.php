@@ -42,6 +42,7 @@ class Calendar_Engine_Interface
      */
     function stampCollection($stamp)
     {
+        return 0;
     }
 
     /**
@@ -52,6 +53,7 @@ class Calendar_Engine_Interface
      */
     function stampToYear($stamp)
     {
+        return 0;
     }
 
     /**
@@ -62,6 +64,7 @@ class Calendar_Engine_Interface
      */
     function stampToMonth($stamp)
     {
+        return 0;
     }
 
     /**
@@ -72,6 +75,7 @@ class Calendar_Engine_Interface
      */
     function stampToDay($stamp)
     {
+        return 0;
     }
 
     /**
@@ -82,6 +86,7 @@ class Calendar_Engine_Interface
      */
     function stampToHour($stamp)
     {
+        return 0;
     }
 
     /**
@@ -92,6 +97,7 @@ class Calendar_Engine_Interface
      */
     function stampToMinute($stamp)
     {
+        return 0;
     }
 
     /**
@@ -102,6 +108,7 @@ class Calendar_Engine_Interface
      */
     function stampToSecond($stamp)
     {
+        return 0;
     }
 
     /**
@@ -120,6 +127,7 @@ class Calendar_Engine_Interface
      */
     function dateToStamp($y,$m,$d,$h,$i,$s)
     {
+        return 0;
     }
 
     /**
@@ -129,6 +137,7 @@ class Calendar_Engine_Interface
      */
     function getMaxYears()
     {
+        return 0;
     }
 
     /**
@@ -138,6 +147,7 @@ class Calendar_Engine_Interface
      */
     function getMinYears()
     {
+        return 0;
     }
 
     /**
@@ -148,6 +158,7 @@ class Calendar_Engine_Interface
      */
     function getMonthsInYear($y=null)
     {
+        return 0;
     }
 
     /**
@@ -159,6 +170,7 @@ class Calendar_Engine_Interface
      */
     function getDaysInMonth($y, $m)
     {
+        return 0;
     }
 
     /**
@@ -171,6 +183,7 @@ class Calendar_Engine_Interface
      */
     function getFirstDayInMonth ($y, $m)
     {
+        return 0;
     }
 
     /**
@@ -183,6 +196,7 @@ class Calendar_Engine_Interface
      */
     function getDaysInWeek($y=NULL, $m=NULL, $d=NULL)
     {
+        return 0;
     }
 
     /**
@@ -195,6 +209,7 @@ class Calendar_Engine_Interface
      */
     function getWeekNInYear($y, $m, $d)
     {
+        return 0;
     }
 
     /**
@@ -208,6 +223,7 @@ class Calendar_Engine_Interface
      */
     function getWeekNInMonth($y, $m, $d, $firstDay=1)
     {
+        return 0;
     }
 
     /**
@@ -220,6 +236,7 @@ class Calendar_Engine_Interface
      */
     function getWeeksInMonth($y, $m)
     {
+        return 0;
     }
 
     /**
@@ -232,6 +249,7 @@ class Calendar_Engine_Interface
      */
     function getDayOfWeek($y, $m, $d)
     {
+        return 0;
     }
 
     /**
@@ -244,6 +262,7 @@ class Calendar_Engine_Interface
      */
     function getWeekDays($y=NULL, $m=NULL, $d=NULL)
     {
+        return 0;
     }
 
     /**
@@ -258,6 +277,7 @@ class Calendar_Engine_Interface
      */
     function getFirstDayOfWeek($y=NULL, $m=NULL, $d=NULL)
     {
+        return 0;
     }
 
     /**
@@ -268,6 +288,7 @@ class Calendar_Engine_Interface
      */
     function getHoursInDay($y=null,$m=null,$d=null)
     {
+        return 0;
     }
 
     /**
@@ -278,6 +299,7 @@ class Calendar_Engine_Interface
      */
     function getMinutesInHour($y=null,$m=null,$d=null,$h=null)
     {
+        return 0;
     }
 
     /**
@@ -288,6 +310,7 @@ class Calendar_Engine_Interface
      */
     function getSecondsInMinute($y=null,$m=null,$d=null,$h=null,$i=null)
     {
+        return 0;
     }
 }
 ?>

@@ -71,6 +71,13 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-composer-
 
+    - name: Install to Composer
+      run: |
+        composer install --no-interaction -o
+        composer require php5friends/codeception-phpunit48-wrapper ">=6.0.20" --dev
+        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev
+        composer require codeception/codeception "*" --dev
+
     - name: Setup PHP
       uses: nanasess/setup-php@master
       with:
@@ -96,8 +103,6 @@ jobs:
         symfony local:php:list
         symfony server:ca:install
 
-    - name: Install to Composer
-      run: composer install --no-interaction -o
     - name: Create ADMIN_DIR
       run: |
         sudo apt-fast install -y sharutils
@@ -176,11 +181,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Setup PHP
-      uses: nanasess/setup-php@master
-      with:
-        php-version: ${{ matrix.php }}
-
     - name: Get Composer Cache Directory
       id: composer-cache
       run: |
@@ -191,6 +191,9 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**\composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
+
+    - run: echo "extension=gd" >> C:/tools/php/php.ini
+      shell: bash
 
     - name: Install to Composer
       run: composer install --no-interaction -o
@@ -207,6 +210,11 @@ jobs:
         choco install -y mysql --version 5.7.18
         mysql --user=root -e "CREATE DATABASE eccube_db DEFAULT COLLATE=utf8_general_ci;"
         mysql --user=root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;FLUSH PRIVILEGES;"
+
+    - name: Setup PHP
+      uses: nanasess/setup-php@master
+      with:
+        php-version: ${{ matrix.php }}
 
     - name: Setup to EC-CUBE
       env:
@@ -296,6 +304,13 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-composer-
 
+    - name: Install to Composer
+      run: |
+        composer install --no-interaction -o
+        composer require php5friends/codeception-phpunit48-wrapper ">=6.0.20" --dev
+        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev
+        composer require codeception/codeception "*" --dev
+
     - name: Setup PHP
       uses: nanasess/setup-php@master
       with:
@@ -318,10 +333,6 @@ jobs:
         sudo mv ~/.symfony/bin/symfony /usr/local/bin/symfony
         symfony local:php:list
         symfony server:ca:install
-
-
-    - name: Install to Composer
-      run: composer install --no-interaction -o
 
     - name: setup-chromedriver
       uses: nanasess/setup-chromedriver@master

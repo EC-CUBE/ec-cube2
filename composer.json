@@ -22,18 +22,16 @@
         }
     },
     "require-dev": {
-        "captbaritone/mailcatcher-codeception-module": "1.2.1",
-        "codeception/codeception": "*",
         "fzaninotto/faker": "^1.8",
-        "php5friends/codeception-phpunit48-wrapper": ">=6.0.20",
+        "guzzlehttp/guzzle": "^5.3",
         "php5friends/phpunit48": ">=4.8.41"
     },
     "require": {
         "php": ">=5.4.16",
         "ext-gd": "*",
         "ext-mbstring": "*",
-        "bondas83/mdb2_driver_mysqli": "^1.5",
         "mobiledetect/mobiledetectlib": "^2.8",
+        "nanasess/mdb2_driver_mysqli": "^1.5",
         "nanasess/mdb2_driver_pgsql": "^1.5",
         "nanasess/php8-compat": "^1.0",
         "pear/archive_tar": "^1.4.3",
