@@ -44,9 +44,12 @@ jobs:
       run: |
         sudo chown -R 1001:1000 zap
         sudo chmod -R g+w zap
+        composer update php5friends/phpunit48 --ignore-platform-req=php -W
+        composer require ec-cube2/cli "dev-work-with-eccube217@dev" --ignore-platform-req=php --dev -W
+        composer require nanasess/eccube2-fixture-generator "dev-main@dev" --dev --ignore-platform-req=php -W
         docker-compose -f docker-compose.yml -f docker-compose.pgsql.yml -f docker-compose.dev.yml -f docker-compose.owaspzap.yml -f docker-compose.owaspzap.daemon.yml up -d
-        docker-compose -f docker-compose.yml -f docker-compose.pgsql.yml -f docker-compose.dev.yml -f docker-compose.owaspzap.yml exec -T ec-cube composer install
-        docker-compose -f docker-compose.yml -f docker-compose.pgsql.yml -f docker-compose.dev.yml -f docker-compose.owaspzap.yml exec -T ec-cube php ctests/acceptance/_bootstrap.php
+        docker-compose -f docker-compose.yml -f docker-compose.pgsql.yml -f docker-compose.dev.yml -f docker-compose.owaspzap.yml exec -T ec-cube composer install --ignore-platform-req=php
+        docker-compose -f docker-compose.yml -f docker-compose.pgsql.yml -f docker-compose.dev.yml -f docker-compose.owaspzap.yml exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
         docker-compose -f docker-compose.yml -f docker-compose.pgsql.yml -f docker-compose.dev.yml -f docker-compose.owaspzap.yml exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
 
     - run: sleep 1
