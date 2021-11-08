@@ -41,6 +41,7 @@ jobs:
         DBPORT: ${{ matrix.dbport }}
         HTTP_URL: https://127.0.0.1:8085/
         HTTPS_URL: https://127.0.0.1:8085/
+        COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         sudo chown -R 1001:1000 zap
         sudo chmod -R g+w zap
