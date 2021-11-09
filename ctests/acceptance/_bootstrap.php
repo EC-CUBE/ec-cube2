@@ -16,6 +16,11 @@ if (!file_exists(__DIR__.'/../../data/config/config.php')
 
 /** @var SC_Query $objQuery */
 $objQuery = SC_Query_Ex::getSingletonInstance();
+if (!class_exists('\Eccube2\Tests\Fixture\Generator')) {
+    echo 'You must set up the project dependencies, run the following commands:'.PHP_EOL.
+        'composer require nanasess/eccube2-fixture-generator --dev --ignore-platform-req=php'.PHP_EOL;
+    return;
+}
 
 $objGenerator = new FixtureGenerator($objQuery, 'ja_JP');
 if (class_exists('Codeception\Util\Fixtures')) {
