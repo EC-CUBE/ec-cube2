@@ -30,9 +30,9 @@ parameters:
     -
       message: "#^Call to static method dayOfWeek\\(\\) on an unknown class Date_Calc\\.#"
       path: data/module/Calendar/Util/Textual.php
-    -
-      message: "#^Constant SMARTY_PLUGINS_DIR not found\\.$#"
-      path: data/smarty_extends/*
+    # -
+    #   message: "#^Constant SMARTY_PLUGINS_DIR not found\\.$#"
+    #   path: data/smarty_extends/*
     -
       message: "#^Function smarty_function_escape_special_chars not found\\.$#"
       path: data/smarty_extends/*
