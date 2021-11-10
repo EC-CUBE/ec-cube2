@@ -2,13 +2,9 @@
 
 class SC_FpdfTest extends Common_TestCase
 {
-    /** @var FixtureGenerator */
-    protected $objGenerator;
-
     protected function setUp()
     {
         parent::setUp();
-        $this->objGenerator = new FixtureGenerator();
     }
 
     public function test_正しいMediaBox情報が出力される()
@@ -40,6 +36,6 @@ class SC_FpdfTest extends Common_TestCase
         // 不正な出力。
         $this->assertNotEquals('/MediaBox [0 0 0.00 0.00]', $mediaBoxLine);
         // 前行のテストをすり抜けた場合のダブルチェック。（本来の出力）
-        $this->assertEquals('/MediaBox [0 0 595.28 841.89]', $mediaBoxLine);        
+        $this->assertEquals('/MediaBox [0 0 595.28 841.89]', $mediaBoxLine);
     }
 }

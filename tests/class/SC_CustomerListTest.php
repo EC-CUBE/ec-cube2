@@ -5,9 +5,6 @@ class SC_CustomerListTest extends Common_TestCase
     /** @var Faker\Generator $faker */
     protected $faker;
 
-    /** @var FixtureGenerator */
-    protected $objGenerator;
-
     /** @var int[] */
     protected $customer_ids;
 
@@ -18,7 +15,6 @@ class SC_CustomerListTest extends Common_TestCase
     {
         parent::setUp();
         $this->faker = Faker\Factory::create('ja_JP');
-        $this->objGenerator = new FixtureGenerator();
     }
 
     public function testCreateInstance()
