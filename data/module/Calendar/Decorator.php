@@ -178,6 +178,8 @@ class Calendar_Decorator
         if ( method_exists($this->calendar,'isFirst') ) {
             return $this->calendar->isFirst();
         }
+
+        return false;
     }
 
     /**
@@ -191,6 +193,8 @@ class Calendar_Decorator
         if ( method_exists($this->calendar,'isLast') ) {
             return $this->calendar->isLast();
         }
+
+        return false;
     }
 
     /**
@@ -216,6 +220,8 @@ class Calendar_Decorator
         if ( method_exists($this->calendar,'isEmpty') ) {
             return $this->calendar->isEmpty();
         }
+
+        return false;
     }
 
     /**
@@ -227,7 +233,7 @@ class Calendar_Decorator
      */
     function build($sDates = array())
     {
-        $this->calendar->build($sDates);
+        return $this->calendar->build($sDates);
     }
 
     /**

@@ -1,0 +1,63 @@
+From 11ebf13c502ab4d59fcd5656a868a5c7e32b3fce Mon Sep 17 00:00:00 2001
+From: Kentaro Ohkouchi <nanasess@fsm.ne.jp>
+Date: Mon, 18 Oct 2021 14:26:29 +0900
+Subject: [PATCH] =?UTF-8?q?=E8=B3=BC=E5=85=A5=E5=AE=8C=E4=BA=86=E6=99=82?=
+ =?UTF-8?q?=E3=81=AB=E3=82=AB=E3=83=BC=E3=83=88=E3=82=92=E3=82=AF=E3=83=AA?=
+ =?UTF-8?q?=E3=82=A2=E3=81=9B=E3=81=9A=E3=83=86=E3=82=B9=E3=83=88=E3=82=92?=
+ =?UTF-8?q?=E7=B6=99=E7=B6=9A=E3=81=99=E3=82=8B=E4=BF=AE=E6=AD=A3?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ data/class/SC_CartSession.php            | 6 +++---
+ data/class/helper/SC_Helper_Purchase.php | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/data/class/SC_CartSession.php b/data/class/SC_CartSession.php
+index add3a0555..21a68718e 100644
+--- a/data/class/SC_CartSession.php
++++ b/data/class/SC_CartSession.php
+@@ -98,7 +98,7 @@ class SC_CartSession
+         }
+         if ($change) {
+             // 一時カートのクリア
+-            unset($_SESSION[$this->key_tmp]);
++            // unset($_SESSION[$this->key_tmp]);
+             $this->cartSession[$productTypeId]['cancel_purchase'] = true;
+         } else {
+             $this->cartSession[$productTypeId]['cancel_purchase'] = false;
+@@ -508,7 +508,7 @@ class SC_CartSession
+     {
+         $max = $this->getMax($productTypeId);
+         for ($i = 0; $i <= $max; $i++) {
+-            unset($this->cartSession[$productTypeId][$i]);
++            // unset($this->cartSession[$productTypeId][$i]);
+         }
+     }
+ 
+@@ -518,7 +518,7 @@ class SC_CartSession
+         $max = $this->getMax($productTypeId);
+         for ($i = 0; $i <= $max; $i++) {
+             if ($this->cartSession[$productTypeId][$i]['cart_no'] == $cart_no) {
+-                unset($this->cartSession[$productTypeId][$i]);
++                // unset($this->cartSession[$productTypeId][$i]);
+             }
+         }
+     }
+diff --git a/data/class/helper/SC_Helper_Purchase.php b/data/class/helper/SC_Helper_Purchase.php
+index 754838789..3113c78dc 100644
+--- a/data/class/helper/SC_Helper_Purchase.php
++++ b/data/class/helper/SC_Helper_Purchase.php
+@@ -98,7 +98,7 @@ class SC_Helper_Purchase
+             SC_Customer_Ex::updateOrderSummary($customerId);
+         }
+ 
+-        $this->cleanupSession($order_id, $objCartSession, $objCustomer, $cartkey);
++        // $this->cleanupSession($order_id, $objCartSession, $objCustomer, $cartkey);
+ 
+         GC_Utils_Ex::gfPrintLog('order complete. order_id=' . $order_id);
+     }
+-- 
+2.25.1
+

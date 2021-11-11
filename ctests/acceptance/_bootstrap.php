@@ -4,7 +4,9 @@ require __DIR__.'/../../tests/require.php';
 $config = parse_ini_file(__DIR__.'/config.ini', true);
 
 $faker = Faker\Factory::create('ja_JP');
-Codeception\Util\Fixtures::add('faker', $faker);
+if (class_exists('Codeception\Util\Fixtures')) {
+    Codeception\Util\Fixtures::add('faker', $faker);
+}
 
 if (!file_exists(__DIR__.'/../../data/config/config.php')
     || !defined('ECCUBE_INSTALL') || ECCUBE_INSTALL != 'ON') {
@@ -14,9 +16,16 @@ if (!file_exists(__DIR__.'/../../data/config/config.php')
 
 /** @var SC_Query $objQuery */
 $objQuery = SC_Query_Ex::getSingletonInstance();
+if (!class_exists('\Eccube2\Tests\Fixture\Generator')) {
+    echo 'You must set up the project dependencies, run the following commands:'.PHP_EOL.
+        'composer require nanasess/eccube2-fixture-generator --dev --ignore-platform-req=php'.PHP_EOL;
+    return;
+}
 
 $objGenerator = new FixtureGenerator($objQuery, 'ja_JP');
-Codeception\Util\Fixtures::add('objGenerator', $objGenerator);
+if (class_exists('Codeception\Util\Fixtures')) {
+    Codeception\Util\Fixtures::add('objGenerator', $objGenerator);
+}
 
 $num = $objQuery->count('dtb_customer');
 

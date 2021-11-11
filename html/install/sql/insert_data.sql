@@ -909,18 +909,18 @@ INSERT INTO mtb_page_max (id, name, rank) VALUES (80, '80', 7);
 INSERT INTO mtb_page_max (id, name, rank) VALUES (90, '90', 8);
 INSERT INTO mtb_page_max (id, name, rank) VALUES (100, '100', 9);
 
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/system/index.php', '0', 0);
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/system/delete.php', '0', 1);
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/system/input.php', '0', 2);
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/system/master.php', '0', 3);
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/system/master_delete.php', '0', 4);
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/system/master_rank.php', '0', 5);
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/system/mastercsv.php', '0', 6);
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/system/rank.php', '0', 7);
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/entry/index.php', '1', 8);
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/entry/delete.php', '1', 9);
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/entry/inputzip.php', '1', 10);
-INSERT INTO mtb_permission (id, name, rank) VALUES ('/admin/search/delete_note.php', '1', 11);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/system/index.php', '0', 0);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/system/delete.php', '0', 1);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/system/input.php', '0', 2);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/system/master.php', '0', 3);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/system/master_delete.php', '0', 4);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/system/master_rank.php', '0', 5);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/system/mastercsv.php', '0', 6);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/system/rank.php', '0', 7);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/entry/index.php', '1', 8);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/entry/delete.php', '1', 9);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/entry/inputzip.php', '1', 10);
+INSERT INTO mtb_permission (id, name, rank) VALUES ('/search/delete_note.php', '1', 11);
 
 INSERT INTO mtb_pref (id, name, rank) VALUES (1, '北海道', 1);
 INSERT INTO mtb_pref (id, name, rank) VALUES (2, '青森県', 2);
@@ -1311,6 +1311,7 @@ INSERT INTO dtb_index_list (table_name, column_name, recommend_flg, recommend_co
 INSERT INTO dtb_index_list (table_name, column_name, recommend_flg, recommend_comment) VALUES ('dtb_mobile_kara_mail', 'receive_date', 1, '');
 INSERT INTO dtb_index_list (table_name, column_name, recommend_flg, recommend_comment) VALUES ('dtb_product_categories', 'category_id', 2, 'カテゴリが多いときに試してみてください。');
 INSERT INTO dtb_index_list (table_name, column_name, recommend_flg, recommend_comment) VALUES ('mtb_zip', 'zipcode', 2, '郵便番号検索が遅いときに試してみてください。郵便番号データの更新時には無効にしていることをおすすめします。');
+INSERT INTO dtb_index_list (table_name, column_name, recommend_flg, recommend_comment) VALUES ('dtb_session', 'update_date', '0', NULL);
 
 INSERT INTO dtb_tax_rule (tax_rule_id, apply_date, member_id, del_flg, create_date, update_date) VALUES (0, CURRENT_TIMESTAMP, 1, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
@@ -1563,3 +1564,4 @@ INSERT INTO mtb_country (id, name, rank) VALUES (426,'レソト',246);
 INSERT INTO mtb_country (id, name, rank) VALUES (422,'レバノン',247);
 INSERT INTO mtb_country (id, name, rank) VALUES (638,'レユニオン',248);
 INSERT INTO mtb_country (id, name, rank) VALUES (643,'ロシア|ロシア連邦',249);
+

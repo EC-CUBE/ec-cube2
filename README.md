@@ -57,7 +57,7 @@ EC-CUBEのインストールは、以下の方法があります。
 
 ### パッケージを使用してインストールする
 
-[EC-CUBE のパッケージ](https://github.com/EC-CUBE/ec-cube2/releases)をダウンロードし、解凍してください。
+[EC-CUBE のパッケージ](https://github.com/EC-CUBE/ec-cube2/releases/latest)をダウンロードし、解凍してください。
 
 FTP/SSHを使用し、ファイルをサーバへアップロードしてください。
 ※ファイル数が多いためエラーが発生することがございます。エラー発生時は分割してアップロードをお願いします。
@@ -91,8 +91,8 @@ php composer.phar install --no-dev --no-interaction -o
 
 - *開発環境におすすめです。*
 
-それぞれのコマンドの実行完了してから http://localhost:8080/ へアクセスすると、EC-CUBEのフロント画面が表示されます。
-管理画面は http://localhost:8080/admin/ へアクセスしてください。
+それぞれのコマンドの実行完了してから https://localhost:4430/ へアクセスすると、EC-CUBEのフロント画面が表示されます。
+管理画面は https://localhost:4430/admin/ へアクセスしてください。
 
 #### PostgreSQL を使用する場合
 

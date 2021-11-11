@@ -69,11 +69,25 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
 
+    - name: Install to Generator
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 暫定対応
+      run: |
+        composer config github-oauth.github.com ${GITHUB_TOKEN}
+        composer install --no-interaction -o
+        composer require symfony/yaml "^3.4" --ignore-platform-req=php -W
+        composer require ec-cube2/cli "1.4.3" --dev --ignore-platform-req=php -W
+        composer require nanasess/eccube2-fixture-generator "dev-main@dev" --dev --ignore-platform-req=php -W
+
     - name: Install to Composer
       run: |
-        composer install --no-interaction -o
-        composer remove php5friends/codeception-phpunit48-wrapper --ignore-platform-reqs --dev
-        composer remove php5friends/phpunit48 --ignore-platform-reqs --dev
+        # composer install --no-interaction -o
+        composer require php5friends/codeception-phpunit48-wrapper ">=6.0.20" --dev --ignore-platform-req=php
+        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev --ignore-platform-req=php
+        composer require codeception/codeception "2.4.1" --dev --ignore-platform-req=php
+        composer remove php5friends/codeception-phpunit48-wrapper --dev --ignore-platform-req=php
+        composer remove php5friends/phpunit48 --ignore-platform-reqs --dev --ignore-platform-req=php
+
     - name: Create ADMIN_DIR
       run: |
         sudo apt-fast install -y sharutils

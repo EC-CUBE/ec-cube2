@@ -37,8 +37,11 @@ jobs:
       with:
         php-version: '8.0'
     - name: composer install
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 暫定対応
       run: |
         sudo composer selfupdate
+        composer config github-oauth.github.com ${GITHUB_TOKEN}
         composer install --dev --no-interaction -o --apcu-autoloader
         composer require --dev --ignore-platform-req=php phpstan/phpstan
 

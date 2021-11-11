@@ -170,7 +170,7 @@ class SC_Helper_FileManager
      * @param integer $cnt         連番
      * @param string  $tree_status 現在のツリーの状態開いているフォルダのパスが
      *                            | 区切りで格納
-     * @return array ツリー生成用の配列
+     * @return void
      */
     public function sfGetFileTreeSub($dir, $default_rank, &$cnt, &$arrTree, $tree_status)
     {
