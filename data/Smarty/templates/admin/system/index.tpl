@@ -27,7 +27,7 @@
     <div id="system" class="contents-main">
         <div class="paging">
             <!--▼ページ送り-->
-            <!--{$tpl_strnavi}-->
+            <!--{$tpl_strnavi nofilter}-->
             <!--▲ページ送り-->
         </div>
 
@@ -73,7 +73,7 @@
 
         <div class="paging">
             <!--▼ページ送り-->
-            <!--{$tpl_strnavi}-->
+            <!--{$tpl_strnavi nofilter}-->
             <!--▲ページ送り-->
         </div>
     </div>

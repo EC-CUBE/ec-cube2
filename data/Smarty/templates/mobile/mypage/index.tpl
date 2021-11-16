@@ -71,7 +71,7 @@
     <!--{/if}-->
 
     <!--{if $objNavi->strnavi != ""}-->
-        <!--{$objNavi->strnavi}-->
+        <!--{$objNavi->strnavi nofilter}-->
         <br>
     <!--{/if}-->
 <!--{/strip}-->
