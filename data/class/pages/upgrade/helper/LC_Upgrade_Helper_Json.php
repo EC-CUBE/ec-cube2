@@ -87,7 +87,7 @@ class LC_Upgrade_Helper_Json
      * そのため5.2.0以上の場合は組み込み関数のjson_decode()を使用する.
      *
      * @param  string   $str
-     * @return StdClass
+     * @return mixed
      * @see SC_Utils_Ex::jsonDecode
      */
     public function decode($str)
