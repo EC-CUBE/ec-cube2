@@ -61,7 +61,7 @@
 
             <p class="remark">
                 <!--{$tpl_linemax}-->件が該当しました。
-                <!--{$tpl_strnavi}-->
+                <!--{$tpl_strnavi nofilter}-->
             </p>
 
             <table class="list">
@@ -102,7 +102,7 @@
                 <!--{/section}-->
             </table>
 
-            <p><!--{$tpl_strnavi}--></p>
+            <p><!--{$tpl_strnavi nofilter}--></p>
 
         <!--{elseif $arrStatus != "" & $tpl_linemax == 0}-->
             <div class="message">

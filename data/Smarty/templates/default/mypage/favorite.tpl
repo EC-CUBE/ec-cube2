@@ -43,7 +43,7 @@
                 <p><span class="attention"><!--{$tpl_linemax}-->件</span>のお気に入りがあります。</p>
                 <div class="paging">
                     <!--▼ページナビ-->
-                    <!--{$tpl_strnavi}-->
+                    <!--{$tpl_strnavi nofilter}-->
                     <!--▲ページナビ-->
                 </div>
 

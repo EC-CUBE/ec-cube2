@@ -24,7 +24,7 @@
 
 <!--{strip}-->
     <!--{if $tpl_strnavi != "&nbsp;"}-->
-        <!--{$tpl_strnavi}-->
+        <!--{$tpl_strnavi nofilter}-->
         <br><br>
     <!--{/if}-->
 
@@ -51,7 +51,7 @@
     <!--{/foreach}-->
 
     <!--{if $tpl_strnavi != "&nbsp;"}-->
-        <!--{$tpl_strnavi}-->
+        <!--{$tpl_strnavi nofilter}-->
         <br><br>
     <!--{/if}-->
 <!--{/strip}-->

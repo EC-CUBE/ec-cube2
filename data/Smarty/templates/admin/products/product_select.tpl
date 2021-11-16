@@ -70,7 +70,7 @@ function func_submit( id ){
     <!--{if $tpl_linemax}-->
         <p><!--{$tpl_linemax}-->件が該当しました。</p>
         <!--{* ▼ページナビ *}-->
-        <!--{$tpl_strnavi}-->
+        <!--{$tpl_strnavi nofilter}-->
         <!--{* ▲ページナビ *}-->
 
         <!--{* ▼検索後表示部分 *}-->

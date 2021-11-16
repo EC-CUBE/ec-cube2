@@ -41,7 +41,7 @@
                 <p><span class="attention"><!--{$objNavi->all_row}-->件</span>の購入履歴があります。</p>
                 <div class="pagenumber_area">
                     <!--▼ページナビ-->
-                    <!--{$objNavi->strnavi}-->
+                    <!--{$objNavi->strnavi nofilter}-->
                     <!--▲ページナビ-->
                 </div>
 

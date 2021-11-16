@@ -153,7 +153,7 @@
 <!--{if $tpl_linemax}-->
     <p>
         <!--{$tpl_linemax}-->件が該当しました。
-        <!--{$tpl_strnavi}-->
+        <!--{$tpl_strnavi nofilter}-->
     </p>
 
     <!--▼検索後表示部分-->

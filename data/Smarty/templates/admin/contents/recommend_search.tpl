@@ -83,7 +83,7 @@ function func_submit( id ){
     <!--{* ▼検索結果表示 *}-->
     <!--{if is_numeric($tpl_linemax)}-->
     <p><!--{$tpl_linemax}-->件が該当しました。</p>
-    <!--{$tpl_strnavi}-->
+    <!--{$tpl_strnavi nofilter}-->
 
     <table id="recommend-search-results" class="list">
         <col width="15%" />
