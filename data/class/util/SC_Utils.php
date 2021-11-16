@@ -1896,7 +1896,7 @@ class SC_Utils
             if (is_dir($cur_path)) {
                 // ディレクトリの場合
                 // コピー先に無いディレクトリの場合、ディレクトリ作成.
-                if (!empty($filename) && !file_exists($dest_file_path)) mkdir($dest_file_path);
+                if ($filename !== false && !file_exists($dest_file_path)) mkdir($dest_file_path);
                 SC_Utils_Ex::copyDirectory($cur_path . '/', $dest_file_path . '/');
             } else {
                 if (file_exists($dest_file_path)) unlink($dest_file_path);
