@@ -71,22 +71,12 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-composer-
 
-    - name: Install to Generator
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 暫定対応
+    - name: composer install
       run: |
-        composer config github-oauth.github.com ${GITHUB_TOKEN}
         composer install --no-interaction -o
-        composer require symfony/yaml "^3.4" --ignore-platform-req=php -W
-        composer require ec-cube2/cli "1.4.3" --dev --ignore-platform-req=php -W
-        composer require nanasess/eccube2-fixture-generator "dev-main@dev" --dev --ignore-platform-req=php -W
-
-    - name: Install to Composer
-      run: |
-        # composer install --no-interaction -o
-        composer require php5friends/codeception-phpunit48-wrapper ">=6.0.20" --dev --ignore-platform-req=php
-        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev --ignore-platform-req=php
-        composer require codeception/codeception "2.4.1" --dev --ignore-platform-req=php
+        composer require php5friends/codeception-phpunit48-wrapper "~6.0.20" --dev
+        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev
+        composer require codeception/codeception "2.4.1" --dev
 
     - name: Setup PHP
       uses: nanasess/setup-php@master
@@ -206,25 +196,8 @@ jobs:
     - run: echo "extension=gd" >> C:/tools/php/php.ini
       shell: bash
 
-    - name: Install to Generator
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 暫定対応
-      run: |
-        composer config github-oauth.github.com ${GITHUB_TOKEN}
-        composer install --no-interaction -o
-        composer require symfony/yaml "^3.4" --ignore-platform-req=php -W
-        composer require ec-cube2/cli "1.4.3" --dev --ignore-platform-req=php -W
-        composer require nanasess/eccube2-fixture-generator "dev-main@dev" --dev --ignore-platform-req=php -W
-
-    # - name: Install to Composer
-    #   run: composer install --no-interaction -o
-
-    - name: Setup MailCatcher
-      run: gem install -N mailcatcher -v 0.6.5
-      shell: bash
-    - name: Run to MailCatcher
-      run: mailcatcher &
-      shell: bash
+    - name: composer install
+      run: composer install --no-interaction -o
 
     - name: Setup to database
       run: |
@@ -325,27 +298,18 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-composer-
 
-    - name: Install to Generator
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 暫定対応
+    - name: composer install
       run: |
-        composer config github-oauth.github.com ${GITHUB_TOKEN}
         composer install --no-interaction -o
-        composer require symfony/yaml "^3.4" --ignore-platform-req=php -W
-        composer require ec-cube2/cli "1.4.3" --dev --ignore-platform-req=php -W
-        composer require nanasess/eccube2-fixture-generator "dev-main@dev" --dev --ignore-platform-req=php -W
-
-    - name: Install to Composer
-      run: |
-        # composer install --no-interaction -o
-        composer require php5friends/codeception-phpunit48-wrapper ">=6.0.20" --dev --ignore-platform-req=php
-        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev --ignore-platform-req=php
-        composer require codeception/codeception "2.4.1" --dev --ignore-platform-req=php
+        composer require php5friends/codeception-phpunit48-wrapper "~6.0.20" --dev
+        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev
+        composer require codeception/codeception "2.4.1" --dev
 
     - name: Setup PHP
       uses: nanasess/setup-php@master
       with:
         php-version: ${{ matrix.php }}
+
     - name: php-fpm
       env:
         PHP_VERSION: ${{ matrix.php }}
