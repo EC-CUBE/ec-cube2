@@ -7,7 +7,6 @@
         "GPL-2.0",
         "Commercial"
     ],
-    "minimum-stability": "dev",
     "support": {
         "issues": "https://github.com/EC-CUBE/ec-cube2/issues"
     },
@@ -23,8 +22,10 @@
         }
     },
     "require-dev": {
+        "ec-cube2/cli": "dev-master@dev",
         "fzaninotto/faker": "^1.8",
         "guzzlehttp/guzzle": "^5.3",
+        "nanasess/eccube2-fixture-generator": "dev-main@dev",
         "php5friends/phpunit48": ">=4.8.41"
     },
     "require": {
@@ -51,11 +52,5 @@
             "data/class",
             "data/class_extends"
         ]
-    },
-    "repositories": {
-        "ec-cube2/cli": {
-            "type": "vcs",
-            "url": "https://github.com/nanasess/cli"
-        }
     }
 }

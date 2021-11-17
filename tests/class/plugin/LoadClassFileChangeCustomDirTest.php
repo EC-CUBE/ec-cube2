@@ -7,7 +7,9 @@ class LoadClassFileChangeCustomDirTest extends Common_TestCase
 {
     protected function setUp()
     {
-        parent::setUp();
+        // ATTENTION プラグインをロードする前にオートローディングが実行されると、 loadClassFileChange が無効になってしまうため parent::setUp() は実行しない
+        $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);
+        $this->objQuery->begin();
         $plugin_id = $this->objQuery->nextVal('dtb_plugin_plugin_id');
         $pluginValues = [
             'plugin_id' => $plugin_id,
