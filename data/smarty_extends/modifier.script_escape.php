@@ -9,7 +9,7 @@ function smarty_modifier_script_escape($value)
 {
     if (is_array($value)) return $value;
 
-    $pattern = "/<script.*?>|<\/script>|javascript:|<svg.*(onload|onerror).*?>|<img.*(onload|onerror).*?>|<body.*onload.*?>|<iframe.*?>|<object.*?>|<embed.*?>|<.*onmouse.*?>/i";
+    $pattern = "/<script.*?>|<\/script>|javascript:|<svg.*(onload|onerror).*?>|<img.*(onload|onerror).*?>|<body.*onload.*?>|<iframe.*?>|<object.*?>|<embed.*?>|<.*onmouse.*?>|(\"|').*(onmouse|onerror|onload|onclick).*=.*(\"|').*/i";
     $convert = '#script tag escaped#';
 
     if (preg_match_all($pattern, $value, $matches)) {

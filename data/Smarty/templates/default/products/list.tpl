@@ -116,7 +116,7 @@
                     <!--{/foreach}-->
                 </select>
             </div>
-            <div class="navi"><!--{$tpl_strnavi}--></div>
+            <div class="navi"><!--{$tpl_strnavi nofilter}--></div>
         </div>
     <!--{/capture}-->
     <!--▲ページナビ(本文)-->
