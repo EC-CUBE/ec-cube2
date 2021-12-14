@@ -1,0 +1,22 @@
+version: '3'
+
+volumes:
+  node_modules:
+    driver: local
+
+services:
+  nodejs:
+    build:
+      context: ./dockerbuild/nodejs
+    volumes:
+      - "node_modules:/var/www/app/node_modules"
+      - ".:/var/www/app"
+    working_dir: "/var/www/app"
+    environment:
+      ZAP_PROXY_HOST: "zap:8090"
+    links:
+      - ec-cube
+    networks:
+      - backend
+      - default
+    tty: true

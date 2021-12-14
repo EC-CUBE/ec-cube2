@@ -1,8 +1,10 @@
 import { Capabilities, ProxyConfig } from 'selenium-webdriver'
+
+export const ZapProxyHost = process.env.ZAP_PROXY_HOST || 'localhost:8090';
 const proxy : ProxyConfig = {
   proxyType: 'manual',
-  httpProxy: 'localhost:8090',
-  sslProxy: 'localhost:8090'
+  httpProxy: ZapProxyHost,
+  sslProxy: ZapProxyHost
 };
 
 export const SeleniumCapabilities = Capabilities.chrome();
@@ -10,7 +12,8 @@ SeleniumCapabilities.set('chromeOptions', {
   args: [
     '--headless',
     '--disable-gpu',
-    '--window-size=1024,768'
+    '--window-size=1024,768',
+    '--no-sandbox'
   ],
   w3c: false
 })
