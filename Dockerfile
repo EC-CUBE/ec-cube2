@@ -1,4 +1,5 @@
-FROM eccube2/php:7.4-apache
+ARG TAG=7.4-apache
+FROM eccube2/php:${TAG}
 
 ENV APACHE_DOCUMENT_ROOT /var/www/app/html
 ENV ECCUBE_PREFIX /var/www/app

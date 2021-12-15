@@ -68,3 +68,79 @@ jobs:
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: data/logs
+  installer:
+    name: Installer test
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        db: [ 'pgsql', 'mysql' ]
+        tag:
+          - '5.6-apache'
+          - '7.1-apache'
+          - '7.2-apache'
+          - '7.3-apache'
+          - '7.4-apache'
+        include:
+          - db: mysql
+            dbport: '3306'
+            dbuser: 'eccube_db_user'
+            dbpass: 'password'
+            dbname: 'eccube_db'
+            dbhost: 'mysql'
+          - db: pgsql
+            dbport: '5432'
+            dbuser: 'eccube_db_user'
+            dbpass: 'password'
+            dbname: 'eccube_db'
+            dbhost: 'postgres'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup environment
+      env:
+        DB_TYPE: ${{ matrix.db }}
+      run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB_TYPE}.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+    - run: |
+        ls -al data/config
+        ls -al html/upload/save_image
+    - name: Setup to EC-CUBE
+      env:
+        HTTP_URL: https://127.0.0.1:8085/
+        HTTPS_URL: https://127.0.0.1:8085/
+        TAG: ${{ matrix.tag }}
+      run: |
+        sudo chown -R 1001:1000 zap
+        sudo chmod -R g+w zap
+        touch data/config/config.php
+        ls -al data/config
+        ls -al html/upload/save_image
+        docker-compose build --build-arg TAG=${TAG} ec-cube
+        docker-compose up -d
+        rm data/config/config.php
+
+    - run: sleep 1
+    - run: yarn install
+    - run: |
+        ls -al data/config
+        ls -al html/upload/save_image
+        docker-compose exec -T ec-cube ls -al /var/www/app/data/config
+        docker-compose exec -T ec-cube ls -al /var/www/app/html/upload/save_image
+    - name: Run to E2E testing
+      env:
+        ZAP_PROXY_HOST: 'localhost:8090'
+        DB_TYPE: ${{ matrix.db }}
+        DB_USER: ${{ matrix.dbuser }}
+        DB_PASSWORD: ${{ matrix.dbpass }}
+        DB_NAME: ${{ matrix.dbname }}
+        DB_PORT: ${{ matrix.dbport }}
+        DB_SERVER: ${{ matrix.dbhost }}
+      # Use runner's chromedriver to run on the latest version of google-chrome
+      run: yarn test:e2e e2e-tests/test/installer/installer.test.ts
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.tag }}-${{ matrix.db }}-logs
+        path: html/install/temp/install.log*
