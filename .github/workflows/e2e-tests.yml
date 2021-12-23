@@ -47,12 +47,18 @@ jobs:
         docker-compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
 
     - run: sleep 1
-    - run: yarn install
+    - run: |
+        yarn install
+        yarn run playwright install --with-deps chromium
+        yarn playwright install-deps chromium
 
     - name: Run to E2E testing
       env:
         GROUP: ${{ matrix.group }}
+        HTTPS_PROXY: 'localhost:8090'
         ZAP_PROXY_HOST: 'localhost:8090'
+        CI: 1
+        FORCE_COLOR: 1
       # Use runner's chromedriver to run on the latest version of google-chrome
       run: yarn test:e2e e2e-tests/${GROUP}
 
@@ -102,9 +108,6 @@ jobs:
       env:
         DB_TYPE: ${{ matrix.db }}
       run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB_TYPE}.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
-    - run: |
-        ls -al data/config
-        ls -al html/upload/save_image
     - name: Setup to EC-CUBE
       env:
         HTTP_URL: https://127.0.0.1:8085/
@@ -113,23 +116,23 @@ jobs:
       run: |
         sudo chown -R 1001:1000 zap
         sudo chmod -R g+w zap
-        touch data/config/config.php
-        ls -al data/config
-        ls -al html/upload/save_image
+        sh -c 'echo "<?php" >> data/config/config.php'
         docker-compose build --build-arg TAG=${TAG} ec-cube
         docker-compose up -d
         rm data/config/config.php
 
     - run: sleep 1
-    - run: yarn install
     - run: |
-        ls -al data/config
-        ls -al html/upload/save_image
-        docker-compose exec -T ec-cube ls -al /var/www/app/data/config
-        docker-compose exec -T ec-cube ls -al /var/www/app/html/upload/save_image
+        yarn install
+        yarn run playwright install --with-deps chromium
+        yarn playwright install-deps chromium
+
     - name: Run to E2E testing
       env:
         ZAP_PROXY_HOST: 'localhost:8090'
+        HTTPS_PROXY: 'localhost:8090'
+        CI: 1
+        FORCE_COLOR: 1
         DB_TYPE: ${{ matrix.db }}
         DB_USER: ${{ matrix.dbuser }}
         DB_PASSWORD: ${{ matrix.dbpass }}

@@ -1,11 +1,7 @@
-import { Builder, By, until } from 'selenium-webdriver'
-import { ZapClient, Mode, ContextType, Risk } from '../../utils/ZapClient';
+import { test, expect, chromium, Page } from '@playwright/test';
+import { ZapClient, Mode, ContextType, Risk, HttpMessage } from '../../utils/ZapClient';
 import { intervalRepeater } from '../../utils/Progress';
-import { SeleniumCapabilities } from '../../utils/SeleniumCapabilities';
 const zapClient = new ZapClient();
-
-
-jest.setTimeout(6000000);
 
 const inputNames = [
   'name01', 'name02', 'kana01', 'kana02', 'zip01', 'zip02', 'addr01', 'addr02',
@@ -16,121 +12,129 @@ type InputName = {
 };
 
 const baseURL = 'https://ec-cube';
-const url = baseURL + '/contact/';
+const url = baseURL + '/contact/index.php';
 
-beforeAll(async () => {
-  await zapClient.setMode(Mode.Protect);
-  await zapClient.newSession('/zap/wrk/sessions/front_login_contact', true);
-  await zapClient.importContext(ContextType.FrontLogin);
+test.describe.serial('お問い合わせページのテストをします', () => {
+  let page: Page;
+  test.beforeAll(async () => {
+    await zapClient.setMode(Mode.Protect);
+    await zapClient.newSession('/zap/wrk/sessions/front_login_contact', true);
+    await zapClient.importContext(ContextType.FrontLogin);
 
-  if (!await zapClient.isForcedUserModeEnabled()) {
-    await zapClient.setForcedUserModeEnabled();
-    expect(await zapClient.isForcedUserModeEnabled()).toBeTruthy();
-  }
-});
-
-describe('お問い合わせページを表示する', () => {
-  test('[E2E] お問い合わせページを表示し、ログイン状態を確認する', async () => {
-    const driver = await new Builder()
-      .withCapabilities(SeleniumCapabilities)
-      .build();
-    try {
-      expect.assertions(15);
-      await driver.get(url);
-      await driver.wait(
-        until.elementLocated(By.css('h2.title')), 10000)
-        .getText().then(title => expect(title).toBe('お問い合わせ(入力ページ)'));
-
-      inputNames.forEach(
-        async (name) => await driver.findElement(By.name(name)).getAttribute('value')
-          .then(value => expect(value).toEqual(expect.anything()))
-      );
-      await driver.findElement(By.name('email')).getAttribute('value').then(value => expect(value).toBe('zap_user@example.com'));
-      await driver.findElement(By.name('email02')).getAttribute('value').then(value => expect(value).toBe('zap_user@example.com'));
-
-    } finally {
-      driver && await driver.quit();
+    if (!await zapClient.isForcedUserModeEnabled()) {
+      await zapClient.setForcedUserModeEnabled();
+      expect(await zapClient.isForcedUserModeEnabled()).toBeTruthy();
     }
+    const browser = await chromium.launch();
+    page = await browser.newPage();
+    await page.goto(url);
   });
 
-  describe('[ATTACK] お問い合わせページの表示をスキャンする', () => {
-    test('GET でお問い合わせページをスキャンする', async () => {
-      const scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'GET');
+  test('お問い合わせページを表示します', async () => {
+    await expect(page).toHaveTitle(/お問い合わせ/);
+    await expect(page.locator('h2.title')).toContainText('お問い合わせ');
+  });
 
-      await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000);
+  test.describe('テストを実行します[GET] @attack', () => {
+    let scanId: number;
+    test('アクティブスキャンを実行します', async () => {
+      scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'GET');
+      await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
+    });
 
-      const alerts = await zapClient.getAlerts(url, 0, 1, Risk.High);
-      alerts.forEach(alert => {
-        throw new Error(alert.name);
-      });
-      expect(alerts).toHaveLength(0);
+    test('結果を確認します', async () => {
+      await zapClient.getAlerts(url, 0, 1, Risk.High)
+        .then(alerts => expect(alerts).toEqual([]));
     });
   });
-});
 
-describe('お問い合わせ確認ページを表示する', () => {
-  test('[E2E] お問い合わせページに入力し、確認画面に進む', async () => {
-    const driver = await new Builder()
-      .withCapabilities(SeleniumCapabilities)
-      .build();
-    try {
-      await driver.get(url);
-      await driver.wait(
-        until.elementLocated(By.css('h2.title')), 10000)
-        .getText().then(title => expect(title).toBe('お問い合わせ(入力ページ)'));
-
-      // 入力値を代入しておく
-      let inputField: InputName = {};
-      inputNames.forEach(
-        async (name) => await driver.findElement(By.name(name)).getAttribute('value')
-          .then(value => inputField[name] = value)
-      );
-
-      await driver.findElement(By.name('contents')).sendKeys('お問い合わせ内容入力');
-      await driver.findElement(By.name('confirm')).click();
-
-      await driver.wait(
-        until.elementLocated(By.css('h2.title')), 10000)
-        .getText().then(title => expect(title).toBe('お問い合わせ(確認ページ)'));
-
-      // hidden に入力されているかどうか
-      inputNames.forEach(
-        async (name) => await driver.findElement(By.name(name)).getAttribute('value')
-          .then(value => expect(value).toBe(inputField[name]))
-      );
-      // 確認画面に表示されているかどうか
-      await driver.findElement(By.xpath('//*[@id="form1"]/table/tbody/tr[1]/td')).getText()
-        .then(value => expect(value).toBe(`${inputField.name01}　${inputField.name02}`));
-      await driver.findElement(By.xpath('//*[@id="form1"]/table/tbody/tr[2]/td')).getText()
-        .then(value => expect(value).toBe(`${inputField.kana01}　${inputField.kana02}`));
-      await driver.findElement(By.xpath('//*[@id="form1"]/table/tbody/tr[3]/td')).getText()
-        .then(value => expect(value).toBe(`〒${inputField.zip01}-${inputField.zip02}`));
-      await driver.findElement(By.xpath('//*[@id="form1"]/table/tbody/tr[4]/td')).getText()
-        .then(value => expect(value).toContain(`${inputField.addr01}${inputField.addr02}`));
-      await driver.findElement(By.xpath('//*[@id="form1"]/table/tbody/tr[5]/td')).getText()
-        .then(value => expect(value).toBe(`${inputField.tel01}-${inputField.tel02}-${inputField.tel03}`));
-      await driver.findElement(By.xpath('//*[@id="form1"]/table/tbody/tr[6]/td')).getText()
-        .then(value => expect(value).toBe('zap_user@example.com'));
-      await driver.findElement(By.xpath('//*[@id="form1"]/table/tbody/tr[7]/td')).getText()
-        .then(value => expect(value).toBe('お問い合わせ内容入力'));
-    } finally {
-      driver && await driver.quit();
-    }
+  test('ログイン状態を確認します', async () => {
+    await page.goto(baseURL);       // ログアウトしてしまう場合があるので一旦トップへ遷移する
+    await page.goto(url);
+    await expect(page.locator('#header')).toContainText('ようこそ');
+    inputNames.forEach(async (name) => expect(page.locator(`input[name=${name}]`)).not.toBeEmpty());
+    await expect(page.locator('input[name=email]')).toHaveValue('zap_user@example.com');
+    await expect(page.locator('input[name=email02]')).toHaveValue('zap_user@example.com');
   });
 
-  describe('[ATTACK] お問い合わせ(確認ページ)をスキャンする', () => {
-    test('POST でお問い合わせ(確認ページ)をスキャンする', async () => {
+  let confirmMessage: HttpMessage;
+  test('お問い合わせ内容を入力します', async () => {
+    await page.fill('textarea[name=contents]', 'お問い合わせ入力');
+    await page.click('input[name=confirm]');
+    confirmMessage = await zapClient.getLastMessage(url);
+  });
 
-      const message = await zapClient.getLastMessage(url);
-      const scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'GET', message.requestBody); // XXX なぜか  method=POST にすると url_not_found のエラーになる. GET にしていても POST でスキャンされる
+  test('入力内容を確認します', async () => {
+    await expect(page.locator('h2.title')).toContainText('お問い合わせ(確認ページ)');
+    inputNames.forEach(async (name) => {
+      await expect(page.locator(`input[name=${name}]`)).toBeHidden();
+      await expect(page.locator(`input[name=${name}]`)).not.toBeEmpty();
+    });
+    await expect(page.locator('input[name=email]')).toBeHidden();
+    await expect(page.locator('input[name=email]')).toHaveValue('zap_user@example.com');
+    await expect(page.locator('input[name=contents]')).toBeHidden();
+    await expect(page.locator('input[name=contents]')).toHaveValue('お問い合わせ入力');
 
-      await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000);
+    await expect(page.locator('#form1 >> tr:nth-child(1) > td')).toContainText(await page.locator('input[name=name01]').inputValue());
+    await expect(page.locator('#form1 >> tr:nth-child(1) > td')).toContainText(await page.locator('input[name=name02]').inputValue());
+    await expect(page.locator('#form1 >> tr:nth-child(2) > td')).toContainText(await page.locator('input[name=kana01]').inputValue());
+    await expect(page.locator('#form1 >> tr:nth-child(2) > td')).toContainText(await page.locator('input[name=kana02]').inputValue());
+    await expect(page.locator('#form1 >> tr:nth-child(3) > td')).toContainText(await page.locator('input[name=zip01]').inputValue());
+    await expect(page.locator('#form1 >> tr:nth-child(3) > td')).toContainText(await page.locator('input[name=zip02]').inputValue());
+    await expect(page.locator('#form1 >> tr:nth-child(4) > td')).toContainText(await page.locator('input[name=addr01]').inputValue());
+    await expect(page.locator('#form1 >> tr:nth-child(4) > td')).toContainText(await page.locator('input[name=addr02]').inputValue());
+    await expect(page.locator('#form1 >> tr:nth-child(5) > td')).toContainText(await page.locator('input[name=tel01]').inputValue());
+    await expect(page.locator('#form1 >> tr:nth-child(5) > td')).toContainText(await page.locator('input[name=tel02]').inputValue());
+    await expect(page.locator('#form1 >> tr:nth-child(5) > td')).toContainText(await page.locator('input[name=tel03]').inputValue());
+    await expect(page.locator('#form1 >> tr:nth-child(6) > td')).toContainText('zap_user@example.com');
+    await expect(page.locator('#form1 >> tr:nth-child(7) > td')).toContainText('お問い合わせ入力');
+  });
 
-      const alerts = await zapClient.getAlerts(url, 0, 1, Risk.High);
-      alerts.forEach(alert => {
-        throw new Error(alert.name);
-      });
-      expect(alerts).toHaveLength(0);
+  let completeMessage: HttpMessage;
+  test('お問い合わせ内容を送信します', async () => {
+    await page.click('#send');
+    await expect(page.locator('h2.title')).toContainText('お問い合わせ(完了ページ)');
+    completeMessage = await zapClient.getLastMessage(url);
+  });
+
+  test.describe('テストを実行します[POST][入力→確認] @attack', () => {
+    let requestBody: string;
+    test('transactionid を取得し直します', async () => {
+      await page.goto(url);
+      const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
+      requestBody = confirmMessage.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
+    });
+
+    test('アクティブスキャンを実行します', async () => {
+      expect(requestBody).toContain('mode=confirm');
+      const scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', requestBody);
+      await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
+    });
+
+    test('結果を確認します', async () => {
+      await zapClient.getAlerts(url, 0, 1, Risk.High)
+        .then(alerts => expect(alerts).toEqual([]));
+    });
+  });
+
+  test.describe('テストを実行します[POST][確認→完了] @attack', () => {
+    let requestBody: string;
+    test('transactionid を取得し直します', async () => {
+      await page.goto(url);
+      const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
+      requestBody = completeMessage.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
+    });
+
+    test('アクティブスキャンを実行します', async () => {
+      expect(completeMessage.responseHeader).toContain('HTTP/1.1 302 Found');
+      expect(requestBody).toContain('mode=complete');
+      const scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', requestBody);
+      await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
+    });
+
+    test('結果を確認します', async () => {
+      await zapClient.getAlerts(url, 0, 1, Risk.High)
+        .then(alerts => expect(alerts).toEqual([]));
     });
   });
 });
