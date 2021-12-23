@@ -3,7 +3,9 @@ FROM eccube2/php:${TAG}
 
 ENV APACHE_DOCUMENT_ROOT /var/www/app/html
 ENV ECCUBE_PREFIX /var/www/app
-
+# See https://github.com/debuerreotype/debuerreotype/issues/10
+RUN mkdir /usr/share/man/man1
+RUN mkdir /usr/share/man/man7
 RUN apt-get update \
   && apt-get install --no-install-recommends -y \
     ssl-cert \

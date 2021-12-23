@@ -56,13 +56,18 @@ jobs:
         docker-compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
 
     - run: sleep 1
-    - run: yarn install
+    - run: |
+        yarn install
+        yarn run playwright install --with-deps chromium
+        yarn playwright install-deps chromium
 
     - name: Penetration testing
       env:
         GROUP: ${{ matrix.group }}
+        HTTPS_PROXY: 'localhost:8090'
         ZAP_PROXY_HOST: 'localhost:8090'
-      # Use runner's chromedriver to run on the latest version of google-chrome
+        CI: 1
+        FORCE_COLOR: 1
       run: yarn test:attack e2e-tests/${GROUP}
 
     # - name: Upload evidence

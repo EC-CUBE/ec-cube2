@@ -1,131 +1,107 @@
-import { Builder, By, until } from 'selenium-webdriver'
-import { SeleniumCapabilities } from '../../utils/SeleniumCapabilities';
+import { test, expect, chromium, Page } from '@playwright/test';
 import * as faker from 'faker';
-
-jest.setTimeout(6000000);
 
 const baseURL = 'https://ec-cube';
 const url = baseURL + '/install/';
 
-test('[E2E] インストールを実行する', async () => {
-  const driver = new Builder()
-    .withCapabilities(SeleniumCapabilities)
-    .build();
-  try {
-    driver.get(url);
-    await driver.wait(until.elementLocated(By.className('message')), 10000)
-        .getText().then(title => expect(title).toBe('EC-CUBEのインストールを開始します。'));
-    await driver.findElement(By.linkText('次へ進む')).click();
+test.describe.serial('インストーラのテストをします', () => {
+  let page: Page;
+  test.beforeAll(async () => {
+    const browser = await chromium.launch();
+    page = await browser.newPage();
+    await page.goto(url);
+  });
 
-    await driver.wait(until.elementLocated(By.css('h2')), 10000)
-      .getText().then(title => expect(title).toBe('チェック結果'));
-    await driver.findElement(By.css('textarea[name=disp_area]')).getText()
-      .then(value => expect(value).toBe('>> ○：アクセス権限は正常です。'));
-    await driver.findElement(By.linkText('次へ進む')).click();
+  test('インストーラを表示します', async () => {
+    await expect(page).toHaveURL(url);
+    await expect(page.locator('.message')).toContainText('EC-CUBEのインストールを開始します。');
+    await page.click('text=次へ進む');
+  });
 
-    await driver.wait(until.elementLocated(By.css('textarea[name=disp_area]')), 10000)
-      .getText().then(title => expect(title).toContain('ice130.jpg'));
-    await driver.findElement(By.linkText('次へ進む')).click();
+  test('step0 - パーミッションをチェックします', async () => {
+    await expect(page.locator('h2')).toHaveText('チェック結果');
+    await expect(page.locator('textarea[name=disp_area]')).toHaveText('>> ○：アクセス権限は正常です。');
+    await page.click('text=次へ進む');
+  });
 
-    await driver.wait(until.elementLocated(By.css('h2')), 10000)
-      .getText().then(title => expect(title).toBe('ECサイトの設定'));
-    const adminDirectory = faker.datatype.uuid().substring(0, 8);
-    const user = faker.internet.userName();
-    const password = faker.fake('{{internet.password}}{{datatype.number}}');
+  test('step0_1 - 必要なファイルをコピーします', async () => {
+    await expect(page.locator('h2')).toHaveText('必要なファイルのコピー');
+    await expect(page.locator('textarea[name=disp_area]')).toHaveText(/ice130.jpg/);
+    await page.click('text=次へ進む');
+  });
 
-    await driver.findElement(By.name('shop_name')).sendKeys(faker.company.companyName());
-    await driver.findElement(By.name('admin_mail')).sendKeys(faker.internet.exampleEmail());
-    await driver.findElement(By.name('login_id')).sendKeys(user);
-    await driver.findElement(By.name('login_pass')).sendKeys(password);
-    await driver.findElement(By.name('admin_dir')).sendKeys(adminDirectory);
+  let adminDirectory: string;
+  let user: string;
+  let password: string;
+  test('step1 - ECサイトの設定をします', async () => {
+    await expect(page.locator('h2').first()).toHaveText('ECサイトの設定');
+    adminDirectory = faker.datatype.uuid().substring(0, 8);
+    user = faker.internet.userName();
+    password = faker.fake('{{internet.password}}{{datatype.number}}');
+    await page.fill('input[name=shop_name]', faker.company.companyName());
+    await page.fill('input[name=admin_mail]', faker.internet.exampleEmail());
+    await page.fill('input[name=login_id]', user);
+    await page.fill('input[name=login_pass]', password);
+    await page.fill('input[name=admin_dir]', adminDirectory);
+    await page.check('text=SSLを強制する');
+    await page.fill('input[name=normal_url]', `${baseURL}/`);
+    await page.fill('input[name=secure_url]', `${baseURL}/`);
+    await page.click('#options');
+    await page.check('text=SMTP');
+    await page.fill('input[name=smtp_host]', 'mailcatcher');
+    await page.fill('input[name=smtp_port]', '1025');
+    await page.click('text=次へ進む');
+  });
 
-    await driver.findElement(By.linkText('>> オプション設定')).click();
-    await driver.wait(until.elementLocated(By.css('div.option > h2')), 10000)
-      .getText().then(title => expect(title).toBe('メールサーバーの設定(オプション)'));
-    await driver.findElement(By.css('div.option input[name=mail_backend][value=smtp]'))
-      .then(async (element) => {
-        await driver.executeScript("arguments[0].scrollIntoView()", element);
-        await driver.sleep(300);
-        await element.click();
-      });
+  test('step2 - データベースの設定をします', async () => {
+    await expect(page.locator('h2').first()).toHaveText('データベースの設定');
+    const DB = process.env.DB_TYPE == 'mysql' ? 'MySQL' : 'PostgreSQL';
+    let DB_SERVER = process.env.DB_SERVER;
+    let DB_PORT = process.env.DB_PORT;
+    let DB_NAME = process.env.DB_NAME || 'eccube_db';
+    let DB_USER = process.env.DB_USER || 'eccube_db_user';
+    let DB_PASSWORD = process.env.DB_PASSWORD || 'password';
+    await page.selectOption('select[name=db_type]', { label: DB });
+    await page.fill('input[name=db_server]', DB_SERVER ?? 'postgres');
+    await page.fill('input[name=db_port]', DB_PORT ?? '5432');
+    await page.fill('input[name=db_name]', DB_NAME);
+    await page.fill('input[name=db_user]', DB_USER);
+    await page.fill('input[name=db_password]', DB_PASSWORD);
+    await page.click('text=次へ進む');
+  });
 
-    await driver.findElement(By.name('smtp_host'))
-      .then(element => {
-        element.clear();
-        element.sendKeys('127.0.0.1');
-      });
-    await driver.findElement(By.name('smtp_port'))
-      .then(element => {
-        element.clear();
-        element.sendKeys('1025');
-      });
-    await driver.findElement(By.linkText('次へ進む')).click();
+  test('step3 - データベースの初期化をします', async () => {
+    await expect(page.locator('h2').first()).toHaveText('データベースの初期化');
+    await page.click('text=次へ進む');
 
-    await driver.wait(until.elementLocated(By.css('h2')), 10000)
-      .getText().then(title => expect(title).toBe('データベースの設定'));
-    const DB_TYPE = process.env.DB_TYPE == 'mysql' ? 'mysqli' : process.env.DB_TYPE || 'pgsql';
-    const DB_SERVER = process.env.DB_SERVER || DB_TYPE == 'mysqli' ? 'mysql' : 'postgres';
-    const DB_PORT = process.env.DB_PORT || DB_TYPE == 'mysqli' ? '3306' : '5432';
-    const DB_NAME = process.env.DB_NAME || 'eccube_db';
-    const DB_USER = process.env.DB_USER || 'eccube_db_user';
-    const DB_PASSWORD = process.env.DB_PASSWORD || 'password';
-    await driver.findElement(By.css(`select[name=db_type] > option[value=${DB_TYPE}]`)).click();
-    await driver.findElement(By.name('db_server'))
-      .then(element => {
-        element.clear();
-        element.sendKeys(DB_SERVER)
-      });
-    await driver.findElement(By.name('db_port'))
-      .then(element => {
-        element.clear();
-        element.sendKeys(DB_PORT);
-      });
-    await driver.findElement(By.name('db_name'))
-      .then(element => {
-        element.clear();
-        element.sendKeys(DB_NAME);
-      });
-    await driver.findElement(By.name('db_user'))
-      .then(element => {
-        element.clear();
-        element.sendKeys(DB_USER)
-      });
-    await driver.findElement(By.name('db_password')).sendKeys(DB_PASSWORD);
-    await driver.findElement(By.linkText('次へ進む')).click();
+    await expect(page.locator('.contents').first()).toHaveText(/○：テーブルの作成に成功しました。/);
+    await expect(page.locator('.contents').first()).toHaveText(/○：シーケンスの作成に成功しました。/);
+    await page.click('text=次へ進む');
+  });
 
-    await driver.wait(until.elementLocated(By.css('h2')), 10000)
-      .getText().then(title => expect(title).toBe('データベースの初期化'));
-    await driver.findElement(By.linkText('次へ進む')).click();
+  test('step4 - サイト情報の送信を確認をします', async () => {
+    await expect(page.locator('h2').first()).toHaveText('サイト情報について');
+    await page.click('text=次へ進む');
+  });
 
-    await driver.wait(until.elementLocated(By.className('contents')), 60000)
-      .getText().then(title => expect(title).toContain('○：テーブルの作成に成功しました。'));
-    await driver.wait(until.elementLocated(By.className('contents')), 60000)
-      .getText().then(title => expect(title).toContain('○：シーケンスの作成に成功しました。'));
-    await driver.findElement(By.linkText('次へ進む')).click();
+  test('インストール完了を確認をします', async () => {
+    await expect(page.locator('h2').first()).toHaveText(/インストールが完了しました/);
+    await page.click('text=管理画面へログインする');
+  });
 
-    await driver.wait(until.elementLocated(By.css('h2')), 10000)
-      .getText().then(title => expect(title).toBe('サイト情報について'));
-    await driver.findElement(By.linkText('次へ進む')).click();
+  test('管理画面ログインへの遷移を確認します', async () => {
+    await expect(page).toHaveURL(new RegExp(adminDirectory));
+    await page.fill('input[name=login_id]', user);
+    await page.fill('input[name=password]', password);
+    await page.click('text=LOGIN');
+  });
 
-    await driver.wait(until.elementLocated(By.css('h2')), 10000)
-      .getText().then(title => expect(title).toContain('インストールが完了しました。'));
-    await driver.findElement(By.linkText('管理画面へログインする')).click();
+  test('管理画面への遷移を確認します', async () => {
+    await expect(page.locator('#site-check')).toContainText('ログイン : 管理者 様');
+  });
 
-    await driver.wait(until.elementLocated(By.className('btn-tool-format')), 10000)
-      .getText().then(value => expect(value).toBe('LOGIN'));
-    await driver.getCurrentUrl()
-      .then(url => expect(url).toContain(adminDirectory));
-    await driver.findElement(By.name('login_id')).sendKeys(user);
-    await driver.findElement(By.name('password')).sendKeys(password);
-    await driver.findElement(By.className('btn-tool-format')).click();
-
-    await driver.wait(until.elementLocated(By.id('site-check')), 10000)
-      .getText().then(value => expect(value).toContain('ログイン : 管理者 様'));
-
-    await driver.findElement(By.id('logo')).click();
-    await driver.wait(until.elementLocated(By.id('errorHeader')), 10000)
-      .getText().then(value => expect(value).toContain('インストール完了後に /install フォルダを削除してください。'));
-  } finally {
-    driver && driver.quit();
-  }
+  test('トップページを確認します', async () => {
+    await page.goto(baseURL);
+    await expect(page.locator('#errorHeader')).toContainText('インストール完了後に /install フォルダを削除してください。');
+  });
 });
