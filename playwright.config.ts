@@ -42,7 +42,8 @@ const config: PlaywrightTestConfig = {
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    ignoreHTTPSErrors: true
+    ignoreHTTPSErrors: true,
+    baseURL: 'https://ec-cube'
   },
 
   /* Configure projects for major browsers */
