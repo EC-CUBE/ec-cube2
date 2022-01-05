@@ -61,12 +61,12 @@ jobs:
         FORCE_COLOR: 1
       run: yarn test:e2e e2e-tests/${GROUP}
 
-    # - name: Upload evidence
-    #   if: failure()
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: linux-php${{ matrix.php }}-${{ matrix.db }}-evidence
-    #     path: ctests/_output/
+    - name: Upload evidence
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.tag }}-${{ matrix.db }}-evidence
+        path: 'test-results/'
     - name: Upload logs
       if: failure()
       uses: actions/upload-artifact@v2
@@ -118,13 +118,30 @@ jobs:
         sh -c 'echo "<?php" >> data/config/config.php'
         docker-compose build --build-arg TAG=${TAG} ec-cube
         docker-compose up -d
-        rm data/config/config.php
 
     - run: sleep 1
     - run: |
         yarn install
         yarn run playwright install --with-deps chromium
         yarn playwright install-deps chromium
+    - run: |
+        rm data/config/config.php
+        chmod -R o+w html
+        chmod o+w data
+        chmod -R o+w data/Smarty
+        chmod -R o+w data/cache
+        chmod -R o+w data/class
+        chmod -R o+w data/class_extends
+        chmod o+w data/config
+        chmod -R o+w data/download
+        chmod -R o+w data/downloads
+        chmod o+w data/fonts
+        chmod o+w data/include
+        chmod o+w data/logs
+        chmod -R o+w data/module
+        chmod o+w data/smarty_extends
+        chmod o+w data/upload
+        chmod o+w data/upload/csv
 
     - name: Run to E2E testing
       env:
@@ -145,3 +162,9 @@ jobs:
       with:
         name: linux-php${{ matrix.tag }}-${{ matrix.db }}-logs
         path: html/install/temp/install.log*
+    - name: Upload evidence
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.tag }}-${{ matrix.db }}-evidence
+        path: 'test-results/'

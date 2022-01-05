@@ -56,14 +56,14 @@ test.describe.serial('インストーラのテストをします', () => {
   test('step2 - データベースの設定をします', async () => {
     await expect(page.locator('h2').first()).toHaveText('データベースの設定');
     const DB = process.env.DB_TYPE == 'mysql' ? 'MySQL' : 'PostgreSQL';
-    const DB_SERVER = process.env.DB_SERVER || DB == 'MySQL' ? 'mysql' : 'postgres';
-    const DB_PORT = process.env.DB_PORT || DB == 'MySQL' ? '3306' : '5432';
-    const DB_NAME = process.env.DB_NAME || 'eccube_db';
-    const DB_USER = process.env.DB_USER || 'eccube_db_user';
-    const DB_PASSWORD = process.env.DB_PASSWORD || 'password';
+    let DB_SERVER = process.env.DB_SERVER;
+    let DB_PORT = process.env.DB_PORT;
+    let DB_NAME = process.env.DB_NAME || 'eccube_db';
+    let DB_USER = process.env.DB_USER || 'eccube_db_user';
+    let DB_PASSWORD = process.env.DB_PASSWORD || 'password';
     await page.selectOption('select[name=db_type]', { label: DB });
-    await page.fill('input[name=db_server]', DB_SERVER);
-    await page.fill('input[name=db_port]', DB_PORT);
+    await page.fill('input[name=db_server]', DB_SERVER ?? 'postgres');
+    await page.fill('input[name=db_port]', DB_PORT ?? '5432');
     await page.fill('input[name=db_name]', DB_NAME);
     await page.fill('input[name=db_user]', DB_USER);
     await page.fill('input[name=db_password]', DB_PASSWORD);
