@@ -77,7 +77,7 @@ export class ZapClient {
   private readonly zaproxy;
 
   constructor(proxy?: string, apiKey?: string | null) {
-    this.proxy = proxy != undefined ? proxy : `http://${process.env.ZAP_PROXY_HOST}`;
+    this.proxy = proxy != undefined ? proxy : `http://${process.env.HTTP_PROXY}`;
     this.apiKey = apiKey != undefined ? apiKey : null;
     this.zaproxy = new ClientApi({
       apiKey: this.apiKey,

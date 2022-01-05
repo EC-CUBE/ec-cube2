@@ -56,10 +56,9 @@ jobs:
       env:
         GROUP: ${{ matrix.group }}
         HTTPS_PROXY: 'localhost:8090'
-        ZAP_PROXY_HOST: 'localhost:8090'
+        HTTP_PROXY: 'localhost:8090'
         CI: 1
         FORCE_COLOR: 1
-      # Use runner's chromedriver to run on the latest version of google-chrome
       run: yarn test:e2e e2e-tests/${GROUP}
 
     # - name: Upload evidence
@@ -129,7 +128,7 @@ jobs:
 
     - name: Run to E2E testing
       env:
-        ZAP_PROXY_HOST: 'localhost:8090'
+        HTTP_PROXY: 'localhost:8090'
         HTTPS_PROXY: 'localhost:8090'
         CI: 1
         FORCE_COLOR: 1
@@ -139,7 +138,6 @@ jobs:
         DB_NAME: ${{ matrix.dbname }}
         DB_PORT: ${{ matrix.dbport }}
         DB_SERVER: ${{ matrix.dbhost }}
-      # Use runner's chromedriver to run on the latest version of google-chrome
       run: yarn test:e2e e2e-tests/test/installer/installer.test.ts
     - name: Upload logs
       if: failure()
