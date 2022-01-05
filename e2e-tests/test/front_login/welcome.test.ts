@@ -1,6 +1,6 @@
 import { test, expect, chromium, Page } from '@playwright/test';
 
-const url = '/';
+const url = '/index.php';
 
 test.describe.serial('トップページのテストをします', () => {
   let page: Page;

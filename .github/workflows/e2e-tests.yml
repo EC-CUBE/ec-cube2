@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         group:
-          - 'test/front_login/contact.test.ts'
+          - 'test/front_login'
 
     steps:
     - name: Checkout
