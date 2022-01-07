@@ -21,6 +21,8 @@ jobs:
       matrix:
         group:
           - 'test/front_login'
+          - 'test/front_guest'
+          - 'test/admin'
 
     steps:
     - name: Checkout
