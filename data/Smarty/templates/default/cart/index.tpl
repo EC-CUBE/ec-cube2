@@ -24,7 +24,7 @@
     <div id="undercolumn_cart">
         <h2 class="title"><!--{$tpl_title|h}--></h2>
 
-        <!--{if $smarty.const.USE_POINT !== false || count($arrProductsClass) > 0}-->
+        <!--{if $smarty.const.USE_POINT !== false || !empty($arrProductsClass)}-->
             <!--★ポイント案内★-->
             <!--{if $smarty.const.USE_POINT !== false}-->
                 <div class="point_announce">
