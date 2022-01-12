@@ -77,8 +77,32 @@ class SC_Initial
             copy(realpath(dirname(__FILE__)) . '/../../tests/config.php', CONFIG_REALFILE);
 
             require_once CONFIG_REALFILE;
-        }
+        } else if (!GC_Utils_Ex::isInstallFunction()){
 
+            // PHP8対応
+            if (!defined("HTTP_URL")) {
+                define ('HTTP_URL', '');
+                define ('HTTPS_URL', '');
+                define ('ROOT_URLPATH', '');
+                define ('DOMAIN_NAME', '');
+                define ('DB_TYPE', '');
+                define ('DB_USER', '');
+                define ('DB_PASSWORD', '');
+                define ('DB_SERVER', '');
+                define ('DB_NAME', '');
+                define ('DB_PORT', '');
+                define ('ADMIN_DIR', '');
+                define ('ADMIN_FORCE_SSL', "");
+                define ('ADMIN_ALLOW_HOSTS', '');
+                define ('AUTH_MAGIC', '');
+                define ('PASSWORD_HASH_ALGOS', 'sha256');
+                define ('MAIL_BACKEND', 'mail');
+                define ('SMTP_HOST', '');
+                define ('SMTP_PORT', '');
+                define ('SMTP_USER', '');
+                define ('SMTP_PASSWORD', '');
+            }
+        }
     }
 
     /**
