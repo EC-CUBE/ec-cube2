@@ -2,6 +2,8 @@
 $loader = require __DIR__.'/../data/vendor/autoload.php';
 
 class_exists('FPDI'); // XXX PHPStan が FPDI を見つけてくれないのでロードしておく
+class_exists('Smarty'); // XXX PHPStan が Smarty を見つけてくれないのでロードしておく
+
 if (!class_exists('PHPUnit_Framework_TestCase')) {
     class_alias('PHPUnit\Framework\TestCase', 'PHPUnit_Framework_TestCase');
 }
