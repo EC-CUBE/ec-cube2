@@ -24,6 +24,7 @@
     "@playwright/test": "^1.17.1",
     "@types/date-fns": "^2.6.0",
     "@types/faker": "^5.5.9",
+    "@types/tar": "^6.1.1",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.2.2",
     "browser-sync-webpack-plugin": "^2.3.0",
@@ -33,6 +34,7 @@
     "eslint-plugin-import": "^2.18.2",
     "faker": "^5.5.3",
     "prettier": "^2.4.1",
+    "tar": "^6.1.11",
     "webpack-cli": "^4.8.0",
     "zaproxy": "^1.0.1"
   },
