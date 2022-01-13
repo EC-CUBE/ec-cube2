@@ -2,18 +2,7 @@ name: Penetration testing for EC-CUBE
 on:
   schedule:
     - cron: '0 15 * * 1'
-  push:
-    branches:
-      - '*'
-    tags:
-      - '*'
-    paths:
-      - '**'
-      - '!*.md'
-  pull_request:
-    paths:
-      - '**'
-      - '!*.md'
+
 jobs:
   PenetrationTest:
     name: Penetration testing
@@ -70,12 +59,6 @@ jobs:
         FORCE_COLOR: 1
       run: yarn test:attack e2e-tests/${GROUP}
 
-    # - name: Upload evidence
-    #   if: failure()
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: linux-php${{ matrix.php }}-${{ matrix.db }}-evidence
-    #     path: ctests/_output/
     - env:
         GROUP: ${{ matrix.group }}
       if: always()
