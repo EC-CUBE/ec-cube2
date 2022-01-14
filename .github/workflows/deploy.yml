@@ -6,6 +6,7 @@ on:
     - cron: '0 15 * * 2'
   release:
     types: [ published ]
+
 jobs:
   deploy:
     name: Deploy
@@ -13,8 +14,18 @@ jobs:
     steps:
       - name: PREVIOUS_TAG_NAME
         run: |
-          echo "PREVIOUS_TAG_NAME=$(curl -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r .tag_name)" >> $GITHUB_ENV
-
+          echo "PREVIOUS_TAG_NAME=$(curl -sS -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r .tag_name)" >> $GITHUB_ENV
+      - if: github.event_name == 'schedule'
+        run: |
+          echo "LATEST_PRERELEASE_TAG_NAME=$(curl -sS -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/${{ github.repository }}/releases | jq -r 'map(select(.prerelease)) | first | .tag_name')" >> $GITHUB_ENV
+      - if: github.event_name == 'schedule'
+        run: |
+          echo "LATEST_PRERELEASE_REV=$(curl -sS -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/${{ github.repository }}/git/refs/tags/${{ env.LATEST_PRERELEASE_TAG_NAME }} | jq -r '.object.sha')" >> $GITHUB_ENV
+      - if: github.event_name == 'schedule'
+        run: |
+          echo "LATEST_MASTER_REV=$(curl -sS -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/${{ github.repository }}/git/refs/heads/master | jq -r '.object.sha')" >> $GITHUB_ENV
+      - if: (github.event_name == 'schedule' && env.LATEST_MASTER_REV != env.LATEST_PRERELEASE_REV) || github.event_name == 'release'
+        run: echo "DEPLOY=1" >> $GITHUB_ENV
       - name: TAG_NAME for schedule
         if: github.event_name == 'schedule'
         run: echo "TAG_NAME=eccube2-weekly-$(date +%Y%m%d)" >> $GITHUB_ENV
@@ -24,7 +35,7 @@ jobs:
           TAG_NAME: ${{ github.event.release.tag_name }}
         run: echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
       - name: Create Release
-        if: github.event_name == 'schedule'
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -52,19 +63,19 @@ jobs:
           TAG_NAME: ${{ env.TAG_NAME }}
         run: |
           echo 'RELEASE_BODY<<EOF' >> $GITHUB_ENV
-          echo $(curl -H 'Accept: application/vnd.github.v3+json'  https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.TAG_NAME }} | jq -r .body | sed 's,",\\",g' | sed "s,',,g") >> $GITHUB_ENV
+          echo $(curl -sS -H 'Accept: application/vnd.github.v3+json'  https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.TAG_NAME }} | jq -r .body | sed 's,",\\",g' | sed "s,',,g") >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
       - name: RELEASE_ID
         if: github.event_name == 'schedule'
         env:
           TAG_NAME: ${{ env.TAG_NAME }}
         run: |
-          echo "RELEASE_ID=$(curl -H 'Accept: application/vnd.github.v3+json'  https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.TAG_NAME }} | jq -r .id)" >> $GITHUB_ENV
+          echo "RELEASE_ID=$(curl -sS -H 'Accept: application/vnd.github.v3+json'  https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.TAG_NAME }} | jq -r .id)" >> $GITHUB_ENV
       - name: GENERATED_NOTES
         if: github.event_name == 'schedule'
         run: |
           echo 'GENERATED_NOTES<<EOF' >> $GITHUB_ENV
-          echo $(curl -X POST -H 'Accept: application/vnd.github.v3+json' -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'  https://api.github.com/repos/${{ github.repository }}/releases/generate-notes -d '{"tag_name":"${{ env.TAG_NAME }}", "previous_tag_name":"${{ env.PREVIOUS_TAG_NAME }}"}' | jq .body | sed 's,",,g' | sed "s,',,g") >> $GITHUB_ENV
+          echo $(curl -sS -X POST -H 'Accept: application/vnd.github.v3+json' -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'  https://api.github.com/repos/${{ github.repository }}/releases/generate-notes -d '{"tag_name":"${{ env.TAG_NAME }}", "previous_tag_name":"${{ env.PREVIOUS_TAG_NAME }}"}' | jq .body | sed 's,",,g' | sed "s,',,g") >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
       - name: Checkout code
@@ -170,6 +181,7 @@ jobs:
           ls -al
 
       - name: Upload binaries to release of TGZ
+        if: env.DEPLOY == 1
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -178,6 +190,7 @@ jobs:
           tag: ${{ env.TAG_NAME }}
           overwrite: true
       - name: Upload binaries to release of ZIP
+        if: env.DEPLOY == 1
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -186,6 +199,7 @@ jobs:
           tag: ${{ env.TAG_NAME }}
           overwrite: true
       - name: Upload binaries to release of TGZ md5 checksum
+        if: env.DEPLOY == 1
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -194,6 +208,7 @@ jobs:
           tag: ${{ env.TAG_NAME }}
           overwrite: true
       - name: Upload binaries to release of TGZ sha1 checksum
+        if: env.DEPLOY == 1
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -202,6 +217,7 @@ jobs:
           tag: ${{ env.TAG_NAME }}
           overwrite: true
       - name: Upload binaries to release of TGZ sha256 checksum
+        if: env.DEPLOY == 1
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -210,6 +226,7 @@ jobs:
           tag: ${{ env.TAG_NAME }}
           overwrite: true
       - name: Upload binaries to release of ZIP md5 checksum
+        if: env.DEPLOY == 1
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -218,6 +235,7 @@ jobs:
           tag: ${{ env.TAG_NAME }}
           overwrite: true
       - name: Upload binaries to release of ZIP sha1 checksum
+        if: env.DEPLOY == 1
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -226,6 +244,7 @@ jobs:
           tag: ${{ env.TAG_NAME }}
           overwrite: true
       - name: Upload binaries to release of ZIP sha256 checksum
+        if: env.DEPLOY == 1
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -235,9 +254,9 @@ jobs:
           overwrite: true
 
       - name: Update Release notes
-        if: github.event_name == 'schedule'
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
         run: |
-          curl \
+          curl -sS \
           -X PATCH \
           -H "Accept: application/vnd.github.v3+json" \
           -H "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
