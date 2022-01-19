@@ -1191,17 +1191,128 @@
             "time": "2014-10-12T19:18:40+00:00"
         },
         {
-            "name": "php5friends/phpunit48",
-            "version": "4.8.42",
+            "name": "php5friends/global-state11",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php5friends/phpunit48.git",
-                "reference": "d58d5b4dc86c6790d790c244849125164053dfec"
+                "url": "https://github.com/php5friends/global-state11.git",
+                "reference": "5a07c40503d13e1cb84935bc19e10c8667020e06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php5friends/phpunit48/zipball/d58d5b4dc86c6790d790c244849125164053dfec",
-                "reference": "d58d5b4dc86c6790d790c244849125164053dfec",
+                "url": "https://api.github.com/repos/php5friends/global-state11/zipball/5a07c40503d13e1cb84935bc19e10c8667020e06",
+                "reference": "5a07c40503d13e1cb84935bc19e10c8667020e06",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "replace": {
+                "sebastian/global-state": "*"
+            },
+            "require-dev": {
+                "php5friends/phpunit48": "^4.8"
+            },
+            "suggest": {
+                "ext-uopz": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
+                }
+            ],
+            "description": "Snapshotting of global state",
+            "homepage": "http://www.github.com/php5friends/global-state11",
+            "keywords": [
+                "global state"
+            ],
+            "support": {
+                "source": "https://github.com/php5friends/global-state11/tree/1.1.2"
+            },
+            "time": "2021-10-11T08:24:38+00:00"
+        },
+        {
+            "name": "php5friends/php-file-iterator14",
+            "version": "1.4.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php5friends/php-file-iterator14.git",
+                "reference": "b47aa03e2ebbbea247c05de7998edc44421b3699"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php5friends/php-file-iterator14/zipball/b47aa03e2ebbbea247c05de7998edc44421b3699",
+                "reference": "b47aa03e2ebbbea247c05de7998edc44421b3699",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "replace": {
+                "phpunit/php-file-iterator": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sb@sebastian-bergmann.de",
+                    "role": "lead"
+                }
+            ],
+            "description": "FilterIterator implementation that filters files based on a list of suffixes.",
+            "homepage": "https://github.com/php5friends/php-file-iterator14/",
+            "keywords": [
+                "filesystem",
+                "iterator"
+            ],
+            "support": {
+                "issues": "https://github.com/php5friends/php-file-iterator14/issues",
+                "source": "https://github.com/php5friends/php-file-iterator14/tree/1.4.6"
+            },
+            "time": "2021-10-11T07:48:45+00:00"
+        },
+        {
+            "name": "php5friends/phpunit48",
+            "version": "4.8.43",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php5friends/phpunit48.git",
+                "reference": "a1c5a88b7649c2d1be4d44dddc0db4ffbfed4eb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php5friends/phpunit48/zipball/a1c5a88b7649c2d1be4d44dddc0db4ffbfed4eb8",
+                "reference": "a1c5a88b7649c2d1be4d44dddc0db4ffbfed4eb8",
                 "shasum": ""
             },
             "require": {
@@ -1210,10 +1321,11 @@
                 "ext-pcre": "*",
                 "ext-reflection": "*",
                 "ext-spl": "*",
-                "php": ">=5.3.3",
+                "php": ">=5.3.3 || ^7 || ^8",
+                "php5friends/global-state11": "~1.1.2",
+                "php5friends/php-file-iterator14": "~1.4.6",
                 "phpspec/prophecy": "^1.3.1",
                 "phpunit/php-code-coverage": "~2.1",
-                "phpunit/php-file-iterator": "~1.4",
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-timer": "^1.0.6",
                 "phpunit/phpunit-mock-objects": "~2.3",
@@ -1221,9 +1333,8 @@
                 "sebastian/diff": "~1.2",
                 "sebastian/environment": "~1.3",
                 "sebastian/exporter": "~1.2",
-                "sebastian/global-state": "~1.0",
                 "sebastian/version": "~1.0",
-                "symfony/yaml": "~2.1|~3.0"
+                "symfony/yaml": "^2.0 || ^3.0 || ^4.0 || ^5.0"
             },
             "replace": {
                 "phpunit/phpunit": "*"
@@ -1265,9 +1376,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php5friends/phpunit48/issues",
-                "source": "https://github.com/php5friends/phpunit48/tree/4.8.42"
+                "source": "https://github.com/php5friends/phpunit48/tree/4.8.43"
             },
-            "time": "2020-10-17T02:31:13+00:00"
+            "time": "2021-10-28T05:14:50+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -1455,58 +1566,6 @@
                 "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/2.2"
             },
             "time": "2015-10-06T15:47:00+00:00"
-        },
-        {
-            "name": "phpunit/php-file-iterator",
-            "version": "1.4.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/730b01bc3e867237eaac355e06a36b85dd93a8b4",
-                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.4.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
-                    "role": "lead"
-                }
-            ],
-            "description": "FilterIterator implementation that filters files based on a list of suffixes.",
-            "homepage": "https://github.com/sebastianbergmann/php-file-iterator/",
-            "keywords": [
-                "filesystem",
-                "iterator"
-            ],
-            "support": {
-                "irc": "irc://irc.freenode.net/phpunit",
-                "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
-                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/1.4.5"
-            },
-            "time": "2017-11-27T13:52:08+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -2022,61 +2081,6 @@
             "time": "2016-06-17T09:04:28+00:00"
         },
         {
-            "name": "sebastian/global-state",
-            "version": "1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/bc37d50fea7d017d3d340f230811c9f1d7280af4",
-                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.2"
-            },
-            "suggest": {
-                "ext-uopz": "*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de"
-                }
-            ],
-            "description": "Snapshotting of global state",
-            "homepage": "http://www.github.com/sebastianbergmann/global-state",
-            "keywords": [
-                "global state"
-            ],
-            "support": {
-                "issues": "https://github.com/sebastianbergmann/global-state/issues",
-                "source": "https://github.com/sebastianbergmann/global-state/tree/1.1.1"
-            },
-            "time": "2015-10-12T03:26:01+00:00"
-        },
-        {
             "name": "sebastian/recursion-context",
             "version": "1.0.5",
             "source": {
@@ -2321,5 +2325,5 @@
     "platform-overrides": {
         "php": "5.4.16"
     },
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
