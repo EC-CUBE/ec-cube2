@@ -42,7 +42,7 @@
         "pear/xml_util": "*",
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^1.6",
-        "silverorange/mdb2": "2.5.2-b.5",
+        "silverorange/mdb2": "3.1.1",
         "smarty/smarty": "*"
     },
     "autoload": {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "766b804028b6a27d82a328fb8539d3a4",
+    "content-hash": "b8d3d21d0b4edb4ac82da01b5fc3911d",
     "packages": [
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -796,21 +796,24 @@
         },
         {
             "name": "silverorange/mdb2",
-            "version": "2.5.2-b.5",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silverorange/MDB2.git",
-                "reference": "8b8f064de2c468345968e6eb2797e301bbea4233"
+                "reference": "35d0af9cc62c12fd9e27595434ab44361eb8c6fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silverorange/MDB2/zipball/8b8f064de2c468345968e6eb2797e301bbea4233",
-                "reference": "8b8f064de2c468345968e6eb2797e301bbea4233",
+                "url": "https://api.github.com/repos/silverorange/MDB2/zipball/35d0af9cc62c12fd9e27595434ab44361eb8c6fc",
+                "reference": "35d0af9cc62c12fd9e27595434ab44361eb8c6fc",
                 "shasum": ""
             },
             "require": {
                 "pear/pear-core-minimal": "^1.9.0",
-                "php": ">=5.2.0"
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "silverorange/coding-standard": "^0.6.0"
             },
             "type": "library",
             "autoload": {
@@ -819,9 +822,6 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
             "license": [
                 "BSD-2-Clause"
             ],
@@ -840,9 +840,9 @@
                 "orm"
             ],
             "support": {
-                "source": "https://github.com/silverorange/MDB2/tree/2.5.2-b.5"
+                "source": "https://github.com/silverorange/MDB2/tree/master"
             },
-            "time": "2016-01-08T21:22:05+00:00"
+            "time": "2017-12-05T18:20:09+00:00"
         },
         {
             "name": "smarty/smarty",
@@ -2307,9 +2307,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "silverorange/mdb2": 10
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -2321,5 +2319,5 @@
     "platform-overrides": {
         "php": "5.4.16"
     },
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
