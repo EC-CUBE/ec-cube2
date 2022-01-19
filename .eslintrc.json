@@ -7,6 +7,19 @@
    "plugins": [
     "import"
   ],
-  "parser": "babel-eslint",
-  "extends": "jquery"
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint",
+    "jquery"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true
+      }
+    ]
+  }
 }

@@ -1,6 +1,12 @@
 <?php
 $loader = require __DIR__.'/../data/vendor/autoload.php';
 
+if (strpos($_SERVER['SCRIPT_FILENAME'], 'phpunit') !== false && !class_exists('\Eccube2\Tests\Fixture\Generator')) {
+    echo 'You must set up the project dependencies, run the following commands:'.PHP_EOL.
+        'composer require nanasess/eccube2-fixture-generator --dev --ignore-platform-req=php'.PHP_EOL;
+    exit(1);
+}
+
 class_exists('FPDI'); // XXX PHPStan が FPDI を見つけてくれないのでロードしておく
 class_exists('Smarty'); // XXX PHPStan が Smarty を見つけてくれないのでロードしておく
 
@@ -31,7 +37,5 @@ $classMap = function ($dir) {
     }
     return $map;
 };
-$loader->add('_generated', __DIR__.'/../ctests/_support');
-$loader->addClassMap($classMap(__DIR__.'/../ctests'));
 $loader->addClassMap($classMap(__DIR__.'/class'));
 return $loader;

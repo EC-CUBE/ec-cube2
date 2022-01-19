@@ -1,0 +1,172 @@
+name: E2E testing for EC-CUBE
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+    paths:
+      - '**'
+      - '!*.md'
+  pull_request:
+    paths:
+      - '**'
+      - '!*.md'
+jobs:
+  run-on-linux:
+    name: Run on Linux
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        group:
+          - 'test/front_login'
+          - 'test/front_guest'
+          - 'test/admin'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # - name: Create ADMIN_DIR
+    #   run: |
+    #     sudo apt-fast install -y sharutils
+    #     echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
+    - name: Setup environment
+      run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+
+    - name: Setup to EC-CUBE
+      env:
+        HTTP_URL: https://127.0.0.1:8085/
+        HTTPS_URL: https://127.0.0.1:8085/
+      run: |
+        sudo chown -R 1001:1000 zap
+        sudo chmod -R g+w zap
+        docker-compose up -d
+        docker-compose exec -T ec-cube composer install
+        docker-compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
+        docker-compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+        docker-compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
+
+    - run: sleep 1
+    - run: |
+        yarn install
+        yarn run playwright install --with-deps chromium
+        yarn playwright install-deps chromium
+
+    - name: Run to E2E testing
+      env:
+        GROUP: ${{ matrix.group }}
+        HTTPS_PROXY: 'localhost:8090'
+        HTTP_PROXY: 'localhost:8090'
+        CI: 1
+        FORCE_COLOR: 1
+      run: yarn test:e2e e2e-tests/${GROUP}
+
+    - name: Upload evidence
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.tag }}-${{ matrix.db }}-evidence
+        path: 'test-results/'
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
+        path: data/logs
+  installer:
+    name: Installer test
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        db: [ 'pgsql', 'mysql' ]
+        tag:
+          - '5.6-apache'
+          - '7.1-apache'
+          - '7.2-apache'
+          - '7.3-apache'
+          - '7.4-apache'
+        include:
+          - db: mysql
+            dbport: '3306'
+            dbuser: 'eccube_db_user'
+            dbpass: 'password'
+            dbname: 'eccube_db'
+            dbhost: 'mysql'
+          - db: pgsql
+            dbport: '5432'
+            dbuser: 'eccube_db_user'
+            dbpass: 'password'
+            dbname: 'eccube_db'
+            dbhost: 'postgres'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup environment
+      env:
+        DB_TYPE: ${{ matrix.db }}
+      run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB_TYPE}.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+    - name: Setup to EC-CUBE
+      env:
+        HTTP_URL: https://127.0.0.1:8085/
+        HTTPS_URL: https://127.0.0.1:8085/
+        TAG: ${{ matrix.tag }}
+      run: |
+        sudo chown -R 1001:1000 zap
+        sudo chmod -R g+w zap
+        sh -c 'echo "<?php" >> data/config/config.php'
+        docker-compose build --build-arg TAG=${TAG} ec-cube
+        docker-compose up -d
+
+    - run: sleep 1
+    - run: |
+        yarn install
+        yarn run playwright install --with-deps chromium
+        yarn playwright install-deps chromium
+    - run: |
+        rm data/config/config.php
+        chmod -R o+w html
+        chmod o+w data
+        chmod -R o+w data/Smarty
+        chmod -R o+w data/cache
+        chmod -R o+w data/class
+        chmod -R o+w data/class_extends
+        chmod o+w data/config
+        chmod -R o+w data/download
+        chmod -R o+w data/downloads
+        chmod o+w data/fonts
+        chmod o+w data/include
+        chmod o+w data/logs
+        chmod -R o+w data/module
+        chmod o+w data/smarty_extends
+        chmod o+w data/upload
+        chmod o+w data/upload/csv
+
+    - name: Run to E2E testing
+      env:
+        HTTP_PROXY: 'localhost:8090'
+        HTTPS_PROXY: 'localhost:8090'
+        CI: 1
+        FORCE_COLOR: 1
+        DB_TYPE: ${{ matrix.db }}
+        DB_USER: ${{ matrix.dbuser }}
+        DB_PASSWORD: ${{ matrix.dbpass }}
+        DB_NAME: ${{ matrix.dbname }}
+        DB_PORT: ${{ matrix.dbport }}
+        DB_SERVER: ${{ matrix.dbhost }}
+      run: yarn test:e2e e2e-tests/test/installer/installer.test.ts
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.tag }}-${{ matrix.db }}-logs
+        path: html/install/temp/install.log*
+    - name: Upload evidence
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.tag }}-${{ matrix.db }}-evidence
+        path: 'test-results/'

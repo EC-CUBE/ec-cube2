@@ -36,6 +36,9 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     /** @var SC_Query */
     protected $objQuery;
 
+    /** @var \Eccube2\Tests\Fixture\Generator */
+    protected $objGenerator;
+
     /** 期待値 */
     protected $expected;
     /** 実際の値 */
@@ -45,6 +48,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     {
         $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);
         $this->objQuery->begin();
+        $this->objGenerator = new \Eccube2\Tests\Fixture\Generator($this->objQuery);
     }
 
     protected function tearDown()
@@ -198,4 +202,3 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     }
      */
 }
-

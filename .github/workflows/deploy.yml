@@ -134,7 +134,6 @@ jobs:
           rm -rf $GITHUB_WORKSPACE/Procfile
           rm -rf $GITHUB_WORKSPACE/build.xml
           rm -rf $GITHUB_WORKSPACE/README.md
-          rm -rf $GITHUB_WORKSPACE/codeception.yml
           rm -rf $GITHUB_WORKSPACE/php.ini
           rm -rf $GITHUB_WORKSPACE/phpinicopy.sh
           rm -rf $GITHUB_WORKSPACE/phpinidel.sh
@@ -142,7 +141,8 @@ jobs:
           rm -rf $GITHUB_WORKSPACE/setup.sh
           rm -rf $GITHUB_WORKSPACE/setup_heroku.php
           rm -rf $GITHUB_WORKSPACE/svn_propset.sh
-          rm -rf $GITHUB_WORKSPACE/ctests
+          rm -rf $GITHUB_WORKSPACE/playwright*
+          rm -rf $GITHUB_WORKSPACE/e2e-tests
           rm -rf $GITHUB_WORKSPACE/tests
           rm -rf $GITHUB_WORKSPACE/templates
           rm -rf $GITHUB_WORKSPACE/patches

@@ -1,0 +1,78 @@
+name: Penetration testing for EC-CUBE
+on:
+  schedule:
+    - cron: '0 15 * * 1'
+
+jobs:
+  PenetrationTest:
+    name: Penetration testing
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        group:
+          - 'test/front_login/contact.test.ts'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # - name: Create ADMIN_DIR
+    #   run: |
+    #     sudo apt-fast install -y sharutils
+    #     echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
+
+    - name: Apply patchs
+      run: |
+        git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
+        git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
+        git am zap/patches/0001-CSRF-OWASP-ZAP.patch
+
+    - name: Setup environment
+      run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+
+    - name: Setup to EC-CUBE
+      env:
+        HTTP_URL: https://127.0.0.1:8085/
+        HTTPS_URL: https://127.0.0.1:8085/
+      run: |
+        sudo chown -R 1001:1000 zap
+        sudo chmod -R g+w zap
+        docker-compose up -d
+        docker-compose exec -T ec-cube composer install
+        docker-compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
+        docker-compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+        docker-compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
+
+    - run: sleep 1
+    - run: |
+        yarn install
+        yarn run playwright install --with-deps chromium
+        yarn playwright install-deps chromium
+
+    - name: Penetration testing
+      env:
+        GROUP: ${{ matrix.group }}
+        HTTPS_PROXY: 'localhost:8090'
+        HTTP_PROXY: 'localhost:8090'
+        CI: 1
+        FORCE_COLOR: 1
+      run: yarn test:attack e2e-tests/${GROUP}
+
+    - env:
+        GROUP: ${{ matrix.group }}
+      if: always()
+      run: echo "ARTIFACT_NAME=$(echo ${GROUP} | sed 's,/,_,g')" >> $GITHUB_ENV
+    - name: Upload evidence
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: zap-${{ env.ARTIFACT_NAME}}-session
+        path: zap/sessions
+
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
+        path: data/logs

@@ -70,13 +70,7 @@ jobs:
         php-version: ${{ matrix.php }}
 
     - name: Install to Composer
-      run: |
-        composer install --no-interaction -o
-        composer require php5friends/codeception-phpunit48-wrapper ">=6.0.20" --dev
-        composer require captbaritone/mailcatcher-codeception-module "1.2.1" --dev
-        composer require codeception/codeception "*" --dev
-        composer remove php5friends/codeception-phpunit48-wrapper --dev
-        composer remove php5friends/phpunit48 --ignore-platform-reqs --dev
+      run: composer install --no-interaction -o
 
     - name: Create ADMIN_DIR
       run: |
@@ -110,59 +104,11 @@ jobs:
         phpdbg -qrr data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php --coverage-clover=coverage3.xml
         mv data/config/config.php.bak data/config/config.php
 
-    - name: Install symfony/cli
-      continue-on-error: true
-      run: |
-        wget https://get.symfony.com/cli/installer -O - | bash
-        sudo mv ~/.symfony/bin/symfony /usr/local/bin/symfony
-        symfony local:php:list
-
-    - name: setup-chromedriver
-      uses: nanasess/setup-chromedriver@master
-    - name: Run chromedriver
-      run: |
-        export DISPLAY=:99
-        chromedriver --url-base=/wd/hub &
-        echo ">>> Started chrome-driver"
-        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
-        echo ">>> Started xvfb"
-    - name: Setup C3
-      run: |
-        wget https://raw.github.com/Codeception/c3/2.0/c3.php
-        sed -i 's,/vendor/autoload.php,/data/vendor/autoload.php,g' c3.php
-        echo "include __DIR__.'/../c3.php';" >> html/define.php
-    - name: Run to Codeception
-      continue-on-error: true
-      env:
-        DB: ${{ matrix.db }}
-        USER: ${{ matrix.dbuser }}
-        DBUSER: ${{ matrix.dbuser }}
-        DBPASS: ${{ matrix.dbpass }}
-        DBNAME: ${{ matrix.dbname }}
-        DBPORT: ${{ matrix.dbport }}
-        DBSERVER: 127.0.0.1
-        HTTP_URL: http://127.0.0.1:8085/
-        HTTPS_URL: http://127.0.0.1:8085/
-        XDEBUG_MODE: coverage
-      run: |
-        sudo phpenmod -s cli xdebug
-        sudo phpenmod -s fpm xdebug
-        mv html/admin html/${ADMIN_DIR}
-        php data/vendor/bin/codecept build
-        symfony serve -d --no-tls --port=8085 --document-root=html
-        php data/vendor/bin/codecept run --env chrome,http --skip-group installer --skip-group excludeCoverage --steps --coverage --coverage-xml
-        mv ./ctests/_output/acceptance\ \(chrome,\ http\).remote.coverage.xml ctests/_output/acceptance.remote.coverage.xml
-
     - name: Upload coverage
       uses: codecov/codecov-action@v1
       with:
-        files: ./coverage1.xml,./coverage2.xml,./coverage3.xml,./ctests/_output/acceptance.remote.coverage.xml
+        files: ./coverage1.xml,./coverage2.xml,./coverage3.xml
         # token: ${{ secrets.CODECOV_TOKEN }}
         flags: tests
         # yml: ./codecov.yml
         fail_ci_if_error: true
-    - name: Upload evidence
-      uses: actions/upload-artifact@v2
-      with:
-        name: coverage-evidence
-        path: ctests/_output/

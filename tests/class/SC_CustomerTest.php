@@ -8,9 +8,6 @@ class SC_CustomerTest extends Common_TestCase
     /** @var Faker\Generator $faker */
     protected $faker;
 
-    /** @var FixtureGenerator */
-    protected $objGenerator;
-
     /** @var string */
     protected $email;
 
@@ -23,7 +20,6 @@ class SC_CustomerTest extends Common_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->objGenerator = new FixtureGenerator($this->objQuery);
         $this->faker = Faker\Factory::create('ja_JP');
         $this->setUpCustomer();
     }
