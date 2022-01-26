@@ -35,6 +35,9 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
     /** @var int */
     public $tpl_json_category_id;
 
+    /** @var array */
+    public $arrCatOut;
+
     /**
      * Page を初期化する.
      *

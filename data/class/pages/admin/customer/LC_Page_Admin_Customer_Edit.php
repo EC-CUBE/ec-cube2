@@ -35,6 +35,9 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
     /** @var array */
     public $arrSearchErr;
 
+    /** @var array */
+    public $arrPurchaseHistory;
+
     /**
      * Page を初期化する.
      *

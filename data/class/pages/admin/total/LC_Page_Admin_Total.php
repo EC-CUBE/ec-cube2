@@ -37,6 +37,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     public $tpl_graphsubtitle;
     /** @var string */
     public $tpl_titleimage;
+    /** @var string */
+    public $tpl_image;
     /** @var array */
     public $arrSearchForm1;
     /** @var array */
