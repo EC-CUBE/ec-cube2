@@ -19,6 +19,8 @@
     "camelcase": "off",
     "space-in-parens": "off",
     "quotes": "off",
+    "no-shadow-restricted-names": "off",
+    "no-prototype-builtins": "off",
     "max-len": ["warn", {"code": 120}]
   }
 }
