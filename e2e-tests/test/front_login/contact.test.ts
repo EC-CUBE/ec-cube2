@@ -7,9 +7,6 @@ const inputNames = [
   'name01', 'name02', 'kana01', 'kana02', 'zip01', 'zip02', 'addr01', 'addr02',
   'tel01', 'tel02', 'tel03'
 ] as const;
-type InputName = {
-  [key in typeof inputNames[number]]?: string
-};
 
 const baseURL = 'https://ec-cube';
 const url = baseURL + '/contact/index.php';

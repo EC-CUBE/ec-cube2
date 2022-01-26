@@ -21,6 +21,11 @@
     "quotes": "off",
     "no-shadow-restricted-names": "off",
     "no-prototype-builtins": "off",
-    "max-len": ["warn", {"code": 120}]
+    "max-len": ["warn", {"code": 120}],
+    "space-before-function-paren": ["error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }]
   }
 }

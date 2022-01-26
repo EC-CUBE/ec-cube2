@@ -43,7 +43,7 @@ test.describe.serial('プラグイン管理の確認をします', () => {
         file: pluginFile,
         cwd: pluginPath
       },
-      ['PrefilterTransformPlugin.php', 'plugin_info.php']
+      [ 'PrefilterTransformPlugin.php', 'plugin_info.php' ]
     );
   });
 
