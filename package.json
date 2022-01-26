@@ -25,21 +25,23 @@
     "@types/date-fns": "^2.6.0",
     "@types/faker": "^5.5.9",
     "@types/tar": "^6.1.1",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.2.2",
     "browser-sync-webpack-plugin": "^2.3.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.7.0",
     "eslint-config-jquery": "^2.0.0",
-    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.18.2",
     "faker": "^5.5.3",
-    "prettier": "^2.4.1",
     "tar": "^6.1.11",
+    "typescript": "^4.5.5",
     "webpack-cli": "^4.8.0",
     "zaproxy": "^1.0.1"
   },
   "scripts": {
     "lint:javascript": "eslint --fix data/*.js",
+    "lint:typescript": "eslint --fix --ext .ts e2e-tests",
     "test:e2e": "playwright test --grep-invert @attack",
     "test:attack": "playwright test"
   }
