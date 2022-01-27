@@ -57,6 +57,8 @@ jobs:
     - name: Run to E2E testing
       env:
         GROUP: ${{ matrix.group }}
+        HTTPS_PROXY: 'localhost:8090'
+        HTTP_PROXY: 'localhost:8090'
         CI: 1
         FORCE_COLOR: 1
       run: yarn test:e2e e2e-tests/${GROUP}
@@ -145,6 +147,8 @@ jobs:
 
     - name: Run to E2E testing
       env:
+        HTTP_PROXY: 'localhost:8090'
+        HTTPS_PROXY: 'localhost:8090'
         CI: 1
         FORCE_COLOR: 1
         DB_TYPE: ${{ matrix.db }}
