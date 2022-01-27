@@ -1,4 +1,4 @@
-const ClientApi = require('zaproxy');
+import ClientApi from 'zaproxy';
 export const Mode = {
   Safe: 'safe',
   Protect: 'protect',
