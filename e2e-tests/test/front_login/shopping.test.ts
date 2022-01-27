@@ -76,7 +76,7 @@ test.describe.serial('購入フロー(ログイン)のテストをします', ()
     await expect(await messages.json()).toContainEqual(expect.objectContaining(
       {
         subject: expect.stringContaining('ご注文ありがとうございます'),
-        recipients: expect.arrayContaining([`<${email}>`])
+        recipients: expect.arrayContaining([ `<${email}>` ])
       }
     ));
   });
