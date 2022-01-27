@@ -36,6 +36,9 @@ class LC_Page_Rss_Products extends LC_Page_Ex
     public $encode;
     /** @var string */
     public $title;
+    /** @var array */
+    public $arrProduct;
+
     /**
      * Page を初期化する.
      *
