@@ -46,7 +46,10 @@ const config: PlaywrightTestConfig = {
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     ignoreHTTPSErrors: true,
-    acceptDownloads: true
+    acceptDownloads: true,
+    proxy: {
+      server: process.env.HTTP_PROXY ? `http://${process.env.HTTP_PROXY}` : 'http://localhost:8090'
+    }
   },
 
   /* Configure projects for major browsers */

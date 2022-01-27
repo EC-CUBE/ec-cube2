@@ -53,8 +53,6 @@ jobs:
     - name: Penetration testing
       env:
         GROUP: ${{ matrix.group }}
-        HTTPS_PROXY: 'localhost:8090'
-        HTTP_PROXY: 'localhost:8090'
         CI: 1
         FORCE_COLOR: 1
       run: yarn test:attack e2e-tests/${GROUP}
