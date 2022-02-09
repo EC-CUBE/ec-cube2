@@ -43,6 +43,7 @@ test.describe.serial('商品一覧のテストをします', () => {
     await page.waitForSelector('#undercolumn > form > div > div.listrightbloc > h3 > a');
     const all_products = await page.locator('#undercolumn > form > div > div.listrightbloc > h3 > a').count();
     expect(all_products).toBeLessThanOrEqual(50);
+
     // see https://github.com/EC-CUBE/ec-cube2/pull/273
     await expect(page.locator('#undercolumn > form > div > div.listrightbloc > h3 > a')).toContainText('アイスクリーム');
     await expect(page.locator('#undercolumn > form > div > div.listrightbloc > h3 > a')).not.toContainText('おなべ');

@@ -1,8 +1,9 @@
-const ClientApi = require('zaproxy');
+import ClientApi from 'zaproxy';
 export const Mode = {
   Safe: 'safe',
   Protect: 'protect',
-  Standard: 'standard',
+  Standard: 'standard'
+
   // Attack: 'attack' denger!!
 } as const;
 type Mode = typeof Mode[keyof typeof Mode];
@@ -67,7 +68,7 @@ export type Alert = {
 export class ZapClientError extends Error {
   constructor(message?: string) {
     super(message);
-  };
+  }
 }
 
 export class ZapClient {
@@ -77,8 +78,8 @@ export class ZapClient {
   private readonly zaproxy;
 
   constructor(proxy?: string, apiKey?: string | null) {
-    this.proxy = proxy != undefined ? proxy : `http://${process.env.HTTP_PROXY}`;
-    this.apiKey = apiKey != undefined ? apiKey : null;
+    this.proxy = proxy !== undefined ? proxy : `http://${process.env.HTTP_PROXY}`;
+    this.apiKey = apiKey !== undefined ? apiKey : null;
     this.zaproxy = new ClientApi({
       apiKey: this.apiKey,
       proxy: this.proxy
@@ -137,7 +138,7 @@ export class ZapClient {
   }
 
   public async activeScan(url: string, recurse?: boolean, inScopeOnly?: boolean, scanPolicyName?: string | null, method?: 'GET' | 'POST' | 'PUT' | 'DELETE', postData?: string | null, contextId?: number | null): Promise<number> {
-    const result = await this.zaproxy.ascan.scan(url, recurse ?? false, inScopeOnly ?? true, scanPolicyName ?? null, method ?? 'GET', postData ?? null, contextId ?? null)
+    const result = await this.zaproxy.ascan.scan(url, recurse ?? false, inScopeOnly ?? true, scanPolicyName ?? null, method ?? 'GET', postData ?? null, contextId ?? null);
     return result.scan;
   }
 
