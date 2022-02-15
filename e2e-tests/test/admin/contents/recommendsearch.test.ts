@@ -1,5 +1,5 @@
 import { test, expect, chromium, Page } from '@playwright/test';
-import { ZapClient, Mode, ContextType, Risk, HttpMessage } from '../../../utils/ZapClient';
+import { ZapClient, Mode, ContextType } from '../../../utils/ZapClient';
 import { ADMIN_DIR } from '../../../config/default.config';
 
 const url = `/${ADMIN_DIR}contents/recommend.php`;

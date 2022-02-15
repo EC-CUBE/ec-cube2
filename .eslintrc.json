@@ -2,24 +2,30 @@
   "env": {
     "es6": true,
     "browser": true,
-    "jquery": true
+    "jquery": true,
+    "node": true
   },
-   "plugins": [
+  "plugins": [
     "import"
   ],
   "parser": "@typescript-eslint/parser",
   "extends": [
+    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "prettier/@typescript-eslint",
     "jquery"
   ],
   "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "singleQuote": true
-      }
-    ]
+    "@typescript-eslint/no-var-requires": "off",
+    "camelcase": "off",
+    "space-in-parens": "off",
+    "quotes": "off",
+    "no-shadow-restricted-names": "off",
+    "no-prototype-builtins": "off",
+    "max-len": ["warn", {"code": 120}],
+    "space-before-function-paren": ["error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }]
   }
 }
