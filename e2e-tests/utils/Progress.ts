@@ -9,4 +9,4 @@ export const intervalRepeater = async (callback: any, interval: number, page: Pa
     await page.waitForTimeout(interval);
   }
   console.log('::endgroup::');
-}
+};

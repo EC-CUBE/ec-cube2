@@ -382,7 +382,7 @@ require( "slick-carousel/slick/slick-theme.css" );
     const max = checkItems.length;
     let errorFlag = false;
 
-    //　必須項目のチェック
+    // 必須項目のチェック
     for ( let cnt = 0; cnt < max; cnt++ ) {
       if ( formElement.find( `input[name=${checkItems[ cnt ]}]` ).val() === "" ) {
         errorFlag = true;
@@ -445,10 +445,9 @@ require( "slick-carousel/slick/slick-theme.css" );
         // 商品一覧時
         if ( eccube.hasOwnProperty( "productsClassCategories" ) ) {
           classcat2 = eccube.productsClassCategories[ product_id ][ classcat_id1 ];
-        }
+        } else {
 
-        // 詳細表示時
-        else {
+          // 詳細表示時
           classcat2 = eccube.classCategories[ classcat_id1 ];
         }
 
@@ -481,10 +480,9 @@ require( "slick-carousel/slick/slick-theme.css" );
     // 商品一覧時
     if ( eccube.hasOwnProperty( "productsClassCategories" ) ) {
       classcat2 = eccube.productsClassCategories[ product_id ][ classcat_id1 ][ `#${classcat_id2}` ];
-    }
+    } else {
 
-    // 詳細表示時
-    else {
+      // 詳細表示時
       classcat2 = eccube.classCategories[ classcat_id1 ][ `#${classcat_id2}` ];
     }
 
@@ -546,7 +544,8 @@ require( "slick-carousel/slick/slick-theme.css" );
 
     // 商品規格
     const $product_class_id_dynamic = $form.find( "[id^=product_class_id]" );
-    if ( classcat2 && typeof classcat2.product_class_id !== "undefined" && String( classcat2.product_class_id ).length >= 1 ) {
+    if ( classcat2 && typeof classcat2.product_class_id !== "undefined" &&
+         String( classcat2.product_class_id ).length >= 1 ) {
       $product_class_id_dynamic.val( classcat2.product_class_id );
     } else {
       $product_class_id_dynamic.val( "" );

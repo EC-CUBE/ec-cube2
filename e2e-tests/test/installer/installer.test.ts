@@ -55,12 +55,12 @@ test.describe.serial('インストーラのテストをします', () => {
 
   test('step2 - データベースの設定をします', async () => {
     await expect(page.locator('h2').first()).toHaveText('データベースの設定');
-    const DB = process.env.DB_TYPE == 'mysql' ? 'MySQL' : 'PostgreSQL';
-    let DB_SERVER = process.env.DB_SERVER;
-    let DB_PORT = process.env.DB_PORT;
-    let DB_NAME = process.env.DB_NAME || 'eccube_db';
-    let DB_USER = process.env.DB_USER || 'eccube_db_user';
-    let DB_PASSWORD = process.env.DB_PASSWORD || 'password';
+    const DB = process.env.DB_TYPE === 'mysql' ? 'MySQL' : 'PostgreSQL';
+    const DB_SERVER = process.env.DB_SERVER;
+    const DB_PORT = process.env.DB_PORT;
+    const DB_NAME = process.env.DB_NAME || 'eccube_db';
+    const DB_USER = process.env.DB_USER || 'eccube_db_user';
+    const DB_PASSWORD = process.env.DB_PASSWORD || 'password';
     await page.selectOption('select[name=db_type]', { label: DB });
     await page.fill('input[name=db_server]', DB_SERVER ?? 'postgres');
     await page.fill('input[name=db_port]', DB_PORT ?? '5432');
