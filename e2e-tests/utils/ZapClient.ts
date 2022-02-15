@@ -1,4 +1,5 @@
 const ClientApi = require('zaproxy');
+import PlaywrightConfig from '../../playwright.config';
 export const Mode = {
   Safe: 'safe',
   Protect: 'protect',
@@ -76,8 +77,8 @@ export class ZapClient {
   private proxy: string;
   private readonly zaproxy;
 
-  constructor(proxy?: string, apiKey?: string | null) {
-    this.proxy = proxy != undefined ? proxy : `http://${process.env.HTTP_PROXY}`;
+  constructor(proxy?: string | null, apiKey?: string | null) {
+    this.proxy = proxy ?? PlaywrightConfig.use.proxy.server;
     this.apiKey = apiKey != undefined ? apiKey : null;
     this.zaproxy = new ClientApi({
       apiKey: this.apiKey,

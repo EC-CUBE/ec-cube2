@@ -1,4 +1,5 @@
 import { test, expect, chromium, Page, request, APIRequestContext } from '@playwright/test';
+import PlaywrightConfig from '../../../playwright.config';
 import * as faker from 'faker/locale/ja';
 import * as fakerEN from 'faker/locale/en_US';
 import { addYears } from 'date-fns';
@@ -13,9 +14,7 @@ test.describe.serial('会員登録のテストをします', () => {
     const browser = await chromium.launch();
     mailcatcher = await request.newContext({
       baseURL: 'http://mailcatcher:1080',
-      proxy: {
-        server: process.env.HTTP_PROXY
-      }
+      proxy: PlaywrightConfig.use.proxy
     });
     await mailcatcher.delete('/messages');
 
