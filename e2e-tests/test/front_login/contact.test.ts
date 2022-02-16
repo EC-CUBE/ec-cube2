@@ -1,4 +1,5 @@
 import { test, expect, chromium, Page } from '@playwright/test';
+import PlaywrightConfig from '../../../playwright.config';
 import { ZapClient, Mode, ContextType, Risk, HttpMessage } from '../../utils/ZapClient';
 import { intervalRepeater } from '../../utils/Progress';
 const zapClient = new ZapClient();
@@ -8,8 +9,7 @@ const inputNames = [
   'tel01', 'tel02', 'tel03'
 ] as const;
 
-const baseURL = 'https://ec-cube';
-const url = baseURL + '/contact/index.php';
+const url = `${PlaywrightConfig.use.baseURL}/contact/index.php`;
 
 test.describe.serial('お問い合わせページのテストをします', () => {
   let page: Page;
@@ -46,7 +46,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
   });
 
   test('ログイン状態を確認します', async () => {
-    await page.goto(baseURL);       // ログアウトしてしまう場合があるので一旦トップへ遷移する
+    await page.goto(PlaywrightConfig.use.baseURL);       // ログアウトしてしまう場合があるので一旦トップへ遷移する
     await page.goto(url);
     await expect(page.locator('#header')).toContainText('ようこそ');
     inputNames.forEach(async (name) => expect(page.locator(`input[name=${name}]`)).not.toBeEmpty());

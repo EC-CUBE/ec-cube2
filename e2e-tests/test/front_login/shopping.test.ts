@@ -1,5 +1,5 @@
 import { test, expect, chromium, Page, request, APIRequestContext } from '@playwright/test';
-
+import PlaywrightConfig from '../../../playwright.config';
 import { ZapClient, Mode, ContextType } from '../../utils/ZapClient';
 const zapClient = new ZapClient();
 
@@ -18,11 +18,9 @@ test.describe.serial('購入フロー(ログイン)のテストをします', ()
       expect(await zapClient.isForcedUserModeEnabled()).toBeTruthy();
     }
     const browser = await chromium.launch();
-        mailcatcher = await request.newContext({
+    mailcatcher = await request.newContext({
       baseURL: 'http://mailcatcher:1080',
-      proxy: {
-        server: process.env.HTTP_PROXY
-      }
+      proxy: PlaywrightConfig.use.proxy
     });
     await mailcatcher.delete('/messages');
 
