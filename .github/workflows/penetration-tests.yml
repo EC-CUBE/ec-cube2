@@ -12,6 +12,7 @@ jobs:
       matrix:
         group:
           - 'test/front_login/contact.test.ts'
+          - 'test/front_login/cart/cart.test.ts'
 
     steps:
     - name: Checkout
