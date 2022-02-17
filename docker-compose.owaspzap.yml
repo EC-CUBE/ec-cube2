@@ -6,6 +6,7 @@ services:
       # Use Zap Proxy
       HTTP_URL: https://ec-cube/
       HTTPS_URL: https://ec-cube/
+      USE_FILENAME_DIR_INDEX: 1
   zap:
     build:
       context: ./zap
