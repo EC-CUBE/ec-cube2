@@ -4,7 +4,6 @@ import { ZapClient, Mode, ContextType, Risk, HttpMessage } from '../../../utils/
 import { intervalRepeater } from '../../../utils/Progress';
 const zapClient = new ZapClient();
 
-// XXX define.php で USE_FILENAME_DIR_INDEX = true にしないと Active Scan が動作しない
 const url = `${PlaywrightConfig.use.baseURL}/cart/index.php`;
 
 test.describe.serial('カートページのテストをします', () => {
