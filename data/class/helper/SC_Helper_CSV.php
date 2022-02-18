@@ -386,7 +386,8 @@ class SC_Helper_CSV
  */
 class php_user_filter_lf2crlf extends php_user_filter
 {
-    function filter($in, $out, &$consumed, $closing)
+    #[\ReturnTypeWillChange]
+    public function filter($in, $out, &$consumed, $closing)
     {
         while ($bucket = stream_bucket_make_writeable($in)) {
             $bucket->data = preg_replace("/[\r\n]+$/", "\r\n", $bucket->data);
