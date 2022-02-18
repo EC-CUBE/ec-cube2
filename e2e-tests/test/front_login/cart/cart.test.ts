@@ -11,7 +11,7 @@ test.describe.serial('カートページのテストをします', () => {
   let page: Page;
   test.beforeAll(async () => {
     await zapClient.setMode(Mode.Protect);
-    await zapClient.newSession('/zap/wrk/sessions/front_login_contact', true);
+    await zapClient.newSession('/zap/wrk/sessions/front_login_cart', true);
     await zapClient.importContext(ContextType.FrontLogin);
 
     if (!await zapClient.isForcedUserModeEnabled()) {
@@ -129,13 +129,9 @@ test.describe.serial('カートページのテストをします', () => {
   });
 
   test('カートを削除します', async () => {
-    test.fixme(true, 'Chromium のバグ?の影響でカートが削除できない');
-    let popup: Page;
+    page.on('dialog', dialog => dialog.accept());
     await page.reload();
-    [ popup ] = await Promise.all([
-      page.waitForEvent('popup'),
-      page.click('table[summary=商品情報] >> tr >> nth=1 >> td >> nth=0 >> text=削除')
-    ]);
+    await page.click('table[summary=商品情報] >> tr >> nth=1 >> td >> nth=0 >> text=削除');
     await expect(page.locator('#undercolumn_cart >> span.attention')).toContainText('※ 現在カート内に商品はございません。');
   });
 });
