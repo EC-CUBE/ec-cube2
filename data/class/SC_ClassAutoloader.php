@@ -63,6 +63,12 @@ class SC_ClassAutoloader
 
         $classpath .= "$class.php";
 
+        if ($is_ex) {
+            // *_Ex ファイルが存在しない場合は、元クラスのエイリアスとする
+            if (!file_exists($classpath)) {
+                class_alias(preg_replace('/_Ex$/', '', $class), $class);
+            }
+        }
         // プラグイン向けフックポイント
         // MEMO: プラグインのローダーがDB接続を必要とするため、SC_Queryがロードされた後のみ呼び出される。
         //       プラグイン情報のキャッシュ化が行われれば、全部にフックさせることを可能に？
