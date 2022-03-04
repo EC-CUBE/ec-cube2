@@ -127,10 +127,29 @@ test.describe.serial('カートページのテストをします', () => {
     });
   });
 
-  test('カートを削除します', async () => {
-    page.on('dialog', dialog => dialog.accept());
-    await page.reload();
-    await page.click('table[summary=商品情報] >> tr >> nth=1 >> td >> nth=0 >> text=削除');
-    await expect(page.locator('#undercolumn_cart >> span.attention')).toContainText('※ 現在カート内に商品はございません。');
+  test('購入手続きへ進みます', async () => {
+    await page.goto(url);
+    await page.click('input[name=confirm][alt=購入手続きへ]');
+    await expect(page.locator('h2.title')).toContainText('お届け先の指定');
+  });
+
+  test.describe('購入手続きへ進むテストを実行します[POST] @attack', () => {
+    let message: HttpMessage;
+    test('履歴を取得します', async () => {
+      message = await zapClient.getLastMessage(url);
+      expect(message.requestHeader).toContain(`POST ${url}`);
+      expect(message.responseHeader).toContain('HTTP/1.1 302 Found');
+    });
+
+    let scanId: number;
+    test('アクティブスキャンを実行します', async () => {
+      scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', message.requestBody);
+      await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
+    });
+
+    test('結果を確認します', async () => {
+      await zapClient.getAlerts(url, 0, 1, Risk.High)
+        .then(alerts => expect(alerts).toEqual([]));
+    });
   });
 });
