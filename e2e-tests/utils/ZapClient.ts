@@ -156,4 +156,22 @@ export class ZapClient {
     const result = await this.zaproxy.core.alerts(url, start, count, riskid);
     return result.alerts;
   }
+
+  public async startSession(contextType: ContextType, sessionName: string): Promise<void> {
+    await this.setMode(Mode.Protect);
+    await this.newSession(`/zap/wrk/sessions/${sessionName}`, true);
+    await this.importContext(contextType);
+
+    switch (contextType) {
+      case ContextType.Admin:
+      case ContextType.FrontLogin:
+        if (!await this.isForcedUserModeEnabled()) {
+          await this.setForcedUserModeEnabled();
+        }
+        break;
+
+      default:
+      case ContextType.FrontGuest:
+    }
+  }
 }
