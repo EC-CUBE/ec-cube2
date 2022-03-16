@@ -1,7 +1,7 @@
 import { test, expect, chromium, Page, request, APIRequestContext } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
-import * as faker from 'faker/locale/ja';
-import * as fakerEN from 'faker/locale/en_US';
+import * as faker from '@faker-js/faker/locale/ja';
+import * as fakerEN from '@faker-js/faker/locale/en_US';
 import { addYears } from 'date-fns';
 
 const url = '/entry/kiyaku.php';
