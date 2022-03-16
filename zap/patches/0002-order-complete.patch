@@ -24,24 +24,24 @@ index add3a0555..21a68718e 100644
              // 一時カートのクリア
 -            unset($_SESSION[$this->key_tmp]);
 +            // unset($_SESSION[$this->key_tmp]);
-             $this->cartSession[$productTypeId]['cancel_purchase'] = true;
+             $this->cartSession[$product_type_id]['cancel_purchase'] = true;
          } else {
-             $this->cartSession[$productTypeId]['cancel_purchase'] = false;
+             $this->cartSession[$product_type_id]['cancel_purchase'] = false;
 @@ -508,7 +508,7 @@ class SC_CartSession
      {
-         $max = $this->getMax($productTypeId);
+         $max = $this->getMax($product_type_id);
          for ($i = 0; $i <= $max; $i++) {
--            unset($this->cartSession[$productTypeId][$i]);
-+            // unset($this->cartSession[$productTypeId][$i]);
+-            unset($this->cartSession[$product_type_id][$i]);
++            // unset($this->cartSession[$product_type_id][$i]);
          }
      }
  
 @@ -518,7 +518,7 @@ class SC_CartSession
-         $max = $this->getMax($productTypeId);
+         $max = $this->getMax($product_type_id);
          for ($i = 0; $i <= $max; $i++) {
-             if ($this->cartSession[$productTypeId][$i]['cart_no'] == $cart_no) {
--                unset($this->cartSession[$productTypeId][$i]);
-+                // unset($this->cartSession[$productTypeId][$i]);
+             if ($this->cartSession[$product_type_id][$i]['cart_no'] == $cart_no) {
+-                unset($this->cartSession[$product_type_id][$i]);
++                // unset($this->cartSession[$product_type_id][$i]);
              }
          }
      }
