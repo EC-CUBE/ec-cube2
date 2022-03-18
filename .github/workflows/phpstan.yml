@@ -35,7 +35,7 @@ jobs:
     - name: Setup PHP
       uses: nanasess/setup-php@master
       with:
-        php-version: '8.0'
+        php-version: '8.1'
     - name: composer install
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 暫定対応

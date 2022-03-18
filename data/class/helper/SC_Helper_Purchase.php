@@ -85,7 +85,7 @@ class SC_Helper_Purchase
         $cartkey = $objCartSession->getKey();
         $order_id = $this->registerOrderComplete($orderTemp, $objCartSession, $cartkey);
         $isMultiple = SC_Helper_Purchase::isMultiple();
-        $shippingTemp =& $this->getShippingTemp($isMultiple);
+        $shippingTemp = &$this->getShippingTemp($isMultiple);
         foreach ($shippingTemp as $shippingId => $val) {
             $this->registerShipmentItem($order_id, $shippingId, $val['shipment_item']);
         }
@@ -137,9 +137,14 @@ class SC_Helper_Purchase
 
         $arrOrderDetail = static::getOrderDetail($order_id);
         foreach ($arrOrderDetail as $arrDetail) {
-            $objQuery->update('dtb_products_class', array(),
-                              'product_class_id = ?', array($arrDetail['product_class_id']),
-                              array('stock' => 'stock + ?'), array($arrDetail['quantity']));
+            $objQuery->update(
+                'dtb_products_class',
+                array(),
+                'product_class_id = ?',
+                array($arrDetail['product_class_id']),
+                array('stock' => 'stock + ?'),
+                array($arrDetail['quantity'])
+            );
         }
         if (!$in_transaction) {
             $objQuery->commit();
@@ -364,7 +369,7 @@ class SC_Helper_Purchase
     public function setShipmentItemTemp($shipping_id, $product_class_id, $quantity)
     {
         // 配列が長くなるので, リファレンスを使用する
-        $arrItems =& $_SESSION['shipping'][$shipping_id]['shipment_item'][$product_class_id];
+        $arrItems = &$_SESSION['shipping'][$shipping_id]['shipment_item'][$product_class_id];
 
         $arrItems['shipping_id'] = $shipping_id;
         $arrItems['product_class_id'] = $product_class_id;
@@ -381,12 +386,15 @@ class SC_Helper_Purchase
         */
 
         if (empty($arrItems['productsClass'])) {
-            $product =& $objProduct->getDetailAndProductsClass($product_class_id);
+            $product = &$objProduct->getDetailAndProductsClass($product_class_id);
             $arrItems['productsClass'] = $product;
         }
         $arrItems['price'] = $arrItems['productsClass']['price02'];
-        $inctax = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrItems['price'], $arrItems['productsClass']['product_id'],
-                                                     $arrItems['productsClass']['product_class_id']);
+        $inctax = SC_Helper_TaxRule_Ex::sfCalcIncTax(
+            $arrItems['price'],
+            $arrItems['productsClass']['product_id'],
+            $arrItems['productsClass']['product_class_id']
+        );
         $arrItems['total_inctax'] = $inctax * $arrItems['quantity'];
     }
 
@@ -483,8 +491,12 @@ class SC_Helper_Purchase
      * @param  array       $keys        コピー対象のキー
      * @return void
      */
-    public static function copyFromCustomer(&$dest, &$objCustomer, $prefix = 'order',
-        $keys = array('name01', 'name02', 'kana01', 'kana02', 'company_name',
+    public static function copyFromCustomer(
+        &$dest,
+        &$objCustomer,
+        $prefix = 'order',
+        $keys = array(
+            'name01', 'name02', 'kana01', 'kana02', 'company_name',
             'sex', 'zip01', 'zip02', 'country_id', 'zipcode', 'pref', 'addr01', 'addr02',
             'tel01', 'tel02', 'tel03', 'fax01', 'fax02', 'fax03',
             'job', 'birth', 'email',
@@ -564,11 +576,11 @@ class SC_Helper_Purchase
     /**
      * お届け日一覧を取得する.
      * @param SC_CartSession $objCartSess
-     * @param integer $productTypeId
+     * @param integer $product_type_id
      */
-    public function getDelivDate(&$objCartSess, $productTypeId)
+    public function getDelivDate(&$objCartSess, $product_type_id)
     {
-        $cartList = $objCartSess->getCartList($productTypeId);
+        $cartList = $objCartSess->getCartList($product_type_id);
         $delivDateIds = array();
         foreach ($cartList as $item) {
             $delivDateIds[] = $item['productsClass']['deliv_date_id'];
@@ -576,7 +588,7 @@ class SC_Helper_Purchase
         $max_date = max($delivDateIds);
         //発送目安
         switch ($max_date) {
-            //即日発送
+                //即日発送
             case '1':
                 $start_day = 1;
                 break;
@@ -673,8 +685,10 @@ class SC_Helper_Purchase
             $arrValues = $objQuery->extractOnlyColsOf($table, $arrShipping);
 
             // 配送日付を timestamp に変換
-            if (!SC_Utils_Ex::isBlank($arrValues['shipping_date'])
-                && $convert_shipping_date) {
+            if (
+                !SC_Utils_Ex::isBlank($arrValues['shipping_date'])
+                && $convert_shipping_date
+            ) {
                 $d = mb_strcut($arrValues['shipping_date'], 0, 10);
                 $arrDate = explode('/', $d);
                 $ts = mktime(0, 0, 0, $arrDate[1], $arrDate[2], $arrDate[0]);
@@ -767,8 +781,10 @@ class SC_Helper_Purchase
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 不要な変数を unset
-        $unsets = array('mailmaga_flg', 'deliv_check', 'point_check', 'password',
-                        'reminder', 'reminder_answer', 'mail_flag', 'session');
+        $unsets = array(
+            'mailmaga_flg', 'deliv_check', 'point_check', 'password',
+            'reminder', 'reminder_answer', 'mail_flag', 'session'
+        );
         foreach ($unsets as $unset) {
             unset($orderParams[$unset]);
         }
@@ -792,7 +808,7 @@ class SC_Helper_Purchase
         $i = 0;
         $arrDetail = array();
         foreach ($cartItems as $item) {
-            $p =& $item['productsClass'];
+            $p = &$item['productsClass'];
             $arrDetail[$i]['order_id'] = $orderParams['order_id'];
             $arrDetail[$i]['product_id'] = $p['product_id'];
             $arrDetail[$i]['product_class_id'] = $p['product_class_id'];
@@ -816,9 +832,12 @@ class SC_Helper_Purchase
         }
         $this->registerOrderDetail($orderParams['order_id'], $arrDetail);
 
-        $objQuery->update('dtb_order_temp', array('del_flg' => 1),
-                          'order_temp_id = ?',
-                          array(SC_SiteSession_Ex::getUniqId()));
+        $objQuery->update(
+            'dtb_order_temp',
+            array('del_flg' => 1),
+            'order_temp_id = ?',
+            array(SC_SiteSession_Ex::getUniqId())
+        );
 
         return $orderParams['order_id'];
     }
@@ -842,10 +861,13 @@ class SC_Helper_Purchase
 
         $exists = $objQuery->exists($table, $where, array($order_id));
         if ($exists) {
-            static::sfUpdateOrderStatus($order_id, $arrValues['status'],
-                                       $arrValues['add_point'],
-                                       $arrValues['use_point'],
-                                       $arrValues);
+            static::sfUpdateOrderStatus(
+                $order_id,
+                $arrValues['status'],
+                $arrValues['add_point'],
+                $arrValues['use_point'],
+                $arrValues
+            );
             static::sfUpdateOrderNameCol($order_id);
 
             $arrValues['update_date'] = 'CURRENT_TIMESTAMP';
@@ -862,16 +884,19 @@ class SC_Helper_Purchase
             $arrValues['status'] = null;
             $arrValues['order_id'] = $order_id;
             $arrValues['customer_id'] =
-                    SC_Utils_Ex::isBlank($arrValues['customer_id'])
-                    ? 0 : $arrValues['customer_id'];
+                SC_Utils_Ex::isBlank($arrValues['customer_id'])
+                ? 0 : $arrValues['customer_id'];
             $arrValues['create_date'] = 'CURRENT_TIMESTAMP';
             $arrValues['update_date'] = 'CURRENT_TIMESTAMP';
             $objQuery->insert($table, $arrValues);
 
-            static::sfUpdateOrderStatus($order_id, $status,
-                                       $arrValues['add_point'],
-                                       $arrValues['use_point'],
-                                       $arrValues);
+            static::sfUpdateOrderStatus(
+                $order_id,
+                $status,
+                $arrValues['add_point'],
+                $arrValues['use_point'],
+                $arrValues
+            );
             static::sfUpdateOrderNameCol($order_id);
         }
 
@@ -993,9 +1018,11 @@ __EOS__;
             // 販売価格が 0 円
             if ($arrOrderDetail[$key]['price'] == '0') {
                 $arrOrderDetail[$key]['is_downloadable'] = true;
-            // ダウンロード期限内かつ, 入金日あり
-            } elseif ($arrOrderDetail[$key]['effective'] == '1'
-                    && !SC_Utils_Ex::isBlank($arrOrderDetail[$key]['payment_date'])) {
+                // ダウンロード期限内かつ, 入金日あり
+            } elseif (
+                $arrOrderDetail[$key]['effective'] == '1'
+                && !SC_Utils_Ex::isBlank($arrOrderDetail[$key]['payment_date'])
+            ) {
                 $arrOrderDetail[$key]['is_downloadable'] = true;
             } else {
                 $arrOrderDetail[$key]['is_downloadable'] = false;
@@ -1015,8 +1042,12 @@ __EOS__;
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrResults = array();
         $objQuery->setOrder('shipping_id');
-        $arrShippings = $objQuery->select('*', 'dtb_shipping', 'order_id = ?',
-                                          array($order_id));
+        $arrShippings = $objQuery->select(
+            '*',
+            'dtb_shipping',
+            'order_id = ?',
+            array($order_id)
+        );
         // shipping_id ごとの配列を生成する
         foreach ($arrShippings as $shipping) {
             foreach ($shipping as $key => $val) {
@@ -1027,7 +1058,7 @@ __EOS__;
         if ($has_items) {
             foreach ($arrResults as $shipping_id => $value) {
                 $arrResults[$shipping_id]['shipment_item']
-                        =& $this->getShipmentItems($order_id, $shipping_id);
+                    = &$this->getShipmentItems($order_id, $shipping_id);
             }
         }
 
@@ -1048,12 +1079,14 @@ __EOS__;
         $objProduct = new SC_Product_Ex();
         $arrResults = array();
         $objQuery->setOrder('order_detail_id');
-        $arrItems = $objQuery->select('dtb_shipment_item.*',
-                                      'dtb_shipment_item JOIN dtb_order_detail
+        $arrItems = $objQuery->select(
+            'dtb_shipment_item.*',
+            'dtb_shipment_item JOIN dtb_order_detail
                                            ON dtb_shipment_item.product_class_id = dtb_order_detail.product_class_id
                                            AND dtb_shipment_item.order_id = dtb_order_detail.order_id',
-                                      'dtb_order_detail.order_id = ? AND shipping_id = ?',
-                                      array($order_id, $shipping_id));
+            'dtb_order_detail.order_id = ? AND shipping_id = ?',
+            array($order_id, $shipping_id)
+        );
 
         foreach ($arrItems as $key => $arrItem) {
             $product_class_id = $arrItem['product_class_id'];
@@ -1064,7 +1097,7 @@ __EOS__;
             // 商品詳細を関連づける
             if ($has_detail) {
                 $arrResults[$key]['productsClass']
-                    =& $objProduct->getDetailAndProductsClass($product_class_id);
+                    = &$objProduct->getDetailAndProductsClass($product_class_id);
             }
         }
 
@@ -1162,9 +1195,14 @@ __EOS__;
 
             if ($addCustomerPoint != 0) {
                 // ▼会員テーブルの更新
-                $objQuery->update('dtb_customer', array('update_date' => 'CURRENT_TIMESTAMP'),
-                                  'customer_id = ?', array($arrOrderOld['customer_id']),
-                                  array('point' => 'point + ?'), array($addCustomerPoint));
+                $objQuery->update(
+                    'dtb_customer',
+                    array('update_date' => 'CURRENT_TIMESTAMP'),
+                    'customer_id = ?',
+                    array($arrOrderOld['customer_id']),
+                    array('point' => 'point + ?'),
+                    array($addCustomerPoint)
+                );
                 // ▲会員テーブルの更新
 
                 // 会員.ポイントをマイナスした場合、
@@ -1194,7 +1232,7 @@ __EOS__;
         // 対応状況が発送済みに変更の場合、発送日を更新
         if ($arrOrderOld['status'] != ORDER_DELIV && $newStatus == ORDER_DELIV) {
             $sqlval['commit_date'] = 'CURRENT_TIMESTAMP';
-        // 対応状況が入金済みに変更の場合、入金日を更新
+            // 対応状況が入金済みに変更の場合、入金日を更新
         } elseif ($arrOrderOld['status'] != ORDER_PRE_END && $newStatus == ORDER_PRE_END) {
             $sqlval['payment_date'] = 'CURRENT_TIMESTAMP';
         }
@@ -1236,17 +1274,23 @@ __EOS__;
                 WHERE time_id = dtb_shipping.time_id
                     AND deliv_id = (SELECT dtb_order.deliv_id FROM dtb_order WHERE order_id = dtb_shipping.order_id)
 __EOS__;
-            $objQuery->update('dtb_shipping', array(),
-                              $sql_where,
-                              array($order_id),
-                              array('shipping_time' => "($sql_sub)"));
+            $objQuery->update(
+                'dtb_shipping',
+                array(),
+                $sql_where,
+                array($order_id),
+                array('shipping_time' => "($sql_sub)")
+            );
         }
 
-        $objQuery->update($tgt_table, array(),
-                          $sql_where,
-                          array($order_id),
-                          array('payment_method' =>
-                                '(SELECT payment_method FROM dtb_payment WHERE payment_id = ' . $tgt_table . '.payment_id)'));
+        $objQuery->update(
+            $tgt_table,
+            array(),
+            $sql_where,
+            array($order_id),
+            array('payment_method' =>
+            '(SELECT payment_method FROM dtb_payment WHERE payment_id = ' . $tgt_table . '.payment_id)')
+        );
     }
 
     /**
@@ -1342,7 +1386,7 @@ __EOS__;
 
         $this->clearShipmentItemTemp();
 
-        $arrCartList =& $objCartSession->getCartList($objCartSess->getKey());
+        $arrCartList = &$objCartSession->getCartList($objCartSess->getKey());
         foreach ($arrCartList as $arrCartRow) {
             if ($arrCartRow['quantity'] == 0) continue;
             $this->setShipmentItemTemp($shipping_id, $arrCartRow['id'], $arrCartRow['quantity']);

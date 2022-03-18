@@ -147,7 +147,9 @@ class SC_Initial
             ini_set('mbstring.http_input', CHAR_CODE);
             ini_set('mbstring.http_output', CHAR_CODE);
         }
-        ini_set('auto_detect_line_endings', 1);
+        if (PHP_VERSION_ID < 80100) {
+            ini_set('auto_detect_line_endings', 1);
+        }
         ini_set('default_charset', CHAR_CODE);
         ini_set('mbstring.detect_order', 'auto');
         ini_set('mbstring.substitute_character', 'none');

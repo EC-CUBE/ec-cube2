@@ -1,5 +1,5 @@
 import { test, expect, chromium, Page } from '@playwright/test';
-import * as faker from 'faker';
+import * as faker from '@faker-js/faker/locale/en';
 
 const baseURL = 'https://ec-cube';
 const url = baseURL + '/install/';
