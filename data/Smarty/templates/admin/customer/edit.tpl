@@ -267,7 +267,7 @@
         </div>
 
         <input type="hidden" name="order_id" value="" />
-        <input type="hidden" name="search_pageno" value="<!--{$tpl_pageno}-->" />
+        <input type="hidden" name="search_pageno" value="<!--{$tpl_pageno|h}-->" />
         <input type="hidden" name="edit_customer_id" value="<!--{$edit_customer_id|h}-->" />
 
         <h2>購入履歴一覧</h2>

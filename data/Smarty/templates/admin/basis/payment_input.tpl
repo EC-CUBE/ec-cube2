@@ -79,10 +79,10 @@
                         <!--{assign var=key value="payment_image"}-->
                         <span class="attention"><!--{$arrErr[$key]}--></span>
                         <!--{if $arrFile[$key].filepath != ""}-->
-                        <img src="<!--{$arrFile[$key].filepath}-->" alt="<!--{$arrForm.name|h}-->">　<br /><a href="" onclick="eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key}-->'); return false;">[画像の取り消し]</a><br />
+                        <img src="<!--{$arrFile[$key].filepath|h}-->" alt="<!--{$arrForm.name|h}-->">　<br /><a href="" onclick="eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key|h}-->'); return false;">[画像の取り消し]</a><br />
                         <!--{/if}-->
-                        <input type="file" name="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" />
-                        <a class="btn-normal" href="javascript:;" name="btn" onclick="eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key}-->'); return false;">アップロード</a>
+                        <input type="file" name="<!--{$key|h}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" />
+                        <a class="btn-normal" href="javascript:;" name="btn" onclick="eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key|h}-->'); return false;">アップロード</a>
                     </td>
                 </tr>
             </table>

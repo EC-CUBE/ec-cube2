@@ -44,7 +44,7 @@
                 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
                 <input type="hidden" name="mode" value="" />
                 <input type="hidden" name="other_deliv_id" value="" />
-                <input type="hidden" name="pageno" value="<!--{$tpl_pageno}-->" />
+                <input type="hidden" name="pageno" value="<!--{$tpl_pageno|h}-->" />
 
                 <table summary="お届け先">
                 <col width="5%" />

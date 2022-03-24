@@ -245,7 +245,7 @@
                                     <label for="point_on">ポイントを使用する</label>
                                 </p>
                                 <!--{assign var=key value="use_point"}-->
-                                <p class="check_point"><input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|default:$tpl_user_point}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="box_point data-role-none" />ポイントを使用する。<span class="attention"><!--{$arrErr[$key]}--></span></p>
+                                <p class="check_point"><input type="text" name="<!--{$key|h}-->" value="<!--{$arrForm[$key].value|h|default:$tpl_user_point}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="box_point data-role-none" />ポイントを使用する。<span class="attention"><!--{$arrErr[$key]}--></span></p>
                             </div>
                         <div class="innerBox fb">
                             <input type="radio" id="point_off" name="point_check" value="2" <!--{$arrForm.point_check.value|sfGetChecked:2}--> onchange="eccube.togglePointForm();" class="data-role-none" />

@@ -82,7 +82,7 @@ function fnTargetSelf(){
                 <label for="footer-chk"><input type="checkbox" name="footer_chk" id="footer-chk" value="1" <!--{if $arrForm.footer_chk.value == "1"}-->checked="checked"<!--{/if}--> />共通のフッターを使用する</label>
                 <div>
                     <textarea id="tpl_data" class="top" name="tpl_data" rows="<!--{$text_row}-->" style="width: 98%;"><!--{"\n"}--><!--{$arrForm.tpl_data.value|h nofilter}--></textarea>
-                    <input type="hidden" name="html_area_row" value="<!--{$text_row}-->" /><br />
+                    <input type="hidden" name="html_area_row" value="<!--{$text_row|h}-->" /><br />
                     <a id="resize-btn" class="btn-normal" href="javascript:;" onclick="eccube.toggleRows('#resize-btn', '#tpl_data', 50, 13); return false;"><span>拡大</span></a>
                 </div>
             </td>

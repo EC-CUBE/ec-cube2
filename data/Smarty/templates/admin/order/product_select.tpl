@@ -205,7 +205,7 @@
                                 </dd>
                             </dl>
                             <!--{else}-->
-                            <input type="hidden" name="classcategory_id1" id="<!--{$class1}-->" value="" />
+                            <input type="hidden" name="classcategory_id1" id="<!--{$class1|h}-->" value="" />
                             <!--{/if}-->
 
                             <!--{if $tpl_classcat_find2[$id]}-->
@@ -219,7 +219,7 @@
                                 </dd>
                             </dl>
                             <!--{else}-->
-                            <input type="hidden" name="classcategory_id2" id="<!--{$class2}-->" value="" />
+                            <input type="hidden" name="classcategory_id2" id="<!--{$class2|h}-->" value="" />
                             <!--{/if}-->
 
                             <!--{if !$tpl_stock_find[$id]}-->

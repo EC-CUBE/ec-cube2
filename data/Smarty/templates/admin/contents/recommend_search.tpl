@@ -58,11 +58,11 @@ function func_submit( id ){
         </tr>
         <tr>
             <th>商品コード</th>
-            <td><input type="text" name="search_product_code" value="<!--{$arrForm.search_product_code}-->" size="35" class="box35" /></td>
+            <td><input type="text" name="search_product_code" value="<!--{$arrForm.search_product_code|h}-->" size="35" class="box35" /></td>
         </tr>
         <tr>
             <th>商品名</th>
-            <td><input type="text" name="search_name" value="<!--{$arrForm.search_name}-->" size="35" class="box35" /></td>
+            <td><input type="text" name="search_name" value="<!--{$arrForm.search_name|h}-->" size="35" class="box35" /></td>
         </tr>
         <tr>
             <th>商品ステータス</th>
