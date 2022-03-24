@@ -189,25 +189,25 @@
                                 <span class="attention"><!--{$arrErr[$plugin.plugin_code]}--></span>
                                 <!-- 設定 -->
                                     <!--{if $plugin.config_flg == true && $plugin.status != $smarty.const.PLUGIN_STATUS_UPLOADED}-->
-                                        <a href="?" onclick="eccube.openWindow('../load_plugin_config.php?plugin_id=<!--{$plugin.plugin_id}-->', 'load', 615, 400);return false;">プラグイン設定</a>&nbsp;|&nbsp;
+                                        <a href="?" onclick="eccube.openWindow('../load_plugin_config.php?plugin_id=<!--{$plugin.plugin_id|h}-->', 'load', 615, 400);return false;">プラグイン設定</a>&nbsp;|&nbsp;
                                     <!--{else}-->
                                         <span>プラグイン設定&nbsp;|&nbsp;</span>
                                     <!--{/if}-->
                                 <!-- アップデート -->
-                                    <a class="update_link" href="javascript:;" name="<!--{$plugin.plugin_id}-->">アップデート</a>&nbsp;|&nbsp;
+                                    <a class="update_link" href="javascript:;" name="<!--{$plugin.plugin_id|h}-->">アップデート</a>&nbsp;|&nbsp;
                                 <!-- 削除 -->
-                                    <a  href="javascript:;" name="uninstall" onclick="uninstall(<!--{$plugin.plugin_id}-->, '<!--{$plugin.plugin_code}-->'); return false;">削除</a>&nbsp;|&nbsp;
+                                    <a  href="javascript:;" name="uninstall" onclick="uninstall(<!--{$plugin.plugin_id|h}-->, '<!--{$plugin.plugin_code}-->'); return false;">削除</a>&nbsp;|&nbsp;
                                 <!-- 有効/無効 -->
                                     <!--{if $plugin.enable == $smarty.const.PLUGIN_ENABLE_TRUE}-->
-                                        <label><input id="plugin_enable" type="checkbox" name="disable" value="<!--{$plugin.plugin_id}-->" checked="checked" />有効</label><br/>
+                                        <label><input id="plugin_enable" type="checkbox" name="disable" value="<!--{$plugin.plugin_id|h}-->" checked="checked" />有効</label><br/>
                                     <!--{else}-->
-                                        <label><input id="plugin_enable" type="checkbox" name="enable" value="<!--{$plugin.plugin_id}-->" />有効にする</label><br/>
+                                        <label><input id="plugin_enable" type="checkbox" name="enable" value="<!--{$plugin.plugin_id|h}-->" />有効にする</label><br/>
                                     <!--{/if}-->
 
                                     <!-- アップデートリンク押下時に表示する. -->
                                     <div id="plugin_update_<!--{$plugin.plugin_id}-->" style="display: none">
                                         <input id="update_file_<!--{$plugin.plugin_id}-->" name="<!--{$plugin.plugin_code}-->" type="file" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="box30" size="30" <!--{if $arrErr[$key]}-->style="background-color:<!--{$smarty.const.ERR_COLOR|h}-->"<!--{/if}--> />
-                                        <a class="btn-action" href="javascript:;" onclick="update(<!--{$plugin.plugin_id}-->, '<!--{$plugin.plugin_code}-->'); return false;"><span class="btn-next">アップデート</span></a>
+                                        <a class="btn-action" href="javascript:;" onclick="update(<!--{$plugin.plugin_id|h}-->, '<!--{$plugin.plugin_code}-->'); return false;"><span class="btn-next">アップデート</span></a>
                                     </div>
                             </div>
                     </td>
@@ -215,7 +215,7 @@
                     <td class="center">
                         <span class="attention"><!--{$arrErr.priority[$plugin.plugin_id]}--></span>
                         <input type="text" class="center" name="priority_<!--{$plugin.plugin_code}-->" value="<!--{$plugin.priority|h}-->" size="1" />
-                        <a class="btn-action" href="javascript:;" onclick="update_priority(<!--{$plugin.plugin_id}-->, '<!--{$plugin.plugin_code}-->'); return false;"><span class="btn-next">変更</span></a><br/>
+                        <a class="btn-action" href="javascript:;" onclick="update_priority(<!--{$plugin.plugin_id|h}-->, '<!--{$plugin.plugin_code}-->'); return false;"><span class="btn-next">変更</span></a><br/>
                         <span><!--{$plugin.priority_message}--></span>
                     </td>
                 </tr>

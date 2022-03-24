@@ -97,13 +97,13 @@
                             <td align="center">
                             <!--{* 移動 *}-->
                             <!--{if !(count($arrProductsList) == 1 && $rank == 1)}-->
-                            <input type="text" name="pos-<!--{$arrProductsList[cnt].product_id}-->" size="3" class="box3" />番目へ<a href="?" onclick="eccube.setModeAndSubmit('move','product_id', '<!--{$arrProductsList[cnt].product_id}-->'); return false;">移動</a><br />
+                            <input type="text" name="pos-<!--{$arrProductsList[cnt].product_id|h}-->" size="3" class="box3" />番目へ<a href="?" onclick="eccube.setModeAndSubmit('move','product_id', '<!--{$arrProductsList[cnt].product_id|h}-->'); return false;">移動</a><br />
                             <!--{/if}-->
                             <!--{if !($smarty.section.cnt.first && $tpl_disppage eq 1)}-->
-                            <a href="?" onclick="eccube.setModeAndSubmit('up','product_id', '<!--{$arrProductsList[cnt].product_id}-->'); return false;">上へ</a>
+                            <a href="?" onclick="eccube.setModeAndSubmit('up','product_id', '<!--{$arrProductsList[cnt].product_id|h}-->'); return false;">上へ</a>
                             <!--{/if}-->
                             <!--{if !($smarty.section.cnt.last && $tpl_disppage eq $tpl_pagemax)}-->
-                            <a href="?" onclick="eccube.setModeAndSubmit('down','product_id', '<!--{$arrProductsList[cnt].product_id}-->'); return false;">下へ</a>
+                            <a href="?" onclick="eccube.setModeAndSubmit('down','product_id', '<!--{$arrProductsList[cnt].product_id|h}-->'); return false;">下へ</a>
                             <!--{/if}-->
                             </td>
                         </tr>

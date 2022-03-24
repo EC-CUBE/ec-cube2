@@ -58,8 +58,8 @@ function fnTargetSelf(){
                         </td>
                         <td>
                             <div class="btn">
-                                <a class="btn-normal" href="javascript:;" name='csv' onclick="fnTargetSelf(); eccube.fnFormModeSubmit('form1','csv_output','csv_output_id',<!--{$item.sql_id}-->); return false;"><span>CSV出力</span></a>
-                                <a class="btn-normal" href="javascript:;" name='del' onclick="fnTargetSelf(); eccube.fnFormModeSubmit('form1','delete','sql_id',<!--{$item.sql_id}-->); return false;"><span>削除</span></a>
+                                <a class="btn-normal" href="javascript:;" name='csv' onclick="fnTargetSelf(); eccube.fnFormModeSubmit('form1','csv_output','csv_output_id',<!--{$item.sql_id|h}-->); return false;"><span>CSV出力</span></a>
+                                <a class="btn-normal" href="javascript:;" name='del' onclick="fnTargetSelf(); eccube.fnFormModeSubmit('form1','delete','sql_id',<!--{$item.sql_id|h}-->); return false;"><span>削除</span></a>
                             </div>
                         </td>
                     </tr>

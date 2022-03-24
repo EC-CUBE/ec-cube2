@@ -114,7 +114,7 @@
                         </td>
                         <!--{if $arrFileList[cnt].is_dir}-->
                             <td class="center">
-                                <a href="javascript:;" onclick="eccube.setValue('tree_select_file', '<!--{$arrFileList[cnt].file_path}-->', 'form1'); eccube.fileManager.selectFile('<!--{$id}-->', '#808080');eccube.setModeAndSubmit('move','',''); return false;">表示</a>
+                                <a href="javascript:;" onclick="eccube.setValue('tree_select_file', '<!--{$arrFileList[cnt].file_path}-->', 'form1'); eccube.fileManager.selectFile('<!--{$id|h}-->', '#808080');eccube.setModeAndSubmit('move','',''); return false;">表示</a>
                             </td>
                         <!--{else}-->
                             <td class="center">

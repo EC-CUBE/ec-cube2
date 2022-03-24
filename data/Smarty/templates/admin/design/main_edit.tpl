@@ -160,7 +160,7 @@ function fnTargetSelf(){
                 </td>
                 <td class="center">
                     <!--{if $item.filename|strlen >= 1}-->
-                        <a href="?page_id=<!--{$item.page_id}-->&amp;device_type_id=<!--{$item.device_type_id}-->">編集</a>
+                        <a href="?page_id=<!--{$item.page_id|h}-->&amp;device_type_id=<!--{$item.device_type_id|h}-->">編集</a>
                     <!--{/if}-->
                 </td>
                 <td class="center">
