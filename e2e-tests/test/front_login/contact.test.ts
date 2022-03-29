@@ -134,4 +134,16 @@ test.describe.serial('お問い合わせページのテストをします', () =
         .then(alerts => expect(alerts).toEqual([]));
     });
   });
+
+  /**
+   * https://github.com/EC-CUBE/ec-cube2/pull/536 のE2Eテスト
+   */
+  test('ラーメッセージの表示を確認します', async () => {
+    await page.goto(PlaywrightConfig.use.baseURL);       // ログアウトしてしまう場合があるので一旦トップへ遷移する
+    await page.goto(url);
+    await page.click('input[name=confirm]');
+    await page.pause();
+    await expect(page.locator('span.attention >> nth=13')).toContainText('※ お問い合わせ内容が入力されていません。');
+    await expect(page.locator('textarea[name=contents]')).toHaveAttribute('style', 'background-color:#ffe8e8; ime-mode: active;');
+  });
 });
