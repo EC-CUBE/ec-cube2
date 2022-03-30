@@ -63,7 +63,7 @@
                 <!--{/if}-->
             <!--{/if}-->
 
-            <div align="right"><a href="./history.php?order_id=<!--{$arrOrder[cnt].order_id}-->">→詳細を見る</a></div><br>
+            <div align="right"><a href="./history.php?order_id=<!--{$arrOrder[cnt].order_id|h}-->">→詳細を見る</a></div><br>
         <!--{/section}-->
         <hr>
     <!--{else}-->

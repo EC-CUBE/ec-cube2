@@ -35,7 +35,7 @@
         <form name="form1" id="form1" method="post" action="<!--{$smarty.const.ROOT_URLPATH}-->shopping/deliv.php">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
             <input type="hidden" name="mode" value="customer_addr" />
-            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->" />
+            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->" />
             <input type="hidden" name="other_deliv_id" value="" />
             <!--{if $arrErr.deli != ""}-->
                 <p class="attention"><!--{$arrErr.deli}--></p>
@@ -65,7 +65,7 @@
                         <!--{else}-->
                             <dt>
                                 <p>
-                                    <input type="radio" name="deliv_check" id="chk_id_<!--{$smarty.section.cnt.iteration}-->" value="<!--{$arrAddr[cnt].other_deliv_id}-->"<!--{if $arrForm.deliv_check.value == $arrAddr[cnt].other_deliv_id}--> checked="checked"<!--{/if}--> class="data-role-none" />
+                                    <input type="radio" name="deliv_check" id="chk_id_<!--{$smarty.section.cnt.iteration}-->" value="<!--{$arrAddr[cnt].other_deliv_id|h}-->"<!--{if $arrForm.deliv_check.value == $arrAddr[cnt].other_deliv_id|h}--> checked="checked"<!--{/if}--> class="data-role-none" />
                                     <label for="chk_id_<!--{$smarty.section.cnt.iteration}-->">追加登録住所</label>
                                 </p>
                                 <ul class="edit">

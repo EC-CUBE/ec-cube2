@@ -48,7 +48,7 @@
                 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
                 <input type="hidden" name="mode" value="" />
                 <input type="hidden" name="other_deliv_id" value="" />
-                <input type="hidden" name="pageno" value="<!--{$tpl_pageno}-->" />
+                <input type="hidden" name="pageno" value="<!--{$tpl_pageno|h}-->" />
 
                 <!--▼フォームボックスここから -->
                 <div class="formBox">
@@ -63,8 +63,8 @@
                                 <span class="name01"><!--{$arrOtherDeliv[cnt].name01|h}--></span>&nbsp;<span class="name02"><!--{$arrOtherDeliv[cnt].name02|h}--></span></p>
 
                             <ul class="edit">
-                                <li><a href="#" onClick="eccube.openWindow('./delivery_addr.php?other_deliv_id=<!--{$arrOtherDeliv[cnt].other_deliv_id}-->','deliv_disp','600','640'); return false;" class="b_edit deliv_edit" rel="external">編集</a></li>
-                                <li><a href="#" onClick="eccube.setModeAndSubmit('delete','other_deliv_id','<!--{$arrOtherDeliv[cnt].other_deliv_id}-->'); return false;" class="deliv_delete" rel="external"><img src="<!--{$TPL_URLPATH}-->img/button/btn_delete.png" class="pointer" width="21" height="20" alt="削除" /></a></li>
+                                <li><a href="#" onClick="eccube.openWindow('./delivery_addr.php?other_deliv_id=<!--{$arrOtherDeliv[cnt].other_deliv_id|h}-->','deliv_disp','600','640'); return false;" class="b_edit deliv_edit" rel="external">編集</a></li>
+                                <li><a href="#" onClick="eccube.setModeAndSubmit('delete','other_deliv_id','<!--{$arrOtherDeliv[cnt].other_deliv_id|h}-->'); return false;" class="deliv_delete" rel="external"><img src="<!--{$TPL_URLPATH}-->img/button/btn_delete.png" class="pointer" width="21" height="20" alt="削除" /></a></li>
                             </ul>
                         </div>
                         <!--▲お届け先-->
@@ -77,7 +77,7 @@
         <!--{/if}-->
 
         <!--{if count($arrOtherDeliv) > $dispNumber}-->
-            <p><a rel="external" href="javascript: void(0);" class="btn_more" id="btn_more_delivery" onClick="getDelivery(<!--{$dispNumber}-->); return false;" rel="external">もっとみる(＋<!--{$dispNumber}-->件)</a></p>
+            <p><a rel="external" href="javascript: void(0);" class="btn_more" id="btn_more_delivery" onClick="getDelivery(<!--{$dispNumber|h}-->); return false;" rel="external">もっとみる(＋<!--{$dispNumber|h}-->件)</a></p>
         <!--{/if}-->
 
     </div><!-- /.form_area -->

@@ -151,7 +151,7 @@ function func_submit() {
     <input name="mode" type="hidden" value="search" />
     <input name="anchor_key" type="hidden" value="" />
     <input name="search_pageno" type="hidden" value="" />
-    <input name="no" type="hidden" value="<!--{$tpl_no}-->" />
+    <input name="no" type="hidden" value="<!--{$tpl_no|h}-->" />
     <table summary="配送情報" class="list">
         <thead>
             <tr>

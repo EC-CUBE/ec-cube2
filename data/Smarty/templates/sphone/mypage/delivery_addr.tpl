@@ -36,7 +36,7 @@
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
         <input type="hidden" name="mode" value="edit" />
         <input type="hidden" name="other_deliv_id" value="<!--{$smarty.session.other_deliv_id|h}-->" />
-        <input type="hidden" name="ParentPage" value="<!--{$ParentPage}-->" />
+        <input type="hidden" name="ParentPage" value="<!--{$ParentPage|h}-->" />
 
         <dl class="form_entry">
             <!--{include file="`$smarty.const.SMARTPHONE_TEMPLATE_REALDIR`frontparts/form_personal_input.tpl" flgFields=1 emailMobile=false prefix=""}-->

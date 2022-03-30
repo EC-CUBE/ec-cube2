@@ -222,7 +222,7 @@
                         <!--{if $arrErr[$key][$index]}-->
                             <span class="attention"><!--{$arrErr[$key][$index]}--></span>
                         <!--{/if}-->
-                        <input type="checkbox" name="<!--{$key}-->[<!--{$index}-->]" value="1" <!--{if $arrForm[$key].value[$index] == 1}-->checked="checked"<!--{/if}--> id="<!--{$key}-->_<!--{$index}-->" />
+                        <input type="checkbox" name="<!--{$key|h}-->[<!--{$index|h}-->]" value="1" <!--{if $arrForm[$key].value[$index] == 1}-->checked="checked"<!--{/if}--> id="<!--{$key|h}-->_<!--{$index|h}-->" />
                     </td>
                     <td class="center">
                         <!--{assign var=key value="classcategory_name1"}-->
@@ -257,7 +257,7 @@
                         <!--{if $arrErr[$key][$index]}-->
                             <span class="attention"><!--{$arrErr[$key][$index]}--></span>
                         <!--{/if}-->
-                        <input type="checkbox" name="<!--{$key}-->[<!--{$index}-->]" value="1" <!--{if $arrForm[$key].value[$index] == "1"}-->checked="checked"<!--{/if}--> id="chk_<!--{$key}-->_<!--{$index}-->" /><label for="chk_<!--{$key}-->_<!--{$index}-->">無制限</label>
+                        <input type="checkbox" name="<!--{$key|h}-->[<!--{$index|h}-->]" value="1" <!--{if $arrForm[$key].value[$index] == "1"}-->checked="checked"<!--{/if}--> id="chk_<!--{$key|h}-->_<!--{$index|h}-->" /><label for="chk_<!--{$key|h}-->_<!--{$index|h}-->">無制限</label>
                     </td>
                     <td class="center">
                         <!--{assign var=key value="price01"}-->
@@ -279,7 +279,7 @@
                             <span class="attention"><!--{$arrErr[$key][$index]}--></span>
                         <!--{/if}-->
                         <!--{foreach from=$arrProductType key=productTypeKey item=productType name=productType}-->
-                            <input type="radio" name="<!--{$key}-->[<!--{$index}-->]" value="<!--{$productTypeKey}-->" <!--{if $arrForm[$key].value[$index] == $productTypeKey}-->checked="checked"<!--{/if}--> <!--{if $arrErr[$key][$index] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> id="<!--{$key}-->_<!--{$index}-->_<!--{$smarty.foreach.productType.index}-->"><label for="<!--{$key}-->_<!--{$index}-->_<!--{$smarty.foreach.productType.index}-->"<!--{if $arrErr[$key][$index] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> ><!--{$productType}--></label><!--{if !$smarty.foreach.productType.last}--><br /><!--{/if}-->
+                            <input type="radio" name="<!--{$key|h}-->[<!--{$index|h}-->]" value="<!--{$productTypeKey|h}-->" <!--{if $arrForm[$key].value[$index] == $productTypeKey}-->checked="checked"<!--{/if}--> <!--{if $arrErr[$key][$index] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> id="<!--{$key|h}-->_<!--{$index|h}-->_<!--{$smarty.foreach.productType.index}-->"><label for="<!--{$key|h}-->_<!--{$index|h}-->_<!--{$smarty.foreach.productType.index}-->"<!--{if $arrErr[$key][$index] != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> ><!--{$productType|h}--></label><!--{if !$smarty.foreach.productType.last}--><br /><!--{/if}-->
                         <!--{/foreach}-->
                     </td>
                     <td class="center">
@@ -297,10 +297,10 @@
                         <!--{if $arrForm[$key].value[$index] != ""}-->
                             <!--{$arrForm[$key].value[$index]|h}--><br />
                             <input type="hidden" name="<!--{$key}-->[<!--{$index}-->]" value="<!--{$arrForm[$key].value[$index]|h}-->" />
-                            <a href="?" onclick="eccube.fnFormModeSubmit('form1', 'file_delete', 'upload_index', '<!--{$index}-->'); return false;">[ファイルの取り消し]</a>
+                            <a href="?" onclick="eccube.fnFormModeSubmit('form1', 'file_delete', 'upload_index', '<!--{$index|h}-->'); return false;">[ファイルの取り消し]</a>
                         <!--{else}-->
-                        <input type="file" name="<!--{$key}-->[<!--{$index}-->]" size="10" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" /><br />
-                        <a class="btn-normal" href="javascript:;" name="btn" onclick="eccube.fnFormModeSubmit('form1', 'file_upload', 'upload_index', '<!--{$index}-->'); return false;">アップロード</a>
+                        <input type="file" name="<!--{$key|h}-->[<!--{$index|h}-->]" size="10" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" /><br />
+                        <a class="btn-normal" href="javascript:;" name="btn" onclick="eccube.fnFormModeSubmit('form1', 'file_upload', 'upload_index', '<!--{$index|h}-->'); return false;">アップロード</a>
                         <!--{/if}-->
                     </td>
                 </tr>

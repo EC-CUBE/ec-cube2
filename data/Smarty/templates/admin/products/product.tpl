@@ -179,11 +179,11 @@
             <!--{assign var=key value="down_file"}-->
             <th>ダウンロード商品用<br />ファイルアップロード<span class="attention"> *</span></th>
             <td>
-                <a name="<!--{$key}-->"></a>
+                <a name="<!--{$key|h}-->"></a>
                 <span class="attention"><!--{$arrErr[$key]}--><!--{$arrErr.down_realfilename}--></span>
                     <!--{if $arrForm.down_realfilename != ""}-->
                         <!--{$arrForm.down_realfilename|h}--><input type="hidden" name="down_realfilename" value="<!--{$arrForm.down_realfilename|h}-->">
-                        <a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_down', 'down_key', '<!--{$key}-->'); return false;">[ファイルの取り消し]</a><br />
+                        <a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_down', 'down_key', '<!--{$key|h}-->'); return false;">[ファイルの取り消し]</a><br />
                     <!--{/if}-->
                     <input type="file" name="down_file" size="40" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" />
                     <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); eccube.setModeAndSubmit('upload_down', 'down_key', '<!--{$key}-->'); return false;">アップロード</a><br />登録可能拡張子：<!--{$smarty.const.DOWNLOAD_EXTENSION}-->　(パラメーター DOWNLOAD_EXTENSION)
@@ -322,15 +322,15 @@
             <!--{assign var=key value="main_list_image"}-->
             <th>一覧-メイン画像<br />[<!--{$smarty.const.SMALL_IMAGE_WIDTH}-->×<!--{$smarty.const.SMALL_IMAGE_HEIGHT}-->]</th>
             <td>
-                <a name="<!--{$key}-->"></a>
+                <a name="<!--{$key|h}-->"></a>
                 <a name="main_image"></a>
                 <a name="main_large_image"></a>
                 <span class="attention"><!--{$arrErr[$key]}--></span>
                 <!--{if $arrForm.arrFile[$key].filepath != ""}-->
-                <img src="<!--{$arrForm.arrFile[$key].filepath}-->" alt="<!--{$arrForm.name|h}-->" />　<a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key}-->'); return false;">[画像の取り消し]</a><br />
+                <img src="<!--{$arrForm.arrFile[$key].filepath|h}-->" alt="<!--{$arrForm.name|h}-->" />　<a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key|h}-->'); return false;">[画像の取り消し]</a><br />
                 <!--{/if}-->
                 <input type="file" name="main_list_image" size="40" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" />
-                <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key}-->'); return false;">アップロード</a>
+                <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key|h}-->'); return false;">アップロード</a>
             </td>
         </tr>
         <tr>
@@ -339,10 +339,10 @@
             <td>
                 <span class="attention"><!--{$arrErr[$key]}--></span>
                 <!--{if $arrForm.arrFile[$key].filepath != ""}-->
-                <img src="<!--{$arrForm.arrFile[$key].filepath}-->" alt="<!--{$arrForm.name|h}-->" />　<a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key}-->'); return false;">[画像の取り消し]</a><br />
+                <img src="<!--{$arrForm.arrFile[$key].filepath|h}-->" alt="<!--{$arrForm.name|h}-->" />　<a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key|h}-->'); return false;">[画像の取り消し]</a><br />
                 <!--{/if}-->
                 <input type="file" name="main_image" size="40" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" />
-                <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key}-->'); return false;">アップロード</a>
+                <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key|h}-->'); return false;">アップロード</a>
             </td>
         </tr>
         <tr>
@@ -351,10 +351,10 @@
             <td>
                 <span class="attention"><!--{$arrErr[$key]}--></span>
                 <!--{if $arrForm.arrFile[$key].filepath != ""}-->
-                <img src="<!--{$arrForm.arrFile[$key].filepath}-->" alt="<!--{$arrForm.name|h}-->" />　<a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key}-->'); return false;">[画像の取り消し]</a><br />
+                <img src="<!--{$arrForm.arrFile[$key].filepath|h}-->" alt="<!--{$arrForm.name|h}-->" />　<a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key|h}-->'); return false;">[画像の取り消し]</a><br />
                 <!--{/if}-->
-                <input type="file" name="<!--{$key}-->" size="40" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" />
-                <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key}-->'); return false;">アップロード</a>
+                <input type="file" name="<!--{$key|h}-->" size="40" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" />
+                <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key|h}-->'); return false;">アップロード</a>
             </td>
         </tr>
     </table>
@@ -399,15 +399,15 @@
             <!--{assign var=key value="sub_image`$smarty.section.cnt.iteration`"}-->
             <th>詳細-サブ画像(<!--{$smarty.section.cnt.iteration}-->)<br />[<!--{$smarty.const.NORMAL_SUBIMAGE_WIDTH}-->×<!--{$smarty.const.NORMAL_SUBIMAGE_HEIGHT}-->]</th>
             <td>
-                <a name="<!--{$key}-->"></a>
+                <a name="<!--{$key|h}-->"></a>
                 <!--{assign var=largekey value="sub_large_image`$smarty.section.cnt.iteration`"}-->
-                <a name="<!--{$largekey}-->"></a>
+                <a name="<!--{$largekey|h}-->"></a>
                 <span class="attention"><!--{$arrErr[$key]}--></span>
                 <!--{if $arrForm.arrFile[$key].filepath != ""}-->
-                <img src="<!--{$arrForm.arrFile[$key].filepath}-->" alt="<!--{$arrForm.name|h}-->" />　<a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key}-->'); return false;">[画像の取り消し]</a><br />
+                <img src="<!--{$arrForm.arrFile[$key].filepath|h}-->" alt="<!--{$arrForm.name|h}-->" />　<a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key|h}-->'); return false;">[画像の取り消し]</a><br />
                 <!--{/if}-->
-                <input type="file" name="<!--{$key}-->" size="40" style="<!--{$arrErr[$key]|sfGetErrorColor}-->"/>
-                <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key}-->'); return false;">アップロード</a>
+                <input type="file" name="<!--{$key|h}-->" size="40" style="<!--{$arrErr[$key]|sfGetErrorColor}-->"/>
+                <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key|h}-->'); return false;">アップロード</a>
             </td>
         </tr>
         <tr>
@@ -416,10 +416,10 @@
             <td>
                 <span class="attention"><!--{$arrErr[$key]}--></span>
                 <!--{if $arrForm.arrFile[$key].filepath != ""}-->
-                <img src="<!--{$arrForm.arrFile[$key].filepath}-->" alt="<!--{$arrForm.name|h}-->" />　<a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key}-->'); return false;">[画像の取り消し]</a><br />
+                <img src="<!--{$arrForm.arrFile[$key].filepath|h}-->" alt="<!--{$arrForm.name|h}-->" />　<a href="" onclick="selectAll('category_id'); eccube.setModeAndSubmit('delete_image', 'image_key', '<!--{$key|h}-->'); return false;">[画像の取り消し]</a><br />
                 <!--{/if}-->
-                <input type="file" name="<!--{$key}-->" size="40" style="<!--{$arrErr[$key]|sfGetErrorColor}-->"/>
-                <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key}-->'); return false;">アップロード</a>
+                <input type="file" name="<!--{$key|h}-->" size="40" style="<!--{$arrErr[$key]|sfGetErrorColor}-->"/>
+                <a class="btn-normal" href="javascript:;" name="btn" onclick="selectAll('category_id'); eccube.setModeAndSubmit('upload_image', 'image_key', '<!--{$key|h}-->'); return false;">アップロード</a>
             </td>
         </tr>
         <!--▲商品<!--{$smarty.section.cnt.iteration}-->-->
@@ -451,11 +451,11 @@
                 <!--{/if}-->
             </th>
             <td>
-                <a name="<!--{$anckey}-->"></a>
+                <a name="<!--{$anckey|h}-->"></a>
                 <input type="hidden" name="<!--{$key}-->" value="<!--{$arrRecommend[$recommend_no].product_id|h}-->" />
                 <a class="btn-normal" href="javascript:;" name="change" onclick="selectAll('category_id'); eccube.openWindow('./product_select.php?no=<!--{$smarty.section.cnt.iteration}-->', 'search', '615', '500', {menubar:'no'}); return false;">変更</a>
                 <!--{assign var=key value="recommend_delete`$smarty.section.cnt.iteration`"}-->
-                <input type="checkbox" name="<!--{$key}-->" value="1" />削除<br />
+                <input type="checkbox" name="<!--{$key|h}-->" value="1" />削除<br />
                 <!--{assign var=key value="recommend_comment`$smarty.section.cnt.iteration`"}-->
                 <span class="attention"><!--{$arrErr[$key]}--></span>
                 商品コード:<!--{$arrRecommend[$recommend_no].product_code_min}--> 

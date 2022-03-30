@@ -235,7 +235,7 @@
             <!--{/if}-->
             <ul style="<!--{$arrErr.mailmaga_flg|sfGetErrorColor}-->">
                 <!--{foreach from=$arrMAILMAGATYPE name=cnt item=type key=key}-->
-                <li><input type="radio" name="<!--{$key1}-->" value="<!--{$key}-->" id="<!--{$key1}--><!--{$key}-->" <!--{if $arrForm[$key1].value == $key}--> checked="checked" <!--{/if}--> class="data-role-none" /><label for="<!--{$key1}--><!--{$key}-->"><!--{$type}--></label></li>
+                <li><input type="radio" name="<!--{$key1|h}-->" value="<!--{$key|h}-->" id="<!--{$key1|h}--><!--{$key|h}-->" <!--{if $arrForm[$key1].value == $key}--> checked="checked" <!--{/if}--> class="data-role-none" /><label for="<!--{$key1|h}--><!--{$key|h}-->"><!--{$type|h}--></label></li>
                 <!--{/foreach}-->
             </ul>
         </dd>

@@ -54,7 +54,7 @@
                         </dt>
                         <dd>
                             <span class="attention"><!--{$arrErr[$key]}--></span>
-                            <input type="password" name="<!--{$key}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="box300" />
+                            <input type="password" name="<!--{$key|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="box300" />
                         </dd>
                     </dl>
                     <div class="btn_area">
