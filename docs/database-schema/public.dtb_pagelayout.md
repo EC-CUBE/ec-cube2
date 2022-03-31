@@ -8,8 +8,8 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| device_type_id | integer |  | false |  |  | 端末種別ID |
-| page_id | integer |  | false |  |  | ページID |
+| device_type_id | integer |  | false |  | [public.mtb_device_type](public.mtb_device_type.md) | 端末種別ID |
+| page_id | integer |  | false | [public.dtb_blocposition](public.dtb_blocposition.md) |  | ページID |
 | page_name | text |  | true |  |  | ページ名 |
 | url | text |  | false |  |  | ページURL |
 | filename | text |  | true |  |  | ファイル名 |

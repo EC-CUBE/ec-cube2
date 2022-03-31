@@ -14,8 +14,8 @@
 | zip01 | text |  | true |  |  | 郵便番号(4桁) |
 | zip02 | text |  | true |  |  | 郵便番号(3桁) |
 | zipcode | text |  | true |  |  | 【2.13】郵便番号(海外対応) |
-| country_id | integer |  | true |  |  | 【2.13】国ID |
-| pref | smallint |  | true |  |  | 都道府県 |
+| country_id | integer |  | true |  | [public.mtb_country](public.mtb_country.md) | 【2.13】国ID |
+| pref | smallint |  | true |  | [public.mtb_pref](public.mtb_pref.md) | 都道府県 |
 | addr01 | text |  | true |  |  | 住所1 |
 | addr02 | text |  | true |  |  | 住所2 |
 | tel01 | text |  | true |  |  | 電話番号(市外局番) |
@@ -30,7 +30,7 @@
 | law_zip01 | text |  | true |  |  | 郵便番号4桁(特定商取引) |
 | law_zip02 | text |  | true |  |  | 郵便番号3桁(特定商取引) |
 | law_zipcode | text |  | true |  |  | 【2.13】郵便番号(海外対応)(特定商取引) |
-| law_country_id | integer |  | true |  |  | 【2.13】国ID(特定商取引) |
+| law_country_id | integer |  | true |  | [public.mtb_country](public.mtb_country.md) | 【2.13】国ID(特定商取引) |
 | law_pref | smallint |  | true |  |  | 都道府県(特定商取引) |
 | law_addr01 | text |  | true |  |  | 住所1(特定商取引) |
 | law_addr02 | text |  | true |  |  | 住所2(特定商取引) |

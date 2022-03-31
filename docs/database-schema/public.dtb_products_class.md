@@ -8,11 +8,11 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| product_class_id | integer |  | false |  |  | 商品規格ID |
-| product_id | integer |  | false |  |  | 商品ID |
-| classcategory_id1 | integer | 0 | false |  |  | 規格分類ID1 |
-| classcategory_id2 | integer | 0 | false |  |  | 規格分類ID2 |
-| product_type_id | integer | 0 | false |  |  | 商品種別ID |
+| product_class_id | integer |  | false | [public.dtb_order_detail](public.dtb_order_detail.md) [public.dtb_shipment_item](public.dtb_shipment_item.md) [public.dtb_tax_rule](public.dtb_tax_rule.md) |  | 商品規格ID |
+| product_id | integer |  | false |  | [public.dtb_products](public.dtb_products.md) | 商品ID |
+| classcategory_id1 | integer | 0 | false |  | [public.dtb_classcategory](public.dtb_classcategory.md) | 規格分類ID1 |
+| classcategory_id2 | integer | 0 | false |  | [public.dtb_classcategory](public.dtb_classcategory.md) | 規格分類ID2 |
+| product_type_id | integer | 0 | false |  | [public.mtb_product_type](public.mtb_product_type.md) | 商品種別ID |
 | product_code | text |  | true |  |  | 商品コード |
 | stock | numeric |  | true |  |  | 在庫数 |
 | stock_unlimited | smallint | 0 | false |  |  | 在庫制限 |
@@ -21,7 +21,7 @@
 | price02 | numeric |  | false |  |  | 特別価格 |
 | deliv_fee | numeric |  | true |  |  | 商品送料 |
 | point_rate | numeric | 0 | false |  |  | ポイント付与率 |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 | down_filename | text |  | true |  |  | ダウンロードファイル名 |

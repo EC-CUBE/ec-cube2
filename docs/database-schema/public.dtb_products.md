@@ -8,10 +8,10 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| product_id | integer |  | false |  |  | 商品ID |
+| product_id | integer |  | false | [public.dtb_products_class](public.dtb_products_class.md) [public.dtb_product_status](public.dtb_product_status.md) [public.dtb_product_categories](public.dtb_product_categories.md) [public.dtb_recommend_products](public.dtb_recommend_products.md) [public.dtb_best_products](public.dtb_best_products.md) [public.dtb_review](public.dtb_review.md) [public.dtb_customer_favorite_products](public.dtb_customer_favorite_products.md) [public.dtb_order_detail](public.dtb_order_detail.md) [public.dtb_tax_rule](public.dtb_tax_rule.md) |  | 商品ID |
 | name | text |  | false |  |  | 商品名 |
-| maker_id | integer |  | true |  |  | メーカーID |
-| status | smallint | 2 | false |  |  | 表示ステータス |
+| maker_id | integer |  | true |  | [public.dtb_maker](public.dtb_maker.md) | メーカーID |
+| status | smallint | 2 | false |  | [public.mtb_disp](public.mtb_disp.md) | 表示ステータス |
 | comment1 | text |  | true |  |  | コメント1(メーカーURL) |
 | comment2 | text |  | true |  |  | コメント2 |
 | comment3 | text |  | true |  |  | コメント3(検索ワード) |
@@ -49,10 +49,10 @@
 | sub_image6 | text |  | true |  |  | サブ画像6 |
 | sub_large_image6 | text |  | true |  |  | サブ拡大画像6 |
 | del_flg | smallint | 0 | false |  |  | 削除フラグ |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
-| deliv_date_id | integer |  | true |  |  | 発送日目安 |
+| deliv_date_id | integer |  | true |  | [public.mtb_delivery_date](public.mtb_delivery_date.md) | 発送日目安 |
 
 ## Constraints
 

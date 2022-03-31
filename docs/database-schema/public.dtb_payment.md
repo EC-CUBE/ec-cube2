@@ -8,7 +8,7 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| payment_id | integer |  | false |  |  | 支払方法ID |
+| payment_id | integer |  | false | [public.dtb_order](public.dtb_order.md) [public.dtb_order_temp](public.dtb_order_temp.md) [public.dtb_payment_options](public.dtb_payment_options.md) |  | 支払方法ID |
 | payment_method | text |  | true |  |  | 支払方法 |
 | charge | numeric |  | true |  |  | 手数料 |
 | rule_max | numeric |  | true |  |  | 利用条件(円以上) |
@@ -17,7 +17,7 @@
 | fix | smallint |  | true |  |  | 固定:1　自由設定:2 |
 | status | smallint | 1 | false |  |  | 状態 |
 | del_flg | smallint | 0 | false |  |  | 削除フラグ |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 | payment_image | text |  | true |  |  | 支払方法ロゴ |
@@ -25,7 +25,7 @@
 | charge_flg | smallint | 1 | true |  |  | 手数料設定フラグ |
 | rule_min | numeric |  | true |  |  | 利用条件(円以上)の下限 |
 | upper_rule_max | numeric |  | true |  |  | 利用条件(円以下)の上限 |
-| module_id | integer |  | true |  |  | 追加モジュールID |
+| module_id | integer |  | true |  | [public.dtb_module](public.dtb_module.md) | 追加モジュールID |
 | module_path | text |  | true |  |  | 追加モジュールパス |
 | memo01 | text |  | true |  |  | 汎用項目1 |
 | memo02 | text |  | true |  |  | 汎用項目2 |

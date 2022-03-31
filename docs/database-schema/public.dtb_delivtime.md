@@ -8,8 +8,8 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| deliv_id | integer |  | false |  |  | 配送業者ID |
-| time_id | integer |  | false |  |  | 配送時間ID |
+| deliv_id | integer |  | false |  | [public.dtb_deliv](public.dtb_deliv.md) | 配送業者ID |
+| time_id | integer |  | false | [public.dtb_shipping](public.dtb_shipping.md) |  | 配送時間ID |
 | deliv_time | text |  | false |  |  | 配送時間 |
 
 ## Constraints

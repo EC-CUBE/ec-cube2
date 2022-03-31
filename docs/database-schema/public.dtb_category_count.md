@@ -8,7 +8,7 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| category_id | integer |  | false |  |  | カテゴリID |
+| category_id | integer |  | false |  | [public.dtb_category](public.dtb_category.md) | カテゴリID |
 | product_count | integer |  | false |  |  | 商品数 |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 

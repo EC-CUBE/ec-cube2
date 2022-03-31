@@ -9,9 +9,9 @@
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
 | order_detail_id | integer |  | false |  |  | 受注詳細ID |
-| order_id | integer |  | false |  |  | 受注ID |
-| product_id | integer |  | false |  |  | 商品ID |
-| product_class_id | integer |  | false |  |  | 商品規格ID |
+| order_id | integer |  | false |  | [public.dtb_order](public.dtb_order.md) | 受注ID |
+| product_id | integer |  | false |  | [public.dtb_products](public.dtb_products.md) | 商品ID |
+| product_class_id | integer |  | false |  | [public.dtb_products_class](public.dtb_products_class.md) | 商品規格ID |
 | product_name | text |  | false |  |  | 商品名 |
 | product_code | text |  | true |  |  | 商品コード |
 | classcategory_name1 | text |  | true |  |  | 商品規格名1 |

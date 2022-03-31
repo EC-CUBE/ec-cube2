@@ -8,7 +8,7 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| module_id | integer |  | false |  |  | モジュールID |
+| module_id | integer |  | false | [public.dtb_payment](public.dtb_payment.md) [public.dtb_update](public.dtb_update.md) [public.dtb_module_update_logs](public.dtb_module_update_logs.md) |  | モジュールID |
 | module_code | text |  | false |  |  | モジュールコード |
 | module_name | text |  | false |  |  | モジュール名 |
 | sub_data | text |  | true |  |  | データ |

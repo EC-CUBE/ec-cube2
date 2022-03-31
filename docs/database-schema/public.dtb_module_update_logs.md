@@ -9,7 +9,7 @@
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
 | log_id | integer |  | false |  |  | ログID |
-| module_id | integer |  | false |  |  | モジュールID |
+| module_id | integer |  | false |  | [public.dtb_module](public.dtb_module.md) | モジュールID |
 | buckup_path | text |  | true |  |  | バックアップパス |
 | error_flg | smallint | 0 | true |  |  | エラーフラグ |
 | error | text |  | true |  |  | エラーメッセージ |

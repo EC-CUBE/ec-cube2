@@ -8,7 +8,7 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| customer_id | integer |  | false |  |  | 顧客ID |
+| customer_id | integer |  | false |  | [public.dtb_customer](public.dtb_customer.md) | 顧客ID |
 | send_id | integer |  | false |  |  | 送信ID |
 | email | text |  | true |  |  | メールアドレス |
 | name | text |  | true |  |  | 名前 |

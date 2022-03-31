@@ -8,7 +8,7 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| customer_id | integer |  | false |  |  | 顧客ID |
+| customer_id | integer |  | false | [public.dtb_review](public.dtb_review.md) [public.dtb_customer_favorite_products](public.dtb_customer_favorite_products.md) [public.dtb_other_deliv](public.dtb_other_deliv.md) [public.dtb_order](public.dtb_order.md) [public.dtb_order_temp](public.dtb_order_temp.md) [public.dtb_send_customer](public.dtb_send_customer.md) |  | 顧客ID |
 | name01 | text |  | false |  |  | 姓 |
 | name02 | text |  | false |  |  | 名 |
 | kana01 | text |  | true |  |  | 姓(カナ) |
@@ -17,8 +17,8 @@
 | zip01 | text |  | true |  |  | 郵便番号(4桁) |
 | zip02 | text |  | true |  |  | 郵便番号(3桁) |
 | zipcode | text |  | true |  |  | 【2.13】郵便番号(海外対応) |
-| country_id | integer |  | true |  |  | 【2.13】国ID |
-| pref | smallint |  | true |  |  | 都道府県 |
+| country_id | integer |  | true |  | [public.mtb_country](public.mtb_country.md) | 【2.13】国ID |
+| pref | smallint |  | true |  | [public.mtb_pref](public.mtb_pref.md) | 都道府県 |
 | addr01 | text |  | true |  |  | 市区町村 |
 | addr02 | text |  | true |  |  | 番地等 |
 | email | text |  | false |  |  | メールアドレス |
@@ -29,11 +29,11 @@
 | fax01 | text |  | true |  |  | FAX(市外局番) |
 | fax02 | text |  | true |  |  | FAX(市内局番) |
 | fax03 | text |  | true |  |  | FAX(局番) |
-| sex | smallint |  | true |  |  | 性別 |
-| job | smallint |  | true |  |  | 職業 |
+| sex | smallint |  | true |  | [public.mtb_sex](public.mtb_sex.md) | 性別 |
+| job | smallint |  | true |  | [public.mtb_job](public.mtb_job.md) | 職業 |
 | birth | timestamp without time zone |  | true |  |  | 生年月日 |
 | password | text |  | true |  |  | パスワード |
-| reminder | smallint |  | true |  |  | パスワードの質問 |
+| reminder | smallint |  | true |  | [public.mtb_reminder](public.mtb_reminder.md) | パスワードの質問 |
 | reminder_answer | text |  | true |  |  | パスワードの質問の答え |
 | salt | text |  | true |  |  | 暗号化付与文字列 |
 | secret_key | text |  | false |  |  | 暗号化キー |
@@ -43,12 +43,12 @@
 | buy_total | numeric | 0 | true |  |  | 購入累計金額 |
 | point | numeric | 0 | false |  |  | 保持ポイント |
 | note | text |  | true |  |  | 備考 |
-| status | smallint | 1 | false |  |  | 状態 |
+| status | smallint | 1 | false |  | [public.mtb_customer_status](public.mtb_customer_status.md) | 状態 |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 | del_flg | smallint | 0 | false |  |  | 削除フラグ |
 | mobile_phone_id | text |  | true |  |  | 携帯端末ID |
-| mailmaga_flg | smallint |  | true |  |  | メールマガジン種別フラグ |
+| mailmaga_flg | smallint |  | true |  | [public.mtb_mail_magazine_type](public.mtb_mail_magazine_type.md) | メールマガジン種別フラグ |
 
 ## Constraints
 

@@ -9,16 +9,16 @@
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
 | review_id | integer |  | false |  |  | レビューID |
-| product_id | integer |  | false |  |  | 商品ID |
+| product_id | integer |  | false |  | [public.dtb_products](public.dtb_products.md) | 商品ID |
 | reviewer_name | text |  | false |  |  | レビューア名 |
 | reviewer_url | text |  | true |  |  | レビューアURL |
 | sex | smallint |  | true |  |  | 性別 |
-| customer_id | integer |  | true |  |  | 顧客lID |
+| customer_id | integer |  | true |  | [public.dtb_customer](public.dtb_customer.md) | 顧客lID |
 | recommend_level | smallint |  | false |  |  | おすすめレベル |
 | title | text |  | false |  |  | タイトル |
 | comment | text |  | false |  |  | コメント |
 | status | smallint | 2 | true |  |  | 状態 |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 | del_flg | smallint | 0 | false |  |  | 削除フラグ |

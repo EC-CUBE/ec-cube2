@@ -8,7 +8,7 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| plugin_id | integer |  | false |  |  | プラグインID |
+| plugin_id | integer |  | false | [public.dtb_bloc](public.dtb_bloc.md) [public.dtb_plugin_hookpoint](public.dtb_plugin_hookpoint.md) |  | プラグインID |
 | plugin_name | text |  | false |  |  | プラグイン名 |
 | plugin_code | text |  | false |  |  | プラグインコード |
 | class_name | text |  | false |  |  | クラス名 |

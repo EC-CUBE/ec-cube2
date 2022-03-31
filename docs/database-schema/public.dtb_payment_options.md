@@ -8,8 +8,8 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| deliv_id | integer |  | false |  |  | 配送業者ID |
-| payment_id | integer |  | false |  |  | 支払方法ID |
+| deliv_id | integer |  | false |  | [public.dtb_deliv](public.dtb_deliv.md) | 配送業者ID |
+| payment_id | integer |  | false |  | [public.dtb_payment](public.dtb_payment.md) | 支払方法ID |
 | rank | integer |  | true |  |  | 表示順 |
 
 ## Constraints

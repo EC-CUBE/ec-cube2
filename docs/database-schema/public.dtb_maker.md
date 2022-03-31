@@ -8,10 +8,10 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| maker_id | integer |  | false |  |  | メーカーID |
+| maker_id | integer |  | false | [public.dtb_products](public.dtb_products.md) [public.dtb_maker_count](public.dtb_maker_count.md) |  | メーカーID |
 | name | text |  | false |  |  | メーカー名 |
 | rank | integer | 0 | false |  |  | 表示順 |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 | del_flg | smallint | 0 | false |  |  | 削除フラグ |

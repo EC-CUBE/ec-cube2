@@ -8,7 +8,7 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| module_id | integer |  | false |  |  | モジュールID |
+| module_id | integer |  | false |  | [public.dtb_module](public.dtb_module.md) | モジュールID |
 | module_name | text |  | false |  |  | モジュール名 |
 | now_version | text |  | true |  |  | インストールバージョン |
 | latest_version | text |  | false |  |  | 最新バージョン |

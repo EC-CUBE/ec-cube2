@@ -8,8 +8,8 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| device_type_id | integer |  | false |  |  | 端末種別ID |
-| bloc_id | integer |  | false |  |  | ブロックID |
+| device_type_id | integer |  | false |  | [public.mtb_device_type](public.mtb_device_type.md) | 端末種別ID |
+| bloc_id | integer |  | false | [public.dtb_blocposition](public.dtb_blocposition.md) |  | ブロックID |
 | bloc_name | text |  | true |  |  | ブロック名 |
 | tpl_path | text |  | true |  |  | Smartyテンプレートパス |
 | filename | text |  | false |  |  | ファイル名 |
@@ -17,7 +17,7 @@
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 | php_path | text |  | true |  |  | PHPパス |
 | deletable_flg | smallint | 1 | false |  |  | 削除可能フラグ |
-| plugin_id | integer |  | true |  |  | プラグインID |
+| plugin_id | integer |  | true |  | [public.dtb_plugin](public.dtb_plugin.md) | プラグインID |
 
 ## Constraints
 

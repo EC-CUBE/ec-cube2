@@ -9,12 +9,12 @@
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
 | best_id | integer |  | false |  |  | ベスト商品ID |
-| category_id | integer |  | false |  |  | カテゴリID |
+| category_id | integer |  | false |  | [public.dtb_category](public.dtb_category.md) | カテゴリID |
 | rank | integer | 0 | false |  |  | 表示順 |
-| product_id | integer |  | false |  |  | 商品ID |
+| product_id | integer |  | false |  | [public.dtb_products](public.dtb_products.md) | 商品ID |
 | title | text |  | true |  |  | タイトル |
 | comment | text |  | true |  |  | コメント |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 | del_flg | smallint | 0 | false |  |  | 削除フラグ |

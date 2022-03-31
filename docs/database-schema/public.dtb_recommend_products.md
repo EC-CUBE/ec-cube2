@@ -8,12 +8,12 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| product_id | integer |  | false |  |  | 商品ID |
+| product_id | integer |  | false |  | [public.dtb_products](public.dtb_products.md) | 商品ID |
 | recommend_product_id | integer |  | false |  |  | 関連商品ID |
 | rank | integer |  | false |  |  | 表示順 |
 | comment | text |  | true |  |  | コメント |
 | status | smallint | 0 | false |  |  | 状態 |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 

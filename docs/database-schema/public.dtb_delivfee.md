@@ -8,10 +8,10 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| deliv_id | integer |  | false |  |  | 配送業者ID |
+| deliv_id | integer |  | false |  | [public.dtb_deliv](public.dtb_deliv.md) | 配送業者ID |
 | fee_id | integer |  | false |  |  | 送料ID |
 | fee | numeric |  | false |  |  | 送料 |
-| pref | smallint |  | true |  |  | 都道府県名 |
+| pref | smallint |  | true |  | [public.mtb_pref](public.mtb_pref.md) | 都道府県名 |
 
 ## Constraints
 

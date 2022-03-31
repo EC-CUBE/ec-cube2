@@ -8,11 +8,11 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| classcategory_id | integer |  | false |  |  | 規格分類情報ID |
+| classcategory_id | integer |  | false | [public.dtb_products_class](public.dtb_products_class.md) |  | 規格分類情報ID |
 | name | text |  | true |  |  | 規格分類名 |
-| class_id | integer |  | false |  |  | 規格ID |
+| class_id | integer |  | false |  | [public.dtb_class](public.dtb_class.md) | 規格ID |
 | rank | integer |  | true |  |  | 表示順 |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 | del_flg | smallint | 0 | false |  |  | 削除フラグ |

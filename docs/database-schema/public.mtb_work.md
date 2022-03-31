@@ -8,7 +8,7 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| id | smallint |  | false |  |  | ID |
+| id | smallint |  | false | [public.dtb_member](public.dtb_member.md) |  | ID |
 | name | text |  | true |  |  | 名称 |
 | rank | smallint | 0 | false |  |  | 表示順 |
 

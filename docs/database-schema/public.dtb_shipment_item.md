@@ -8,9 +8,9 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| shipping_id | integer |  | false |  |  | 配送先ID |
-| product_class_id | integer |  | false |  |  | 商品規格ID |
-| order_id | integer |  | false |  |  | 受注ID |
+| shipping_id | integer |  | false |  | [public.dtb_shipping](public.dtb_shipping.md) | 配送先ID |
+| product_class_id | integer |  | false |  | [public.dtb_products_class](public.dtb_products_class.md) | 商品規格ID |
+| order_id | integer |  | false |  | [public.dtb_order](public.dtb_order.md) | 受注ID |
 | product_name | text |  | false |  |  | 商品名 |
 | product_code | text |  | true |  |  | 商品コード |
 | classcategory_name1 | text |  | true |  |  | 商品規格名1 |

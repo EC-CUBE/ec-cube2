@@ -18,7 +18,7 @@
 | end_date | timestamp without time zone |  | true |  |  | 送信完了日時 |
 | search_data | text |  | true |  |  | 検索データ |
 | del_flg | smallint | 0 | false |  |  | 削除フラグ |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 

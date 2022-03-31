@@ -8,8 +8,8 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| product_id | integer |  | false |  |  | 商品ID |
-| category_id | integer |  | false |  |  | カテゴリID |
+| product_id | integer |  | false |  | [public.dtb_products](public.dtb_products.md) | 商品ID |
+| category_id | integer |  | false |  | [public.dtb_category](public.dtb_category.md) | カテゴリID |
 | rank | integer |  | false |  |  | 表示順 |
 
 ## Constraints

@@ -9,10 +9,10 @@
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
 | send_id | integer |  | false |  |  | 送信ID |
-| order_id | integer |  | false |  |  | 受注ID |
+| order_id | integer |  | false |  | [public.dtb_order](public.dtb_order.md) | 受注ID |
 | send_date | timestamp without time zone |  | true |  |  | 送信日時 |
-| template_id | integer |  | true |  |  | テンプレートID |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| template_id | integer |  | true |  | [public.dtb_mailtemplate](public.dtb_mailtemplate.md) | テンプレートID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | subject | text |  | true |  |  | 件名 |
 | mail_body | text |  | true |  |  | メール本文 |
 

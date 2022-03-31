@@ -13,7 +13,7 @@
 | mail_method | integer |  | true |  |  | メール送信方法 |
 | body | text |  | true |  |  | 本文 |
 | del_flg | smallint | 0 | false |  |  | 削除フラグ |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 

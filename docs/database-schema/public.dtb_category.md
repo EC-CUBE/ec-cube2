@@ -8,12 +8,12 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| category_id | integer |  | false |  |  | カテゴリID |
+| category_id | integer |  | false | [public.dtb_product_categories](public.dtb_product_categories.md) [public.dtb_category](public.dtb_category.md) [public.dtb_category_count](public.dtb_category_count.md) [public.dtb_category_total_count](public.dtb_category_total_count.md) [public.dtb_best_products](public.dtb_best_products.md) |  | カテゴリID |
 | category_name | text |  | true |  |  | カテゴリ名 |
-| parent_category_id | integer | 0 | false |  |  | 親カテゴリID |
+| parent_category_id | integer | 0 | false |  | [public.dtb_category](public.dtb_category.md) | 親カテゴリID |
 | level | integer |  | false |  |  | 階層 |
 | rank | integer |  | true |  |  | 表示順 |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 | del_flg | smallint | 0 | false |  |  | 削除フラグ |

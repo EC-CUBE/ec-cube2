@@ -8,7 +8,7 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| id | smallint |  | false |  |  | ID |
+| id | smallint |  | false | [public.dtb_order](public.dtb_order.md) [public.dtb_order_temp](public.dtb_order_temp.md) [public.dtb_pagelayout](public.dtb_pagelayout.md) [public.dtb_bloc](public.dtb_bloc.md) [public.dtb_blocposition](public.dtb_blocposition.md) [public.dtb_templates](public.dtb_templates.md) |  | ID |
 | name | text |  | true |  |  | 名称 |
 | rank | smallint |  | false |  |  | 表示順 |
 

@@ -8,10 +8,10 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| device_type_id | integer |  | false |  |  | 端末種別ID |
-| page_id | integer |  | false |  |  | ページID |
-| target_id | integer |  | false |  |  | 配置ID |
-| bloc_id | integer |  | false |  |  | ブロックID |
+| device_type_id | integer |  | false |  | [public.mtb_device_type](public.mtb_device_type.md) | 端末種別ID |
+| page_id | integer |  | false |  | [public.dtb_pagelayout](public.dtb_pagelayout.md) | ページID |
+| target_id | integer |  | false |  | [public.mtb_target](public.mtb_target.md) | 配置ID |
+| bloc_id | integer |  | false |  | [public.dtb_bloc](public.dtb_bloc.md) | ブロックID |
 | bloc_row | integer |  | true |  |  | ブロック配置順序 |
 | anywhere | smallint | 0 | false |  |  | 全ページに配置するフラグ |
 

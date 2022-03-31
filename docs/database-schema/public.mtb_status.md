@@ -8,7 +8,7 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| id | smallint |  | false |  |  | ID |
+| id | smallint |  | false | [public.dtb_product_status](public.dtb_product_status.md) |  | ID |
 | name | text |  | true |  |  | 名称 |
 | rank | smallint | 0 | false |  |  | 表示順 |
 

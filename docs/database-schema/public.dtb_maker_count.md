@@ -8,7 +8,7 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| maker_id | integer |  | false |  |  | メーカーID |
+| maker_id | integer |  | false |  | [public.dtb_maker](public.dtb_maker.md) | メーカーID |
 | product_count | integer |  | false |  |  | 登録商品数 |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 

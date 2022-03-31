@@ -8,11 +8,11 @@
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| template_id | integer |  | false |  |  | テンプレートID |
+| template_id | integer |  | false | [public.dtb_mail_history](public.dtb_mail_history.md) |  | テンプレートID |
 | subject | text |  | true |  |  | 件名 |
 | header | text |  | true |  |  | ヘッダ |
 | footer | text |  | true |  |  | フッタ |
-| creator_id | integer |  | false |  |  | 作成者ID |
+| creator_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
 | del_flg | smallint | 0 | false |  |  | 削除フラグ |
 | create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 | update_date | timestamp without time zone |  | false |  |  | 更新日時 |
