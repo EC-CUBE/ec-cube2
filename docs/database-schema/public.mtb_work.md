@@ -2,13 +2,15 @@
 
 ## Description
 
+稼動状態
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| id | smallint |  | false |  |  |  |
-| name | text |  | true |  |  |  |
-| rank | smallint | 0 | false |  |  |  |
+| id | smallint |  | false |  |  | ID |
+| name | text |  | true |  |  | 名称 |
+| rank | smallint | 0 | false |  |  | 表示順 |
 
 ## Constraints
 

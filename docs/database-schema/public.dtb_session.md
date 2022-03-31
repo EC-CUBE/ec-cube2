@@ -2,14 +2,16 @@
 
 ## Description
 
+セッション情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| sess_id | text |  | false |  |  |  |
-| sess_data | text |  | true |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| sess_id | text |  | false |  |  | セッションID |
+| sess_data | text |  | true |  |  | セッションデータ |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

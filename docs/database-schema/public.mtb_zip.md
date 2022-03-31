@@ -2,15 +2,17 @@
 
 ## Description
 
+郵便番号
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| zip_id | integer |  | false |  |  |  |
-| zipcode | text |  | true |  |  |  |
-| state | text |  | true |  |  |  |
-| city | text |  | true |  |  |  |
-| town | text |  | true |  |  |  |
+| zip_id | integer |  | false |  |  | 郵便番号ID |
+| zipcode | text |  | true |  |  | 郵便番号(7桁) |
+| state | text |  | true |  |  | 都道府県 |
+| city | text |  | true |  |  | 市区町村 |
+| town | text |  | true |  |  | 町域 |
 
 ## Constraints
 

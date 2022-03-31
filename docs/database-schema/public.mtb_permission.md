@@ -2,13 +2,15 @@
 
 ## Description
 
+管理画面アクセス権限
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| id | text |  | false |  |  |  |
-| name | text |  | true |  |  |  |
-| rank | smallint | 0 | false |  |  |  |
+| id | text |  | false |  |  | ID |
+| name | text |  | true |  |  | 名称 |
+| rank | smallint | 0 | false |  |  | 表示順 |
 
 ## Constraints
 

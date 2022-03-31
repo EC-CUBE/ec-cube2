@@ -2,13 +2,15 @@
 
 ## Description
 
+顧客表示用受注ステータス
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| id | smallint |  | false |  |  |  |
-| name | text |  | true |  |  |  |
-| rank | smallint | 0 | false |  |  |  |
+| id | smallint |  | false |  |  | ID |
+| name | text |  | true |  |  | 名称 |
+| rank | smallint | 0 | false |  |  | 表示順 |
 
 ## Constraints
 

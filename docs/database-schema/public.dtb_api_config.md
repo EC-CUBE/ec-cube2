@@ -2,20 +2,22 @@
 
 ## Description
 
+API設定
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| api_config_id | integer |  | false |  |  |  |
-| operation_name | text |  | false |  |  |  |
-| operation_description | text |  | true |  |  |  |
-| auth_types | text |  | false |  |  |  |
-| enable | smallint | 0 | false |  |  |  |
-| is_log | smallint | 0 | false |  |  |  |
-| sub_data | text |  | true |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| api_config_id | integer |  | false |  |  | API設定ID |
+| operation_name | text |  | false |  |  | オペレーション名 |
+| operation_description | text |  | true |  |  | 説明 |
+| auth_types | text |  | false |  |  | 認証タイプ |
+| enable | smallint | 0 | false |  |  | 有効フラグ |
+| is_log | smallint | 0 | false |  |  | ログ出力フラグ |
+| sub_data | text |  | true |  |  | 追加の設定情報 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

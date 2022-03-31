@@ -2,18 +2,20 @@
 
 ## Description
 
+メルマガテンプレート情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| template_id | integer |  | false |  |  |  |
-| subject | text |  | true |  |  |  |
-| mail_method | integer |  | true |  |  |  |
-| body | text |  | true |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| template_id | integer |  | false |  |  | テンプレートID |
+| subject | text |  | true |  |  | 件名 |
+| mail_method | integer |  | true |  |  | メール送信方法 |
+| body | text |  | true |  |  | 本文 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

@@ -2,19 +2,21 @@
 
 ## Description
 
+配送商品情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| shipping_id | integer |  | false |  |  |  |
-| product_class_id | integer |  | false |  |  |  |
-| order_id | integer |  | false |  |  |  |
-| product_name | text |  | false |  |  |  |
-| product_code | text |  | true |  |  |  |
-| classcategory_name1 | text |  | true |  |  |  |
-| classcategory_name2 | text |  | true |  |  |  |
-| price | numeric |  | true |  |  |  |
-| quantity | numeric |  | true |  |  |  |
+| shipping_id | integer |  | false |  |  | 配送先ID |
+| product_class_id | integer |  | false |  |  | 商品規格ID |
+| order_id | integer |  | false |  |  | 受注ID |
+| product_name | text |  | false |  |  | 商品名 |
+| product_code | text |  | true |  |  | 商品コード |
+| classcategory_name1 | text |  | true |  |  | 商品規格名1 |
+| classcategory_name2 | text |  | true |  |  | 商品規格名2 |
+| price | numeric |  | true |  |  | 価格 |
+| quantity | numeric |  | true |  |  | 個数 |
 
 ## Constraints
 

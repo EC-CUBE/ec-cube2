@@ -2,14 +2,16 @@
 
 ## Description
 
+定数マスタ
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| id | text |  | false |  |  |  |
-| name | text |  | true |  |  |  |
-| rank | smallint | 0 | false |  |  |  |
-| remarks | text |  | true |  |  |  |
+| id | text |  | false |  |  | ID |
+| name | text |  | true |  |  | 定数名 |
+| rank | smallint | 0 | false |  |  | 表示順 |
+| remarks | text |  | true |  |  | 定数コメント |
 
 ## Constraints
 

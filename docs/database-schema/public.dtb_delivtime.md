@@ -2,13 +2,15 @@
 
 ## Description
 
+配送時間情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| deliv_id | integer |  | false |  |  |  |
-| time_id | integer |  | false |  |  |  |
-| deliv_time | text |  | false |  |  |  |
+| deliv_id | integer |  | false |  |  | 配送業者ID |
+| time_id | integer |  | false |  |  | 配送時間ID |
+| deliv_time | text |  | false |  |  | 配送時間 |
 
 ## Constraints
 

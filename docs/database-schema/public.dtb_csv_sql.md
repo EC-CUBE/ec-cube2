@@ -2,15 +2,17 @@
 
 ## Description
 
+CSV詳細設定SQL情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| sql_id | integer |  | false |  |  |  |
-| sql_name | text |  | false |  |  |  |
-| csv_sql | text |  | true |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| sql_id | integer |  | false |  |  | SQLID |
+| sql_name | text |  | false |  |  | SQL名 |
+| csv_sql | text |  | true |  |  | SQL詳細 |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

@@ -2,16 +2,18 @@
 
 ## Description
 
+ブロック配置情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| device_type_id | integer |  | false |  |  |  |
-| page_id | integer |  | false |  |  |  |
-| target_id | integer |  | false |  |  |  |
-| bloc_id | integer |  | false |  |  |  |
-| bloc_row | integer |  | true |  |  |  |
-| anywhere | smallint | 0 | false |  |  |  |
+| device_type_id | integer |  | false |  |  | 端末種別ID |
+| page_id | integer |  | false |  |  | ページID |
+| target_id | integer |  | false |  |  | 配置ID |
+| bloc_id | integer |  | false |  |  | ブロックID |
+| bloc_row | integer |  | true |  |  | ブロック配置順序 |
+| anywhere | smallint | 0 | false |  |  | 全ページに配置するフラグ |
 
 ## Constraints
 

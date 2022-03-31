@@ -2,19 +2,21 @@
 
 ## Description
 
+休日情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| holiday_id | integer |  | false |  |  |  |
-| title | text |  | false |  |  |  |
-| month | smallint |  | false |  |  |  |
-| day | smallint |  | false |  |  |  |
-| rank | integer | 0 | false |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
+| holiday_id | integer |  | false |  |  | 休日ID |
+| title | text |  | false |  |  | タイトル |
+| month | smallint |  | false |  |  | 月 |
+| day | smallint |  | false |  |  | 日 |
+| rank | integer | 0 | false |  |  | 表示順 |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
 
 ## Constraints
 

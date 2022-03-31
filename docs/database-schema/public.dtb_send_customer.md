@@ -2,15 +2,17 @@
 
 ## Description
 
+顧客メール送信履歴
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| customer_id | integer |  | false |  |  |  |
-| send_id | integer |  | false |  |  |  |
-| email | text |  | true |  |  |  |
-| name | text |  | true |  |  |  |
-| send_flag | smallint |  | true |  |  |  |
+| customer_id | integer |  | false |  |  | 顧客ID |
+| send_id | integer |  | false |  |  | 送信ID |
+| email | text |  | true |  |  | メールアドレス |
+| name | text |  | true |  |  | 名前 |
+| send_flag | smallint |  | true |  |  | 送信フラグ |
 
 ## Constraints
 

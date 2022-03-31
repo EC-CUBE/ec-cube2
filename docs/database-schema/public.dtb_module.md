@@ -2,18 +2,20 @@
 
 ## Description
 
+モジュール情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| module_id | integer |  | false |  |  |  |
-| module_code | text |  | false |  |  |  |
-| module_name | text |  | false |  |  |  |
-| sub_data | text |  | true |  |  |  |
-| auto_update_flg | smallint | 0 | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| module_id | integer |  | false |  |  | モジュールID |
+| module_code | text |  | false |  |  | モジュールコード |
+| module_name | text |  | false |  |  | モジュール名 |
+| sub_data | text |  | true |  |  | データ |
+| auto_update_flg | smallint | 0 | false |  |  | 自動更新フラグ |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

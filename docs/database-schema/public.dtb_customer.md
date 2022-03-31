@@ -2,51 +2,53 @@
 
 ## Description
 
+顧客情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| customer_id | integer |  | false |  |  |  |
-| name01 | text |  | false |  |  |  |
-| name02 | text |  | false |  |  |  |
-| kana01 | text |  | true |  |  |  |
-| kana02 | text |  | true |  |  |  |
-| company_name | text |  | true |  |  |  |
-| zip01 | text |  | true |  |  |  |
-| zip02 | text |  | true |  |  |  |
-| zipcode | text |  | true |  |  |  |
-| country_id | integer |  | true |  |  |  |
-| pref | smallint |  | true |  |  |  |
-| addr01 | text |  | true |  |  |  |
-| addr02 | text |  | true |  |  |  |
-| email | text |  | false |  |  |  |
-| email_mobile | text |  | true |  |  |  |
-| tel01 | text |  | true |  |  |  |
-| tel02 | text |  | true |  |  |  |
-| tel03 | text |  | true |  |  |  |
-| fax01 | text |  | true |  |  |  |
-| fax02 | text |  | true |  |  |  |
-| fax03 | text |  | true |  |  |  |
-| sex | smallint |  | true |  |  |  |
-| job | smallint |  | true |  |  |  |
-| birth | timestamp without time zone |  | true |  |  |  |
-| password | text |  | true |  |  |  |
-| reminder | smallint |  | true |  |  |  |
-| reminder_answer | text |  | true |  |  |  |
-| salt | text |  | true |  |  |  |
-| secret_key | text |  | false |  |  |  |
-| first_buy_date | timestamp without time zone |  | true |  |  |  |
-| last_buy_date | timestamp without time zone |  | true |  |  |  |
-| buy_times | numeric | 0 | true |  |  |  |
-| buy_total | numeric | 0 | true |  |  |  |
-| point | numeric | 0 | false |  |  |  |
-| note | text |  | true |  |  |  |
-| status | smallint | 1 | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
-| mobile_phone_id | text |  | true |  |  |  |
-| mailmaga_flg | smallint |  | true |  |  |  |
+| customer_id | integer |  | false |  |  | 顧客ID |
+| name01 | text |  | false |  |  | 姓 |
+| name02 | text |  | false |  |  | 名 |
+| kana01 | text |  | true |  |  | 姓(カナ) |
+| kana02 | text |  | true |  |  | 名(カナ) |
+| company_name | text |  | true |  |  | 【2.13】国名 |
+| zip01 | text |  | true |  |  | 郵便番号(4桁) |
+| zip02 | text |  | true |  |  | 郵便番号(3桁) |
+| zipcode | text |  | true |  |  | 【2.13】郵便番号(海外対応) |
+| country_id | integer |  | true |  |  | 【2.13】国ID |
+| pref | smallint |  | true |  |  | 都道府県 |
+| addr01 | text |  | true |  |  | 市区町村 |
+| addr02 | text |  | true |  |  | 番地等 |
+| email | text |  | false |  |  | メールアドレス |
+| email_mobile | text |  | true |  |  | 携帯メールアドレス |
+| tel01 | text |  | true |  |  | 電話(市外局番) |
+| tel02 | text |  | true |  |  | 電話(市内局番) |
+| tel03 | text |  | true |  |  | 電話(局番) |
+| fax01 | text |  | true |  |  | FAX(市外局番) |
+| fax02 | text |  | true |  |  | FAX(市内局番) |
+| fax03 | text |  | true |  |  | FAX(局番) |
+| sex | smallint |  | true |  |  | 性別 |
+| job | smallint |  | true |  |  | 職業 |
+| birth | timestamp without time zone |  | true |  |  | 生年月日 |
+| password | text |  | true |  |  | パスワード |
+| reminder | smallint |  | true |  |  | パスワードの質問 |
+| reminder_answer | text |  | true |  |  | パスワードの質問の答え |
+| salt | text |  | true |  |  | 暗号化付与文字列 |
+| secret_key | text |  | false |  |  | 暗号化キー |
+| first_buy_date | timestamp without time zone |  | true |  |  | 初回購入日時 |
+| last_buy_date | timestamp without time zone |  | true |  |  | 最終購入日時 |
+| buy_times | numeric | 0 | true |  |  | 購入回数 |
+| buy_total | numeric | 0 | true |  |  | 購入累計金額 |
+| point | numeric | 0 | false |  |  | 保持ポイント |
+| note | text |  | true |  |  | 備考 |
+| status | smallint | 1 | false |  |  | 状態 |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
+| mobile_phone_id | text |  | true |  |  | 携帯端末ID |
+| mailmaga_flg | smallint |  | true |  |  | メールマガジン種別フラグ |
 
 ## Constraints
 

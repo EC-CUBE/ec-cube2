@@ -2,16 +2,18 @@
 
 ## Description
 
+商品ステータス情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| product_status_id | smallint |  | false |  |  |  |
-| product_id | integer |  | false |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
+| product_status_id | smallint |  | false |  |  | 商品ステータスID |
+| product_id | integer |  | false |  |  | 商品ID |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
 
 ## Constraints
 

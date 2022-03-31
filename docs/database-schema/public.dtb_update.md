@@ -2,24 +2,26 @@
 
 ## Description
 
+モジュール更新情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| module_id | integer |  | false |  |  |  |
-| module_name | text |  | false |  |  |  |
-| now_version | text |  | true |  |  |  |
-| latest_version | text |  | false |  |  |  |
-| module_explain | text |  | true |  |  |  |
-| main_php | text |  | false |  |  |  |
-| extern_php | text |  | false |  |  |  |
-| install_sql | text |  | true |  |  |  |
-| uninstall_sql | text |  | true |  |  |  |
-| other_files | text |  | true |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| release_date | timestamp without time zone |  | false |  |  |  |
+| module_id | integer |  | false |  |  | モジュールID |
+| module_name | text |  | false |  |  | モジュール名 |
+| now_version | text |  | true |  |  | インストールバージョン |
+| latest_version | text |  | false |  |  | 最新バージョン |
+| module_explain | text |  | true |  |  | 機能説明 |
+| main_php | text |  | false |  |  | 更新対象パス |
+| extern_php | text |  | false |  |  | 拡張対象パス |
+| install_sql | text |  | true |  |  | インストールSQL |
+| uninstall_sql | text |  | true |  |  | アンインストールSQL |
+| other_files | text |  | true |  |  | その他拡張ファイル名 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| release_date | timestamp without time zone |  | false |  |  | リリース日時 |
 
 ## Constraints
 

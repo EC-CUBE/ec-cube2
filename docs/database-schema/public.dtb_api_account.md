@@ -2,17 +2,19 @@
 
 ## Description
 
+APIアカウント
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| api_account_id | integer |  | false |  |  |  |
-| api_access_key | text |  | false |  |  |  |
-| api_secret_key | text |  | false |  |  |  |
-| enable | smallint | 0 | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| api_account_id | integer |  | false |  |  | APIアカウントID |
+| api_access_key | text |  | false |  |  | アクセスキー |
+| api_secret_key | text |  | false |  |  | シークレットキー |
+| enable | smallint | 0 | false |  |  | 有効 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

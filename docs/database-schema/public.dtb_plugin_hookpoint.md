@@ -2,17 +2,19 @@
 
 ## Description
 
+プラグインフックポイント
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| plugin_hookpoint_id | integer |  | false |  |  |  |
-| plugin_id | integer |  | false |  |  |  |
-| hook_point | text |  | false |  |  |  |
-| callback | text |  | true |  |  |  |
-| use_flg | smallint | 1 | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| plugin_hookpoint_id | integer |  | false |  |  | プラグインフックポイントID |
+| plugin_id | integer |  | false |  |  | プラグインID |
+| hook_point | text |  | false |  |  | フックポイント |
+| callback | text |  | true |  |  | コールバック関数 |
+| use_flg | smallint | 1 | false |  |  | 【2.13】利用フラグ |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

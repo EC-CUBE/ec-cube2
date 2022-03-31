@@ -2,69 +2,71 @@
 
 ## Description
 
+受注一時情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| order_temp_id | text |  | false |  |  |  |
-| customer_id | integer |  | false |  |  |  |
-| message | text |  | true |  |  |  |
-| order_name01 | text |  | true |  |  |  |
-| order_name02 | text |  | true |  |  |  |
-| order_kana01 | text |  | true |  |  |  |
-| order_kana02 | text |  | true |  |  |  |
-| order_company_name | text |  | true |  |  |  |
-| order_email | text |  | true |  |  |  |
-| order_tel01 | text |  | true |  |  |  |
-| order_tel02 | text |  | true |  |  |  |
-| order_tel03 | text |  | true |  |  |  |
-| order_fax01 | text |  | true |  |  |  |
-| order_fax02 | text |  | true |  |  |  |
-| order_fax03 | text |  | true |  |  |  |
-| order_zip01 | text |  | true |  |  |  |
-| order_zip02 | text |  | true |  |  |  |
-| order_zipcode | text |  | true |  |  |  |
-| order_country_id | integer |  | true |  |  |  |
-| order_pref | smallint |  | true |  |  |  |
-| order_addr01 | text |  | true |  |  |  |
-| order_addr02 | text |  | true |  |  |  |
-| order_sex | smallint |  | true |  |  |  |
-| order_birth | timestamp without time zone |  | true |  |  |  |
-| order_job | integer |  | true |  |  |  |
-| subtotal | numeric |  | true |  |  |  |
-| discount | numeric | 0 | false |  |  |  |
-| deliv_id | integer |  | true |  |  |  |
-| deliv_fee | numeric |  | true |  |  |  |
-| charge | numeric |  | true |  |  |  |
-| use_point | numeric | 0 | false |  |  |  |
-| add_point | numeric | 0 | false |  |  |  |
-| birth_point | numeric | 0 | false |  |  |  |
-| tax | numeric |  | true |  |  |  |
-| total | numeric |  | true |  |  |  |
-| payment_total | numeric |  | true |  |  |  |
-| payment_id | integer |  | true |  |  |  |
-| payment_method | text |  | true |  |  |  |
-| note | text |  | true |  |  |  |
-| mail_flag | smallint |  | true |  |  |  |
-| status | smallint |  | true |  |  |  |
-| deliv_check | smallint |  | true |  |  |  |
-| point_check | smallint |  | true |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| device_type_id | integer |  | true |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
-| order_id | integer |  | true |  |  |  |
-| memo01 | text |  | true |  |  |  |
-| memo02 | text |  | true |  |  |  |
-| memo03 | text |  | true |  |  |  |
-| memo04 | text |  | true |  |  |  |
-| memo05 | text |  | true |  |  |  |
-| memo06 | text |  | true |  |  |  |
-| memo07 | text |  | true |  |  |  |
-| memo08 | text |  | true |  |  |  |
-| memo09 | text |  | true |  |  |  |
-| memo10 | text |  | true |  |  |  |
-| session | text |  | true |  |  |  |
+| order_temp_id | text |  | false |  |  | 受注一時情報ID |
+| customer_id | integer |  | false |  |  | 顧客ID |
+| message | text |  | true |  |  | 要望等 |
+| order_name01 | text |  | true |  |  | 顧客名(姓) |
+| order_name02 | text |  | true |  |  | 顧客名(名) |
+| order_kana01 | text |  | true |  |  | 顧客カナ(姓) |
+| order_kana02 | text |  | true |  |  | 顧客カナ(名) |
+| order_company_name | text |  | true |  |  | 【2.13】会社名 |
+| order_email | text |  | true |  |  | 顧客メールアドレス |
+| order_tel01 | text |  | true |  |  | 顧客電話番号(市外局番) |
+| order_tel02 | text |  | true |  |  | 顧客電話番号(市内局番) |
+| order_tel03 | text |  | true |  |  | 顧客電話番号(局番) |
+| order_fax01 | text |  | true |  |  | 顧客FAX(市外局番) |
+| order_fax02 | text |  | true |  |  | 顧客FAX(市内局番) |
+| order_fax03 | text |  | true |  |  | 顧客FAX(局番) |
+| order_zip01 | text |  | true |  |  | 顧客郵便番号(4桁) |
+| order_zip02 | text |  | true |  |  | 顧客郵便番号(3桁) |
+| order_zipcode | text |  | true |  |  | 【2.13】顧客郵便番号(海外対応) |
+| order_country_id | integer |  | true |  |  | 【2.13】顧客国ID |
+| order_pref | smallint |  | true |  |  | 都道府県ID |
+| order_addr01 | text |  | true |  |  | 顧客住所1 |
+| order_addr02 | text |  | true |  |  | 顧客住所2 |
+| order_sex | smallint |  | true |  |  | 顧客性別 |
+| order_birth | timestamp without time zone |  | true |  |  | 顧客生年月日 |
+| order_job | integer |  | true |  |  | 顧客職業 |
+| subtotal | numeric |  | true |  |  | 小計 |
+| discount | numeric | 0 | false |  |  | 値引き |
+| deliv_id | integer |  | true |  |  | 配送業者ID |
+| deliv_fee | numeric |  | true |  |  | 送料 |
+| charge | numeric |  | true |  |  | 手数料 |
+| use_point | numeric | 0 | false |  |  | 使用ポイント |
+| add_point | numeric | 0 | false |  |  | 加算ポイント |
+| birth_point | numeric | 0 | false |  |  | お誕生日ポイント |
+| tax | numeric |  | true |  |  | 税金 |
+| total | numeric |  | true |  |  | 合計 |
+| payment_total | numeric |  | true |  |  | 支払い合計 |
+| payment_id | integer |  | true |  |  | 支払方法ID |
+| payment_method | text |  | true |  |  | 支払方法 |
+| note | text |  | true |  |  | 備考 |
+| mail_flag | smallint |  | true |  |  | メルマガ希望フラグ |
+| status | smallint |  | true |  |  | 受注状態 |
+| deliv_check | smallint |  | true |  |  | 属性0 |
+| point_check | smallint |  | true |  |  | ポイント使用フラグ |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| device_type_id | integer |  | true |  |  | 端末種別ID |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
+| order_id | integer |  | true |  |  | 受注ID |
+| memo01 | text |  | true |  |  | 汎用項目1 |
+| memo02 | text |  | true |  |  | 汎用項目2 |
+| memo03 | text |  | true |  |  | 汎用項目3 |
+| memo04 | text |  | true |  |  | 汎用項目4 |
+| memo05 | text |  | true |  |  | 汎用項目5 |
+| memo06 | text |  | true |  |  | 汎用項目6 |
+| memo07 | text |  | true |  |  | 汎用項目7 |
+| memo08 | text |  | true |  |  | 汎用項目8 |
+| memo09 | text |  | true |  |  | 汎用項目9 |
+| memo10 | text |  | true |  |  | 汎用項目10 |
+| session | text |  | true |  |  | セッション情報 |
 
 ## Constraints
 

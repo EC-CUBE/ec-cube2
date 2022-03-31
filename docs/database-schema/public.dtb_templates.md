@@ -2,15 +2,17 @@
 
 ## Description
 
+テンプレート情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| template_code | text |  | false |  |  |  |
-| device_type_id | integer |  | false |  |  |  |
-| template_name | text |  | true |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| template_code | text |  | false |  |  | テンプレートコード |
+| device_type_id | integer |  | false |  |  | 端末種別ID |
+| template_name | text |  | true |  |  | テンプレート名 |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

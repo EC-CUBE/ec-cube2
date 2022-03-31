@@ -2,17 +2,19 @@
 
 ## Description
 
+メーカー
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| maker_id | integer |  | false |  |  |  |
-| name | text |  | false |  |  |  |
-| rank | integer | 0 | false |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
+| maker_id | integer |  | false |  |  | メーカーID |
+| name | text |  | false |  |  | メーカー名 |
+| rank | integer | 0 | false |  |  | 表示順 |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
 
 ## Constraints
 

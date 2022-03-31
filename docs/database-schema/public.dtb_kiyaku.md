@@ -2,18 +2,20 @@
 
 ## Description
 
+規約情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| kiyaku_id | integer |  | false |  |  |  |
-| kiyaku_title | text |  | false |  |  |  |
-| kiyaku_text | text |  | false |  |  |  |
-| rank | integer | 0 | false |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
+| kiyaku_id | integer |  | false |  |  | 規約ID |
+| kiyaku_title | text |  | false |  |  | 規約タイトル |
+| kiyaku_text | text |  | false |  |  | 規約本文 |
+| rank | integer | 0 | false |  |  | 表示順 |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
 
 ## Constraints
 

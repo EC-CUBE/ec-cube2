@@ -2,29 +2,31 @@
 
 ## Description
 
+商品規格情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| product_class_id | integer |  | false |  |  |  |
-| product_id | integer |  | false |  |  |  |
-| classcategory_id1 | integer | 0 | false |  |  |  |
-| classcategory_id2 | integer | 0 | false |  |  |  |
-| product_type_id | integer | 0 | false |  |  |  |
-| product_code | text |  | true |  |  |  |
-| stock | numeric |  | true |  |  |  |
-| stock_unlimited | smallint | 0 | false |  |  |  |
-| sale_limit | numeric |  | true |  |  |  |
-| price01 | numeric |  | true |  |  |  |
-| price02 | numeric |  | false |  |  |  |
-| deliv_fee | numeric |  | true |  |  |  |
-| point_rate | numeric | 0 | false |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| down_filename | text |  | true |  |  |  |
-| down_realfilename | text |  | true |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
+| product_class_id | integer |  | false |  |  | 商品規格ID |
+| product_id | integer |  | false |  |  | 商品ID |
+| classcategory_id1 | integer | 0 | false |  |  | 規格分類ID1 |
+| classcategory_id2 | integer | 0 | false |  |  | 規格分類ID2 |
+| product_type_id | integer | 0 | false |  |  | 商品種別ID |
+| product_code | text |  | true |  |  | 商品コード |
+| stock | numeric |  | true |  |  | 在庫数 |
+| stock_unlimited | smallint | 0 | false |  |  | 在庫制限 |
+| sale_limit | numeric |  | true |  |  | 販売制限数 |
+| price01 | numeric |  | true |  |  | 価格 |
+| price02 | numeric |  | false |  |  | 特別価格 |
+| deliv_fee | numeric |  | true |  |  | 商品送料 |
+| point_rate | numeric | 0 | false |  |  | ポイント付与率 |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| down_filename | text |  | true |  |  | ダウンロードファイル名 |
+| down_realfilename | text |  | true |  |  | ダウンロード実ファイル名 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
 
 ## Constraints
 

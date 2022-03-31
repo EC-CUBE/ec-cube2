@@ -2,24 +2,26 @@
 
 ## Description
 
+レビュー情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| review_id | integer |  | false |  |  |  |
-| product_id | integer |  | false |  |  |  |
-| reviewer_name | text |  | false |  |  |  |
-| reviewer_url | text |  | true |  |  |  |
-| sex | smallint |  | true |  |  |  |
-| customer_id | integer |  | true |  |  |  |
-| recommend_level | smallint |  | false |  |  |  |
-| title | text |  | false |  |  |  |
-| comment | text |  | false |  |  |  |
-| status | smallint | 2 | true |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
+| review_id | integer |  | false |  |  | レビューID |
+| product_id | integer |  | false |  |  | 商品ID |
+| reviewer_name | text |  | false |  |  | レビューア名 |
+| reviewer_url | text |  | true |  |  | レビューアURL |
+| sex | smallint |  | true |  |  | 性別 |
+| customer_id | integer |  | true |  |  | 顧客lID |
+| recommend_level | smallint |  | false |  |  | おすすめレベル |
+| title | text |  | false |  |  | タイトル |
+| comment | text |  | false |  |  | コメント |
+| status | smallint | 2 | true |  |  | 状態 |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
 
 ## Constraints
 

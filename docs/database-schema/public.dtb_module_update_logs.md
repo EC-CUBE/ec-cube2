@@ -2,18 +2,20 @@
 
 ## Description
 
+モジュール更新ログ情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| log_id | integer |  | false |  |  |  |
-| module_id | integer |  | false |  |  |  |
-| buckup_path | text |  | true |  |  |  |
-| error_flg | smallint | 0 | true |  |  |  |
-| error | text |  | true |  |  |  |
-| ok | text |  | true |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| log_id | integer |  | false |  |  | ログID |
+| module_id | integer |  | false |  |  | モジュールID |
+| buckup_path | text |  | true |  |  | バックアップパス |
+| error_flg | smallint | 0 | true |  |  | エラーフラグ |
+| error | text |  | true |  |  | エラーメッセージ |
+| ok | text |  | true |  |  | 正常終了メッセージ |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

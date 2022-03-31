@@ -2,23 +2,25 @@
 
 ## Description
 
+受注詳細情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| order_detail_id | integer |  | false |  |  |  |
-| order_id | integer |  | false |  |  |  |
-| product_id | integer |  | false |  |  |  |
-| product_class_id | integer |  | false |  |  |  |
-| product_name | text |  | false |  |  |  |
-| product_code | text |  | true |  |  |  |
-| classcategory_name1 | text |  | true |  |  |  |
-| classcategory_name2 | text |  | true |  |  |  |
-| price | numeric |  | true |  |  |  |
-| quantity | numeric |  | true |  |  |  |
-| point_rate | numeric | 0 | false |  |  |  |
-| tax_rate | numeric |  | true |  |  |  |
-| tax_rule | smallint |  | true |  |  |  |
+| order_detail_id | integer |  | false |  |  | 受注詳細ID |
+| order_id | integer |  | false |  |  | 受注ID |
+| product_id | integer |  | false |  |  | 商品ID |
+| product_class_id | integer |  | false |  |  | 商品規格ID |
+| product_name | text |  | false |  |  | 商品名 |
+| product_code | text |  | true |  |  | 商品コード |
+| classcategory_name1 | text |  | true |  |  | 商品規格名1 |
+| classcategory_name2 | text |  | true |  |  | 商品規格名2 |
+| price | numeric |  | true |  |  | 価格 |
+| quantity | numeric |  | true |  |  | 個数 |
+| point_rate | numeric | 0 | false |  |  | ポイント付与率 |
+| tax_rate | numeric |  | true |  |  | 【2.13】消費税率 |
+| tax_rule | smallint |  | true |  |  | 【2.13】課税規則 |
 
 ## Constraints
 

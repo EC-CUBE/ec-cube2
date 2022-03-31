@@ -2,14 +2,16 @@
 
 ## Description
 
+インデックス一覧
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| table_name | text |  | false |  |  |  |
-| column_name | text |  | false |  |  |  |
-| recommend_flg | smallint | 0 | false |  |  |  |
-| recommend_comment | text |  | true |  |  |  |
+| table_name | text |  | false |  |  | テーブル名 |
+| column_name | text |  | false |  |  | カラム名 |
+| recommend_flg | smallint | 0 | false |  |  | レコメンドフラグ |
+| recommend_comment | text |  | true |  |  | レコメンドフラグコメント |
 
 ## Constraints
 

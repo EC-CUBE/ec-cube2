@@ -2,22 +2,24 @@
 
 ## Description
 
+配送業者情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| deliv_id | integer |  | false |  |  |  |
-| product_type_id | integer |  | true |  |  |  |
-| name | text |  | true |  |  |  |
-| service_name | text |  | true |  |  |  |
-| remark | text |  | true |  |  |  |
-| confirm_url | text |  | true |  |  |  |
-| rank | integer |  | true |  |  |  |
-| status | smallint | 1 | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| deliv_id | integer |  | false |  |  | 配送業者ID |
+| product_type_id | integer |  | true |  |  | 商品種別ID |
+| name | text |  | true |  |  | 配送業者名 |
+| service_name | text |  | true |  |  | 配送サービス名 |
+| remark | text |  | true |  |  | 説明 |
+| confirm_url | text |  | true |  |  | 伝票確認URL |
+| rank | integer |  | true |  |  | 表示順 |
+| status | smallint | 1 | false |  |  | 状態 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

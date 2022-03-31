@@ -2,13 +2,15 @@
 
 ## Description
 
+支払選択肢情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| deliv_id | integer |  | false |  |  |  |
-| payment_id | integer |  | false |  |  |  |
-| rank | integer |  | true |  |  |  |
+| deliv_id | integer |  | false |  |  | 配送業者ID |
+| payment_id | integer |  | false |  |  | 支払方法ID |
+| rank | integer |  | true |  |  | 表示順 |
 
 ## Constraints
 

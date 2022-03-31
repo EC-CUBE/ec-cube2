@@ -2,13 +2,15 @@
 
 ## Description
 
+【2.13】国マスタ
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| id | integer |  | false |  |  |  |
-| name | text |  | true |  |  |  |
-| rank | integer |  | false |  |  |  |
+| id | integer |  | false |  |  | ID |
+| name | text |  | true |  |  | 名称 |
+| rank | integer |  | false |  |  | 表示順 |
 
 ## Constraints
 

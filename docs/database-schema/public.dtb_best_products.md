@@ -2,20 +2,22 @@
 
 ## Description
 
+おすすめ商品情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| best_id | integer |  | false |  |  |  |
-| category_id | integer |  | false |  |  |  |
-| rank | integer | 0 | false |  |  |  |
-| product_id | integer |  | false |  |  |  |
-| title | text |  | true |  |  |  |
-| comment | text |  | true |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
+| best_id | integer |  | false |  |  | ベスト商品ID |
+| category_id | integer |  | false |  |  | カテゴリID |
+| rank | integer | 0 | false |  |  | 表示順 |
+| product_id | integer |  | false |  |  | 商品ID |
+| title | text |  | true |  |  | タイトル |
+| comment | text |  | true |  |  | コメント |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
 
 ## Constraints
 

@@ -2,13 +2,15 @@
 
 ## Description
 
+カテゴリ商品数情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| category_id | integer |  | false |  |  |  |
-| product_count | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
+| category_id | integer |  | false |  |  | カテゴリID |
+| product_count | integer |  | false |  |  | 商品数 |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 
 ## Constraints
 

@@ -2,22 +2,24 @@
 
 ## Description
 
+新着情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| news_id | integer |  | false |  |  |  |
-| news_date | timestamp without time zone |  | true |  |  |  |
-| rank | integer |  | true |  |  |  |
-| news_title | text |  | false |  |  |  |
-| news_comment | text |  | true |  |  |  |
-| news_url | text |  | true |  |  |  |
-| news_select | smallint | 0 | false |  |  |  |
-| link_method | text |  | true |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
+| news_id | integer |  | false |  |  | 新着情報ID |
+| news_date | timestamp without time zone |  | true |  |  | 新着情報日付 |
+| rank | integer |  | true |  |  | 表示順 |
+| news_title | text |  | false |  |  | 新着情報タイトル |
+| news_comment | text |  | true |  |  | 新着情報コメント |
+| news_url | text |  | true |  |  | 新着情報URL |
+| news_select | smallint | 0 | false |  |  | 不明（未使用？） |
+| link_method | text |  | true |  |  | 別ウィンドウで開くフラグ |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
 
 ## Constraints
 

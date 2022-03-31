@@ -2,20 +2,22 @@
 
 ## Description
 
+ブロック情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| device_type_id | integer |  | false |  |  |  |
-| bloc_id | integer |  | false |  |  |  |
-| bloc_name | text |  | true |  |  |  |
-| tpl_path | text |  | true |  |  |  |
-| filename | text |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| php_path | text |  | true |  |  |  |
-| deletable_flg | smallint | 1 | false |  |  |  |
-| plugin_id | integer |  | true |  |  |  |
+| device_type_id | integer |  | false |  |  | 端末種別ID |
+| bloc_id | integer |  | false |  |  | ブロックID |
+| bloc_name | text |  | true |  |  | ブロック名 |
+| tpl_path | text |  | true |  |  | Smartyテンプレートパス |
+| filename | text |  | false |  |  | ファイル名 |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| php_path | text |  | true |  |  | PHPパス |
+| deletable_flg | smallint | 1 | false |  |  | 削除可能フラグ |
+| plugin_id | integer |  | true |  |  | プラグインID |
 
 ## Constraints
 

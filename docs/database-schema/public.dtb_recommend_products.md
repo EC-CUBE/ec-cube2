@@ -2,18 +2,20 @@
 
 ## Description
 
+関連商品情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| product_id | integer |  | false |  |  |  |
-| recommend_product_id | integer |  | false |  |  |  |
-| rank | integer |  | false |  |  |  |
-| comment | text |  | true |  |  |  |
-| status | smallint | 0 | false |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| product_id | integer |  | false |  |  | 商品ID |
+| recommend_product_id | integer |  | false |  |  | 関連商品ID |
+| rank | integer |  | false |  |  | 表示順 |
+| comment | text |  | true |  |  | コメント |
+| status | smallint | 0 | false |  |  | 状態 |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

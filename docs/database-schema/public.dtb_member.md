@@ -2,24 +2,26 @@
 
 ## Description
 
+管理画面メンバー情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| member_id | integer |  | false |  |  |  |
-| name | text |  | true |  |  |  |
-| department | text |  | true |  |  |  |
-| login_id | text |  | false |  |  |  |
-| password | text |  | false |  |  |  |
-| salt | text |  | false |  |  |  |
-| authority | smallint |  | false |  |  |  |
-| rank | integer | 0 | false |  |  |  |
-| work | smallint | 1 | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| login_date | timestamp without time zone |  | true |  |  |  |
+| member_id | integer |  | false |  |  | メンバーID |
+| name | text |  | true |  |  | 名前 |
+| department | text |  | true |  |  | 部門 |
+| login_id | text |  | false |  |  | ログインID |
+| password | text |  | false |  |  | パスワード |
+| salt | text |  | false |  |  | 暗号化付与文字列 |
+| authority | smallint |  | false |  |  | 権限 |
+| rank | integer | 0 | false |  |  | 表示順 |
+| work | smallint | 1 | false |  |  | 稼動フラグ |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日付 |
+| login_date | timestamp without time zone |  | true |  |  | 最終ログイン日時 |
 
 ## Constraints
 

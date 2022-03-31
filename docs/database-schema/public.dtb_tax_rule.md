@@ -2,23 +2,25 @@
 
 ## Description
 
+【2.13】消費税ルール
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| tax_rule_id | integer |  | false |  |  |  |
-| country_id | integer | 0 | false |  |  |  |
-| pref_id | integer | 0 | false |  |  |  |
-| product_id | integer | 0 | false |  |  |  |
-| product_class_id | integer | 0 | false |  |  |  |
-| calc_rule | smallint | 1 | false |  |  |  |
-| tax_rate | numeric | 8 | false |  |  |  |
-| tax_adjust | numeric | 0 | false |  |  |  |
-| apply_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| member_id | integer |  | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
-| create_date | timestamp without time zone |  | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
+| tax_rule_id | integer |  | false |  |  | 税率ID |
+| country_id | integer | 0 | false |  |  | 国ID |
+| pref_id | integer | 0 | false |  |  | 地域ID |
+| product_id | integer | 0 | false |  |  | 商品ID |
+| product_class_id | integer | 0 | false |  |  | 商品規格ID |
+| calc_rule | smallint | 1 | false |  |  | 課税規則（四捨五入、切り上げ、切り捨て） |
+| tax_rate | numeric | 8 | false |  |  | 消費税率 |
+| tax_adjust | numeric | 0 | false |  |  | 固定金額 |
+| apply_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 適用日 |
+| member_id | integer |  | false |  |  | 作成者ID |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
+| create_date | timestamp without time zone |  | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
 
 ## Constraints
 

@@ -2,25 +2,27 @@
 
 ## Description
 
+ページレイアウト情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| device_type_id | integer |  | false |  |  |  |
-| page_id | integer |  | false |  |  |  |
-| page_name | text |  | true |  |  |  |
-| url | text |  | false |  |  |  |
-| filename | text |  | true |  |  |  |
-| header_chk | smallint | 1 | true |  |  |  |
-| footer_chk | smallint | 1 | true |  |  |  |
-| edit_flg | smallint | 1 | true |  |  |  |
-| author | text |  | true |  |  |  |
-| description | text |  | true |  |  |  |
-| keyword | text |  | true |  |  |  |
-| update_url | text |  | true |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| meta_robots | text |  | true |  |  |  |
+| device_type_id | integer |  | false |  |  | 端末種別ID |
+| page_id | integer |  | false |  |  | ページID |
+| page_name | text |  | true |  |  | ページ名 |
+| url | text |  | false |  |  | ページURL |
+| filename | text |  | true |  |  | ファイル名 |
+| header_chk | smallint | 1 | true |  |  | ヘッダチェックフラグ |
+| footer_chk | smallint | 1 | true |  |  | フッタチェックフラグ |
+| edit_flg | smallint | 1 | true |  |  | 修正フラグ |
+| author | text |  | true |  |  | meta タグ(Author) |
+| description | text |  | true |  |  | meta タグ(Description) |
+| keyword | text |  | true |  |  | meta タグ(keyword) |
+| update_url | text |  | true |  |  | 更新実施URL |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| meta_robots | text |  | true |  |  | 【2.13】meta タグ(robots) |
 
 ## Constraints
 

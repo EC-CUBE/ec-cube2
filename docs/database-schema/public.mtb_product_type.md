@@ -2,13 +2,15 @@
 
 ## Description
 
+商品種別マスタ
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| id | smallint |  | false |  |  |  |
-| name | text |  | true |  |  |  |
-| rank | smallint |  | false |  |  |  |
+| id | smallint |  | false |  |  | ID |
+| name | text |  | true |  |  | 名称 |
+| rank | smallint |  | false |  |  | 表示順 |
 
 ## Constraints
 

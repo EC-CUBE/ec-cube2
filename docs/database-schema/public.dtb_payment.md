@@ -2,39 +2,41 @@
 
 ## Description
 
+支払方法情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| payment_id | integer |  | false |  |  |  |
-| payment_method | text |  | true |  |  |  |
-| charge | numeric |  | true |  |  |  |
-| rule_max | numeric |  | true |  |  |  |
-| rank | integer |  | true |  |  |  |
-| note | text |  | true |  |  |  |
-| fix | smallint |  | true |  |  |  |
-| status | smallint | 1 | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| payment_image | text |  | true |  |  |  |
-| upper_rule | numeric |  | true |  |  |  |
-| charge_flg | smallint | 1 | true |  |  |  |
-| rule_min | numeric |  | true |  |  |  |
-| upper_rule_max | numeric |  | true |  |  |  |
-| module_id | integer |  | true |  |  |  |
-| module_path | text |  | true |  |  |  |
-| memo01 | text |  | true |  |  |  |
-| memo02 | text |  | true |  |  |  |
-| memo03 | text |  | true |  |  |  |
-| memo04 | text |  | true |  |  |  |
-| memo05 | text |  | true |  |  |  |
-| memo06 | text |  | true |  |  |  |
-| memo07 | text |  | true |  |  |  |
-| memo08 | text |  | true |  |  |  |
-| memo09 | text |  | true |  |  |  |
-| memo10 | text |  | true |  |  |  |
+| payment_id | integer |  | false |  |  | 支払方法ID |
+| payment_method | text |  | true |  |  | 支払方法 |
+| charge | numeric |  | true |  |  | 手数料 |
+| rule_max | numeric |  | true |  |  | 利用条件(円以上) |
+| rank | integer |  | true |  |  | 表示順 |
+| note | text |  | true |  |  | 備考 |
+| fix | smallint |  | true |  |  | 固定:1　自由設定:2 |
+| status | smallint | 1 | false |  |  | 状態 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| payment_image | text |  | true |  |  | 支払方法ロゴ |
+| upper_rule | numeric |  | true |  |  | 利用条件(円以下) |
+| charge_flg | smallint | 1 | true |  |  | 手数料設定フラグ |
+| rule_min | numeric |  | true |  |  | 利用条件(円以上)の下限 |
+| upper_rule_max | numeric |  | true |  |  | 利用条件(円以下)の上限 |
+| module_id | integer |  | true |  |  | 追加モジュールID |
+| module_path | text |  | true |  |  | 追加モジュールパス |
+| memo01 | text |  | true |  |  | 汎用項目1 |
+| memo02 | text |  | true |  |  | 汎用項目2 |
+| memo03 | text |  | true |  |  | 汎用項目3 |
+| memo04 | text |  | true |  |  | 汎用項目4 |
+| memo05 | text |  | true |  |  | 汎用項目5 |
+| memo06 | text |  | true |  |  | 汎用項目6 |
+| memo07 | text |  | true |  |  | 汎用項目7 |
+| memo08 | text |  | true |  |  | 汎用項目8 |
+| memo09 | text |  | true |  |  | 汎用項目9 |
+| memo10 | text |  | true |  |  | 汎用項目10 |
 
 ## Constraints
 

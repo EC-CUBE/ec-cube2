@@ -2,17 +2,19 @@
 
 ## Description
 
+受注メール送信履歴
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| send_id | integer |  | false |  |  |  |
-| order_id | integer |  | false |  |  |  |
-| send_date | timestamp without time zone |  | true |  |  |  |
-| template_id | integer |  | true |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| subject | text |  | true |  |  |  |
-| mail_body | text |  | true |  |  |  |
+| send_id | integer |  | false |  |  | 送信ID |
+| order_id | integer |  | false |  |  | 受注ID |
+| send_date | timestamp without time zone |  | true |  |  | 送信日時 |
+| template_id | integer |  | true |  |  | テンプレートID |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| subject | text |  | true |  |  | 件名 |
+| mail_body | text |  | true |  |  | メール本文 |
 
 ## Constraints
 

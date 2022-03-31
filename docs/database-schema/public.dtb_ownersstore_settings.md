@@ -2,11 +2,13 @@
 
 ## Description
 
+オーナーズストア設定
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| public_key | text |  | false |  |  |  |
+| public_key | text |  | false |  |  | 認証キー |
 
 ## Constraints
 

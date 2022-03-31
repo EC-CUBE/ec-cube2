@@ -2,13 +2,15 @@
 
 ## Description
 
+メーカーカウント
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| maker_id | integer |  | false |  |  |  |
-| product_count | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
+| maker_id | integer |  | false |  |  | メーカーID |
+| product_count | integer |  | false |  |  | 登録商品数 |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 
 ## Constraints
 

@@ -2,13 +2,15 @@
 
 ## Description
 
+商品カテゴリ関連
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| product_id | integer |  | false |  |  |  |
-| category_id | integer |  | false |  |  |  |
-| rank | integer |  | false |  |  |  |
+| product_id | integer |  | false |  |  | 商品ID |
+| category_id | integer |  | false |  |  | カテゴリID |
+| rank | integer |  | false |  |  | 表示順 |
 
 ## Constraints
 

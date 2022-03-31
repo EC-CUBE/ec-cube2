@@ -2,19 +2,21 @@
 
 ## Description
 
+カテゴリ情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| category_id | integer |  | false |  |  |  |
-| category_name | text |  | true |  |  |  |
-| parent_category_id | integer | 0 | false |  |  |  |
-| level | integer |  | false |  |  |  |
-| rank | integer |  | true |  |  |  |
-| creator_id | integer |  | false |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
-| update_date | timestamp without time zone |  | false |  |  |  |
-| del_flg | smallint | 0 | false |  |  |  |
+| category_id | integer |  | false |  |  | カテゴリID |
+| category_name | text |  | true |  |  | カテゴリ名 |
+| parent_category_id | integer | 0 | false |  |  | 親カテゴリID |
+| level | integer |  | false |  |  | 階層 |
+| rank | integer |  | true |  |  | 表示順 |
+| creator_id | integer |  | false |  |  | 作成者ID |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
+| update_date | timestamp without time zone |  | false |  |  | 更新日時 |
+| del_flg | smallint | 0 | false |  |  | 削除フラグ |
 
 ## Constraints
 

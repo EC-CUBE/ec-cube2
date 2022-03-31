@@ -2,15 +2,17 @@
 
 ## Description
 
+モバイルセッション情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| session_id | text |  | false |  |  |  |
-| param_key | text |  | true |  |  |  |
-| param_value | text |  | true |  |  |  |
-| url | text |  | true |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
+| session_id | text |  | false |  |  | セッションID |
+| param_key | text |  | true |  |  | パラメータキー |
+| param_value | text |  | true |  |  | パラメータ値 |
+| url | text |  | true |  |  | URL |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 
 ## Constraints
 

@@ -2,14 +2,16 @@
 
 ## Description
 
+送料情報
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| deliv_id | integer |  | false |  |  |  |
-| fee_id | integer |  | false |  |  |  |
-| fee | numeric |  | false |  |  |  |
-| pref | smallint |  | true |  |  |  |
+| deliv_id | integer |  | false |  |  | 配送業者ID |
+| fee_id | integer |  | false |  |  | 送料ID |
+| fee | numeric |  | false |  |  | 送料 |
+| pref | smallint |  | true |  |  | 都道府県名 |
 
 ## Constraints
 

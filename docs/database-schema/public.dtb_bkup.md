@@ -2,13 +2,15 @@
 
 ## Description
 
+バックアップ
+
 ## Columns
 
 | Name | Type | Default | Nullable | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | -------- | ------- | ------- |
-| bkup_name | text |  | false |  |  |  |
-| bkup_memo | text |  | true |  |  |  |
-| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  |  |
+| bkup_name | text |  | false |  |  | バックアップ名 |
+| bkup_memo | text |  | true |  |  | バックアップメモ |
+| create_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 作成日時 |
 
 ## Constraints
 
