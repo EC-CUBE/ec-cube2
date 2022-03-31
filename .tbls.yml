@@ -1,0 +1,2 @@
+dsn: postgres://eccube_db_user:password@host.docker.internal:15432/eccube_db?sslmode=disable
+docPath: /work/docs/database-schema
