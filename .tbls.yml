@@ -1,2 +1,7 @@
 dsn: postgres://eccube_db_user:password@host.docker.internal:15432/eccube_db?sslmode=disable
 docPath: /work/docs/database-schema
+name: EC-CUBE 2.17.x table definition
+desc: EC-CUBE 2.17.x テーブル定義書
+er:
+  comment: true
+

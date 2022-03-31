@@ -1,4 +1,8 @@
-# eccube_db
+# EC-CUBE 2.17.x table definition
+
+## Description
+
+EC-CUBE 2.17.x テーブル定義書
 
 ## Tables
 
