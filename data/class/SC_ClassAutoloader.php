@@ -33,7 +33,6 @@ class SC_ClassAutoloader
     /**
      * クラスのオートローディング本体
      *
-     * LC_* には対応していない。
      * @return void
      */
     public static function autoload($class, $plugin_upload_realdir = PLUGIN_UPLOAD_REALDIR)
@@ -45,7 +44,7 @@ class SC_ClassAutoloader
 
         if (($arrClassNamePart[0] === 'GC' || $arrClassNamePart[0] === 'SC') && $arrClassNamePart[1] === 'Utils') {
             $classpath .= $is_ex ? 'util_extends/' : 'util/';
-        } elseif ($arrClassNamePart[0] === 'SC' && $is_ex === true && $count >= 4) {
+        } elseif (($arrClassNamePart[0] === 'SC' || $arrClassNamePart[0] === 'LC') && $is_ex === true && $count >= 4) {
             $arrClassNamePartTemp = $arrClassNamePart;
             // FIXME クラスファイルのディレクトリ命名が変。変な現状に合わせて強引な処理をしてる。
             $arrClassNamePartTemp[1] = $arrClassNamePartTemp[1] . '_extends';
