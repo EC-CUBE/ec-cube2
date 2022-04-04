@@ -44,7 +44,7 @@
                 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
                 <input type="hidden" name="mode" value="" />
                 <input type="hidden" name="other_deliv_id" value="" />
-                <input type="hidden" name="pageno" value="<!--{$tpl_pageno}-->" />
+                <input type="hidden" name="pageno" value="<!--{$tpl_pageno|h}-->" />
 
                 <table summary="お届け先">
                 <col width="5%" />
@@ -70,10 +70,10 @@
                                 <!--{$arrOtherDeliv[cnt].company_name|h}-->&nbsp;<!--{$arrOtherDeliv[cnt].name01|h}-->&nbsp;<!--{$arrOtherDeliv[cnt].name02|h}-->
                             </td>
                             <td class="alignC">
-                                <a href="./delivery_addr.php" onclick="eccube.openWindow('./delivery_addr.php?other_deliv_id=<!--{$arrOtherDeliv[cnt].other_deliv_id}-->','deliv_disp','600','640'); return false;">変更</a>
+                                <a href="./delivery_addr.php" onclick="eccube.openWindow('./delivery_addr.php?other_deliv_id=<!--{$arrOtherDeliv[cnt].other_deliv_id|h}-->','deliv_disp','600','640'); return false;">変更</a>
                             </td>
                             <td class="alignC">
-                                <a href="#" onclick="eccube.setModeAndSubmit('delete','other_deliv_id','<!--{$arrOtherDeliv[cnt].other_deliv_id}-->'); return false;">削除</a>
+                                <a href="#" onclick="eccube.setModeAndSubmit('delete','other_deliv_id','<!--{$arrOtherDeliv[cnt].other_deliv_id|h}-->'); return false;">削除</a>
                             </td>
                         </tr>
                     <!--{/section}-->

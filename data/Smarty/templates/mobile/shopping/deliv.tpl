@@ -30,15 +30,15 @@
         <!--{section name=cnt loop=$arrAddr}-->
         <form method="post" action="?">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
-            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->">
+            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->">
             <input type="hidden" name="deli" value="<!--{$smarty.section.cnt.iteration}-->">
             <input type="hidden" name="mode" value="customer_addr">
             <!--{if $smarty.section.cnt.first}-->
                 <input type="hidden" name="other_deliv_id" value="">
                 <input type="hidden" name="deliv_check" value="-1">
             <!--{else}-->
-                <input type="hidden" name="other_deliv_id" value="<!--{$arrAddr[cnt].other_deliv_id}-->">
-                <input type="hidden" name="deliv_check" value="<!--{$arrAddr[cnt].other_deliv_id}-->">
+                <input type="hidden" name="other_deliv_id" value="<!--{$arrAddr[cnt].other_deliv_id|h}-->">
+                <input type="hidden" name="deliv_check" value="<!--{$arrAddr[cnt].other_deliv_id|h}-->">
                 <br>
             <!--{/if}-->
 
@@ -62,15 +62,15 @@
             <form method="get" action="<!--{$smarty.const.ROOT_URLPATH}-->mypage/delivery_addr.php">
                 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
                 <input type="hidden" name="page" value="<!--{$smarty.server.SCRIPT_NAME|h}-->">
-                <input type="hidden" name="other_deliv_id" value="<!--{$arrAddr[cnt].other_deliv_id}-->">
+                <input type="hidden" name="other_deliv_id" value="<!--{$arrAddr[cnt].other_deliv_id|h}-->">
                 <center><input type="submit" value="お届け先情報変更"></center>
             </form>
 
             <form method="post" action="?">
                 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
-                <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->">
+                <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->">
                 <input type="hidden" name="mode" value="delete">
-                <input type="hidden" name="other_deliv_id" value="<!--{$arrAddr[cnt].other_deliv_id}-->">
+                <input type="hidden" name="other_deliv_id" value="<!--{$arrAddr[cnt].other_deliv_id|h}-->">
                 <center><input type="submit" value="お届け先を削除"></center>
             </form>
         <!--{/if}-->
@@ -91,7 +91,7 @@
         ■お届け先を複数指定する<br>
         <form method="post" action="?">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
-            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->">
+            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->">
             <input type="hidden" name="mode" value="multiple">
             <center><input type="submit" value="複数お届け先"></center>
         </form>

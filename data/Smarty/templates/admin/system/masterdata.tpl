@@ -38,7 +38,7 @@
         <form name="form2" id="form2" method="post" action="?">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
             <input type="hidden" name="mode" value="edit" />
-            <input type="hidden" name="master_data_name" value="<!--{$masterDataName}-->" />
+            <input type="hidden" name="master_data_name" value="<!--{$masterDataName|h}-->" />
             <p class="remark attention">
                 マスターデータの値を設定できます。<br />
                 重複したIDを登録することはできません。<br />

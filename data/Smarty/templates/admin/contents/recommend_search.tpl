@@ -58,11 +58,11 @@ function func_submit( id ){
         </tr>
         <tr>
             <th>商品コード</th>
-            <td><input type="text" name="search_product_code" value="<!--{$arrForm.search_product_code}-->" size="35" class="box35" /></td>
+            <td><input type="text" name="search_product_code" value="<!--{$arrForm.search_product_code|h}-->" size="35" class="box35" /></td>
         </tr>
         <tr>
             <th>商品名</th>
-            <td><input type="text" name="search_name" value="<!--{$arrForm.search_name}-->" size="35" class="box35" /></td>
+            <td><input type="text" name="search_name" value="<!--{$arrForm.search_name|h}-->" size="35" class="box35" /></td>
         </tr>
         <tr>
             <th>商品ステータス</th>
@@ -114,7 +114,7 @@ function func_submit( id ){
                 <!--{/if}-->
             </td>
             <td><!--{$arr.name|h}--></td>
-            <td class="center"><a href="" onclick="return func_submit(<!--{$arr.product_id}-->)">決定</a></td>
+            <td class="center"><a href="" onclick="return func_submit(<!--{$arr.product_id|h}-->)">決定</a></td>
         </tr>
         <!--▲商品<!--{$smarty.foreach.loop.iteration}-->-->
         <!--{/foreach}-->

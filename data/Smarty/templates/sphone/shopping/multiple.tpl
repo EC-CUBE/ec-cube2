@@ -42,8 +42,8 @@
     <div class="form_area">
         <form name="form1" id="form1" method="post" action="<!--{$smarty.const.ROOT_URLPATH}-->shopping/multiple.php">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->" />
-            <input type="hidden" name="line_of_num" value="<!--{$arrForm.line_of_num.value}-->" />
+            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->" />
+            <input type="hidden" name="line_of_num" value="<!--{$arrForm.line_of_num.value|h}-->" />
             <input type="hidden" name="mode" value="confirm" />
 
             <!--{section name=line loop=$arrForm.line_of_num.value}-->
@@ -79,7 +79,7 @@
                     <!--▲商品 -->
 
                     <div class="btn_area_btm">
-                        <input type="hidden" name="cart_no[<!--{$index}-->]" value="<!--{$index}-->" />
+                        <input type="hidden" name="cart_no[<!--{$index|h}-->]" value="<!--{$index|h}-->" />
                         <!--{assign var=key value="product_class_id"}-->
                         <input type="hidden" name="<!--{$key}-->[<!--{$index}-->]" value="<!--{$arrForm[$key].value[$index]|h}-->" />
                         <!--{assign var=key value="name"}-->

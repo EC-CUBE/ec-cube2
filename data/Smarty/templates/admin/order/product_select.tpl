@@ -120,7 +120,7 @@
     <input name="mode" type="hidden" value="search" />
     <input name="anchor_key" type="hidden" value="" />
     <input name="search_pageno" type="hidden" value="" />
-    <input name="shipping_id" type="hidden" value="<!--{$shipping_id}-->" />
+    <input name="shipping_id" type="hidden" value="<!--{$shipping_id|h}-->" />
     <input name="no" type="hidden" value="<!--{$tpl_no|h}-->" />
     <table class="form">
         <col width="20%" />
@@ -205,7 +205,7 @@
                                 </dd>
                             </dl>
                             <!--{else}-->
-                            <input type="hidden" name="classcategory_id1" id="<!--{$class1}-->" value="" />
+                            <input type="hidden" name="classcategory_id1" id="<!--{$class1|h}-->" value="" />
                             <!--{/if}-->
 
                             <!--{if $tpl_classcat_find2[$id]}-->
@@ -219,7 +219,7 @@
                                 </dd>
                             </dl>
                             <!--{else}-->
-                            <input type="hidden" name="classcategory_id2" id="<!--{$class2}-->" value="" />
+                            <input type="hidden" name="classcategory_id2" id="<!--{$class2|h}-->" value="" />
                             <!--{/if}-->
 
                             <!--{if !$tpl_stock_find[$id]}-->
@@ -230,7 +230,7 @@
                             <input type="hidden" name="product_type" id="product_type<!--{$id|h}-->" value="<!--{$tpl_product_type[$id]}-->" />
                         </form>
                     </td>
-                    <td class="center"><a href="javascript:;" onclick="return func_submit('<!--{$arrProducts[cnt].product_id}-->', '<!--{$tpl_class_name1[$id]}-->', '<!--{$tpl_class_name2[$id]}-->'); return false;">決定</a></td>
+                    <td class="center"><a href="javascript:;" onclick="return func_submit('<!--{$arrProducts[cnt].product_id|h}-->', '<!--{$tpl_class_name1[$id]}-->', '<!--{$tpl_class_name2[$id]}-->'); return false;">決定</a></td>
                 </tr>
                 <!--▲商品<!--{$smarty.section.cnt.iteration}-->-->
         <!--{sectionelse}-->

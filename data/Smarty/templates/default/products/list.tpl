@@ -239,7 +239,7 @@
                                 <div class="cartin_btn">
                                     <!--★カゴに入れる★-->
                                     <div id="cartbtn_default_<!--{$id}-->">
-                                        <input type="image" id="cart<!--{$id}-->" src="<!--{$TPL_URLPATH}-->img/button/btn_cartin.jpg" alt="カゴに入れる" onclick="fnInCart(this.form); return false;" class="hover_change_image" />
+                                        <input type="image" id="cart<!--{$id|h}-->" src="<!--{$TPL_URLPATH}-->img/button/btn_cartin.jpg" alt="カゴに入れる" onclick="fnInCart(this.form); return false;" class="hover_change_image" />
                                     </div>
                                     <div class="attention" id="cartbtn_dynamic_<!--{$id}-->"></div>
                                 </div>

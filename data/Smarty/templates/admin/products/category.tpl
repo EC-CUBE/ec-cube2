@@ -93,21 +93,21 @@
                     </td>
                     <td class="center">
                         <!--{if $arrForm.category_id != $arrList[cnt].category_id}-->
-                        <a href="?" onclick="eccube.setModeAndSubmit('pre_edit', 'category_id', <!--{$arrList[cnt].category_id}-->); return false;">編集</a>
+                        <a href="?" onclick="eccube.setModeAndSubmit('pre_edit', 'category_id', <!--{$arrList[cnt].category_id|h}-->); return false;">編集</a>
                         <!--{else}-->
                         編集中
                         <!--{/if}-->
                     </td>
                     <td class="center">
-                        <a href="?" onclick="eccube.setModeAndSubmit('delete', 'category_id', <!--{$arrList[cnt].category_id}-->); return false;">削除</a>
+                        <a href="?" onclick="eccube.setModeAndSubmit('delete', 'category_id', <!--{$arrList[cnt].category_id|h}-->); return false;">削除</a>
                     </td>
                     <td class="center">
                     <!--{* 移動 *}-->
                     <!--{if $smarty.section.cnt.iteration != 1}-->
-                    <a href="?" onclick="eccube.setModeAndSubmit('up','category_id', <!--{$arrList[cnt].category_id}-->); return false;">上へ</a>
+                    <a href="?" onclick="eccube.setModeAndSubmit('up','category_id', <!--{$arrList[cnt].category_id|h}-->); return false;">上へ</a>
                     <!--{/if}-->
                     <!--{if $smarty.section.cnt.iteration != $smarty.section.cnt.last}-->
-                    <a href="?" onclick="eccube.setModeAndSubmit('down','category_id', <!--{$arrList[cnt].category_id}-->); return false;">下へ</a>
+                    <a href="?" onclick="eccube.setModeAndSubmit('down','category_id', <!--{$arrList[cnt].category_id|h}-->); return false;">下へ</a>
                     <!--{/if}-->
                     </td>
 

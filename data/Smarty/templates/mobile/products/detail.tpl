@@ -39,7 +39,7 @@
             <!--{if ($smarty.get.image == "" || $smarty.get.image == "main_image")}-->
                 [1]
             <!--{else}-->
-                [<a href="?product_id=<!--{$smarty.get.product_id}-->&amp;image=main_image">1</a>]
+                [<a href="?product_id=<!--{$smarty.get.product_id|h}-->&amp;image=main_image">1</a>]
             <!--{/if}-->
 
             <!--{assign var=num value="2"}-->
@@ -49,7 +49,7 @@
                     <!--{if $key == $smarty.get.image}-->
                         [<!--{$num}-->]
                     <!--{else}-->
-                        [<a href="?product_id=<!--{$smarty.get.product_id}-->&amp;image=<!--{$key}-->"><!--{$num}--></a>]
+                        [<a href="?product_id=<!--{$smarty.get.product_id|h}-->&amp;image=<!--{$key}-->"><!--{$num}--></a>]
                     <!--{/if}-->
                     <!--{assign var=num value="`$num+1`"}-->
                 <!--{/if}-->
@@ -144,7 +144,7 @@
         <input type="hidden" name="mode" value="select">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
 
-        <input type="hidden" name="product_id" value="<!--{$tpl_product_id}-->">
+        <input type="hidden" name="product_id" value="<!--{$tpl_product_id|h}-->">
         <!--{if $tpl_stock_find}-->
             <!--★商品を選ぶ★-->
             <center><input type="submit" name="select" id="cart" value="この商品を選ぶ"></center>

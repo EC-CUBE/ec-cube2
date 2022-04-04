@@ -27,7 +27,7 @@
 
     <form method="post" action="?">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
-        <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->">
+        <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->">
         <input type="hidden" name="line_of_num" value="<!--{$arrForm.line_of_num.value}-->">
         <input type="hidden" name="mode" value="confirm">
         <!--{section name=line loop=$arrForm.line_of_num.value}-->

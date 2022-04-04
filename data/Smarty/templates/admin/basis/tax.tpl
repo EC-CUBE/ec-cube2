@@ -126,7 +126,7 @@
             </td>
             <td class="center">
             <!--{if $tpl_tax_rule_id != $arrTaxrule[cnt].tax_rule_id}-->
-                <a href="?" onclick="eccube.setModeAndSubmit('pre_edit', 'tax_rule_id', '<!--{$arrTaxrule[cnt].tax_rule_id}-->'); return false;">編集</a>
+                <a href="?" onclick="eccube.setModeAndSubmit('pre_edit', 'tax_rule_id', '<!--{$arrTaxrule[cnt].tax_rule_id|h}-->'); return false;">編集</a>
             <!--{else}-->
                 編集中
             <!--{/if}-->
@@ -135,7 +135,7 @@
             <!--{if $arrTaxrule[cnt].tax_rule_id == 0}-->
                 -
             <!--{else}-->
-                <a href="?" onclick="eccube.setModeAndSubmit('delete', 'tax_rule_id', '<!--{$arrTaxrule[cnt].tax_rule_id}-->'); return false;">削除</a>
+                <a href="?" onclick="eccube.setModeAndSubmit('delete', 'tax_rule_id', '<!--{$arrTaxrule[cnt].tax_rule_id|h}-->'); return false;">削除</a>
             <!--{/if}-->
             </td>
         </tr>
