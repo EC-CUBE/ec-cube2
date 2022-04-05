@@ -62,12 +62,6 @@ class SC_ClassAutoloader
 
         $classpath .= "$class.php";
 
-        if ($is_ex) {
-            // *_Ex ファイルが存在しない場合は、元クラスのエイリアスとする
-            if (!file_exists($classpath) && strpos($class, '_Ex') !== false) {
-                class_alias(preg_replace('/_Ex$/', '', $class), $class);
-            }
-        }
         // プラグイン向けフックポイント
         // MEMO: プラグインのローダーがDB接続を必要とするため、SC_Queryがロードされた後のみ呼び出される。
         //       プラグイン情報のキャッシュ化が行われれば、全部にフックさせることを可能に？
@@ -98,9 +92,14 @@ class SC_ClassAutoloader
                             $exp = "/(class[ ]+{$plugin_class}[ ]+extends +)[a-zA-Z_\-]+( *{?)/";
                             $replace = '$1' . $parent_classname . '$2';
 
-                            $base_class_str = file_get_contents($plugin_classpath);
-                            $base_class_str = str_replace(array('<?php', '?>'), '', $base_class_str);
-                            $base_class_str = preg_replace($exp, $replace, $base_class_str, 1);
+                            if (file_exists($plugin_classpath)) {
+                                $base_class_str = file_get_contents($plugin_classpath);
+                                $base_class_str = str_replace(array('<?php', '?>'), '', $base_class_str);
+                                $base_class_str = preg_replace($exp, $replace, $base_class_str, 1);
+                            } else {
+                                $base_class_str = 'class '.$class.' extends '.$parent_classname.' {}';
+                            }
+
                             eval($base_class_str);
                         } else {
                             include $plugin_classpath;
@@ -115,15 +114,29 @@ class SC_ClassAutoloader
                 if ($is_ex) {
                     $exp = "/(class[ ]+{$class}[ ]+extends +)[a-zA-Z_\-]+( *{?)/";
                     $replace = '$1' . $parent_classname . '$2';
-                    $base_class_str = file_get_contents($classpath);
-                    $base_class_str = str_replace(array('<?php', '?>'), '', $base_class_str);
-                    $base_class_str = preg_replace($exp, $replace, $base_class_str, 1);
+
+                    if (file_exists($classpath)) {
+                        $base_class_str = file_get_contents($classpath);
+                        $base_class_str = str_replace(array('<?php', '?>'), '', $base_class_str);
+                        $base_class_str = preg_replace($exp, $replace, $base_class_str, 1);
+                    } else {
+                        $base_class_str = 'class '.$class.' extends '.$parent_classname.' {}';
+                    }
+
                     eval($base_class_str);
 
                     return;
                 }
             }
         }
+
+        if ($is_ex) {
+            // *_Ex ファイルが存在しない場合は、元クラスのエイリアスとする
+            if (!file_exists($classpath) && strpos($class, '_Ex') !== false) {
+                class_alias(preg_replace('/_Ex$/', '', $class), $class);
+            }
+        }
+
         if (file_exists($classpath)) {
             include $classpath;
         } else {
