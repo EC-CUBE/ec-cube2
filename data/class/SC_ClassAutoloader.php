@@ -64,7 +64,7 @@ class SC_ClassAutoloader
 
         if ($is_ex) {
             // *_Ex ファイルが存在しない場合は、元クラスのエイリアスとする
-            if (!file_exists($classpath)) {
+            if (!file_exists($classpath) && strpos($class, '_Ex') !== false) {
                 class_alias(preg_replace('/_Ex$/', '', $class), $class);
             }
         }
