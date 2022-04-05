@@ -200,7 +200,6 @@ class SC_Helper_HandleError
 
         ob_clean();
 
-        require_once CLASS_EX_REALDIR . 'page_extends/error/LC_Page_Error_SystemError_Ex.php';
         $objPage = new LC_Page_Error_SystemError_Ex();
         $objPage->init();
         if (isset($errstr)) {
