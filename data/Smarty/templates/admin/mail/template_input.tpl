@@ -24,7 +24,7 @@
 
 <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-    <input type="hidden" name="mode" value="<!--{$mode}-->" />
+    <input type="hidden" name="mode" value="<!--{$mode|h}-->" />
     <input type="hidden" name="template_id" value="<!--{$arrForm.template_id|h}-->" />
     <div id="mail" class="contents-main">
         <table class="form">
@@ -56,7 +56,7 @@
         </table>
         <div class="btn-area">
             <ul>
-                <li><a class="btn-action" href="javascript:;" onclick="eccube.fnFormModeSubmit('form1', '<!--{$mode}-->', '', ''); return false;"><span class="btn-next">この内容で登録する</span></a></li>
+                <li><a class="btn-action" href="javascript:;" onclick="eccube.fnFormModeSubmit('form1', '<!--{$mode|h}-->', '', ''); return false;"><span class="btn-next">この内容で登録する</span></a></li>
             </ul>
         </div>
     </div>

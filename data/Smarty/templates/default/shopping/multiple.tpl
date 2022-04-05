@@ -41,8 +41,8 @@
         <!--{/if}-->
         <form name="form1" id="form1" method="post" action="?">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->" />
-            <input type="hidden" name="line_of_num" value="<!--{$arrForm.line_of_num.value}-->" />
+            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->" />
+            <input type="hidden" name="line_of_num" value="<!--{$arrForm.line_of_num.value|h}-->" />
             <input type="hidden" name="mode" value="confirm" />
             <table summary="商品情報">
                 <col width="10%" />
@@ -82,7 +82,7 @@
                             <input type="text" name="<!--{$key}-->[<!--{$index}-->]" value="<!--{$arrForm[$key].value[$index]|h}-->" class="box40" style="<!--{$arrErr[$key][$index]|sfGetErrorColor}-->" maxlength="<!--{$arrForm[$key].length}-->" />
                         </td>
                         <td>
-                            <input type="hidden" name="cart_no[<!--{$index}-->]" value="<!--{$index}-->" />
+                            <input type="hidden" name="cart_no[<!--{$index|h}-->]" value="<!--{$index|h}-->" />
                             <!--{assign var=key value="product_class_id"}-->
                             <input type="hidden" name="<!--{$key}-->[<!--{$index}-->]" value="<!--{$arrForm[$key].value[$index]|h}-->" />
                             <!--{assign var=key value="name"}-->

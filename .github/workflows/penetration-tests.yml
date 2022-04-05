@@ -12,6 +12,10 @@ jobs:
       matrix:
         group:
           - 'test/front_login/contact.test.ts'
+          - 'test/front_login/cart/cart.test.ts'
+          - 'test/front_login/cart/cart_delete.test.ts'
+          - 'test/front_login/shopping/shopping_deliv.test.ts'
+          - 'test/front_login/shopping/shopping_payment.test.ts'
 
     steps:
     - name: Checkout
@@ -27,6 +31,9 @@ jobs:
         git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
         git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
         git am zap/patches/0001-CSRF-OWASP-ZAP.patch
+    - name: Apply patch to cart_delete
+      if: matrix.group == 'test/front_login/cart/cart_delete.test.ts'
+      run: git am zap/patches/0009-cart_delete.patch
 
     - name: Setup environment
       run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV

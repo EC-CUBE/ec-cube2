@@ -1,7 +1,7 @@
 import { test, expect, chromium, Page, request, APIRequestContext } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
-import * as faker from 'faker/locale/ja';
-import * as fakerEN from 'faker/locale/en_US';
+import * as faker from '@faker-js/faker/locale/ja';
+import * as fakerEN from '@faker-js/faker/locale/en_US';
 import { addYears } from 'date-fns';
 
 const url = '/entry/kiyaku.php';
@@ -71,7 +71,7 @@ test.describe.serial('会員登録のテストをします', () => {
     await page.check(`input[name=sex][value="${sex}"]`);
     const job = faker.datatype.number({ min: 1, max: 18 });
     await page.selectOption('select[name=job]', { value: String(job) });
-    const birth = faker.date.past(20, addYears(new Date(), -20));
+    const birth = faker.date.past(20, addYears(new Date(), -20).toISOString());
     await page.selectOption('select[name=year]', String(birth.getFullYear()));
     await page.selectOption('select[name=month]', String(birth.getMonth() + 1));
     await page.selectOption('select[name=day]', String(birth.getDate()));

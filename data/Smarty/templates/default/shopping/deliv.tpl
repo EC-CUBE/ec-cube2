@@ -56,7 +56,7 @@
         <form name="form1" id="form1" method="post" action="?">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
             <input type="hidden" name="mode" value="customer_addr" />
-            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->" />
+            <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->" />
             <input type="hidden" name="other_deliv_id" value="" />
             <!--{if $arrErr.deli != ""}-->
                 <p class="attention"><!--{$arrErr.deli}--></p>
@@ -80,7 +80,7 @@
                             <!--{if $smarty.section.cnt.first}-->
                                 <input type="radio" name="deliv_check" id="chk_id_<!--{$smarty.section.cnt.iteration}-->" value="-1" <!--{if $arrForm.deliv_check.value == "" || $arrForm.deliv_check.value == -1}--> checked="checked"<!--{/if}--> />
                             <!--{else}-->
-                                <input type="radio" name="deliv_check" id="chk_id_<!--{$smarty.section.cnt.iteration}-->" value="<!--{$arrAddr[cnt].other_deliv_id}-->"<!--{if $arrForm.deliv_check.value == $arrAddr[cnt].other_deliv_id}--> checked="checked"<!--{/if}--> />
+                                <input type="radio" name="deliv_check" id="chk_id_<!--{$smarty.section.cnt.iteration}-->" value="<!--{$arrAddr[cnt].other_deliv_id|h}-->"<!--{if $arrForm.deliv_check.value == $arrAddr[cnt].other_deliv_id|h}--> checked="checked"<!--{/if}--> />
                             <!--{/if}-->
                         </td>
                         <td class="alignC">
@@ -110,7 +110,7 @@
                         </td>
                         <td class="alignC">
                             <!--{if !$smarty.section.cnt.first}-->
-                                <a href="?" onclick="eccube.setModeAndSubmit('delete', 'other_deliv_id', '<!--{$arrAddr[cnt].other_deliv_id}-->'); return false">削除</a>
+                                <a href="?" onclick="eccube.setModeAndSubmit('delete', 'other_deliv_id', '<!--{$arrAddr[cnt].other_deliv_id|h}-->'); return false">削除</a>
                                 <!--{else}-->
                                     -
                                 <!--{/if}-->

@@ -24,7 +24,7 @@
 
 <form name="point_form" id="point_form" method="post" action="">
     <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-    <input type="hidden" name="mode" value="<!--{$tpl_mode}-->" />
+    <input type="hidden" name="mode" value="<!--{$tpl_mode|h}-->" />
     <div id="basis" class="contents-main">
         <table>
             <tr>
@@ -51,7 +51,7 @@
 
         <div class="btn-area">
             <ul>
-                <li><a class="btn-action" href="javascript:;" onclick="eccube.fnFormModeSubmit('point_form', '<!--{$tpl_mode}-->', '', ''); return false;"><span class="btn-next">この内容で登録する</span></a></li>
+                <li><a class="btn-action" href="javascript:;" onclick="eccube.fnFormModeSubmit('point_form', '<!--{$tpl_mode|h}-->', '', ''); return false;"><span class="btn-next">この内容で登録する</span></a></li>
             </ul>
         </div>
     </div>
