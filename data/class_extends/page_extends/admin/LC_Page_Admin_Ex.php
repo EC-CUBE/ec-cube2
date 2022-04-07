@@ -23,6 +23,10 @@
 
 require_once CLASS_REALDIR . 'pages/admin/LC_Page_Admin.php';
 
+/*
+ * 決済モジュールやプラグイン、 user_data 以下の PHP で require されているため削除しないでください
+ */
+
 class LC_Page_Admin_Ex extends LC_Page_Admin
 {
 }
