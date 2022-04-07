@@ -164,6 +164,10 @@ jobs:
     - run: echo "extension=gd" >> C:/tools/php/php.ini
       shell: bash
 
+    # see https://github.com/composer/composer/issues/10340
+    - run: composer selfupdate 2.2.11
+      if: matrix.php < 7.2
+
     - name: composer install
       run: composer install --no-interaction -o
 
