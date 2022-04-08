@@ -1121,6 +1121,38 @@ class SC_CheckError
         }
     }
 
+    /**
+     * ファイルの Mime content-type がパターンと一致するかチェックする.
+     *
+     * mime_content_type 関数が使用できない場合は E_WARNING を出力する.
+     *
+     * @param array $value value[0] = 項目名 value[1] = 判定対象 value[2]=array(拡張子)
+     * @return void
+     */
+    public function FILE_MIMETYPE_CHECK($value)
+    {
+        if (!function_exists('mime_content_type')) {
+            trigger_error('mime_content_type() 関数が使用できません。 fileinfo extension を有効にしてください。', E_USER_WARNING);
+
+            return;
+        }
+
+        $disp_name = $value[0];
+        $keyname = $value[1];
+        $mimetype_pattern = $value[2];
+        $filename = $_FILES[$keyname]['tmp_name'];
+
+        if (isset($this->arrErr[$keyname])) {
+            return;
+        }
+
+        $mimetype = mime_content_type($filename);
+
+        if ($mimetype === false || !preg_match('@'.$mimetype_pattern.'@i', $mimetype)) {
+            $this->arrErr[$keyname] = "※ {$disp_name}で許可されていない形式のファイルです。<br />";
+        }
+    }
+
     /* ファイルが存在するかチェックする */
     // 受け取りがない場合エラーを返す
     // value[0] = 項目名 value[1] = 判定対象  value[2] = 指定ディレクトリ

@@ -253,7 +253,8 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
         $objErr->doFunc(array('プラグインファイル', $file_key, FILE_SIZE), array('FILE_SIZE_CHECK'));
         // ファイル名チェック
         $objErr->doFunc(array('プラグインファイル', $file_key), array('FILE_NAME_CHECK'));
-
+        // Mimetype チェック
+        $objErr->doFunc(array('プラグインファイル', $file_key, 'application/(x-)?(tar|gzip)'), array('FILE_MIMETYPE_CHECK'));
         return $objErr->arrErr;
     }
 

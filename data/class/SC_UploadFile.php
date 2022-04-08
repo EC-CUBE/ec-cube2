@@ -117,6 +117,10 @@ class SC_UploadFile
                     $objErr->doFunc(array($this->disp_name[$cnt], $keyname, $this->arrExt[$cnt]), array('FILE_EXT_CHECK'));
                     // ファイルサイズチェック
                     $objErr->doFunc(array($this->disp_name[$cnt], $keyname, $this->size[$cnt]), array('FILE_SIZE_CHECK'));
+                    if ($this->image[$cnt]) {
+                        // 画像の MimeType チェック
+                        $objErr->doFunc(array($this->disp_name[$cnt], $keyname, 'image/.*'), array('FILE_MIMETYPE_CHECK'));
+                    }
                     // エラーがない場合
                     if (!isset($objErr->arrErr[$keyname])) {
                         // 画像ファイルの場合
