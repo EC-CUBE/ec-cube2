@@ -36,6 +36,7 @@
         "nanasess/mdb2_driver_mysqli": "^1.5",
         "nanasess/mdb2_driver_pgsql": "^1.5",
         "nanasess/php8-compat": "^1.0",
+        "nikic/fast-route": "^1.3",
         "pear/archive_tar": "^1.4.3",
         "pear/mail": "*",
         "pear/pear-core-minimal": "^1.10",
