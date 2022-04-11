@@ -22,10 +22,9 @@
         }
     },
     "require-dev": {
-        "ec-cube2/cli": "dev-master@dev",
         "fzaninotto/faker": "^1.8",
         "guzzlehttp/guzzle": "^5.3",
-        "nanasess/eccube2-fixture-generator": "dev-main@dev",
+        "nanasess/eccube2-fixture-generator": "^1.1",
         "php5friends/phpunit48": ">=4.8.41"
     },
     "require": {

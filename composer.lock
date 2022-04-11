@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3af91a6379d257e02989672ea35c6ef",
+    "content-hash": "3599429bcd1dc79476b46d525beb2a4c",
     "packages": [
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -962,58 +962,6 @@
             "time": "2015-06-14T21:17:01+00:00"
         },
         {
-            "name": "ec-cube2/cli",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ec-cube2/cli.git",
-                "reference": "61e8803ef801dbfa8425abf84bcd9d0e59af62f4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ec-cube2/cli/zipball/61e8803ef801dbfa8425abf84bcd9d0e59af62f4",
-                "reference": "61e8803ef801dbfa8425abf84bcd9d0e59af62f4",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": ">=5.3.3",
-                "symfony/config": "^2.8|^3.4|^4.4",
-                "symfony/console": "^2.8|^3.4|^4.4",
-                "symfony/dependency-injection": "^2.8|^3.4|^4.4",
-                "symfony/event-dispatcher": "^2.8|^3.4|^4.4"
-            },
-            "require-dev": {
-                "composer/composer": "^1.0",
-                "ec-cube2/ec-cube2": "^2.13"
-            },
-            "default-branch": true,
-            "bin": [
-                "bin/eccube"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Eccube2\\": "src/Eccube2/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Tsuyoshi Tsurushima"
-                }
-            ],
-            "description": "EC-CUBE2 Command.",
-            "support": {
-                "issues": "https://github.com/ec-cube2/cli/issues",
-                "source": "https://github.com/ec-cube2/cli/tree/master"
-            },
-            "time": "2021-11-12T09:02:34+00:00"
-        },
-        {
             "name": "fzaninotto/faker",
             "version": "v1.9.2",
             "source": {
@@ -1238,33 +1186,30 @@
         },
         {
             "name": "nanasess/eccube2-fixture-generator",
-            "version": "dev-main",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nanasess/eccube2-fixture-generator.git",
-                "reference": "e963ddfe0ff990cce9948f2cb8c615ce0721fd3c"
+                "reference": "9fd7a564df676716a6da52713036b0340fca82e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/eccube2-fixture-generator/zipball/e963ddfe0ff990cce9948f2cb8c615ce0721fd3c",
-                "reference": "e963ddfe0ff990cce9948f2cb8c615ce0721fd3c",
+                "url": "https://api.github.com/repos/nanasess/eccube2-fixture-generator/zipball/9fd7a564df676716a6da52713036b0340fca82e3",
+                "reference": "9fd7a564df676716a6da52713036b0340fca82e3",
                 "shasum": ""
             },
             "require": {
-                "ec-cube2/cli": "*"
-            },
-            "require-dev": {
-                "ec-cube2/ec-cube2": "*",
                 "fzaninotto/faker": "^1.8"
             },
-            "default-branch": true,
+            "suggest": {
+                "ec-cube2/cli": "Required if using the cli interface."
+            },
             "type": "library",
             "autoload": {
                 "files": [
                     "bootstrap.php"
                 ],
                 "psr-4": {
-                    "Eccube2\\Command\\": "src/Command",
                     "Eccube2\\Tests\\Fixture\\": "tests/Fixture"
                 }
             },
@@ -1280,9 +1225,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nanasess/eccube2-fixture-generator/issues",
-                "source": "https://github.com/nanasess/eccube2-fixture-generator/tree/main"
+                "source": "https://github.com/nanasess/eccube2-fixture-generator/tree/1.1.1"
             },
-            "time": "2021-11-15T05:05:26+00:00"
+            "time": "2022-04-12T01:47:04+00:00"
         },
         {
             "name": "php5friends/global-state11",
@@ -1876,56 +1821,6 @@
             "time": "2015-10-02T06:51:40+00:00"
         },
         {
-            "name": "psr/log",
-            "version": "1.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for logging libraries",
-            "homepage": "https://github.com/php-fig/log",
-            "keywords": [
-                "log",
-                "psr",
-                "psr-3"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/log/tree/1.1.4"
-            },
-            "time": "2021-05-03T11:20:27+00:00"
-        },
-        {
             "name": "react/promise",
             "version": "v2.9.0",
             "source": {
@@ -2347,372 +2242,6 @@
             "time": "2015-06-21T13:59:46+00:00"
         },
         {
-            "name": "symfony/config",
-            "version": "v2.8.52",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/config.git",
-                "reference": "7dd5f5040dc04c118d057fb5886563963eb70011"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/7dd5f5040dc04c118d057fb5886563963eb70011",
-                "reference": "7dd5f5040dc04c118d057fb5886563963eb70011",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9",
-                "symfony/filesystem": "~2.3|~3.0.0",
-                "symfony/polyfill-ctype": "~1.8"
-            },
-            "require-dev": {
-                "symfony/yaml": "~2.7|~3.0.0"
-            },
-            "suggest": {
-                "symfony/yaml": "To use the yaml reference dumper"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Config\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Config Component",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/config/tree/v2.8.50"
-            },
-            "time": "2018-11-26T09:38:12+00:00"
-        },
-        {
-            "name": "symfony/console",
-            "version": "v2.8.52",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/console.git",
-                "reference": "cbcf4b5e233af15cd2bbd50dee1ccc9b7927dc12"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/cbcf4b5e233af15cd2bbd50dee1ccc9b7927dc12",
-                "reference": "cbcf4b5e233af15cd2bbd50dee1ccc9b7927dc12",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9",
-                "symfony/debug": "^2.7.2|~3.0.0",
-                "symfony/polyfill-mbstring": "~1.0"
-            },
-            "require-dev": {
-                "psr/log": "~1.0",
-                "symfony/event-dispatcher": "~2.1|~3.0.0",
-                "symfony/process": "~2.1|~3.0.0"
-            },
-            "suggest": {
-                "psr/log-implementation": "For using the console logger",
-                "symfony/event-dispatcher": "",
-                "symfony/process": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Console\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Console Component",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/console/tree/v2.8.52"
-            },
-            "time": "2018-11-20T15:55:20+00:00"
-        },
-        {
-            "name": "symfony/debug",
-            "version": "v2.8.52",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/debug.git",
-                "reference": "74251c8d50dd3be7c4ce0c7b862497cdc641a5d0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/74251c8d50dd3be7c4ce0c7b862497cdc641a5d0",
-                "reference": "74251c8d50dd3be7c4ce0c7b862497cdc641a5d0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9",
-                "psr/log": "~1.0"
-            },
-            "conflict": {
-                "symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
-            },
-            "require-dev": {
-                "symfony/class-loader": "~2.2|~3.0.0",
-                "symfony/http-kernel": "~2.3.24|~2.5.9|^2.6.2|~3.0.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Debug\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Debug Component",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/debug/tree/v2.8.50"
-            },
-            "time": "2018-11-11T11:18:13+00:00"
-        },
-        {
-            "name": "symfony/dependency-injection",
-            "version": "v2.8.52",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "c306198fee8f872a8f5f031e6e4f6f83086992d8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/c306198fee8f872a8f5f031e6e4f6f83086992d8",
-                "reference": "c306198fee8f872a8f5f031e6e4f6f83086992d8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "conflict": {
-                "symfony/expression-language": "<2.6"
-            },
-            "require-dev": {
-                "symfony/config": "~2.2|~3.0.0",
-                "symfony/expression-language": "~2.6|~3.0.0",
-                "symfony/yaml": "~2.3.42|~2.7.14|~2.8.7|~3.0.7"
-            },
-            "suggest": {
-                "symfony/config": "",
-                "symfony/expression-language": "For using expressions in service container configuration",
-                "symfony/proxy-manager-bridge": "Generate service proxies to lazy load them",
-                "symfony/yaml": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\DependencyInjection\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony DependencyInjection Component",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/2.8"
-            },
-            "time": "2019-04-16T11:33:46+00:00"
-        },
-        {
-            "name": "symfony/event-dispatcher",
-            "version": "v2.8.52",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "a77e974a5fecb4398833b0709210e3d5e334ffb0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/a77e974a5fecb4398833b0709210e3d5e334ffb0",
-                "reference": "a77e974a5fecb4398833b0709210e3d5e334ffb0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "psr/log": "~1.0",
-                "symfony/config": "^2.0.5|~3.0.0",
-                "symfony/dependency-injection": "~2.6|~3.0.0",
-                "symfony/expression-language": "~2.6|~3.0.0",
-                "symfony/stopwatch": "~2.3|~3.0.0"
-            },
-            "suggest": {
-                "symfony/dependency-injection": "",
-                "symfony/http-kernel": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\EventDispatcher\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony EventDispatcher Component",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/event-dispatcher/tree/v2.8.50"
-            },
-            "time": "2018-11-21T14:20:20+00:00"
-        },
-        {
-            "name": "symfony/filesystem",
-            "version": "v2.8.52",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/filesystem.git",
-                "reference": "7ae46872dad09dffb7fe1e93a0937097339d0080"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/7ae46872dad09dffb7fe1e93a0937097339d0080",
-                "reference": "7ae46872dad09dffb7fe1e93a0937097339d0080",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9",
-                "symfony/polyfill-ctype": "~1.8"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Filesystem\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Filesystem Component",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v2.8.52"
-            },
-            "time": "2018-11-11T11:18:13+00:00"
-        },
-        {
             "name": "symfony/polyfill-ctype",
             "version": "v1.19.0",
             "source": {
@@ -2792,86 +2321,6 @@
             "time": "2020-10-23T09:01:57+00:00"
         },
         {
-            "name": "symfony/polyfill-mbstring",
-            "version": "v1.19.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "b5f7b932ee6fa802fc792eabd77c4c88084517ce"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/b5f7b932ee6fa802fc792eabd77c4c88084517ce",
-                "reference": "b5f7b932ee6fa802fc792eabd77c4c88084517ce",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "suggest": {
-                "ext-mbstring": "For best performance"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "1.19-dev"
-                },
-                "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Polyfill\\Mbstring\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill for the Mbstring extension",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "mbstring",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.19.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-10-23T09:01:57+00:00"
-        },
-        {
             "name": "symfony/yaml",
             "version": "v2.8.52",
             "source": {
@@ -2928,9 +2377,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "silverorange/mdb2": 10,
-        "ec-cube2/cli": 20,
-        "nanasess/eccube2-fixture-generator": 20
+        "silverorange/mdb2": 10
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -2943,5 +2390,5 @@
     "platform-overrides": {
         "php": "5.4.16"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
