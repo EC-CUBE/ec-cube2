@@ -16,6 +16,7 @@ jobs:
           - 'test/front_login/cart/cart_delete.test.ts'
           - 'test/front_login/shopping/shopping_deliv.test.ts'
           - 'test/front_login/shopping/shopping_payment.test.ts'
+          - 'test/front_login/shopping/shopping_confirm.test.ts'
 
     steps:
     - name: Checkout
