@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "924cb4389271c4926396fd3b7690d116",
+    "content-hash": "8fd00f297f1b02fd66927b2ec18e8608",
     "packages": [
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -1124,6 +1124,40 @@
             },
             "abandoned": true,
             "time": "2014-10-12T19:18:40+00:00"
+        },
+        {
+            "name": "nanasess/ec-cube2-class-extends-stubs",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nanasess/ec-cube2-class-extends-stubs.git",
+                "reference": "b9cee6974422f35f7e3cda24595fbe5b18abb0fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nanasess/ec-cube2-class-extends-stubs/zipball/b9cee6974422f35f7e3cda24595fbe5b18abb0fd",
+                "reference": "b9cee6974422f35f7e3cda24595fbe5b18abb0fd",
+                "shasum": ""
+            },
+            "require-dev": {
+                "ec-cube2/ec-cube2": "*"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Kentaro Ohkouchi",
+                    "email": "nanasess@fsm.ne.jp"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/nanasess/ec-cube2-class-extends-stubs/issues",
+                "source": "https://github.com/nanasess/ec-cube2-class-extends-stubs/tree/1.0.0"
+            },
+            "time": "2022-04-07T02:40:31+00:00"
         },
         {
             "name": "nanasess/eccube2-fixture-generator",

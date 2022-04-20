@@ -1,0 +1,840 @@
+dsn: postgres://eccube_db_user:password@host.docker.internal:15432/eccube_db?sslmode=disable
+docPath: /work/docs/database-schema
+name: EC-CUBE 2.17.x table definition
+desc: EC-CUBE 2.17.x テーブル定義書
+er:
+  comment: true
+relations:
+  -
+    table: dtb_baseinfo
+    columns:
+      - pref
+    parentTable: mtb_pref
+    parentColumns:
+      - id
+  -
+    table: dtb_baseinfo
+    columns:
+      - country_id
+    parentTable: mtb_country
+    parentColumns:
+      - id
+  -
+    table: dtb_baseinfo
+    columns:
+      - law_country_id
+    parentTable: mtb_country
+    parentColumns:
+      - id
+  -
+    table: dtb_products_class
+    columns:
+      - product_id
+    parentTable: dtb_products
+    parentColumns:
+      - product_id
+  -
+    table: dtb_products_class
+    columns:
+      - classcategory_id1
+    parentTable: dtb_classcategory
+    parentColumns:
+      - classcategory_id
+  -
+    table: dtb_products_class
+    columns:
+      - classcategory_id2
+    parentTable: dtb_classcategory
+    parentColumns:
+      - classcategory_id
+  -
+    table: dtb_products_class
+    columns:
+      - product_type_id
+    parentTable: mtb_product_type
+    parentColumns:
+      - id
+  -
+    table: dtb_products_class
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_classcategory
+    columns:
+      - class_id
+    parentTable: dtb_class
+    parentColumns:
+      - class_id
+  -
+    table: dtb_classcategory
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_class
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_product_status
+    columns:
+      - product_id
+    parentTable: dtb_products
+    parentColumns:
+      - product_id
+  -
+    table: dtb_product_status
+    columns:
+      - product_status_id
+    parentTable: mtb_status
+    parentColumns:
+      - id
+  -
+    table: dtb_product_status
+    columns:
+      - product_status_id
+    parentTable: mtb_status_image
+    parentColumns:
+      - id
+  -
+    table: dtb_product_status
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_products
+    columns:
+      - maker_id
+    parentTable: dtb_maker
+    parentColumns:
+      - maker_id
+  -
+    table: dtb_products
+    columns:
+      - status
+    parentTable: mtb_disp
+    parentColumns:
+      - id
+  -
+    table: dtb_products
+    columns:
+      - deliv_date_id
+    parentTable: mtb_delivery_date
+    parentColumns:
+      - id
+  -
+    table: dtb_products
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_product_categories
+    columns:
+      - product_id
+    parentTable: dtb_products
+    parentColumns:
+      - product_id
+  -
+    table: dtb_product_categories
+    columns:
+      - category_id
+    parentTable: dtb_category
+    parentColumns:
+      - category_id
+  -
+    table: dtb_category
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_category
+    columns:
+      - parent_category_id
+    parentTable: dtb_category
+    parentColumns:
+      - category_id
+  -
+    table: dtb_category_count
+    columns:
+      - category_id
+    parentTable: dtb_category
+    parentColumns:
+      - category_id
+  -
+    table: dtb_category_total_count
+    columns:
+      - category_id
+    parentTable: dtb_category
+    parentColumns:
+      - category_id
+  -
+    table: dtb_recommend_products
+    columns:
+      - product_id
+    parentTable: dtb_products
+    parentColumns:
+      - product_id
+  -
+    table: dtb_recommend_products
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_best_products
+    columns:
+      - product_id
+    parentTable: dtb_products
+    parentColumns:
+      - product_id
+  -
+    table: dtb_best_products
+    columns:
+      - category_id
+    parentTable: dtb_category
+    parentColumns:
+      - category_id
+  -
+    table: dtb_best_products
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_review
+    columns:
+      - product_id
+    parentTable: dtb_products
+    parentColumns:
+      - product_id
+  -
+    table: dtb_review
+    columns:
+      - customer_id
+    parentTable: dtb_customer
+    parentColumns:
+      - customer_id
+  -
+    table: dtb_review
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_customer
+    columns:
+      - country_id
+    parentTable: mtb_country
+    parentColumns:
+      - id
+  -
+    table: dtb_customer
+    columns:
+      - pref
+    parentTable: mtb_pref
+    parentColumns:
+      - id
+  -
+    table: dtb_customer
+    columns:
+      - sex
+    parentTable: mtb_sex
+    parentColumns:
+      - id
+  -
+    table: dtb_customer
+    columns:
+      - job
+    parentTable: mtb_job
+    parentColumns:
+      - id
+  -
+    table: dtb_customer
+    columns:
+      - reminder
+    parentTable: mtb_reminder
+    parentColumns:
+      - id
+  -
+    table: dtb_customer
+    columns:
+      - status
+    parentTable: mtb_customer_status
+    parentColumns:
+      - id
+  -
+    table: dtb_customer
+    columns:
+      - mailmaga_flg
+    parentTable: mtb_mail_magazine_type
+    parentColumns:
+      - id
+  -
+    table: dtb_customer_favorite_products
+    columns:
+      - customer_id
+    parentTable: dtb_customer
+    parentColumns:
+      - customer_id
+  -
+    table: dtb_customer_favorite_products
+    columns:
+      - product_id
+    parentTable: dtb_products
+    parentColumns:
+      - product_id
+  -
+    table: dtb_other_deliv
+    columns:
+      - customer_id
+    parentTable: dtb_customer
+    parentColumns:
+      - customer_id
+  -
+    table: dtb_other_deliv
+    columns:
+      - country_id
+    parentTable: mtb_country
+    parentColumns:
+      - id
+  -
+    table: dtb_other_deliv
+    columns:
+      - pref
+    parentTable: mtb_pref
+    parentColumns:
+      - id
+  -
+    table: dtb_order
+    columns:
+      - order_temp_id
+    parentTable: dtb_order_temp
+    parentColumns:
+      - order_temp_id
+  -
+    table: dtb_order
+    columns:
+      - customer_id
+    parentTable: dtb_customer
+    parentColumns:
+      - customer_id
+  -
+    table: dtb_order
+    columns:
+      - order_country_id
+    parentTable: mtb_country
+    parentColumns:
+      - id
+  -
+    table: dtb_order
+    columns:
+      - order_pref
+    parentTable: mtb_pref
+    parentColumns:
+      - id
+  -
+    table: dtb_order
+    columns:
+      - order_sex
+    parentTable: mtb_sex
+    parentColumns:
+      - id
+  -
+    table: dtb_order
+    columns:
+      - order_job
+    parentTable: mtb_job
+    parentColumns:
+      - id
+  -
+    table: dtb_order
+    columns:
+      - deliv_id
+    parentTable: dtb_deliv
+    parentColumns:
+      - deliv_id
+  -
+    table: dtb_order
+    columns:
+      - payment_id
+    parentTable: dtb_payment
+    parentColumns:
+      - payment_id
+  -
+    table: dtb_order
+    columns:
+      - status
+    parentTable: mtb_order_status
+    parentColumns:
+      - id
+  -
+    table: dtb_order
+    columns:
+      - status
+    parentTable: mtb_order_status_color
+    parentColumns:
+      - id
+  -
+    table: dtb_order
+    columns:
+      - status
+    parentTable: mtb_customer_order_status
+    parentColumns:
+      - id
+  -
+    table: dtb_order
+    columns:
+      - device_type_id
+    parentTable: mtb_device_type
+    parentColumns:
+      - id
+  -
+    table: dtb_order_temp
+    columns:
+      - order_id
+    parentTable: dtb_order
+    parentColumns:
+      - order_id
+  -
+    table: dtb_order_temp
+    columns:
+      - customer_id
+    parentTable: dtb_customer
+    parentColumns:
+      - customer_id
+  -
+    table: dtb_order_temp
+    columns:
+      - order_country_id
+    parentTable: mtb_country
+    parentColumns:
+      - id
+  -
+    table: dtb_order_temp
+    columns:
+      - order_pref
+    parentTable: mtb_pref
+    parentColumns:
+      - id
+  -
+    table: dtb_order_temp
+    columns:
+      - order_sex
+    parentTable: mtb_sex
+    parentColumns:
+      - id
+  -
+    table: dtb_order_temp
+    columns:
+      - order_job
+    parentTable: mtb_job
+    parentColumns:
+      - id
+  -
+    table: dtb_order_temp
+    columns:
+      - deliv_id
+    parentTable: dtb_deliv
+    parentColumns:
+      - deliv_id
+  -
+    table: dtb_order_temp
+    columns:
+      - payment_id
+    parentTable: dtb_payment
+    parentColumns:
+      - payment_id
+  -
+    table: dtb_order_temp
+    columns:
+      - status
+    parentTable: mtb_order_status
+    parentColumns:
+      - id
+  -
+    table: dtb_order_temp
+    columns:
+      - status
+    parentTable: mtb_order_status_color
+    parentColumns:
+      - id
+  -
+    table: dtb_order_temp
+    columns:
+      - status
+    parentTable: mtb_customer_order_status
+    parentColumns:
+      - id
+  -
+    table: dtb_order_temp
+    columns:
+      - device_type_id
+    parentTable: mtb_device_type
+    parentColumns:
+      - id
+  -
+    table: dtb_order_detail
+    columns:
+      - product_id
+    parentTable: dtb_products
+    parentColumns:
+      - product_id
+  -
+    table: dtb_order_detail
+    columns:
+      - product_class_id
+    parentTable: dtb_products_class
+    parentColumns:
+      - product_class_id
+  -
+    table: dtb_order_detail
+    columns:
+      - order_id
+    parentTable: dtb_order
+    parentColumns:
+      - order_id
+  -
+    table: dtb_shipping
+    columns:
+      - order_id
+    parentTable: dtb_order
+    parentColumns:
+      - order_id
+  -
+    table: dtb_shipping
+    columns:
+      - shipping_country_id
+    parentTable: mtb_country
+    parentColumns:
+      - id
+  -
+    table: dtb_shipping
+    columns:
+      - time_id
+    parentTable: dtb_delivtime
+    parentColumns:
+      - time_id
+  -
+    table: dtb_shipping
+    columns:
+      - shipping_pref
+    parentTable: mtb_pref
+    parentColumns:
+      - id
+  -
+    table: dtb_shipment_item
+    columns:
+      - product_class_id
+    parentTable: dtb_products_class
+    parentColumns:
+      - product_class_id
+  -
+    table: dtb_shipment_item
+    columns:
+      - shipping_id
+    parentTable: dtb_shipping
+    parentColumns:
+      - shipping_id
+  -
+    table: dtb_shipment_item
+    columns:
+      - order_id
+    parentTable: dtb_order
+    parentColumns:
+      - order_id
+  -
+    table: dtb_deliv
+    columns:
+      - product_type_id
+    parentTable: mtb_product_type
+    parentColumns:
+      - id
+  -
+    table: dtb_deliv
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_payment_options
+    columns:
+      - deliv_id
+    parentTable: dtb_deliv
+    parentColumns:
+      - deliv_id
+  -
+    table: dtb_payment_options
+    columns:
+      - payment_id
+    parentTable: dtb_payment
+    parentColumns:
+      - payment_id
+  -
+    table: dtb_payment
+    columns:
+      - module_id
+    parentTable: dtb_module
+    parentColumns:
+      - module_id
+  -
+    table: dtb_payment
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_delivtime
+    columns:
+      - deliv_id
+    parentTable: dtb_deliv
+    parentColumns:
+      - deliv_id
+  -
+    table: dtb_delivfee
+    columns:
+      - deliv_id
+    parentTable: dtb_deliv
+    parentColumns:
+      - deliv_id
+  -
+    table: dtb_delivfee
+    columns:
+      - pref
+    parentTable: mtb_pref
+    parentColumns:
+      - id
+  -
+    table: dtb_pagelayout
+    columns:
+      - device_type_id
+    parentTable: mtb_device_type
+    parentColumns:
+      - id
+  -
+    table: dtb_bloc
+    columns:
+      - device_type_id
+    parentTable: mtb_device_type
+    parentColumns:
+      - id
+  -
+    table: dtb_bloc
+    columns:
+      - plugin_id
+    parentTable: dtb_plugin
+    parentColumns:
+      - plugin_id
+  -
+    table: dtb_blocposition
+    columns:
+      - device_type_id
+    parentTable: mtb_device_type
+    parentColumns:
+      - id
+  -
+    table: dtb_blocposition
+    columns:
+      - page_id
+    parentTable: dtb_pagelayout
+    parentColumns:
+      - page_id
+  -
+    table: dtb_blocposition
+    columns:
+      - target_id
+    parentTable: mtb_target
+    parentColumns:
+      - id
+  -
+    table: dtb_blocposition
+    columns:
+      - bloc_id
+    parentTable: dtb_bloc
+    parentColumns:
+      - bloc_id
+  -
+    table: dtb_templates
+    columns:
+      - device_type_id
+    parentTable: mtb_device_type
+    parentColumns:
+      - id
+  -
+    table: dtb_mail_history
+    columns:
+      - template_id
+    parentTable: dtb_mailtemplate
+    parentColumns:
+      - template_id
+  -
+    table: dtb_mail_history
+    columns:
+      - order_id
+    parentTable: dtb_order
+    parentColumns:
+      - order_id
+  -
+    table: dtb_mail_history
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_send_customer
+    columns:
+      - customer_id
+    parentTable: dtb_customer
+    parentColumns:
+      - customer_id
+  -
+    table: dtb_send_history
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_mailtemplate
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_mailmaga_template
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_update
+    columns:
+      - module_id
+    parentTable: dtb_module
+    parentColumns:
+      - module_id
+  -
+    table: dtb_module_update_logs
+    columns:
+      - module_id
+    parentTable: dtb_module
+    parentColumns:
+      - module_id
+  -
+    table: dtb_holiday
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_kiyaku
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_maker
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_maker_count
+    columns:
+      - maker_id
+    parentTable: dtb_maker
+    parentColumns:
+      - maker_id
+  -
+    table: dtb_member
+    columns:
+      - work
+    parentTable: mtb_work
+    parentColumns:
+      - id
+  -
+    table: dtb_member
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_news
+    columns:
+      - creator_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id
+  -
+    table: dtb_plugin_hookpoint
+    columns:
+      - plugin_id
+    parentTable: dtb_plugin
+    parentColumns:
+      - plugin_id
+  -
+    table: dtb_tax_rule
+    columns:
+      - country_id
+    parentTable: mtb_country
+    parentColumns:
+      - id
+  -
+    table: dtb_tax_rule
+    columns:
+      - pref_id
+    parentTable: mtb_pref
+    parentColumns:
+      - id
+  -
+    table: dtb_tax_rule
+    columns:
+      - product_id
+    parentTable: dtb_products
+    parentColumns:
+      - product_id
+  -
+    table: dtb_tax_rule
+    columns:
+      - product_class_id
+    parentTable: dtb_products_class
+    parentColumns:
+      - product_class_id
+  -
+    table: dtb_tax_rule
+    columns:
+      - calc_rule
+    parentTable: mtb_taxrule
+    parentColumns:
+      - id
+  -
+    table: dtb_tax_rule
+    columns:
+      - member_id
+    parentTable: dtb_member
+    parentColumns:
+      - member_id

@@ -23,6 +23,10 @@
 
 require_once CLASS_REALDIR . 'SC_ClassAutoloader.php';
 
+/*
+ * app_initial.php の spl_autoload_register を登録する前に必要なクラスですので、削除しないでください
+ */
+
 class SC_ClassAutoloader_Ex extends SC_ClassAutoloader
 {
 }

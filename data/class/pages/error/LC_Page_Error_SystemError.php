@@ -21,8 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_REALDIR . 'pages/error/LC_Page_Error.php';
-
 /**
  * システムエラー表示のページクラス
  * システムエラーや例外が発生した場合の表示ページ

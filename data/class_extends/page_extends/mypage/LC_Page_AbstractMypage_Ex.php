@@ -23,6 +23,10 @@
 
 require_once CLASS_REALDIR . 'pages/mypage/LC_Page_AbstractMypage.php';
 
+/*
+ * 決済モジュールやプラグイン、 user_data 以下の PHP で require されているため削除しないでください
+ */
+
 /**
  * Mypage のページクラス(拡張).
  *

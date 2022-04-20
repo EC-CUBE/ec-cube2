@@ -28,7 +28,6 @@
  * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
-require_once CLASS_EX_REALDIR . 'api_extends/SC_Api_Abstract_Ex.php';
 
 class API_CartAdd extends SC_Api_Abstract_Ex
 {
