@@ -22,7 +22,6 @@
  */
 
 defined('CALENDAR_ROOT') or define('CALENDAR_ROOT', DATA_REALDIR.'module/Calendar'.DIRECTORY_SEPARATOR);
-require_once CLASS_EX_REALDIR . 'page_extends/frontparts/bloc/LC_Page_FrontParts_Bloc_Ex.php';
 
 /**
  * Calendar のページクラス.

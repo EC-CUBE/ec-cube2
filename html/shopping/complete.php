@@ -22,7 +22,6 @@
  */
 
 require_once '../require.php';
-require_once CLASS_EX_REALDIR . 'page_extends/shopping/LC_Page_Shopping_Complete_Ex.php';
 
 $objPage = new LC_Page_Shopping_Complete_Ex();
 $objPage->init();

@@ -23,6 +23,10 @@
 
 require_once CLASS_REALDIR . 'helper/SC_Helper_Plugin.php';
 
+/*
+ * app_initial.php の spl_autoload_register を登録する前に必要なクラスですので、削除しないでください
+ */
+
 /**
  * プラグイン関連のヘルパークラス(拡張).
  *
