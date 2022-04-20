@@ -127,8 +127,6 @@ class SC_Utils
     /* エラーページの表示 */
     public static function sfDispError($type)
     {
-        require_once CLASS_EX_REALDIR . 'page_extends/error/LC_Page_Error_DispError_Ex.php';
-
         $objPage = new LC_Page_Error_DispError_Ex();
         $objPage->init();
         $objPage->type = $type;
@@ -139,8 +137,6 @@ class SC_Utils
     /* サイトエラーページの表示 */
     public static function sfDispSiteError($type, $objSiteSess = '', $return_top = false, $err_msg = '')
     {
-        require_once CLASS_EX_REALDIR . 'page_extends/error/LC_Page_Error_Ex.php';
-
         $objPage = new LC_Page_Error_Ex();
         $objPage->init();
         $objPage->type = $type;

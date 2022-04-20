@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 require_once '../require.php';
-require_once CLASS_EX_REALDIR . 'page_extends/shopping/LC_Page_Shopping_Ex.php';
 
 $objPage = new LC_Page_Shopping_Ex();
 $objPage->init();

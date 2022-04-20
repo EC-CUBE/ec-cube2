@@ -55,10 +55,12 @@ $objPage->arrErr = array();
 $objPage->arrDB_TYPE = array(
     'pgsql' => 'PostgreSQL',
     'mysqli' => 'MySQL',
+    'sqlite3' => 'SQLite3',
 );
 $objPage->arrDB_PORT = array(
     'pgsql' => '',
     'mysqli' => '',
+    'sqlite3' => '',
 );
 $objPage->arrMailBackend = array('mail' => 'mail',
                                  'smtp' => 'SMTP',
@@ -806,7 +808,11 @@ function lfCheckDBError($objDBParam)
         $arrDsn = getArrayDsn($objDBParam);
         // Debugモード指定
         $options['debug'] = PEAR_DB_DEBUG;
+        var_dump($arrDsn);
+
         $objDB = MDB2::connect($arrDsn, $options);
+        var_dump($objDB);
+
         // 接続成功
         if (!PEAR::isError($objDB)) {
             $dbFactory = SC_DB_DBFactory_Ex::getInstance($arrDsn['phptype']);
