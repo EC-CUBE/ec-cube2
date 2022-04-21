@@ -103,7 +103,6 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
   });
 
   test('お支払い方法・お届け時間の指定をします', async () => {
-    await page.pause();
     await page.click('text=代金引換');
     await page.selectOption('select[name=deliv_date1]', { index: 2 });
     await page.selectOption('select[name=deliv_time_id1]', { label: '午後' });

@@ -1,5 +1,5 @@
 import PlaywrightConfig from '../../../../playwright.config';
-import { ZapClient, ContextType, Risk, HttpMessage } from '../../../utils/ZapClient';
+import { ZapClient, ContextType, Risk } from '../../../utils/ZapClient';
 import { intervalRepeater } from '../../../utils/Progress';
 const zapClient = new ZapClient();
 
