@@ -122,7 +122,6 @@ test.describe.serial('売上集計画面を確認をします', () => {
     });
 
     test('月度集計の確認をします', async () => {
-      await page.pause();
       await page.goto(url);
       await page.goto(`${url}?page=${method}`);
       await page.click('text=月度で集計する');
@@ -183,7 +182,6 @@ test.describe.serial('売上集計画面を確認をします', () => {
     });
 
     test('月度集計の確認をします', async () => {
-      await page.pause();
       await page.goto(url);
       await page.goto(`${url}?page=${method}`);
       await page.click('text=月度で集計する');
@@ -244,7 +242,6 @@ test.describe.serial('売上集計画面を確認をします', () => {
     });
 
     test('月度集計の確認をします', async () => {
-      await page.pause();
       await page.goto(url);
       await page.goto(`${url}?page=${method}`);
       await page.click('text=月度で集計する');
@@ -289,7 +286,6 @@ test.describe.serial('売上集計画面を確認をします', () => {
     });
 
     test('月度集計の確認をします', async () => {
-      await page.pause();
       await page.goto(url);
       await page.goto(`${url}?page=${method}`);
       await page.click('text=月度で集計する');
