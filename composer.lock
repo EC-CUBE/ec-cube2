@@ -63,31 +63,29 @@
             "time": "2022-02-17T19:24:25+00:00"
         },
         {
-            "name": "nanasess/mdb2_driver_mysqli",
-            "version": "v1.5.4",
+            "name": "nanasess/mdb2",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nanasess/mdb2_driver_mysqli.git",
-                "reference": "8546d4e7ab74d6c2c2d6f854de2cd80def20ce45"
+                "url": "https://github.com/nanasess/MDB2.git",
+                "reference": "4f079c71ca0422d8c1ccafa66e4aaaf4ef5dc725"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/mdb2_driver_mysqli/zipball/8546d4e7ab74d6c2c2d6f854de2cd80def20ce45",
-                "reference": "8546d4e7ab74d6c2c2d6f854de2cd80def20ce45",
+                "url": "https://api.github.com/repos/nanasess/MDB2/zipball/4f079c71ca0422d8c1ccafa66e4aaaf4ef5dc725",
+                "reference": "4f079c71ca0422d8c1ccafa66e4aaaf4ef5dc725",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0",
-                "silverorange/mdb2": "*"
-            },
-            "replace": {
-                "bondas83/mdb2_driver_mysqli": "*"
+                "ext-mbstring": "*",
+                "pear/pear-core-minimal": "^1.9.0",
+                "php": ">=5.3.0"
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "MDB2/Driver/mysqli.php"
-                ]
+                "psr-0": {
+                    "MDB2": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "include-path": [
@@ -98,81 +96,22 @@
             ],
             "authors": [
                 {
-                    "name": "Julius Smatavicius",
-                    "email": "bondas83@gmail.com"
-                }
-            ],
-            "description": "This is the Mysqli MDB2 driver.",
-            "homepage": "https://github.com/nanasess/MDB2_Driver_mysqli",
-            "keywords": [
-                "PEAR",
-                "database",
-                "mdb2",
-                "mysqli"
-            ],
-            "support": {
-                "source": "https://github.com/nanasess/mdb2_driver_mysqli/tree/v1.5.4"
-            },
-            "time": "2021-10-12T09:12:53+00:00"
-        },
-        {
-            "name": "nanasess/mdb2_driver_pgsql",
-            "version": "1.5.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nanasess/MDB2_Driver_pgsql.git",
-                "reference": "2de1eb18e9e57061e45e91bfca8af77416bdae7d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/MDB2_Driver_pgsql/zipball/2de1eb18e9e57061e45e91bfca8af77416bdae7d",
-                "reference": "2de1eb18e9e57061e45e91bfca8af77416bdae7d",
-                "shasum": ""
-            },
-            "require": {
-                "silverorange/mdb2": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "MDB2/Driver/pgsql.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Lukas Kahwe Smith",
-                    "email": "smith@pooteeweet.org"
-                },
-                {
-                    "name": "Lorenzo Alberton",
-                    "email": "l.alberton@quipo.it"
-                },
-                {
-                    "name": "Nathan Fredrickson",
-                    "email": "nathan@silverorange.com"
-                },
-                {
-                    "name": "Ali Fazelzadeh",
-                    "email": "afz@dev-code.com"
-                },
-                {
                     "name": "Kentaro Ohkouchi",
                     "email": "nanasess@fsm.ne.jp"
                 }
             ],
-            "description": "This is the PostgreSQL MDB2 driver.",
+            "description": "PEAR MDB2 is a merge of the PEAR DB and Metabase php database abstraction layers.",
+            "homepage": "https://github.com/nanasess/MDB2",
+            "keywords": [
+                "database",
+                "dbal",
+                "metabase",
+                "orm"
+            ],
             "support": {
-                "issues": "https://github.com/nanasess/MDB2_Driver_pgsql/issues",
-                "source": "https://github.com/nanasess/MDB2_Driver_pgsql"
+                "source": "https://github.com/nanasess/MDB2/tree/2.5.0"
             },
-            "time": "2020-11-08T11:33:26+00:00"
+            "time": "2022-04-11T06:56:18+00:00"
         },
         {
             "name": "nanasess/php8-compat",
@@ -787,56 +726,6 @@
                 "source": "https://github.com/Setasign/FPDI/tree/master"
             },
             "time": "2017-05-11T14:25:49+00:00"
-        },
-        {
-            "name": "silverorange/mdb2",
-            "version": "2.5.2-b.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/silverorange/MDB2.git",
-                "reference": "8b8f064de2c468345968e6eb2797e301bbea4233"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/silverorange/MDB2/zipball/8b8f064de2c468345968e6eb2797e301bbea4233",
-                "reference": "8b8f064de2c468345968e6eb2797e301bbea4233",
-                "shasum": ""
-            },
-            "require": {
-                "pear/pear-core-minimal": "^1.9.0",
-                "php": ">=5.2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "MDB2": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Gauthier",
-                    "email": "mike@silverorange.com"
-                }
-            ],
-            "description": "PEAR MDB2 is a merge of the PEAR DB and Metabase php database abstraction layers.",
-            "homepage": "https://github.com/silverorange/MDB2",
-            "keywords": [
-                "database",
-                "dbal",
-                "metabase",
-                "orm"
-            ],
-            "support": {
-                "source": "https://github.com/silverorange/MDB2/tree/2.5.2-b.5"
-            },
-            "time": "2016-01-08T21:22:05+00:00"
         },
         {
             "name": "smarty/smarty",
@@ -2962,7 +2851,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "silverorange/mdb2": 10,
         "ec-cube2/cli": 20,
         "nanasess/eccube2-fixture-generator": 20
     },
@@ -2977,5 +2865,5 @@
     "platform-overrides": {
         "php": "5.4.16"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }

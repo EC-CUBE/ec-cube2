@@ -34,8 +34,7 @@
         "ext-gd": "*",
         "ext-mbstring": "*",
         "mobiledetect/mobiledetectlib": "^2.8",
-        "nanasess/mdb2_driver_mysqli": "^1.5",
-        "nanasess/mdb2_driver_pgsql": "^1.5",
+        "nanasess/mdb2": "^2.5",
         "nanasess/php8-compat": "^1.0",
         "pear/archive_tar": "^1.4.3",
         "pear/mail": "*",
@@ -45,7 +44,6 @@
         "pear/xml_util": "*",
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^1.6",
-        "silverorange/mdb2": "2.5.2-b.5",
         "smarty/smarty": "*"
     },
     "autoload": {
