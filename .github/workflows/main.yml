@@ -72,6 +72,10 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-composer-
 
+    # see https://github.com/composer/composer/issues/10340
+    - run: sudo composer selfupdate --2.2
+      if: matrix.php < 7.2
+
     - name: composer install
       run: composer install --no-interaction -o
 
@@ -165,7 +169,7 @@ jobs:
       shell: bash
 
     # see https://github.com/composer/composer/issues/10340
-    - run: composer selfupdate 2.2.11
+    - run: composer selfupdate --2.2
       if: matrix.php < 7.2
 
     - name: composer install
