@@ -20,8 +20,9 @@
 1. テスト用のデータを生成します    ```
     ```shell
     # MySQL を使用する例
-    ## require-dev のパッケージをインストールしておく
+    ## ec-cube2/cli をインストールしておく
     docker-compose exec ec-cube composer install
+    docker-compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" --ignore-platform-req=php -W
     docker-compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
     ## ダミーデータを生成
     docker-compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
@@ -29,8 +30,9 @@
     docker-compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
 
     # PostgreSQL を使用する例
-    ## require-dev のパッケージをインストールしておく
+    ## ec-cube2/cli をインストールしておく
     docker-compose exec ec-cube composer install
+    docker-compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" --ignore-platform-req=php -W
     docker-compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
     ## ダミーデータを生成
     docker-compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
