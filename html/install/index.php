@@ -808,10 +808,10 @@ function lfCheckDBError($objDBParam)
         $arrDsn = getArrayDsn($objDBParam);
         // Debugモード指定
         $options['debug'] = PEAR_DB_DEBUG;
-        var_dump($arrDsn);
+        //var_dump($arrDsn);
 
         $objDB = MDB2::connect($arrDsn, $options);
-        var_dump($objDB);
+        //var_dump($objDB);
 
         // 接続成功
         if (!PEAR::isError($objDB)) {
