@@ -340,6 +340,7 @@ class SC_SendMail
             $msg = mb_convert_encoding($result->getMessage(), CHAR_CODE, 'auto');
             $msg = 'メール送信に失敗しました。[' . $msg . ']';
             trigger_error($msg, E_USER_WARNING);
+            GC_Utils_Ex::gfPrintLog($result->getMessage());
             GC_Utils_Ex::gfDebugLog($header);
 
             return false;
@@ -392,7 +393,7 @@ class SC_SendMail
                     && defined('SMTP_PASSWORD')
                     && !SC_Utils_Ex::isBlank(SMTP_USER)
                     && !SC_Utils_Ex::isBlank(SMTP_PASSWORD)) {
-                    $arrParams['auth'] = true;
+                    $arrParams['auth'] = "PLAIN";
                     $arrParams['username'] = SMTP_USER;
                     $arrParams['password'] = SMTP_PASSWORD;
                 }
