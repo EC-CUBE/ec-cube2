@@ -16,7 +16,7 @@
     "slick-carousel": "^1.8.1",
     "style-loader": "^3.3.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.69.1"
+    "webpack": "^5.73.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
