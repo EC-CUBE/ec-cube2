@@ -116,14 +116,12 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
      * @param int $id メッセージの ID
      * @return array MailCatcher のメッセージ
      */
-    protected function getMailCatcherMessage($id)
+    protected function getMailCatcherMessage($message)
     {
         $client = new \GuzzleHttp\Client(['base_url' => self::MAILCATCHER_URL]);
-        $response = $client->get('/messages/'.$id.'.json');
+        $source = (string) $client->get('/messages/'.$message['id'].'.source')->getBody();
 
-        $message = json_decode($response->getBody(true), true);
-
-        $message['source'] = quoted_printable_decode($message['source']);
+        $message['source'] = quoted_printable_decode($source);
         $message['source'] = mb_convert_encoding($message['source'], 'UTF-8', 'JIS');
         return $message;
     }
@@ -141,7 +139,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
         }
 
         $last = array_shift($messages);
-        return $this->getMailCatcherMessage($last['id']);
+        return $this->getMailCatcherMessage($last);
     }
 
 
