@@ -76,7 +76,13 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
         try {
             $client = new \GuzzleHttp\Client(['base_url' => self::MAILCATCHER_URL]);
             $response = $client->get('/messages');
-            if ($response->getStatusCode() !== 200) {
+            $context = stream_context_create(array(
+                'http' => array('ignore_errors' => true)
+            ));
+            $response = file_get_contents(self::MAILCATCHER_URL.'/messages', false, $context);
+
+            $http_status = strpos($http_response_header[0], '200');
+            if ($http_status === false) {
                 $this->markTestSkipped('MailCatcher is not available');
             }
         } catch (Exception $e) {
@@ -90,8 +96,16 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     protected function resetEmails()
     {
         try {
-            $client = new \GuzzleHttp\Client(['base_url' => self::MAILCATCHER_URL]);
-            $client->delete('/messages');
+            $context = stream_context_create(
+                array(
+                    'http' => array(
+                        'method'=> 'DELETE'
+                    )
+                )
+            );
+
+            file_get_contents(self::MAILCATCHER_URL.'/messages', false, $context);
+
         } catch (\Exception $e) {
             // quiet
         }
@@ -104,10 +118,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
      */
     protected function getMailCatcherMessages()
     {
-        $client = new \GuzzleHttp\Client(['base_url' => self::MAILCATCHER_URL]);
-        $response = $client->get('/messages');
-
-        return json_decode($response->getBody(true), true);
+        return json_decode(file_get_contents(self::MAILCATCHER_URL. '/messages'), true);
     }
 
     /**
@@ -118,8 +129,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
      */
     protected function getMailCatcherMessage($message)
     {
-        $client = new \GuzzleHttp\Client(['base_url' => self::MAILCATCHER_URL]);
-        $source = (string) $client->get('/messages/'.$message['id'].'.source')->getBody();
+        $source = file_get_contents(self::MAILCATCHER_URL. '/messages/'.$message['id'].'.source');
 
         $message['source'] = quoted_printable_decode($source);
         $message['source'] = mb_convert_encoding($message['source'], 'UTF-8', 'JIS');
