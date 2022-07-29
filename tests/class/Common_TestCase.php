@@ -74,8 +74,6 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     protected function checkMailCatcherStatus()
     {
         try {
-            $client = new \GuzzleHttp\Client(['base_url' => self::MAILCATCHER_URL]);
-            $response = $client->get('/messages');
             $context = stream_context_create(array(
                 'http' => array('ignore_errors' => true)
             ));
