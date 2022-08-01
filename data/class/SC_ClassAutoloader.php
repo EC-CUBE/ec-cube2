@@ -48,7 +48,7 @@ class SC_ClassAutoloader
             $arrClassNamePartTemp = $arrClassNamePart;
             // FIXME クラスファイルのディレクトリ命名が変。変な現状に合わせて強引な処理をしてる。
             $arrClassNamePartTemp[1] = $arrClassNamePartTemp[1] . '_extends';
-            if ($count <= 5 && $arrClassNamePart[2] === 'Admin') {
+            if ($count <= 5 && $arrClassNamePart[2] === 'Admin' && !in_array($arrClassNamePart[3], ['Home', 'Index', 'Logout'])) {
                 $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -1))) . '/';
             } else {
                 $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -2))) . '/';
