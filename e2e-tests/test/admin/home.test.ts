@@ -1,28 +1,28 @@
 import { test, expect, chromium, Page } from '@playwright/test';
 import { ADMIN_DIR } from '../../config/default.config';
+import { ZapClient, ContextType } from '../../utils/ZapClient';
+const zapClient = new ZapClient();
 
-const url = `/${ADMIN_DIR}index.php`;
+const url = `/${ADMIN_DIR}/home.php`;
 
-test.describe.serial('管理画面に正常にログインできるか確認します', () => {
+test.describe.serial('管理画面Homeの確認をします', () => {
   let page: Page;
   test.beforeAll(async () => {
+    await zapClient.startSession(ContextType.Admin, 'admin_home')
+      .then(async () => expect(await zapClient.isForcedUserModeEnabled()).toBeTruthy());
     const browser = await chromium.launch();
 
     page = await browser.newPage();
     await page.goto(url);
   });
 
-  test('ログイン画面を確認します', async () => {
-    await expect(page.locator('#login-form')).toContainText(/LOGIN/);
+  test('システム情報を確認します', async ({ page }) => {
+    await page.goto(url);
+    await expect(page.locator('.shop-info >> nth=0 >> tr >> nth=0 >> td')).toContainText('2.17');
   });
 
-  test('ログインします', async () => {
-    await page.fill('input[name=login_id]', 'admin');
-    await page.fill('input[name=password]', 'password');
-    await page.click('text=LOGIN');
-  });
-
-  test('ログインしたのを確認します', async () => {
-    await expect(page.locator('#site-check')).toContainText('ログイン : 管理者 様');
+  test('LC_Page_Admin_Home_Ex クラスのテストをします @extends', async ({ page }) => {
+    await page.goto(url);
+    await expect(page.locator('.shop-info >> nth=0 >> tr >> nth=1 >> td')).toContainText('PHP_VERSION_ID');
   });
 });
