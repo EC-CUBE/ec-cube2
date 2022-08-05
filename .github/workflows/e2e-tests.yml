@@ -19,6 +19,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        pattern:
+          - 'test:e2e'
+          - 'test:e2e-extends'
         group:
           - 'test/front_login'
           - 'test/front_guest'
@@ -34,6 +37,9 @@ jobs:
     #     echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
     - name: Setup environment
       run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+
+    - if: matrix.pattern == 'test:e2e-extends'
+      run: cp -rp tests/class/fixtures/page_extends/* data/class_extends/page_extends
 
     - name: Setup to EC-CUBE
       env:
@@ -58,11 +64,12 @@ jobs:
     - name: Run to E2E testing
       env:
         GROUP: ${{ matrix.group }}
+        PATTERN: ${{ matrix.pattern }}
         HTTPS_PROXY: 'localhost:8090'
         HTTP_PROXY: 'localhost:8090'
         CI: 1
         FORCE_COLOR: 1
-      run: yarn test:e2e e2e-tests/${GROUP}
+      run: yarn ${PATTERN} e2e-tests/${GROUP}
 
     - name: Upload evidence
       if: failure()
