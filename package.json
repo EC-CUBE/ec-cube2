@@ -42,7 +42,8 @@
   "scripts": {
     "lint:javascript": "eslint --fix data/*.js",
     "lint:typescript": "eslint --fix --ext .ts e2e-tests",
-    "test:e2e": "playwright test --grep-invert @attack",
-    "test:attack": "playwright test"
+    "test:e2e": "playwright test --grep-invert '(@attack|@extends)'",
+    "test:e2e-extends": "playwright test --grep @extends",
+    "test:attack": "playwright test --grep-invert @extends"
   }
 }

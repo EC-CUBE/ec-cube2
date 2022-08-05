@@ -7,8 +7,10 @@ if (strpos($_SERVER['SCRIPT_FILENAME'], 'phpunit') !== false && !class_exists('\
     exit(1);
 }
 
-class_exists('FPDI'); // XXX PHPStan が FPDI を見つけてくれないのでロードしておく
-class_exists('Smarty'); // XXX PHPStan が Smarty を見つけてくれないのでロードしておく
+// XXX PHPStan が見つけてくれないライブラリをロードしておく
+class_exists('FPDI');
+class_exists('Smarty');
+class_exists('MDB2');
 
 if (!class_exists('PHPUnit_Framework_TestCase')) {
     class_alias('PHPUnit\Framework\TestCase', 'PHPUnit_Framework_TestCase');

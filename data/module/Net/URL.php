@@ -107,16 +107,6 @@ class Net_URL
     var $useBrackets;
 
     /**
-    * PHP4 Constructor
-    *
-    * @see __construct()
-    */
-    function Net_URL($url = null, $useBrackets = true)
-    {
-        $this->__construct($url, $useBrackets);
-    }
-
-    /**
     * PHP5 Constructor
     *
     * Parses the given url and stores the various parts
@@ -127,7 +117,7 @@ class Net_URL
     *                            multiple querystrings with the same name
     *                            exist
     */
-    function __construct($url = null, $useBrackets = true)
+    public function __construct($url = null, $useBrackets = true)
     {
         $this->url = $url;
         $this->useBrackets = $useBrackets;
