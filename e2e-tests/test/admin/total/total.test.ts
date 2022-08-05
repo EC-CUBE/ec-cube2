@@ -309,4 +309,9 @@ test.describe.serial('売上集計画面を確認をします', () => {
         .then(file => expect(file.split('\r\n').length).toBeGreaterThanOrEqual(2));
     });
   });
+
+  test('LC_Page_Admin_Total_Ex クラスのテストをします @extends', async ( { page }) => {
+    await page.goto(url);
+    await expect(page.locator('h1')).toContainText(/カスタマイズ/);
+  });
 });
