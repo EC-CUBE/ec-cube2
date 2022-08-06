@@ -1,7 +1,7 @@
 import { test, expect, chromium, Page } from '@playwright/test';
 import { ZapClient, Mode, ContextType } from '../../../utils/ZapClient';
-import * as faker from '@faker-js/faker/locale/ja';
-import * as fakerEn from '@faker-js/faker/locale/en';
+import { faker } from '@faker-js/faker/locale/ja';
+import { faker as fakerEn } from '@faker-js/faker/locale/en';
 
 import { ADMIN_DIR } from '../../../config/default.config';
 
