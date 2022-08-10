@@ -54,7 +54,27 @@ jobs:
             </table>
 
           prerelease: true
-          generateReleaseNotes: true
+
+      - name: RELEASE_BODY
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
+        env:
+          TAG_NAME: ${{ env.TAG_NAME }}
+        run: |
+          echo 'RELEASE_BODY<<EOF' >> $GITHUB_ENV
+          echo $(curl -sS -H 'Accept: application/vnd.github.v3+json'  https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.TAG_NAME }} | jq -r .body | sed 's,",\\",g' | sed "s,',,g") >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - name: RELEASE_ID
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
+        env:
+          TAG_NAME: ${{ env.TAG_NAME }}
+        run: |
+          echo "RELEASE_ID=$(curl -sS -H 'Accept: application/vnd.github.v3+json'  https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.TAG_NAME }} | jq -r .id)" >> $GITHUB_ENV
+      - name: GENERATED_NOTES
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
+        run: |
+          echo 'GENERATED_NOTES<<EOF' >> $GITHUB_ENV
+          echo $(curl -sS -X POST -H 'Accept: application/vnd.github.v3+json' -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'  https://api.github.com/repos/${{ github.repository }}/releases/generate-notes -d '{"tag_name":"${{ env.TAG_NAME }}", "previous_tag_name":"${{ env.PREVIOUS_TAG_NAME }}"}' | jq .body | sed 's,",,g' | sed "s,',,g") >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
 
       - name: Checkout code
         if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
@@ -233,3 +253,13 @@ jobs:
           asset_name: ${{ env.TAG_NAME }}.zip.checksum.sha256
           tag: ${{ env.TAG_NAME }}
           overwrite: true
+
+      - name: Update Release notes
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
+        run: |
+          curl -sS \
+          -X PATCH \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/releases/${{ env.RELEASE_ID }} \
+          -d '{"draft":false, "body":"${{ env.RELEASE_BODY }}\n${{ env.GENERATED_NOTES }}"}'
