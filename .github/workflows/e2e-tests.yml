@@ -15,7 +15,7 @@ on:
 jobs:
   run-on-linux:
     name: Run on Linux
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -85,7 +85,7 @@ jobs:
         path: data/logs
   installer:
     name: Installer test
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
