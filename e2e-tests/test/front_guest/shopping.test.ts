@@ -1,7 +1,7 @@
 import { test, expect, chromium, Page, request, APIRequestContext } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
-import * as faker from '@faker-js/faker/locale/ja';
-import * as fakerEN from '@faker-js/faker/locale/en_US';
+import { faker } from '@faker-js/faker/locale/ja';
+import { faker as fakerEN } from '@faker-js/faker/locale/en_US';
 import { addYears } from 'date-fns';
 
 import { ZapClient, Mode, ContextType } from '../../utils/ZapClient';
@@ -63,12 +63,12 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
     await page.selectOption('select[name=order_pref]', { label: faker.address.state() });
     await page.fill('input[name=order_addr01]', faker.address.city());
     await page.fill('input[name=order_addr02]', faker.address.streetName());
-    await page.fill('input[name=order_tel01]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=order_tel02]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=order_tel03]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=order_fax01]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=order_fax02]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=order_fax03]', faker.phone.phoneNumber('###'));
+    await page.fill('input[name=order_tel01]', faker.phone.number('###'));
+    await page.fill('input[name=order_tel02]', faker.phone.number('###'));
+    await page.fill('input[name=order_tel03]', faker.phone.number('###'));
+    await page.fill('input[name=order_fax01]', faker.phone.number('###'));
+    await page.fill('input[name=order_fax02]', faker.phone.number('###'));
+    await page.fill('input[name=order_fax03]', faker.phone.number('###'));
     email = fakerEN.fake(String(Date.now()) + '.{{internet.exampleEmail}}').toLowerCase();
     await page.fill('input[name=order_email]', email);
     await page.fill('input[name=order_email02]', email);
@@ -92,12 +92,12 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
     await page.selectOption('select[name=shipping_pref]', { label: faker.address.state() });
     await page.fill('input[name=shipping_addr01]', faker.address.city());
     await page.fill('input[name=shipping_addr02]', faker.address.streetName());
-    await page.fill('input[name=shipping_tel01]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=shipping_tel02]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=shipping_tel03]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=shipping_fax01]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=shipping_fax02]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=shipping_fax03]', faker.phone.phoneNumber('###'));
+    await page.fill('input[name=shipping_tel01]', faker.phone.number('###'));
+    await page.fill('input[name=shipping_tel02]', faker.phone.number('###'));
+    await page.fill('input[name=shipping_tel03]', faker.phone.number('###'));
+    await page.fill('input[name=shipping_fax01]', faker.phone.number('###'));
+    await page.fill('input[name=shipping_fax02]', faker.phone.number('###'));
+    await page.fill('input[name=shipping_fax03]', faker.phone.number('###'));
 
     await page.click('[alt=上記のお届け先のみに送る]');
   });

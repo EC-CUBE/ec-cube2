@@ -1,7 +1,7 @@
 import { test, expect, chromium, Page, request, APIRequestContext } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
-import * as faker from '@faker-js/faker/locale/ja';
-import * as fakerEN from '@faker-js/faker/locale/en_US';
+import { faker } from '@faker-js/faker/locale/ja';
+import { faker as fakerEN } from '@faker-js/faker/locale/en_US';
 import { addYears } from 'date-fns';
 
 const url = '/entry/kiyaku.php';
@@ -55,12 +55,12 @@ test.describe.serial('会員登録のテストをします', () => {
     await page.selectOption('select[name=pref]', { label: faker.address.state() });
     await page.fill('input[name=addr01]', faker.address.city());
     await page.fill('input[name=addr02]', faker.address.streetName());
-    await page.fill('input[name=tel01]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=tel02]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=tel03]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=fax01]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=fax02]', faker.phone.phoneNumber('###'));
-    await page.fill('input[name=fax03]', faker.phone.phoneNumber('###'));
+    await page.fill('input[name=tel01]', faker.phone.number('###'));
+    await page.fill('input[name=tel02]', faker.phone.number('###'));
+    await page.fill('input[name=tel03]', faker.phone.number('###'));
+    await page.fill('input[name=fax01]', faker.phone.number('###'));
+    await page.fill('input[name=fax02]', faker.phone.number('###'));
+    await page.fill('input[name=fax03]', faker.phone.number('###'));
     email = fakerEN.fake(String(Date.now()) + '.{{internet.exampleEmail}}').toLowerCase();
     await page.fill('input[name=email]', email);
     await page.fill('input[name=email02]', email);
