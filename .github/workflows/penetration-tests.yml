@@ -75,14 +75,14 @@ jobs:
       run: echo "ARTIFACT_NAME=$(echo ${GROUP} | sed 's,/,_,g')" >> $GITHUB_ENV
     - name: Upload evidence
       if: always()
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: zap-${{ env.ARTIFACT_NAME}}-session
         path: zap/sessions
 
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: data/logs
