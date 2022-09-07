@@ -29,7 +29,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     # - name: Create ADMIN_DIR
     #   run: |
@@ -111,7 +111,7 @@ jobs:
             dbhost: 'postgres'
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup environment
       env:
