@@ -258,10 +258,9 @@ class SC_Response
         // 現在の URL を取得
         $netUrl = new Net_URL($_SERVER['REQUEST_URI']);
 
-        if (!$removeQueryString) {
-            $arrQueryString = array_merge($netUrl->querystring, $arrQueryString);
+        if ($removeQueryString) {
+            $netUrl->querystring = array();
         }
-        $netUrl->querystring = array();
 
         SC_Response_Ex::sendRedirect($netUrl->getURL(), $arrQueryString);
     }
