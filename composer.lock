@@ -1097,16 +1097,16 @@
         },
         {
             "name": "php5friends/phpunit48",
-            "version": "4.8.43",
+            "version": "4.8.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php5friends/phpunit48.git",
-                "reference": "a1c5a88b7649c2d1be4d44dddc0db4ffbfed4eb8"
+                "reference": "5811d801a5e5f6e73b169bd04a55d8217adbe2d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php5friends/phpunit48/zipball/a1c5a88b7649c2d1be4d44dddc0db4ffbfed4eb8",
-                "reference": "a1c5a88b7649c2d1be4d44dddc0db4ffbfed4eb8",
+                "url": "https://api.github.com/repos/php5friends/phpunit48/zipball/5811d801a5e5f6e73b169bd04a55d8217adbe2d4",
+                "reference": "5811d801a5e5f6e73b169bd04a55d8217adbe2d4",
                 "shasum": ""
             },
             "require": {
@@ -1170,9 +1170,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php5friends/phpunit48/issues",
-                "source": "https://github.com/php5friends/phpunit48/tree/4.8.43"
+                "source": "https://github.com/php5friends/phpunit48/tree/4.8.44"
             },
-            "time": "2021-10-28T05:14:50+00:00"
+            "time": "2022-09-29T05:23:03+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -2067,5 +2067,5 @@
     "platform-overrides": {
         "php": "5.4.16"
     },
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }
