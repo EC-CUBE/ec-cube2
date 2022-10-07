@@ -1,17 +1,17 @@
 name: Testing dockerbuild
 on:
   push:
+    branches:
+      - '*'
+    tags:
+      - '*'
     paths:
-      - 'Dockerfile'
-      - 'dockerbuild/*'
-      - 'docker-compose*.yml'
-      - '.github/workflows/dockerbuild.yml'
+      - '**'
+      - '!*.md'
   pull_request:
     paths:
-      - 'Dockerfile'
-      - 'dockerbuild/*'
-      - 'docker-compose*.yml'
-      - '.github/workflows/dockerbuild.yml'
+      - '**'
+      - '!*.md'
   release:
     types: [ published ]
 env:
@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: downcase REPO
         run: |
-          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}-php" >> ${GITHUB_ENV}
 
       - if: ${{ matrix.php == 5.4 }}
         run: |
@@ -78,9 +78,14 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          flavor: |
-            latest=auto
-            suffix=-php-${{ matrix.php }}-apache
+          tags: |
+            # set latest tag for default branch
+            type=raw,value=${{ matrix.php }}-apache,prefix=,enable={{is_default_branch}}
+            type=ref,event=branch,prefix=${{ matrix.php }}-apache-
+            type=ref,event=tag,prefix=${{ matrix.php }}-apache-
+            type=ref,event=pr,prefix=${{ matrix.php }}-apache-pr-
+            type=match,prefix=${{ matrix.php }}-apache-,pattern=eccube-(.*),group=1
+            type=match,prefix=${{ matrix.php }}-apache-,pattern=eccube2-weekly-(.*),group=1
 
       - name: Build and export to Docker
         uses: docker/build-push-action@v3

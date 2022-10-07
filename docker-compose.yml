@@ -16,8 +16,8 @@ services:
   ec-cube:
     ### ローカルでビルドする場合は以下のコマンドを使用します
     ## docker build -t ec-cube2 --no-cache --pull --build-arg TAG=8.1-apache .
-    ## docker tag ec-cube2 ghcr.io/ec-cube/ec-cube2:master-php-8.1-apache
-    image: ${REGISTRY:-ghcr.io}/${IMAGE_NAME:-ec-cube/ec-cube2}:${TAG:-master-php-8.1-apache}
+    ## docker tag ec-cube2 ghcr.io/ec-cube/ec-cube2-php:8.1-apache
+    image: ${REGISTRY:-ghcr.io}/${IMAGE_NAME:-ec-cube/ec-cube2-php}:${TAG:-8.1-apache}
     build:
       context: .
     volumes:
