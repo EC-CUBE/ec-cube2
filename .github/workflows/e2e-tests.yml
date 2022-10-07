@@ -90,12 +90,7 @@ jobs:
       fail-fast: false
       matrix:
         db: [ 'pgsql', 'mysql' ]
-        tag:
-          - '5.6-apache'
-          - '7.1-apache'
-          - '7.2-apache'
-          - '7.3-apache'
-          - '7.4-apache'
+        php: [ '5.4', '5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1' ]
         include:
           - db: mysql
             dbport: '3306'
@@ -110,6 +105,28 @@ jobs:
             dbname: 'eccube_db'
             dbhost: 'postgres'
     steps:
+    ## TODO GitHub Container Registry が使えるようになったら workflow_run で書き直す
+    - if: ${{ matrix.php == 5.4 }}
+      run: |
+        echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
+        echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql mbstring" >> ${GITHUB_ENV}
+        echo "APCU=apcu-4.0.11" >>  ${GITHUB_ENV}
+    - if: ${{ matrix.php == 5.5 || matrix.php == 5.6 }}
+      run: |
+        echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
+        echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
+        echo "APCU=apcu-4.0.11" >>  ${GITHUB_ENV}
+    - if: ${{ matrix.php >= 7.0 && matrix.php <= 7.3 }}
+      run: |
+        echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
+        echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
+        echo "APCU=apcu" >>  ${GITHUB_ENV}
+    - if: ${{ matrix.php >= 7.4 }}
+      run: |
+        echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
+        echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
+        echo "APCU=apcu" >>  ${GITHUB_ENV}
+
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -121,13 +138,14 @@ jobs:
       env:
         HTTP_URL: https://127.0.0.1:8085/
         HTTPS_URL: https://127.0.0.1:8085/
-        TAG: ${{ matrix.tag }}
+        PHP_VERSION_TAG: ${{ matrix.php }}
       run: |
         sudo chown -R 1001:1000 zap
         sudo chmod -R g+w zap
         sh -c 'echo "<?php" >> data/config/config.php'
-        docker-compose build --build-arg TAG=${TAG} ec-cube
-        docker-compose up -d
+        docker build -t ec-cube2 --build-arg PHP_VERSION_TAG="${PHP_VERSION_TAG}" --build-arg GD_OPTIONS="${GD_OPTIONS}" --build-arg EXT_INSTALL_ARGS="${EXT_INSTALL_ARGS}" --build-arg APCU="${APCU}" .
+        docker tag ec-cube2 ghcr.io/ec-cube/ec-cube2:master-php-${PHP_VERSION_TAG}-apache
+        TAG=master-php-${PHP_VERSION_TAG}-apache docker-compose up -d
 
     - run: sleep 1
     - run: |
@@ -170,11 +188,11 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@v3
       with:
-        name: linux-php${{ matrix.tag }}-${{ matrix.db }}-logs
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: html/install/temp/install.log*
     - name: Upload evidence
       if: failure()
       uses: actions/upload-artifact@v3
       with:
-        name: linux-php${{ matrix.tag }}-${{ matrix.db }}-evidence
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-evidence
         path: 'test-results/'
