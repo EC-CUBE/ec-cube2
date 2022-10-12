@@ -78,7 +78,7 @@ class AutoloadingPlugin extends SC_Plugin_Base
 {
     public function loadClassFileChange(&\$classname, &\$classpath) {
         if (\$classname === "SC_Product_Ex") {
-            \$classpath = "${realdir}AutoloadingPlugin/Autoloading_SC_Product.php";
+            \$classpath = "{$realdir}AutoloadingPlugin/Autoloading_SC_Product.php";
             \$classname = "Autoloading_SC_Product";
         }
     }
