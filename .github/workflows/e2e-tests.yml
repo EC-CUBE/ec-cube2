@@ -42,13 +42,12 @@ jobs:
       run: cp -rp tests/class/fixtures/page_extends/* data/class_extends/page_extends
 
     - name: Setup to EC-CUBE
-      env:
-        HTTP_URL: https://127.0.0.1:8085/
-        HTTPS_URL: https://127.0.0.1:8085/
       run: |
         sudo chown -R 1001:1000 zap
         sudo chmod -R g+w zap
-        docker-compose up -d
+        docker build -t ec-cube2 --build-arg PHP_VERSION_TAG=7.4 .
+        docker tag ec-cube2 ghcr.io/ec-cube/ec-cube2-php:7.4-apache
+        TAG=7.4-apache docker-compose up -d
         docker-compose exec -T ec-cube composer install
         docker-compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" --ignore-platform-req=php -W
         docker-compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
