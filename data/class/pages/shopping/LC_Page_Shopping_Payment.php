@@ -378,6 +378,14 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
             $arrForm['use_point'] = 0;
         }
 
+        $objDelivery = new SC_Helper_Delivery();
+        $validDelivery = array_filter($objDelivery->getList($this->cartKey), function ($delivery) use ($arrForm) {
+            return $arrForm['deliv_id'] != $delivery['deliv_id'];
+        });
+        if (!empty($validDelivery)) {
+            trigger_error('無効な配送方法: ' . var_export($arrForm['deliv_id'], true), E_USER_ERROR);
+        }
+
         $find = false;
         foreach ($arrPayment as $payment) {
             if ($arrForm['payment_id'] == $payment['payment_id']) {
