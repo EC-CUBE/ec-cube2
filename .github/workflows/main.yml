@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-22.04 ]
-        php: [ '7.4', '8.0', '8.1' ]
+        php: [ '7.4', '8.0', '8.1', '8.2snapshot' ]
         db: [ mysql, pgsql ]
         include:
           - db: mysql
@@ -43,11 +43,13 @@ jobs:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       postgres:
-        image: postgres:12
+        image: postgres:15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
           POSTGRES_DB: postgres
+          POSTGRES_HOST_AUTH_METHOD: md5
+          POSTGRES_INITDB_ARGS: --auth-host=md5
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
