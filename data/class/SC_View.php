@@ -23,7 +23,7 @@
 
 class SC_View
 {
-    /** @var SmartyBC */
+    /** @var Smarty */
     public $_smarty;
 
     /** @var LC_Page */
@@ -41,7 +41,7 @@ class SC_View
     public function init()
     {
         // include_phpの利用のためSmartyBCを呼び出す、ホントはinclude_phpをなくしたいそうすれば、blank.tplもなくせる
-        $this->_smarty = new SmartyBC;
+        $this->_smarty = new Smarty;
         // see https://github.com/smarty-php/smarty/issues/605#issuecomment-742832333
         $this->_smarty->setErrorReporting(E_ALL & ~E_WARNING & ~E_NOTICE);
         $this->_smarty->left_delimiter = '<!--{';

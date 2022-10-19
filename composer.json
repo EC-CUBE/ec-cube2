@@ -13,7 +13,7 @@
     "config": {
         "vendor-dir": "data/vendor",
         "platform": {
-            "php": "5.4.16"
+            "php": "7.4.0"
         },
         "optimize-autoloader": true,
         "sort-packages": true,
@@ -28,7 +28,7 @@
         "php5friends/phpunit48": ">=4.8.41"
     },
     "require": {
-        "php": ">=5.4.16",
+        "php": ">=7.4",
         "ext-gd": "*",
         "ext-mbstring": "*",
         "mobiledetect/mobiledetectlib": "^2.8",
