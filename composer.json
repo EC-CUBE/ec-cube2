@@ -23,9 +23,10 @@
     },
     "require-dev": {
         "fzaninotto/faker": "^1.8",
-        "nanasess/eccube2-fixture-generator": "^1.1",
         "nanasess/ec-cube2-class-extends-stubs": "^1.0",
-        "php5friends/phpunit48": ">=4.8.41"
+        "nanasess/eccube2-fixture-generator": "^1.1",
+        "php5friends/phpunit48": ">=4.8.41",
+        "symfony/yaml": "^4.4"
     },
     "require": {
         "php": ">=7.4",
