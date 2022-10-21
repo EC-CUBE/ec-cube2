@@ -1,14 +1,6 @@
 name: Testing dockerbuild
 on:
   push:
-    branches:
-      - '*'
-    tags:
-      - '*'
-    paths:
-      - '**'
-      - '!*.md'
-  pull_request:
     paths:
       - '**'
       - '!*.md'
