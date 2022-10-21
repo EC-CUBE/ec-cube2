@@ -91,6 +91,10 @@ jobs:
       matrix:
         db: [ 'pgsql', 'mysql' ]
         tag:
+          - '5.6-apache'
+          - '7.1-apache'
+          - '7.2-apache'
+          - '7.3-apache'
           - '7.4-apache'
         include:
           - db: mysql
@@ -124,6 +128,8 @@ jobs:
         sh -c 'echo "<?php" >> data/config/config.php'
         docker-compose build --build-arg TAG=${TAG} ec-cube
         docker-compose up -d
+    - run: docker-compose exec -T ec-cube composer require smarty/smarty "^3.1"
+      if: matrix.php < 7.1
 
     - run: sleep 1
     - run: |
