@@ -44,6 +44,9 @@ RUN mkdir -p ${APACHE_DOCUMENT_ROOT} \
   && sed -ri -e "s!DocumentRoot.*!DocumentRoot ${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \
     ;
 
+# see https://stackoverflow.com/questions/73294020/docker-couldnt-create-the-mpm-accept-mutex/73303983#73303983
+RUN echo "Mutex posixsem" >> /etc/apache2/apache2.conf
+
 COPY dockerbuild/docker-php-entrypoint /usr/local/bin/
 
 ## Enable SSL
