@@ -28,7 +28,7 @@
 
         <title><!--{$arrSiteInfo.shop_name|h}--><!--{if $tpl_subtitle|strlen >= 1}--> / <!--{$tpl_subtitle|h}--><!--{elseif $tpl_title|strlen >= 1}--> / <!--{$tpl_title|h}--><!--{/if}--></title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
         <meta name="format-detection" content="telephone=no">
         <!--{if $arrPageLayout.author|strlen >= 1}-->
             <meta name="author" content="<!--{$arrPageLayout.author|h}-->" />
