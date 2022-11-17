@@ -139,13 +139,13 @@ jobs:
 
       - name: Upload evidence
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: linux-php${{ matrix.php }}-evidence
           path: 'test-results/'
       - name: Upload logs
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: linux-php${{ matrix.php }}-logs
           path: data/logs
