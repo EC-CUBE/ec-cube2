@@ -1,6 +1,8 @@
 name: Testing dockerbuild
 on:
   push:
+    branches:
+      - "master"
     paths:
       - '**'
       - '!*.md'
