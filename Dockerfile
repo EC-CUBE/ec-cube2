@@ -5,6 +5,7 @@ FROM php:${TAG}
 ARG GD_OPTIONS="--with-freetype --with-jpeg"
 ARG EXT_INSTALL_ARGS="gd zip mysqli pgsql opcache"
 ARG APCU="apcu"
+ARG FORCE_YES="--force-yes"
 # See https://github.com/debuerreotype/debuerreotype/issues/10
 RUN if [ ! -d /usr/share/man/man1 ]; then mkdir /usr/share/man/man1; fi
 RUN if [ ! -d /usr/share/man/man7 ]; then mkdir /usr/share/man/man7; fi
@@ -14,7 +15,7 @@ RUN if [ ! -d /usr/share/man/man7 ]; then mkdir /usr/share/man/man7; fi
 # ext-zip: libzip-dev zlib1g-dev
 # ext-opcache: libpcre3-dev
 RUN apt-get update \
-    && apt-get install -y \
+    && apt-get install -y ${FORCE_YES} \
         git unzip curl apt-transport-https gnupg wget ca-certificates bc \
         libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
         libpq-dev \
