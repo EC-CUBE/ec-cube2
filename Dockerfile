@@ -29,9 +29,7 @@ RUN docker-php-ext-configure gd ${GD_OPTIONS} && docker-php-ext-install ${EXT_IN
 RUN pecl install ${APCU} && docker-php-ext-enable apcu
 
 # composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --2.2 --install-dir=/usr/local/bin --filename=composer \
-    && php -r "unlink('composer-setup.php');"
+COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 
 ENV APACHE_DOCUMENT_ROOT /var/www/app/html
 ENV ECCUBE_PREFIX /var/www/app
