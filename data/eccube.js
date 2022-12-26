@@ -606,7 +606,10 @@ require( "slick-carousel/slick/slick-theme.css" );
 
     // モーダルウィンドウ
     if ( $( "a.expansion" ).length ) {
-      $( "a.expansion" ).colorbox();
+      $( "a.expansion" ).colorbox({
+        maxWidth: '90%',
+        maxHeight: '90%'
+      });
     }
   } );
 } )( window );
