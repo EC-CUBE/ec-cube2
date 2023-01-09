@@ -180,7 +180,7 @@ jobs:
 
       - name: Upload binaries to release of TGZ
         if: env.DEPLOY == 1
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@2.4.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.tar.gz
@@ -189,7 +189,7 @@ jobs:
           overwrite: true
       - name: Upload binaries to release of ZIP
         if: env.DEPLOY == 1
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@2.4.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.zip
@@ -198,7 +198,7 @@ jobs:
           overwrite: true
       - name: Upload binaries to release of TGZ md5 checksum
         if: env.DEPLOY == 1
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@2.4.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.tar.gz.checksum.md5
@@ -207,7 +207,7 @@ jobs:
           overwrite: true
       - name: Upload binaries to release of TGZ sha1 checksum
         if: env.DEPLOY == 1
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@2.4.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.tar.gz.checksum.sha1
@@ -216,7 +216,7 @@ jobs:
           overwrite: true
       - name: Upload binaries to release of TGZ sha256 checksum
         if: env.DEPLOY == 1
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@2.4.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.tar.gz.checksum.sha256
@@ -225,7 +225,7 @@ jobs:
           overwrite: true
       - name: Upload binaries to release of ZIP md5 checksum
         if: env.DEPLOY == 1
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@2.4.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.zip.checksum.md5
@@ -234,7 +234,7 @@ jobs:
           overwrite: true
       - name: Upload binaries to release of ZIP sha1 checksum
         if: env.DEPLOY == 1
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@2.4.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.zip.checksum.sha1
@@ -243,7 +243,7 @@ jobs:
           overwrite: true
       - name: Upload binaries to release of ZIP sha256 checksum
         if: env.DEPLOY == 1
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@2.4.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.zip.checksum.sha256
