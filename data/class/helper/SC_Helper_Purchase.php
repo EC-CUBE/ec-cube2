@@ -172,19 +172,24 @@ class SC_Helper_Purchase
 
         $this->cancelOrder($order_id, $orderStatus, $is_delete);
         $arrOrderTemp = $this->getOrderTempByOrderId($order_id);
-        $_SESSION = array_merge($_SESSION, unserialize($arrOrderTemp['session']));
-
         $objSiteSession = new SC_SiteSession_Ex();
-        $objCartSession = new SC_CartSession_Ex();
-        $objCustomer = new SC_Customer_Ex();
-
-        // 新たに受注一時情報を保存する
-        $objSiteSession->unsetUniqId();
         $uniqid = $objSiteSession->getUniqId();
-        $arrOrderTemp['del_flg'] = 0;
-        $this->saveOrderTemp($uniqid, $arrOrderTemp, $objCustomer);
-        $this->verifyChangeCart($uniqid, $objCartSession);
-        $objSiteSession->setRegistFlag();
+        
+        if (!empty($arrOrderTemp)) {
+            
+            $_SESSION = array_merge($_SESSION, unserialize($arrOrderTemp['session']));
+
+            $objCartSession = new SC_CartSession_Ex();
+            $objCustomer = new SC_Customer_Ex();
+
+            // 新たに受注一時情報を保存する
+            $objSiteSession->unsetUniqId();
+            $uniqid = $objSiteSession->getUniqId();
+            $arrOrderTemp['del_flg'] = 0;
+            $this->saveOrderTemp($uniqid, $arrOrderTemp, $objCustomer);
+            $this->verifyChangeCart($uniqid, $objCartSession);
+            $objSiteSession->setRegistFlag();
+        }
 
         if (!$in_transaction) {
             $objQuery->commit();
@@ -799,7 +804,7 @@ class SC_Helper_Purchase
             $arrDetail[$i]['quantity'] = $item['quantity'];
             $arrDetail[$i]['tax_rate'] = $item['tax_rate'];
             $arrDetail[$i]['tax_rule'] = $item['tax_rule'];
-            $arrDetail[$i]['tax_adjuts'] = $item['tax_adjust'];
+            $arrDetail[$i]['tax_adjust'] = $item['tax_adjust'];
 
             // 在庫の減少処理
             if (!$objProduct->reduceStock($p['product_class_id'], $item['quantity'])) {

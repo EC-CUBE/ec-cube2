@@ -117,6 +117,9 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
                 case 'manual':
                     $this->insertMtbZip($this->arrForm['startRowNum']);
                     break;
+
+                default:
+                    break;
             }
             SC_Response_Ex::actionExit();
         }
@@ -131,7 +134,7 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
                 break;
 
             // 郵便番号CSV更新
-            case 'update_csv';
+            case 'update_csv':
                 $this->lfDownloadZipFileFromJp();
                 $this->lfExtractZipFile();
 
@@ -141,11 +144,14 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
 
             // 自動登録時の郵便番号CSV更新
             // XXX iframe内にエラー表示しない様、ここでlfDownloadZipFileFromJp()を呼ぶ。
-            case 'auto';
+            case 'auto':
                 if (!$this->tpl_skip_update_csv) {
                     $this->lfDownloadZipFileFromJp();
                     $this->lfExtractZipFile();
                 }
+                break;
+
+            default:
                 break;
         }
 
@@ -234,6 +240,9 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
         $img_cnt = 0;
 
         $fp = $this->openZipCsv();
+        if (!$fp) {
+            trigger_error(ZIP_CSV_UTF8_REALFILE . ' の読み込みに失敗しました。', E_USER_ERROR);
+        }
         while (!feof($fp)) {
             $arrCSV = fgetcsv($fp, ZIP_CSV_LINE_MAX);
             if (empty($arrCSV)) continue;
@@ -288,16 +297,20 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
     {
         $this->convertZipCsv();
         $fp = fopen(ZIP_CSV_UTF8_REALFILE, 'r');
-        if (!$fp) {
-            trigger_error(ZIP_CSV_UTF8_REALFILE . ' の読み込みに失敗しました。', E_USER_ERROR);
-        }
 
         return $fp;
     }
 
     public function convertZipCsv()
     {
-        if (file_exists(ZIP_CSV_UTF8_REALFILE)) return;
+        // 変換先ファイルが存在する場合
+        if (file_exists(ZIP_CSV_UTF8_REALFILE)) {
+            return;
+        }
+        // 変換元ファイルが存在しない場合
+        if (!file_exists(ZIP_CSV_REALFILE)) {
+            return;
+        }
 
         $fpr = fopen(ZIP_CSV_REALFILE, 'r');
         if (!$fpr) {
@@ -315,6 +328,8 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
 
         fclose($fpw);
         fclose($fpr);
+
+        return;
     }
 
     public function countMtbZip()
@@ -329,18 +344,20 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
         $line = 0;
         $fp = $this->openZipCsv();
 
-        // CSVの行数を数える
-        while (!feof($fp)) {
-            /*
-            // 正確にカウントする
-            $tmp = fgetcsv($fp, ZIP_CSV_LINE_MAX);
-            */
-            // 推測でカウントする
-            $tmp = fgets($fp, ZIP_CSV_LINE_MAX);
-            if (empty($tmp)) continue;
-            $line++;
+        if ($fp) {
+            // CSVの行数を数える
+            while (!feof($fp)) {
+                /*
+                // 正確にカウントする
+                $tmp = fgetcsv($fp, ZIP_CSV_LINE_MAX);
+                */
+                // 推測でカウントする
+                $tmp = fgets($fp, ZIP_CSV_LINE_MAX);
+                if (empty($tmp)) continue;
+                $line++;
+            }
+            fclose($fp);
         }
-        fclose($fp);
 
         return $line;
     }
@@ -417,9 +434,11 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
         zip_close($zip);
 
         // CSV 削除
-        $res = unlink(ZIP_CSV_REALFILE);
-        if (!$res) {
-            trigger_error(ZIP_CSV_REALFILE . ' を削除できません。', E_USER_ERROR);
+        if (file_exists(ZIP_CSV_REALFILE)) {
+            $res = unlink(ZIP_CSV_REALFILE);
+            if (!$res) {
+                trigger_error(ZIP_CSV_REALFILE . ' を削除できません。', E_USER_ERROR);
+            }
         }
 
         // CSV ファイル名変更

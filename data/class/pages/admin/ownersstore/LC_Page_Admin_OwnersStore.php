@@ -788,6 +788,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
     {
         // プラグイン情報をDB登録.
         $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery->begin();
         $arr_sqlval_plugin = array();
         $arr_sqlval_plugin['plugin_name'] = $arrPluginInfo['PLUGIN_NAME'];
         $arr_sqlval_plugin['plugin_code'] = $arrPluginInfo['PLUGIN_CODE'];

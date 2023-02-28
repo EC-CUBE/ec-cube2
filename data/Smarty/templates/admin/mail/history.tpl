@@ -48,8 +48,8 @@
                     <td><!--{$arrDataList[cnt].start_date|sfDispDBDate|h}--></td>
                     <td><!--{$arrDataList[cnt].end_date|sfDispDBDate|h}--></td>
                     <td class="left"><!--{$arrDataList[cnt].subject|h}--></td>
-                    <td><a href="javascript:;" onclick="eccube.openWindow('./preview.php?mode=history&amp;send_id=<!--{$arrDataList[cnt].send_id|h}-->', 'confirm', '720', '600', {menubar:'no'}); return false;">確認</a></td>
-                    <td><a href="javascript:;" onclick="eccube.openWindow('./<!--{$smarty.const.DIR_INDEX_PATH}-->?mode=query&amp;send_id=<!--{$arrDataList[cnt].send_id|h}-->','query','615','800',{menubar:'no'}); return false;">確認</a></td>
+                    <td><a href="javascript:;" onclick="eccube.openWindow('./preview.php?mode=history&amp;send_id=<!--{$arrDataList[cnt].send_id|h}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->', 'confirm', '720', '600', {menubar:'no'}); return false;">確認</a></td>
+                    <td><a href="javascript:;" onclick="eccube.openWindow('./<!--{$smarty.const.DIR_INDEX_PATH}-->?mode=query&amp;send_id=<!--{$arrDataList[cnt].send_id|h}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->','query','615','800',{menubar:'no'}); return false;">確認</a></td>
                     <td><!--{$arrDataList[cnt].count_all|h}--></td>
                     <td><!--{$arrDataList[cnt].count_sent|h}--></td>
                     <td style="<!--{if $arrDataList[cnt].count_error >= 1}-->background-color: <!--{$smarty.const.ERR_COLOR}-->;<!--{/if}-->">
@@ -60,10 +60,10 @@
                     </td>
                     <td>
                         <!--{if $arrDataList[cnt].count_error >= 1 || $arrDataList[cnt].count_unsent >= 1}-->
-                            <a href="index.php?mode=retry&amp;send_id=<!--{$arrDataList[cnt].send_id|h}-->" onclick="return window.confirm('未配信と配信失敗となった宛先に再送信を試みますか?');">実行</a>
+                            <a href="index.php?mode=retry&amp;send_id=<!--{$arrDataList[cnt].send_id|h}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->" onclick="return window.confirm('未配信と配信失敗となった宛先に再送信を試みますか?');">実行</a>
                         <!--{/if}-->
                     </td>
-                    <td><a href="?mode=delete&send_id=<!--{$arrDataList[cnt].send_id|h}-->" onclick="return window.confirm('配信履歴を削除しても宜しいでしょうか');">削除</a></td>
+                    <td><a href="?mode=delete&send_id=<!--{$arrDataList[cnt].send_id|h}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->" onclick="return window.confirm('配信履歴を削除しても宜しいでしょうか');">削除</a></td>
                 </tr>
                 <!--{/section}-->
             </table>

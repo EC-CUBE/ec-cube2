@@ -438,14 +438,20 @@ class LC_Page
      */
     public function doValidToken($is_admin = false)
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!SC_Helper_Session_Ex::isValidToken(false)) {
-                if ($is_admin) {
+        if ($is_admin) {
+            $mode = $this->getMode();
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' || !SC_Utils::isBlank($mode)) {
+                if (!SC_Helper_Session_Ex::isValidToken(false)) {
                     SC_Utils_Ex::sfDispError(INVALID_MOVE_ERRORR);
-                } else {
+                    SC_Response_Ex::actionExit();
+                }   
+            }
+        } else {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                if (!SC_Helper_Session_Ex::isValidToken(false)) {
                     SC_Utils_Ex::sfDispSiteError(PAGE_ERROR, '', true);
+                    SC_Response_Ex::actionExit();
                 }
-                SC_Response_Ex::actionExit();
             }
         }
     }

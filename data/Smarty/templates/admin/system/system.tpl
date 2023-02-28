@@ -37,4 +37,4 @@
 </table>
 
 <h2>PHP情報</h2>
-<iframe src="?mode=info" height="500" frameborder="0" style="width: 100%;"></iframe>
+<iframe src="?mode=info&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->" height="500" frameborder="0" style="width: 100%;"></iframe>
