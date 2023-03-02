@@ -86,7 +86,7 @@ jobs:
             type=match,prefix=${{ matrix.php }}-apache-,pattern=eccube2-weekly-(.*),group=1
 
       - name: Build and export to Docker
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           load: true
@@ -129,7 +129,7 @@ jobs:
       - run: git checkout composer.*
       ## see https://docs.github.com/ja/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#publishing-a-package-using-an-action
       - name: Push Docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         if: success()
         with:
           context: .
