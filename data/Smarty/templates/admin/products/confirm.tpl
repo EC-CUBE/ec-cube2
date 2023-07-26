@@ -200,7 +200,7 @@
         <tr>
             <th>詳細-メインコメント</th>
             <td>
-                <!--{$arrForm.main_comment|nl2br_html}-->
+                <!--{$arrForm.main_comment|nl2br_html|script_escape_ex}-->
             </td>
         </tr>
         <tr>
@@ -249,7 +249,7 @@
                 <th>詳細-サブコメント（<!--{$smarty.section.cnt.iteration}-->）</th>
                 <td>
                     <!--{assign var=key value="sub_comment`$smarty.section.cnt.iteration`"}-->
-                    <!--{$arrForm[$key]|nl2br_html}-->
+                    <!--{$arrForm[$key]|nl2br_html|script_escape_ex}-->
                 </td>
             </tr>
             <tr>
