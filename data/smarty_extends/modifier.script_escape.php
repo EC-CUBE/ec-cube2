@@ -9,12 +9,36 @@ function smarty_modifier_script_escape($value)
 {
     if (is_array($value)) return $value;
 
-    $pattern = "/<script.*?>|<\/script>|javascript:|<svg.*(onload|onerror).*?>|<img.*(onload|onerror).*?>|<body.*onload.*?>|<iframe.*?>|<object.*?>|<embed.*?>|<.*onmouse.*?>|(\"|').*(onmouse|onerror|onload|onclick).*=.*(\"|').*/i";
+    $pattern = "<script.*?>|<\/script>|javascript:|<svg.*(onload|onerror).*?>|<img.*(onload|onerror).*?>|<body.*onload.*?>|<iframe.*?>|<object.*?>|<embed.*?>|";
+
+    // 追加でサニタイズするイベント一覧
+    $escapeEvents = array(
+        'onmouse',
+        'onclick',
+        'onblur',
+        'onfocus',
+        'onresize',
+        'onscroll',
+        'ondblclick',
+        'onchange',
+        'onselect',
+        'onsubmit',
+        'onkey',
+    );
+
+    // イベント毎の正規表現を生成
+    $generateHtmlTagPatterns = array_map(function($str) {
+        return "<(\w+)([^>]*\s)?\/?".$str."[^>]*>";
+    }, $escapeEvents);
+    $pattern .= implode("|", $generateHtmlTagPatterns)."|";
+    $pattern .= "(\"|').*(onerror|onload|".implode("|", $escapeEvents).").*=.*(\"|').*";
+
+    // 正規表現をまとめる
+    $attributesPattern = "/${pattern}/i";
+
+    // 置き換える文字列
     $convert = '#script tag escaped#';
 
-    if (preg_match_all($pattern, $value, $matches)) {
-        return preg_replace($pattern, $convert, $value);
-    } else {
-        return $value;
-    }
+    // マッチしたら文字列を置き換える
+    return preg_replace($attributesPattern, $convert, $value);
 }
