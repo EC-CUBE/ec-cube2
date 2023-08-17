@@ -177,7 +177,7 @@
                 </dl>
 
                 <!--★詳細メインコメント★-->
-                <div class="main_comment"><!--{$arrProduct.main_comment|nl2br_html}--></div>
+                <div class="main_comment"><!--{$arrProduct.main_comment|nl2br_html|script_escape_ex}--></div>
 
                 <!--▼買い物カゴ-->
                 <div class="cart_area clearfix">
@@ -292,7 +292,7 @@
                 <!--▼サブ画像-->
                 <!--{assign var=lkey value="sub_large_image`$smarty.section.cnt.index+1`"}-->
                 <!--{if $arrProduct[$ikey]|strlen >= 1}-->
-                    <div class="subtext"><!--★サブテキスト★--><!--{$arrProduct[$ckey]|nl2br_html}--></div>
+                    <div class="subtext"><!--★サブテキスト★--><!--{$arrProduct[$ckey]|nl2br_html|script_escape_ex}--></div>
                     <div class="subphotoimg">
                         <!--{if $arrProduct[$lkey]|strlen >= 1}-->
                             <a href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct[$lkey]|h}-->" class="expansion" target="_blank" >
@@ -307,7 +307,7 @@
                         <!--{/if}-->
                     </div>
                 <!--{else}-->
-                    <p class="subtext"><!--★サブテキスト★--><!--{$arrProduct[$ckey]|nl2br_html}--></p>
+                    <p class="subtext"><!--★サブテキスト★--><!--{$arrProduct[$ckey]|nl2br_html|script_escape_ex}--></p>
                 <!--{/if}-->
                 <!--▲サブ画像-->
             </div>

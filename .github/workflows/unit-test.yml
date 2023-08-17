@@ -1,0 +1,38 @@
+name: Unit Test for EC-CUBE
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+    paths:
+      - '**'
+      - '!*.md'
+  pull_request:
+    paths:
+      - '**'
+      - '!*.md'
+jobs:
+  unit-test:
+    name: Unit Test
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: docker build
+        run: |
+          docker build -t php54 .
+
+      - name: composer install
+        run: |
+          curl -O https://getcomposer.org/download/latest-1.x/composer.phar
+          docker run --rm -v "$PWD":/usr/src/eccube -w /usr/src/eccube -e GIT_SSL_NO_VERIFY=1 php54 php composer.phar install --dev --no-interaction -o --apcu-autoloader
+
+      - name: Run to PHPUnit
+        run: |
+          rm -f phpunit.xml.dist 
+          docker run --rm -v "$PWD":/usr/src/eccube -w /usr/src/eccube php54 php vendor/bin/phpunit tests/class/modifier/Modifier_ScriptEscapeTest.php

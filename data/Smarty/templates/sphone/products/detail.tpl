@@ -118,7 +118,7 @@
     <section id="detailarea">
 
         <!--★詳細メインコメント★-->
-        <p class="main_comment"><!--{$arrProduct.main_comment|nl2br_html}--></p>
+        <p class="main_comment"><!--{$arrProduct.main_comment|nl2br_html|script_escape_ex}--></p>
 
         <form name="form1" id="form1" method="post" action="<!--{$smarty.const.ROOT_URLPATH}-->products/detail.php">
             <div id="detailrightblock">
@@ -342,7 +342,7 @@
                             </p>
                         <!--{/if}-->
                         <!--★サブテキスト★-->
-                        <p class="subtext"><!--★サブテキスト★--><!--{$arrProduct[$ckey]|nl2br_html}--></p>
+                        <p class="subtext"><!--★サブテキスト★--><!--{$arrProduct[$ckey]|nl2br_html|script_escape_ex}--></p>
                     </div>
                 <!--{/if}-->
             <!--{/section}-->

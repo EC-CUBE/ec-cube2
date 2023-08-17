@@ -22,4 +22,4 @@
  */
 *}-->
 
-<!--{if $mail.mail_method eq 2}--><!--{$mail.body|h|nl2br}--><!--{else}--><!--{$mail.body}--><!--{/if}-->
+<!--{if $mail.mail_method eq 2}--><!--{$mail.body|h|nl2br}--><!--{else}--><!--{$mail.body|script_escape_ex}--><!--{/if}-->

@@ -59,7 +59,7 @@
     <!--{/if}-->
 
     <!--★詳細メインコメント★-->
-    [emoji:76]<!--{$arrProduct.main_comment|nl2br_html}--><br>
+    [emoji:76]<!--{$arrProduct.main_comment|nl2br_html|script_escape_ex}--><br>
     <br>
 
     <!--▼商品ステータス-->
