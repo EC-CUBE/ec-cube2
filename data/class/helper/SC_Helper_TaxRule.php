@@ -63,6 +63,28 @@ class SC_Helper_TaxRule
     }
 
     /**
+     * 消費税の内訳を返す.
+     *
+     * 値引額合計は税率ごとに按分する.
+     *
+     * @param array{8?:int, 10?:int} $arrTaxableTotal 税率ごとのお支払い合計金額
+     * @param int $discount_total 値引額合計
+     */
+    public static function getTaxDetail($arrTaxableTotal, $discount_total = 0): string
+    {
+        ksort($arrTaxableTotal);
+        $tax = [];
+        $taxable_total = array_sum($arrTaxableTotal);
+        $result = '';
+        foreach ($arrTaxableTotal as $rate => $total) {
+            $tax = round(($total - $discount_total * $total / array_sum($arrTaxableTotal)) * ($rate / (100 + $rate)));
+            $result .= '('.$rate.'%対象: '.number_format(round($total)).'円 内消費税: '.number_format($tax).'円)'.PHP_EOL;
+        }
+
+        return $result;
+    }
+
+    /**
      * 設定情報IDに基づいて税金付与した金額を返す
      * (受注データのようにルールが決まっている場合用)
      *
