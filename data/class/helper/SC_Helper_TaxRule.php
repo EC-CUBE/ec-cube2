@@ -77,8 +77,9 @@ class SC_Helper_TaxRule
         $taxable_total = array_sum($arrTaxableTotal);
         $result = '';
         foreach ($arrTaxableTotal as $rate => $total) {
-            $tax = round(($total - $discount_total * $total / array_sum($arrTaxableTotal)) * ($rate / (100 + $rate)));
-            $result .= '('.$rate.'%対象: '.number_format(round($total)).'円 内消費税: '.number_format($tax).'円)'.PHP_EOL;
+            $reduced_total = $total - $discount_total * $total / array_sum($arrTaxableTotal);
+            $tax = round($reduced_total * ($rate / (100 + $rate)));
+            $result .= '('.$rate.'%対象: '.number_format(round($reduced_total)).'円 内消費税: '.number_format($tax).'円)'.PHP_EOL;
         }
 
         return $result;
