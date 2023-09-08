@@ -75,7 +75,7 @@ class SC_Helper_TaxRule
      * @param int $discount_total 値引額合計
      * @return array{8?:array{total:int,tax:int}, 10?:array{total:int,tax:int}}
      */
-    public static function getTaxPerTaxRate(array $arrTaxableTotal, int $discount_total = 0): array
+    public static function getTaxPerTaxRate(array $arrTaxableTotal, $discount_total = 0)
     {
         $arrDefaultTaxRule = static::getTaxRule();
 
@@ -104,7 +104,7 @@ class SC_Helper_TaxRule
      * @param int $discount_total 値引額合計
      * @return string (<税率>%対象: <値引後税込合計>円 内消費税: <値引後税額>円)
      */
-    public static function getTaxDetail($arrTaxableTotal, $discount_total = 0): string
+    public static function getTaxDetail($arrTaxableTotal, $discount_total = 0)
     {
         $arrTaxPerTaxRate = static::getTaxPerTaxRate($arrTaxableTotal, $discount_total);
         $result = '';
