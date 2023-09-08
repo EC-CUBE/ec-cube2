@@ -65,21 +65,51 @@ class SC_Helper_TaxRule
     /**
      * 消費税の内訳を返す.
      *
+     * 税率ごとに以下のような連想配列を返す.
+     * - total: 値引後の税込み合計金額
+     * - tax: 値引後の税額
      * 値引額合計は税率ごとに按分する.
+     * 課税規則は標準税率の設定を使用する.
      *
      * @param array{8?:int, 10?:int} $arrTaxableTotal 税率ごとのお支払い合計金額
      * @param int $discount_total 値引額合計
+     * @return array{8?:array{total:int,tax:int}, 10?:array{total:int,tax:int}}
      */
-    public static function getTaxDetail($arrTaxableTotal, $discount_total = 0): string
+    public static function getTaxPerTaxRate(array $arrTaxableTotal, int $discount_total = 0): array
     {
+        $arrDefaultTaxRule = static::getTaxRule();
+
         ksort($arrTaxableTotal);
         $tax = [];
         $taxable_total = array_sum($arrTaxableTotal);
-        $result = '';
+        $result = [];
         foreach ($arrTaxableTotal as $rate => $total) {
             $reduced_total = $total - $discount_total * $total / array_sum($arrTaxableTotal);
-            $tax = round($reduced_total * ($rate / (100 + $rate)));
-            $result .= '('.$rate.'%対象: '.number_format(round($reduced_total)).'円 内消費税: '.number_format($tax).'円)'.PHP_EOL;
+            $tax = $reduced_total * ($rate / (100 + $rate));
+            $result[$rate] = [
+                'total' => intval(static::roundByCalcRule($reduced_total, $arrDefaultTaxRule['calc_rule'])),
+                'tax' => intval(static::roundByCalcRule($tax, $arrDefaultTaxRule['calc_rule'])),
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * 消費税の内訳の文字列を返す.
+     *
+     * 複数の税率がある場合は改行で区切る.
+     *
+     * @param array{8?:int, 10?:int} $arrTaxableTotal 税率ごとのお支払い合計金額
+     * @param int $discount_total 値引額合計
+     * @return string (<税率>%対象: <値引後税込合計>円 内消費税: <値引後税額>円)
+     */
+    public static function getTaxDetail($arrTaxableTotal, $discount_total = 0): string
+    {
+        $arrTaxPerTaxRate = static::getTaxPerTaxRate($arrTaxableTotal, $discount_total);
+        $result = '';
+        foreach ($arrTaxPerTaxRate as $rate => $item) {
+            $result .= '('.$rate .'%対象: '. number_format($item['total']).'円 内消費税: '.number_format($item['tax']).'円)'.PHP_EOL;
         }
 
         return $result;
