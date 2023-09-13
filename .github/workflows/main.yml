@@ -150,7 +150,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ windows-2019 ]
+        operating-system: [ windows-2022 ]
         php: [ 5.5, 5.6, 7.1, 7.2, 7.3, 7.4 ]
     steps:
     - name: Checkout
@@ -179,7 +179,7 @@ jobs:
 
     - name: Setup to database
       run: |
-        choco install -y mysql --version 5.7.18
+        choco install -y mysql
         mysql --user=root -e "CREATE DATABASE eccube_db DEFAULT COLLATE=utf8_general_ci;"
         mysql --user=root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;FLUSH PRIVILEGES;"
 
