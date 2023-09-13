@@ -177,11 +177,15 @@ jobs:
     - name: composer install
       run: composer install --no-interaction -o
 
-    - name: Setup to database
+    - name: Start PostgreSQL on Windows
+      # see https://www.cybertec-postgresql.com/en/postgresql-github-actions-continuous-integration/
       run: |
-        choco install -y mysql
-        mysql --user=root -e "CREATE DATABASE eccube_db DEFAULT COLLATE=utf8_general_ci;"
-        mysql --user=root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;FLUSH PRIVILEGES;"
+        $pgService = Get-Service -Name postgresql*
+        Set-Service -InputObject $pgService -Status running -StartupType automatic
+        Start-Process -FilePath "$env:PGBIN\pg_isready" -Wait -PassThru
+        $env:PGPASSWORD = 'root'
+        & $env:PGBIN\createdb --owner=postgres eccube_db
+        echo $env:PGBIN >> $Env:GITHUB_PATH
 
     - name: Setup PHP
       uses: nanasess/setup-php@master
@@ -190,16 +194,17 @@ jobs:
 
     - name: Setup to EC-CUBE
       env:
-        DB: mysql
-        USER: root
-        DBUSER: root
-        DBPASS: password
+        DB: pgsql
+        DBUSER: postgres
+        DBPASS: root
         DBNAME: eccube_db
-        DBPORT: 3306
+        DBPORT: 5432
         DBSERVER: 127.0.0.1
         HTTP_URL: http://127.0.0.1:8085/
         HTTPS_URL: http://127.0.0.1:8085/
-      run: bash eccube_install.sh mysql
+      run: |
+        echo $PATH
+        bash eccube_install.sh pgsql
       shell: bash
     - run: sleep 1
       shell: bash
