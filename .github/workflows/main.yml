@@ -180,12 +180,18 @@ jobs:
     - name: Start PostgreSQL on Windows
       # see https://www.cybertec-postgresql.com/en/postgresql-github-actions-continuous-integration/
       run: |
+        echo $env:PGBIN >> $Env:GITHUB_PATH
         $pgService = Get-Service -Name postgresql*
         Set-Service -InputObject $pgService -Status running -StartupType automatic
         Start-Process -FilePath "$env:PGBIN\pg_isready" -Wait -PassThru
         $env:PGPASSWORD = 'root'
-        & $env:PGBIN\createdb --owner=postgres eccube_db
-        echo $env:PGBIN >> $Env:GITHUB_PATH
+        (Get-Content $env:PGDATA\postgresql.conf) | foreach { $_ -replace "#password_encryption = scram-sha-256","password_encryption = md5" } | Set-Content $env:PGDATA\postgresql.conf
+        (Get-Content $env:PGDATA\pg_hba.conf) | foreach { $_ -replace "scram-sha-256","md5" } | Set-Content $env:PGDATA\pg_hba.conf
+        Restart-Service -InputObject $pgService -Force
+        Start-Process -FilePath "$env:PGBIN\pg_isready" -Wait -PassThru
+        & $env:PGBIN\createuser -U postgres -d -R eccube_db_user
+        & $env:PGBIN\psql -U postgres -c "ALTER role eccube_db_user with password 'root';" postgres
+        & $env:PGBIN\createdb --owner=eccube_db_user eccube_db
 
     - name: Setup PHP
       uses: nanasess/setup-php@master
@@ -195,7 +201,7 @@ jobs:
     - name: Setup to EC-CUBE
       env:
         DB: pgsql
-        DBUSER: postgres
+        DBUSER: eccube_db_user
         DBPASS: root
         DBNAME: eccube_db
         DBPORT: 5432
