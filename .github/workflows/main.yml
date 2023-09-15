@@ -131,9 +131,12 @@ jobs:
 
     - run: sleep 1
     - name: Run to PHPUnit
-      run: data/vendor/bin/phpunit --exclude-group classloader
+      run: data/vendor/bin/phpunit --exclude-group classloader,mysql_prepare
     - name: Run to PHPUnit classloader
       run: data/vendor/bin/phpunit --group classloader
+    - name: Run to PHPUnit mysql_prepare
+      # XXX 連続してテストを実行すると、何故か MySQL の prepare statement に失敗するため個別に実行する
+      run: data/vendor/bin/phpunit --group mysql_prepare
     - name: Run to PHPUnit SessionFactory
       run: data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
 

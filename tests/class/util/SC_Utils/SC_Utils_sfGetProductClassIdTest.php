@@ -28,6 +28,7 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * SC_Utils::sfGetProductClassId()のテストクラス.
  * TODO del_flgは使わなくて良い？？
  * TODO classcategory_id1とclasscategory_id2を使わないと一意に指定できない。
+ * @group mysql_prepare
  * @author Hiroko Tamagawa
  * @version $Id$
  */
@@ -49,7 +50,7 @@ class SC_Utils_sfGetProductClassIdTest extends Common_TestCase
   /////////////////////////////////////////
   public function testSfGetProductClassId_存在する製品IDのみを指定した場合_カテゴリ0の対応する製品クラスが取得できる()
   {
-    
+
     $this->expected = '2001';
     $this->actual = SC_Utils::sfGetProductClassId('2001');
 
@@ -58,7 +59,7 @@ class SC_Utils_sfGetProductClassIdTest extends Common_TestCase
 
   public function testSfGetProductClassId_存在する製品IDのみを指定してカテゴリ0の製品クラスが存在しなければ_nullが返る()
   {
-    
+
     $this->expected = null;
     $this->actual = SC_Utils::sfGetProductClassId('1001');
 
@@ -67,7 +68,7 @@ class SC_Utils_sfGetProductClassIdTest extends Common_TestCase
 
   public function testSfGetProductClassId_存在する製品IDとカテゴリIDを指定した場合_対応する製品クラスが取得できる()
   {
-    
+
     $this->expected = '1002';
     $this->actual = SC_Utils::sfGetProductClassId('1001', '2');
 
@@ -76,7 +77,7 @@ class SC_Utils_sfGetProductClassIdTest extends Common_TestCase
 
   public function testSfGetProductClassId_存在する製品IDと存在しないカテゴリIDを指定した場合_nullが返る()
   {
-    
+
     $this->expected = null;
     $this->actual = SC_Utils::sfGetProductClassId('1001', '999');
 
@@ -130,4 +131,3 @@ class SC_Utils_sfGetProductClassIdTest extends Common_TestCase
     }
   }
 }
-
