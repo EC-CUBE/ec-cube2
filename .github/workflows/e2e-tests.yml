@@ -89,7 +89,7 @@ jobs:
       fail-fast: false
       matrix:
         db: [ 'pgsql', 'mysql' ]
-        php: [ '5.4', '5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1' ]
+        php: [ '5.4', '5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2' ]
         include:
           - db: mysql
             dbport: '3306'
@@ -112,7 +112,7 @@ jobs:
         echo "APCU=apcu-4.0.11" >> ${GITHUB_ENV}
         echo "FORCE_YES=--force-yes" >> ${GITHUB_ENV}
         echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
+        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive/debian-security" >> ${GITHUB_ENV}
     - if: ${{ matrix.php == 5.5 || matrix.php == 5.6 }}
       run: |
         echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
@@ -120,7 +120,7 @@ jobs:
         echo "APCU=" >>  ${GITHUB_ENV}
         echo "FORCE_YES=--force-yes" >>  ${GITHUB_ENV}
         echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
+        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive/debian-security" >> ${GITHUB_ENV}
     - if: ${{ matrix.php == 7.0 }}
       run: |
         echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
@@ -128,7 +128,7 @@ jobs:
         echo "APCU=apcu" >>  ${GITHUB_ENV}
         echo "FORCE_YES=" >>  ${GITHUB_ENV}
         echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
+        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive/debian-security" >> ${GITHUB_ENV}
     - if: ${{ matrix.php >= 7.1 && matrix.php <= 7.3 }}
       run: |
         echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
