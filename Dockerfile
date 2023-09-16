@@ -5,14 +5,19 @@ FROM php:${TAG}
 ARG GD_OPTIONS="--with-freetype --with-jpeg"
 ARG EXT_INSTALL_ARGS="gd zip mysqli pgsql opcache"
 ARG APCU="apcu"
-ARG FORCE_YES="--force-yes"
+ARG FORCE_YES=""
+ARG APT_REPO="deb.debian.org"
+ARG APT_SECURITY_REPO="security.debian.org"
+
 # See https://github.com/debuerreotype/debuerreotype/issues/10
 RUN if [ ! -d /usr/share/man/man1 ]; then mkdir /usr/share/man/man1; fi
 RUN if [ ! -d /usr/share/man/man7 ]; then mkdir /usr/share/man/man7; fi
 
-RUN sed -i s,deb.debian.org,cloudfront.debian.net/debian-archive,g /etc/apt/sources.list
-RUN sed -i 's,security.debian.org,cloudfront.debian.net/debian-archive,g' /etc/apt/sources.list
-RUN sed -i '/stretch-updates/d' /etc/apt/sources.list
+RUN sed -i s,deb.debian.org,${APT_REPO},g /etc/apt/sources.list;
+RUN sed -i s,security.debian.org,${APT_SECURITY_REPO},g /etc/apt/sources.list;
+RUN sed -i s,httpredir.debian.org,${APT_REPO},g /etc/apt/sources.list; # for jessie
+RUN sed -i '/stretch-updates/d' /etc/apt/sources.list # for stretch
+RUN sed -i '/jessie-updates/d' /etc/apt/sources.list # for jessie
 
 # ext-gd: libfreetype6-dev libjpeg62-turbo-dev libpng-dev
 # ext-pgsql: libpq-dev
@@ -31,7 +36,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd ${GD_OPTIONS} && docker-php-ext-install ${EXT_INSTALL_ARGS}
-RUN pecl install ${APCU} && docker-php-ext-enable apcu
+RUN if [[ ${APCU} ]]; then  pecl install ${APCU} && docker-php-ext-enable apcu; fi
 
 # composer
 COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
@@ -68,4 +73,4 @@ COPY composer.lock ${ECCUBE_PREFIX}/composer.lock
 RUN composer install --no-scripts --no-autoloader --no-dev -d ${ECCUBE_PREFIX}
 
 COPY . ${ECCUBE_PREFIX}
-RUN composer dumpautoload -o --apcu
+RUN composer dumpautoload -o
