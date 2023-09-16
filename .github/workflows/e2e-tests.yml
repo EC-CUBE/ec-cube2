@@ -109,22 +109,34 @@ jobs:
       run: |
         echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
         echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql mbstring" >> ${GITHUB_ENV}
-        echo "APCU=apcu-4.0.11" >>  ${GITHUB_ENV}
+        echo "APCU=apcu-4.0.11" >> ${GITHUB_ENV}
+        echo "FORCE_YES=--force-yes" >> ${GITHUB_ENV}
+        echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
+        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
     - if: ${{ matrix.php == 5.5 || matrix.php == 5.6 }}
       run: |
         echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
         echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
-        echo "APCU=apcu-4.0.11" >>  ${GITHUB_ENV}
+        echo "APCU=" >>  ${GITHUB_ENV}
+        echo "FORCE_YES=--force-yes" >>  ${GITHUB_ENV}
+        echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
+        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
+    - if: ${{ matrix.php == 7.0 }}
+      run: |
+        echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
+        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
     - if: ${{ matrix.php >= 7.0 && matrix.php <= 7.3 }}
       run: |
         echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
         echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
         echo "APCU=apcu" >>  ${GITHUB_ENV}
+        echo "FORCE_YES=" >>  ${GITHUB_ENV}
     - if: ${{ matrix.php >= 7.4 }}
       run: |
         echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
         echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
         echo "APCU=apcu" >>  ${GITHUB_ENV}
+        echo "FORCE_YES=" >>  ${GITHUB_ENV}
 
     - name: Checkout
       uses: actions/checkout@v3
