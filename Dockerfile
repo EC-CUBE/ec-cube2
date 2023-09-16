@@ -10,6 +10,10 @@ ARG FORCE_YES="--force-yes"
 RUN if [ ! -d /usr/share/man/man1 ]; then mkdir /usr/share/man/man1; fi
 RUN if [ ! -d /usr/share/man/man7 ]; then mkdir /usr/share/man/man7; fi
 
+RUN sed -i s,deb.debian.org,cloudfront.debian.net/debian-archive,g /etc/apt/sources.list
+RUN sed -i 's,security.debian.org,cloudfront.debian.net/debian-archive,g' /etc/apt/sources.list
+RUN sed -i '/stretch-updates/d' /etc/apt/sources.list
+
 # ext-gd: libfreetype6-dev libjpeg62-turbo-dev libpng-dev
 # ext-pgsql: libpq-dev
 # ext-zip: libzip-dev zlib1g-dev
