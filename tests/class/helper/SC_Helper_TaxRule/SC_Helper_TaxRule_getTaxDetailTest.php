@@ -59,6 +59,51 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
         );
     }
 
+    public function testGetTaxPerTaxRateWithZero()
+    {
+        $this->setUpTaxRule([
+            [
+                'tax_rule_id' => 1004,
+                'apply_date' => '2019-10-01 00:00:00',
+                'tax_rate' => '10',
+                'calc_rule' => '1',
+                'product_id' => '0',
+                'product_class_id' => '0',
+                'del_flg' => '0',
+                'member_id' => 1,
+                'create_date' => '2000-01-01 00:00:00',
+                'update_date' => '2000-01-01 00:00:00',
+            ],
+        ]);
+
+        $arrTaxableTotal = [
+            10 => 0,
+            8 => 0,
+        ];
+        $discount_total = 0;
+
+        $actual = SC_Helper_TaxRule_Ex::getTaxPerTaxRate($arrTaxableTotal, $discount_total);
+        self::assertSame(
+            [
+                8 => [
+                    'total' => 0,
+                    'tax' => 0
+                ],
+                10 => [
+                    'total' => 0,
+                    'tax' => 0
+                ]
+            ],
+            $actual
+        );
+
+        self::assertSame(
+            '(8%対象: 0円 内消費税: 0円)'.PHP_EOL.
+                '(10%対象: 0円 内消費税: 0円)'.PHP_EOL,
+            SC_Helper_TaxRule_Ex::getTaxDetail($arrTaxableTotal, $discount_total)
+        );
+    }
+
     /**
      * @runInSeparateProcess
      * @preserveGlobalState disabled

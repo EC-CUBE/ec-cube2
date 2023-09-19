@@ -84,7 +84,10 @@ class SC_Helper_TaxRule
         $taxable_total = array_sum($arrTaxableTotal);
         $result = [];
         foreach ($arrTaxableTotal as $rate => $total) {
-            $reduced_total = $total - $discount_total * $total / array_sum($arrTaxableTotal);
+            if ($taxable_total > 0) {
+                $reduced_total = $total - $discount_total * $total / $taxable_total;
+            }
+
             $tax = $reduced_total * ($rate / (100 + $rate));
             $result[$rate] = [
                 'total' => intval(static::roundByCalcRule($reduced_total, $arrDefaultTaxRule['calc_rule'])),
