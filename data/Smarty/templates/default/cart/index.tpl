@@ -136,7 +136,7 @@
                             <!--{/foreach}-->
                             <tr>
                                 <th colspan="5" class="alignR">合計</th>
-                                <td class="alignR"><span class="price"><!--{$arrData[$key].total-$arrData[$key].deliv_fee|n2s|h}-->円</span></td>
+                                <td class="alignR"><span class="price"><!--{$arrData[$key].subtotal|n2s|h}-->円</span></td>
                             </tr>
                             <!--{if $smarty.const.USE_POINT !== false}-->
                                 <!--{if $arrData[$key].birth_point > 0}-->
