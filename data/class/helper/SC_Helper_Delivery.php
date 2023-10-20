@@ -26,7 +26,7 @@
  *
  * @package Helper
  * @author pineray
- * @version $Id:$
+ * @version $Id$
  */
 class SC_Helper_Delivery
 {
@@ -306,7 +306,7 @@ class SC_Helper_Delivery
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('rank');
 
-        return $objQuery->getCol('payment_id', 'dtb_payment_options', 'deliv_id = ?', array($deliv_id), MDB2_FETCHMODE_ORDERED);
+        return $objQuery->getCol('payment_id', 'dtb_payment_options', 'deliv_id = ?', array($deliv_id));
     }
 
     /**

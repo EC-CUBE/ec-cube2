@@ -32,14 +32,9 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  */
 class SC_Helper_DB_TestBase extends Common_TestCase
 {
-
-  /** @var FixtureGenerator */
-  protected $objGenerator;
-
   protected function setUp()
   {
     parent::setUp();
-    $this->objGenerator = new FixtureGenerator($this->objQuery);
   }
 
   protected function tearDown()
@@ -84,7 +79,7 @@ class SC_Helper_DB_TestBase extends Common_TestCase
             $this->objQuery->insert('dtb_news', $item);
         }
     }
- 
+
     /**
     * DBに基本情報を設定します。
     */
@@ -157,7 +152,7 @@ class SC_Helper_DB_TestBase extends Common_TestCase
 
         $this->objQuery->delete('dtb_baseinfo');
         $this->objQuery->insert('dtb_baseinfo', $baseInfo);
-    }   
+    }
 
     public function testDummyTest() {
         // Warning が出るため空のテストを作成

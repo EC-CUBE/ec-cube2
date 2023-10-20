@@ -22,7 +22,6 @@
  */
 
 require_once '../require.php';
-require_once CLASS_EX_REALDIR . 'page_extends/regist/LC_Page_Regist_Ex.php';
 
 $objPage = new LC_Page_Regist_Ex();
 $objPage->init();

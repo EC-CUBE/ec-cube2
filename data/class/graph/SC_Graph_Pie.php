@@ -122,6 +122,7 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
 
         // データの角度を取得する
         $arrRad = $this->getCircleData($this->arrData);
+        $rd_max = count($arrRad);
 
         // データが存在しない場合
         if (empty($arrRad)) {
@@ -140,10 +141,10 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
         // 側面の描画
         for ($i = ($y + $z - 1); $i >= $y; $i--) {
             $start = 0;
-            foreach ($arrRad as $rad) {
+            for ($j = 0; $j < $rd_max; $j++) {
                 // 角度が0度以上の場合のみ側面を描画する。
-                if ($rad > 0) {
-                    $end = $start + $rad;
+                if ($arrRad[$j] > 0) {
+                    $end = $start + $arrRad[$j];
                     if ($start == 0 && $end == 360) {
                         // -90~270で指定すると円が描画できないので0~360に指定
                         imagearc($this->image, $x, $i, $w, $h, 0, 360, $this->arrDarkColor[($j % $dc_max)]);
@@ -169,7 +170,7 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
             }
             // -90°は12時の位置から開始するように補正するもの。
             // 塗りつぶし
-            imagefilledarc($this->image, $x, $y, $w, $h, $start - 90, $end - 90, $this->arrColor[($key % $c_max)], $style);
+            imagefilledarc($this->image, $x, $y, $w, $h, $start - 90, $end - 90, $this->arrColor[($key % $c_max)], IMG_ARC_PIE);
             // FIXME 360°描画の場合、(imagefilledarc 関数における) 0°から360°として動作する。本来-90°から360°として動作すべき。
             //       なお、360°と0°の組み合わせを考慮すると線が無いのも問題があるので、この処理をスキップする対応は不適当である。
             // 縁取り線

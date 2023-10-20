@@ -21,7 +21,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Day.php,v 1.1 2004/05/24 22:25:42 quipo Exp $
+ * @version $Id$
  */
 
 /**
@@ -80,9 +80,9 @@ class Calendar_Day extends Calendar
      * @param int day e.g. 15
      * @access public
      */
-    function Calendar_Day($y, $m, $d)
+    function __construct($y, $m, $d)
     {
-        Calendar::Calendar($y, $m, $d);
+        parent::__construct($y, $m, $d);
     }
 
     /**

@@ -34,7 +34,7 @@
         <form name="form1" id="form1" method="post" action="<!--{$smarty.const.ROOT_URLPATH}-->mypage/index.php">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
             <input type="hidden" name="order_id" value="" />
-            <input type="hidden" name="pageno" value="<!--{$objNavi->nowpage}-->" />
+            <input type="hidden" name="pageno" value="<!--{$objNavi->nowpage|h}-->" />
 
             <h3 class="title_mypage"><!--{$tpl_subtitle|h}--></h3>
             <!--{if $objNavi->all_row > 0}-->
@@ -74,7 +74,7 @@
                 </div><!-- /.form_area-->
                 <div class="btn_area">
                     <!--{if $objNavi->all_row > $dispNumber}-->
-                        <p><a href="javascript: void(0);" class="btn_more" id="btn_more_history" onClick="getHistory(<!--{$dispNumber}-->); return false;" rel="external">もっとみる(＋<!--{$dispNumber}-->件)</a></p>
+                        <p><a href="javascript: void(0);" class="btn_more" id="btn_more_history" onClick="getHistory(<!--{$dispNumber|h}-->); return false;" rel="external">もっとみる(＋<!--{$dispNumber|h}-->件)</a></p>
                     <!--{/if}-->
                 </div>
             <!--{else}-->

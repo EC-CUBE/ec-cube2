@@ -59,7 +59,7 @@
                 <td colspan="2">
                     <!--{assign var=key value="bloc_html"}-->
                     <textarea class="top" id="<!--{$key}-->" name="<!--{$key}-->" rows="<!--{$text_row}-->" style="width: 99%;"><!--{"\n"}--><!--{$arrForm[$key].value|h nofilter}--></textarea>
-                    <input type="hidden" name="html_area_row" value="<!--{$text_row}-->" />
+                    <input type="hidden" name="html_area_row" value="<!--{$text_row|h}-->" />
                     <div>
                         <a id="resize-btn" class="btn-normal" href="javascript:;" onclick="eccube.toggleRows('#resize-btn', '#bloc_html', 50, 13); return false;">拡大</a>
                     </div>

@@ -25,7 +25,7 @@
 <form name="form1" id="form1" method="post" action="">
     <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
     <input type="hidden" name="mode" value="edit" />
-    <input type="hidden" name="classcategory_id" value="<!--{$tpl_classcategory_id}-->" />
+    <input type="hidden" name="classcategory_id" value="<!--{$tpl_classcategory_id|h}-->" />
     <!--{foreach key=key item=item from=$arrHidden}-->
         <input type="hidden" name="<!--{$key}-->" value="<!--{$item|h}-->" />
     <!--{/foreach}-->
@@ -69,20 +69,20 @@
                     <td><!--{* 規格名 *}--><!--{$arrClassCat[cnt].name|h}--></td>
                     <td align="center" >
                         <!--{if $tpl_classcategory_id != $arrClassCat[cnt].classcategory_id}-->
-                            <a href="?" onclick="eccube.setModeAndSubmit('pre_edit','classcategory_id', <!--{$arrClassCat[cnt].classcategory_id}-->); return false;">編集</a>
+                            <a href="?" onclick="eccube.setModeAndSubmit('pre_edit','classcategory_id', <!--{$arrClassCat[cnt].classcategory_id|h}-->); return false;">編集</a>
                         <!--{else}-->
                             編集中
                         <!--{/if}-->
                     </td>
                     <td align="center">
-                        <a href="?" onclick="if(window.confirm('分類名を削除すると、その分類を利用している商品規格が無効になります。\n整合性の問題を把握し、バックアップを行ってから削除することを推奨致します。')){ eccube.setModeAndSubmit('delete','classcategory_id', <!--{$arrClassCat[cnt].classcategory_id}-->); } return false;">削除</a>
+                        <a href="?" onclick="if(window.confirm('分類名を削除すると、その分類を利用している商品規格が無効になります。\n整合性の問題を把握し、バックアップを行ってから削除することを推奨致します。')){ eccube.setModeAndSubmit('delete','classcategory_id', <!--{$arrClassCat[cnt].classcategory_id|h}-->); } return false;">削除</a>
                     </td>
                     <td align="center">
                         <!--{if $smarty.section.cnt.iteration != 1}-->
-                            <a href="?" onclick="eccube.setModeAndSubmit('up','classcategory_id', <!--{$arrClassCat[cnt].classcategory_id}-->); return false;">上へ</a>
+                            <a href="?" onclick="eccube.setModeAndSubmit('up','classcategory_id', <!--{$arrClassCat[cnt].classcategory_id|h}-->); return false;">上へ</a>
                         <!--{/if}-->
                         <!--{if $smarty.section.cnt.iteration != $smarty.section.cnt.last}-->
-                            <a href="?" onclick="eccube.setModeAndSubmit('down','classcategory_id', <!--{$arrClassCat[cnt].classcategory_id}-->); return false;">下へ</a>
+                            <a href="?" onclick="eccube.setModeAndSubmit('down','classcategory_id', <!--{$arrClassCat[cnt].classcategory_id|h}-->); return false;">下へ</a>
                         <!--{/if}-->
                     </td>
                 </tr>

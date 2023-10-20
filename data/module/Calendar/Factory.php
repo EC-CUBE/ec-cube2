@@ -22,7 +22,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Factory.php,v 1.3 2005/10/22 10:08:47 quipo Exp $
+ * @version $Id$
  */
 
 /**
@@ -70,7 +70,7 @@ class Calendar_Factory
      * @access public
      * @static
      */
-    function create($type, $y = 2000, $m = 1, $d = 1, $h = 0, $i = 0, $s = 0)
+    static function create($type, $y = 2000, $m = 1, $d = 1, $h = 0, $i = 0, $s = 0)
     {
         $firstDay = defined('CALENDAR_FIRST_DAY_OF_WEEK') ? CALENDAR_FIRST_DAY_OF_WEEK : 1;
         switch ($type) {
@@ -129,7 +129,7 @@ class Calendar_Factory
      * @access public
      * @static
      */
-    function & createByTimestamp($type, $stamp)
+    static function & createByTimestamp($type, $stamp)
     {
         $cE = & Calendar_Engine_Factory::getEngine();
         $y = $cE->stampToYear($stamp);

@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
 
 /**
  * 支払い方法選択 のページクラス.
@@ -32,6 +31,15 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Shopping_Payment extends LC_Page_Ex
 {
+    /** @var bool */
+    public $is_single_deliv;
+    /** @var bool */
+    public $is_download;
+    /** @var string */
+    public $tpl_back_url;
+    /** @var bool */
+    public $img_show;
+
     /**
      * Page を初期化する.
      *
@@ -163,7 +171,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
                     $deliv_id = $this->arrDeliv[0]['deliv_id'];
                     $objFormParam->setValue('deliv_id', $deliv_id);
                 }
-                
+
                 $arrSelectedDeliv = $this->getSelectedDeliv($objCartSess, $deliv_id);
                 $this->arrPayment = $arrSelectedDeliv['arrPayment'];
                 $this->arrDelivTime = $arrSelectedDeliv['arrDelivTime'];
@@ -370,6 +378,14 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
             $arrForm['use_point'] = 0;
         }
 
+        $objDelivery = new SC_Helper_Delivery();
+        $validDelivery = array_filter($objDelivery->getList($this->cartKey), function ($delivery) use ($arrForm) {
+            return $arrForm['deliv_id'] != $delivery['deliv_id'];
+        });
+        if (!empty($validDelivery)) {
+            trigger_error('無効な配送方法: ' . var_export($arrForm['deliv_id'], true), E_USER_ERROR);
+        }
+
         $find = false;
         foreach ($arrPayment as $payment) {
             if ($arrForm['payment_id'] == $payment['payment_id']) {
@@ -458,7 +474,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
      * @param  string  $mode            フォームパラメーター 'mode' の文字列
      * @return string  モバイル用テンプレートのパス
      */
-    public function getMobileMainpage($is_single_deliv = true, $mode)
+    public function getMobileMainpage($is_single_deliv = true, $mode = null)
     {
         switch ($mode) {
             case 'select_deliv':

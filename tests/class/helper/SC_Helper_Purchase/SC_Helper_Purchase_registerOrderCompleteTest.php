@@ -140,7 +140,7 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
 class SC_Helper_Purchase_registerOrderCompleteMock extends SC_Helper_Purchase
 {
 
-  function registerOrder($order_id, $params)
+  public static function registerOrder($order_id, $params)
   {
     $_SESSION['testResult']['registerOrder'] = array(
       'order_id' => $order_id,
@@ -149,7 +149,7 @@ class SC_Helper_Purchase_registerOrderCompleteMock extends SC_Helper_Purchase
     );
   }
 
-  function registerOrderDetail($order_id, $params)
+  public static function registerOrderDetail($order_id, $params)
   {
     $_SESSION['testResult']['registerOrderDetail'] = array(
       'order_id' => $order_id,

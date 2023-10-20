@@ -21,17 +21,18 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/order/LC_Page_Admin_Order_Ex.php';
-
 /**
  * 受注情報表示 のページクラス.
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id: LC_Page_Admin_Order_Disp.php 20767 2011-03-22 10:07:32Z nanasess $
+ * @version $Id$
  */
 class LC_Page_Admin_Order_Disp extends LC_Page_Admin_Order_Ex
 {
+    /** @var string */
+    public $tpl_subnavi;
+
     public $arrShippingKeys = array(
         'shipping_id',
         'shipping_name01',

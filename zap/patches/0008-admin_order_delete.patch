@@ -1,0 +1,30 @@
+From b6b8659dc4259a47d3a47c7443fb5183cd87f063 Mon Sep 17 00:00:00 2001
+From: Kentaro Ohkouchi <nanasess@fsm.ne.jp>
+Date: Mon, 25 Oct 2021 11:15:28 +0900
+Subject: [PATCH] =?UTF-8?q?=E6=B3=A8=E6=96=87=E3=82=92=E5=89=8A=E9=99=A4?=
+ =?UTF-8?q?=E3=81=9B=E3=81=9A=E3=83=86=E3=82=B9=E3=83=88=E3=82=92=E7=B6=99?=
+ =?UTF-8?q?=E7=B6=9A=E3=81=99=E3=82=8B?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ data/class/helper/SC_Helper_Purchase.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/class/helper/SC_Helper_Purchase.php b/data/class/helper/SC_Helper_Purchase.php
+index 3113c78dc..3208da087 100644
+--- a/data/class/helper/SC_Helper_Purchase.php
++++ b/data/class/helper/SC_Helper_Purchase.php
+@@ -142,7 +142,7 @@ class SC_Helper_Purchase
+                               array('stock' => 'stock + ?'), array($arrDetail['quantity']));
+         }
+         if (!$in_transaction) {
+-            $objQuery->commit();
++            // $objQuery->commit();
+         }
+     }
+ 
+-- 
+2.25.1
+

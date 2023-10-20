@@ -22,7 +22,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Week.php,v 1.7 2005/10/22 10:26:49 quipo Exp $
+ * @version $Id$
  */
 
 /**
@@ -115,10 +115,10 @@ class Calendar_Week extends Calendar
      * @param int (optional) first day of week (e.g. 0 for Sunday, 2 for Tuesday etc.)
      * @access public
      */
-    function Calendar_Week($y, $m, $d, $firstDay=null)
+    public function __construct($y, $m, $d, $firstDay=null)
     {
         require_once CALENDAR_ROOT.'Table/Helper.php';
-        Calendar::Calendar($y, $m, $d);
+        parent::__construct($y, $m, $d);
         $this->firstDay = $this->defineFirstDayOfWeek($firstDay);
         $this->tableHelper = new Calendar_Table_Helper($this, $this->firstDay);
         $this->thisWeek = $this->tableHelper->getWeekStart($y, $m, $d, $this->firstDay);

@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * システム管理 のページクラス.
@@ -32,6 +31,13 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex
 {
+    /** @var string */
+    public $tpl_member_id;
+    /** @var string */
+    public $tpl_old_login_id;
+    /** @var string */
+    public $tpl_onfocus;
+
     /**
      * Page を初期化する.
      *
@@ -183,8 +189,8 @@ class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex
         $objFormParam->addParam('メンバーID', 'member_id', INT_LEN, 'n', array('NUM_CHECK'));
         $objFormParam->addParam('名前', 'name', STEXT_LEN, 'KV', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('所属', 'department', STEXT_LEN, 'KV', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('ログインID', 'login_id', '', '', array('EXIST_CHECK', 'ALNUM_CHECK'));
-        $objFormParam->addParam('変更前ログインID', 'old_login_id', '', '', array('ALNUM_CHECK'));
+        $objFormParam->addParam('ログインID', 'login_id', '', '', array('EXIST_CHECK', 'GRAPH_CHECK'));
+        $objFormParam->addParam('変更前ログインID', 'old_login_id', '', '', array('GRAPH_CHECK'));
         if ($mode == 'edit' && $arrParams['password'] == DEFAULT_PASSWORD) {
             $objFormParam->addParam('パスワード', 'password', '', '', array('EXIST_CHECK'));
             $objFormParam->addParam('パスワード(確認)', 'password02', '', '', array('EXIST_CHECK'));

@@ -26,7 +26,7 @@
  *
  * @package Helper
  * @author pineray
- * @version $Id:$
+ * @version $Id$
  */
 class SC_Helper_Address
 {
@@ -47,7 +47,7 @@ class SC_Helper_Address
         $other_deliv_id = $sqlval['other_deliv_id'];
 
         // 追加
-        if (strlen($other_deliv_id == 0)) {
+        if (intval($other_deliv_id) === 0) {
             // 別のお届け先最大登録数に達している場合、エラー
             $from   = 'dtb_other_deliv';
             $where  = 'customer_id = ?';

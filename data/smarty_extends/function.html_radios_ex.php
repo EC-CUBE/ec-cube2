@@ -125,6 +125,8 @@ function smarty_function_html_radios_ex($params, &$smarty)
     } else {
         return implode("\n",$_html_result);
     }
+
+    return '';
 }
 
 /**

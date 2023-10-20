@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * パラメーター設定 のページクラス.
@@ -136,7 +135,7 @@ class LC_Page_Admin_System_Parameter extends LC_Page_Admin_Ex
      *
      * @access private
      * @param  array $arrForm $_POST 値
-     * @return void
+     * @return array
      */
     public function errorCheck(&$arrKeys, &$arrForm)
     {

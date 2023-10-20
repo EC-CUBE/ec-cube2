@@ -40,6 +40,11 @@ class SC_Helper_Mail
      */
     protected $objPage;
 
+    /** @var array */
+    protected $arrPref;
+    /** @var array */
+    protected $arrCountry;
+
     /**
      * コンストラクタ.
      */
@@ -215,7 +220,7 @@ class SC_Helper_Mail
      * @param integer $order_id 受注ID
      * @return array 配送情報を格納した配列
      */
-    function sfGetShippingData($order_id)
+    public function sfGetShippingData($order_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -322,7 +327,10 @@ class SC_Helper_Mail
         $objQuery->insert('dtb_mail_history', $sqlval);
     }
 
-    /* 会員登録があるかどうかのチェック(仮会員を含まない) */
+    /**
+     * 会員登録があるかどうかのチェック(仮会員を含まない)
+     * @deprecated 本体では使用されていないため非推奨
+     */
     public function sfCheckCustomerMailMaga($email)
     {
         $col = 'email, mailmaga_flg, customer_id';
@@ -346,7 +354,7 @@ class SC_Helper_Mail
      * @param  boolean $is_mobile   false(default):PCアドレスにメールを送る true:携帯アドレスにメールを送る
      * @param $resend_flg true  仮登録メール再送
      * @return boolean true:成功 false:失敗
-     *  
+     *
      */
     public function sfSendRegistMail($secret_key, $customer_id = '', $is_mobile = false, $resend_flg = false)
     {
@@ -369,17 +377,16 @@ class SC_Helper_Mail
         $objMailText->assign('name02', $arrCustomerData['name02']);
         $objMailText->assign('uniqid', $arrCustomerData['secret_key']);
         $objMailText->assignobj($arrCustomerData);
-        $objMailText->assignobj($this);
 
         $objHelperMail  = new SC_Helper_Mail_Ex();
-        // 仮会員が有効の場合    
+        // 仮会員が有効の場合
         if (CUSTOMER_CONFIRM_MAIL == true and $arrCustomerData['status'] == 1 or $arrCustomerData['status'] == 1 and $resend_flg == true) {
             $subject        = $objHelperMail->sfMakeSubject('会員登録のご確認', $objMailText);
             $toCustomerMail = $objMailText->fetch('mail_templates/customer_mail.tpl');
         } else {
             $subject        = $objHelperMail->sfMakeSubject('会員登録のご完了', $objMailText);
             $toCustomerMail = $objMailText->fetch('mail_templates/customer_regist_mail.tpl');
-            
+
         }
 
         $objMail = new SC_SendMail_Ex();
@@ -413,7 +420,7 @@ class SC_Helper_Mail
      * @return　array メールテンプレート情報を格納した配列
      * @todo   表示順も引数で変更できるように
      */
-    public function sfGetMailmagaTemplate($template_id = null)
+    public static function sfGetMailmagaTemplate($template_id = null)
     {
         // 初期化
         $where = '';
@@ -471,7 +478,7 @@ class SC_Helper_Mail
      * @param integer $send_id dtb_send_history の情報
      * @return　void
      */
-    public function sfSendMailmagazine($send_id)
+    public static function sfSendMailmagazine($send_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objDb = new SC_Helper_DB_Ex();

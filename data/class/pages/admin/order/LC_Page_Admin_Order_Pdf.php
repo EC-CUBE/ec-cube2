@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * 帳票出力 のページクラス.
@@ -32,6 +31,17 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
 {
+    /** @var array */
+    public $SHORTTEXT_MAX;
+    /** @var array */
+    public $MIDDLETEXT_MAX;
+    /** @var array */
+    public $LONGTEXT_MAX;
+    /** @var array */
+    public $arrType;
+    /** @var array */
+    public $arrDownload;
+
     /**
      * Page を初期化する.
      *
@@ -89,8 +99,6 @@ class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
         // 入力値の変換
         $this->objFormParam->convParam();
 
-        // どんな状態の時に isset($arrRet) == trueになるんだ? これ以前に$arrRet無いが、、、、
-        if (!isset($arrRet)) $arrRet = array();
         switch ($this->getMode()) {
             case 'confirm':
 
@@ -121,8 +129,8 @@ class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
 
         // 今日の日付をセット
         $arrForm['year']  = date('Y');
-        $arrForm['month'] = date('m');
-        $arrForm['day']   = date('d');
+        $arrForm['month'] = date('n');
+        $arrForm['day']   = date('j');
 
         // メッセージ
         $arrForm['msg1'] = 'このたびはお買上げいただきありがとうございます。';

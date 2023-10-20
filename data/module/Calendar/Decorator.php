@@ -21,7 +21,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Decorator.php,v 1.3 2005/10/22 10:29:46 quipo Exp $
+ * @version $Id$
  */
 /**
  * Decorates any calendar class.
@@ -56,7 +56,7 @@ class Calendar_Decorator
      * Constructs the Calendar_Decorator
      * @param object subclass to Calendar to decorate
      */
-    function Calendar_Decorator(& $calendar)
+    function __construct(& $calendar)
     {
         $this->calendar = & $calendar;
     }
@@ -178,6 +178,8 @@ class Calendar_Decorator
         if ( method_exists($this->calendar,'isFirst') ) {
             return $this->calendar->isFirst();
         }
+
+        return false;
     }
 
     /**
@@ -191,6 +193,8 @@ class Calendar_Decorator
         if ( method_exists($this->calendar,'isLast') ) {
             return $this->calendar->isLast();
         }
+
+        return false;
     }
 
     /**
@@ -216,6 +220,8 @@ class Calendar_Decorator
         if ( method_exists($this->calendar,'isEmpty') ) {
             return $this->calendar->isEmpty();
         }
+
+        return false;
     }
 
     /**
@@ -227,7 +233,7 @@ class Calendar_Decorator
      */
     function build($sDates = array())
     {
-        $this->calendar->build($sDates);
+        return $this->calendar->build($sDates);
     }
 
     /**
@@ -238,7 +244,7 @@ class Calendar_Decorator
      * @return mixed either an object subclass of Calendar or false
      * @access public
      */
-    function fetch()
+    function fetch($decorator = null)
     {
         return $this->calendar->fetch();
     }
@@ -248,7 +254,7 @@ class Calendar_Decorator
      * @return array
      * @access public
      */
-    function fetchAll()
+    function fetchAll($decorator = null)
     {
         return $this->calendar->fetchAll();
     }

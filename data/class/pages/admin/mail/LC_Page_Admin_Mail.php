@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * メルマガ管理 のページクラス.
@@ -32,6 +31,13 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Mail extends LC_Page_Admin_Ex
 {
+    /** @var array */
+    public $arrPageRows;
+    /** @var array */
+    public $arrHtmlmail;
+    /** @var array */
+    public $arrMailType;
+
     /**
      * Page を初期化する.
      *
@@ -207,6 +213,7 @@ class LC_Page_Admin_Mail extends LC_Page_Admin_Ex
      */
     public function lfGetMailTemplateList($arrTemplate)
     {
+        $return = array();
         if (is_array($arrTemplate)) {
             foreach ($arrTemplate as $line) {
                 $return[$line['template_id']] = '【' . $this->arrHtmlmail[$line['mail_method']] . '】' . $line['subject'];

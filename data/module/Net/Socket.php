@@ -178,8 +178,9 @@ class Net_Socket extends PEAR
         }
 
         if (!$fp) {
-            if ($errno == 0 && !strlen($errstr) && isset($php_errormsg)) {
-                $errstr = $php_errormsg;
+            $error = error_get_last();
+            if ($errno == 0 && !strlen($errstr) && isset($error)) {
+                $errstr = $error['message'];
             }
             @ini_set('track_errors', $old_track_errors);
             return $this->raiseError($errstr, $errno);
@@ -643,6 +644,7 @@ class Net_Socket extends PEAR
             if (!is_resource($this->fp)) {
                 return $this->raiseError('not connected');
             }
+            stream_context_set_option($this->fp, 'ssl', 'verify_peer_name', false);
             return @stream_socket_enable_crypto($this->fp, $enabled, $type);
         } else {
             $msg = 'Net_Socket::enableCrypto() requires php version >= 5.1.0';

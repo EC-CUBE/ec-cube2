@@ -29,7 +29,7 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  *
  *
  * @author Yangsin
- * @version $Id: SC_Utils_getSaveImagePathTest.php 22960 2013-07-08 14:56:17Z Seasoft $
+ * @version $Id$
  */
 class SC_Utils_getSaveImagePathTest extends Common_TestCase
 {

@@ -22,7 +22,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Uri.php,v 1.1 2004/08/16 09:03:55 hfuecks Exp $
+ * @version $Id$
  */
 
 /**
@@ -77,7 +77,7 @@ class Calendar_Util_Uri
      * @param string (optional) URI fragment for second
      * @access public
      */
-    function Calendar_Util_Uri($y, $m=null, $d=null, $h=null, $i=null, $s=null)
+    public function __construct($y, $m=null, $d=null, $h=null, $i=null, $s=null)
     {
         $this->setFragments($y, $m, $d, $h, $i, $s);
     }

@@ -71,7 +71,7 @@
         <span class="attention"><!--{$arrErr.list_name}--></span><br />
         <!--{/if}-->
         <!--{* 一覧が存在する場合のみ表示する *}-->
-        <!--{if count($arrBkupList) > 0}-->
+        <!--{if !empty($arrBkupList)}-->
             <table class="list">
                 <tr>
                     <th>バックアップ名</th>
@@ -86,10 +86,10 @@
                         <td ><!--{$arrBkupList[cnt].bkup_name|h}--></td>
                         <td ><!--{$arrBkupList[cnt].bkup_memo|h}--></td>
                         <td align="center"><!--{$arrBkupList[cnt].create_date|sfCutString:19:true:false}--></td>
-                        <td align="center"><a href="javascript:;" onclick="fnRestore('<!--{$arrBkupList[cnt].bkup_name}-->'); return false;">リストア</a></td>
-                        <td align="center"><a href="javascript:;" onclick="eccube.setModeAndSubmit('download','list_name','<!--{$arrBkupList[cnt].bkup_name}-->'); return false;">ダウンロード</a></td>
+                        <td align="center"><a href="javascript:;" onclick="fnRestore('<!--{$arrBkupList[cnt].bkup_name|h}-->'); return false;">リストア</a></td>
+                        <td align="center"><a href="javascript:;" onclick="eccube.setModeAndSubmit('download','list_name','<!--{$arrBkupList[cnt].bkup_name|h}-->'); return false;">ダウンロード</a></td>
                         <td align="center">
-                            <a href="javascript:;" onclick="eccube.setModeAndSubmit('delete','list_name','<!--{$arrBkupList[cnt].bkup_name}-->'); return false;">削除</a>
+                            <a href="javascript:;" onclick="eccube.setModeAndSubmit('delete','list_name','<!--{$arrBkupList[cnt].bkup_name|h}-->'); return false;">削除</a>
                         </td>
                     </tr>
                 <!--{/section}-->

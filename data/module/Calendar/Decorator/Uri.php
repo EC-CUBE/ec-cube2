@@ -22,7 +22,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Uri.php,v 1.3 2004/08/16 09:04:20 hfuecks Exp $
+ * @version $Id$
  */
 
 /**
@@ -71,9 +71,9 @@ class Calendar_Decorator_Uri extends Calendar_Decorator
      * @param object subclass of Calendar
      * @access public
      */
-    function Calendar_Decorator_Uri(&$Calendar)
+    function __construct(&$Calendar)
     {
-        parent::Calendar_Decorator($Calendar);
+        parent::__construct($Calendar);
     }
 
     /**

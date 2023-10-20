@@ -1,0 +1,14 @@
+name: Security Checker
+on:
+  schedule:
+    # 毎日 00:00 (UTC) に処理を実行する
+    - cron: '0 0 * * *'
+jobs:
+  check:
+    name: Security check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Checking Security Vulnerabilities
+        uses: symfonycorp/security-checker-action@v5

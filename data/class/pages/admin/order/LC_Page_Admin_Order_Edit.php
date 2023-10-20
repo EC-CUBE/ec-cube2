@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/order/LC_Page_Admin_Order_Ex.php';
 
 /**
  * 受注修正 のページクラス.
@@ -32,6 +31,20 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/order/LC_Page_Admin_Order_Ex
  */
 class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
 {
+    /** @var array */
+    public $arrYearShippingDate;
+    /** @var array */
+    public $arrMonthShippingDate;
+    /** @var array */
+    public $arrDayShippingDate;
+
+    /** @var array */
+    public $arrBirthMonth;
+    /** @var array */
+    public $arrBirthDay;
+    /** @var int */
+    public $top_shipping_id;
+
     public $arrShippingKeys = array(
         'shipping_id',
         'shipping_name01',
@@ -520,6 +533,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
          * $arrProductQuantity[$shipping_id] = お届け先ごとの配送商品数量
          */
         $arrShipmentForm = array();
+        $arrQuantity = array();
         $arrShippingIds = $objFormParam->getValue('shipping_id');
         foreach ($arrShippingIds as $shipping_id) {
             $item_index = 0;
@@ -800,8 +814,10 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $arrStockData = array();
         for ($i = 0; $i < $max; $i++) {
             if (!empty($arrDetail[$i]['product_id'])) {
-                $arrPreDetail = $objQuery->select('*', 'dtb_order_detail', 'order_id = ? AND product_class_id = ?', array($order_id, $arrDetail[$i]['product_class_id']));
-                if (!empty($arrPreDetail) && $arrPreDetail[0]['quantity'] != $arrDetail[$i]['quantity']) {
+                $cols = 'od.*, pc.del_flg';
+                $from = 'dtb_order_detail AS od LEFT JOIN dtb_products_class AS pc ON od.product_class_id = pc.product_class_id';
+                $arrPreDetail = $objQuery->select($cols, $from, 'order_id = ? AND od.product_class_id = ?', array($order_id, $arrDetail[$i]['product_class_id']));
+                if (!empty($arrPreDetail) && $arrPreDetail[0]['quantity'] != $arrDetail[$i]['quantity'] && $arrPreDetail[0]['del_flg'] == 0) {
                     // 数量が変更された商品
                     $arrStockData[$k]['product_class_id'] = $arrDetail[$i]['product_class_id'];
                     $arrStockData[$k]['quantity'] = $arrPreDetail[0]['quantity'] - $arrDetail[$i]['quantity'];
@@ -1104,7 +1120,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 : $objFormParam->getValue('order_tax_rule');
 
             $arrProductClassIds = $objFormParam->getValue('product_class_id');
-
+            $arrAddProducts = array();
             foreach($arrProductClassIds as $key => $product_class_id) {
                 if ($product_class_id == $pre_shipment_product_class_id) {
                     foreach ($this->arrProductKeys as $insert_key) {

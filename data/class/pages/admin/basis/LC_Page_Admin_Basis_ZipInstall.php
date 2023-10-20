@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /** CSV ファイルの最大行数 */
 define('ZIP_CSV_LINE_MAX', 8192);
@@ -40,7 +39,7 @@ define('ZIP_CSV_UTF8_REALFILE', DATA_REALDIR . 'downloads/KEN_ALL_utf-8.CSV');
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id:LC_Page_Admin_Basis_ZipInstall.php 16741 2007-11-08 00:43:24Z adachi $
+ * @version $Id$
  */
 class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
 {
@@ -55,6 +54,13 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
 
     /** 日本郵便から取得した ZIP アーカイブファイルの保管パス */
     public $zip_csv_temp_realfile;
+
+    /** @var bool */
+    public $tpl_zip_download_url_empty;
+    /** @var bool */
+    public $tpl_zip_function_not_exists;
+    /** @var bool */
+    public $tpl_skip_update_csv;
 
     /**
      * Page を初期化する.

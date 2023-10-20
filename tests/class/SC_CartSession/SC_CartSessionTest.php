@@ -34,10 +34,10 @@ class SC_CartSessionTest extends Common_TestCase
         // duplicate
         $this->objCartSession->addProduct($arrProductClass['product_class_id'], 1);
 
-        $productTypeIds = $this->objCartSession->getKeys();
-        $this->assertEquals([PRODUCT_TYPE_NORMAL], $productTypeIds, '商品種別は通常商品');
+        $product_type_ids = $this->objCartSession->getKeys();
+        $this->assertEquals([PRODUCT_TYPE_NORMAL], $product_type_ids, '商品種別は通常商品');
 
-        foreach ($productTypeIds as $cartKey) {
+        foreach ($product_type_ids as $cartKey) {
             $quantity = $this->objCartSession->getTotalQuantity($cartKey);
             $this->assertEquals(2, $quantity);
         }
@@ -53,13 +53,15 @@ class SC_CartSessionTest extends Common_TestCase
         $this->objCartSession->addProduct($arrProductClassDownload['product_class_id'], 2);
 
         $this->assertTrue($this->objCartSession->isMultiple());
-        $productTypeIds = $this->objCartSession->getKeys();
+        $product_type_ids = $this->objCartSession->getKeys();
         $this->assertEquals(
             [
                 PRODUCT_TYPE_NORMAL,
                 PRODUCT_TYPE_DOWNLOAD
             ],
-            $productTypeIds, '商品種別は通常商品とダウンロード商品');
+            $product_type_ids,
+            '商品種別は通常商品とダウンロード商品'
+        );
 
         $this->assertTrue($this->objCartSession->hasProductType(PRODUCT_TYPE_NORMAL));
         $this->assertEquals(1, $this->objCartSession->getTotalQuantity(PRODUCT_TYPE_NORMAL));
@@ -74,8 +76,8 @@ class SC_CartSessionTest extends Common_TestCase
         // quantity of zero
         $this->objCartSession->addProduct($arrProductClass['product_class_id'], 0);
 
-        $productTypeIds = $this->objCartSession->getKeys();
-        $this->assertEmpty($productTypeIds, '数量0の商品種別は削除される');
+        $product_type_ids = $this->objCartSession->getKeys();
+        $this->assertEmpty($product_type_ids, '数量0の商品種別は削除される');
     }
 
     public function testSaveCurrentCart()
@@ -214,7 +216,7 @@ class SC_CartSessionTest extends Common_TestCase
 
         $this->objCartSession->addProduct($arrProductClass['product_class_id'], 1);
 
-        $this->expected = "※「".$arrProductClass['product_name']."」はまだ配送の準備ができておりません。恐れ入りますがお問い合わせページよりお問い合わせください。\n";
+        $this->expected = "※「" . $arrProductClass['product_name'] . "」はまだ配送の準備ができておりません。恐れ入りますがお問い合わせページよりお問い合わせください。\n";
         $this->actual = $this->objCartSession->checkProducts(PRODUCT_TYPE_NORMAL);
         $this->verify();
     }
@@ -235,7 +237,7 @@ class SC_CartSessionTest extends Common_TestCase
         $this->objCartSession->addProduct($arrProductClass['product_class_id'], 2);
         $this->assertEquals(2, $this->objCartSession->getTotalQuantity(PRODUCT_TYPE_NORMAL));
 
-        $this->expected = "※「".$arrProductClass['product_name']."」は販売制限(または在庫が不足)しております。一度に数量1を超える購入はできません。\n";
+        $this->expected = "※「" . $arrProductClass['product_name'] . "」は販売制限(または在庫が不足)しております。一度に数量1を超える購入はできません。\n";
         $this->actual = $this->objCartSession->checkProducts(PRODUCT_TYPE_NORMAL);
         $this->verify();
 
@@ -264,7 +266,7 @@ class SC_CartSessionTest extends Common_TestCase
         $this->objCartSession->addProduct($arrProductClass['product_class_id'], 2);
         $this->assertEquals(2, $this->objCartSession->getTotalQuantity(PRODUCT_TYPE_NORMAL));
 
-        $this->expected = "※「".$arrProductClass['product_name']."」は売り切れました。\n";
+        $this->expected = "※「" . $arrProductClass['product_name'] . "」は売り切れました。\n";
         $this->actual = $this->objCartSession->checkProducts(PRODUCT_TYPE_NORMAL);
         $this->verify();
 
@@ -310,7 +312,8 @@ class SC_CartSessionTest extends Common_TestCase
     public function testGetValue()
     {
         $this->objCartSession->setValue(
-            1, [],
+            1,
+            [],
             PRODUCT_TYPE_NORMAL
         );
         $this->expected = [];
@@ -343,7 +346,7 @@ class SC_CartSessionTest extends Common_TestCase
         $this->objCartSession->checkProducts(PRODUCT_TYPE_NORMAL);
 
         $use_point = 2017;
-        $result= $this->objCartSession->calculate(PRODUCT_TYPE_NORMAL, new SC_CUstomer_Ex(), $use_point);
+        $result = $this->objCartSession->calculate(PRODUCT_TYPE_NORMAL, new SC_CUstomer_Ex(), $use_point);
         $this->assertEquals(150, $result['tax']);
         $this->assertEquals(2016, $result['subtotal']);
         $this->assertEquals(0, $result['deliv_fee']);

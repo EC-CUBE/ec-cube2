@@ -21,19 +21,24 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * 税率設定 のページクラス.
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id: LC_Page_Admin_Basis_Tax_Ex.php 22567 2013-03-09 12:18:54Z yomoro $
+ * @version $Id$
  */
 class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
 {
     /** エラー情報 */
     public $arrErr;
+    /** @var array */
+    public $arrEnable;
+    /** @var int */
+    public $tpl_tax_rule_id;
+    /** @var array */
+    public $arrTaxrule;
 
     /**
      * Page を初期化する.
@@ -55,11 +60,12 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
         //適用時刻の項目値設定
         $this->objDate = new SC_Date_Ex();
         //適用時間の年を、「現在年~現在年＋2」の範囲に設定
+        $arrYear = array();
         for ($year=date("Y"); $year<=date("Y") + 2;$year++) {
             $arrYear[$year] = $year;
         }
         $this->arrYear = $arrYear;
-
+        $arrMinutes = array();
         for ($minutes=0; $minutes< 60; $minutes++) {
             $arrMinutes[$minutes] = $minutes;
         }
@@ -119,7 +125,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
                     // エラーが存在する場合、メッセージを表示する為に代入
                     $this->arrErr['product_tax_flg'] = $arrErr['product_tax_flg'];
                 }
-                
+
                 break;
 
             // 編集処理
@@ -155,7 +161,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
                 $TaxRule['apply_date_year'] = $tmp_ymd[0];
                 $TaxRule['apply_date_month'] = $tmp_ymd[1];
                 $TaxRule['apply_date_day'] = $tmp_ymd[2];
-                $tmp_hm = array_map("intval",explode(":", $tmp[1]));                
+                $tmp_hm = array_map("intval",explode(":", $tmp[1]));
                 $TaxRule['apply_date_hour'] = $tmp_hm[0];
                 $TaxRule['apply_date_minutes'] = $tmp_hm[1];
 

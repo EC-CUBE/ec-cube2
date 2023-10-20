@@ -21,7 +21,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Weekdays.php,v 1.4 2005/10/22 10:28:49 quipo Exp $
+ * @version $Id$
  */
 
 /**
@@ -88,9 +88,9 @@ class Calendar_Month_Weekdays extends Calendar_Month
      * @param int (optional) first day of week (e.g. 0 for Sunday, 2 for Tuesday etc.)
      * @access public
      */
-    function Calendar_Month_Weekdays($y, $m, $firstDay=null)
+    function __construct($y, $m, $firstDay=null)
     {
-        Calendar_Month::Calendar_Month($y, $m, $firstDay);
+        parent::__construct($y, $m, $firstDay);
     }
 
     /**

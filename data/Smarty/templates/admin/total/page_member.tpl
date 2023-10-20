@@ -22,6 +22,31 @@
  */
 *}-->
 
+<div style="margin:20px 10px; padding:0; width:100%; height:350px;" id="graphField">Now Loading ...</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = data = google.visualization.arrayToDataTable([
+          ['区分', '売上'],
+        <!--{foreach from=$arrResults key="key" item="item" name="line"}-->
+          ['<!--{$item.member_name}-->', <!--{$item.total|default:0}-->],
+        <!--{/foreach }-->
+        ]);
+
+        var options = {
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('graphField'));
+
+        chart.draw(data, options);
+      }
+</script>
+
 <table id="total-member" class="list">
     <tr>
         <th>区分</th>

@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * CSV項目設定 のページクラス.
@@ -32,6 +31,19 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Contents_CSV extends LC_Page_Admin_Ex
 {
+    /** @var int */
+    public $tpl_subno_csv;
+    /** @var array */
+    public $arrSubnaviName;
+    /** @var int */
+    public $tpl_csv_id;
+    /** @var bool */
+    public $tpl_is_update;
+    /** @var array */
+    public $arrSelected;
+    /** @var array */
+    public $arrOptions;
+
     /**
      * Page を初期化する.
      *

@@ -58,11 +58,17 @@ class Net_URL
     */
     var $username;
 
+    /** @var string */
+    var $user;
+
     /**
     * Password
     * @var string
     */
     var $password;
+
+    /** @var string */
+    var $pass;
 
     /**
     * Host
@@ -101,16 +107,6 @@ class Net_URL
     var $useBrackets;
 
     /**
-    * PHP4 Constructor
-    *
-    * @see __construct()
-    */
-    function Net_URL($url = null, $useBrackets = true)
-    {
-        $this->__construct($url, $useBrackets);
-    }
-
-    /**
     * PHP5 Constructor
     *
     * Parses the given url and stores the various parts
@@ -121,7 +117,7 @@ class Net_URL
     *                            multiple querystrings with the same name
     *                            exist
     */
-    function __construct($url = null, $useBrackets = true)
+    public function __construct($url = null, $useBrackets = true)
     {
         $this->url = $url;
         $this->useBrackets = $useBrackets;
@@ -148,8 +144,8 @@ class Net_URL
             /**
             * Figure out host/port
             */
-            if (!empty($HTTP_SERVER_VARS['HTTP_HOST']) && 
-                preg_match('/^(.*)(:([0-9]+))?$/U', $HTTP_SERVER_VARS['HTTP_HOST'], $matches)) 
+            if (!empty($HTTP_SERVER_VARS['HTTP_HOST']) &&
+                preg_match('/^(.*)(:([0-9]+))?$/U', $HTTP_SERVER_VARS['HTTP_HOST'], $matches))
             {
                 $host = $matches[1];
                 if (!empty($matches[3])) {
@@ -190,7 +186,7 @@ class Net_URL
                         break;
 
                     case 'path':
-                        if ($value{0} == '/') {
+                        if (strpos($value, '/') === 0) {
                             $this->path = $value;
                         } else {
                             $path = dirname($this->path) == DIRECTORY_SEPARATOR ? '' : dirname($this->path);
@@ -291,6 +287,8 @@ class Net_URL
     */
     function getQueryString()
     {
+        $querystring = '';
+        $querystrings = array();
         if (!empty($this->querystring)) {
             foreach ($this->querystring as $name => $value) {
                 // Encode var name
@@ -298,17 +296,15 @@ class Net_URL
 
                 if (is_array($value)) {
                     foreach ($value as $k => $v) {
-                        $querystring[] = $this->useBrackets ? sprintf('%s[%s]=%s', $name, $k, $v) : ($name . '=' . $v);
+                        $querystrings[] = $this->useBrackets ? sprintf('%s[%s]=%s', $name, $k, $v) : ($name . '=' . $v);
                     }
                 } elseif (!is_null($value)) {
-                    $querystring[] = $name . '=' . $value;
+                    $querystrings[] = $name . '=' . $value;
                 } else {
-                    $querystring[] = $name;
+                    $querystrings[] = $name;
                 }
             }
-            $querystring = implode(ini_get('arg_separator.output'), $querystring);
-        } else {
-            $querystring = '';
+            $querystring = implode(ini_get('arg_separator.output'), $querystrings);
         }
 
         return $querystring;
@@ -378,7 +374,7 @@ class Net_URL
     * @param  string $path URL path to resolve
     * @return string      The result
     */
-    function resolvePath($path)
+    static function resolvePath($path)
     {
         $path = explode('/', str_replace('//', '/', $path));
 

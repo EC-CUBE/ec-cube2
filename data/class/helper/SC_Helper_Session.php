@@ -167,7 +167,7 @@ class SC_Helper_Session
      * @access protected
      * @return string トランザクショントークンの文字列
      */
-    public function getToken()
+    public static function getToken()
     {
         if (empty($_SESSION[TRANSACTION_ID_NAME])) {
             $_SESSION[TRANSACTION_ID_NAME] = SC_Helper_Session_Ex::createToken();
@@ -182,7 +182,7 @@ class SC_Helper_Session
      * @access private
      * @return string トランザクショントークン用の文字列
      */
-    public function createToken()
+    public static function createToken()
     {
         return sha1(uniqid(rand(), true));
     }
@@ -205,7 +205,7 @@ class SC_Helper_Session
      *                          デフォルト値は false
      * @return boolean トランザクショントークンが有効な場合 true
      */
-    public function isValidToken($is_unset = false)
+    public static function isValidToken($is_unset = false)
     {
         // token の妥当性チェック
         $ret = $_REQUEST[TRANSACTION_ID_NAME] === $_SESSION[TRANSACTION_ID_NAME];

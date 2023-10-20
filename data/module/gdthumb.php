@@ -73,6 +73,8 @@ class gdthumb {
 	*/
 	function Main($path, $width, $height, $dst_file, $header = false) {
 		
+		$tmp_h = 0;
+		$tmp_w = 0;
 		if(!isset($path)) {
 			return array(0, "イメージのパスが設定されていません。");
 		}
@@ -151,7 +153,6 @@ class gdthumb {
 		                        imagegif($dst_im, $dst_file);
 		                    }
 						}						
-						imagedestroy($src_im);
 						imagedestroy($dst_im);
 					} else {
 						// 画像出力
@@ -192,7 +193,6 @@ class gdthumb {
 						$dst_file = $dst_file . ".png";
 						imagepng($dst_im, $dst_file);
 					}
-					imagedestroy($src_im);
 					imagedestroy($dst_im);
 				}
 				break;

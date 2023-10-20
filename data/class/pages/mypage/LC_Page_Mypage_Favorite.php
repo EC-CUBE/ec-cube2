@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/mypage/LC_Page_AbstractMypage_Ex.php';
 
 /**
  * MyPage のページクラス.
@@ -34,6 +33,8 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
 {
     /** ページナンバー */
     public $tpl_pageno;
+    /** @var array */
+    public $arrFavorite;
 
     /**
      * Page を初期化する.

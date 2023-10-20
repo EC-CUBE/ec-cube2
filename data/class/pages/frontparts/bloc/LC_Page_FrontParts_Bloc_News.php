@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/frontparts/bloc/LC_Page_FrontParts_Bloc_Ex.php';
 
 /**
  * 新着情報 のページクラス.
@@ -32,6 +31,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/frontparts/bloc/LC_Page_FrontParts
  */
 class LC_Page_FrontParts_Bloc_News extends LC_Page_FrontParts_Bloc_Ex
 {
+    /** @var int */
+    public $newsCount;
+
     /**
      * Page を初期化する.
      *

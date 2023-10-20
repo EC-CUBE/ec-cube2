@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/mypage/LC_Page_AbstractMypage_Ex.php';
 
 /**
  * 購入履歴 のページクラス.
@@ -32,6 +31,19 @@ require_once CLASS_EX_REALDIR . 'page_extends/mypage/LC_Page_AbstractMypage_Ex.p
  */
 class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
 {
+    /** @var bool */
+    public $is_price_change;
+    /** @var array */
+    public $tpl_arrOrderData;
+    /** @var array */
+    public $tpl_arrOrderDetail;
+    /** @var array */
+    public $tpl_arrMailHistory;
+    /** @var bool */
+    public $isAU;
+    /** @var string */
+    public $phpsessid;
+
     /**
      * Page を初期化する.
      *
@@ -99,7 +111,7 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
         // 受注商品明細の取得
         $this->tpl_arrOrderDetail = $objPurchase->getOrderDetail($order_id);
         foreach ($this->tpl_arrOrderDetail as $product_index => $arrOrderProductDetail) {
-            //
+            $arrTempProductDetail = array();
             if (SC_Helper_DB_Ex::sfDataExists('dtb_products_class', 'product_class_id = ?', array($arrOrderProductDetail['product_class_id']))) {
                 //必要なのは商品の販売金額のみなので、遅い場合は、別途SQL作成した方が良い
                 $arrTempProductDetail = $objProduct->getProductsClass($arrOrderProductDetail['product_class_id']);

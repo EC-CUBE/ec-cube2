@@ -38,6 +38,9 @@ class SC_Query
     public $groupby = '';
     public $order = '';
     public $force_run = false;
+    /** @var SC_DB_DBFactory */
+    public $dbFactory;
+
     /** シングルトン動作のためのインスタンスプール配列。キーは DSN の識別情報。 */
     public static $arrPoolInstance = array();
 
@@ -276,16 +279,16 @@ class SC_Query
     {
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
-        $sth =& $this->prepare($sql);
+        $sth = $this->prepare($sql);
         if (PEAR::isError($sth) && $this->force_run) {
             return;
         }
 
-        $affected =& $this->execute($sth, $arrVal);
+        $affected = $this->execute($sth, $arrVal);
         if (PEAR::isError($affected) && $this->force_run) {
             return;
         }
-
+        $result = null;
         while ($data = $affected->fetchRow($fetchmode)) {
             $result = call_user_func($cbFunc, $data);
             if ($result === false) {
@@ -309,12 +312,12 @@ class SC_Query
     {
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
-        $sth =& $this->prepare($sql);
+        $sth = $this->prepare($sql);
         if (PEAR::isError($sth) && $this->force_run) {
             return;
         }
 
-        $affected =& $this->execute($sth, $arrVal);
+        $affected = $this->execute($sth, $arrVal);
         if (PEAR::isError($affected) && $this->force_run) {
             return;
         }
@@ -704,12 +707,12 @@ class SC_Query
     {
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
-        $sth =& $this->prepare($sql);
+        $sth = $this->prepare($sql);
         if (PEAR::isError($sth) && $this->force_run) {
             return;
         }
 
-        $affected =& $this->execute($sth, $arrVal);
+        $affected = $this->execute($sth, $arrVal);
         if (PEAR::isError($affected) && $this->force_run) {
             return;
         }
@@ -738,12 +741,12 @@ class SC_Query
         $sql = $this->getSql($col, $table, $where, $arrWhereVal);
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
-        $sth =& $this->prepare($sql);
+        $sth = $this->prepare($sql);
         if (PEAR::isError($sth) && $this->force_run) {
             return;
         }
 
-        $affected =& $this->execute($sth, $arrWhereVal);
+        $affected = $this->execute($sth, $arrWhereVal);
         if (PEAR::isError($affected) && $this->force_run) {
             return;
         }
@@ -771,12 +774,12 @@ class SC_Query
         $sql = $this->getSql($col, $table, $where, $arrWhereVal);
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
-        $sth =& $this->prepare($sql);
+        $sth = $this->prepare($sql);
         if (PEAR::isError($sth) && $this->force_run) {
             return;
         }
 
-        $affected =& $this->execute($sth, $arrWhereVal);
+        $affected = $this->execute($sth, $arrWhereVal);
         if (PEAR::isError($affected) && $this->force_run) {
             return;
         }
@@ -841,7 +844,7 @@ class SC_Query
      */
     public function setVal($seq_name, $start)
     {
-        $objManager =& $this->conn->loadModule('Manager');
+        $objManager = $this->conn->loadModule('Manager');
 
         // XXX 値変更の役割のため、存在チェックは行なわない。存在しない場合、ここでエラーとなる。
         $ret = $objManager->dropSequence($seq_name);
@@ -873,7 +876,7 @@ class SC_Query
     {
         $n = $this->dbFactory->sfChangeMySQL($n);
 
-        $sth =& $this->prepare($n, $types, $result_types);
+        $sth = $this->prepare($n, $types, $result_types);
         if (PEAR::isError($sth) && $this->force_run) {
             return $sth;
         }
@@ -896,7 +899,7 @@ class SC_Query
      */
     public function listSequences()
     {
-        $objManager =& $this->conn->loadModule('Manager');
+        $objManager = $this->conn->loadModule('Manager');
 
         return $objManager->listSequences();
     }
@@ -919,7 +922,7 @@ class SC_Query
      */
     public function listTableFields($table)
     {
-        $objManager =& $this->conn->loadModule('Manager');
+        $objManager = $this->conn->loadModule('Manager');
 
         return $objManager->listTableFields($table);
     }
@@ -932,7 +935,7 @@ class SC_Query
      */
     public function listTableIndexes($table)
     {
-        $objManager =& $this->conn->loadModule('Manager');
+        $objManager = $this->conn->loadModule('Manager');
 
         return $objManager->listTableIndexes($table);
     }
@@ -948,7 +951,7 @@ class SC_Query
     public function createIndex($table, $name, $definition)
     {
         $definition = $this->dbFactory->sfGetCreateIndexDefinition($table, $name, $definition);
-        $objManager =& $this->conn->loadModule('Manager');
+        $objManager = $this->conn->loadModule('Manager');
 
         return $objManager->createIndex($table, $name, $definition);
     }
@@ -961,7 +964,7 @@ class SC_Query
      */
     public function dropIndex($table, $name)
     {
-        $objManager =& $this->conn->loadModule('Manager');
+        $objManager = $this->conn->loadModule('Manager');
 
         return $objManager->dropIndex($table, $name);
     }
@@ -974,7 +977,7 @@ class SC_Query
      */
     public function getTableInfo($table)
     {
-        $objManager =& $this->conn->loadModule('Reverse');
+        $objManager = $this->conn->loadModule('Reverse');
 
         return $objManager->tableInfo($table, NULL);
     }
@@ -1026,7 +1029,7 @@ class SC_Query
      */
     public function prepare($sql, $types = null, $result_types = MDB2_PREPARE_RESULT)
     {
-        $sth =& $this->conn->prepare($sql, $types, $result_types);
+        $sth = $this->conn->prepare($sql, $types, $result_types);
         if (PEAR::isError($sth)) {
             $msg = $this->traceError($sth, $sql);
             $this->error($msg);
@@ -1048,12 +1051,12 @@ class SC_Query
         // #1658 (SC_Query の各種メソッドでプレースホルダの数に誤りがあるとメモリリークが発生する) 対応
         // TODO 現状は PEAR 内のバックトレースを抑制することで、メモリーリークの影響を小さくしている。
         //      根本的には、そのバックトレースが、どこに居座っているかを特定して、対策すべき。
-        $pear_property =& PEAR::getStaticProperty('PEAR_Error', 'skiptrace');
+        $pear_property = PEAR::getStaticProperty('PEAR_Error', 'skiptrace');
         $bak = $pear_property;
         $pear_property = true;
 
-        $arrStartInfo =& $this->lfStartDbTraceLog($sth, $arrVal);
-        $affected =& $sth->execute((array) $arrVal);
+        $arrStartInfo = $this->lfStartDbTraceLog($sth, $arrVal);
+        $affected = $sth->execute((array) $arrVal);
         $this->lfEndDbTraceLog($arrStartInfo, $sth, $arrVal);
 
         $pear_property = $bak;
@@ -1120,7 +1123,7 @@ class SC_Query
     {
         $n = $this->dbFactory->sfChangeMySQL($n);
 
-        $sth =& $this->prepare($n, $types, $result_types);
+        $sth = $this->prepare($n, $types, $result_types);
         if (PEAR::isError($sth) && ($this->force_run || $ignore_err)) {
             return;
         }
@@ -1141,18 +1144,23 @@ class SC_Query
      *
      * @param string 実行するSQL文
      * @param  array $arrVal プレースホルダに挿入する配列
-     * @return void
+     * @return array
      */
     private function lfStartDbTraceLog(&$objSth, &$arrVal)
     {
         if (!defined('SQL_QUERY_LOG_MODE') || SQL_QUERY_LOG_MODE === 0) {
             return;
         }
+        if (!array_key_exists('_SC_Query_TraceLogInfo', $GLOBALS)) {
+            $GLOBALS['_SC_Query_TraceLogInfo'] = array();
+        }
         $arrInfo =& $GLOBALS['_SC_Query_TraceLogInfo'];
         if (!isset($arrInfo['http_request_id'])) {
             $arrInfo['http_request_id'] = uniqid();
         }
-
+        if (!isset($arrInfo['count'])) {
+            $arrInfo['count'] = 0;
+        }
         $arrStartInfo = array(
             'http_request_id'   => $arrInfo['http_request_id'],
             'time_start'        => microtime(true),

@@ -2,7 +2,7 @@ name: CI/CD for EC-CUBE
 on:
   push:
     branches:
-      - master
+      - '*'
     tags:
       - '*'
     paths:
@@ -12,9 +12,6 @@ on:
     paths:
       - '**'
       - '!*.md'
-  release:
-    types: [ published ]
-
 jobs:
   run-on-linux:
     name: Run on Linux
@@ -22,25 +19,37 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-18.04 ]
-        php: [ 5.4, 5.5, 5.6, 7.1, 7.2, 7.3, 7.4 ]
+        operating-system: [ ubuntu-22.04 ]
+        php: [ '5.4', '5.5', '5.6', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2snapshot' ]
         db: [ mysql, pgsql ]
         include:
           - db: mysql
             dbport: '3306'
             dbuser: 'root'
-            dbpass: 'root'
+            dbpass: 'password'
+            dbname: 'eccube_db'
           - db: pgsql
             dbport: '5432'
             dbuser: 'postgres'
             dbpass: 'password'
+            dbname: 'eccube_db'
+
     services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       postgres:
-        image: postgres:11
+        image: postgres:15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
           POSTGRES_DB: postgres
+          POSTGRES_HOST_AUTH_METHOD: md5
+          POSTGRES_INITDB_ARGS: --auth-host=md5
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
@@ -52,26 +61,56 @@ jobs:
           - 1025:1025
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v3
 
     - name: Get Composer Cache Directory
       id: composer-cache
       run: |
         echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - uses: actions/cache@v1
+    - uses: actions/cache@v3
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
 
+    # see https://github.com/composer/composer/issues/10340
+    - run: sudo composer selfupdate --2.2
+      if: matrix.php < 7.2
+
+    - name: composer install
+      run: composer install --no-interaction -o
+
     - name: Setup PHP
       uses: nanasess/setup-php@master
       with:
         php-version: ${{ matrix.php }}
 
-    - name: Install to Composer
-      run: composer install --no-interaction -o
+    - name: Setup PHP5.6
+      if: matrix.php == '5.6'
+      run: sudo apt-fast install -y php5.6-fpm
+    - name: php-fpm
+      env:
+        PHP_VERSION: ${{ matrix.php }}
+      run: |
+        if [ -f /lib/systemd/system/php${PHP_VERSION}-fpm.service ]
+        then
+          sudo systemctl enable php${PHP_VERSION}-fpm
+        fi
+    - name: Install symfony/cli
+      # server:ca:install でエラーは出るが利用可能
+      continue-on-error: true
+      run: |
+        sudo apt-fast -y install libnss3-tools
+        wget https://get.symfony.com/cli/installer -O - | bash
+        sudo mv ~/.symfony/bin/symfony /usr/local/bin/symfony
+        symfony local:php:list
+        symfony server:ca:install
+
+    - name: Create ADMIN_DIR
+      run: |
+        sudo apt-fast install -y sharutils
+        echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
 
     - name: Setup to EC-CUBE
       env:
@@ -79,48 +118,32 @@ jobs:
         USER: ${{ matrix.dbuser }}
         DBUSER: ${{ matrix.dbuser }}
         DBPASS: ${{ matrix.dbpass }}
-        DBNAME: myapp_test
+        DBNAME: ${{ matrix.dbname }}
         DBPORT: ${{ matrix.dbport }}
-        HTTP_URL: http://localhost:8085/
-        HTTPS_URL: http://localhost:8085/
+        HTTP_URL: https://127.0.0.1:8085/
+        HTTPS_URL: https://127.0.0.1:8085/
       run: |
         sudo apt-fast install -y mysql-client postgresql-client
         ./eccube_install.sh ${DB}
 
     - name: setup-chromedriver
       uses: nanasess/setup-chromedriver@master
-      with:
-        chromedriver-version: '77.0.3865.40'
 
+    - run: sleep 1
     - name: Run to PHPUnit
-      run: |
-        data/vendor/bin/phpunit --exclude-group classloader
-        data/vendor/bin/phpunit --group classloader
-        sed 's|http://|https://|g' -i.bak data/config/config.php
-        data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
+      run: data/vendor/bin/phpunit --exclude-group classloader
+    - name: Run to PHPUnit classloader
+      run: data/vendor/bin/phpunit --group classloader
+    - name: Run to PHPUnit SessionFactory
+      run: data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
 
-    - name: Run chromedriver
-      run: |
-        export DISPLAY=:99
-        chromedriver --url-base=/wd/hub &
-        echo ">>> Started chrome-driver"
-        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
-        echo ">>> Started xvfb"
-    - name: Run to Codeception
-      env:
-        DB: ${{ matrix.db }}
-        USER: ${{ matrix.dbuser }}
-        DBUSER: ${{ matrix.dbuser }}
-        DBPASS: ${{ matrix.dbpass }}
-        DBNAME: myapp_test
-        DBPORT: ${{ matrix.dbport }}
-        DBSERVER: 127.0.0.1
-        HTTP_URL: http://localhost:8085/
-        HTTPS_URL: http://localhost:8085/
-      run: |
-        php data/vendor/bin/codecept build
-        php -S 0.0.0.0:8085 -t html/ &
-        php data/vendor/bin/codecept run --env chrome --skip-group installer --steps
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
+        path: data/logs
+
   run-on-windows:
     name: Run on Windows
     runs-on: ${{ matrix.operating-system }}
@@ -131,42 +154,39 @@ jobs:
         php: [ 5.5, 5.6, 7.1, 7.2, 7.3, 7.4 ]
     steps:
     - name: Checkout
-      uses: actions/checkout@master
-
-    - name: Composer install
-      uses: nanasess/composer-installer-action@master
-
-    - name: Setup PHP
-      uses: nanasess/setup-php@master
-      with:
-        php-version: ${{ matrix.php }}
+      uses: actions/checkout@v3
 
     - name: Get Composer Cache Directory
       id: composer-cache
       run: |
         echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - uses: actions/cache@v1
+    - uses: actions/cache@v3
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**\composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
 
-    - name: Install to Composer
-      run: composer install --no-interaction -o
+    - run: echo "extension=gd" >> C:/tools/php/php.ini
+      shell: bash
 
-    - name: Setup MailCatcher
-      run: gem install -N mailcatcher -v 0.6.5
-      shell: bash
-    - name: Run to MailCatcher
-      run: mailcatcher &
-      shell: bash
+    # see https://github.com/composer/composer/issues/10340
+    - run: composer selfupdate --2.2
+      if: matrix.php < 7.2
+
+    - name: composer install
+      run: composer install --no-interaction -o
 
     - name: Setup to database
       run: |
         choco install -y mysql --version 5.7.18
-        mysql --user=root -e "CREATE DATABASE `myapp_test`;"
-        mysql --user=root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';FLUSH PRIVILEGES;"
+        mysql --user=root -e "CREATE DATABASE eccube_db DEFAULT COLLATE=utf8_general_ci;"
+        mysql --user=root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;FLUSH PRIVILEGES;"
+
+    - name: Setup PHP
+      uses: nanasess/setup-php@master
+      with:
+        php-version: ${{ matrix.php }}
 
     - name: Setup to EC-CUBE
       env:
@@ -174,314 +194,26 @@ jobs:
         USER: root
         DBUSER: root
         DBPASS: password
-        DBNAME: myapp_test
+        DBNAME: eccube_db
         DBPORT: 3306
-        HTTP_URL: http://localhost:8085/
-        HTTPS_URL: http://localhost:8085/
+        DBSERVER: 127.0.0.1
+        HTTP_URL: http://127.0.0.1:8085/
+        HTTPS_URL: http://127.0.0.1:8085/
       run: bash eccube_install.sh mysql
       shell: bash
-
+    - run: sleep 1
+      shell: bash
     - name: Run to PHPUnit
+      run: data/vendor/bin/phpunit --exclude-group classloader
+    - name: Run to PHPUnit classloader
+      run: data/vendor/bin/phpunit --group classloader
+    - name: Run to PHPUnit SessionFactory
       run: |
-        data/vendor/bin/phpunit --exclude-group classloader
-        data/vendor/bin/phpunit --group classloader
         sed 's|http://|https://|g' -i.bak data/config/config.php
         data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
-
-  install-to-linux:
-    name: Install to Linux
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        operating-system: [ ubuntu-18.04 ]
-        php: [ 5.4, 5.5, 5.6, 7.1, 7.2, 7.3 ]
-        db: [ mysql, pgsql ]
-        include:
-          - db: mysql
-            dbport: '3306'
-            dbuser: 'root'
-            dbpass: 'root'
-          - db: pgsql
-            dbport: '5432'
-            dbuser: 'postgres'
-            dbpass: 'password'
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      mailcatcher:
-        image: schickling/mailcatcher
-        ports:
-          - 1080:1080
-          - 1025:1025
-    steps:
-    - name: Checkout
-      uses: actions/checkout@master
-
-    - name: Get Composer Cache Directory
-      id: composer-cache
-      run: |
-        echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - uses: actions/cache@v1
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v3
       with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
-
-    - name: Setup PHP
-      uses: nanasess/setup-php@master
-      with:
-        php-version: ${{ matrix.php }}
-
-    - name: Install to Composer
-      run: composer install --no-interaction -o
-
-    - name: setup-chromedriver
-      uses: nanasess/setup-chromedriver@master
-      with:
-        chromedriver-version: '77.0.3865.40'
-
-    - name: Run chromedriver
-      run: |
-        export DISPLAY=:99
-        chromedriver --url-base=/wd/hub &
-        echo ">>> Started chrome-driver"
-        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
-        echo ">>> Started xvfb"
-    - name: CREATE mysql DATABASE
-      if: matrix.db == 'mysql'
-      env:
-        DB: ${{ matrix.db }}
-        USER: ${{ matrix.dbuser }}
-        DBUSER: ${{ matrix.dbuser }}
-        DBPASS: ${{ matrix.dbpass }}
-        DBNAME: myapp_test
-        DBPORT: ${{ matrix.dbport }}
-        DBSERVER: 127.0.0.1
-      run: mysql --user=${DBUSER} --password=${DBPASS} -h ${DBSERVER} -P ${DBPORT} -e "CREATE DATABASE ${DBNAME} DEFAULT COLLATE=utf8_general_ci;"
-
-    - name: CREATE pgsql DATABASE
-      if: matrix.db == 'pgsql'
-      env:
-        DB: ${{ matrix.db }}
-        USER: ${{ matrix.dbuser }}
-        DBUSER: ${{ matrix.dbuser }}
-        DBPASS: ${{ matrix.dbpass }}
-        DBNAME: myapp_test
-        DBPORT: ${{ matrix.dbport }}
-        DBSERVER: 127.0.0.1
-      run: |
-        sudo apt-fast install -y postgresql-client
-        export PGPASSWORD=${DBPASS}
-        psql -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};"
-
-    - name: Run to Codeception
-      env:
-        DB: ${{ matrix.db }}
-        USER: ${{ matrix.dbuser }}
-        DBUSER: ${{ matrix.dbuser }}
-        DBPASS: ${{ matrix.dbpass }}
-        DBNAME: myapp_test
-        DBPORT: ${{ matrix.dbport }}
-        DBSERVER: 127.0.0.1
-        HTTP_URL: http://localhost:8085/
-        HTTPS_URL: http://localhost:8085/
-      run: |
-        php data/vendor/bin/codecept build
-        php -S 0.0.0.0:8085 -t html/ &
-        php data/vendor/bin/codecept run --env chrome --group installer --steps acceptance InstallerCept
-
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-18.04
-    needs: [ run-on-linux, run-on-windows ]
-    steps:
-    - name: Checkout
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      uses: actions/checkout@master
-
-    - name: Get Composer Cache Directory
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      id: composer-cache
-      run: |
-        echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - uses: actions/cache@v1
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
-
-    - name: Install to Composer
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      run: composer install --no-scripts --no-dev --no-interaction --optimize-autoloader
-
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-    - name: Dump job context
-      env:
-        JOB_CONTEXT: ${{ toJson(job) }}
-      run: echo "$JOB_CONTEXT"
-    - name: Dump steps context
-      env:
-        STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: echo "$STEPS_CONTEXT"
-    - name: Dump runner context
-      env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: echo "$RUNNER_CONTEXT"
-    - name: Dump strategy context
-      env:
-        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-      run: echo "$STRATEGY_CONTEXT"
-    - name: Dump matrix context
-      env:
-        MATRIX_CONTEXT: ${{ toJson(matrix) }}
-      run: echo "$MATRIX_CONTEXT"
-
-    - name: Packaging
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      working-directory: ../
-      env:
-        TAG_NAME: ${{ github.event.release.tag_name }}
-        REPOSITORY_NAME: ${{ github.event.repository.name }}
-      run: |
-        echo $TAG_NAME
-        echo "remove obsolete files..."
-        rm -rf $GITHUB_WORKSPACE/.git
-        rm -rf $GITHUB_WORKSPACE/.gitignore
-        rm -rf $GITHUB_WORKSPACE/.github
-        rm -rf $GITHUB_WORKSPACE/.editorconfig
-        rm -rf $GITHUB_WORKSPACE/.travis.yml
-        rm -rf $GITHUB_WORKSPACE/appveyor.yml
-        rm -rf $GITHUB_WORKSPACE/.coveralls.yml
-        rm -rf $GITHUB_WORKSPACE/.php_cs.dist
-        rm -rf $GITHUB_WORKSPACE/phpunit.xml.dist
-        rm -rf $GITHUB_WORKSPACE/app.json
-        rm -rf $GITHUB_WORKSPACE/Procfile
-        rm -rf $GITHUB_WORKSPACE/build.xml
-        rm -rf $GITHUB_WORKSPACE/README.md
-        rm -rf $GITHUB_WORKSPACE/codeception.yml
-        rm -rf $GITHUB_WORKSPACE/php.ini
-        rm -rf $GITHUB_WORKSPACE/phpinicopy.sh
-        rm -rf $GITHUB_WORKSPACE/phpinidel.sh
-        rm -rf $GITHUB_WORKSPACE/*.phar
-        rm -rf $GITHUB_WORKSPACE/setup.sh
-        rm -rf $GITHUB_WORKSPACE/setup_heroku.php
-        rm -rf $GITHUB_WORKSPACE/svn_propset.sh
-        rm -rf $GITHUB_WORKSPACE/ctests
-        rm -rf $GITHUB_WORKSPACE/tests
-        rm -rf $GITHUB_WORKSPACE/templates
-        rm -rf $GITHUB_WORKSPACE/patches
-        rm -rf $GITHUB_WORKSPACE/docs
-        rm -rf $GITHUB_WORKSPACE/html/test
-        find $GITHUB_WORKSPACE -name "dummy" -print0 | xargs -0 rm -rf
-        find $GITHUB_WORKSPACE -name ".git*" -and ! -name ".gitkeep" -print0 | xargs -0 rm -rf
-        find $GITHUB_WORKSPACE -name ".git*" -type d -print0 | xargs -0 rm -rf
-        echo "set permissions..."
-        chmod -R o+w $GITHUB_WORKSPACE/html/install/temp
-        chmod -R o+w $GITHUB_WORKSPACE/html/user_data
-        chmod -R o+w $GITHUB_WORKSPACE/html/upload
-        chmod -R o+w $GITHUB_WORKSPACE/data/cache
-        chmod -R o+w $GITHUB_WORKSPACE/data/downloads
-        chmod -R o+w $GITHUB_WORKSPACE/data/Smarty
-        chmod -R o+w $GITHUB_WORKSPACE/data/class
-        chmod -R o+w $GITHUB_WORKSPACE/data/logs
-        chmod -R o+w $GITHUB_WORKSPACE/data/upload
-        chmod -R o+w $GITHUB_WORKSPACE/data/config
-        chmod o+w $GITHUB_WORKSPACE/html
-        echo "complession files..."
-        tar czfp $TAG_NAME.tar.gz $REPOSITORY_NAME
-        zip -ry $TAG_NAME.zip $REPOSITORY_NAME 1> /dev/null
-        md5sum $TAG_NAME.tar.gz | awk '{ print $1 }' > $TAG_NAME.tar.gz.checksum.md5
-        md5sum $TAG_NAME.zip | awk '{ print $1 }' > $TAG_NAME.zip.checksum.md5
-        sha1sum $TAG_NAME.tar.gz | awk '{ print $1 }' > $TAG_NAME.tar.gz.checksum.sha1
-        sha1sum $TAG_NAME.zip | awk '{ print $1 }' > $TAG_NAME.zip.checksum.sha1
-        sha256sum $TAG_NAME.tar.gz | awk '{ print $1 }' > $TAG_NAME.tar.gz.checksum.sha256
-        sha256sum $TAG_NAME.zip | awk '{ print $1 }' > $TAG_NAME.zip.checksum.sha256
-        ls -al
-
-    - name: Upload binaries to release of TGZ
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      uses: svenstaro/upload-release-action@v1-release
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.tar.gz
-        asset_name: ${{ github.event.release.tag_name }}.tar.gz
-        tag: ${{ github.ref }}
-        overwrite: true
-    - name: Upload binaries to release of ZIP
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      uses: svenstaro/upload-release-action@v1-release
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.zip
-        asset_name: ${{ github.event.release.tag_name }}.zip
-        tag: ${{ github.ref }}
-        overwrite: true
-    - name: Upload binaries to release of TGZ md5 checksum
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      uses: svenstaro/upload-release-action@v1-release
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.tar.gz.checksum.md5
-        asset_name: ${{ github.event.release.tag_name }}.tar.gz.checksum.md5
-        tag: ${{ github.ref }}
-        overwrite: true
-    - name: Upload binaries to release of TGZ sha1 checksum
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      uses: svenstaro/upload-release-action@v1-release
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.tar.gz.checksum.sha1
-        asset_name: ${{ github.event.release.tag_name }}.tar.gz.checksum.sha1
-        tag: ${{ github.ref }}
-        overwrite: true
-    - name: Upload binaries to release of TGZ sha256 checksum
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      uses: svenstaro/upload-release-action@v1-release
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.tar.gz.checksum.sha256
-        asset_name: ${{ github.event.release.tag_name }}.tar.gz.checksum.sha256
-        tag: ${{ github.ref }}
-        overwrite: true
-    - name: Upload binaries to release of ZIP md5 checksum
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      uses: svenstaro/upload-release-action@v1-release
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.zip.checksum.md5
-        asset_name: ${{ github.event.release.tag_name }}.zip.checksum.md5
-        tag: ${{ github.ref }}
-        overwrite: true
-    - name: Upload binaries to release of ZIP sha1 checksum
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      uses: svenstaro/upload-release-action@v1-release
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.zip.checksum.sha1
-        asset_name: ${{ github.event.release.tag_name }}.zip.checksum.sha1
-        tag: ${{ github.ref }}
-        overwrite: true
-    - name: Upload binaries to release of ZIP sha256 checksum
-      if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-      uses: svenstaro/upload-release-action@v1-release
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ runner.workspace }}/${{ github.event.release.tag_name }}.zip.checksum.sha256
-        asset_name: ${{ github.event.release.tag_name }}.zip.checksum.sha256
-        tag: ${{ github.ref }}
-        overwrite: true
+        name: windows-php${{ matrix.php }}-${{ matrix.db }}-logs
+        path: data\logs

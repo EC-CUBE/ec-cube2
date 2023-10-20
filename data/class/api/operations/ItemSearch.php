@@ -28,7 +28,6 @@
  * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
-require_once CLASS_EX_REALDIR . 'api_extends/SC_Api_Abstract_Ex.php';
 
 class API_ItemSearch extends SC_Api_Abstract_Ex
 {
@@ -62,7 +61,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
             $objQuery->setWhere($arrSearchCondition['where_for_count']);
             $objProduct = new SC_Product_Ex();
             $linemax = $objProduct->findProductCount($objQuery, $arrSearchCondition['arrval']);
-            $objNavi = new SC_PageNavi_Ex($arrRequest['ItemPage'], $linemax, $disp_number);
+            $objNavi = new SC_PageNavi_Ex($arrRequest['ItemPage'], $linemax, $disp_number, '');
             $arrProducts = $this->getProductsList($arrSearchCondition, $disp_number, $objNavi->start_row, $linemax, $objProduct);
 
             if (!SC_Utils_Ex::isBlank($arrProducts)) {
@@ -84,7 +83,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
 
                 return true;
             } else {
-                $this->addError('ItemSearch.Error', '※ 要求された情報は見つかりませんでした。');
+                $this->addError(array('ItemSearch.Error' => '※ 要求された情報は見つかりませんでした。'));
             }
         }
 

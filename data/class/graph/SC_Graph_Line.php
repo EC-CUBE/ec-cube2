@@ -130,6 +130,8 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
 
         // ラベルの表示インターバルを算出
         $interval = ceil($count / LINE_XLABEL_MAX); // 切り上げ
+        $pos = 0;
+        $x = 0;
         for ($i = 0; $i < $count; $i++) {
             // X軸に目盛りを入れる
             $x = $arrPointList[$i][0];

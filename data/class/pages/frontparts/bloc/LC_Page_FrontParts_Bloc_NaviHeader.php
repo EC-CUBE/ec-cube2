@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/frontparts/bloc/LC_Page_FrontParts_Bloc_Login_Ex.php';
 
 /**
  * ナビ(ヘッダブロック) のページクラス.
@@ -32,6 +31,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/frontparts/bloc/LC_Page_FrontParts
  */
 class LC_Page_FrontParts_Bloc_NaviHeader extends LC_Page_FrontParts_Bloc_Login_Ex
 {
+    /** @var int */
+    public $freeRule;
+
     /**
      * Page を初期化する.
      *

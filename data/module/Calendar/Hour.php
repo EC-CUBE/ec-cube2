@@ -21,7 +21,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Hour.php,v 1.1 2004/05/24 22:25:42 quipo Exp $
+ * @version $Id$
  */
 
 /**
@@ -60,9 +60,9 @@ class Calendar_Hour extends Calendar
      * @param int hour e.g. 13
      * @access public
      */
-    function Calendar_Hour($y, $m, $d, $h)
+    public function __construct($y, $m, $d, $h)
     {
-        Calendar::Calendar($y, $m, $d, $h);
+        parent::__construct($y, $m, $d, $h);
     }
 
    /**

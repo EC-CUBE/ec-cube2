@@ -47,8 +47,9 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
      *
      * @return void
      */
-    public function process($mode)
+    public function process()
     {
+        $mode = $this->getMode();
         $objLog  = new LC_Upgrade_Helper_Log;
         $objJson = new LC_Upgrade_Helper_Json;
 
@@ -128,8 +129,73 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
             $arrProducts = array();
 
             foreach ($objRet->data as $product) {
-                $arrProducts[] = get_object_vars($product);
+                $tmp = get_object_vars($product);
+
+                if ($tmp['download_flg'] == 1) {
+                    $arrProducts[$tmp['product_id']] = $tmp;
+                }
             }
+
+            // todo 苦肉の策
+
+            // 再度リクエストを開始
+            $objLog->log('* http request start');
+            $arrPostData = array(
+                'eccube_url' => HTTP_URL,
+                'public_key' => sha1($public_key . $sha1_key),
+                'sha1_key'   => $sha1_key,
+                'ver'        => "2.13.17" // 2.13系も取得する
+            );
+            $objReq = $this->request('products_list', $arrPostData);
+
+            // リクエストチェック
+            $objLog->log('* http request check start');
+            if (PEAR::isError($objReq)) {
+                $objJson->setError(OSTORE_E_C_HTTP_REQ);
+                $objJson->display();
+                $objLog->error(OSTORE_E_C_HTTP_REQ, $objReq);
+
+                return;
+            }
+
+            // レスポンスチェック
+            $objLog->log('* http response check start');
+            if ($objReq->getResponseCode() !== 200) {
+                $objJson->setError(OSTORE_E_C_HTTP_RESP);
+                $objJson->display();
+                $objLog->error(OSTORE_E_C_HTTP_RESP, $objReq);
+
+                return;
+            }
+
+            $body = $objReq->getResponseBody();
+            $objRet = $objJson->decode($body);
+
+            // JSONデータのチェック
+            $objLog->log('* json deta check start');
+            if (empty($objRet)) {
+                $objJson->setError(OSTORE_E_C_FAILED_JSON_PARSE);
+                $objJson->display();
+                $objLog->error(OSTORE_E_C_FAILED_JSON_PARSE, $objReq);
+
+                return;
+            }
+
+            if ($objRet->status === OSTORE_STATUS_SUCCESS) {
+                $objLog->log('* get products list ok');
+
+                foreach ($objRet->data as $product) {
+                    $tmp = get_object_vars($product);
+                    $this->detectInstalledFlagByHostState($tmp);
+                    if (!isset($arrProducts[$tmp['product_id']])) {
+                        if ($tmp['download_flg'] == 1) {
+                            $tmp['status'] = "2.13系のモジュールは十分に動作確認できてない場合があります" ;
+                        }
+                        $arrProducts[$tmp['product_id']] = $tmp;
+                    }
+                }
+            }
+
             $objView = new SC_AdminView_Ex();
             $objView->assign('arrProducts', $arrProducts);
 
@@ -154,5 +220,21 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
 
             return;
         }
+    }
+
+    /**
+     * ホストの dtb_module に基づいた本当のインストール有無状態を取得し、
+     * オーナーズストアからの installed_flg を上書きする。
+     * @param array $productData
+     * @return void
+     */
+    private function detectInstalledFlagByHostState(&$productData)
+    {
+        $productId = $productData['product_id'];
+        $objQuery = \SC_Query_Ex::getSingletonInstance();
+
+        $isInstalled = $objQuery->exists('dtb_module', 'module_id = ? AND del_flg = 0', array($productId));
+
+        $productData['installed_flg'] = $isInstalled;
     }
 }

@@ -28,7 +28,7 @@
  *
  * @package Plugin
  * @author EC-CUBE CO.,LTD.
- * @version $Id: $
+ * @version $Id$
  */
 abstract class SC_Plugin_Base
 {
@@ -52,7 +52,7 @@ abstract class SC_Plugin_Base
      * @param  array $arrPlugin plugin_infoを元にDBに登録されたプラグイン情報(dtb_plugin)
      * @return void
      */
-    public function install($arrPlugin, $objPluginInstaller = null)
+    public static function install($arrPlugin, $objPluginInstaller = null)
     {
     }
 
@@ -64,7 +64,7 @@ abstract class SC_Plugin_Base
      * @param  array $arrPlugin プラグイン情報の連想配列(dtb_plugin)
      * @return void
      */
-    public function uninstall($arrPlugin, $objPluginInstaller = null)
+    public static function uninstall($arrPlugin, $objPluginInstaller = null)
     {
     }
 
@@ -76,7 +76,7 @@ abstract class SC_Plugin_Base
      * @param  array $arrPlugin プラグイン情報の連想配列(dtb_plugin)
      * @return void
      */
-    public function enable($arrPlugin, $objPluginInstaller = null)
+    public static function enable($arrPlugin, $objPluginInstaller = null)
     {
     }
 
@@ -88,7 +88,7 @@ abstract class SC_Plugin_Base
      * @param  array $arrPlugin プラグイン情報の連想配列(dtb_plugin)
      * @return void
      */
-    public function disable($arrPlugin, $objPluginInstaller = null)
+    public static function disable($arrPlugin, $objPluginInstaller = null)
     {
     }
 

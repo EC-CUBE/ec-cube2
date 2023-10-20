@@ -49,7 +49,7 @@ class SC_Helper_HandleError
 
         // エラーレベル設定 (PHPのログに対する指定であり、以降のエラーハンドリングには影響しない模様)
         // 開発時は -1 (全て) を推奨
-        error_reporting(E_ALL & ~E_NOTICE & ~E_USER_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+        error_reporting(E_ALL & ~E_NOTICE & ~E_USER_NOTICE);
 
         if (!(defined('SAFE') && SAFE === true) && !(defined('INSTALL_FUNCTION') && INSTALL_FUNCTION === true)) {
             // E_USER_ERROR または警告を捕捉した場合のエラーハンドラ
@@ -180,7 +180,7 @@ class SC_Helper_HandleError
         }
 
         $error_type_name = GC_Utils_Ex::getErrorTypeName($arrError['type']);
-        $errstr = "Fatal error($error_type_name): {$arrError[message]} on [{$arrError[file]}({$arrError[line]})]";
+        $errstr = "Fatal error($error_type_name): {$arrError['message']} on [{$arrError['file']}({$arrError['line']})]";
 
         GC_Utils_Ex::gfPrintLog($errstr, ERROR_LOG_REALFILE, true);
 
@@ -200,7 +200,6 @@ class SC_Helper_HandleError
 
         ob_clean();
 
-        require_once CLASS_EX_REALDIR . 'page_extends/error/LC_Page_Error_SystemError_Ex.php';
         $objPage = new LC_Page_Error_SystemError_Ex();
         $objPage->init();
         if (isset($errstr)) {

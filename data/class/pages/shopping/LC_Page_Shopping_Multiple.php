@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
 
 /**
  * お届け先の複数指定 のページクラス.
@@ -32,6 +31,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Shopping_Multiple extends LC_Page_Ex
 {
+    /** @var array */
+    public $addrs;
+
     /**
      * Page を初期化する.
      *
@@ -296,7 +298,8 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
     public function saveMultipleShippings($uniqid, &$objFormParam, &$objCustomer, &$objPurchase, &$objAddress)
     {
         $arrParams = $objFormParam->getSwapArray();
-
+        $arrValues = array();
+        $arrItemTemp = array();
         foreach ($arrParams as $arrParam) {
             $other_deliv_id = $arrParam['shipping'];
 

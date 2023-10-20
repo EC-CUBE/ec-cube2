@@ -3,7 +3,7 @@
 require DATA_REALDIR . 'module/fpdi/japanese.php';
 
 // japanese.php のバグ回避
-$GLOBALS[SJIS_widths] = $SJIS_widths;
+$GLOBALS['SJIS_widths'] = $SJIS_widths;
 
 class SC_Helper_FPDI extends PDF_Japanese
 {
@@ -15,7 +15,7 @@ class SC_Helper_FPDI extends PDF_Japanese
      *
      * @return void
      */
-    public function AddSJISFont()
+    public function AddSJISFont($family='SJIS')
     {
         parent::AddSJISFont();
         $cw = $GLOBALS['SJIS_widths'];
@@ -24,7 +24,7 @@ class SC_Helper_FPDI extends PDF_Japanese
         $this->AddCIDFonts('Gothic', 'KozGoPro-Medium-Acro,MS-PGothic,Osaka', $cw, $c_map, $registry);
     }
 
-    public function SJISMultiCell()
+    public function SJISMultiCell($w, $h, $txt, $border=0, $align='L', $fill=false)
     {
         $arrArg = func_get_args();
 
@@ -34,7 +34,8 @@ class SC_Helper_FPDI extends PDF_Japanese
         $bak = $this->enable_conv_sjis;
         $this->enable_conv_sjis = false;
 
-        call_user_func_array(array(parent, 'SJISMultiCell'), $arrArg);
+        list($w, $h, $txt, $border, $align, $fill) = $arrArg;
+        parent::SJISMulticell($w, $h, $txt, $border, $align, $fill);
 
         $this->enable_conv_sjis = $bak;
     }
@@ -122,5 +123,18 @@ class SC_Helper_FPDI extends PDF_Japanese
         }
 
         return $conv_str;
+    }
+
+    public function _out($s)
+    {
+        // Add a line to the document
+        if($this->state==2)
+            $this->pages[$this->page] .= $s."\n";
+        elseif($this->state==1)
+            $this->_put($s);
+        elseif($this->state==0)
+            $this->Error('No page has been added yet');
+        elseif($this->state==3)
+            $this->Error('The document is closed');
     }
 }

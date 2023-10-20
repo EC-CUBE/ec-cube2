@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * オーナーズストア：インストールログ のページクラス.
@@ -32,6 +31,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_OwnersStore_Log extends LC_Page_Admin_Ex
 {
+    /** @var array */
+    public $arrLogDetail;
+    /** @var array */
+    public $arrInstallLogs;
+
     /**
      * Page を初期化する.
      *
@@ -102,7 +106,7 @@ END;
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->getAll($sql);
 
-        return isset($arrRet) ? $arrRet : array();
+        return $arrRet;
     }
 
     public function initParam()

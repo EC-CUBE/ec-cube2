@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
 
 /**
  * RSS(商品) のページクラス.
@@ -32,6 +31,13 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Rss_Products extends LC_Page_Ex
 {
+    /** @var string */
+    public $encode;
+    /** @var string */
+    public $title;
+    /** @var array */
+    public $arrProduct;
+
     /**
      * Page を初期化する.
      *
@@ -134,8 +140,6 @@ class LC_Page_Rss_Products extends LC_Page_Ex
         }
         // 値の整形
         foreach (array_keys($arrProduct) as $key) {
-            //販売価格を税込みに編集
-            $arrProduct[$key]['price02'] = SC_Helper_DB_Ex::sfCalcIncTax($arrProduct[$key]['price02']);
             // 画像ファイルのURLセット
             if (file_exists(IMAGE_SAVE_REALDIR . $arrProduct[$key]['main_list_image'])) {
                 $dir = IMAGE_SAVE_RSS_URL;

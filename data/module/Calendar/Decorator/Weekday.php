@@ -22,7 +22,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Weekday.php,v 1.3 2004/08/16 12:25:15 hfuecks Exp $
+ * @version $Id$
  */
 
 /**
@@ -67,9 +67,9 @@ class Calendar_Decorator_Weekday extends Calendar_Decorator
      * @param object subclass of Calendar
      * @access public
      */
-    function Calendar_Decorator_Weekday(& $Calendar)
+    function __construct(& $Calendar)
     {
-        parent::Calendar_Decorator($Calendar);
+        parent::__construct($Calendar);
     }
 
     /**

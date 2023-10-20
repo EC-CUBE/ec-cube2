@@ -21,6 +21,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+// スクリプトが HTTPS プロトコルを通じて実行されている場合に 空でない値が設定される.
+// Webサーバーによっては 'On' が設定されるため正規化する
+// see https://www.php.net/manual/ja/reserved.variables.server.php
+if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') { // ISAPI/IIS の場合は off になる
+    $_SERVER['HTTPS'] = 'on';
+}
 // Flexible SSLへの対応
 if( isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' == $_SERVER['HTTP_X_FORWARDED_PROTO'] ){
     $_SERVER['HTTPS'] = 'on';
@@ -47,11 +53,15 @@ require_once(CLASS_EX_REALDIR . 'helper_extends/SC_Helper_Plugin_Ex.php');
 
 // クラスのオートローディングを定義する
 require_once(CLASS_EX_REALDIR . 'SC_ClassAutoloader_Ex.php');
-spl_autoload_register(array('SC_ClassAutoloader_Ex', 'autoload'), true, true);
+spl_autoload_register(
+    function ($class) {
+        SC_ClassAutoloader_Ex::autoload($class, __DIR__.'/downloads/plugin/');
+    },
+    true, true
+);
 
 SC_Helper_HandleError_Ex::load();
 
 // アプリケーション初期化処理
 $objInit = new SC_Initial_Ex();
 $objInit->init();
-

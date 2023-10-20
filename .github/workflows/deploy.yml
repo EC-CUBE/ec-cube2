@@ -1,0 +1,262 @@
+name: Deploy EC-CUBE2
+on:
+  schedule:
+    # 水曜日の 00:00 (JST) に処理を実行する
+    # UTC の 15:00 は JST だと翌日の 00:00
+    - cron: '0 15 * * 2'
+  release:
+    types: [ published ]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-22.04
+    steps:
+      - name: PREVIOUS_TAG_NAME
+        run: |
+          echo "PREVIOUS_TAG_NAME=$(curl -sS -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r .tag_name)" >> $GITHUB_ENV
+      - if: github.event_name == 'schedule'
+        run: |
+          echo "LATEST_PRERELEASE_TAG_NAME=$(curl -sS -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/${{ github.repository }}/releases | jq -r 'map(select(.prerelease)) | first | .tag_name')" >> $GITHUB_ENV
+      - if: github.event_name == 'schedule'
+        run: |
+          echo "LATEST_PRERELEASE_REV=$(curl -sS -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/${{ github.repository }}/git/refs/tags/${{ env.LATEST_PRERELEASE_TAG_NAME }} | jq -r '.object.sha')" >> $GITHUB_ENV
+      - if: github.event_name == 'schedule'
+        run: |
+          echo "LATEST_MASTER_REV=$(curl -sS -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/${{ github.repository }}/git/refs/heads/master | jq -r '.object.sha')" >> $GITHUB_ENV
+      - if: (github.event_name == 'schedule' && env.LATEST_MASTER_REV != env.LATEST_PRERELEASE_REV) || github.event_name == 'release'
+        run: echo "DEPLOY=1" >> $GITHUB_ENV
+      - name: TAG_NAME for schedule
+        if: github.event_name == 'schedule'
+        run: echo "TAG_NAME=eccube2-weekly-$(date +%Y%m%d)" >> $GITHUB_ENV
+      - name: TAG_NAME for release
+        if: github.event_name == 'release'
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
+      - name: Create Release
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.TAG_NAME }}
+          name: ${{ env.TAG_NAME }}
+          body: |
+            EC-CUBE 2.17系の Weekly build🚀 です。毎週の改善内容を反映しております。
+            常に安定して動作するよう努めていますが、思わぬ不具合を取り込んでしまっている場合もあります。十分に検証の上ご利用ください。
+
+            <table>
+            <thead><tr><th>File</th><th>Checksum(sha256)</th></tr></thead>
+            <tbody>
+            <tr><td><a href="https://github.com/${{ github.repository }}/releases/download/${{ env.TAG_NAME }}/${{ env.TAG_NAME }}.tar.gz">${{ env.TAG_NAME }}.tar.gz</a></td><td><a href="https://github.com/${{ github.repository }}/releases/download/${{ env.TAG_NAME }}/${{ env.TAG_NAME }}.tar.gz.checksum.sha256">${{ env.TAG_NAME }}.tar.gz.checksum.sha256</a></td></tr>
+            <tr><td><a href="https://github.com/${{ github.repository }}/releases/download/${{ env.TAG_NAME }}/${{ env.TAG_NAME }}.zip">${{ env.TAG_NAME }}.zip</a></td><td><a href="https://github.com/${{ github.repository }}/releases/download/${{ env.TAG_NAME }}/${{ env.TAG_NAME }}.zip.checksum.sha256">${{ env.TAG_NAME }}.zip.checksum.sha256</a></td></tr>
+            </tbody>
+            </table>
+
+          prerelease: true
+
+      - name: RELEASE_BODY
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
+        env:
+          TAG_NAME: ${{ env.TAG_NAME }}
+        run: |
+          echo 'RELEASE_BODY<<EOF' >> $GITHUB_ENV
+          echo $(curl -sS -H 'Accept: application/vnd.github.v3+json'  https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.TAG_NAME }} | jq -r .body | sed 's,",\\",g' | sed "s,',,g") >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - name: RELEASE_ID
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
+        env:
+          TAG_NAME: ${{ env.TAG_NAME }}
+        run: |
+          echo "RELEASE_ID=$(curl -sS -H 'Accept: application/vnd.github.v3+json'  https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.TAG_NAME }} | jq -r .id)" >> $GITHUB_ENV
+      - name: GENERATED_NOTES
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
+        run: |
+          echo 'GENERATED_NOTES<<EOF' >> $GITHUB_ENV
+          echo $(curl -sS -X POST -H 'Accept: application/vnd.github.v3+json' -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'  https://api.github.com/repos/${{ github.repository }}/releases/generate-notes -d '{"tag_name":"${{ env.TAG_NAME }}", "previous_tag_name":"${{ env.PREVIOUS_TAG_NAME }}"}' | jq .body | sed 's,",,g' | sed "s,',,g") >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: Checkout code
+        if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
+        uses: actions/checkout@v3
+      - name: Checkout code
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.TAG_NAME }}
+
+      - name: Install to Composer
+        if: env.DEPLOY == 1
+        run: composer install --no-scripts --no-dev --no-interaction --optimize-autoloader
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+
+      - name: Packaging
+        if: env.DEPLOY == 1
+        working-directory: ../
+        env:
+          TAG_NAME: ${{ env.TAG_NAME }}
+          REPOSITORY_NAME: ${{ github.repository }}
+        run: |
+          echo $TAG_NAME
+          echo "remove obsolete files..."
+          rm -rf $GITHUB_WORKSPACE/.git
+          rm -rf $GITHUB_WORKSPACE/.gitignore
+          rm -rf $GITHUB_WORKSPACE/.github
+          rm -rf $GITHUB_WORKSPACE/.editorconfig
+          rm -rf $GITHUB_WORKSPACE/.php_cs.dist
+          rm -rf $GITHUB_WORKSPACE/phpunit.xml.dist
+          rm -rf $GITHUB_WORKSPACE/phpstan.neon.dist
+          rm -rf $GITHUB_WORKSPACE/build.xml
+          rm -rf $GITHUB_WORKSPACE/README.md
+          rm -rf $GITHUB_WORKSPACE/php.ini
+          rm -rf $GITHUB_WORKSPACE/phpinicopy.sh
+          rm -rf $GITHUB_WORKSPACE/phpinidel.sh
+          rm -rf $GITHUB_WORKSPACE/*.phar
+          rm -rf $GITHUB_WORKSPACE/setup.sh
+          rm -rf $GITHUB_WORKSPACE/svn_propset.sh
+          rm -rf $GITHUB_WORKSPACE/playwright*
+          rm -rf $GITHUB_WORKSPACE/e2e-tests
+          rm -rf $GITHUB_WORKSPACE/tests
+          rm -rf $GITHUB_WORKSPACE/templates
+          rm -rf $GITHUB_WORKSPACE/patches
+          rm -rf $GITHUB_WORKSPACE/docs
+          rm -rf $GITHUB_WORKSPACE/html/test
+          rm -rf $GITHUB_WORKSPACE/dockerbuild
+          rm -rf $GITHUB_WORKSPACE/Dockerfile
+          rm -rf $GITHUB_WORKSPACE/docker-compose*.yml
+          rm -rf $GITHUB_WORKSPACE/zap
+          find $GITHUB_WORKSPACE -name "dummy" -print0 | xargs -0 rm -rf
+          find $GITHUB_WORKSPACE -name ".git*" -and ! -name ".gitkeep" -print0 | xargs -0 rm -rf
+          find $GITHUB_WORKSPACE -name ".git*" -type d -print0 | xargs -0 rm -rf
+          echo "set permissions..."
+          chmod -R o+w $GITHUB_WORKSPACE/html/install/temp
+          chmod -R o+w $GITHUB_WORKSPACE/html/user_data
+          chmod -R o+w $GITHUB_WORKSPACE/html/upload
+          chmod -R o+w $GITHUB_WORKSPACE/data/cache
+          chmod -R o+w $GITHUB_WORKSPACE/data/downloads
+          chmod -R o+w $GITHUB_WORKSPACE/data/Smarty
+          chmod -R o+w $GITHUB_WORKSPACE/data/class
+          chmod -R o+w $GITHUB_WORKSPACE/data/logs
+          chmod -R o+w $GITHUB_WORKSPACE/data/upload
+          chmod -R o+w $GITHUB_WORKSPACE/data/config
+          chmod o+w $GITHUB_WORKSPACE/html
+          echo "complession files..."
+          pwd
+          ls -al
+          tar czfp $TAG_NAME.tar.gz ec-cube2
+          zip -ry $TAG_NAME.zip ec-cube2 1> /dev/null
+          md5sum $TAG_NAME.tar.gz | awk '{ print $1 }' > $TAG_NAME.tar.gz.checksum.md5
+          md5sum $TAG_NAME.zip | awk '{ print $1 }' > $TAG_NAME.zip.checksum.md5
+          sha1sum $TAG_NAME.tar.gz | awk '{ print $1 }' > $TAG_NAME.tar.gz.checksum.sha1
+          sha1sum $TAG_NAME.zip | awk '{ print $1 }' > $TAG_NAME.zip.checksum.sha1
+          sha256sum $TAG_NAME.tar.gz | awk '{ print $1 }' > $TAG_NAME.tar.gz.checksum.sha256
+          sha256sum $TAG_NAME.zip | awk '{ print $1 }' > $TAG_NAME.zip.checksum.sha256
+          echo "TGZ_SHA256=$(cat $TAG_NAME.tar.gz.checksum.sha256)" >> $GITHUB_ENV
+          echo "ZIP_SHA256=$(cat $TAG_NAME.zip.checksum.sha256)" >> $GITHUB_ENV
+
+      - name: Upload binaries to release of TGZ
+        if: env.DEPLOY == 1
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.tar.gz
+          asset_name: ${{ env.TAG_NAME }}.tar.gz
+          tag: ${{ env.TAG_NAME }}
+          overwrite: true
+      - name: Upload binaries to release of ZIP
+        if: env.DEPLOY == 1
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.zip
+          asset_name: ${{ env.TAG_NAME }}.zip
+          tag: ${{ env.TAG_NAME }}
+          overwrite: true
+      - name: Upload binaries to release of TGZ md5 checksum
+        if: env.DEPLOY == 1
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.tar.gz.checksum.md5
+          asset_name: ${{ env.TAG_NAME }}.tar.gz.checksum.md5
+          tag: ${{ env.TAG_NAME }}
+          overwrite: true
+      - name: Upload binaries to release of TGZ sha1 checksum
+        if: env.DEPLOY == 1
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.tar.gz.checksum.sha1
+          asset_name: ${{ env.TAG_NAME }}.tar.gz.checksum.sha1
+          tag: ${{ env.TAG_NAME }}
+          overwrite: true
+      - name: Upload binaries to release of TGZ sha256 checksum
+        if: env.DEPLOY == 1
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.tar.gz.checksum.sha256
+          asset_name: ${{ env.TAG_NAME }}.tar.gz.checksum.sha256
+          tag: ${{ env.TAG_NAME }}
+          overwrite: true
+      - name: Upload binaries to release of ZIP md5 checksum
+        if: env.DEPLOY == 1
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.zip.checksum.md5
+          asset_name: ${{ env.TAG_NAME }}.zip.checksum.md5
+          tag: ${{ env.TAG_NAME }}
+          overwrite: true
+      - name: Upload binaries to release of ZIP sha1 checksum
+        if: env.DEPLOY == 1
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.zip.checksum.sha1
+          asset_name: ${{ env.TAG_NAME }}.zip.checksum.sha1
+          tag: ${{ env.TAG_NAME }}
+          overwrite: true
+      - name: Upload binaries to release of ZIP sha256 checksum
+        if: env.DEPLOY == 1
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ runner.workspace }}/${{ env.TAG_NAME }}.zip.checksum.sha256
+          asset_name: ${{ env.TAG_NAME }}.zip.checksum.sha256
+          tag: ${{ env.TAG_NAME }}
+          overwrite: true
+
+      - name: Update Release notes
+        if: github.event_name == 'schedule' && env.DEPLOY == 1
+        run: |
+          curl -sS \
+          -X PATCH \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/releases/${{ env.RELEASE_ID }} \
+          -d '{"draft":false, "body":"${{ env.RELEASE_BODY }}\n${{ env.GENERATED_NOTES }}"}'

@@ -1,0 +1,30 @@
+From e5ff639f14b96837824a1e923db7b36ee8d375b0 Mon Sep 17 00:00:00 2001
+From: Kentaro Ohkouchi <nanasess@fsm.ne.jp>
+Date: Tue, 22 Mar 2022 11:37:23 +0900
+Subject: [PATCH] =?UTF-8?q?=E3=82=AB=E3=83=BC=E3=83=88=E5=89=8A=E9=99=A4?=
+ =?UTF-8?q?=E3=81=97=E3=81=AA=E3=81=84=E3=82=88=E3=81=86=E3=81=AB=E3=81=99?=
+ =?UTF-8?q?=E3=82=8B=E3=83=91=E3=83=83=E3=83=81?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ data/class/SC_CartSession.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/class/SC_CartSession.php b/data/class/SC_CartSession.php
+index 0e0390a2d..99a55370c 100644
+--- a/data/class/SC_CartSession.php
++++ b/data/class/SC_CartSession.php
+@@ -536,7 +536,7 @@ class SC_CartSession
+         $max = $this->getMax($product_type_id);
+         for ($i = 0; $i <= $max; $i++) {
+             if ($this->cartSession[$product_type_id][$i]['cart_no'] == $cart_no) {
+-                unset($this->cartSession[$product_type_id][$i]);
++                // unset($this->cartSession[$product_type_id][$i]);
+             }
+         }
+     }
+-- 
+2.34.1
+

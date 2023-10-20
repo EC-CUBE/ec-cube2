@@ -20,7 +20,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * 売上集計 のページクラス.
@@ -31,6 +30,23 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 {
+    /** @var bool */
+    public $install_GD;
+    /** @var string */
+    public $tpl_graphsubtitle;
+    /** @var string */
+    public $tpl_titleimage;
+    /** @var string */
+    public $tpl_image;
+    /** @var array */
+    public $arrSearchForm1;
+    /** @var array */
+    public $arrSearchForm2;
+    /** @var string */
+    public $tpl_page_type;
+    /** @var array */
+    public $excludeOrderStatuses;
+
     /**
      * Page を初期化する.
      *
@@ -80,6 +96,9 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             'search_endmonth',
             'search_endday',
         );
+
+        // 集計から除外する受注ステータスの配列
+        $this->excludeOrderStatuses = array(ORDER_CANCEL, ORDER_PENDING);
     }
 
     /**
@@ -279,7 +298,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     public function lfSetStartEndDate(&$objFormParam)
     {
         $arrRet = $objFormParam->getHashArray();
-
+        $sdate = null;
+        $edate = null;
         // 月度集計
         if ($arrRet['search_form'] == 1) {
             list($sdate, $edate) = SC_Utils_Ex::sfTermMonth($arrRet['search_startyear_m'],
@@ -348,7 +368,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $objGraphLine->drawGraph();
 
             // グラフの出力
-            if (DRAW_IMAGE) {
+            if (defined('DRAW_IMAGE') && DRAW_IMAGE) {
                 $objGraphLine->outputGraph();
                 SC_Response_Ex::actionExit();
             }
@@ -398,7 +418,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $objGraphPie->drawGraph();
 
             // グラフの出力
-            if (DRAW_IMAGE) {
+            if (defined('DRAW_IMAGE') && DRAW_IMAGE) {
                 $objGraphPie->outputGraph();
                 SC_Response_Ex::actionExit();
             }
@@ -433,6 +453,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 
             $objGraphBar = new SC_Graph_Bar_Ex();
 
+            $arrKey = array();
             foreach ($arrList as $key => $value) {
                 $arrKey[] = preg_replace('/～/u', '-', $key);
             }
@@ -453,7 +474,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 
             $objGraphBar->drawGraph();
 
-            if (DRAW_IMAGE) {
+            if (defined('DRAW_IMAGE') && DRAW_IMAGE) {
                 $objGraphBar->outputGraph();
                 SC_Response_Ex::actionExit();
             }
@@ -535,8 +556,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, $type);
-        $where .= ' AND del_flg = 0 AND status <> ?';
-        $arrWhereVal[] = ORDER_CANCEL;
+        $where .= ' AND del_flg = 0 AND status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
+        $arrWhereVal += $this->excludeOrderStatuses;
 
         // 会員集計の取得
         $col = <<< __EOS__
@@ -566,7 +587,8 @@ __EOS__;
             }
         }
 
-        $tpl_image = $this->lfGetGraphPie($arrTotalResults, 'member_name', 'member', '(売上比率)', $sdate, $edate);
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'member_name', 'member', '(売上比率)', $sdate, $edate) : '';
+
 
         return array($arrTotalResults, $tpl_image);
     }
@@ -578,8 +600,8 @@ __EOS__;
 
         list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, $type);
 
-        $where .= ' AND dtb_order.del_flg = 0 AND dtb_order.status <> ?';
-        $arrWhereVal[] = ORDER_CANCEL;
+        $where .= ' AND dtb_order.del_flg = 0 AND dtb_order.status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
+        $arrWhereVal += $this->excludeOrderStatuses;
 
         $col = <<< __EOS__
                 product_id,
@@ -598,7 +620,7 @@ __EOS__;
         $objQuery->setOrder('total DESC');
         $arrTotalResults = $objQuery->select($col, $from, $where, $arrWhereVal);
 
-        $tpl_image  = $this->lfGetGraphPie($arrTotalResults, 'product_name', 'products_' . $type, '(売上比率)', $sdate, $edate);
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'product_name', 'products_' . $type, '(売上比率)', $sdate, $edate) : '';
 
         return array($arrTotalResults, $tpl_image);
     }
@@ -618,8 +640,8 @@ __EOS__;
 
         $from   = 'dtb_order JOIN dtb_customer ON dtb_order.customer_id = dtb_customer.customer_id';
 
-        $where .= ' AND dtb_order.del_flg = 0 AND dtb_order.status <> ?';
-        $arrWhereVal[] = ORDER_CANCEL;
+        $where .= ' AND dtb_order.del_flg = 0 AND dtb_order.status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
+        $arrWhereVal += $this->excludeOrderStatuses;
 
         $objQuery->setGroupBy('job');
         $objQuery->setOrder('total DESC');
@@ -635,7 +657,8 @@ __EOS__;
             }
 
         }
-        $tpl_image     = $this->lfGetGraphPie($arrTotalResults, 'job_name', 'job_' . $type, '(売上比率)', $sdate, $edate);
+
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'job_name', 'job_' . $type, '(売上比率)', $sdate, $edate) : '';
 
         return array($arrTotalResults, $tpl_image);
     }
@@ -655,8 +678,8 @@ __EOS__;
 
         $from   = 'dtb_order';
 
-        $where .= ' AND del_flg = 0 AND status <> ?';
-        $arrWhereVal[] = ORDER_CANCEL;
+        $where .= ' AND del_flg = 0 AND status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
+        $arrWhereVal += $this->excludeOrderStatuses;  $objQuery->setGroupBy('age');
 
         $objQuery->setGroupBy('age');
         $objQuery->setOrder('age DESC');
@@ -672,7 +695,8 @@ __EOS__;
             }
 
         }
-        $tpl_image = $this->lfGetGraphBar($arrTotalResults, 'age_name', 'age_' . $type, '(年齢)', '(売上合計)', $sdate, $edate);
+
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphBar($arrTotalResults, 'age_name', 'age_' . $type, '(年齢)', '(売上合計)', $sdate, $edate) : '';
 
         return array($arrTotalResults, $tpl_image);
     }
@@ -684,9 +708,9 @@ __EOS__;
         $objQuery   = SC_Query_Ex::getSingletonInstance();
 
         list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, null, null);
-        $where .= ' AND del_flg = 0 AND status <> ?';
-        $arrWhereVal[] = ORDER_CANCEL;
-
+        $where .= ' AND del_flg = 0 AND status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
+        $arrWhereVal += $this->excludeOrderStatuses;
+        $xincline = false;
         switch ($type) {
             case 'month':
                 $xtitle = '(月別)';
@@ -726,8 +750,9 @@ __EOS__;
         $arrTotalResults = $objQuery->select($col, 'dtb_order', $where, $arrWhereVal);
 
         $arrTotalResults = $this->lfAddBlankLine($arrTotalResults, $type, $sdate, $edate);
-        // todo GDない場合の処理
-        $tpl_image       = $this->lfGetGraphLine($arrTotalResults, 'str_date', 'term_' . $type, $xtitle, $ytitle, $sdate, $edate, $xincline);
+
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphLine($arrTotalResults, 'str_date', 'term_' . $type, $xtitle, $ytitle, $sdate, $edate, $xincline) : '';
+
         $arrTotalResults = $this->lfAddTotalLine($arrTotalResults);
 
         return array($arrTotalResults, $tpl_image);
@@ -808,6 +833,7 @@ __EOS__;
     {
         // 検索結果が0でない場合
         if (count($arrResults) > 0) {
+            $arrTotal = array();
             // 合計の計算
             foreach ($arrResults as $arrResult) {
                 foreach ($arrResult as $key => $value) {
@@ -815,7 +841,10 @@ __EOS__;
                 }
             }
             // 平均値の計算
-            $arrTotal['total_average'] = $arrTotal['total'] / $arrTotal['total_order'];
+            $arrTotal['total_average'] = 0;
+            if ($arrTotal['total_order'] > 0) {
+                $arrTotal['total_average'] = $arrTotal['total'] / $arrTotal['total_order'];
+            }
             if (is_nan($arrTotal['total_average'])) {
                 $arrTotal['total_average'] = 0;
             }
@@ -834,6 +863,7 @@ __EOS__;
     {
         $max = count($arrData);
         $csv_data = '';
+        $arrRet = array();
         for ($i = 0; $i < $max; $i++) {
             foreach ($arrDataCol as $val) {
                 $arrRet[$i][$val] = ($arrData[$i][$val]) ? $arrData[$i][$val] : "0";

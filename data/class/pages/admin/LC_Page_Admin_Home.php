@@ -22,7 +22,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * 管理画面ホーム のページクラス.
@@ -33,6 +32,31 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Home extends LC_Page_Admin_Ex
 {
+    /** @var string */
+    public $db_version;
+    /** @var string */
+    public $php_version;
+    /** @var int */
+    public $customer_cnt;
+    /** @var int */
+    public $order_yesterday_amount;
+    /** @var int */
+    public $order_yesterday_cnt;
+    /** @var int */
+    public $order_month_amount;
+    /** @var int */
+    public $order_month_cnt;
+    /** @var int */
+    public $customer_point;
+    /** @var int */
+    public $review_yesterday_cnt;
+    /** @var int */
+    public $review_nondisp_cnt;
+    /** @var array */
+    public $arrSoldout;
+    /** @var array */
+    public $arrNewOrder;
+
     /**
      * Page を初期化する.
      *
@@ -166,7 +190,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
     public function lfGetOrderMonth($method)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $month = date('Y/m', mktime());
+        $month = date('Y/m');
 
         // TODO: DBFactory使わないでも共通化できそうな気もしますが
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();

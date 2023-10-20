@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * おすすめ商品管理 商品検索のページクラス.
@@ -32,6 +31,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
 {
+    /** @var int */
+    public $rank;
+
     /**
      * Page を初期化する.
      *
@@ -158,12 +160,12 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
                 case 'search_category_id':
                     list($tmp_where, $tmp_bind) = $objDb->sfGetCatWhere($val);
                     if ($tmp_where != '') {
-                        $where.= ' AND alldtl.product_id IN (SELECT product_id FROM dtb_product_categories WHERE ' . $tmp_where . ')';
+                        $where.= ' AND EXISTS (SELECT * FROM dtb_product_categories WHERE dtb_product_categories.product_id = alldtl.product_id AND ' . $tmp_where . ')';
                         $bind = array_merge((array) $bind, (array) $tmp_bind);
                     }
                     break;
                 case 'search_product_code':
-                    $where .=    ' AND alldtl.product_id IN (SELECT product_id FROM dtb_products_class WHERE product_code LIKE ?)';
+                    $where .=    ' AND EXISTS (SELECT * FROM dtb_products_class WHERE dtb_products_class.product_id = alldtl.product_id AND product_code LIKE ?)';
                     $bind[] = '%'.$val.'%';
                     break;
                 case 'search_status':

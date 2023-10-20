@@ -21,7 +21,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Minute.php,v 1.1 2004/05/24 22:25:42 quipo Exp $
+ * @version $Id$
  */
 
 /**
@@ -61,9 +61,9 @@ class Calendar_Minute extends Calendar
      * @param int minute e.g. 31
      * @access public
      */
-    function Calendar_Minute($y, $m, $d, $h, $i)
+    public function __construct($y, $m, $d, $h, $i)
     {
-        Calendar::Calendar($y, $m, $d, $h, $i);
+        parent::__construct($y, $m, $d, $h, $i);
     }
 
     /**

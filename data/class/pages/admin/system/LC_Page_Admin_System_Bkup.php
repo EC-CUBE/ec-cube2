@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * バックアップ のページクラス.
@@ -40,6 +39,18 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
         'plsql_profiler_runid', // Postgres Plus Advanced Server 9.1
         'snapshot_num',         // Postgres Plus Advanced Server 9.1
     );
+    /** @var array */
+    public $arrBkupList;
+    /** @var string */
+    public $bkup_dir;
+    /** @var string */
+    public $bkup_ext;
+    /** @var string */
+    public $tpl_restore_msg;
+    /** @var resource */
+    public $fpOutput;
+    /** @var string */
+    public $tpl_restore_name;
 
     /** ヘッダーを出力するか (cbOutputCSV 用) */
     private $output_header = false;
@@ -234,6 +245,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
      */
     public function lfCheckError(&$arrForm, $mode)
     {
+        $name = '';
         switch ($mode) {
             case 'bkup':
                 $name = $arrForm['bkup_name'];
@@ -253,6 +265,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
 
         // 重複・存在チェック
         $ret = $this->lfGetBkupData('', $name);
+        $arrErr = array();
         if (count($ret) > 0 && $mode == 'bkup') {
             $arrErr['bkup_name'] = 'バックアップ名が重複しています。別名を入力してください。';
         } elseif (count($ret) <= 0 && $mode != 'bkup') {
@@ -374,7 +387,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrSequences = $objQuery->listSequences();
-
+        $ret = '';
         foreach ($arrSequences as $name) {
             if (in_array($name, $this->arrExcludeSequence, true)) {
                 continue 1;

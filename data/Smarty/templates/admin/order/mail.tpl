@@ -25,7 +25,7 @@
 <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
     <input type="hidden" name="mode" value="confirm" />
-    <input type="hidden" name="order_id_array" value="<!--{$order_id_array}-->" />
+    <input type="hidden" name="order_id_array" value="<!--{$order_id_array|h}-->" />
     <!--{foreach key=key item=item from=$arrSearchHidden}-->
         <!--{if is_array($item)}-->
             <!--{foreach item=c_item from=$item}-->

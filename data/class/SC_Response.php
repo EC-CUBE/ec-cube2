@@ -218,7 +218,9 @@ class SC_Response
             $netUrl->querystring = array_merge($netUrl->querystring, $arrQueryStringBackup);
         }
 
-        $netUrl->querystring = array_merge($netUrl->querystring, $arrQueryString);
+        foreach ($arrQueryString as $name => $value) {
+            $netUrl->addQueryString($name, $value);
+        }
 
         $session = SC_SessionFactory_Ex::getInstance();
         if ((SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE)
@@ -256,10 +258,9 @@ class SC_Response
         // 現在の URL を取得
         $netUrl = new Net_URL($_SERVER['REQUEST_URI']);
 
-        if (!$removeQueryString) {
-            $arrQueryString = array_merge($netUrl->querystring, $arrQueryString);
+        if ($removeQueryString) {
+            $netUrl->querystring = array();
         }
-        $netUrl->querystring = array();
 
         SC_Response_Ex::sendRedirect($netUrl->getURL(), $arrQueryString);
     }
@@ -289,7 +290,7 @@ class SC_Response
      * @license http://www.gnu.org/licenses/fdl.html GFDL (邦訳)
      * @static
      */
-    public function sendHttpStatus($statusCode)
+    public static function sendHttpStatus($statusCode)
     {
         $protocol = $_SERVER['SERVER_PROTOCOL'];
         $httpVersion = (strpos($protocol, '1.1') !== false) ? '1.1' : '1.0';

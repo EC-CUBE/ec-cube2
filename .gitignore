@@ -22,6 +22,8 @@ composer.phar
 /tests/tmp/*
 /ctests/_output/*
 /reports/*
+/playwright-report/*
+/videos/*
 .idea
 vagrant
 .vagrant/

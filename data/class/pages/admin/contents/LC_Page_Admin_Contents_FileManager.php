@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * ファイル管理 のページクラス.
@@ -32,6 +31,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
 {
+    /** @var array */
+    public $arrFileList;
+
     /**
      * Page を初期化する.
      *
@@ -73,7 +75,9 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
         $objFormParam->convParam();
 
         // ファイル管理クラス
-        $objUpFile = new SC_UploadFile_Ex($objFormParam->getValue('now_dir'), $objFormParam->getValue('now_dir'));
+        $now_dir = $this->lfCheckSelectDir($objFormParam, $objFormParam->getValue('now_dir'));
+        $now_dir = SC_Helper_FileManager_Ex::convertToAbsolutePath($now_dir);
+        $objUpFile = new SC_UploadFile_Ex($now_dir, $now_dir);
         // ファイル情報の初期化
         $this->lfInitFile($objUpFile);
 
@@ -95,24 +99,6 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
                 }
                 break;
 
-            // ファイル表示
-            case 'view':
-                $objFormParam = new SC_FormParam_Ex();
-                $this->lfInitParamModeView($objFormParam);
-                $objFormParam->setParam($this->createSetParam($_POST));
-                $objFormParam->convParam();
-
-                $this->arrErr = $objFormParam->checkError();
-                if (SC_Utils_Ex::isBlank($this->arrErr)) {
-                    if ($this->tryView($objFormParam)) {
-                        $pattern = '/' . preg_quote($objFormParam->getValue('top_dir'), '/') . '/';
-                        $file_url = htmlspecialchars(preg_replace($pattern, '', $objFormParam->getValue('select_file')));
-                        $tpl_onload = "eccube.openWindow('./file_view.php?file=". $file_url ."', 'user_data', '600', '400');";
-                        $this->setTplOnLoad($tpl_onload);
-                    }
-                }
-                break;
-
             // ファイルダウンロード
             case 'download':
                 $objFormParam = new SC_FormParam_Ex();
@@ -121,15 +107,16 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
                 $objFormParam->convParam();
 
                 $this->arrErr = $objFormParam->checkError();
+                $select_file = SC_Helper_FileManager_Ex::convertToAbsolutePath($objFormParam->getValue('select_file'));
                 if (SC_Utils_Ex::isBlank($this->arrErr)) {
-                    if (is_dir($objFormParam->getValue('select_file'))) {
+                    if (is_dir($select_file)) {
                         $disp_error = '※ ディレクトリをダウンロードすることは出来ません。<br/>';
                         $this->setDispError('select_file', $disp_error);
                     } else {
-                        $path_exists = SC_Utils_Ex::checkFileExistsWithInBasePath($objFormParam->getValue('select_file'), USER_REALDIR);
+                        $path_exists = SC_Utils_Ex::checkFileExistsWithInBasePath($select_file, USER_REALDIR);
                         if ($path_exists) {
                             // ファイルダウンロード
-                            $objFileManager->sfDownloadFile($objFormParam->getValue('select_file'));
+                            $objFileManager->sfDownloadFile($select_file);
                             SC_Response_Ex::actionExit();
                         }
                     }
@@ -142,9 +129,10 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
                 $objFormParam->setParam($this->createSetParam($_POST));
                 $objFormParam->convParam();
                 $this->arrErr = $objFormParam->checkError();
-                $path_exists = SC_Utils::checkFileExistsWithInBasePath($objFormParam->getValue('select_file'), USER_REALDIR);
+                $select_file = SC_Helper_FileManager_Ex::convertToAbsolutePath($objFormParam->getValue('select_file'));
+                $path_exists = SC_Utils::checkFileExistsWithInBasePath($select_file, USER_REALDIR);
                 if (SC_Utils_Ex::isBlank($this->arrErr) && ($path_exists)) {
-                    SC_Helper_FileManager_Ex::deleteFile($objFormParam->getValue('select_file'));
+                    SC_Helper_FileManager_Ex::deleteFile($select_file);
                 }
                 break;
             // ファイル作成
@@ -190,7 +178,7 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
         // 現在いる階層(表示用)をテンプレートに渡す
         $this->setDispPath($objFormParam);
         // 現在のディレクトリ配下のファイル一覧を取得
-        $this->arrFileList = $objFileManager->sfGetFileList($objFormParam->getValue('now_dir'));
+        $this->arrFileList = $objFileManager->sfGetFileList(SC_Helper_FileManager_Ex::convertToAbsolutePath($objFormParam->getValue('now_dir')));
         // 現在の階層のディレクトリをテンプレートに渡す
         $this->setDispParam('tpl_now_file', $objFormParam->getValue('now_dir'));
         // ディレクトリツリー表示
@@ -284,8 +272,7 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
     public function createSetParam($arrVal)
     {
         $setParam = $arrVal;
-        // Windowsの場合は, ディレクトリの区切り文字を\から/に変換する
-        $setParam['top_dir'] = (strpos(PHP_OS, 'WIN') === false) ? USER_REALDIR : str_replace('\\', '/', USER_REALDIR);
+        $setParam['top_dir'] = USER_DIR;
         // 初期表示はルートディレクトリ(user_data/)を表示
         if (SC_Utils_Ex::isBlank($this->getMode())) {
             $setParam['now_dir'] = $setParam['top_dir'];
@@ -316,7 +303,10 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
     public function tryCreateDir($objFileManager, $objFormParam)
     {
         $create_dir_flg = false;
-        $create_dir = rtrim($objFormParam->getValue('now_dir'), '/');
+        $now_dir = $this->lfCheckSelectDir($objFormParam, $objFormParam->getValue('now_dir'));
+        $objFormParam->setValue('now_dir', $now_dir);
+        $create_dir = SC_Helper_FileManager_Ex::convertToAbsolutePath(rtrim($now_dir, '/'));
+
         // ファイル作成
         if ($objFileManager->sfCreateFile($create_dir.'/'.$objFormParam->getValue('create_file'), 0755)) {
             $create_dir_flg = true;
@@ -367,7 +357,7 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
         $html_realdir = str_replace(DIRECTORY_SEPARATOR, '/', HTML_REALDIR);
         $arrNowDir = preg_split('/\//', str_replace($html_realdir, '', $objFormParam->getValue('now_dir')));
         $this->setDispParam('tpl_now_dir', SC_Utils_Ex::jsonEncode($arrNowDir));
-        $this->setDispParam('tpl_file_path', $html_realdir);
+        $this->setDispParam('tpl_file_path', '');
     }
 
     /**
@@ -465,9 +455,10 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
         $this->setTplOnLoad($tpl_onload);
 
         $tpl_javascript = '';
-        $arrTree = $objFileManager->sfGetFileTree($objFormParam->getValue('top_dir'), $objFormParam->getValue('tree_status'));
+        $arrTree = $objFileManager->sfGetFileTree(SC_Helper_FileManager_Ex::convertToAbsolutePath($objFormParam->getValue('top_dir')), $objFormParam->getValue('tree_status'));
         $tpl_javascript .= "arrTree = new Array();\n";
         foreach ($arrTree as $arrVal) {
+            $arrVal['path'] = SC_Helper_FileManager_Ex::convertToRelativePath($arrVal['path']);
             $tpl_javascript .= 'arrTree['.$arrVal['count'].'] = new Array('.$arrVal['count'].", '".$arrVal['type']."', '".$arrVal['path']."', ".$arrVal['rank'].',';
             if ($arrVal['open']) {
                 $tpl_javascript .= "true);\n";

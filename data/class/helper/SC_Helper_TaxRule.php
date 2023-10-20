@@ -26,7 +26,7 @@
  *
  * @package Helper
  * @author AMUAMU
- * @version $Id:$
+ * @version $Id$
  */
 class SC_Helper_TaxRule
 {
@@ -100,7 +100,7 @@ class SC_Helper_TaxRule
      * @param int $tax_adjust 調整額
      * @return double 税金額
      */
-    public static function calcTax ($price, $tax, $calc_rule, $tax_adjust = 0)
+    public static function calcTax($price, $tax, $calc_rule, $tax_adjust = 0)
     {
         $real_tax = $tax / 100;
         $ret = (int)$price * $real_tax;
@@ -276,7 +276,7 @@ class SC_Helper_TaxRule
      * @param int $country_id 国ID
      * @return void
      */
-    public function setTaxRule($calc_rule, $tax_rate, $apply_date, $tax_rule_id=NULL, $tax_adjust=0, $product_id = 0, $product_class_id = 0, $pref_id = 0, $country_id = 0)
+    public static function setTaxRule($calc_rule, $tax_rate, $apply_date, $tax_rule_id=NULL, $tax_adjust=0, $product_id = 0, $product_class_id = 0, $pref_id = 0, $country_id = 0)
     {
         $table = 'dtb_tax_rule';
         $arrValues = array();
@@ -339,7 +339,7 @@ class SC_Helper_TaxRule
      * @param bool $has_deleted
      * @return array
      */
-    public function getTaxRuleData($tax_rule_id, $has_deleted = false)
+    public static function getTaxRuleData($tax_rule_id, $has_deleted = false)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'tax_rule_id = ?';
@@ -373,7 +373,7 @@ class SC_Helper_TaxRule
      * @param  int $tax_rule_id 税規約ID
      * @return void
      */
-    public function deleteTaxRuleData($tax_rule_id)
+    public static function deleteTaxRuleData($tax_rule_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 

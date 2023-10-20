@@ -8,10 +8,10 @@ set_include_path(realpath(dirname(__FILE__) . '/' . HTML2DATA_DIR . 'module') . 
 /**
  * DIR_INDEX_FILE にアクセスするときにファイル名を使用するか
  *
- * true: 使用する, false: 使用しない, null: 自動(IIS は true、それ以外は false)
+ * true: 使用する, false: 使用しない, null: 自動(Symfony, IIS は true、それ以外は false)
  * ※ IIS は、POST 時にファイル名を使用しないと不具合が発生する。(http://support.microsoft.com/kb/247536/ja)
  */
-define('USE_FILENAME_DIR_INDEX', null);
+define('USE_FILENAME_DIR_INDEX', getenv('USE_FILENAME_DIR_INDEX') ? (bool) getenv('USE_FILENAME_DIR_INDEX') : null);
 
 $autoload = HTML_REALDIR . HTML2DATA_DIR . 'vendor/autoload.php';
 if (!file_exists($autoload) && !is_readable($autoload)) {

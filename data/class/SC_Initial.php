@@ -35,7 +35,7 @@ class SC_Initial
     public function __construct()
     {
         /** EC-CUBEのバージョン */
-        define('ECCUBE_VERSION', '2.17.0');
+        define('ECCUBE_VERSION', '2.17.2-p2');
     }
 
     /**
@@ -54,7 +54,6 @@ class SC_Initial
         $this->complementParameter();       // defineConstants メソッドより後で実行
         $this->phpconfigInit();             // defineConstants メソッドより後で実行
         $this->createCacheDir();            // defineConstants メソッドより後で実行
-        $this->stripslashesDeepGpc();
         $this->resetSuperglobalsRequest();  // stripslashesDeepGpc メソッドより後で実行
         $this->setTimezone();               // 本当はエラーハンドラーより先に読みたい気も
         $this->normalizeHostname();         // defineConstants メソッドより後で実行
@@ -78,8 +77,32 @@ class SC_Initial
             copy(realpath(dirname(__FILE__)) . '/../../tests/config.php', CONFIG_REALFILE);
 
             require_once CONFIG_REALFILE;
-        }
+        } else if (!GC_Utils_Ex::isInstallFunction()){
 
+            // PHP8対応
+            if (!defined("HTTP_URL")) {
+                define ('HTTP_URL', '');
+                define ('HTTPS_URL', '');
+                define ('ROOT_URLPATH', '');
+                define ('DOMAIN_NAME', '');
+                define ('DB_TYPE', '');
+                define ('DB_USER', '');
+                define ('DB_PASSWORD', '');
+                define ('DB_SERVER', '');
+                define ('DB_NAME', '');
+                define ('DB_PORT', '');
+                define ('ADMIN_DIR', '');
+                define ('ADMIN_FORCE_SSL', "");
+                define ('ADMIN_ALLOW_HOSTS', '');
+                define ('AUTH_MAGIC', '');
+                define ('PASSWORD_HASH_ALGOS', 'sha256');
+                define ('MAIL_BACKEND', 'mail');
+                define ('SMTP_HOST', '');
+                define ('SMTP_PORT', '');
+                define ('SMTP_USER', '');
+                define ('SMTP_PASSWORD', '');
+            }
+        }
     }
 
     /**
@@ -106,11 +129,7 @@ class SC_Initial
      */
     public function setErrorReporting()
     {
-        error_reporting(E_ALL & ~E_NOTICE);
-        // PHP 5.3.0対応
-        if (error_reporting() > 6143) {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-        }
+        error_reporting(E_ALL);
     }
 
     /**
@@ -124,9 +143,13 @@ class SC_Initial
     public function phpconfigInit()
     {
         ini_set('html_errors', '1');
-        ini_set('mbstring.http_input', CHAR_CODE);
-        ini_set('mbstring.http_output', CHAR_CODE);
-        ini_set('auto_detect_line_endings', 1);
+        if (PHP_VERSION_ID < 50600) {
+            ini_set('mbstring.http_input', CHAR_CODE);
+            ini_set('mbstring.http_output', CHAR_CODE);
+        }
+        if (PHP_VERSION_ID < 80100) {
+            ini_set('auto_detect_line_endings', 1);
+        }
         ini_set('default_charset', CHAR_CODE);
         ini_set('mbstring.detect_order', 'auto');
         ini_set('mbstring.substitute_character', 'none');
@@ -170,18 +193,25 @@ class SC_Initial
         // DirectoryIndex の実ファイル名
         SC_Initial_Ex::defineIfNotDefined('DIR_INDEX_FILE', 'index.php');
 
-        $useFilenameDirIndex = is_bool(USE_FILENAME_DIR_INDEX)
-            ? USE_FILENAME_DIR_INDEX
-            : (isset($_SERVER['SERVER_SOFTWARE']) ? substr($_SERVER['SERVER_SOFTWARE'], 0, 13) == 'Microsoft-IIS' : false)
-        ;
+        $useFilenameDirIndex = false;
+        if (is_bool(USE_FILENAME_DIR_INDEX)) {
+            $useFilenameDirIndex = USE_FILENAME_DIR_INDEX;
+        } else {
+            if (isset($_SERVER['SERVER_SOFTWARE'])) {
+                if (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false
+                    || strpos($_SERVER['SERVER_SOFTWARE'], 'Symfony') !== false) {
+                    $useFilenameDirIndex = true;
+                }
+            }
+        }
 
         // DIR_INDEX_FILE にアクセスする時の URL のファイル名部を定義する
         if ($useFilenameDirIndex === true) {
             // ファイル名を使用する
-            define('DIR_INDEX_PATH', DIR_INDEX_FILE);
+            SC_Initial_Ex::defineIfNotDefined('DIR_INDEX_PATH', DIR_INDEX_FILE);
         } else {
             // ファイル名を使用しない
-            define('DIR_INDEX_PATH', '');
+            SC_Initial_Ex::defineIfNotDefined('DIR_INDEX_PATH', '');
         }
     }
 
@@ -448,38 +478,6 @@ class SC_Initial
     }
 
     /**
-     * クォートされた文字列のクォート部分を再帰的に取り除く.
-     *
-     * {@link http://jp2.php.net/manual/ja/function.get-magic-quotes-gpc.php PHP Manual} の記事を参考に実装。
-     * $_REQUEST は後続の処理で再構成されるため、本処理では外している。
-     * この関数は, PHP5以上を対象とし, PHP4 の場合は何もしない.
-     *
-     * @return void
-     */
-    public function stripslashesDeepGpc()
-    {
-        // Strip magic quotes from request data.
-        if (get_magic_quotes_gpc()
-            && version_compare(PHP_VERSION, '5.0.0', '>=')) {
-            // Create lamba style unescaping function (for portability)
-            $quotes_sybase = strtolower(ini_get('magic_quotes_sybase'));
-            $unescape_function = (empty($quotes_sybase) || $quotes_sybase === 'off') ? 'stripslashes($value)' : 'str_replace("\'\'","\'",$value)';
-            $stripslashes_deep = create_function('&$value, $fn', '
-                if (is_string($value)) {
-                    $value = ' . $unescape_function . ';
-                } elseif (is_array($value)) {
-                    foreach ($value as &$v) $fn($v, $fn);
-                }
-            ');
-
-            // Unescape data
-            $stripslashes_deep($_POST, $stripslashes_deep);
-            $stripslashes_deep($_GET, $stripslashes_deep);
-            $stripslashes_deep($_COOKIE, $stripslashes_deep);
-        }
-    }
-
-    /**
      * スーパーグローバル変数「$_REQUEST」を再セット
      *
      * variables_order ディレクティブによる差を吸収する。
@@ -499,7 +497,7 @@ class SC_Initial
      * @param  string  $value 定数の値。
      * @return void
      */
-    public function defineIfNotDefined($name, $value = null)
+    public static function defineIfNotDefined($name, $value = null)
     {
         if (!defined($name)) {
             define($name, $value);

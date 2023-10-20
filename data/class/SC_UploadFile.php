@@ -57,6 +57,9 @@ class SC_UploadFile
     /** 画像の場合:true */
     public $image = array();
 
+    /** @var int */
+    public $file_max;
+
     // ファイル管理クラス
     public function __construct($temp_dir, $save_dir)
     {
@@ -330,24 +333,34 @@ class SC_UploadFile
     }
 
     // フォームに渡す用のファイル情報配列を返す
-    public function getFormFileList($temp_url, $save_url, $real_size = false)
+    public function getFormFileList($temp_url = null, $save_url = null, $real_size = false)
     {
         $arrRet = array();
         $cnt = 0;
         foreach ($this->keyname as $val) {
             if (isset($this->temp_file[$cnt]) && $this->temp_file[$cnt] != '') {
-                // パスのスラッシュ/が連続しないようにする。
-                $arrRet[$val]['filepath'] = rtrim($temp_url, '/') . '/' . $this->temp_file[$cnt];
-
+                $real_filepath =
                 $arrRet[$val]['real_filepath'] = $this->temp_dir . $this->temp_file[$cnt];
+                if (is_null($temp_url)) {
+                    $arrRet[$val]['filepath'] = ROOT_URLPATH . substr($real_filepath, strlen(HTML_REALDIR));
+                } else {
+                    // パスのスラッシュ/が連続しないようにする。
+                    $arrRet[$val]['filepath'] = rtrim($temp_url, '/') . '/' . $this->temp_file[$cnt];
+                }
             } elseif (isset($this->save_file[$cnt]) && $this->save_file[$cnt] != '') {
-                // パスのスラッシュ/が連続しないようにする。
-                $arrRet[$val]['filepath'] = rtrim($save_url, '/') . '/' . $this->save_file[$cnt];
-
+                $real_filepath =
                 $arrRet[$val]['real_filepath'] = $this->save_dir . $this->save_file[$cnt];
+                if (is_null($save_url)) {
+                    $arrRet[$val]['filepath'] = ROOT_URLPATH . substr($real_filepath, strlen(HTML_REALDIR));
+                } else {
+                    // パスのスラッシュ/が連続しないようにする。
+                    $arrRet[$val]['filepath'] = rtrim($save_url, '/') . '/' . $this->save_file[$cnt];
+                }
             }
             if (isset($arrRet[$val]['filepath']) && !empty($arrRet[$val]['filepath'])) {
                 if ($real_size) {
+                    $width = 0;
+                    $height = 0;
                     if (is_file($arrRet[$val]['real_filepath'])) {
                         list($width, $height) = getimagesize($arrRet[$val]['real_filepath']);
                     }
@@ -536,7 +549,7 @@ class SC_UploadFile
         $file = $this->temp_file[$arrImageKey[$keyname]];
         $filepath = $this->temp_dir . $file;
 
-        $path = $this->makeThumb($filepath, $to_w, $to_h);
+        $path = $this->makeThumb($filepath, $to_w, $to_h, '');
 
         // ファイル名だけ返す
         return basename($path);

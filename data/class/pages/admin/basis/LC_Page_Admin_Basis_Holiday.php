@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * 定休日管理のページクラス.
@@ -32,6 +31,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
 {
+    /** @var int */
+    public $tpl_holiday_id;
+    /** @var array */
+    public $arrHoliday;
+
     /**
      * Page を初期化する.
      *

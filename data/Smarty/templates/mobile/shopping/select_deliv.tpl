@@ -26,14 +26,14 @@
     <form method="post" action="<!--{$smarty.const.MOBILE_SHOPPING_PAYMENT_URLPATH}-->">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
         <input type="hidden" name="mode" value="select_deliv">
-        <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->">
+        <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->">
         ■配送方法 <font color="#FF0000">*</font><br>
         <!--{assign var=key value="deliv_id"}-->
         <!--{if $arrErr[$key] != ""}-->
             <font color="#FF0000"><!--{$arrErr[$key]}--></font>
         <!--{/if}-->
         <!--{section name=cnt loop=$arrDeliv}-->
-            <input type="radio" name="<!--{$key}-->" value="<!--{$arrDeliv[cnt].deliv_id}-->" <!--{$arrDeliv[cnt].deliv_id|sfGetChecked:$arrForm[$key].value}-->>
+            <input type="radio" name="<!--{$key}-->" value="<!--{$arrDeliv[cnt].deliv_id|h}-->" <!--{$arrDeliv[cnt].deliv_id|sfGetChecked:$arrForm[$key].value}-->>
             <!--{$arrDeliv[cnt].name|h}-->
             <br>
         <!--{/section}-->

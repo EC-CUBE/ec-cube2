@@ -22,7 +22,7 @@
 //
 /**
  * @package Calendar
- * @version $Id: Calendar.php,v 1.3 2005/10/22 10:07:11 quipo Exp $
+ * @version $Id$
  */
 
 /**
@@ -63,7 +63,7 @@ class Calendar_Engine_Factory
      * @return object instance of a calendar calculation engine
      * @access protected
      */
-    function & getEngine()
+    static function & getEngine()
     {
         static $engine = false;
         switch (CALENDAR_ENGINE) {
@@ -175,7 +175,7 @@ class Calendar
      * @param int second
      * @access protected
      */
-    function Calendar($y = 2000, $m = 1, $d = 1, $h = 0, $i = 0, $s = 0)
+    public function __construct($y = 2000, $m = 1, $d = 1, $h = 0, $i = 0, $s = 0)
     {
         static $cE = null;
         if (!isset($cE)) {
@@ -349,9 +349,10 @@ class Calendar
      */
     function fetch()
     {
-        $child = each($this->children);
+        $child = current($this->children);
+        next($this->children);
         if ($child) {
-            return $child['value'];
+            return $child;
         } else {
             reset($this->children);
             return false;

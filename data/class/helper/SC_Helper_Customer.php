@@ -39,7 +39,7 @@ class SC_Helper_Customer
      * @access public
      * @return integer 登録編集したユーザーのcustomer_id
      */
-    public function sfEditCustomerData($arrData, $customer_id = null)
+    public static function sfEditCustomerData($arrData, $customer_id = null)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
@@ -60,6 +60,7 @@ class SC_Helper_Customer
             $salt = SC_Utils_Ex::sfGetRandomString(10);
             $arrData['salt'] = $salt;
         }
+        $is_password_updated = false;
         //-- パスワードの更新がある場合は暗号化
         if ($arrData['password'] == DEFAULT_PASSWORD or $arrData['password'] == '') {
             //更新しない
@@ -130,7 +131,7 @@ class SC_Helper_Customer
      * @param  integer $add_point 加算ポイント
      * @return array   最終ポイントの配列
      */
-    public function sfGetCustomerPoint($order_id, $use_point, $add_point)
+    public static function sfGetCustomerPoint($order_id, $use_point, $add_point)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -161,7 +162,7 @@ class SC_Helper_Customer
      * @param  string  $email メールアドレス
      * @return integer 0:登録可能     1:登録済み   2:再登録制限期間内削除ユーザー  3:自分のアドレス
      */
-    public function sfCheckRegisterUserFromEmail($email)
+    public static function sfCheckRegisterUserFromEmail($email)
     {
         $objCustomer = new SC_Customer_Ex();
         $objQuery = SC_Query_Ex::getSingletonInstance();
@@ -210,7 +211,7 @@ class SC_Helper_Customer
      * @param  string  $email       チェック対象のメールアドレス
      * @return boolean メールアドレスが重複する場合 true
      */
-    public function sfCustomerEmailDuplicationCheck($customer_id, $email)
+    public static function sfCustomerEmailDuplicationCheck($customer_id, $email)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -233,7 +234,7 @@ class SC_Helper_Customer
      * @access public
      * @return array 会員情報の配列を返す
      */
-    public function sfGetCustomerData($customer_id, $mask_flg = true)
+    public static function sfGetCustomerData($customer_id, $mask_flg = true)
     {
         $objQuery       = SC_Query_Ex::getSingletonInstance();
 
@@ -276,7 +277,7 @@ class SC_Helper_Customer
      * @access public
      * @return array 対象会員データ
      */
-    public function sfGetCustomerDataFromId($customer_id, $add_where = '', $arrAddVal = array())
+    public static function sfGetCustomerDataFromId($customer_id, $add_where = '', $arrAddVal = array())
     {
         $objQuery   = SC_Query_Ex::getSingletonInstance();
 
@@ -301,7 +302,7 @@ class SC_Helper_Customer
      * @access public
      * @return string 会員登録キーの文字列
      */
-    public function sfGetUniqSecretKey()
+    public static function sfGetUniqSecretKey()
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -321,7 +322,7 @@ class SC_Helper_Customer
      * @access public
      * @return integer 会員ID
      */
-    public function sfGetCustomerId($uniqid, $check_status = false)
+    public static function sfGetCustomerId($uniqid, $check_status = false)
     {
         $objQuery   = SC_Query_Ex::getSingletonInstance();
 
@@ -342,7 +343,7 @@ class SC_Helper_Customer
      * @access public
      * @return void
      */
-    public function sfCustomerEntryParam(&$objFormParam, $isAdmin = false)
+    public static function sfCustomerEntryParam(&$objFormParam, $isAdmin = false)
     {
         SC_Helper_Customer_Ex::sfCustomerCommonParam($objFormParam);
         SC_Helper_Customer_Ex::sfCustomerRegisterParam($objFormParam, $isAdmin);
@@ -367,7 +368,7 @@ class SC_Helper_Customer
      * @access public
      * @return void
      */
-    public function sfCustomerMypageParam(&$objFormParam)
+    public static function sfCustomerMypageParam(&$objFormParam)
     {
         SC_Helper_Customer_Ex::sfCustomerCommonParam($objFormParam);
         SC_Helper_Customer_Ex::sfCustomerRegisterParam($objFormParam, false, true);
@@ -388,7 +389,7 @@ class SC_Helper_Customer
      * @access public
      * @return void
      */
-    public function sfCustomerCommonParam(&$objFormParam, $prefix = '')
+    public static function sfCustomerCommonParam(&$objFormParam, $prefix = '')
     {
         $objFormParam->addParam('お名前(姓)', $prefix . 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('お名前(名)', $prefix . 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
@@ -428,7 +429,7 @@ class SC_Helper_Customer
      * @param  string       $prefix       キー名にprefixを付ける場合に指定
      * @return void
      */
-    public function sfCustomerRegisterParam(&$objFormParam, $isAdmin = false, $is_mypage = false, $prefix = '')
+    public static function sfCustomerRegisterParam(&$objFormParam, $isAdmin = false, $is_mypage = false, $prefix = '')
     {
         $objFormParam->addParam('パスワード', $prefix . 'password', PASSWORD_MAX_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'PASSWORD_CHAR_CHECK'));
         $objFormParam->addParam('パスワード確認用の質問の答え', $prefix . 'reminder_answer', STEXT_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
@@ -460,7 +461,7 @@ class SC_Helper_Customer
      * @access public
      * @return array エラーの配列
      */
-    public function sfCustomerEntryErrorCheck(&$objFormParam)
+    public static function sfCustomerEntryErrorCheck(&$objFormParam)
     {
         $objErr = SC_Helper_Customer_Ex::sfCustomerCommonErrorCheck($objFormParam);
         $objErr = SC_Helper_Customer_Ex::sfCustomerRegisterErrorCheck($objErr);
@@ -490,7 +491,7 @@ class SC_Helper_Customer
      * @access public
      * @return array エラーの配列
      */
-    public function sfCustomerMypageErrorCheck(&$objFormParam, $isAdmin = false)
+    public static function sfCustomerMypageErrorCheck(&$objFormParam, $isAdmin = false)
     {
         $objFormParam->toLower('email_mobile');
         $objFormParam->toLower('email_mobile02');
@@ -519,7 +520,7 @@ class SC_Helper_Customer
      * @access public
      * @return SC_CheckError_Ex エラー情報の配列
      */
-    public function sfCustomerCommonErrorCheck(&$objFormParam, $prefix = '')
+    public static function sfCustomerCommonErrorCheck(&$objFormParam, $prefix = '')
     {
         $objFormParam->convParam();
         $objFormParam->toLower($prefix . 'email');
@@ -544,7 +545,7 @@ class SC_Helper_Customer
      * @param  boolean       $isAdmin 管理画面チェック時:true
      * @return SC_CheckError $objErr エラー情報
      */
-    public function sfCustomerRegisterErrorCheck(&$objErr, $isAdmin = false)
+    public static function sfCustomerRegisterErrorCheck(&$objErr, $isAdmin = false)
     {
         $objErr->doFunc(array('生年月日', 'year', 'month', 'day'), array('CHECK_BIRTHDAY'));
         $objErr->doFunc(array('パスワード', 'password', PASSWORD_MIN_LEN, PASSWORD_MAX_LEN), array('NUM_RANGE_CHECK'));
@@ -572,7 +573,7 @@ class SC_Helper_Customer
      * @access public
      * @return void
      */
-    public function sfSetSearchParam(&$objFormParam)
+    public static function sfSetSearchParam(&$objFormParam)
     {
         $objFormParam->addParam('会員ID', 'search_customer_id', ID_MAX_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('お名前', 'search_name', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
@@ -622,7 +623,7 @@ class SC_Helper_Customer
      * @access public
      * @return array エラー配列
      */
-    public function sfCheckErrorSearchParam(&$objFormParam)
+    public static function sfCheckErrorSearchParam(&$objFormParam)
     {
         // パラメーターの基本チェック
         $arrErr = $objFormParam->checkError();
@@ -670,7 +671,7 @@ class SC_Helper_Customer
      * @param  string $limitMode ページングを利用するか判定用フラグ
      * @return array( integer 全体件数, mixed 会員データ一覧配列, mixed SC_PageNaviオブジェクト)
      */
-    public function sfGetSearchData($arrParam, $limitMode = '')
+    public static function sfGetSearchData($arrParam, $limitMode = '')
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objSelect = new SC_CustomerList_Ex($arrParam, 'customer');
@@ -706,7 +707,7 @@ class SC_Helper_Customer
      * @param  string  $login_email メールアドレス
      * @return boolean 仮会員の場合 true
      */
-    public function checkTempCustomer($login_email)
+    public static function checkTempCustomer($login_email)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 

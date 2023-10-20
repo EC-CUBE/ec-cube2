@@ -64,7 +64,7 @@
     </div>
 </form>
 
-<!--{if count($arrErr) == 0 and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete' or $smarty.post.mode == 'back')}-->
+<!--{if empty($arrErr) and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete' or $smarty.post.mode == 'back')}-->
 
 <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
@@ -90,7 +90,7 @@
         <!--{/if}-->
     </div>
 
-    <!--{if count($arrResults) > 0}-->
+    <!--{if !empty($arrResults)}-->
         <!--{include file=$tpl_pager}-->
 
         <!--検索結果表示テーブル-->

@@ -21,5 +21,4 @@ class HTTP_RequestTest extends Common_TestCase
         $this->assertSame($url, $req->getUrl());
         //$this->assertEquals(HTTP_REQUEST_METHOD_POST, $req->getMethod());
     }
-
 }

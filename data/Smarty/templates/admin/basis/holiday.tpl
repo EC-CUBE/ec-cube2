@@ -25,7 +25,7 @@
 <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
     <input type="hidden" name="mode" value="edit" />
-    <input type="hidden" name="holiday_id" value="<!--{$tpl_holiday_id}-->" />
+    <input type="hidden" name="holiday_id" value="<!--{$tpl_holiday_id|h}-->" />
     <div id="basis" class="contents-main">
 
         <table class="form">
@@ -85,7 +85,7 @@
                 <td><!--{$arrHoliday[cnt].month|h}-->月<!--{$arrHoliday[cnt].day|h}-->日</td>
                 <td class="center">
                     <!--{if $tpl_holiday_id != $arrHoliday[cnt].holiday_id}-->
-                    <a href="?" onclick="eccube.setModeAndSubmit('pre_edit', 'holiday_id', <!--{$arrHoliday[cnt].holiday_id}-->); return false;">編集</a>
+                    <a href="?" onclick="eccube.setModeAndSubmit('pre_edit', 'holiday_id', <!--{$arrHoliday[cnt].holiday_id|h}-->); return false;">編集</a>
                     <!--{else}-->
                     編集中
                     <!--{/if}-->
@@ -94,15 +94,15 @@
                     <!--{if $arrClassCatCount[$class_id] > 0}-->
                     -
                     <!--{else}-->
-                    <a href="?" onclick="eccube.setModeAndSubmit('delete', 'holiday_id', <!--{$arrHoliday[cnt].holiday_id}-->); return false;">削除</a>
+                    <a href="?" onclick="eccube.setModeAndSubmit('delete', 'holiday_id', <!--{$arrHoliday[cnt].holiday_id|h}-->); return false;">削除</a>
                     <!--{/if}-->
                 </td>
                 <td class="center">
                     <!--{if $smarty.section.cnt.iteration != 1}-->
-                    <a href="?" onclick="eccube.setModeAndSubmit('up', 'holiday_id', <!--{$arrHoliday[cnt].holiday_id}-->); return false;">上へ</a>
+                    <a href="?" onclick="eccube.setModeAndSubmit('up', 'holiday_id', <!--{$arrHoliday[cnt].holiday_id|h}-->); return false;">上へ</a>
                     <!--{/if}-->
                     <!--{if $smarty.section.cnt.iteration != $smarty.section.cnt.last}-->
-                    <a href="?" onclick="eccube.setModeAndSubmit('down', 'holiday_id', <!--{$arrHoliday[cnt].holiday_id}-->); return false;">下へ</a>
+                    <a href="?" onclick="eccube.setModeAndSubmit('down', 'holiday_id', <!--{$arrHoliday[cnt].holiday_id|h}-->); return false;">下へ</a>
                     <!--{/if}-->
                 </td>
             </tr>

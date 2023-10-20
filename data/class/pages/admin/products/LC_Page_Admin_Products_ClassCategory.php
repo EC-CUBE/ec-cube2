@@ -21,14 +21,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * 規格分類 のページクラス.
  *
  * @package Page
  * @author EC-CUBE CO.,LTD.
- * @version $Id:LC_Page_Admin_Products_ClassCategory.php 15532 2007-08-31 14:39:46Z nanasess $
+ * @version $Id$
  */
 class LC_Page_Admin_Products_ClassCategory extends LC_Page_Admin_Ex
 {
@@ -207,6 +206,7 @@ class LC_Page_Admin_Products_ClassCategory extends LC_Page_Admin_Ex
         // 親規格IDの存在チェック
         $where = 'del_flg <> 1 AND class_id = ?';
         $class_id = $objQuery->get('class_id', 'dtb_class', $where, array($arrForm['class_id']));
+        $ret = 0;
         if (!SC_Utils_Ex::isBlank($class_id)) {
             // INSERTする値を作成する。
             $sqlval['name'] = $arrForm['name'];

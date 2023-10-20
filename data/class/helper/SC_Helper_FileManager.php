@@ -34,9 +34,9 @@ class SC_Helper_FileManager
      * 指定パス配下のディレクトリ取得する.
      *
      * @param  string $dir 取得するディレクトリパス
-     * @return void
+     * @return array
      */
-    public function sfGetFileList($dir)
+    public static function sfGetFileList($dir)
     {
         $arrFileList = array();
         $arrDirList = array();
@@ -61,12 +61,14 @@ class SC_Helper_FileManager
 
                         // ディレクトリとファイルで格納配列を変える
                         if (is_dir($path)) {
+                            $path = SC_Helper_FileManager_Ex::convertToRelativePath($path);
                             $arrDirList[$cnt]['file_name'] = $file;
                             $arrDirList[$cnt]['file_path'] = $path;
                             $arrDirList[$cnt]['file_size'] = $file_size;
                             $arrDirList[$cnt]['file_time'] = $file_time;
                             $arrDirList[$cnt]['is_dir'] = true;
                         } else {
+                            $path = SC_Helper_FileManager_Ex::convertToRelativePath($path);
                             $arrFileList[$cnt]['file_name'] = $file;
                             $arrFileList[$cnt]['file_path'] = $path;
                             $arrFileList[$cnt]['file_size'] = $file_size;
@@ -90,7 +92,7 @@ class SC_Helper_FileManager
      * @param  string $dir ディレクトリ
      * @return integer
      */
-    public function sfGetDirSize($dir)
+    public static function sfGetDirSize($dir)
     {
         $bytes = 0;
         if (file_exists($dir)) {
@@ -105,7 +107,7 @@ class SC_Helper_FileManager
                         $bytes += filesize($path);
                     } elseif (is_dir($path) && $file != '..' && $file != '.') {
                         // 下層ファイルのバイト数を取得する為、再帰的に呼び出す。
-                        $bytes += SC_Helper_FileManager::sfGetDirSize($path);
+                        $bytes += SC_Helper_FileManager_Ex::sfGetDirSize($path);
                     }
                 }
             } else {
@@ -168,7 +170,7 @@ class SC_Helper_FileManager
      * @param integer $cnt         連番
      * @param string  $tree_status 現在のツリーの状態開いているフォルダのパスが
      *                            | 区切りで格納
-     * @return array ツリー生成用の配列
+     * @return void
      */
     public function sfGetFileTreeSub($dir, $default_rank, &$cnt, &$arrTree, $tree_status)
     {
@@ -248,6 +250,7 @@ class SC_Helper_FileManager
     public function lfIsFileOpen($dir, $tree_status)
     {
         $arrTreeStatus = explode('|', $tree_status);
+        $dir = SC_Helper_FileManager_Ex::convertToRelativePath($dir);
         if (in_array($dir, $arrTreeStatus)) {
             return true;
         }
@@ -319,7 +322,7 @@ class SC_Helper_FileManager
      * @param  string  $value    書き込み内容
      * @return boolean ファイルの書き込みに成功した場合 true
      */
-    public function sfWriteFile($filename, $value)
+    public static function sfWriteFile($filename, $value)
     {
         if (!is_dir(dirname($filename))) {
             SC_Utils_Ex::recursiveMkdir(dirname($filename), 0777);
@@ -342,7 +345,7 @@ class SC_Helper_FileManager
      * @param  string  $template_code テンプレートコード
      * @return boolean 成功した場合 true; 失敗した場合 false
      */
-    public function downloadArchiveFiles($dir, $template_code)
+    public static function downloadArchiveFiles($dir, $template_code)
     {
         // ダウンロードされるファイル名
         $dlFileName = 'tpl_package_' . $template_code . '_' . date('YmdHis') . '.tar.gz';
@@ -382,7 +385,7 @@ class SC_Helper_FileManager
      * @param  string  $path アーカイブパス
      * @return boolean Archive_Tar::extractModify()のエラー
      */
-    public function unpackFile($path)
+    public static function unpackFile($path)
     {
         // 圧縮フラグTRUEはgzip解凍をおこなう
         $tar = new Archive_Tar($path, true);
@@ -410,7 +413,7 @@ class SC_Helper_FileManager
      *
      * @param  string  $path       削除対象のディレクトリまたはファイルのパス
      * @param  boolean $del_myself $pathそのものを削除するか. true なら削除する.
-     * @return void
+     * @return bool
      */
     public static function deleteFile($path, $del_myself = true)
     {
@@ -448,5 +451,56 @@ class SC_Helper_FileManager
         }
 
         return $flg;
+    }
+
+    /**
+     * パスを USER_REALDIR 以下の相対パスへ変換する.
+     *
+     * パスが USER_REALDIR の範囲外の場合は USER_DIR を返す.
+     *
+     * @param string $path 変換するパス
+     * @return string USER_REALDIR 以下の相対パス
+     */
+    public static function convertToRelativePath($path)
+    {
+        $endsWithSlash = substr($path, -1) === '/';
+        $path = SC_Helper_FileManager_Ex::convertToAbsolutePath($path);
+
+        // パスを正規化して返す
+        $path = str_replace(realpath(HTML_REALDIR).DIRECTORY_SEPARATOR, '', realpath($path));
+        $path = str_replace('\\', '/', $path);
+        $path = $endsWithSlash ? $path.'/' : $path;
+
+        return $path;
+    }
+
+    /**
+     * パスを USER_REALDIR 以下の絶対パスへ変換する.
+     *
+     * パスが USER_REALDIR の範囲外の場合は USER_REALDIR を返す.
+     *
+     * @param string $path 変換するパス
+     * @return string USER_REALDIR 以下の絶対パス
+     */
+    public static function convertToAbsolutePath($path)
+    {
+        $endsWithSlash = substr($path, -1) === '/';
+        // 絶対パスかどうか
+        if (strpos($path , '/') === 0 || preg_match('/^[a-z]:/i', $path)) {
+            $path = realpath($path);
+        } else {
+            $path = realpath(HTML_REALDIR.$path);
+        }
+
+        // USER_REALDIR 以下のパスかどうか
+        if ($path === false || strpos($path, realpath(USER_REALDIR)) === false) {
+            $path = realpath(USER_REALDIR);
+        }
+
+        // パスを正規化して返す
+        $path = str_replace('\\', '/', $path);
+        $path = $endsWithSlash ? $path.'/' : $path;
+
+        return $path;
     }
 }

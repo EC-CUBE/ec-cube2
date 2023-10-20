@@ -34,7 +34,7 @@
     <!--{/if}-->
 <!--{/foreach}-->
 <input type="hidden" name="mode" value="template" />
-<input type="hidden" name="mail_method" value="<!--{$arrForm.mail_method.value}-->" />
+<input type="hidden" name="mail_method" value="<!--{$arrForm.mail_method.value|h}-->" />
 <div id="mail" class="contents-main">
     <table class="form">
         <tr>

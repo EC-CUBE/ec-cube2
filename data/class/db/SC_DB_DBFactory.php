@@ -26,7 +26,7 @@
  *
  * @package DB
  * @author EC-CUBE CO.,LTD.
- * @version $Id:SC_DB_DBFactory.php 15532 2007-08-31 14:39:46Z nanasess $
+ * @version $Id$
  */
 class SC_DB_DBFactory
 {
@@ -36,7 +36,7 @@ class SC_DB_DBFactory
      * @param  string $db_type 任意のインスタンスを返したい場合は DB_TYPE 文字列を指定
      * @return SC_DB_DBFactory  DBFactory インスタンス
      */
-    public function getInstance($db_type = DB_TYPE)
+    public static function getInstance($db_type = DB_TYPE)
     {
         switch ($db_type) {
             case 'mysql':
