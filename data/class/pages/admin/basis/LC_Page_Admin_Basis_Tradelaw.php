@@ -130,6 +130,22 @@ class LC_Page_Admin_Basis_Tradelaw extends LC_Page_Admin_Ex
         $objFormParam->addParam('返品・交換について', 'law_term06', MLTEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
     }
 
+    /**
+     * @deprecated SC_Helper_DB_Ex::registerBasisData() を使う。
+     */
+    public function lfUpdateData($sqlval)
+    {
+        SC_Helper_DB_Ex::registerBasisData($sqlval);
+    }
+
+    /**
+     * @deprecated SC_Helper_DB_Ex::registerBasisData() を使う。
+     */
+    public function lfInsertData($sqlval)
+    {
+        SC_Helper_DB_Ex::registerBasisData($sqlval);
+    }
+
     /* 入力内容のチェック */
 
     /**

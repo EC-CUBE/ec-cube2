@@ -109,4 +109,20 @@ class LC_Page_Admin_Basis_Point extends LC_Page_Admin_Ex
         $objFormParam->addParam('ポイント付与率', 'point_rate', PERCENTAGE_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam('会員登録時付与ポイント', 'welcome_point', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
     }
+
+    /**
+     * @deprecated SC_Helper_DB_Ex::registerBasisData() を使う。
+     */
+    public function lfUpdateData($post)
+    {
+        SC_Helper_DB_Ex::registerBasisData($post);
+    }
+
+    /**
+     * @deprecated SC_Helper_DB_Ex::registerBasisData() を使う。
+     */
+    public function lfInsertData($post)
+    {
+        SC_Helper_DB_Ex::registerBasisData($post);
+    }
 }
