@@ -13,6 +13,7 @@ ARG APT_SECURITY_REPO="security.debian.org"
 RUN if [ ! -d /usr/share/man/man1 ]; then mkdir /usr/share/man/man1; fi
 RUN if [ ! -d /usr/share/man/man7 ]; then mkdir /usr/share/man/man7; fi
 
+RUN if [ ! -e /etc/apt/sources.list ]; then touch /etc/apt/sources.list; fi # for bookworm
 RUN sed -i s,deb.debian.org,${APT_REPO},g /etc/apt/sources.list;
 RUN sed -i s,security.debian.org,${APT_SECURITY_REPO},g /etc/apt/sources.list;
 RUN sed -i s,httpredir.debian.org,${APT_REPO},g /etc/apt/sources.list; # for jessie
