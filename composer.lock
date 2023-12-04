@@ -352,21 +352,22 @@
         },
         {
             "name": "pear/pear-core-minimal",
-            "version": "v1.10.11",
+            "version": "v1.10.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pear/pear-core-minimal.git",
-                "reference": "68d0d32ada737153b7e93b8d3c710ebe70ac867d"
+                "reference": "a86fc145edb5caedbf96527214ce3cadc9de4a32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pear/pear-core-minimal/zipball/68d0d32ada737153b7e93b8d3c710ebe70ac867d",
-                "reference": "68d0d32ada737153b7e93b8d3c710ebe70ac867d",
+                "url": "https://api.github.com/repos/pear/pear-core-minimal/zipball/a86fc145edb5caedbf96527214ce3cadc9de4a32",
+                "reference": "a86fc145edb5caedbf96527214ce3cadc9de4a32",
                 "shasum": ""
             },
             "require": {
                 "pear/console_getopt": "~1.4",
-                "pear/pear_exception": "~1.0"
+                "pear/pear_exception": "~1.0",
+                "php": ">=5.4"
             },
             "replace": {
                 "rsky/pear-core-min": "self.version"
@@ -396,7 +397,7 @@
                 "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=PEAR",
                 "source": "https://github.com/pear/pear-core-minimal"
             },
-            "time": "2021-08-10T22:31:03+00:00"
+            "time": "2023-11-26T16:15:38+00:00"
         },
         {
             "name": "pear/pear_exception",
@@ -2072,5 +2073,5 @@
     "platform-overrides": {
         "php": "5.4.16"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
