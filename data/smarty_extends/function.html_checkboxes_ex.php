@@ -52,6 +52,7 @@ function smarty_function_html_checkboxes_ex($params, &$smarty)
     $labels = true;
     $label_ids = true;
     $output = null;
+    $tags = [];
 
     $extra = '';
 

@@ -53,6 +53,7 @@ function smarty_function_html_radios_ex($params, &$smarty)
     $label_ids = true;
     $output = null;
     $extra = '';
+    $tags = [];
 
     foreach ($params as $_key => $_val) {
         switch ($_key) {
@@ -123,7 +124,7 @@ function smarty_function_html_radios_ex($params, &$smarty)
     if (!empty($params['assign'])) {
         $smarty->assign($params['assign'], $_html_result);
     } else {
-        return implode("\n",$_html_result);
+        return implode("\n", $_html_result);
     }
 
     return '';

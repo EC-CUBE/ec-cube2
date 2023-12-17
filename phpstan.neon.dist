@@ -42,10 +42,5 @@ parameters:
         - data/smarty_extends/function.html_radios_ex.php
         - data/smarty_extends/function.html_checkboxes_ex.php
     -
-      message: "#^Undefined variable\\: \\$tags$#"
-      paths:
-        - data/smarty_extends/function.html_radios_ex.php
-        - data/smarty_extends/function.html_checkboxes_ex.php
-    -
       message: "#^Variable \\$SJIS_widths might not be defined\\.$#"
       path: data/class/helper/SC_Helper_FPDI.php
