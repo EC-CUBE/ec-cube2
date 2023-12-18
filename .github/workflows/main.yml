@@ -142,7 +142,7 @@ jobs:
 
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: data/logs
@@ -227,7 +227,7 @@ jobs:
         data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: windows-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: data\logs
