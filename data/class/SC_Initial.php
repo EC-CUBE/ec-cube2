@@ -57,6 +57,7 @@ class SC_Initial
         $this->resetSuperglobalsRequest();  // stripslashesDeepGpc メソッドより後で実行
         $this->setTimezone();               // 本当はエラーハンドラーより先に読みたい気も
         $this->normalizeHostname();         // defineConstants メソッドより後で実行
+        $this->compatPhp();
     }
 
     /**
@@ -556,6 +557,37 @@ class SC_Initial
             // リダイレクト(恒久的)
             SC_Response_Ex::sendHttpStatus(301);
             SC_Response_Ex::sendRedirect($correct_url);
+        }
+    }
+
+    function compatPhp()
+    {
+        if (!function_exists('str_starts_with')) {
+            /**
+             * 文字列が指定された部分文字列で始まるかを調べる。(for PHP < 8)
+             *
+             * @param string $haystack
+             * @param string $needle
+             * @return bool
+             */
+            function str_starts_with($haystack, $needle) {
+                return strncmp($haystack, $needle, strlen($needle)) === 0;
+            }
+        }
+
+        if (!function_exists('str_ends_with')) {
+            /**
+             * 文字列が、指定された文字列で終わるかを調べる。(for PHP < 8)
+             *
+             * @param string $haystack
+             * @param string $needle
+             * @return bool
+             */
+            function str_ends_with($haystack, $needle) {
+                $needle_len = strlen($needle);
+
+                return substr($haystack, - $needle_len, $needle_len) === $needle;
+            }
         }
     }
 }
