@@ -279,7 +279,11 @@ class SC_CartSession
         }
     }
 
-    // 前頁のURLを記録しておく
+    /**
+     * 前頁のURLを記録しておく
+     *
+     * @deprecated 2.18.0 本体では呼ばれない。
+     */
     public function setPrevURL($url, $excludePaths = array())
     {
         // 前頁として記録しないページを指定する。
@@ -301,7 +305,11 @@ class SC_CartSession
         }
     }
 
-    // 前頁のURLを取得する
+    /**
+     * 前頁のURLを取得する
+     *
+     * @deprecated 2.18.0 本体では利用していない。
+     */
     public function getPrevURL()
     {
         return isset($_SESSION['prev_url']) ? $_SESSION['prev_url'] : '';

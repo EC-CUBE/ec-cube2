@@ -209,7 +209,6 @@ class LC_Page_Cart extends LC_Page_Ex
         }
 
         // 前頁のURLを取得
-        // TODO: SC_CartSession::setPrevURL()利用不可。
         $this->lfGetCartPrevUrl($_SESSION, $_SERVER['HTTP_REFERER']);
         $this->tpl_prev_url = (isset($_SESSION['cart_prev_url'])) ? $_SESSION['cart_prev_url'] : '';
 
