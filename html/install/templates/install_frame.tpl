@@ -53,6 +53,7 @@ $(window).on('beforeunload',function(){
 <!--{/if}-->
 <title>EC-CUBEインストール</title>
 </head>
+<!--{strip}-->
 <body>
 <!--{$GLOBAL_ERR}-->
 <noscript>
@@ -130,4 +131,5 @@ $(window).on('beforeunload',function(){
     to {background-position: 150% 0%}
 }
 </style>
+<!--{/strip}-->
 </html>
