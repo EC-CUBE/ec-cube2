@@ -39,7 +39,7 @@
     <div class="btn-area-top"></div>
     <div class="btn-area">
         <ul>
-            <li><a class="btn-action" href="<!--{$tpl_sslurl}--><!--{$admin_dir}--><!--{$smarty.const.DIR_INDEX_PATH}-->"><span class="btn-next">管理画面へログインする</span></a></li>
+            <li><a class="btn next" href="<!--{$tpl_sslurl}--><!--{$admin_dir}--><!--{$smarty.const.DIR_INDEX_PATH}-->">管理画面へログインする</a></li>
         </ul>
     </div>
     <div class="btn-area-bottom"></div>

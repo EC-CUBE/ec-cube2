@@ -65,7 +65,7 @@
 <!--{if $tpl_mainpage != 'complete.tpl'}-->
 <script type="text/javascript">//<![CDATA[
 $(function(){
-    $('.btn-next').on('click', function(e) {
+    $('.btn.next').on('click', function(e) {
       e.preventDefault();
       $('form').submit();
       $('#loading').show();

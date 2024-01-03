@@ -64,17 +64,14 @@ th {
     display: inline;
 }
 
-/* 通常ボタン */
+/* ボタン */
 
-.btn-normal {
-    margin-right: 5px;
-    padding: 2px 10px;
+.btn {
+    padding: 1ex;
     border: solid 1px #bcbecb;
     display: inline-block;
-    background-image: url("../img/white-grad.png");
-    background-attachment: scroll;
+    background-image: linear-gradient(#fff, #eee);
     background-clip: border-box;
-    background-color: #eee;
     font-weight: normal;
     font-size: 90%;
     text-decoration: none;
@@ -85,60 +82,55 @@ th {
     &:link, &:visited {
         color: #444757;
     }
-}
 
-/* 動作ボタン */
-
-.btn-action {
-    padding: 5px 10px;
-    border: solid 1px #bcbecb;
-    display: inline-block;
-    background: url("../img/white-grad04.png") top repeat-x #eee;
-    background-attachment: scroll;
-    background-clip: border-box;
-    font-weight: bold;
-    font-size: 91.2%;
-    text-decoration: none;
-    white-space: nowrap;
-    cursor: pointer;
-    border-radius: 5px;
-
-    &:link, &:visited {
-        color: #444757;
+    &:hover {
+        border: solid 1px #d5d7df;
+        color: #6d728b;
     }
 
-    /* 戻るボタン */
-
-    .btn-prev {
-        padding: 0 0 0 20px;
-        display: inline-block;
-        background: url("../img/ico_prev.gif") left no-repeat;
+    &:active {
+        background-image: linear-gradient(#eee, #fff);
     }
 
-    /* 進むボタン */
+    /* 前へ戻る、次へ進む */
 
-    .btn-next {
-        padding: 0 20px 0 0;
-        display: inline-block;
-        background: url("../img/ico_next.gif") right no-repeat;
+    &.prev,
+    &.next {
+        position: relative;
+        font-size: 91.2%;
+        font-weight: bold;
+
+        &::before {
+            content: "";
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            background: url("../img/ico_next.gif") right 1ex center no-repeat;
+        }
+
+        &.prev {
+            padding-left: calc(2ex + 15px);
+            &::before {
+                transform: rotate(180deg);
+            }
+        }
+    
+        &.next {
+            padding-right: calc(2ex + 15px);
+        }
     }
 }
 
 /* LINK */
 
 a {
-    &.btn-normal:hover, &.btn-action:hover, &.btn-tool:hover {
-        border: solid 1px #d5d7df;
-        color: #6d728b;
-    }
-
     &.btn-tool-format:hover {
         border: solid 1px #363a47;
         color: #6b728b;
-    }
-
-    &.btn:active, &.btn-normal:active {
-        background-image: url("../img/white-grad-active.png");
     }
 
     &:link, &:visited, &:hover {
