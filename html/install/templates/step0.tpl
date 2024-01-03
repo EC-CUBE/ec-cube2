@@ -36,7 +36,7 @@
             <!--{if $hasErr}-->
                 <p class="action-message">[次へ進む] をクリックすると、チェックを再実行します。</p>
                 <div><input type="checkbox" name="mode_overwrite" value="step0" id="mode_overwrite" /> <label for="mode_overwrite">問題点を無視して次へ進む (上級者向け)</label></div>
-                <div class="red">※ 問題点を解決せずに無視して進めると、トラブルの原因となる場合があります。</div>
+                <div class="attention">※ 問題点を解決せずに無視して進めると、トラブルの原因となる場合があります。</div>
             <!--{else}-->
                 必要なファイルのコピーを開始します。
             <!--{/if}-->
