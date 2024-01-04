@@ -34,14 +34,15 @@
 <!--<![endif]-->
 <script type="text/javascript" src="../js/eccube.js"></script>
 
-<!--{if $tpl_mainpage != 'complete.tpl'}-->
 <script type="text/javascript">//<![CDATA[
+<!--{if $tpl_mainpage != 'complete.tpl'}-->
 $(function(){
     $('.btn.next').on('click', function(e) {
         e.preventDefault();
         $('form').submit();
     });
 });
+<!--{/if}-->
 $(window).on('load', function() {
     $('#loading').hide();
 });
@@ -50,7 +51,6 @@ $(window).on('beforeunload',function(){
     $('#loading').show();
 });
 //]]></script>
-<!--{/if}-->
 <title>EC-CUBEインストール</title>
 </head>
 <!--{strip}-->
