@@ -19,6 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
+
+ <!--{strip}-->
 <form name="form1" id="form1" method="post" action="./<!--{$smarty.const.DIR_INDEX_PATH}-->">
     <input type="hidden" name="mode" value="<!--{$tpl_mode}-->" />
     <!--{foreach key=key item=item from=$arrHidden}-->
@@ -29,11 +31,10 @@
             EC-CUBEのインストールを開始します。
         </div>
     </div>
-    <div class="btn-area-top"></div>
     <div class="btn-area">
         <ul>
             <li><a class="btn next" href="javascript:;" onclick="document.form1.submit(); return false;">次へ進む</a></li>
         </ul>
     </div>
-    <div class="btn-area-bottom"></div>
 </form>
+<!--{/strip}-->

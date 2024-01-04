@@ -20,6 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
 
+<!--{strip}-->
 <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="mode" value="<!--{$tpl_mode}-->" />
 
@@ -36,11 +37,10 @@
         </div>
     </div>
 
-    <div class="btn-area-top"></div>
     <div class="btn-area">
         <ul>
             <li><a class="btn next" href="<!--{$tpl_sslurl}--><!--{$admin_dir}--><!--{$smarty.const.DIR_INDEX_PATH}-->">管理画面へログインする</a></li>
         </ul>
     </div>
-    <div class="btn-area-bottom"></div>
 </form>
+<!--{/strip}-->

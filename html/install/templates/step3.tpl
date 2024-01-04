@@ -38,6 +38,7 @@
 //-->
 </script>
 
+<!--{strip}-->
 <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="mode" value="<!--{$tpl_mode}-->" />
     <input type="hidden" name="step" value="0" />
@@ -74,12 +75,11 @@
         </div>
     </div>
 
-    <div class="btn-area-top"></div>
     <div class="btn-area">
         <ul>
             <li><a class="btn prev" href="javascript:;" onclick="document.form1['mode'].value='return_step2';document.form1.submit();return false;">前へ戻る</a></li>
             <li><a class="btn next" href="javascript:;" onclick="document.body.style.cursor='wait';">次へ進む</a></li>
         </ul>
     </div>
-    <div class="btn-area-bottom"></div>
 </form>
+<!--{/strip}-->

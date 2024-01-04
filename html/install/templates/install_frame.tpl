@@ -78,26 +78,25 @@ $(function(){
 <body>
 <!--{$GLOBAL_ERR}-->
 <noscript>
-  <p>JavaScript を有効にしてご利用下さい。</p>
+    <p>JavaScript を有効にしてご利用下さい。</p>
 </noscript>
 <div id="loading"><img src="../js/jquery.colorbox/loading.gif" width="48" height="48" alt="Loading..." /></div>
 <div id="outside">
-  <div id="out-wrap">
-    <div class="logo">
-      <img src="img/logo_resize.jpg" width="99" height="15" alt="EC-CUBE" />
+    <div id="out-wrap">
+        <div class="logo">
+            <img src="img/logo_resize.jpg" width="99" height="15" alt="EC-CUBE" />
+        </div>
+        <div id="out-area">
+            <!--{include file=$tpl_mainpage}-->
+        </div>
+        <!--{if strlen($install_info_url) != 0}-->
+        <div id="info-area">
+            <iframe src="<!--{$install_info_url}-->" width="562" height="550" frameborder="no" scrolling="no">
+                こちらはEC-CUBEからのお知らせです。この部分は iframe対応ブラウザでご覧下さい。
+            </iframe>
+        </div>
+        <!--{/if}-->
     </div>
-    <div id="out-area">
-      <div class="out-top"></div>
-      <!--{include file=$tpl_mainpage}-->
-    </div>
-    <!--{if strlen($install_info_url) != 0}-->
-    <div id="info-area">
-      <iframe src="<!--{$install_info_url}-->" width="562" height="550" frameborder="no" scrolling="no">
-        こちらはEC-CUBEからのお知らせです。この部分は iframe対応ブラウザでご覧下さい。
-      </iframe>
-    </div>
-    <!--{/if}-->
-  </div>
 </div>
 </body>
 </html>

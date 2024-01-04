@@ -19,6 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
+
+<!--{strip}-->
 <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="mode" value="<!--{$tpl_mode}-->" />
     <input type="hidden" name="step" value="0" />
@@ -42,12 +44,11 @@
             <!--{/if}-->
         </div>
     </div>
-    <div class="btn-area-top"></div>
     <div class="btn-area">
         <ul>
             <li><a class="btn prev" href="javascript:;" onclick="document.form1['mode'].value='return_welcome';document.form1.submit(); return false;">前へ戻る</a></li>
             <li><a class="btn next" href="javascript:;">次へ進む</a></li>
         </ul>
     </div>
-    <div class="btn-area-bottom"></div>
 </form>
+<!--{/strip}-->
