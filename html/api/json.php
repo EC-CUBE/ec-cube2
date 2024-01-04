@@ -22,7 +22,6 @@
  */
 
 require_once '../require.php';
-require_once CLASS_EX_REALDIR . 'page_extends/api/LC_Page_Api_Json_Ex.php';
 
 $objPage = new LC_Page_Api_Json_Ex();
 $objPage->skip_load_page_layout = true;

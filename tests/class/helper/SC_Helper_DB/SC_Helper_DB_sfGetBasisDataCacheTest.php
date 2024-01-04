@@ -36,7 +36,6 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
     protected function setUp()
     {
         parent::setUp();
-        $this->helper = new SC_Helper_DB_sfGetBasisDataCacheMock();
         $this->cashFilePath = MASTER_DATA_REALDIR . 'dtb_baseinfo.serial';
     }
 
@@ -53,10 +52,10 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
             unlink($this->cashFilePath);
         }
         $this->expected = array();
-        $this->actual = $this->helper->sfGetBasisDataCache();
+        $this->actual = SC_Helper_DB_sfGetBasisDataCacheMock::sfGetBasisDataCache();
         $this->verify();
     }
-    
+
     public function testSfGetBasisDataCache_キャッシュがなく生成する場合_キャッシュの値を返す()
     {
         $this->setUpBasisData();
@@ -129,17 +128,17 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
             'downloadable_days' => '10',
             'downloadable_days_unlimited' => '0'
         );
-        $this->actual = $this->helper->sfGetBasisDataCache(true);
+        $this->actual = SC_Helper_DB_sfGetBasisDataCacheMock::sfGetBasisDataCache(true);
         $this->verify();
     }
-    
+
     public function testSfGetBasisDataCache_キャッシュがある場合_キャッシュの値を返す()
     {
         $this->setUpBasisData();
         if (file_exists($this->cashFilePath)) {
             unlink($this->cashFilePath);
         }
-        $this->helper->sfCreateBasisDataCache();
+        SC_Helper_DB_sfGetBasisDataCacheMock::sfCreateBasisDataCache();
         $this->expected = array(
             'id' => '1',
             'company_name' => 'testshop',
@@ -206,16 +205,16 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
             'downloadable_days' => '10',
             'downloadable_days_unlimited' => '0'
         );
-        $this->actual = $this->helper->sfGetBasisDataCache();
+        $this->actual = SC_Helper_DB_sfGetBasisDataCacheMock::sfGetBasisDataCache();
         unlink($this->cashFilePath);
         $this->verify();
     }
-    
+
 }
 
 class SC_Helper_DB_sfGetBasisDataCacheMock extends SC_Helper_DB_Ex
 {
-    function sfCreateBasisDataCache()
+    public static function sfCreateBasisDataCache()
     {
         // テーブル名
         $name = 'dtb_baseinfo';

@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * 高度なデータベース管理 のページクラス.
@@ -180,7 +179,7 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
     /**
      * インデックス設定を行う一覧を返す関数
      *
-     * @return void
+     * @return array
      */
     public function lfGetIndexList()
     {
@@ -190,6 +189,7 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
         $arrIndexList = $objQuery->select('table_name , column_name , recommend_flg, recommend_comment', 'dtb_index_list');
 
         $table = '';
+        $arrIndexes = array();
         foreach ($arrIndexList as $key => $arrIndex) {
             // テーブルに対するインデックス一覧を取得
             if ($table !== $arrIndex['table_name']) {
@@ -198,7 +198,7 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
             }
             // インデックスが設定されているかを取得
             $idx_name = $table . '_' . $arrIndex['column_name'] . '_key';
-            if (array_search($idx_name, $arrIndexes) === false) {
+            if (is_array($arrIndexes) && array_search($idx_name, $arrIndexes) === false) {
                 $arrIndexList[$key]['indexflag'] = '';
             } else {
                 $arrIndexList[$key]['indexflag'] = '1';

@@ -1,12 +1,9 @@
 # EC-CUBE 2.17系
 
 [![GitHub Actions status](https://github.com/EC-CUBE/ec-cube2/workflows/CI/CD%20for%20EC-CUBE/badge.svg)](https://github.com/EC-CUBE/ec-cube2/actions)
-[![Build Status](https://travis-ci.org/EC-CUBE/ec-cube2.svg)](https://travis-ci.org/EC-CUBE/ec-cube2)
-[![AppVeyor](https://img.shields.io/appveyor/ci/ECCUBE/ec-cube2)](https://ci.appveyor.com/project/ECCUBE/ec-cube2/branch/master)
-[![Coveralls github](https://img.shields.io/coveralls/github/EC-CUBE/ec-cube2)](https://coveralls.io/r/EC-CUBE/ec-cube2)
+[![codecov](https://codecov.io/gh/EC-CUBE/ec-cube2/branch/master/graph/badge.svg?token=4oNLGhIQwy)](https://codecov.io/gh/EC-CUBE/ec-cube2)
 [![PHP Versions Supported](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](#php-version-support)
 [![GitHub All Releases](https://img.shields.io/github/downloads/EC-CUBE/ec-cube2/total)](https://github.com/EC-CUBE/ec-cube2/releases)
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ---
 
@@ -29,14 +26,14 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 
 ### 2.17系
 
-* EC-CUBE 2.13 系の PHP7 対応バージョンです。
+* EC-CUBE 2.13 系の PHP7 及び PHP8 対応バージョンです。
 * `master` ブランチで開発を行っています。
 
 #### システム要件
 
 | 分類      | ソフトウェア         | Version                                                                 |
 |-----------|----------------------|-------------------------------------------------------------------------|
-| WebServer | IIS                  | 8.x or higher                                                           |
+| WebServer | IIS                  | 8.x or higher<br> PHP8は非対応                                                    |
 | WebServer | Apache               | 2.4.x or higher<br> (mod_rewrite / mod_ssl 必須)                        |
 | PHP       | PHP                  | 5.4.16 or higher                                                        |
 | Database  | PostgreSQL           | 9.x or higher                                                           |
@@ -55,10 +52,11 @@ EC-CUBEのインストールは、以下の方法があります。
 
 1. パッケージを使用してインストールする
 1. コマンドラインからインストールする
+1. docker-composeを使用してインストールする
 
 ### パッケージを使用してインストールする
 
-[EC-CUBE のパッケージ](https://github.com/EC-CUBE/ec-cube2/releases)をダウンロードし、解凍してください。
+[EC-CUBE のパッケージ](https://github.com/EC-CUBE/ec-cube2/releases/latest)をダウンロードし、解凍してください。
 
 FTP/SSHを使用し、ファイルをサーバへアップロードしてください。
 ※ファイル数が多いためエラーが発生することがございます。エラー発生時は分割してアップロードをお願いします。
@@ -87,6 +85,55 @@ php composer.phar install --no-dev --no-interaction -o
 *DocumentRoot を `{EC-CUBEをアップロードしたディレクトリ}/html` に設定しておく必要があります。*
 
 ブラウザからEC-CUBEにアクセスするとWebインストーラが表示されますので、指示にしたがってインストールしてください。
+
+### docker-compose を使用してインストールする
+
+- *開発環境におすすめです。*
+
+それぞれのコマンドの実行完了してから https://localhost:4430/ へアクセスすると、EC-CUBEのフロント画面が表示されます。
+管理画面は https://localhost:4430/admin/ へアクセスしてください。
+
+#### PostgreSQL を使用する場合
+
+docker-compose.pgsql.yml を指定します。 data/config/config.php が存在しない場合は、 EC-CUBE のインストールまで実行します。
+
+```shell
+git clone https://github.com/EC-CUBE/ec-cube2.git
+cd ec-cube2
+docker-compose -f docker-compose.yml -f docker-compose.pgsql.yml up
+```
+
+#### MySQL を使用する場合
+
+docker-compose.mysql.yml を指定します。 data/config/config.php が存在しない場合は、 EC-CUBE のインストールまで実行します。
+
+```shell
+git clone https://github.com/EC-CUBE/ec-cube2.git
+cd ec-cube2
+docker-compose -f docker-compose.yml -f docker-compose.mysql.yml up
+```
+
+#### DB を別途用意する場合
+
+php:7.4-apache のみ起動します
+
+```shell
+git clone https://github.com/EC-CUBE/ec-cube2.git
+cd ec-cube2
+docker-compose up
+```
+
+#### ローカル環境をマウントする場合
+
+docker-compose.dev.yml を指定します。
+
+```shell
+git clone https://github.com/EC-CUBE/ec-cube2.git
+cd ec-cube2
+
+## MySQL を使用する例
+docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.dev.yml up
+```
 
 ---
 

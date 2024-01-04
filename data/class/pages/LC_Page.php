@@ -51,6 +51,7 @@ class LC_Page
 
     /** タイトル */
     public $tpl_title;
+    public $tpl_subtitle;
 
     /** ログインメールアドレス */
     public $tpl_login_email;
@@ -66,6 +67,7 @@ class LC_Page
 
     /** 店舗基本情報 */
     public $arrSiteInfo;
+    public $arrInfo;
 
     /**
      * プラグインを実行フラグ
@@ -84,6 +86,208 @@ class LC_Page
 
     public $arrForm;
     public $arrErr;
+
+    /** @var int */
+    public $timeStart;
+    /** @var string */
+    public $tpl_authority;
+    /** @var SC_Display */
+    public $objDisplay;
+    /** @var SC_Helper_PageLayout */
+    public $arrPageLayout;
+    /** @var string */
+    public $tpl_page_class_name;
+    /** @var array */
+    public $tpl_class_name1;
+    /** @var array */
+    public $tpl_class_name2;
+    /** @var bool */
+    public $tpl_classcat_find1;
+    /** @var bool */
+    public $tpl_classcat_find2;
+    /** @var int */
+    public $tpl_product_class_id;
+    /** @var array */
+    public $arrClassCat1;
+    /** @var bool */
+    public $tpl_stock_find;
+
+    /** @var bool */
+    public $isLogin;
+    /** @var string */
+    public $tpl_message;
+    /** @var array */
+    public $arrPref;
+    /** @var array */
+    public $arrProductType;
+    /** @var bool */
+    public $tpl_login;
+    /** @var string */
+    public $tpl_name;
+    /** @var string */
+    public $tpl_name1;
+    /** @var string */
+    public $tpl_name2;
+    /** @var string */
+    public $name01;
+    /** @var string */
+    public $name02;
+    /** @var int */
+    public $tpl_customer_id;
+    /** @var int */
+    public $tpl_login_memory;
+    /** @var int */
+    public $tpl_user_point;
+    /** @var int */
+    public $tpl_order_id;
+    /** @var string */
+    public $tpl_subject;
+    /** @var string */
+    public $tpl_body;
+    /** @var array */
+    public $CONF;
+    /** @var array */
+    public $arrData;
+    /** @var array */
+    public $arrJob;
+    /** @var array */
+    public $arrReminder;
+    /** @var array */
+    public $arrCountry;
+    /** @var array */
+    public $arrSex;
+    /** @var array */
+    public $arrMAILMAGATYPE;
+    /** @var array */
+    public $arrMagazineType;
+    /** @var array */
+    public $arrMailMagazineType;
+    /** @var array */
+    public $arrMailTEMPLATE;
+    /** @var array */
+    public $arrMAILTEMPLATE;
+    /** @var SC_Date */
+    public $objDate;
+    /** @var array */
+    public $arrYear;
+    /** @var array */
+    public $arrMonth;
+    /** @var array */
+    public $arrDay;
+    /** @var array */
+    public $arrMinutes;
+    /** @var array */
+    public $arrStatus;
+    /** @var array */
+    public $arrSTATUS;
+    /** @var array */
+    public $arrSTATUS_IMAGE;
+    /** @var array */
+    public $arrDELIVERYDATE;
+    /** @var array */
+    public $arrPRODUCTLISTMAX;
+    /** @var array */
+    public $arrTAXCALCRULE;
+    /** @var array */
+    public $arrDeliv;
+    /** @var array */
+    public $arrPrices;
+    /** @var array */
+    public $arrDelivDate;
+    /** @var array */
+    public $arrDelivTime;
+    /** @var array */
+    public $arrPayment;
+    /** @var array */
+    public $arrPayments;
+    /** @var string */
+    public $tpl_error;
+    /** @var string */
+    public $tpl_pageno;
+    /** @var int */
+    public $tpl_pager;
+    /** @var int */
+    public $disp_number;
+    /** @var int */
+    public $tpl_linemax;
+    /** @var array */
+    public $arrPageMax;
+    /** @var int */
+    public $linemax;
+    /** @var string */
+    public $tpl_strnavi;
+    /** @var SC_PageNavi */
+    public $objNavi;
+    /** @var array */
+    public $arrPagenavi;
+    /** @var array */
+    public $arrSubnavi;
+    /** @var array */
+    public $arrProducts;
+    /** @var array */
+    public $arrShipping;
+    /** @var array */
+    public $arrHidden;
+    /** @var array */
+    public $arrParam;
+    /** @var bool */
+    public $isMultiple;
+    /** @var bool */
+    public $is_multiple;
+    /** @var string */
+    public $cartKey;
+    /** @var int */
+    public $tpl_uniqid;
+    /** @var string */
+    public $mode;
+    /** @var string */
+    public $tpl_mode;
+    /** @var array */
+    public $arrNews;
+    /** @var int */
+    public $maker_id;
+    /** @var int */
+    public $category_id;
+    /** @var int */
+    public $tpl_category_id;
+    /** @var int */
+    public $tpl_product_id;
+    /** @var int */
+    public $tpl_total_inctax;
+    /** @var int */
+    public $tpl_total_tax;
+    /** @var int */
+    public $tpl_total_point;
+    /** @var int */
+    public $passlen;
+    /** @var string */
+    public $device_type;
+    /** @var array */
+    public $arrCatList;
+    /** @var array */
+    public $arrSearchData;
+    /** @var SC_FormParam */
+    public $objFormParam;
+    /** @var array */
+    public $arrMaker;
+    /** @var array */
+    public $arrRecommend;
+    /** @var array */
+    public $arrProductsList;
+    /** @var array */
+    public $arrRECOMMEND;
+    /** @var array */
+    public $arrReview;
+    /** @var array */
+    public $arrWDAY;
+    /** @var array */
+    public $arrOrder;
+    /** @var string */
+    public $tpl_navi;
+    /** @var string */
+    public $tpl_mypageno;
+    /** @var int */
+    public $tpl_addrmax;
 
     /**
      * Page を初期化する.

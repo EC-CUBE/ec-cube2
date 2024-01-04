@@ -3,6 +3,7 @@ var path = require('path');
 var webpack = require("webpack");
 
 module.exports = {
+    mode: 'production',
     entry: {
         eccube: './data/eccube.js',
     },
@@ -37,9 +38,7 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: [
-                                ['env', {'modules': false}]
-                            ]
+                            presets: ['@babel/preset-env']
                         }
                     }
                 ],

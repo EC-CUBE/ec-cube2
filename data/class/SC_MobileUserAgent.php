@@ -39,7 +39,7 @@ class SC_MobileUserAgent
      *                      携帯端末ではない場合は false を返す。
      * @deprecated
      */
-    public function getCarrier()
+    public static function getCarrier()
     {
         trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
         return false;
@@ -56,7 +56,7 @@ class SC_MobileUserAgent
      * @deprecated
      * @return string|false 取得したIDを返す。取得できなかった場合は false を返す。
      */
-    public function getId()
+    public static function getId()
     {
         trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
         return false;
@@ -68,7 +68,7 @@ class SC_MobileUserAgent
      *
      * @return string 携帯端末のモデルを表す文字列を返す。
      */
-    public function getModel()
+    public static function getModel()
     {
         trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
         return false;
@@ -86,7 +86,7 @@ class SC_MobileUserAgent
      *
      * @return boolean サポートしている場合は true、それ以外の場合は false を返す。
      */
-    public function isSupported()
+    public static function isSupported()
     {
         trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
         return false;

@@ -21,7 +21,7 @@
  *}-->
 
 <!-- ▼おすすめ商品 -->
-<!--{if count($arrBestProducts) > 0}-->
+<!--{if !empty($arrBestProducts)}-->
     <section id="recommend_area" class="mainImageInit">
         <h2>おすすめ商品</h2>
         <ul>

@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
 
 /**
  * プレビュー のページクラス.
@@ -53,8 +52,9 @@ class LC_Page_Preview extends LC_Page_Ex
 
         $objView = new SC_SiteView_Ex();
         $objSess = new SC_Session_Ex();
-
-        SC_Utils_Ex::sfIsSuccess($objSess);
+        if (!SC_Utils_Ex::sfIsSuccess($objSess, false)) {
+            SC_Utils_Ex::sfDispSiteError(PAGE_ERROR);
+        }
 
         if (isset($_SESSION['preview']) && $_SESSION['preview'] === 'ON') {
             // プレビュー用のレイアウトデザインを取得

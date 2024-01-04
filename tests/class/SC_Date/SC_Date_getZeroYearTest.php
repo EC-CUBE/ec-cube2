@@ -82,6 +82,7 @@ class SC_Date_getZeroYearTest extends Common_TestCase
     public function testGetZeroYear_最大値がメンバ変数の2桁表記の配列を返す()
     {
         $this->expected = '20';
+        $this->objDate->setStartYear('2018');
         $this->objDate->setEndYear('2020');
         $this->actual = max($this->objDate->getZeroYear());
 

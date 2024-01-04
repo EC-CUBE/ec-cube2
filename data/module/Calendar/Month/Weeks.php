@@ -79,9 +79,9 @@ class Calendar_Month_Weeks extends Calendar_Month
      * @param int (optional) first day of week (e.g. 0 for Sunday, 2 for Tuesday etc.)
      * @access public
      */
-    function Calendar_Month_Weeks($y, $m, $firstDay=null)
+    public function __construct($y, $m, $firstDay=null)
     {
-        Calendar_Month::Calendar_Month($y, $m, $firstDay);
+        parent::__construct($y, $m, $firstDay);
     }
 
     /**
@@ -98,10 +98,10 @@ class Calendar_Month_Weeks extends Calendar_Month
         require_once CALENDAR_ROOT.'Week.php';
         $numWeeks = $this->tableHelper->getNumWeeks();
         for ($i=1, $d=1; $i<=$numWeeks; $i++,
-            $d+=$this->cE->getDaysInWeek(
-                $this->thisYear(),
-                $this->thisMonth(),
-                $this->thisDay()) ) {
+                 $d+=$this->cE->getDaysInWeek(
+                     $this->thisYear(),
+                     $this->thisMonth(),
+                     $this->thisDay()) ) {
             $this->children[$i] = new Calendar_Week(
                 $this->year, $this->month, $d, $this->tableHelper->getFirstDay());
         }

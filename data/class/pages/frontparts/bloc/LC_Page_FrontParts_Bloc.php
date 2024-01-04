@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
 
 /**
  * ブロック の基底クラス.
@@ -32,6 +31,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_FrontParts_Bloc extends LC_Page_Ex
 {
+    /** @var array */
+    public $arrCartList;
+    /** @var array */
+    public $blocItems;
+
     /**
      * Page を初期化する.
      *

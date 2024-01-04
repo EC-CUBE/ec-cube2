@@ -114,7 +114,7 @@ class SC_Image
 
         //アスペクト比固定処理
         $tmp_w = $size[0] / $MW;
-
+        $tmp_h = 0;
         if ($MH != 0) {
             $tmp_h = $size[1] / $MH;
         }
@@ -142,7 +142,8 @@ class SC_Image
         $ToFile = $FromFileName; // 拡張子以外の部分までを作成
 
         $ImgNew = imagecreatetruecolor($re_size[0], $re_size[1]);
-
+        $ImgDefault = null;
+        $RetVal = '';
         switch ($size[2]) {
             case '1': //gif形式
                 if ($tmp_w <= 1 && $tmp_h <= 1) {
@@ -234,7 +235,9 @@ class SC_Image
                 break;
         }
 
-        ImageDestroy($ImgDefault);
+        if (is_resource($ImgDefault)) {
+            ImageDestroy($ImgDefault);
+        }
         ImageDestroy($ImgNew);
 
         return array(1, $RetVal);

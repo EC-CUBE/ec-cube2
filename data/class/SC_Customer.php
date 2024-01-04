@@ -340,7 +340,7 @@ class SC_Customer
      *
      * @param int $customer_id
      */
-    public function updateOrderSummary($customer_id)
+    public static function updateOrderSummary($customer_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 

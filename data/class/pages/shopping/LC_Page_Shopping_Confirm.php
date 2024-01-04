@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
 
 /**
  * 入力内容確認のページクラス.
@@ -32,6 +31,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
  */
 class LC_Page_Shopping_Confirm extends LC_Page_Ex
 {
+    /** @var array */
+    public $arrCartItems;
+    /** @var bool */
+    public $use_module;
+
     /**
      * Page を初期化する.
      *

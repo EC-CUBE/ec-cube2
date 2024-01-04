@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/mypage/LC_Page_AbstractMypage_Ex.php';
 
 /**
  * お届け先編集 のページクラス.
@@ -32,6 +31,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/mypage/LC_Page_AbstractMypage_Ex.p
  */
 class LC_Page_Mypage_Delivery extends LC_Page_AbstractMypage_Ex
 {
+    /** @var array */
+    public $arrOtherDeliv;
+
     /**
      * Page を初期化する.
      *
@@ -121,7 +123,7 @@ class LC_Page_Mypage_Delivery extends LC_Page_AbstractMypage_Ex
      * フォームパラメータの初期化
      *
      * @param SC_FormParam_Ex $objFormParam
-     * @return SC_FormParam
+     * @return void
      */
     public function lfInitParam(&$objFormParam)
     {

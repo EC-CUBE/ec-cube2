@@ -30,7 +30,7 @@
 
         <div class="window_area clearfix">
             <!--{if $smarty.const.FORGOT_MAIL != 1}-->
-                <input id="completebox" type="text" value="<!--{$arrForm.new_password}-->" readonly="readonly" />
+                <input id="completebox" type="text" value="<!--{$arrForm.new_password|h}-->" readonly="readonly" />
             <!--{else}-->
                 <p  class="attention">ご登録メールアドレスに送付致しました。</p>
             <!--{/if}-->

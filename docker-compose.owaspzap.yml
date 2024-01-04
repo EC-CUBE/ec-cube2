@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  ec-cube:
+    environment:
+      # Use Zap Proxy
+      HTTP_URL: https://ec-cube/
+      HTTPS_URL: https://ec-cube/
+      USE_FILENAME_DIR_INDEX: 1
+  zap:
+    build:
+      context: ./zap
+    command: bash -c "zap.sh -cmd -addonupdate -addoninstall help_ja_JP -addoninstall wappalyzer -addoninstall sequence -addonuninstall hud -configfile /zap/wrk/options.properties -certpubdump /zap/wrk/owasp_zap_root_ca.cer && zap-webswing.sh"
+    # 詳細スキャンしたい場合はこちらを使用する command: bash -c "zap.sh -cmd -addonupdate -addoninstall help_ja_JP -addoninstall wappalyzer -addoninstall ascanrulesAlpha -addoninstall ascanrulesBeta -addoninstall sqliplugin -addoninstall sequence -addonuninstall hud -configfile /zap/wrk/options.properties -certpubdump /zap/wrk/owasp_zap_root_ca.cer && zap-webswing.sh"
+    volumes:
+      - ./zap:/zap/wrk/
+    ports:
+      - "8081:8080"
+      - "8090:8090"
+    depends_on:
+      - ec-cube
+    networks:
+      - backend
+      - default
+    tty: true

@@ -7,7 +7,9 @@ class LoadClassFileChangeTest extends Common_TestCase
 {
     protected function setUp()
     {
-        parent::setUp();
+        // ATTENTION プラグインをロードする前にオートローディングが実行されると、 loadClassFileChange が無効になってしまうため parent::setUp() は実行しない
+        $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);
+        $this->objQuery->begin();
         $this->createPlugin();
     }
 
@@ -76,7 +78,7 @@ class AutoloadingPlugin extends SC_Plugin_Base
 {
     public function loadClassFileChange(&\$classname, &\$classpath) {
         if (\$classname === "SC_Product_Ex") {
-            \$classpath = "${realdir}AutoloadingPlugin/Autoloading_SC_Product.php";
+            \$classpath = "{$realdir}AutoloadingPlugin/Autoloading_SC_Product.php";
             \$classname = "Autoloading_SC_Product";
         }
     }

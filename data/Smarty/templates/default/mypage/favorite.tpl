@@ -33,7 +33,7 @@
         <form name="form1" id="form1" method="post" action="?">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
             <input type="hidden" name="order_id" value="" />
-            <input type="hidden" name="pageno" value="<!--{$tpl_pageno}-->" />
+            <input type="hidden" name="pageno" value="<!--{$tpl_pageno|h}-->" />
             <input type="hidden" name="mode" value="" />
             <input type="hidden" name="product_id" value="" />
             <h3><!--{$tpl_subtitle|h}--></h3>
@@ -43,7 +43,7 @@
                 <p><span class="attention"><!--{$tpl_linemax}-->件</span>のお気に入りがあります。</p>
                 <div class="paging">
                     <!--▼ページナビ-->
-                    <!--{$tpl_strnavi}-->
+                    <!--{$tpl_strnavi nofilter}-->
                     <!--▲ページナビ-->
                 </div>
 

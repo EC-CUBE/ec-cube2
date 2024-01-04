@@ -22,7 +22,6 @@
  */
 
 require_once '../require.php';
-require_once CLASS_EX_REALDIR . 'page_extends/preview/LC_Page_Preview_Ex.php';
 
 $objPage = new LC_Page_Preview_Ex();
 $objPage->init();

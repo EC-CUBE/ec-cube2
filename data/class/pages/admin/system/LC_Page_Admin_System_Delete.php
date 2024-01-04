@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * メンバー削除 のページクラス.
@@ -60,14 +59,19 @@ class LC_Page_Admin_System_Delete extends LC_Page_Admin_Ex
      */
     public function action()
     {
+        if ($this->getMode() !== 'delete') {
+            SC_Utils_Ex::sfDispError(INVALID_MOVE_ERRORR);
+            SC_Response_Ex::actionExit();
+        }
         $objFormParam = new SC_FormParam_Ex;
 
         // パラメーターの初期化
         $this->initParam($objFormParam, $_GET);
 
+        $id = 0;
         // パラメーターの検証
         if ($objFormParam->checkError()
-            || !SC_Utils_ex::sfIsInt($id = $objFormParam->getValue('id'))) {
+            || !SC_Utils_Ex::sfIsInt($id = $objFormParam->getValue('id'))) {
             GC_Utils_Ex::gfPrintLog("error id=$id");
             SC_Utils_Ex::sfDispError(INVALID_MOVE_ERRORR);
         }

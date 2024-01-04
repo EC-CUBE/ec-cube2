@@ -161,10 +161,10 @@ function lfnSortItem(mode,data,form){
                 <td>
                     <!--{* 移動 *}-->
                     <!--{if $smarty.section.cnt.iteration != 1 && $arrItems[$smarty.section.cnt.iteration].best_id}-->
-                        <a href="?" onclick="lfnSortItem('up',<!--{$arrItems[$smarty.section.cnt.iteration].best_id}-->,'form<!--{$smarty.section.cnt.iteration-1}-->'); return false;">上へ</a><br />&nbsp;
+                        <a href="?" onclick="lfnSortItem('up',<!--{$arrItems[$smarty.section.cnt.iteration].best_id|h}-->,'form<!--{$smarty.section.cnt.iteration-1}-->'); return false;">上へ</a><br />&nbsp;
                     <!--{/if}-->
                     <!--{if $smarty.section.cnt.iteration != $tpl_disp_max && $arrItems[$smarty.section.cnt.iteration].best_id}-->
-                        <a href="?" onclick="lfnSortItem('down',<!--{$arrItems[$smarty.section.cnt.iteration].best_id}-->,'form<!--{$smarty.section.cnt.iteration+1}-->'); return false;">下へ</a>
+                        <a href="?" onclick="lfnSortItem('down',<!--{$arrItems[$smarty.section.cnt.iteration].best_id|h}-->,'form<!--{$smarty.section.cnt.iteration+1}-->'); return false;">下へ</a>
                     <!--{/if}-->
                 </td>
             </tr>

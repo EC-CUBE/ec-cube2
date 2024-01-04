@@ -46,7 +46,7 @@ class SC_PageNavi
     public $start_row;     // 開始レコード
     public $strnavi;       // ページ送り文字列
     public $arrPagenavi = array(); // ページ
-
+    public $all_row;
     /**
      * コンストラクタ
      *

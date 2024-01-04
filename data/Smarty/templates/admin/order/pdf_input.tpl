@@ -50,7 +50,7 @@ function lfPopwinSubmit(formName) {
         <col width="80%" />
         <tr>
             <th>注文番号</th>
-            <td><!--{$arrForm.order_id|@join:', '}--></td>
+            <td><!--{", "|implode:$arrForm.order_id}--></td>
         </tr>
         <tr>
             <th>発行日<span class="attention">※</span></th>

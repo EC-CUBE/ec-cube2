@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * 会員規約設定 のページクラス.
@@ -32,6 +31,11 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Basis_Kiyaku extends LC_Page_Admin_Ex
 {
+    /** @var int */
+    public $tpl_kiyaku_id;
+    /** @var array */
+    public $arrKiyaku;
+
     /**
      * Page を初期化する.
      *

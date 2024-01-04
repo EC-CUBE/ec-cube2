@@ -35,7 +35,7 @@ class SC_Initial
     public function __construct()
     {
         /** EC-CUBEのバージョン */
-        define('ECCUBE_VERSION', '2.17.1');
+        define('ECCUBE_VERSION', '2.17.2-p2');
     }
 
     /**
@@ -77,8 +77,32 @@ class SC_Initial
             copy(realpath(dirname(__FILE__)) . '/../../tests/config.php', CONFIG_REALFILE);
 
             require_once CONFIG_REALFILE;
-        }
+        } else if (!GC_Utils_Ex::isInstallFunction()){
 
+            // PHP8対応
+            if (!defined("HTTP_URL")) {
+                define ('HTTP_URL', '');
+                define ('HTTPS_URL', '');
+                define ('ROOT_URLPATH', '');
+                define ('DOMAIN_NAME', '');
+                define ('DB_TYPE', '');
+                define ('DB_USER', '');
+                define ('DB_PASSWORD', '');
+                define ('DB_SERVER', '');
+                define ('DB_NAME', '');
+                define ('DB_PORT', '');
+                define ('ADMIN_DIR', '');
+                define ('ADMIN_FORCE_SSL', "");
+                define ('ADMIN_ALLOW_HOSTS', '');
+                define ('AUTH_MAGIC', '');
+                define ('PASSWORD_HASH_ALGOS', 'sha256');
+                define ('MAIL_BACKEND', 'mail');
+                define ('SMTP_HOST', '');
+                define ('SMTP_PORT', '');
+                define ('SMTP_USER', '');
+                define ('SMTP_PASSWORD', '');
+            }
+        }
     }
 
     /**
@@ -105,11 +129,7 @@ class SC_Initial
      */
     public function setErrorReporting()
     {
-        error_reporting(E_ALL & ~E_NOTICE);
-        // PHP 5.3.0対応
-        if (error_reporting() > 6143) {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-        }
+        error_reporting(E_ALL);
     }
 
     /**
@@ -123,9 +143,13 @@ class SC_Initial
     public function phpconfigInit()
     {
         ini_set('html_errors', '1');
-        ini_set('mbstring.http_input', CHAR_CODE);
-        ini_set('mbstring.http_output', CHAR_CODE);
-        ini_set('auto_detect_line_endings', 1);
+        if (PHP_VERSION_ID < 50600) {
+            ini_set('mbstring.http_input', CHAR_CODE);
+            ini_set('mbstring.http_output', CHAR_CODE);
+        }
+        if (PHP_VERSION_ID < 80100) {
+            ini_set('auto_detect_line_endings', 1);
+        }
         ini_set('default_charset', CHAR_CODE);
         ini_set('mbstring.detect_order', 'auto');
         ini_set('mbstring.substitute_character', 'none');
@@ -184,10 +208,10 @@ class SC_Initial
         // DIR_INDEX_FILE にアクセスする時の URL のファイル名部を定義する
         if ($useFilenameDirIndex === true) {
             // ファイル名を使用する
-            define('DIR_INDEX_PATH', DIR_INDEX_FILE);
+            SC_Initial_Ex::defineIfNotDefined('DIR_INDEX_PATH', DIR_INDEX_FILE);
         } else {
             // ファイル名を使用しない
-            define('DIR_INDEX_PATH', '');
+            SC_Initial_Ex::defineIfNotDefined('DIR_INDEX_PATH', '');
         }
     }
 
@@ -473,7 +497,7 @@ class SC_Initial
      * @param  string  $value 定数の値。
      * @return void
      */
-    public function defineIfNotDefined($name, $value = null)
+    public static function defineIfNotDefined($name, $value = null)
     {
         if (!defined($name)) {
             define($name, $value);

@@ -75,7 +75,7 @@
 
 　メールアドレス：<!--{$arrOrder.order_email}-->
 
-<!--{if count($arrShipping) >= 1}-->
+<!--{if is_array($arrShipping) && count($arrShipping) >= 1}-->
 ■配送情報
 
 <!--{foreach item=shipping name=shipping from=$arrShipping}-->

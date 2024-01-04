@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * 商品登録(商品規格)のページクラス.
@@ -635,7 +634,7 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
                     $objFormParam->setValue('down_realfilename', $arrDownRealFiles);
                     GC_Utils_Ex::gfPrintLog($_FILES['down_realfilename']['name'][$index] .' -> '. realpath(DOWN_TEMP_REALDIR . $temp_file));
                 } else {
-                    $objErr->arrErr[$keyname] = '※ ファイルのアップロードに失敗しました。<br />';
+                    $this->arrErr['down_realfilename'] = '※ ファイルのアップロードに失敗しました。<br />';
                     GC_Utils_Ex::gfPrintLog('File Upload Error!: ' . $_FILES['down_realfilename']['name'][$index] . ' -> ' . DOWN_TEMP_REALDIR . $temp_file);
                 }
             }

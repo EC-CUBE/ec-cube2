@@ -51,7 +51,7 @@
                     <!--{assign var=key value=search_recommend_level}-->
                     <select name="<!--{$key}-->">
                         <option value="" selected="selected">選択してください</option>
-                        <!--{html_options options=$arrRECOMMEND selected=$arrForm[$key].value}-->
+                        <!--{html_options options=$arrRECOMMEND selected=$arrForm[$key]}-->
                     </select>
                 </td>
             </tr>
@@ -109,7 +109,7 @@
     </form>
 
 
-    <!--{if count($arrErr) == 0 and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete')}-->
+    <!--{if empty($arrErr) and ($smarty.post.mode == 'search' or $smarty.post.mode == 'delete')}-->
 
         <!--★★検索結果一覧★★-->
         <form name="form1" id="form1" method="post" action="?">
@@ -154,8 +154,8 @@
                             <!--{assign var=key value="`$arrReview[cnt].recommend_level`"}-->
                             <td><!--{$arrRECOMMEND[$key]|h}--></td>
                             <td class="menu"><!--{if $arrReview[cnt].status eq 1}-->表示<!--{elseif $arrReview[cnt].status eq 2}-->非表示<!--{/if}--></td>
-                            <td class="menu"><a href="javascript:;" onclick="eccube.changeAction('./review_edit.php'); eccube.setModeAndSubmit('','review_id','<!--{$arrReview[cnt].review_id}-->'); return false;">編集</a></td>
-                            <td class="menu"><a href="javascript:;" onclick="eccube.setModeAndSubmit('delete','review_id','<!--{$arrReview[cnt].review_id}-->'); return false;">削除</a></td>
+                            <td class="menu"><a href="javascript:;" onclick="eccube.changeAction('./review_edit.php'); eccube.setModeAndSubmit('','review_id','<!--{$arrReview[cnt].review_id|h}-->'); return false;">編集</a></td>
+                            <td class="menu"><a href="javascript:;" onclick="eccube.setModeAndSubmit('delete','review_id','<!--{$arrReview[cnt].review_id|h}-->'); return false;">削除</a></td>
                         </tr>
                     <!--{/section}-->
                 </table>

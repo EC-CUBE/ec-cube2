@@ -1,0 +1,114 @@
+name: Coverage
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+    paths:
+      - '**'
+      - '!*.tpl'
+      - '!*.css'
+      - '!*.js'
+      - '!*.md'
+  pull_request:
+    paths:
+      - '**'
+      - '!*.tpl'
+      - '!*.css'
+      - '!*.js'
+      - '!*.md'
+jobs:
+  run-on-linux:
+    name: Run on Linux
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ 7.4 ]
+        db: [ pgsql ]
+        include:
+          - db: pgsql
+            dbport: '5432'
+            dbuser: 'postgres'
+            dbpass: 'password'
+            dbname: 'eccube_db'
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      mailcatcher:
+        image: schickling/mailcatcher
+        ports:
+          - 1080:1080
+          - 1025:1025
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v3
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Setup PHP
+      uses: nanasess/setup-php@master
+      with:
+        php-version: ${{ matrix.php }}
+
+    - name: Install to Composer
+      run: composer install --no-interaction -o
+
+    - name: Create ADMIN_DIR
+      run: |
+        sudo apt-fast install -y sharutils
+        echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
+
+    - name: Setup to EC-CUBE
+      env:
+        DB: ${{ matrix.db }}
+        USER: ${{ matrix.dbuser }}
+        DBUSER: ${{ matrix.dbuser }}
+        DBPASS: ${{ matrix.dbpass }}
+        DBNAME: ${{ matrix.dbname }}
+        DBPORT: ${{ matrix.dbport }}
+        HTTP_URL: http://127.0.0.1:8085/
+        HTTPS_URL: http://127.0.0.1:8085/
+      run: |
+        sudo apt-fast install -y mysql-client postgresql-client
+        ./eccube_install.sh ${DB}
+
+    - name: Run to PHPUnit
+      continue-on-error: true
+      run: phpdbg -qrr data/vendor/bin/phpunit --exclude-group classloader --coverage-clover=coverage1.xml
+    - name: Run to PHPUnit classloader
+      continue-on-error: true
+      run: phpdbg -qrr data/vendor/bin/phpunit --group classloader --coverage-clover=coverage2.xml
+    - name: Run to PHPUnit SessionFactory
+      continue-on-error: true
+      run: |
+        sed 's|http://|https://|g' -i.bak data/config/config.php
+        phpdbg -qrr data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php --coverage-clover=coverage3.xml
+        mv data/config/config.php.bak data/config/config.php
+
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage1.xml,./coverage2.xml,./coverage3.xml
+        # token: ${{ secrets.CODECOV_TOKEN }}
+        flags: tests
+        # yml: ./codecov.yml
+        fail_ci_if_error: true

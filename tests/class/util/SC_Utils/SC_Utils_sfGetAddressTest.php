@@ -27,7 +27,7 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfGetAddress()のテストクラス.
  *
- *
+ * @group mysql_prepare
  * @author Hiroko Tamagawa
  * @version $Id$
  */
@@ -191,4 +191,3 @@ class SC_Utils_sfGetAddressTest extends Common_TestCase
     }
   }
 }
-

@@ -22,11 +22,12 @@
 /**
  * @package Calendar
  * @version $Id$
+ * @deprecated 本体で使用されていないため非推奨
  */
 /**
  * Load PEAR::Date class
  */
-require_once 'Date.php';
+//require_once 'Date.php';
 
 /**
  * Performs calendar calculations based on the PEAR::Date class

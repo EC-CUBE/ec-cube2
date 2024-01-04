@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * 商品管理 のページクラス.
@@ -212,7 +211,7 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
      * 入力内容のチェックを行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
-     * @return void
+     * @return array
      */
     public function lfCheckError(&$objFormParam)
     {
@@ -228,6 +227,7 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
     public function lfGetIDName($arrCatKey, $arrCatVal)
     {
         $max = count($arrCatKey);
+        $arrRet = array();
         for ($cnt = 0; $cnt < $max; $cnt++) {
             $key = isset($arrCatKey[$cnt]) ? $arrCatKey[$cnt] : '';
             $val = isset($arrCatVal[$cnt]) ? $arrCatVal[$cnt] : '';

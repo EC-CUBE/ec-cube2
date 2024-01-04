@@ -163,7 +163,7 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
 class SC_Helper_Purchase_cancelOrderMock extends SC_Helper_Purchase
 {
 
-  function registerOrder($order_id, $params)
+  static function registerOrder($order_id, $params)
   {
     $_SESSION['testResult']['registerOrder'] = array(
       'order_id' => $order_id,
@@ -171,7 +171,7 @@ class SC_Helper_Purchase_cancelOrderMock extends SC_Helper_Purchase
     );
   }
 
-  function getOrderDetail($order_id, $has_order_status = true)
+  public static function getOrderDetail($order_id, $has_order_status = true)
   {
     $_SESSION['testResult']['getOrderDetail'] = array(
       'order_id' => $order_id
@@ -189,4 +189,3 @@ class SC_Helper_Purchase_cancelOrderMock extends SC_Helper_Purchase
     );
   }
 }
-

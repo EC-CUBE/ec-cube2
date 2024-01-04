@@ -20,6 +20,9 @@ class SC_Helper_CSV
     /** 項目名 */
     public $arrSubnaviName;
 
+    /** @var resource */
+    public $fpOutput;
+
     /** ヘッダーを出力するか (cbOutputCSV 用) */
     private $output_header = false;
 
@@ -78,6 +81,7 @@ class SC_Helper_CSV
         $cols = SC_Utils_Ex::sfGetCommaList($arrOutputCols, true);
 
         // 商品の場合
+        $from = '';
         if ($csv_id == 1) {
             // この WHERE 句を足さないと無効な規格も出力される。現行仕様と合わせる為追加。
             $inner_where = 'dtb_products_class.del_flg = 0';
@@ -382,7 +386,8 @@ class SC_Helper_CSV
  */
 class php_user_filter_lf2crlf extends php_user_filter
 {
-    function filter($in, $out, &$consumed, $closing)
+    #[\ReturnTypeWillChange]
+    public function filter($in, $out, &$consumed, $closing)
     {
         while ($bucket = stream_bucket_make_writeable($in)) {
             $bucket->data = preg_replace("/[\r\n]+$/", "\r\n", $bucket->data);

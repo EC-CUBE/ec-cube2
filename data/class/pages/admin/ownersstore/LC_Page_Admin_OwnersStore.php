@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * オーナーズストア：プラグイン管理 のページクラス.
@@ -32,6 +31,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
 {
+    /** @var array */
+    public $plugins;
+
     /**
      * Page を初期化する.
      *
@@ -156,7 +158,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
                         $update_plugin_file_name = $update_plugin_file['name']; // アップデートファイルのファイル名.
                         // インストール処理.
                         $target_plugin = SC_Plugin_Util_Ex::getPluginByPluginCode($target_plugin_code);
-                        $this->arrErr = $this->updatePlugin($target_plugin, $update_plugin_file_name, $target_plugin_code);
+                        $this->arrErr = $this->updatePlugin($target_plugin, $update_plugin_file_name);
                         if ($this->isError($this->arrErr) === false) {
                             // コンパイルファイルのクリア処理
                             SC_Utils_Ex::clearCompliedTemplate();

@@ -21,8 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
-
 if (file_exists(MODULE_REALDIR . 'mdl_gmopg/inc/function.php')) {
     require_once MODULE_REALDIR . 'mdl_gmopg/inc/function.php';
 }
@@ -323,7 +321,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
     public function lfCheckProductId($admin_mode, $product_id, SC_Product $objProduct)
     {
         // 管理機能からの確認の場合は、非公開の商品も表示する。
-        if (isset($admin_mode) && $admin_mode == 'on' && SC_Utils_Ex::sfIsSuccess(new SC_Session_Ex(), false)) {
+        if (!is_null($admin_mode) && $admin_mode == 'on' && SC_Utils_Ex::sfIsSuccess(new SC_Session_Ex(), false)) {
             $include_hidden = true;
         } else {
             $include_hidden = false;
@@ -650,7 +648,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
             $this->arrErr = $this->lfCheckError($this->mode, $this->objFormParam);
             if (count($this->arrErr) == 0) {
                 if (!$this->lfRegistFavoriteProduct($this->objFormParam->getValue('favorite_product_id'), $objCustomer->getValue('customer_id'))) {
-                    SC_Response_Ex::actionExit(); 
+                    SC_Response_Ex::actionExit();
                 }
                 $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
                 $objPlugin->doAction('LC_Page_Products_Detail_action_add_favorite', array($this));

@@ -55,10 +55,12 @@ $objPage->arrErr = array();
 $objPage->arrDB_TYPE = array(
     'pgsql' => 'PostgreSQL',
     'mysqli' => 'MySQL',
+    'sqlite3' => 'SQLite3',
 );
 $objPage->arrDB_PORT = array(
     'pgsql' => '',
     'mysqli' => '',
+    'sqlite3' => '',
 );
 $objPage->arrMailBackend = array('mail' => 'mail',
                                  'smtp' => 'SMTP',
@@ -384,11 +386,6 @@ function lfDispStep0($objPage)
         $hasErr = true;
     }
 
-    if (get_magic_quotes_gpc()) {
-        $mess .= ">> ×：PHPの設定ディレクティブ「magic_quotes_gpc」が有効になっています。\n";
-        $hasErr = true;
-    }
-
     // 問題点を検出している場合
     if ($hasErr) {
         $objPage->tpl_mode = 'return_step0';
@@ -633,7 +630,7 @@ function lfDispComplete($objPage)
     $objPage->tpl_sslurl = $secure_url;
     //EC-CUBEオフィシャルサイトからのお知らせURL
     $objPage->install_info_url = INSTALL_INFO_URL;
-    $objPage->admin_dir = $objWebParam->getValue('admin_dir');
+    $objPage->admin_dir = $objWebParam->getValue('admin_dir').'/';
     return $objPage;
 }
 
@@ -811,7 +808,11 @@ function lfCheckDBError($objDBParam)
         $arrDsn = getArrayDsn($objDBParam);
         // Debugモード指定
         $options['debug'] = PEAR_DB_DEBUG;
+        //var_dump($arrDsn);
+
         $objDB = MDB2::connect($arrDsn, $options);
+        //var_dump($objDB);
+
         // 接続成功
         if (!PEAR::isError($objDB)) {
             $dbFactory = SC_DB_DBFactory_Ex::getInstance($arrDsn['phptype']);
@@ -851,7 +852,7 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
             // XXX SC_Query を使うようにすれば、この処理は不要となる
             if ($arrDsn['phptype'] === 'mysqli') {
                 if ($objDB->getConnection()->server_version >= 50705) {
-                    $objDB->exec('SET SESSION defaut_storage_engine = InnoDB');
+                    $objDB->exec('SET SESSION default_storage_engine = InnoDB');
                 } else {
                     $objDB->exec('SET SESSION storage_engine = InnoDB');
                 }

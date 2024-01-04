@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * ヘッダ, フッタ編集 のページクラス.
@@ -32,6 +31,15 @@ require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
  */
 class LC_Page_Admin_Design_Header extends LC_Page_Admin_Ex
 {
+    /** @var int */
+    public $header_row;
+    /** @var int */
+    public $footer_row;
+    /** @var string */
+    public $header_data;
+    /** @var string */
+    public $footer_data;
+
     /**
      * Page を初期化する.
      *

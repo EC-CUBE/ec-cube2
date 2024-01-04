@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
 
 /**
  * 商品一覧 のページクラス.
@@ -55,6 +54,11 @@ class LC_Page_Products_List extends LC_Page_Ex
 
     /** ランダム文字列 **/
     public $tpl_rnd = '';
+
+    /** @var int */
+    public $tpl_product_type;
+    /** @var int */
+    public $productStatus;
 
     /**
      * Page を初期化する.
@@ -146,7 +150,7 @@ class LC_Page_Products_List extends LC_Page_Ex
 
         switch ($this->getMode()) {
             case 'json':
-                $this->doJson($objProduct);
+                $this->doJson();
                 break;
 
             default:
@@ -282,7 +286,7 @@ class LC_Page_Products_List extends LC_Page_Ex
     /**
      * パラメーターの読み込み
      *
-     * @return void
+     * @return int
      */
     public function lfGetDisplayNum($display_number)
     {
@@ -541,6 +545,7 @@ class LC_Page_Products_List extends LC_Page_Ex
         $this->productStatus = $this->arrProducts['productStatus'];
         unset($this->arrProducts['productStatus']);
         $this->tpl_javascript .= 'eccube.productsClassCategories = ' . SC_Utils_Ex::jsonEncode($objProduct->classCategories) . ';';
+        $js_fnOnLoad = '';
         if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_PC) {
             //onloadスクリプトを設定. 在庫ありの商品のみ出力する
             foreach ($this->arrProducts as $arrProduct) {

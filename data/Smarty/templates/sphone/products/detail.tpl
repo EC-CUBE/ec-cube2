@@ -39,7 +39,7 @@
         slidesToShow: 1,
         adaptiveHeight: true
       });
-      
+
       $('#whobought_area ul').slick({
         dots: false,
         infinite: true,
@@ -239,8 +239,8 @@
 
                 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
                 <input type="hidden" name="mode" value="cart" />
-                <input type="hidden" name="product_id" value="<!--{$tpl_product_id}-->" />
-                <input type="hidden" name="product_class_id" value="<!--{$tpl_product_class_id}-->" id="product_class_id" />
+                <input type="hidden" name="product_id" value="<!--{$tpl_product_id|h}-->" />
+                <input type="hidden" name="product_class_id" value="<!--{$tpl_product_class_id|h}-->" id="product_class_id" />
                 <input type="hidden" name="favorite_product_id" value="" />
 
                 <!--▼買い物カゴ-->
@@ -373,14 +373,14 @@
             <div class="review_bloc clearfix">
             <p>この商品に対するご感想をぜひお寄せください。</p>
             <div class="review_btn">
-                <!--{if count($arrReview) < $smarty.const.REVIEW_REGIST_MAX}-->
+                <!--{if is_array($arrReview) && count($arrReview) < $smarty.const.REVIEW_REGIST_MAX}-->
                     <!--★新規コメントを書き込む★-->
-                    <a href="./review.php?product_id=<!--{$arrProduct.product_id}-->" target="_blank" class="btn_sub">新規コメントを書き込む</a>
+                    <a href="./review.php?product_id=<!--{$arrProduct.product_id|h}-->" target="_blank" class="btn_sub">新規コメントを書き込む</a>
                 <!--{/if}-->
             </div>
             </div>
 
-            <!--{if count($arrReview) > 0}-->
+            <!--{if !empty($arrReview)}-->
             <ul>
                 <!--{section name=cnt loop=$arrReview}-->
                     <li>

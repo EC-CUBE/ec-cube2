@@ -32,6 +32,18 @@ class SC_SendMail
     public $replay_to;     // replay_to
     public $return_path;   // return_path
     public $objMail;
+    /** @var array */
+    public $arrRecip;
+    /** @var string */
+    public $backend;
+    /** @var string */
+    public $host;
+    /** @var int */
+    public $port;
+    /** @var string */
+    public $from;
+    /** @var string */
+    public $reply_to;
 
     /**
      * コンストラクタ
@@ -328,6 +340,7 @@ class SC_SendMail
             $msg = mb_convert_encoding($result->getMessage(), CHAR_CODE, 'auto');
             $msg = 'メール送信に失敗しました。[' . $msg . ']';
             trigger_error($msg, E_USER_WARNING);
+            GC_Utils_Ex::gfPrintLog($result->getMessage());
             GC_Utils_Ex::gfDebugLog($header);
 
             return false;

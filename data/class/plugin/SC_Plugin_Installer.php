@@ -243,7 +243,7 @@ class SC_Plugin_Installer
 
         // prepareでSQLを検証
         $sth = $objQuery->prepare($sql);
-
+        $error_message = '';
         if (PEAR::isError($sth)) {
             $error_message = $sth->message . ":" . $sth->userinfo;
             $objQuery->force_run = false;

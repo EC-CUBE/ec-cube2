@@ -58,7 +58,7 @@ class SC_Helper_PageLayout
             trigger_error('ページ情報を取得できませんでした。', E_USER_WARNING);
         }
 
-        $objPage->tpl_mainpage = $this->getTemplatePath($device_type_id) . $arrPageData[0]['filename'] . '.tpl';
+        $objPage->tpl_mainpage = static::getTemplatePath($device_type_id) . $arrPageData[0]['filename'] . '.tpl';
 
         if (!file_exists($objPage->tpl_mainpage)) {
             $msg = 'メイン部のテンプレートが存在しません。[' . $objPage->tpl_mainpage . ']';
@@ -211,6 +211,7 @@ __EOF__;
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         // page_id が空でない場合にはdeleteを実行
+        $ret = null;
         if ($page_id != '') {
             $arrPageData = $this->getPageProperties($device_type_id, $page_id);
             $ret = $objQuery->delete('dtb_pagelayout', 'page_id = ? AND device_type_id = ?', array($page_id, $device_type_id));
@@ -250,7 +251,7 @@ __EOF__;
         }
 
         // tplファイルの削除
-        $del_tpl = $this->getTemplatePath($device_type_id) . $filename . '.tpl';
+        $del_tpl = static::getTemplatePath($device_type_id) . $filename . '.tpl';
         if (file_exists($del_tpl)) {
             unlink($del_tpl);
         }
@@ -285,7 +286,7 @@ __EOF__;
      * @param  boolean $isUser         USER_REALDIR 以下のパスを返す場合 true
      * @return string  テンプレートのパス
      */
-    public function getTemplatePath($device_type_id = DEVICE_TYPE_PC, $isUser = false)
+    public static function getTemplatePath($device_type_id = DEVICE_TYPE_PC, $isUser = false)
     {
         $templateName = '';
         switch ($device_type_id) {
@@ -324,7 +325,7 @@ __EOF__;
      * @param  boolean $hasPackage     パッケージのパスも含める場合 true
      * @return string  端末に応じた DocumentRoot から user_data までのパス
      */
-    public function getUserDir($device_type_id = DEVICE_TYPE_PC, $hasPackage = false)
+    public static function getUserDir($device_type_id = DEVICE_TYPE_PC, $hasPackage = false)
     {
         switch ($device_type_id) {
         case DEVICE_TYPE_MOBILE:

@@ -1,0 +1,50 @@
+version: '3'
+
+volumes:
+  pg-database:
+    driver: local
+
+services:
+  ec-cube:
+    command: apache2-foreground
+    entrypoint: /wait-for-pgsql.sh
+    depends_on:
+      - postgres
+    environment:
+      TZ: Asia/Tokyo
+      PHP_POST_MAX_SIZE: 10M
+      PHP_UPLOAD_MAX_FILESIZE: 10M
+      PHP_LOG_ERRORS: "On"
+      PHP_ERROR_REPORTING: "E_ALL"
+      PHP_ERROR_LOG: "/proc/self/fd/2"
+      # EC-CUBE2 Config
+      HTTP_URL: https://localhost:4430/
+      HTTPS_URL: https://localhost:4430/
+      ROOT_URLPATH: /
+      DOMAIN_NAME: ~
+      DB_TYPE: pgsql
+      DB_USER: eccube_db_user
+      DB_PASSWORD: password
+      DB_SERVER: postgres
+      DB_NAME: eccube_db
+      DB_PORT: 5432
+      ADMIN_DIR: admin/
+      ADMIN_FORCE_SSL: 'false'
+      ADMIN_ALLOW_HOSTS: 'a:0:{}'
+      AUTH_MAGIC: ~
+      PASSWORD_HASH_ALGOS: sha256
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DB=eccube_db
+      - POSTGRES_USER=eccube_db_user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_HOST_AUTH_METHOD=md5
+      - POSTGRES_INITDB_ARGS=--auth-host=md5
+    ports:
+      - 15432:5432
+    volumes:
+      - pg-database:/var/lib/postgresql/data
+    networks:
+      - backend

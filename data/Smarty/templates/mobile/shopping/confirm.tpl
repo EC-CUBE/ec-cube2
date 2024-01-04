@@ -26,7 +26,7 @@
     <form method="post" action="<!--{$smarty.const.MOBILE_SHOPPING_CONFIRM_URLPATH}-->">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
         <input type="hidden" name="mode" value="confirm">
-        <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->">
+        <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->">
 
         下記のご注文内容に間違いはございませんか？<br>
 
@@ -149,7 +149,7 @@
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
         <input type="hidden" name="mode" value="select_deliv">
         <input type="hidden" name="deliv_id" value="<!--{$arrForm.deliv_id|h}-->">
-        <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->">
+        <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->">
         <center><input type="submit" value="戻る"></center>
     </form>
 <!--{/strip}-->

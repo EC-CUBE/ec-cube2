@@ -1,0 +1,34 @@
+From 304caea8d679718c548962922a97f5ca7318c958 Mon Sep 17 00:00:00 2001
+From: Kentaro Ohkouchi <nanasess@fsm.ne.jp>
+Date: Wed, 20 Oct 2021 16:37:22 +0900
+Subject: [PATCH] =?UTF-8?q?=E5=88=A5=E3=81=AE=E3=81=8A=E5=B1=8A=E3=81=91?=
+ =?UTF-8?q?=E5=85=88=E3=81=AE=E5=88=B6=E9=99=90=E6=95=B0=E3=82=92=E8=A7=A3?=
+ =?UTF-8?q?=E9=99=A4=E3=81=99=E3=82=8B?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ data/class/helper/SC_Helper_Address.php | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/data/class/helper/SC_Helper_Address.php b/data/class/helper/SC_Helper_Address.php
+index 2dd177a8d..216f968bb 100644
+--- a/data/class/helper/SC_Helper_Address.php
++++ b/data/class/helper/SC_Helper_Address.php
+@@ -53,9 +53,9 @@ class SC_Helper_Address
+             $where  = 'customer_id = ?';
+             $arrVal = array($customer_id);
+             $deliv_count = $objQuery->count($from, $where, $arrVal);
+-            if ($deliv_count >= DELIV_ADDR_MAX) {
+-                return false;
+-            }
++            // if ($deliv_count >= DELIV_ADDR_MAX) {
++            //     return false;
++            // }
+ 
+             // 別のお届け先を追加
+             $sqlval['other_deliv_id'] = $objQuery->nextVal('dtb_other_deliv_other_deliv_id');
+-- 
+2.25.1
+

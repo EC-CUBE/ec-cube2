@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * カテゴリ登録CSVのページクラス
@@ -480,6 +479,7 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
             }
         }
         // 重複チェック 同じカテゴリ内に同名の存在は許可されない
+        $parent_category_id = '';
         if (array_search('category_name', $this->arrFormKeyList) !== FALSE
             && $item['category_name'] != ''
         ) {

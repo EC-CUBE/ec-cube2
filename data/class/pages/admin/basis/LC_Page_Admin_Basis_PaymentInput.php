@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * 支払方法設定 のページクラス.
@@ -34,6 +33,15 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
 {
     /** SC_UploadFile インスタンス */
     public $objUpFile;
+
+    /** @var bool */
+    public $charge_flg;
+
+    /** @var int */
+    public $tpl_payment_id;
+
+    /** @var array */
+    public $arrFile;
 
     /**
      * Page を初期化する.
@@ -152,7 +160,7 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
     /* ファイル情報の初期化 */
     public function lfInitFile()
     {
-        $this->objUpFile->addFile('ロゴ画像', 'payment_image', array('gif','jpeg','jpg','png'), IMAGE_SIZE, false, CLASS_IMAGE_WIDTH, CLASS_IMAGE_HEIGHT);
+        $this->objUpFile->addFile('ロゴ画像', 'payment_image', array('gif','jpeg','jpg','png'), IMAGE_SIZE, false);
 
         return $this->objUpFile;
     }

@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/LC_Page_Ex.php';
 
 /**
  * Sitemapプロトコル ファイル生成モジュール.
@@ -137,7 +136,7 @@ class LC_Page_Sitemap extends LC_Page_Ex
      * @param  string  $lastmod    ファイルの最終更新日 YYYY-MM-DD or W3C Datetime 形式
      * @param  string  $changefreq ページの更新頻度
      * @param  double  $priority   URL の優先度
-     * @return Sitemap 形式の <url />
+     * @return void
      * @see https://www.google.com/webmasters/tools/docs/ja/protocol.html#xmlTagDefinitions
      * TODO Smarty に移行すべき?
      */
@@ -173,6 +172,8 @@ class LC_Page_Sitemap extends LC_Page_Ex
                 return $arrRet;
             }
         }
+
+        return array();
     }
 
     /**
@@ -262,7 +263,6 @@ class LC_Page_Sitemap extends LC_Page_Ex
         $sql .= ' ,author';             // authorタグ
         $sql .= ' ,description';        // descriptionタグ
         $sql .= ' ,keyword';            // keywordタグ
-        $sql .= ' ,update_url';         // 更新URL
         $sql .= ' ,create_date';        // データ作成日
         $sql .= ' ,update_date';        // データ更新日
         $sql .= ' FROM ';

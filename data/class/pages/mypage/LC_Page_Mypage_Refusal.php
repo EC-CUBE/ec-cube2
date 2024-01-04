@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/mypage/LC_Page_AbstractMypage_Ex.php';
 
 /**
  * 退会手続き のページクラス.
@@ -32,6 +31,9 @@ require_once CLASS_EX_REALDIR . 'page_extends/mypage/LC_Page_AbstractMypage_Ex.p
  */
 class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
 {
+    /** @var string */
+    public $refusal_transactionid;
+
     /**
      * Page を初期化する.
      *
@@ -148,6 +150,7 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
     public function lfSendRefusalMail($customer_id)
     {
         // 会員データの取得
+        $arrCustomerData = array();
         if (SC_Utils_Ex::sfIsInt($customer_id)) {
             $arrCustomerData = SC_Helper_Customer_Ex::sfGetCustomerDataFromId($customer_id);
         }
@@ -162,7 +165,6 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
         $objMailText->assign('CONF', $CONF);
         $objMailText->assign('name01', $arrCustomerData['name01']);
         $objMailText->assign('name02', $arrCustomerData['name02']);
-        $objMailText->assignobj($this);
 
         $objHelperMail  = new SC_Helper_Mail_Ex();
         $objHelperMail->setPage($this);

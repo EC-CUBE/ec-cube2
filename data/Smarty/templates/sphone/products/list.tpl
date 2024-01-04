@@ -115,7 +115,7 @@
         <!--{include file="frontparts/search_zero.tpl"}-->
     <!--{/foreach}-->
 
-    <!--{if count($arrProducts) < $tpl_linemax}-->
+    <!--{if is_array($arrProducts) && count($arrProducts) < $tpl_linemax}-->
         <div class="btn_area">
             <p><a rel="external" href="javascript: void(0);" class="btn_more" id="btn_more_product" onClick="getProducts(<!--{$disp_number|h}-->); return false;">もっとみる(＋<!--{$disp_number|h}-->件)</a></p>
         </div>

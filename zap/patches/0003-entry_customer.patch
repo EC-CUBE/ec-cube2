@@ -1,0 +1,31 @@
+From 520739e90db4d0a250a7701b342b5497ec3a9429 Mon Sep 17 00:00:00 2001
+From: Kentaro Ohkouchi <nanasess@fsm.ne.jp>
+Date: Tue, 19 Oct 2021 13:46:38 +0900
+Subject: [PATCH] =?UTF-8?q?=E4=BC=9A=E5=93=A1=E7=99=BB=E9=8C=B2=E6=99=82?=
+ =?UTF-8?q?=E3=81=AB=E3=82=B3=E3=83=9F=E3=83=83=E3=83=88=E3=81=9B=E3=81=9A?=
+ =?UTF-8?q?=E3=80=81=E3=83=86=E3=82=B9=E3=83=88=E3=82=92=E7=B6=99=E7=B6=9A?=
+ =?UTF-8?q?=E3=81=99=E3=82=8B=E4=BF=AE=E6=AD=A3?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ data/class/helper/SC_Helper_Customer.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/class/helper/SC_Helper_Customer.php b/data/class/helper/SC_Helper_Customer.php
+index 305159cd7..ac4731961 100644
+--- a/data/class/helper/SC_Helper_Customer.php
++++ b/data/class/helper/SC_Helper_Customer.php
+@@ -118,7 +118,7 @@ class SC_Helper_Customer
+             $objQuery->insert('dtb_customer', $arrData);
+         }
+ 
+-        $objQuery->commit();
++        // $objQuery->commit();
+ 
+         return $customer_id;
+     }
+-- 
+2.25.1
+

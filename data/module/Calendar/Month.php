@@ -52,6 +52,9 @@ require_once CALENDAR_ROOT.'Calendar.php';
  */
 class Calendar_Month extends Calendar
 {
+    /** @var int */
+    public $firstDay;
+
     /**
      * Constructs Calendar_Month
      * @param int $y year e.g. 2003
@@ -59,9 +62,9 @@ class Calendar_Month extends Calendar
      * @param int $firstDay first day of the week [optional]
      * @access public
      */
-    function Calendar_Month($y, $m, $firstDay=null)
+    public function __construct($y, $m, $firstDay=null)
     {
-        Calendar::Calendar($y, $m);
+        parent::__construct($y, $m);
         $this->firstDay = $this->defineFirstDayOfWeek($firstDay);
     }
 

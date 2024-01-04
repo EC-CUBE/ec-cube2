@@ -22,7 +22,6 @@
  */
 
 require_once '../require.php';
-require_once CLASS_EX_REALDIR . 'page_extends/rss/LC_Page_Rss_Products_Ex.php';
 
 $objPage = new LC_Page_Rss_Products_Ex();
 $objPage->init();

@@ -48,7 +48,7 @@
                 <li><a class="btn-action" href="javascript:;" onclick="eccube.changeAction('<!--{$smarty.const.ADMIN_PRODUCTS_URLPATH}-->'); eccube.setModeAndSubmit('search','',''); return false;"><span class="btn-prev">検索結果へ戻る</span></a></li>
                 <li><a class="btn-action" href="./product.php"><span class="btn-next">続けて登録を行う</span></a></li>
                 <!--{if $smarty.const.OPTION_CLASS_REGIST == 1}-->
-                <li><a class="btn-action" href="?" onclick="eccube.setModeAndSubmit('pre_edit', 'product_id', '<!--{$arrForm.product_id}-->'); return false;"><span class="btn-next">この商品の規格を登録する</span></a></li>
+                <li><a class="btn-action" href="?" onclick="eccube.setModeAndSubmit('pre_edit', 'product_id', '<!--{$arrForm.product_id|h}-->'); return false;"><span class="btn-next">この商品の規格を登録する</span></a></li>
                 <!--{/if}-->
             </ul>
         </div>

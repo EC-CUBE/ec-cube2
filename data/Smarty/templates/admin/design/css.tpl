@@ -52,7 +52,7 @@
                 <td>
                     <!--{assign var=key value="css_data"}-->
                     <textarea id="css" class="top" name="<!--{$key}-->" cols="90" rows="<!--{$area_row}-->" align="left" style="width: 650px;"><!--{"\n"}--><!--{$arrForm[$key].value|h}--></textarea>
-                    <input type="hidden" name="area_row" value="<!--{$area_row}-->" />
+                    <input type="hidden" name="area_row" value="<!--{$area_row|h}-->" />
                     <div class="btn">
                         <a id="resize-btn" class="btn-normal" href="javascript:;" onclick="eccube.toggleRows('#resize-btn', '#css', 50, 30); return false;">拡大</a>
                     </div>
@@ -77,7 +77,7 @@
                 <th class="menu edit">編集</th>
                 <th class="action delete">削除</th>
             </tr>
-            <!--{if count($arrCSSList) > 0}-->
+            <!--{if !empty($arrCSSList)}-->
             <!--{foreach key=key item=item from=$arrCSSList}-->
             <tr>
                 <td style="background:<!--{if $item.css_name == $css_name}--><!--{$smarty.const.SELECT_RGB}--><!--{else}-->#ffffff<!--{/if}-->;"><!--{$item.file_name|h}--></td>

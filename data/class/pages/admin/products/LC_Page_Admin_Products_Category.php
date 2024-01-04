@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/admin/LC_Page_Admin_Ex.php';
 
 /**
  * カテゴリ管理 のページクラス.
@@ -117,6 +116,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
                         // 第2階層以下の時
                         $arrRet = $objQuery->select('rank', 'dtb_category', 'level = ? AND parent_category_id = ?', array($level, $parent));
                     }
+                    $rankAry = array();
                     for ($i = 0; $i < sizeof($arrRet); $i++) {
                         $rankAry[$i + 1] = $arrRet[$i]['rank'];
                     }
@@ -280,7 +280,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
      *
      * @param  SC_FormParam $objFormParam
      * @param  boolean      $add          追加か
-     * @return void
+     * @return array
      */
     public function checkError(&$objFormParam, $add)
     {

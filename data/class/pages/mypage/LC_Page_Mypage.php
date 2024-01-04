@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_EX_REALDIR . 'page_extends/mypage/LC_Page_AbstractMypage_Ex.php';
 
 /**
  * MyPage のページクラス.
@@ -34,6 +33,13 @@ class LC_Page_Mypage extends LC_Page_AbstractMypage_Ex
 {
     /** ページナンバー */
     public $tpl_pageno;
+
+    /** @var int */
+    public $tpl_mypageno;
+    /** @var string */
+    public $json_payment;
+    /** @var int */
+    public $json_customer_order_status;
 
     /**
      * Page を初期化する.
@@ -113,7 +119,7 @@ class LC_Page_Mypage extends LC_Page_AbstractMypage_Ex
      * @param mixed $customer_id
      * @param integer $startno     0以上の場合は受注履歴を返却する -1の場合は件数を返す
      * @access private
-     * @return void
+     * @return array|null
      */
     public function lfGetOrderHistory($customer_id, $startno = -1)
     {

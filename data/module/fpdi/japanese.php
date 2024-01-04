@@ -1,5 +1,4 @@
 <?php
-require('fpdi.php');
 
 $SJIS_widths = array(' '=>278,'!'=>299,'"'=>353,'#'=>614,'$'=>614,'%'=>721,'&'=>735,'\''=>216,
 	'('=>323,')'=>323,'*'=>449,'+'=>529,','=>219,'-'=>306,'.'=>219,'/'=>453,'0'=>614,'1'=>614,
@@ -45,6 +44,7 @@ function AddSJIShwFont($family='SJIS-hw')
 {
 	// Add SJIS font with half-width Latin
 	$name='KozMinPro-Regular-Acro';
+	$cw = array();
 	for($i=32;$i<=126;$i++)
 		$cw[chr($i)]=500;
 	$CMap='90ms-RKSJ-H';
@@ -112,6 +112,7 @@ function SJISMultiCell($w, $h, $txt, $border=0, $align='L', $fill=false)
 	if($nb>0 && $s[$nb-1]=="\n")
 		$nb--;
 	$b=0;
+	$b2='';
 	if($border)
 	{
 		if($border==1)

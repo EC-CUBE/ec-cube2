@@ -42,6 +42,11 @@ class SC_Helper_DB
     /** 選択中カテゴリID */
     public $g_category_id;
 
+    /** @var bool */
+    public $g_maker_on;
+    /** @var array */
+    public $g_maker_id;
+
     /**
      * カラムの存在チェックと作成を行う.
      *
@@ -57,7 +62,7 @@ class SC_Helper_DB
      *               テーブルが存在しない場合 false,
      *               引数 $add == false でカラムが存在しない場合 false
      */
-    public function sfColumnExists($tableName, $colName, $colType = '', $dsn = '', $add = false)
+    public static function sfColumnExists($tableName, $colName, $colType = '', $dsn = '', $add = false)
     {
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
         $dsn = $dbFactory->getDSN($dsn);
@@ -79,7 +84,7 @@ class SC_Helper_DB
 
         // カラムを追加する
         if ($add) {
-            return $this->sfColumnAdd($tableName, $colName, $colType);
+            return static::sfColumnAdd($tableName, $colName, $colType);
         }
 
         return false;
@@ -89,7 +94,7 @@ class SC_Helper_DB
      * @param string $colType
      * @param string $tableName
      */
-    public function sfColumnAdd($tableName, $colName, $colType)
+    public static function sfColumnAdd($tableName, $colName, $colType)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -122,7 +127,7 @@ class SC_Helper_DB
      * @param  boolean $force 強制的にDB取得するか
      * @return array   店舗基本情報の配列
      */
-    public function sfGetBasisData($force = false)
+    public static function sfGetBasisData($force = false)
     {
         static $arrData = null;
 
@@ -141,7 +146,7 @@ class SC_Helper_DB
      * @param  boolean $generate キャッシュファイルが無い時、DBのデータを基にキャッシュを生成するか
      * @return array   店舗基本情報の配列
      */
-    public function sfGetBasisDataCache($generate = false)
+    public static function sfGetBasisDataCache($generate = false)
     {
         // テーブル名
         $name = 'dtb_baseinfo';
@@ -150,7 +155,7 @@ class SC_Helper_DB
         // ファイル存在確認
         if (!file_exists($filepath) && $generate) {
             // 存在していなければキャッシュ生成
-            $this->sfCreateBasisDataCache();
+            static::sfCreateBasisDataCache();
         }
         // 戻り値初期化
         $cacheData = array();
@@ -174,14 +179,14 @@ class SC_Helper_DB
      *
      * @return bool キャッシュデータファイル生成結果
      */
-    public function sfCreateBasisDataCache()
+    public static function sfCreateBasisDataCache()
     {
         // テーブル名
         $name = 'dtb_baseinfo';
         // キャッシュファイルパス
         $filepath = MASTER_DATA_REALDIR . $name . '.serial';
         // データ取得
-        $arrData = $this->sfGetBasisData(true);
+        $arrData = static::sfGetBasisData(true);
         // シリアライズ
         $data = serialize($arrData);
         // ファイルを書き出しモードで開く
@@ -241,7 +246,7 @@ class SC_Helper_DB
 
             if (!empty($_GET['product_id']) || !empty($_GET['category_id'])) {
                 // 選択中のカテゴリIDを判定する
-                $category_id = $this->sfGetCategoryId($_GET['product_id'], $_GET['category_id']);
+                $category_id = SC_Helper_DB_Ex::sfGetCategoryId($_GET['product_id'], $_GET['category_id']);
                 // ROOTカテゴリIDの取得
                 if (count($category_id) > 0) {
                     $arrRet = $this->sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
@@ -478,7 +483,7 @@ class SC_Helper_DB
      * @param  string $head           カテゴリ名のプレフィックス文字列
      * @return array  カテゴリツリーの配列
      */
-    public function sfGetCategoryList($addwhere = '', $products_check = false, $head = CATEGORY_HEAD)
+    public static function sfGetCategoryList($addwhere = '', $products_check = false, $head = CATEGORY_HEAD)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'del_flg = 0';
@@ -572,7 +577,7 @@ class SC_Helper_DB
      * @param   bool $closed 引数のカテゴリIDが無効な場合で, 非表示の商品を含む場合はtrue
      * @return array   選択中の商品のカテゴリIDの配列
      */
-    public function sfGetCategoryId($product_id, $category_id = 0, $closed = false)
+    public static function sfGetCategoryId($product_id, $category_id = 0, $closed = false)
     {
         if ($closed) {
             $status = '';
@@ -819,7 +824,7 @@ __EOS__;
         $arrUpdateData = [];
         foreach ($arrTgtCategoryId as $category_id) {
             $arrWhereVal = [];
-            list($tmp_where, $arrTmpVal) = $this->sfGetCatWhere($category_id);
+            list($tmp_where, $arrTmpVal) = static::sfGetCatWhere($category_id);
             if ($tmp_where != '') {
                 $where_product_ids = 'product_id IN (SELECT product_id FROM dtb_product_categories WHERE ' . $tmp_where . ')';
                 $arrWhereVal = $arrTmpVal;
@@ -866,9 +871,9 @@ __EOS__;
      * @param array 子ID の配列
      * @deprecated 本体で使用されていないため非推奨
      */
-    public function sfGetChildsID($table, $pid_name, $id_name, $id)
+    public static function sfGetChildsID($table, $pid_name, $id_name, $id)
     {
-        $arrRet = $this->sfGetChildrenArray($table, $pid_name, $id_name, $id);
+        $arrRet = static::sfGetChildrenArray($table, $pid_name, $id_name, $id);
 
         return $arrRet;
     }
@@ -882,7 +887,7 @@ __EOS__;
      * @param  integer $id       ID番号
      * @return array   子IDの配列
      */
-    public function sfGetChildrenArray($table, $pid_name, $id_name, $id)
+    public static function sfGetChildrenArray($table, $pid_name, $id_name, $id)
     {
         $arrChildren = array();
         $arrRet = array($id);
@@ -904,7 +909,7 @@ __EOS__;
      * @param string $table
      * @return array  子IDの配列
      */
-    public function sfGetChildrenArraySub($table, $pid_name, $id_name, $arrPID)
+    public static function sfGetChildrenArraySub($table, $pid_name, $id_name, $arrPID)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -925,7 +930,7 @@ __EOS__;
      * @return array    親IDの配列
      * @deprecated SC_Helper_DB::sfGetParentsArray() を使用して下さい
      */
-    public function sfGetParents($table, $pid_name, $id_name, $id)
+    public static function sfGetParents($table, $pid_name, $id_name, $id)
     {
         $arrRet = SC_Helper_DB_Ex::sfGetParentsArray($table, $pid_name, $id_name, $id);
 
@@ -941,7 +946,7 @@ __EOS__;
      * @param  integer $id       ID
      * @return array   親IDの配列
      */
-    public function sfGetParentsArray($table, $pid_name, $id_name, $id)
+    public static function sfGetParentsArray($table, $pid_name, $id_name, $id)
     {
         $arrParents = array();
         $ret = $id;
@@ -971,7 +976,7 @@ __EOS__;
      * @param string $pid_name
      * @param string $id_name
      */
-    public function sfGetParentsArraySub($table, $pid_name, $id_name, $child)
+    public static function sfGetParentsArraySub($table, $pid_name, $id_name, $child)
     {
         if (SC_Utils_Ex::isBlank($child)) {
             return false;
@@ -991,7 +996,7 @@ __EOS__;
      * @param  integer $category_id カテゴリID
      * @return array   商品を検索する場合の配列
      */
-    public function sfGetCatWhere($category_id)
+    public static function sfGetCatWhere($category_id)
     {
         // 子カテゴリIDの取得
         $arrRet = SC_Helper_DB_Ex::sfGetChildrenArray('dtb_category', 'parent_category_id', 'category_id', $category_id);

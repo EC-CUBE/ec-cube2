@@ -26,7 +26,7 @@
     <form method="post" action="<!--{$smarty.const.MOBILE_SHOPPING_PAYMENT_URLPATH}-->">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
         <input type="hidden" name="mode" value="confirm">
-        <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid}-->">
+        <input type="hidden" name="uniqid" value="<!--{$tpl_uniqid|h}-->">
         <!--{assign var=key value="deliv_id"}-->
         <input type="hidden" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->">
         ■お支払方法 <font color="#FF0000">*</font><br>
@@ -35,7 +35,7 @@
             <font color="#FF0000"><!--{$arrErr[$key]}--></font>
         <!--{/if}-->
         <!--{section name=cnt loop=$arrPayment}-->
-            <input type="radio" name="<!--{$key}-->" value="<!--{$arrPayment[cnt].payment_id}-->" <!--{$arrPayment[cnt].payment_id|sfGetChecked:$arrForm[$key].value}-->>
+            <input type="radio" name="<!--{$key}-->" value="<!--{$arrPayment[cnt].payment_id|h}-->" <!--{$arrPayment[cnt].payment_id|sfGetChecked:$arrForm[$key].value}-->>
             <!--{$arrPayment[cnt].payment_method|h}-->
             <br>
         <!--{/section}-->

@@ -55,6 +55,8 @@ abstract class SC_Api_Abstract
     protected $status = true;
     protected $arrErr = array();
     protected $arrResponse = array();
+    /** @var SC_FormParam */
+    protected $objFormParam;
 
     final public function __construct()
     {

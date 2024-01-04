@@ -94,7 +94,7 @@ class Calendar_Table_Helper
      * @param int (optional) first day of the week e.g. 1 for Monday
      * @access protected
      */
-    function Calendar_Table_Helper(& $calendar, $firstDay=null)
+    public function __construct(& $calendar, $firstDay=null)
     {
         $this->calendar = & $calendar;
         $this->cE = & $calendar->getEngine();
