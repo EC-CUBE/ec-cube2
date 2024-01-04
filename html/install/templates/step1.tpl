@@ -118,7 +118,7 @@ $(function() {
                     <td>
                     <!--{assign var=key value="admin_force_ssl"}-->
                     <span class="attention"><!--{$arrErr[$key]}--></span>
-                    <input type="checkbox" name="<!--{$key}-->" id="<!--{$key}-->" value="1" <!--{if $arrForm[$key].value == 1}-->checked="checked"<!--{/if}--> /><label for="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->;">SSLを強制する。</label><br />
+                    <input type="checkbox" name="<!--{$key}-->" id="<!--{$key}-->" value="1" <!--{if $arrForm[$key].value == 1}-->checked="checked"<!--{/if}--> /><label for="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->;"> SSLを強制する。</label><br />
                     <span class="ex-text">管理機能へのアクセスをSSL経由(https)の接続に制限します。</span><br />
                     </td>
                 </tr>
