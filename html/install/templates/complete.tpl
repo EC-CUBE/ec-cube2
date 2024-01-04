@@ -29,7 +29,7 @@
     <!--{/foreach}-->
     <div class="contents">
         <div class="message">
-            <h2>EC CUBE インストールが完了しました。</h2>
+            <h2>EC-CUBE インストールが完了しました。</h2>
         </div>
         <div class="result-info02">
             <p><a href="<!--{$tpl_sslurl}--><!--{$admin_dir}--><!--{$smarty.const.DIR_INDEX_PATH}-->">管理画面</a>にログインできます。<br />
