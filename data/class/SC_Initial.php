@@ -560,6 +560,12 @@ class SC_Initial
         }
     }
 
+    /**
+     * PHPバージョン互換処理
+     *
+     * @deprecated https://github.com/EC-CUBE/ec-cube2/issues/681 が実現したら、外部ライブラリへ移行して、削除する予定。
+     * @return void
+     */
     function compatPhp()
     {
         if (!function_exists('str_starts_with')) {
