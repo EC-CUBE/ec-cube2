@@ -107,7 +107,7 @@ class SC_Helper_TaxRule
 
         foreach ($arrTaxableTotal as $rate => $total) {
             if($rate == $defaultTaxRule){
-                $discount[$rate] = $divide[$GTaxRule]['discount'];
+                $discount[$rate] = $divide[$defaultTaxRule]['discount'];
             }
             else{
                 $discount[$rate] = round(($discount_total * $total / $taxable_total),0);
