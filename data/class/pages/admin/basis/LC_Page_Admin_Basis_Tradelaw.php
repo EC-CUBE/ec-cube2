@@ -73,11 +73,7 @@ class LC_Page_Admin_Basis_Tradelaw extends LC_Page_Admin_Ex
         $this->lfInitParam($objFormParam);
         $objFormParam->setParam($_POST);
 
-        if ($objDb->sfGetBasisExists()) {
-            $this->tpl_mode = 'update';
-        } else {
-            $this->tpl_mode = 'insert';
-        }
+        $this->tpl_mode = 'update'; // 旧バージョンテンプレート互換
 
         if (!empty($_POST)) {
             // 入力値の変換
@@ -87,16 +83,15 @@ class LC_Page_Admin_Basis_Tradelaw extends LC_Page_Admin_Ex
             if (count($this->arrErr) == 0) {
                 switch ($this->getMode()) {
                     case 'update':
-                        $this->lfUpdateData($objFormParam->getHashArray()); // 既存編集
-                        break;
-                    case 'insert':
-                        $this->lfInsertData($objFormParam->getHashArray()); // 新規作成
+                        SC_Helper_DB_Ex::registerBasisData($objFormParam->getHashArray());
+
+                        // 再表示
+                        $this->tpl_onload = "window.alert('特定商取引法の登録が完了しました。');";
+
                         break;
                     default:
                         break;
                 }
-                // 再表示
-                $this->tpl_onload = "window.alert('特定商取引法の登録が完了しました。');";
             }
         } else {
             $arrRet = $objDb->sfGetBasisData();
@@ -135,20 +130,20 @@ class LC_Page_Admin_Basis_Tradelaw extends LC_Page_Admin_Ex
         $objFormParam->addParam('返品・交換について', 'law_term06', MLTEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
     }
 
+    /**
+     * @deprecated SC_Helper_DB_Ex::registerBasisData() を使う。
+     */
     public function lfUpdateData($sqlval)
     {
-        $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
-        $objQuery = SC_Query_Ex::getSingletonInstance();
-        // UPDATEの実行
-        $objQuery->update('dtb_baseinfo', $sqlval);
+        SC_Helper_DB_Ex::registerBasisData($sqlval);
     }
 
+    /**
+     * @deprecated SC_Helper_DB_Ex::registerBasisData() を使う。
+     */
     public function lfInsertData($sqlval)
     {
-        $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
-        $objQuery = SC_Query_Ex::getSingletonInstance();
-        // INSERTの実行
-        $objQuery->insert('dtb_baseinfo', $sqlval);
+        SC_Helper_DB_Ex::registerBasisData($sqlval);
     }
 
     /* 入力内容のチェック */

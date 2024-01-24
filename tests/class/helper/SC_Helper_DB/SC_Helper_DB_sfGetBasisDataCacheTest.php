@@ -56,7 +56,7 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
         $this->verify();
     }
 
-    public function testSfGetBasisDataCache_キャッシュがなく生成する場合_キャッシュの値を返す()
+    public function testSfGetBasisDataCache_キャッシュがなく生成する場合_データベースから生成された値を返す()
     {
         $this->setUpBasisData();
         if (file_exists($this->cashFilePath)) {
@@ -103,8 +103,6 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
             'law_term08' => 'lawterm08',
             'law_term09' => 'lawterm09',
             'law_term10' => 'lawterm10',
-            'tax' => '5',
-            'tax_rule' => '1',
             'email01' => 'test1@test.com',
             'email02' => 'test2@test.com',
             'email03' => 'test3@test.com',
@@ -126,7 +124,11 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
             'latitude' => '30.0001',
             'longitude' => '45.0001',
             'downloadable_days' => '10',
-            'downloadable_days_unlimited' => '0'
+            'downloadable_days_unlimited' => '0',
+            'zipcode' => null,
+            'country_id' => null,
+            'law_zipcode' => null,
+            'law_country_id' => null,
         );
         $this->actual = SC_Helper_DB_sfGetBasisDataCacheMock::sfGetBasisDataCache(true);
         $this->verify();
@@ -180,8 +182,6 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
             'law_term08' => 'lawterm08',
             'law_term09' => 'lawterm09',
             'law_term10' => 'lawterm10',
-            'tax' => '5',
-            'tax_rule' => '1',
             'email01' => 'test1@test.com',
             'email02' => 'test2@test.com',
             'email03' => 'test3@test.com',
@@ -203,7 +203,9 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
             'latitude' => '30.0001',
             'longitude' => '45.0001',
             'downloadable_days' => '10',
-            'downloadable_days_unlimited' => '0'
+            'downloadable_days_unlimited' => '0',
+            'tax' => '5',
+            'tax_rule' => '1',
         );
         $this->actual = SC_Helper_DB_sfGetBasisDataCacheMock::sfGetBasisDataCache();
         unlink($this->cashFilePath);
