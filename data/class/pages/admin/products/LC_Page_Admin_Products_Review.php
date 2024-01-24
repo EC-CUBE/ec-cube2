@@ -250,7 +250,7 @@ class LC_Page_Admin_Products_Review extends LC_Page_Admin_Ex
         $arrWhereVal = array();
 
         foreach ($arrForm AS $key=>$val) {
-            if (empty($val)) continue;
+            if (SC_Utils_Ex::isBlank($val)) continue;
 
             switch ($key) {
                 case 'search_reviewer_name':
