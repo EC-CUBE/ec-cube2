@@ -228,7 +228,7 @@ class SC_Helper_DB
     public static function sfCreateBasisDataCache()
     {
         // データ取得
-        $arrData = static::getBasisDataFromDB(true);
+        $arrData = static::getBasisDataFromDB();
         // シリアライズ
         $data = serialize($arrData);
         // ファイルを書き出しモードで開く
