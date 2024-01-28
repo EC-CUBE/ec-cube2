@@ -184,7 +184,7 @@ class SC_Helper_DB
      * @param  boolean $ignore_error エラーを無視するか
      * @return array   店舗基本情報の配列
      */
-    public function getBasisDataFromCacheFile($ignore_error = false)
+    public static function getBasisDataFromCacheFile($ignore_error = false)
     {
         $arrReturn = [];
 
@@ -205,7 +205,7 @@ class SC_Helper_DB
      *
      * @return array   店舗基本情報の配列
      */
-    public function getBasisDataFromDB()
+    public static function getBasisDataFromDB()
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
