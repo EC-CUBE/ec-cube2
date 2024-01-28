@@ -28,10 +28,12 @@
  * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
+
+// NOTE: PHP5 対応が不要となったらクラス定数に変更する。
+define('SC_HELPER_DB_BASIS_DATA_CACHE_REALFILE', MASTER_DATA_REALDIR . 'dtb_baseinfo.serial');
+
 class SC_Helper_DB
 {
-    const BASIS_DATA_CACHE_REALFILE = MASTER_DATA_REALDIR . 'dtb_baseinfo.serial';
-
     /** ルートカテゴリ取得フラグ */
     public $g_root_on;
 
@@ -133,7 +135,7 @@ class SC_Helper_DB
         static $arrData = null;
 
         // キャッシュファイルが存在しない場合、キャッシュファイルを生成する
-        if (!$force && !file_exists(SC_Helper_DB_Ex::BASIS_DATA_CACHE_REALFILE)) {
+        if (!$force && !file_exists(SC_HELPER_DB_BASIS_DATA_CACHE_REALFILE)) {
             $force = true;
         }
 
@@ -167,7 +169,7 @@ class SC_Helper_DB
         $cacheData = [];
 
         // ファイル存在確認
-        if (!file_exists(SC_Helper_DB_Ex::BASIS_DATA_CACHE_REALFILE) && $generate) {
+        if (!file_exists(SC_HELPER_DB_BASIS_DATA_CACHE_REALFILE) && $generate) {
             // 存在していなければキャッシュ生成
             static::sfCreateBasisDataCache();
         }
@@ -189,9 +191,9 @@ class SC_Helper_DB
         $arrReturn = [];
 
         // ファイル存在確認
-        if (file_exists(SC_Helper_DB_Ex::BASIS_DATA_CACHE_REALFILE)) {
+        if (file_exists(SC_HELPER_DB_BASIS_DATA_CACHE_REALFILE)) {
             // キャッシュデータファイルを読み込みアンシリアライズした配列を取得
-            $arrReturn = unserialize(file_get_contents(SC_Helper_DB_Ex::BASIS_DATA_CACHE_REALFILE));
+            $arrReturn = unserialize(file_get_contents(SC_HELPER_DB_BASIS_DATA_CACHE_REALFILE));
         }
         elseif (!$ignore_error) {
             throw new Exception('基本情報のキャッシュデータファイルが存在しません。');
@@ -232,7 +234,7 @@ class SC_Helper_DB
         // シリアライズ
         $data = serialize($arrData);
         // ファイルを書き出しモードで開く
-        $handle = fopen(SC_Helper_DB_Ex::BASIS_DATA_CACHE_REALFILE, 'w');
+        $handle = fopen(SC_HELPER_DB_BASIS_DATA_CACHE_REALFILE, 'w');
         if (!$handle) {
             // ファイル生成失敗
             return false;
