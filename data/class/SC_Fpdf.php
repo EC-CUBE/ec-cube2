@@ -345,7 +345,7 @@ class SC_Fpdf extends SC_Helper_FPDI
         $this->SetX(20);
 
         $message = SC_Helper_TaxRule_Ex::getTaxDetail($arrTaxableTotal, $discount_total);
-        $this->MultiCell($width, 4, $message, 0, 'R', 0, '');
+        $this->MultiCell($width, 4, $message, 0, 'R', '');
     }
 
     /**
