@@ -78,7 +78,7 @@ jobs:
           echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       ## Used when creating multi-platform images
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v2
