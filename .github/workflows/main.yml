@@ -1,21 +1,17 @@
 name: CI/CD for EC-CUBE
+run-name: CI/CD for EC-CUBE
+
 on:
-  push:
-    branches:
-      - '*'
-    tags:
-      - '*'
-    paths:
-      - '**'
-      - '!*.md'
-  pull_request:
-    paths:
-      - '**'
-      - '!*.md'
+  workflow_run:
+    workflows: [PHPStan]
+    types: [completed]
+
 jobs:
   run-on-linux:
     name: Run on Linux
     runs-on: ${{ matrix.operating-system }}
+    if: |
+      github.event.workflow_run.conclusion == 'success'
     strategy:
       fail-fast: false
       matrix:
@@ -150,6 +146,8 @@ jobs:
   run-on-windows:
     name: Run on Windows
     runs-on: ${{ matrix.operating-system }}
+    if: |
+      github.event.workflow_run.conclusion == 'success'
     strategy:
       fail-fast: false
       matrix:

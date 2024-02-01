@@ -1,21 +1,17 @@
 name: E2E testing for EC-CUBE
+run-name: E2E testing for EC-CUBE
+
 on:
-  push:
-    branches:
-      - '*'
-    tags:
-      - '*'
-    paths:
-      - '**'
-      - '!*.md'
-  pull_request:
-    paths:
-      - '**'
-      - '!*.md'
+  workflow_run:
+    workflows: [CI/CD for EC-CUBE]
+    types: [completed]
+
 jobs:
   run-on-linux:
     name: Run on Linux
     runs-on: ubuntu-22.04
+    if: |
+      github.event.workflow_run.conclusion == 'success'
     strategy:
       fail-fast: false
       matrix:
@@ -85,6 +81,8 @@ jobs:
   installer:
     name: Installer test
     runs-on: ubuntu-22.04
+    if: |
+      github.event.workflow_run.conclusion == 'success'
     strategy:
       fail-fast: false
       matrix:
