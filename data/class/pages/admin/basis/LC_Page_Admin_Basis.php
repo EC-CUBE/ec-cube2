@@ -79,7 +79,6 @@ class LC_Page_Admin_Basis extends LC_Page_Admin_Ex
      */
     public function action()
     {
-        $objDb = new SC_Helper_DB_Ex();
         $objFormParam = new SC_FormParam_Ex();
         $this->lfInitParam($objFormParam, $_POST);
         $objFormParam->setParam($_POST);
@@ -105,12 +104,10 @@ class LC_Page_Admin_Basis extends LC_Page_Admin_Ex
                 $arrData = $objFormParam->getDbArray();
                 SC_Helper_DB_Ex::registerBasisData($arrData);
 
-                // キャッシュファイル更新
-                $objDb->sfCreateBasisDataCache();
                 $this->tpl_onload .= "window.alert('SHOPマスターの登録が完了しました。');";
             // breakはつけない
             default:
-                $arrRet = $objDb->sfGetBasisData(true);
+                $arrRet = SC_Helper_DB_Ex::getBasisDataFromDB();
                 $objFormParam->setParam($arrRet);
                 $this->arrForm = $objFormParam->getHashArray();
                 $this->arrForm['regular_holiday_ids'] = explode('|', $this->arrForm['regular_holiday_ids']);

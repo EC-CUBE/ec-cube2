@@ -263,7 +263,6 @@ class LC_Page_Sitemap extends LC_Page_Ex
         $sql .= ' ,author';             // authorタグ
         $sql .= ' ,description';        // descriptionタグ
         $sql .= ' ,keyword';            // keywordタグ
-        $sql .= ' ,update_url';         // 更新URL
         $sql .= ' ,create_date';        // データ作成日
         $sql .= ' ,update_date';        // データ更新日
         $sql .= ' FROM ';

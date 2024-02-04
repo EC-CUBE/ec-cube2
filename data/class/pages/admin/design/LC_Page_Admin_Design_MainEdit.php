@@ -270,7 +270,6 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
 
         $table = 'dtb_pagelayout';
         $arrValues = $objQuery->extractOnlyColsOf($table, $arrParams);
-        $arrValues['update_url'] = $_SERVER['HTTP_REFERER'];
         $arrValues['update_date'] = 'CURRENT_TIMESTAMP';
 
         // 新規登録
