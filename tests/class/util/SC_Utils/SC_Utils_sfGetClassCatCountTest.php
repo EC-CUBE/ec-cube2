@@ -28,6 +28,7 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * SC_Utils::sfGetClassCatCount()のテストクラス.
  *
  *
+ * @group mysql_prepare
  * @author Hiroko Tamagawa
  * @version $Id$
  */
@@ -134,4 +135,3 @@ class SC_Utils_sfGetClassCatCountTest extends Common_TestCase
     }
   }
 }
-
