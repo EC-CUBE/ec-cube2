@@ -585,23 +585,25 @@
             <!--{else}-->
                 <!-- 配送先が１つでも、shipment_itemを更新するために必要 -->
 
-                <!--{section name=item loop=$arrShipping.shipment_product_class_id|@count}-->
-                    <!--{assign var=item_index value="`$smarty.section.item.index`"}-->
-                    <!--{assign var=key value="shipment_product_class_id"}-->
-                    <input type="hidden" name="<!--{$key}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key][$item_index]|h}-->" />
-                    <!--{assign var=key value="shipment_product_code"}-->
-                    <input type="hidden" name="<!--{$key}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key][$item_index]|h}-->" />
-                    <!--{assign var=key1 value="shipment_product_name"}-->
-                    <!--{assign var=key2 value="shipment_classcategory_name1"}-->
-                    <!--{assign var=key3 value="shipment_classcategory_name2"}-->
-                    <input type="hidden" name="<!--{$key1}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key1][$item_index]|h}-->" />
-                    <input type="hidden" name="<!--{$key2}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key2][$item_index]|h}-->" />
-                    <input type="hidden" name="<!--{$key3}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key3][$item_index]|h}-->" />
-                    <!--{assign var=key value="shipment_price"}-->
-                    <input type="hidden" name="<!--{$key}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key][$item_index]|h}-->" />
-                    <!--{assign var=key value="shipment_quantity"}-->
-                    <input type="hidden" name="<!--{$key}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key][$item_index]|h}-->" />
-                <!--{/section}-->
+                <!--{if !empty($arrShipping.shipment_product_class_id)}-->
+                    <!--{section name=item loop=$arrShipping.shipment_product_class_id|@count}-->
+                        <!--{assign var=item_index value="`$smarty.section.item.index`"}-->
+                        <!--{assign var=key value="shipment_product_class_id"}-->
+                        <input type="hidden" name="<!--{$key}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key][$item_index]|h}-->" />
+                        <!--{assign var=key value="shipment_product_code"}-->
+                        <input type="hidden" name="<!--{$key}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key][$item_index]|h}-->" />
+                        <!--{assign var=key1 value="shipment_product_name"}-->
+                        <!--{assign var=key2 value="shipment_classcategory_name1"}-->
+                        <!--{assign var=key3 value="shipment_classcategory_name2"}-->
+                        <input type="hidden" name="<!--{$key1}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key1][$item_index]|h}-->" />
+                        <input type="hidden" name="<!--{$key2}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key2][$item_index]|h}-->" />
+                        <input type="hidden" name="<!--{$key3}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key3][$item_index]|h}-->" />
+                        <!--{assign var=key value="shipment_price"}-->
+                        <input type="hidden" name="<!--{$key}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key][$item_index]|h}-->" />
+                        <!--{assign var=key value="shipment_quantity"}-->
+                        <input type="hidden" name="<!--{$key}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key][$item_index]|h}-->" />
+                    <!--{/section}-->
+                <!--{/if}-->
             <!--{/if}-->
 
             <table class="form">
