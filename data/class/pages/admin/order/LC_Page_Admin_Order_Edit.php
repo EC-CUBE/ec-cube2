@@ -398,7 +398,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $objFormParam->addParam('商品種別ID', 'product_type_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
         $objFormParam->addParam('単価', 'price', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
         $objFormParam->addParam('数量', 'quantity', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam('税額', 'tax', '', '', [], [], false);
+        $objFormParam->addParam('税額', 'price_tax', '', '', [], [], false);
         $objFormParam->addParam('税込単価', 'price_inctax', '', '', [], [], false);
         $objFormParam->addParam('商品ID', 'product_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
         $objFormParam->addParam('商品規格ID', 'product_class_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
@@ -715,7 +715,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             // 小計の計算
             $subtotal += $arrValues['price_inctax'][$i] * $arrValues['quantity'][$i];
             // 税額の計算
-            $totaltax += $arrValues['tax'][$i] * $arrValues['quantity'][$i];
+            $totaltax += $arrValues['price_tax'][$i] * $arrValues['quantity'][$i];
             // 加算ポイントの計算
             $totalpoint += SC_Utils_Ex::sfPrePoint($arrValues['price'][$i], $arrValues['point_rate'][$i]) * $arrValues['quantity'][$i];
 
@@ -1329,7 +1329,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $arrValues = $objFormParam->getHashArray();
         foreach ($arrValues['price'] as $index => $dummy) {
             // 税額
-            $arrValues['tax'][$index] =
+            $arrValues['price_tax'][$index] =
             $tax = SC_Helper_TaxRule_Ex::calcTax($arrValues['price'][$index], $arrValues['tax_rate'][$index], $arrValues['tax_rule'][$index]);
 
             // 税込単価
