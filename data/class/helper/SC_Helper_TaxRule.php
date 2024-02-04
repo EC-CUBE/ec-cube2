@@ -76,7 +76,7 @@ class SC_Helper_TaxRule
      * @param int $discount_total 値引額合計
      * @return array{8?:array{discount;int,total:int,tax:int}, 10?:array{discount;int,total:int,tax:int}}
      */
-    public static function getTaxPerTaxRate(array $arrTaxableTotal, int $discount_total = 0): array
+    public static function getTaxPerTaxRate($arrTaxableTotal, $discount_total = 0)
     {
         $arrDefaultTaxRule = static::getTaxRule();
 
@@ -89,28 +89,26 @@ class SC_Helper_TaxRule
         // 按分後の値引額の合計（8%対象商品の按分後の値引額 ＋ 10%対象商品の按分後の値引額）が実際の値引額より＋－1円となる事への対処
         // ①按分した値引き額を四捨五入で丸める
         foreach ($arrTaxableTotal as $rate => $total) {
-            $discount[$rate]   = round(($discount_total * $total / $taxable_total),0);
-            $divide[$rate]     = [
+            $discount[$rate] = $taxable_total !== 0 ? round(($discount_total * $total / $taxable_total), 0) : 0;
+            $divide[$rate] = [
                 'discount' => intval($discount[$rate]),
             ];
-            $cf_discount +=  $divide[$rate]['discount'];
-		}
+            $cf_discount += $divide[$rate]['discount'];
+        }
         // ②四捨五入したとしても、四捨五入前の値引額がそれぞれ 16.5 + 75.5 の場合 →(四捨五入端数処理)→ 17 + 76 両方繰り上がる。事への対処
         $defaultTaxRule = $arrDefaultTaxRule['calc_rule'];
         $diff = $discount_total - $cf_discount;
-        if($diff > 0)    {
+        if ($diff > 0) {
             $divide[$defaultTaxRule]['discount'] += $diff;
-        }
-        elseif($diff < 0){
+        } elseif ($diff < 0) {
             $divide[$defaultTaxRule]['discount'] -= $diff;
         }
 
         foreach ($arrTaxableTotal as $rate => $total) {
-            if($rate == $defaultTaxRule){
+            if ($rate == $defaultTaxRule) {
                 $discount[$rate] = $divide[$defaultTaxRule]['discount'];
-            }
-            else{
-                $discount[$rate] = round(($discount_total * $total / $taxable_total),0);
+            } else {
+                $discount[$rate] = $taxable_total !== 0 ? round(($discount_total * $total / $taxable_total), 0) : 0;
             }
             $reduced_total = $total - $discount[$rate];
             $tax = $reduced_total * ($rate / (100 + $rate));
