@@ -21,6 +21,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+ ob_start();
+
 if (!defined('DATA_REALDIR')) {
     define('DATA_REALDIR', HTML_REALDIR . HTML2DATA_DIR);
 }

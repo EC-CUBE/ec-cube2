@@ -29,7 +29,7 @@
  * @author Kentaro Ohkouchi
  * @version $Id$
  */
-class SC_Query_Test extends PHPUnit_Framework_TestCase 
+class SC_Query_Test extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -317,7 +317,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $sql = "INSERT INTO test_table (column1, column2, column3) VALUES (?, ?, ?)";
         $result = $this->objQuery->query($sql, $fields_values);
         if (PEAR::isError($result)) {
-            error_log(var_export($result, true));
+            throw new \Exception($result->getMessage());
         }
 
         return $result;
