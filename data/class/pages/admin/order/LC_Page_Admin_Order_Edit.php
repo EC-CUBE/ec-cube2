@@ -398,6 +398,8 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $objFormParam->addParam('商品種別ID', 'product_type_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
         $objFormParam->addParam('単価', 'price', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
         $objFormParam->addParam('数量', 'quantity', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
+        $objFormParam->addParam('税額', 'tax', '', '', [], [], false);
+        $objFormParam->addParam('税込単価', 'price_inctax', '', '', [], [], false);
         $objFormParam->addParam('商品ID', 'product_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
         $objFormParam->addParam('商品規格ID', 'product_class_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
         $objFormParam->addParam('ポイント付与率', 'point_rate');
@@ -579,6 +581,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         // 受注詳細を設定
         $arrOrderDetail = $objPurchase->getOrderDetail($order_id, false);
         $objFormParam->setParam(SC_Utils_Ex::sfSwapArray($arrOrderDetail));
+        $this->calcPriceInctax($objFormParam);
 
         $arrShippingsTmp = $objPurchase->getShippings($order_id);
         $arrShippings = array();
@@ -670,9 +673,16 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
     public function lfCheckError(&$objFormParam)
     {
         $objProduct = new SC_Product_Ex();
+        $arrErrTemp = $objFormParam->checkError();
+
+        if (!SC_Utils_Ex::isBlank($arrErrTemp)) {
+            return $arrErrTemp;
+        }
+
+        $this->calcPriceInctax($objFormParam);
+
         $arrValues = $objFormParam->getHashArray();
         $arrErr = array();
-        $arrErrTemp = $objFormParam->checkError();
         $arrErrDate = array();
         foreach ($arrValues['shipping_date_year'] as $key_index => $year) {
             $month = $arrValues['shipping_date_month'][$key_index];
@@ -703,10 +713,9 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $totaltax = 0;
         for ($i = 0; $i < $max; $i++) {
             // 小計の計算
-            $tax = SC_Helper_TaxRule_Ex::calcTax($arrValues['price'][$i], $arrValues['tax_rate'][$i], $arrValues['tax_rule'][$i]);
-            $subtotal += ($tax + $arrValues['price'][$i]) * $arrValues['quantity'][$i];
+            $subtotal += $arrValues['price_inctax'][$i] * $arrValues['quantity'][$i];
             // 税額の計算
-            $totaltax += $tax * $arrValues['quantity'][$i];
+            $totaltax += $arrValues['tax'][$i] * $arrValues['quantity'][$i];
             // 加算ポイントの計算
             $totalpoint += SC_Utils_Ex::sfPrePoint($arrValues['price'][$i], $arrValues['point_rate'][$i]) * $arrValues['quantity'][$i];
 
@@ -1307,5 +1316,25 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             //受注商品の数量は、複数配送側の集計で出しているので、重複しても数量を増やさない。
             return null;
         }
+    }
+
+    /**
+     * 税込単価を計算する。
+     *
+     * @param SC_FormParam $objFormParam
+     * @return void
+     */
+    public function calcPriceInctax(&$objFormParam)
+    {
+        $arrValues = $objFormParam->getHashArray();
+        foreach ($arrValues['price'] as $index => $dummy) {
+            // 税額
+            $arrValues['tax'][$index] =
+            $tax = SC_Helper_TaxRule_Ex::calcTax($arrValues['price'][$index], $arrValues['tax_rate'][$index], $arrValues['tax_rule'][$index]);
+
+            // 税込単価
+            $arrValues['price_inctax'][$index] = $tax + $arrValues['price'][$index];
+        }
+        $objFormParam->setParam($arrValues);
     }
 }
