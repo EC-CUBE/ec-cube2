@@ -1,6 +1,9 @@
 <?php
 $loader = require __DIR__.'/../data/vendor/autoload.php';
 
+/** テスト中 */
+define('TEST_FUNCTION', true);
+
 if (strpos($_SERVER['SCRIPT_FILENAME'], 'phpunit') !== false && !class_exists('\Eccube2\Tests\Fixture\Generator')) {
     echo 'You must set up the project dependencies, run the following commands:'.PHP_EOL.
         'composer require nanasess/eccube2-fixture-generator --dev --ignore-platform-req=php'.PHP_EOL;

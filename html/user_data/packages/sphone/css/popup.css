@@ -133,6 +133,7 @@ input[type="submit"].nav_nonmember {
     border: none;
     display: block;
     text-align: left;
+    color: #000;
 }
 .navBox li:last-child {
     border-bottom: none;
