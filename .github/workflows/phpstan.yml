@@ -1,4 +1,6 @@
 name: PHPStan
+run-name: PHPStan
+
 on:
   push:
     branches:
@@ -12,6 +14,8 @@ on:
     paths:
       - '**'
       - '!*.md'
+  pull_request_review:
+    types: [submitted]
 
 jobs:
   phpstan:
