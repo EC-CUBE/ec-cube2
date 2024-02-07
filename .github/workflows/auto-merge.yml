@@ -17,6 +17,10 @@ jobs:
       PR_URL: ${{github.event.pull_request.html_url}}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Checkout repository with preceding commits
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Approve PR
         run: gh pr review "$PR_URL" --approve
       ## いきなりマージするのが怖いので、一旦自動承認（↑）だけにする
@@ -30,7 +34,7 @@ jobs:
     steps:
       - name: failed
         # 失敗したときにデバッグ用に情報を出力しておく
-        run:  |
+        run: |
           echo 'Haven't met the conditions to merge yet'
           echo '${{ toJSON(github.event.workflow_run) }}'
           exit 1
