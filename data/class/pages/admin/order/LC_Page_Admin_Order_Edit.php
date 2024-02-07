@@ -202,36 +202,40 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             case 'edit':
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
                 //複数配送時に各商品の総量を設定
                 $this->setProductsQuantity($objFormParam);
-                $this->arrErr = $this->lfCheckError($objFormParam);
-                if (SC_Utils_Ex::isBlank($this->arrErr)) {
-                    $message = '受注を編集しました。';
-                    $order_id = $this->doRegister($order_id, $objPurchase, $objFormParam, $message, $arrValuesBefore);
-                    if ($order_id >= 0) {
-                        $this->setOrderToFormParam($objFormParam, $order_id);
-                    }
-                    $this->tpl_onload = "window.alert('" . $message . "');";
+
+                $message = '受注を編集しました。';
+                $order_id = $this->doRegister($order_id, $objPurchase, $objFormParam, $message, $arrValuesBefore);
+                if ($order_id >= 0) {
+                    $this->setOrderToFormParam($objFormParam, $order_id);
                 }
+                $this->tpl_onload = "window.alert('" . $message . "');";
                 break;
 
             case 'add':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $objFormParam->setParam($_POST);
                     $objFormParam->convParam();
+                    $this->arrErr = $this->lfCheckError($objFormParam);
+                    if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                        break;
+                    }
                     //複数配送時に各商品の総量を設定
                     $this->setProductsQuantity($objFormParam);
-                    $this->arrErr = $this->lfCheckError($objFormParam);
-                    if (SC_Utils_Ex::isBlank($this->arrErr)) {
-                        $message = '受注を登録しました。';
-                        $order_id = $this->doRegister(null, $objPurchase, $objFormParam, $message, $arrValuesBefore);
-                        if ($order_id >= 0) {
-                            $this->tpl_mode = 'edit';
-                            $objFormParam->setValue('order_id', $order_id);
-                            $this->setOrderToFormParam($objFormParam, $order_id);
-                        }
-                        $this->tpl_onload = "window.alert('" . $message . "');";
+
+                    $message = '受注を登録しました。';
+                    $order_id = $this->doRegister(null, $objPurchase, $objFormParam, $message, $arrValuesBefore);
+                    if ($order_id >= 0) {
+                        $this->tpl_mode = 'edit';
+                        $objFormParam->setValue('order_id', $order_id);
+                        $this->setOrderToFormParam($objFormParam, $order_id);
                     }
+                    $this->tpl_onload = "window.alert('" . $message . "');";
                 }
 
                 break;
@@ -244,9 +248,12 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             case 'deliv':
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
                 //複数配送時に各商品の総量を設定
                 $this->setProductsQuantity($objFormParam);
-                $this->arrErr = $this->lfCheckError($objFormParam);
                 break;
 
             // 商品削除
@@ -255,9 +262,12 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 $objFormParam->convParam();
                 $delete_no = $objFormParam->getValue('delete_no');
                 $this->doDeleteProduct($delete_no, $objFormParam);
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
                 //複数配送時に各商品の総量を設定
                 $this->setProductsQuantity($objFormParam);
-                $this->arrErr = $this->lfCheckError($objFormParam);
                 break;
 
             // 商品追加ポップアップより商品選択
@@ -265,16 +275,18 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
                 $this->doRegisterProduct($objFormParam);
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
                 //複数配送時に各商品の総量を設定
                 $this->setProductsQuantity($objFormParam);
-                $this->arrErr = $this->lfCheckError($objFormParam);
                 break;
 
             // 会員検索ポップアップより会員指定
             case 'search_customer':
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
-                $this->setProductsQuantity($objFormParam);
                 $this->setCustomerTo($objFormParam->getValue('edit_customer_id'),
                                      $objFormParam);
                 $customer_birth = $objFormParam->getValue('order_birth');
@@ -291,16 +303,23 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                         }
                     }
                     $objFormParam->setValue("birth_point", $birth_point);
+                    $this->arrErr = $this->lfCheckError($objFormParam);
+                    if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                        break;
+                    }
+                    $this->setProductsQuantity($objFormParam);
                 }
-                $this->arrErr = $this->lfCheckError($objFormParam);
                 break;
 
                 // 複数配送設定表示
             case 'multiple':
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
-                $this->setProductsQuantity($objFormParam);
                 $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
+                $this->setProductsQuantity($objFormParam);
                 break;
 
                 // 複数配送設定を反映
@@ -308,16 +327,24 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 $this->lfInitMultipleParam($objFormParam);
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
-                $this->setProductsQuantity($objFormParam);
                 $this->setMultipleItemTo($objFormParam);
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
+                $this->setProductsQuantity($objFormParam);
                 break;
 
                 // お届け先の追加
             case 'append_shipping':
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
-                $this->setProductsQuantity($objFormParam);
                 $this->addShipping($objFormParam);
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
+                $this->setProductsQuantity($objFormParam);
                 break;
 
             default:
