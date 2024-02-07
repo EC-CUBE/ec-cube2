@@ -450,7 +450,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $objFormParam->addParam('会員ID', 'customer_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
         $objFormParam->addParam('会員ID', 'edit_customer_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
         $objFormParam->addParam('現在のポイント', 'customer_point');
-        $objFormParam->addParam('受注前ポイント', 'point');
+        $objFormParam->addParam('受注前ポイント', 'point', '', '', [], 0);
         $objFormParam->addParam('注文番号', 'order_id');
         $objFormParam->addParam('受注日', 'create_date');
         $objFormParam->addParam('発送日', 'commit_date');
@@ -486,13 +486,13 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $objFormParam->addParam('お届け日(日)', 'shipping_date_day', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam('お届け日', 'shipping_date', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
 
-        $objFormParam->addParam('商品規格ID', 'shipment_product_class_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('商品コード', 'shipment_product_code');
-        $objFormParam->addParam('商品名', 'shipment_product_name');
-        $objFormParam->addParam('規格名1', 'shipment_classcategory_name1');
-        $objFormParam->addParam('規格名2', 'shipment_classcategory_name2');
-        $objFormParam->addParam('単価', 'shipment_price', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam('数量', 'shipment_quantity', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
+        $objFormParam->addParam('商品規格ID', 'shipment_product_class_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), []);
+        $objFormParam->addParam('商品コード', 'shipment_product_code', '', '', [], []);
+        $objFormParam->addParam('商品名', 'shipment_product_name', '', '', [], []);
+        $objFormParam->addParam('規格名1', 'shipment_classcategory_name1', '', '', [], []);
+        $objFormParam->addParam('規格名2', 'shipment_classcategory_name2', '', '', [], []);
+        $objFormParam->addParam('単価', 'shipment_price', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), []);
+        $objFormParam->addParam('数量', 'shipment_quantity', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), []);
 
         $objFormParam->addParam('商品項番', 'no', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam('追加商品規格ID', 'add_product_class_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
