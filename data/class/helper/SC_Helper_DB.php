@@ -320,12 +320,13 @@ class SC_Helper_DB
     public static function sfGetRollbackPoint($order_id, $use_point, $add_point, $order_status)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $arrRet = $objQuery->select('customer_id', 'dtb_order', 'order_id = ?', array($order_id));
-        $customer_id = $arrRet[0]['customer_id'];
-        if ($customer_id != '' && $customer_id >= 1) {
-            $arrRet = $objQuery->select('point', 'dtb_customer', 'customer_id = ?', array($customer_id));
-            $point = $arrRet[0]['point'];
-            $rollback_point = $arrRet[0]['point'];
+
+        $customer_id = (int) $objQuery->get('customer_id', 'dtb_order', 'order_id = ?', array($order_id));
+        $rollback_point = 0;
+        $point = 0;
+        if ($customer_id >= 1) {
+            $point = (int) $objQuery->get('point', 'dtb_customer', 'customer_id = ?', array($customer_id));
+            $rollback_point = $point;
 
             // 対応状況がポイント利用対象の場合、使用ポイント分を戻す
             if (SC_Helper_Purchase_Ex::isUsePoint($order_status)) {
@@ -336,9 +337,6 @@ class SC_Helper_DB
             if (SC_Helper_Purchase_Ex::isAddPoint($order_status)) {
                 $rollback_point -= $add_point;
             }
-        } else {
-            $rollback_point = '';
-            $point = '';
         }
 
         return array($point, $rollback_point);
