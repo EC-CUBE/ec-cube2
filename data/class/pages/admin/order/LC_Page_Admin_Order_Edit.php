@@ -622,12 +622,12 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                     $row['shipping_date_month'] = date('n', $ts);
                     $row['shipping_date_day'] = date('j', $ts);
                 }
-                $arrShippings[$row['shipping_id']] = $row;
+                $arrShippings[$row['shipping_id']] = array_intersect_key($row, array_flip($this->arrShippingKeys));
             }
         } else {
             // ダウンロード商品の場合はお届け先情報がないので受注詳細から必要なデータを挿入する
             foreach ($this->arrShippingKeys as $keys) {
-                $arrShippings[0][$keys] = '';
+                $arrShippings[0][$keys] = null;
             }
             foreach ($arrOrderDetail as $key => $value) {
                 $arrShippings[0]['shipment_item'][$key]['shipping_id'] = $key;
@@ -1059,7 +1059,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
     }
 
     /**
-     * 商品を追加
+     * 配送先に商品を追加
      *
      * @param  SC_FormParam $objFormParam         SC_FormParam インスタンス
      * @param  integer      $add_product_class_id 追加商品規格ID
@@ -1067,27 +1067,34 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
      */
     public function shipmentAddProduct(&$objFormParam, $add_product_class_id)
     {
-        //複数配送に商品情報追加
         $select_shipping_id = $objFormParam->getValue('select_shipping_id');
 
-        //届け先に選択済みの商品がある場合
         $arrShipmentProducts = $this->getShipmentProducts($objFormParam);
 
-        if ($arrShipmentProducts['shipment_product_class_id'] && in_array($add_product_class_id, $arrShipmentProducts['shipment_product_class_id'][$select_shipping_id])) {
-            foreach ($arrShipmentProducts['shipment_product_class_id'][$select_shipping_id] as $relation_index => $shipment_product_class_id) {
-                if ($shipment_product_class_id == $add_product_class_id) {
-                    $arrShipmentProducts['shipment_quantity'][$select_shipping_id][$relation_index]++;
-                    break;
-                }
+        // PHP8 で初期化されていない配列によるエラーを回避する目的のワンライナー
+        // XXX 今後同様の処理を量産するかもしれないが、多分、もっと美しい処理がある。正規表現「([^ ]+)\s*=\s*\(array\)\s*\1」で同様の処理を抽出できる。
+        // $arrShipmentProducts['shipment_product_class_id'][$select_shipping_id] = (array) $arrShipmentProducts['shipment_product_class_id'][$select_shipping_id];
+
+        $found = false;
+        foreach ($arrShipmentProducts['shipment_product_class_id'][$select_shipping_id] as $relation_index => $shipment_product_class_id) {
+            // 届け先に選択済みの商品がある場合
+            if ($shipment_product_class_id == $add_product_class_id) {
+                $arrShipmentProducts['shipment_quantity'][$select_shipping_id][$relation_index]++;
+                $found = true;
+                break;
             }
-        } else {
-            //届け先に選択商品がない場合
+        }
+
+        // 届け先に選択商品がない場合
+        if (!$found) {
             $objProduct = new SC_Product_Ex();
             $arrAddProductInfo = $objProduct->getDetailAndProductsClass($add_product_class_id);
 
             $arrShipmentProducts['shipment_product_class_id'][$select_shipping_id][] = $add_product_class_id;
             $arrShipmentProducts['shipment_product_code'][$select_shipping_id][]     = $arrAddProductInfo['product_code'];
             $arrShipmentProducts['shipment_product_name'][$select_shipping_id][]     = $arrAddProductInfo['name'];
+            $arrShipmentProducts['shipment_classcategory_name1'][$select_shipping_id][] = $arrAddProductInfo['classcategory_name1'];
+            $arrShipmentProducts['shipment_classcategory_name2'][$select_shipping_id][] = $arrAddProductInfo['classcategory_name2'];
             $arrShipmentProducts['shipment_price'][$select_shipping_id][]            = $arrAddProductInfo['price02'];
             $arrShipmentProducts['shipment_quantity'][$select_shipping_id][]         = 1;
 
@@ -1096,6 +1103,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $arrProducts = $this->checkInsertOrderProducts($objFormParam, $arrPreProductClassIds, $add_product_class_id, $arrAddProductInfo);
             $objFormParam->setParam($arrProducts);
         }
+
         $objFormParam->setParam($arrShipmentProducts);
     }
 
