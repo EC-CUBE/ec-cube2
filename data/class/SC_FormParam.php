@@ -426,19 +426,27 @@ class SC_FormParam
     // キー名と一致した値を返す
     public function getValue($keyname, $default = '')
     {
-        $ret = null;
-        if (in_array($keyname, $this->keyname)) {
-            $ret = isset($this->arrValue[$keyname]) ? $this->arrValue[$keyname] : $this->arrDefault[$keyname];
+        if (!in_array($keyname, $this->keyname)) {
+            throw new Exception('定義されていない $keyname: ' . var_export($keyname, true));
         }
+
+        // 意図的に NULL をセットしているケースを考慮し、isset() を使わない。
+        $ret = array_key_exists($keyname, $this->arrValue) ? $this->arrValue[$keyname] : $this->arrDefault[$keyname];
 
         if (is_array($ret)) {
             foreach ($ret as &$value) {
-                if (SC_Utils_Ex::isBlank($value)) {
+                // 多次元配列の場合、手出ししない。(PHP8 不具合の応急対応。)
+                if (is_array($value)) {
+                    // nop
+                }
+                elseif (SC_Utils_Ex::isBlank($value)) {
+                    // FIXME: 上で取得している $this->arrDefault を上書きしている。不適切だと思うが影響が大きそうなので対応保留した。
                     $value = $default;
                 }
             }
         } else {
             if (SC_Utils_Ex::isBlank($ret)) {
+                // FIXME: 上で取得している $this->arrDefault を上書きしている。不適切だと思うが影響が大きそうなので対応保留した。
                 $ret = $default;
             }
         }
