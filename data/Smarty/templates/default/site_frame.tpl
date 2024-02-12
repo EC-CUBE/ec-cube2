@@ -52,7 +52,7 @@
 <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.js"></script>
 
 <script type="text/javascript">//<![CDATA[
-    <!--{$tpl_javascript}-->
+    <!--{$tpl_javascript nofilter}-->
     $(function(){
         <!--{$tpl_onload}-->
     });

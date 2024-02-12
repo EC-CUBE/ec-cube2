@@ -1,21 +1,17 @@
 name: E2E testing for EC-CUBE
+run-name: E2E testing for EC-CUBE
+
 on:
-  push:
-    branches:
-      - '*'
-    tags:
-      - '*'
-    paths:
-      - '**'
-      - '!*.md'
-  pull_request:
-    paths:
-      - '**'
-      - '!*.md'
+  workflow_run:
+    workflows: [CI/CD for EC-CUBE]
+    types: [completed]
+
 jobs:
   run-on-linux:
     name: Run on Linux
     runs-on: ubuntu-22.04
+    if: |
+      github.event.workflow_run.conclusion == 'success'
     strategy:
       fail-fast: false
       matrix:
@@ -29,7 +25,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     # - name: Create ADMIN_DIR
     #   run: |
@@ -72,19 +68,21 @@ jobs:
 
     - name: Upload evidence
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linux-php${{ matrix.tag }}-${{ matrix.db }}-evidence
         path: 'test-results/'
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: data/logs
   installer:
     name: Installer test
     runs-on: ubuntu-22.04
+    if: |
+      github.event.workflow_run.conclusion == 'success'
     strategy:
       fail-fast: false
       matrix:
@@ -155,7 +153,7 @@ jobs:
         echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup environment
       env:
@@ -213,13 +211,13 @@ jobs:
       run: yarn test:e2e e2e-tests/test/installer/installer.test.ts
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: html/install/temp/install.log*
     - name: Upload evidence
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-evidence
         path: 'test-results/'
