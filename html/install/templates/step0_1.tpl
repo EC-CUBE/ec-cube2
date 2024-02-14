@@ -20,6 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
 
+<!--{strip}-->
 <div class="contents">
     <div class="message">
         <h2>必要なファイルのコピー</h2>
@@ -44,13 +45,12 @@
             <!--{/if}-->
         </div>
 
-        <div class="btn-area-top"></div>
         <div class="btn-area">
             <ul>
-                <li><a href="#" class="btn-action" onclick="document.form1['mode'].value='return_step0';document.form1.submit();return false;"><span class="btn-prev">前へ戻る</span></a></li>
-                <li><a class="btn-action" href="javascript:;"><span class="btn-next">次へ進む</span></a></li>
+                <li><a href="#" class="btn prev" onclick="document.form1['mode'].value='return_step0';document.form1.submit();return false;">前へ戻る</a></li>
+                <li><a class="btn next" href="javascript:;">次へ進む</a></li>
             </ul>
         </div>
-        <div class="btn-area-bottom"></div>
     </form>
 </div>
+<!--{/strip}-->

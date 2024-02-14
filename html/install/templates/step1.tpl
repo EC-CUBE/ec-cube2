@@ -39,6 +39,7 @@ $(function() {
     });
 });
 </script>
+<!--{strip}-->
 <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="mode" value="<!--{$tpl_mode}-->" />
     <input type="hidden" name="step" value="0" />
@@ -118,7 +119,7 @@ $(function() {
                     <td>
                     <!--{assign var=key value="admin_force_ssl"}-->
                     <span class="attention"><!--{$arrErr[$key]}--></span>
-                    <input type="checkbox" name="<!--{$key}-->" id="<!--{$key}-->" value="1" <!--{if $arrForm[$key].value == 1}-->checked="checked"<!--{/if}--> /><label for="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->;">SSLを強制する。</label><br />
+                    <input type="checkbox" name="<!--{$key}-->" id="<!--{$key}-->" value="1" <!--{if $arrForm[$key].value == 1}-->checked="checked"<!--{/if}--> /><label for="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->;"> SSLを強制する。</label><br />
                     <span class="ex-text">管理機能へのアクセスをSSL経由(https)の接続に制限します。</span><br />
                     </td>
                 </tr>
@@ -223,12 +224,11 @@ $(function() {
             </div>
         </div>
     </div>
-    <div class="btn-area-top"></div>
     <div class="btn-area">
         <ul>
-            <li><a class="btn-action" href="javascript:;" onclick="document.form1['mode'].value='return_step0';document.form1.submit();return false;"><span class="btn-prev">前へ戻る</span></a></li>
-            <li><a class="btn-action" href="javascript:;"><span class="btn-next">次へ進む</span></a></li>
+            <li><a class="btn prev" href="javascript:;" onclick="document.form1['mode'].value='return_step0';document.form1.submit();return false;">前へ戻る</a></li>
+            <li><a class="btn next" href="javascript:;">次へ進む</a></li>
         </ul>
     </div>
-    <div class="btn-area-bottom"></div>
 </form>
+<!--{/strip}-->
