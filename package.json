@@ -22,7 +22,7 @@
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.20.2",
     "@faker-js/faker": "^7.6.0",
-    "@playwright/test": "^1.29.2",
+    "@playwright/test": "^1.41.2",
     "@types/date-fns": "^2.6.0",
     "@types/faker": "^6.6.9",
     "@types/tar": "^6.1.11",
