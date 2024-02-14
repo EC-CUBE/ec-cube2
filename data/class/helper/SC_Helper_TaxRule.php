@@ -63,6 +63,85 @@ class SC_Helper_TaxRule
     }
 
     /**
+     * 消費税の内訳を返す.
+     *
+     * 税率ごとに以下のような連想配列を返す.
+     * - discount: 税率毎の値引額
+     * - total: 値引後の税込み合計金額
+     * - tax: 値引後の税額
+     * 値引額合計は税率ごとに按分する.
+     * 課税規則は標準税率の設定を使用する.
+     *
+     * @param array{8?:int, 10?:int} $arrTaxableTotal 税率ごとのお支払い合計金額
+     * @param int $discount_total 値引額合計
+     * @return array{8?:array{discount;int,total:int,tax:int}, 10?:array{discount;int,total:int,tax:int}}
+     */
+    public static function getTaxPerTaxRate($arrTaxableTotal, $discount_total = 0)
+    {
+        $arrDefaultTaxRule = static::getTaxRule();
+
+        ksort($arrTaxableTotal);
+        $cf_discount = 0;
+        $taxable_total = array_sum($arrTaxableTotal);
+        $divide = [];
+        $result = [];
+
+        // 按分後の値引額の合計（8%対象商品の按分後の値引額 ＋ 10%対象商品の按分後の値引額）が実際の値引額より＋－1円となる事への対処
+        // ①按分した値引き額を四捨五入で丸める
+        foreach ($arrTaxableTotal as $rate => $total) {
+            $discount[$rate] = $taxable_total !== 0 ? round(($discount_total * $total / $taxable_total), 0) : 0;
+            $divide[$rate] = [
+                'discount' => intval($discount[$rate]),
+            ];
+            $cf_discount += $divide[$rate]['discount'];
+        }
+        // ②四捨五入したとしても、四捨五入前の値引額がそれぞれ 16.5 + 75.5 の場合 →(四捨五入端数処理)→ 17 + 76 両方繰り上がる。事への対処
+        $defaultTaxRule = $arrDefaultTaxRule['calc_rule'];
+        $diff = $discount_total - $cf_discount;
+        if ($diff > 0) {
+            $divide[$defaultTaxRule]['discount'] += $diff;
+        } elseif ($diff < 0) {
+            $divide[$defaultTaxRule]['discount'] -= $diff;
+        }
+
+        foreach ($arrTaxableTotal as $rate => $total) {
+            if ($rate == $defaultTaxRule) {
+                $discount[$rate] = $divide[$defaultTaxRule]['discount'];
+            } else {
+                $discount[$rate] = $taxable_total !== 0 ? round(($discount_total * $total / $taxable_total), 0) : 0;
+            }
+            $reduced_total = $total - $discount[$rate];
+            $tax = $reduced_total * ($rate / (100 + $rate));
+            $result[$rate] = [
+                'discount' => intval($discount[$rate]),
+                'total' => intval($reduced_total),
+                'tax' => intval(static::roundByCalcRule($tax, $defaultTaxRule)),
+            ];
+        }
+        return $result;
+    }
+
+    /**
+     * 消費税の内訳の文字列を返す.
+     *
+     * 複数の税率がある場合は改行で区切る.
+     *
+     * @param array{8?:int, 10?:int} $arrTaxableTotal 税率ごとのお支払い合計金額
+     * @param int $discount_total 値引額合計
+     * @return string (<税率>%対象: <値引後税込合計>円 内消費税: <値引後税額>円)
+     */
+    public static function getTaxDetail($arrTaxableTotal, $discount_total = 0)
+    {
+        $arrTaxPerTaxRate = static::getTaxPerTaxRate($arrTaxableTotal, $discount_total);
+        $result = '';
+        foreach ($arrTaxPerTaxRate as $rate => $item) {
+            $result .= '('.$rate .'%対象: '. number_format($item['total']).'円 内消費税: '.number_format($item['tax']).'円)'.PHP_EOL;
+        }
+
+        return $result;
+    }
+
+    /**
      * 設定情報IDに基づいて税金付与した金額を返す
      * (受注データのようにルールが決まっている場合用)
      *

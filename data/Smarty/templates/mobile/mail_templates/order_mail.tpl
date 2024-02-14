@@ -49,7 +49,7 @@
 
 <!--{/section}-->
 
-小　計 ￥<!--{$arrOrder.subtotal|n2s|default:0}--> <!--{if 0 < $arrOrder.tax}-->(うち消費税 ￥<!--{$arrOrder.tax|n2s|default:0}-->)<!--{/if}-->
+小　計 ￥<!--{$arrOrder.subtotal|n2s|default:0}-->
 
 <!--{if $arrOrder.use_point*$smarty.const.POINT_VALUE+$arrOrder.discount > 0}-->
 値引き ￥<!--{($arrOrder.use_point*$smarty.const.POINT_VALUE+$arrOrder.discount)|n2s|default:0}-->
