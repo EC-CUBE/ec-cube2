@@ -48,17 +48,16 @@ class SC_Display
      * const('ADMIN',99);
      */
 
-    public function __construct($hasPrevURL = true)
+    public function __construct()
     {
         $this->response = new SC_Response_Ex();
-        if ($hasPrevURL) {
-            $this->setPrevURL();
-        }
     }
 
+    /**
+     * @deprecated 2.18.0 本体では利用していない。
+     */
     public function setPrevURL()
     {
-        // TODO SC_SiteSession で実装した方が良さげ
         $objCartSess = new SC_CartSession_Ex();
         $objCartSess->setPrevURL($_SERVER['REQUEST_URI']);
     }

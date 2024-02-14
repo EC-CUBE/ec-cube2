@@ -26,11 +26,6 @@
  */
 class SC_MobileView extends SC_SiteView_Ex
 {
-    public function __construct($setPrevURL = true)
-    {
-        parent::__construct($setPrevURL);
-    }
-
     public function init()
     {
         parent::init();
