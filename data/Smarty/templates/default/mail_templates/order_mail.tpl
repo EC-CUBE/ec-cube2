@@ -58,8 +58,8 @@
 -------------------------------------------------
 小　計 ￥<!--{$arrOrder.subtotal|n2s|default:0}--> <!--{if 0 < $arrOrder.tax}-->(うち消費税 ￥<!--{$arrOrder.tax|n2s|default:0}-->)<!--{/if}-->
 
-<!--{if $arrOrder.use_point > 0}-->
-値引き ￥<!--{$arrOrder.use_point*$smarty.const.POINT_VALUE+$arrOrder.discount|n2s|default:0}-->
+<!--{if $arrOrder.use_point*$smarty.const.POINT_VALUE+$arrOrder.discount > 0}-->
+値引き ￥<!--{($arrOrder.use_point*$smarty.const.POINT_VALUE+$arrOrder.discount)|n2s|default:0}-->
 <!--{/if}-->
 送　料 ￥<!--{$arrOrder.deliv_fee|n2s|default:0}-->
 手数料 ￥<!--{$arrOrder.charge|n2s|default:0}-->
