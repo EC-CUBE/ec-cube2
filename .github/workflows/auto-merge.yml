@@ -33,8 +33,10 @@ jobs:
       github.event.workflow_run.conclusion == 'failure'
     steps:
       - name: failed
+        env:
+          WORKFLOW_RUN_CONTEXT: ${{ toJson(github.event.workflow_run) }}
         # 失敗したときにデバッグ用に情報を出力しておく
         run: |
-          echo 'Haven't met the conditions to merge yet'
-          echo '${{ toJSON(github.event.workflow_run) }}'
+          echo "Haven't met the conditions to merge yet"
+          echo "$WORKFLOW_RUN_CONTEXT"
           exit 1
