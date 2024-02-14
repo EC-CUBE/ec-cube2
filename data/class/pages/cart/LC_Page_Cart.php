@@ -284,22 +284,32 @@ class LC_Page_Cart extends LC_Page_Ex
      */
     public function lfGetCartPrevUrl(&$session, $referer)
     {
-        if (!preg_match('/cart/', $referer)) {
-            if (!empty($session['cart_referer_url'])) {
-                $session['cart_prev_url'] = $session['cart_referer_url'];
-                unset($session['cart_referer_url']);
-            } else {
-                if (preg_match('/entry/', $referer)) {
-                    $session['cart_prev_url'] = HTTPS_URL . 'entry/kiyaku.php';
-                } else {
-                    $session['cart_prev_url'] = $referer;
-                }
+        // 妥当性チェック
+        if (!SC_Utils_Ex::isInternalUrl($referer)) {
+            return;
+        }
+
+        // 除外ページの場合、何もせず終了する。
+        $arrExclude = array(
+            ROOT_URLPATH . 'shopping/',
+            ROOT_URLPATH . 'cart/',
+        );
+
+        // リファラーから path を切り出す。
+        $netURL = new Net_URL($referer);
+        $referer_path = $netURL->path;
+
+        foreach ($arrExclude as $start) {
+            if (str_starts_with($referer_path, $start)) {
+                return;
             }
         }
-        // 妥当性チェック
-        if (!SC_Utils_Ex::sfIsInternalDomain($session['cart_prev_url'])) {
-            $session['cart_prev_url'] = '';
+
+        if (str_starts_with($referer_path, ROOT_URLPATH . 'entry/')) {
+            $referer = HTTPS_URL . 'entry/kiyaku.php';
         }
+
+        $session['cart_prev_url'] = $referer;
     }
 
     /**

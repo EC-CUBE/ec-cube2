@@ -242,11 +242,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
             case 'select':
             case 'select2':
             case 'selectItem':
-                /**
-                 * モバイルの数量指定・規格選択の際に、
-                 * $_SESSION['cart_referer_url'] を上書きさせないために、
-                 * 何もせずbreakする。
-                 */
+                // nop
                 break;
 
             default:
@@ -687,9 +683,6 @@ class LC_Page_Products_Detail extends LC_Page_Ex
      */
     public function doDefault()
     {
-        // カート「戻るボタン」用に保持
-        $netURL = new Net_URL();
-        $_SESSION['cart_referer_url'] = $netURL->getURL();
     }
 
     /**
