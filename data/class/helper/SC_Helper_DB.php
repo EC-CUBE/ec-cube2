@@ -837,12 +837,15 @@ __EOS__;
             }
         }
 
-        foreach ($arrNotExistsProductCategoryId as $category_id) {
-            $objQuery->delete('dtb_category_count', 'category_id = ?', array($category_id));
-        }
-
         // 差分があったIDとその親カテゴリID
         $arrTgtCategoryId = $arrNotExistsProductCategoryId;
+
+        foreach ($arrNotExistsProductCategoryId as $category_id) {
+            $objQuery->delete('dtb_category_count', 'category_id = ?', array($category_id));
+
+            $arrParentID = self::sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
+            $arrTgtCategoryId = array_merge($arrTgtCategoryId, $arrParentID);
+        }
 
         // dtb_category_countの更新 差分のあったカテゴリだけ更新する。
         foreach ($arrNew as $category_id => $count) {
@@ -855,7 +858,7 @@ __EOS__;
                 $sqlval['category_id'] = $category_id;
                 $objQuery->insert('dtb_category_count', $sqlval);
             }
-            $arrParentID = $this->sfGetParents('dtb_category', 'parent_category_id', 'category_id', $category_id);
+            $arrParentID = self::sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
             $arrTgtCategoryId = array_merge($arrTgtCategoryId, $arrParentID);
         }
         $arrTgtCategoryId = array_unique($arrTgtCategoryId);
