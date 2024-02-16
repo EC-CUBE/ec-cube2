@@ -772,7 +772,7 @@ class SC_Helper_DB
         }
 
         //共通のfrom/where文の構築
-        $where_alldtl = SC_Product_Ex::getProductDispConditions('alldtl', $for_reseller);
+        $where_alldtl = SC_Product_Ex::getProductDispConditions('alldtl');
         // 在庫無し商品の非表示
         if ($is_nostock_hidden) {
             $from_alldtl = $objProduct->alldtlSQL('(stock >= 1 OR stock_unlimited = 1)');
