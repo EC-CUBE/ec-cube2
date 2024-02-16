@@ -29,4 +29,3 @@ define('ADMIN_FUNCTION', true);
 
 require_once HTML_REALDIR . 'define.php';
 require_once HTML_REALDIR . HTML2DATA_DIR . 'require_base.php';
-ob_start();

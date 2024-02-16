@@ -1688,6 +1688,17 @@ class SC_Utils
     }
 
     /**
+     * 指定されたURLはアプリケーション内部のものか
+     *
+     * @param string $url
+     * @return boolean
+     */
+    public static function isInternalUrl($url)
+    {
+        return str_starts_with($url, HTTPS_URL) || str_starts_with($url, HTTP_URL);
+    }
+
+    /**
      * パスワードのハッシュ化
      *
      * @param  string $str  暗号化したい文言

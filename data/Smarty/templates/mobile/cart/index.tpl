@@ -72,7 +72,7 @@
                     <HR>
                 <!--{/foreach}-->
                 <font color="#FF0000">
-                合計:<!--{$arrData[$key].total-$arrData[$key].deliv_fee|n2s}-->円<br>
+                合計:<!--{$arrData[$key].subtotal|n2s}-->円<br>
                 </font>
                 <br>
                 <!--{if $key != $smarty.const.PRODUCT_TYPE_DOWNLOAD}-->

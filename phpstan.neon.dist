@@ -2,6 +2,7 @@ parameters:
   level: 1
   bootstrapFiles:
     - tests/require.php
+    - data/vendor/smarty/smarty/libs/plugins/function.html_radios.php
   excludePaths:
     - data/Smarty/templates_c/*
     - data/module/SOAP/*
@@ -37,15 +38,8 @@ parameters:
       message: "#^Function smarty_function_escape_special_chars not found\\.$#"
       path: data/smarty_extends/*
     -
-      message: "#^Variable \\$values in isset\\(\\) always exists and is always null\\.$#"
-      paths:
-        - data/smarty_extends/function.html_radios_ex.php
-        - data/smarty_extends/function.html_checkboxes_ex.php
-    -
-      message: "#^Undefined variable\\: \\$tags$#"
-      paths:
-        - data/smarty_extends/function.html_radios_ex.php
-        - data/smarty_extends/function.html_checkboxes_ex.php
-    -
       message: "#^Variable \\$SJIS_widths might not be defined\\.$#"
       path: data/class/helper/SC_Helper_FPDI.php
+    -
+      message: "#^Inner named functions are not supported by PHPStan\\.#"
+      path: data/class/SC_Initial.php
