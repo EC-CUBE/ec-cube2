@@ -19,6 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
+
+<!--{strip}-->
 <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="mode" value="<!--{$tpl_mode}-->" />
     <input type="hidden" name="step" value="0" />
@@ -36,18 +38,17 @@
             <!--{if $hasErr}-->
                 <p class="action-message">[次へ進む] をクリックすると、チェックを再実行します。</p>
                 <div><input type="checkbox" name="mode_overwrite" value="step0" id="mode_overwrite" /> <label for="mode_overwrite">問題点を無視して次へ進む (上級者向け)</label></div>
-                <div class="red">※ 問題点を解決せずに無視して進めると、トラブルの原因となる場合があります。</div>
+                <div class="attention">※ 問題点を解決せずに無視して進めると、トラブルの原因となる場合があります。</div>
             <!--{else}-->
                 必要なファイルのコピーを開始します。
             <!--{/if}-->
         </div>
     </div>
-    <div class="btn-area-top"></div>
     <div class="btn-area">
         <ul>
-            <li><a class="btn-action" href="javascript:;" onclick="document.form1['mode'].value='return_welcome';document.form1.submit(); return false;"><span class="btn-prev">前へ戻る</span></a></li>
-            <li><a class="btn-action" href="javascript:;"><span class="btn-next">次へ進む</span></a></li>
+            <li><a class="btn prev" href="javascript:;" onclick="document.form1['mode'].value='return_welcome';document.form1.submit(); return false;">前へ戻る</a></li>
+            <li><a class="btn next" href="javascript:;">次へ進む</a></li>
         </ul>
     </div>
-    <div class="btn-area-bottom"></div>
 </form>
+<!--{/strip}-->

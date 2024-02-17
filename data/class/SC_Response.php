@@ -202,11 +202,8 @@ class SC_Response
             $url = $netUrl->getUrl();
         }
 
-        $pattern = '/^(' . preg_quote(HTTP_URL, '/') . '|' . preg_quote(HTTPS_URL, '/') . ')/';
-
-        // アプリケーション外へのリダイレクトは扱わない
-        if (preg_match($pattern, $url) === 0) {
-            trigger_error('', E_USER_ERROR);
+        if (!SC_Utils_Ex::isInternalUrl($url)) {
+            trigger_error('アプリケーション外へのリダイレクトは扱わない: ' . var_export($url, true), E_USER_ERROR);
         }
 
         $netUrl = new Net_URL($url);
