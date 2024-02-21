@@ -21,7 +21,7 @@
   "devDependencies": {
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.20.2",
-    "@faker-js/faker": "^7.6.0",
+    "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.41.2",
     "@types/date-fns": "^2.6.0",
     "@types/faker": "^6.6.9",
@@ -32,7 +32,7 @@
     "babel-loader": "^8.2.5",
     "browser-sync-webpack-plugin": "^2.3.0",
     "eslint": "^8.56.0",
-    "eslint-config-jquery": "^3.0.0",
+    "eslint-config-jquery": "^3.0.2",
     "eslint-plugin-import": "^2.27.5",
     "tar": "^6.2.0",
     "typescript": "^5.3.3",
