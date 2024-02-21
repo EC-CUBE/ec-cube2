@@ -60,7 +60,7 @@ class LC_Page_Rss extends LC_Page_Ex
      */
     public function process()
     {
-        $objView = new SC_SiteView_Ex(false);
+        $objView = new SC_SiteView_Ex();
 
         //新着情報を取得
         $arrNews = $this->lfGetNews();
