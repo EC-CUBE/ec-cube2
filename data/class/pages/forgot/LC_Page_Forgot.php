@@ -277,7 +277,7 @@ class LC_Page_Forgot extends LC_Page_Ex
     public function lfSendMail(&$CONF, $email, $customer_name, $new_password)
     {
         // パスワード変更お知らせメール送信
-        $objMailText = new SC_SiteView_Ex(false);
+        $objMailText = new SC_SiteView_Ex();
         $objMailText->setPage($this);
         $objMailText->assign('customer_name', $customer_name);
         $objMailText->assign('new_password', $new_password);
