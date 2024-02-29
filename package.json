@@ -33,7 +33,7 @@
     "browser-sync-webpack-plugin": "^2.3.0",
     "eslint": "^8.56.0",
     "eslint-config-jquery": "^3.0.2",
-    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-import": "^2.29.1",
     "tar": "^6.2.0",
     "typescript": "^5.3.3",
     "webpack-cli": "^4.10.0",
