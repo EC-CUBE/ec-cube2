@@ -22,21 +22,17 @@
 <script type="text/javascript">
 $(function() {
     $('.option').hide();
-    if ($('input[name=mail_backend]').val() == 'smtp') {
-        $('.smtp').attr('disabled', false);
-    } else {
-        $('.smtp').attr('disabled', true);
-    }
+    changeSmtpDisabled();
     $('#options').click(function() {
         $('.option').slideToggle();
     });
     $('input[name=mail_backend]').change(function() {
-        if ($(this).val() == 'smtp') {
-            $('.smtp').attr('disabled', false);
-        } else {
-            $('.smtp').attr('disabled', true);
-        }
+        changeSmtpDisabled();
     });
+    function changeSmtpDisabled() {
+        let disabled = $('input[name=mail_backend]:checked').val() != 'smtp';
+        $('.smtp').attr('disabled', disabled);
+    }
 });
 </script>
 <!--{strip}-->
