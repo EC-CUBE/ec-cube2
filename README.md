@@ -2,7 +2,7 @@
 
 [![GitHub Actions status](https://github.com/EC-CUBE/ec-cube2/workflows/CI/CD%20for%20EC-CUBE/badge.svg)](https://github.com/EC-CUBE/ec-cube2/actions)
 [![codecov](https://codecov.io/gh/EC-CUBE/ec-cube2/branch/master/graph/badge.svg?token=4oNLGhIQwy)](https://codecov.io/gh/EC-CUBE/ec-cube2)
-[![PHP Versions Supported](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](#php-version-support)
+[![PHP Versions Supported](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)](#php-version-support)
 [![GitHub All Releases](https://img.shields.io/github/downloads/EC-CUBE/ec-cube2/total)](https://github.com/EC-CUBE/ec-cube2/releases)
 
 ---
@@ -28,14 +28,14 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 
 * EC-CUBE 2.13 系の PHP7 及び PHP8 対応バージョンです。
 * `master` ブランチで開発を行っています。
+* PHP5.4互換ブランチは [compatible/php5.4](https://github.com/EC-CUBE/ec-cube2/tree/compatible/php5.4) にて保守しています。(2024年6月末日まで)
 
 #### システム要件
 
 | 分類      | ソフトウェア         | Version                                                                 |
 |-----------|----------------------|-------------------------------------------------------------------------|
-| WebServer | IIS                  | 8.x or higher<br> PHP8は非対応                                                    |
 | WebServer | Apache               | 2.4.x or higher<br> (mod_rewrite / mod_ssl 必須)                        |
-| PHP       | PHP                  | 5.4.16 or higher                                                        |
+| PHP       | PHP                  | 7.4.33 or higher                                                        |
 | Database  | PostgreSQL           | 9.x or higher                                                           |
 | Database  | MySQL                | 5.x / 8.x or higher<br> (InnoDBエンジン 必須)                           |
 
@@ -44,7 +44,7 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 | 分類           | Extensions                                                                                                                                                                                                                                                                               |
 |----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 必須      | pgsql / mysqli (利用するデータベースに合わせること) <br> pdo_pgsql / pdo_mysql (利用するデータベースに合わせること) <br> pdo <br> mbstring <br> zlib <br> ctype <br> session <br> JSON <br> xml <br> libxml <br> OpenSSL <br> zip <br> cURL <br> gd                                      |
-| 推奨      | hash <br> APCu / WinCache (利用する環境に合わせること) <br> Zend OPcache <br> mcrypt                                                                                                                                                                                                     |
+| 推奨      | hash <br> APCu <br> Zend OPcache
 
 ## インストール方法
 

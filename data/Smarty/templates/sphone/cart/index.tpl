@@ -137,7 +137,7 @@
                         <!--▲カートの中の商品一覧ここまで -->
 
                         <div class="total_area">
-                            <div><span class="mini">合計：</span><span class="price fb"><!--{$arrData[$key].total-$arrData[$key].deliv_fee|n2s}--> 円</span></div>
+                            <div><span class="mini">合計：</span><span class="price fb"><!--{$arrData[$key].subtotal|n2s}--> 円</span></div>
                             <!--{if $smarty.const.USE_POINT !== false}-->
                                 <!--{if $arrData[$key].birth_point > 0}-->
                                     <div><span class="mini">お誕生月ポイント：</span> <!--{$arrData[$key].birth_point|n2s}--> Pt</div>

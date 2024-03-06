@@ -34,6 +34,7 @@ function fnChangeVisible(check_id, mod_id){
 //-->
 </script>
 
+<!--{strip}-->
 <form name="form1" id="form1" method="post" action="?">
     <table width="502" border="0" cellspacing="1" cellpadding="0" summary=" ">
         <input type="hidden" name="mode" value="<!--{$tpl_mode}-->" />
@@ -103,3 +104,4 @@ function fnChangeVisible(check_id, mod_id){
         <tr><td height="30"></td></tr>
     </table>
 </form>
+<!--{/strip}-->

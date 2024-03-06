@@ -41,7 +41,6 @@ defined('ROOT_URLPATH') or define('ROOT_URLPATH', $url_dir);
 defined('ADMIN_DIR') or define('ADMIN_DIR', '');
 
 require_once HTML_REALDIR . HTML2DATA_DIR . 'require_base.php';
-ob_start();
 // ▲require.php 相当
 
 $ownDir = realpath(dirname(__FILE__)) . '/';
