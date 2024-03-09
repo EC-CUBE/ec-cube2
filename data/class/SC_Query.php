@@ -133,11 +133,7 @@ class SC_Query
      */
     public function isError()
     {
-        if (PEAR::isError($this->conn)) {
-            return true;
-        }
-
-        return false;
+        return PEAR::isError($this->conn);
     }
 
     /**
