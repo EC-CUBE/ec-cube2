@@ -265,11 +265,13 @@ class SC_Query
     /**
      * クエリを実行し、結果行毎にコールバック関数を適用する
      *
-     * @param  callback $function  コールバック先
+     * @param  callback $function  コールバック先。成否を boolean で返すこと。
      * @param  string   $sql       SQL クエリ
      * @param  array    $arrVal    プリペアドステートメントの実行時に使用される配列。配列の要素数は、クエリ内のプレースホルダの数と同じでなければなりません。
      * @param  integer  $fetchmode 使用するフェッチモード。デフォルトは DB_FETCHMODE_ASSOC。
-     * @return boolean  結果
+     * @return boolean  成否。force_run 無効時の DB エラー時は、エラー画面となる。
+     *                  query() と異なり、force_run 有効時に MDB2_Error を返さない。
+     *                  query() と異なり、force_run 無効時でも $cbFunc の実装次第で false を返し得る。
      */
     public function doCallbackAll($cbFunc, $sql, $arrVal = array(), $fetchmode = MDB2_FETCHMODE_ASSOC)
     {
@@ -277,23 +279,24 @@ class SC_Query
 
         $sth = $this->prepare($sql);
         if (PEAR::isError($sth)) {
-            return;
+            return false;
         }
 
         $affected = $this->execute($sth, $arrVal);
         if (PEAR::isError($affected)) {
-            return;
+            return false;
         }
-        $result = null;
+
+        $success = true;
         while ($data = $affected->fetchRow($fetchmode)) {
-            $result = call_user_func($cbFunc, $data);
-            if ($result === false) {
+            $success = call_user_func($cbFunc, $data);
+            if ($success === false) {
                 break;
             }
         }
         $sth->free();
 
-        return $result;
+        return $success;
     }
 
     /**
