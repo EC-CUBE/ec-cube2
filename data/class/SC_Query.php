@@ -1204,9 +1204,10 @@ class SC_Query
     /**
      * SQLクエリの結果セットのカラム名だけを取得する
      *
+     * @deprecated 2.18.0 本体では利用していない。
      * @param string $n   実行する SQL 文
      * @param array  $arr プレースホルダに挿入する値
-     * @param bool エラーが発生しても処理を続行する場合 true
+     * @param bool エラーが発生しても処理を続行する場合 true。意図した動作にならない恐れがあるが deprecated のため修正していない。
      * @param  mixed $types        プレースホルダの型指定 デフォルトnull = string
      * @param  mixed $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)
      *
