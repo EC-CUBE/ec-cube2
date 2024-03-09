@@ -879,7 +879,7 @@ class SC_Query
 
         $result = $this->execute($sth, $arr);
         if (PEAR::isError($result) && $this->force_run) {
-            return $sth;
+            return $result;
         }
 
         // PREPAREの解放
