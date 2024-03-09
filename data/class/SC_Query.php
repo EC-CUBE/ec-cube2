@@ -303,12 +303,12 @@ class SC_Query
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
         $sth = $this->prepare($sql);
-        if (PEAR::isError($sth) && $this->force_run) {
+        if (PEAR::isError($sth)) {
             return;
         }
 
         $affected = $this->execute($sth, $arrVal);
-        if (PEAR::isError($affected) && $this->force_run) {
+        if (PEAR::isError($affected)) {
             return;
         }
         $result = null;
@@ -337,12 +337,12 @@ class SC_Query
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
         $sth = $this->prepare($sql);
-        if (PEAR::isError($sth) && $this->force_run) {
+        if (PEAR::isError($sth)) {
             return;
         }
 
         $affected = $this->execute($sth, $arrVal);
-        if (PEAR::isError($affected) && $this->force_run) {
+        if (PEAR::isError($affected)) {
             return;
         }
 
@@ -756,12 +756,12 @@ class SC_Query
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
         $sth = $this->prepare($sql);
-        if (PEAR::isError($sth) && $this->force_run) {
+        if (PEAR::isError($sth)) {
             return;
         }
 
         $affected = $this->execute($sth, $arrVal);
-        if (PEAR::isError($affected) && $this->force_run) {
+        if (PEAR::isError($affected)) {
             return;
         }
 
@@ -791,12 +791,12 @@ class SC_Query
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
         $sth = $this->prepare($sql);
-        if (PEAR::isError($sth) && $this->force_run) {
+        if (PEAR::isError($sth)) {
             return;
         }
 
         $affected = $this->execute($sth, $arrWhereVal);
-        if (PEAR::isError($affected) && $this->force_run) {
+        if (PEAR::isError($affected)) {
             return;
         }
 
@@ -825,12 +825,12 @@ class SC_Query
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
         $sth = $this->prepare($sql);
-        if (PEAR::isError($sth) && $this->force_run) {
+        if (PEAR::isError($sth)) {
             return;
         }
 
         $affected = $this->execute($sth, $arrWhereVal);
-        if (PEAR::isError($affected) && $this->force_run) {
+        if (PEAR::isError($affected)) {
             return;
         }
 
@@ -940,12 +940,12 @@ class SC_Query
         $n = $this->dbFactory->sfChangeMySQL($n);
 
         $sth = $this->prepare($n, $types, $result_types);
-        if (PEAR::isError($sth) && $this->force_run) {
+        if (PEAR::isError($sth)) {
             return $sth;
         }
 
         $result = $this->execute($sth, $arr);
-        if (PEAR::isError($result) && $this->force_run) {
+        if (PEAR::isError($result)) {
             return $result;
         }
 
