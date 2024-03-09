@@ -1098,7 +1098,8 @@ class SC_Query
      * @param  mixed                 $types        プレースホルダの型指定 デフォルト null
      * @param  mixed                 $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)、nullは指定無し
      *
-     * @return MDB2_Statement_Common|MDB2_Error プリペアドステートメントインスタンス
+     * @return MDB2_Statement_Common|MDB2_Error|PEAR_Error 通常はプリペアドステートメントインスタンスを返す。
+     *      force_run が有効な場合、エラー時に PEAR_Error を返す。
      */
     public function prepare($sql, $types = null, $result_types = MDB2_PREPARE_RESULT)
     {
@@ -1118,7 +1119,8 @@ class SC_Query
      * @param  array       $arrVal プレースホルダに挿入する配列
      *
      * @return MDB2_Result|int|MDB2_Error|MDB2_Result_pgsql|MDB2_Result_mysql|MDB2_Result_mysqli
-     *     MDB2_Result or integer (affected rows).
+     *     通常は結果セットのインスタンスまたは影響行数を返す。
+     *     force_run が有効な場合、エラー時に PEAR_Error を返す。
      */
     public function execute(&$sth, $arrVal = [])
     {
