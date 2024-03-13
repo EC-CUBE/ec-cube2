@@ -172,6 +172,9 @@ jobs:
         docker tag ec-cube2 ghcr.io/ec-cube/ec-cube2-php:${PHP_VERSION_TAG}-apache
         TAG=${PHP_VERSION_TAG}-apache docker-compose up -d
 
+    - run: docker-compose exec -T ec-cube composer require smarty/smarty "^3.1"
+      if: matrix.php < 7.1
+
     - run: sleep 1
     - run: |
         yarn install
