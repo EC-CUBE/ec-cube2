@@ -28,6 +28,7 @@
         "nanasess/eccube2-fixture-generator": "^1.2",
         "php5friends/phpunit48": ">=4.8.41",
         "phpdocumentor/reflection-docblock": "~2.0.5",
+        "phpstan/phpstan": "^1.10",
         "symfony/yaml": "^2.8 || ^3.4 || ^4.4"
     },
     "require": {
