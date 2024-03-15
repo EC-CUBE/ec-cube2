@@ -38,6 +38,8 @@ jobs:
 
     - name: Build docker image
       uses: ./.github/actions/dockerbuild
+      with:
+        php-version: ${{ matrix.php }}
 
     # - name: Create ADMIN_DIR
     #   run: |
