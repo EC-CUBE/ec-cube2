@@ -35,7 +35,7 @@
     "eslint-config-jquery": "^3.0.2",
     "eslint-plugin-import": "^2.29.1",
     "tar": "^6.2.0",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.2",
     "webpack-cli": "^4.10.0",
     "zaproxy": "^1.0.1"
   },
