@@ -679,7 +679,10 @@ class SC_Helper_Purchase
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $table = 'dtb_shipping';
         $where = 'order_id = ?';
-        $objQuery->delete($table, $where, array($order_id));
+
+        if ($objQuery->count($table, $where, [$order_id]) > 0) {
+            $objQuery->delete($table, $where, array($order_id));
+        }
 
         foreach ($arrParams as $key => $arrShipping) {
             $arrValues = $objQuery->extractOnlyColsOf($table, $arrShipping);
@@ -709,6 +712,21 @@ class SC_Helper_Purchase
 
             $objQuery->insert($table, $arrValues);
         }
+
+        $sql_sub = <<< __EOS__
+            SELECT deliv_time
+            FROM dtb_delivtime
+            WHERE time_id = dtb_shipping.time_id
+            AND deliv_id = (SELECT dtb_order.deliv_id FROM dtb_order WHERE order_id = dtb_shipping.order_id)
+ __EOS__;
+        $objQuery->update(
+            'dtb_shipping',
+            array(),
+            $where,
+            array($order_id),
+            array('shipping_time' => "($sql_sub)")
+        );
+
     }
 
     /**
@@ -1267,20 +1285,6 @@ __EOS__;
         } else {
             $tgt_table = 'dtb_order';
             $sql_where = 'order_id = ?';
-
-            $sql_sub = <<< __EOS__
-                SELECT deliv_time
-                FROM dtb_delivtime
-                WHERE time_id = dtb_shipping.time_id
-                    AND deliv_id = (SELECT dtb_order.deliv_id FROM dtb_order WHERE order_id = dtb_shipping.order_id)
-__EOS__;
-            $objQuery->update(
-                'dtb_shipping',
-                array(),
-                $sql_where,
-                array($order_id),
-                array('shipping_time' => "($sql_sub)")
-            );
         }
 
         $objQuery->update(
