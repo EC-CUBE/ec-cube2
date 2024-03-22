@@ -2,16 +2,24 @@ name: E2E testing for EC-CUBE
 run-name: E2E testing for EC-CUBE
 
 on:
-  workflow_run:
-    workflows: [CI/CD for EC-CUBE]
-    types: [completed]
-
+  workflow_call:
+    inputs:
+      ref_name:
+        required: false
+        type: string
+      base_ref:
+        required: false
+        type: string
+      event_name:
+        required: true
+        type: string
+      owner:
+        required: true
+        type: string
 jobs:
   run-on-linux:
     name: Run on Linux
     runs-on: ubuntu-22.04
-    if: |
-      github.event.workflow_run.conclusion == 'success'
     strategy:
       fail-fast: false
       matrix:
@@ -22,10 +30,16 @@ jobs:
           - 'test/front_login'
           - 'test/front_guest'
           - 'test/admin'
-
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        db: [ mysql, pgsql ]
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Build docker image
+      uses: ./.github/actions/dockerbuild
+      with:
+        php-version: ${{ matrix.php }}
 
     # - name: Create ADMIN_DIR
     #   run: |
@@ -34,6 +48,22 @@ jobs:
     - name: Setup environment
       run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
 
+    - name: Setup environment
+      env:
+        REF_NAME: ${{ inputs.ref_name }}
+        BASE_REF: ${{ inputs.base_ref }}
+        EVENT_NAME: ${{ inputs.event_name }}
+        OWNER: ${{ inputs.owner }}
+        DB: ${{ matrix.db }}
+        PHP: ${{ matrix.php }}
+      run: |
+        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+        echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
+        if [ $EVENT_NAME = "pull_request" ]; then
+          echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+        else
+          echo "TAG=${PHP}-apache-${REF_NAME}" >> $GITHUB_ENV
+        fi
     - if: matrix.pattern == 'test:e2e-extends'
       run: cp -rp tests/class/fixtures/page_extends/* data/class_extends/page_extends
 
@@ -41,14 +71,19 @@ jobs:
       run: |
         sudo chown -R 1001:1000 zap
         sudo chmod -R g+w zap
-        docker build -t ec-cube2 --build-arg PHP_VERSION_TAG=7.4 .
-        docker tag ec-cube2 ghcr.io/ec-cube/ec-cube2-php:7.4-apache
-        TAG=7.4-apache docker-compose up -d
-        docker-compose exec -T ec-cube composer install
-        docker-compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" --ignore-platform-req=php -W
-        docker-compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
-        docker-compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
-        docker-compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
+        docker compose up -d --wait
+        docker compose exec -T ec-cube composer install
+        docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" --ignore-platform-req=php -W
+        docker compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
+        docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+
+    - if: ${{ matrix.db == 'pgsql' }}
+      run: |
+        docker compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
+
+    - if: ${{ matrix.db == 'mysql' }}
+      run: |
+        docker compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
 
     - run: sleep 1
     - run: |
@@ -81,13 +116,11 @@ jobs:
   installer:
     name: Installer test
     runs-on: ubuntu-22.04
-    if: |
-      github.event.workflow_run.conclusion == 'success'
     strategy:
       fail-fast: false
       matrix:
         db: [ 'pgsql', 'mysql' ]
-        php: [ '5.4', '5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
         include:
           - db: mysql
             dbport: '3306'
@@ -102,63 +135,31 @@ jobs:
             dbname: 'eccube_db'
             dbhost: 'postgres'
     steps:
-    ## TODO GitHub Container Registry が使えるようになったら workflow_run で書き直す
-    - if: ${{ matrix.php == 5.4 }}
-      run: |
-        echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
-        echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql mbstring" >> ${GITHUB_ENV}
-        echo "APCU=apcu-4.0.11" >> ${GITHUB_ENV}
-        echo "FORCE_YES=--force-yes" >> ${GITHUB_ENV}
-        echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive/debian-security" >> ${GITHUB_ENV}
-    - if: ${{ matrix.php == 5.5 }}
-      run: |
-        echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
-        echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
-        echo "APCU=" >>  ${GITHUB_ENV}
-        echo "FORCE_YES=--force-yes" >>  ${GITHUB_ENV}
-        echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive/debian-security" >> ${GITHUB_ENV}
-    - if: ${{ matrix.php == 5.6 }}
-      run: |
-        echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
-        echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
-        echo "APCU=" >>  ${GITHUB_ENV}
-        echo "FORCE_YES=--force-yes" >>  ${GITHUB_ENV}
-        echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-    - if: ${{ matrix.php == 7.0 }}
-      run: |
-        echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
-        echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
-        echo "APCU=apcu" >>  ${GITHUB_ENV}
-        echo "FORCE_YES=" >>  ${GITHUB_ENV}
-        echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-        echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-    - if: ${{ matrix.php >= 7.1 && matrix.php <= 7.3 }}
-      run: |
-        echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
-        echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
-        echo "APCU=apcu" >>  ${GITHUB_ENV}
-        echo "FORCE_YES=" >>  ${GITHUB_ENV}
-        echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
-        echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
-    - if: ${{ matrix.php >= 7.4 }}
-      run: |
-        echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
-        echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
-        echo "APCU=apcu" >>  ${GITHUB_ENV}
-        echo "FORCE_YES=" >>  ${GITHUB_ENV}
-        echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
-        echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
-
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Build docker image
+      uses: ./.github/actions/dockerbuild
+      with:
+        php-version: ${{ matrix.php }}
+
     - name: Setup environment
       env:
-        DB_TYPE: ${{ matrix.db }}
-      run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB_TYPE}.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+        REF_NAME: ${{ inputs.ref_name }}
+        BASE_REF: ${{ inputs.base_ref }}
+        EVENT_NAME: ${{ inputs.event_name }}
+        OWNER: ${{ inputs.owner }}
+        DB: ${{ matrix.db }}
+        PHP: ${{ matrix.php }}
+      run: |
+        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+        echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
+        if [ $EVENT_NAME = "pull_request" ]; then
+          echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+        else
+          echo "TAG=${PHP}-apache-${REF_NAME}" >> $GITHUB_ENV
+        fi
+
     - name: Setup to EC-CUBE
       env:
         HTTP_URL: https://127.0.0.1:8085/
@@ -168,9 +169,8 @@ jobs:
         sudo chown -R 1001:1000 zap
         sudo chmod -R g+w zap
         sh -c 'echo "<?php" >> data/config/config.php'
-        docker build -t ec-cube2 --build-arg PHP_VERSION_TAG="${PHP_VERSION_TAG}" --build-arg GD_OPTIONS="${GD_OPTIONS}" --build-arg EXT_INSTALL_ARGS="${EXT_INSTALL_ARGS}" --build-arg APCU="${APCU}" --build-arg FORCE_YES="${FORCE_YES}" --build-arg APT_REPO="${APT_REPO}" --build-arg APT_SECURITY_REPO="${APT_SECURITY_REPO}" .
-        docker tag ec-cube2 ghcr.io/ec-cube/ec-cube2-php:${PHP_VERSION_TAG}-apache
-        TAG=${PHP_VERSION_TAG}-apache docker-compose up -d
+        docker compose up -d --wait
+        docker compose exec -T ec-cube composer install
 
     - run: sleep 1
     - run: |
