@@ -176,6 +176,9 @@ dtb_tax_rule_tax_rule_id_seq
 
 get_optional_sql()
 {
+    if [ ${DBTYPE} = "mysql" ]; then
+        echo "SET CHARACTER SET 'utf8';"
+    fi
     echo "INSERT INTO dtb_member (member_id, login_id, password, name, salt, work, del_flg, authority, creator_id, rank, update_date) VALUES (2, 'admin', '${ADMINPASS}', '管理者', '${AUTH_MAGIC}', '1', '0', '0', '0', '1', current_timestamp);"
     echo "INSERT INTO dtb_baseinfo (id, shop_name, email01, email02, email03, email04, top_tpl, product_tpl, detail_tpl, mypage_tpl, update_date) VALUES (1, '${SHOP_NAME}', '${ADMIN_MAIL}', '${ADMIN_MAIL}', '${ADMIN_MAIL}', '${ADMIN_MAIL}', 'default1', 'default1', 'default1', 'default1', current_timestamp);"
 }
