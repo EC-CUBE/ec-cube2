@@ -9,6 +9,10 @@ inputs:
     description: 'Docker registry to push to'
     default: 'ghcr.io'
     required: true
+  cache-to:
+    description: 'Add the Docker build layer to the cache'
+    default: ~
+    required: false
 
 runs:
   using: "composite"
@@ -60,7 +64,7 @@ runs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha,scope=php-${{ inputs.php-version }}
-        cache-to: type=gha,mode=max,scope=php-${{ inputs.php-version }}
+        cache-to: ${{ inputs.cache-to }}
         build-args: |
           PHP_VERSION_TAG=${{ inputs.php-version }}
           GD_OPTIONS=${{ env.GD_OPTIONS }}
