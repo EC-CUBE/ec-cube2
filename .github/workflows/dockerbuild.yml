@@ -29,3 +29,4 @@ jobs:
         uses: ./.github/actions/dockerbuild
         with:
           php-version: ${{ matrix.php }}
+          cache-to: type=gha,mode=max,scope=php-${{ matrix.php }}
