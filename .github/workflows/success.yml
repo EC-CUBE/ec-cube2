@@ -1,0 +1,11 @@
+name: success
+
+on:
+  workflow_call:
+
+jobs:
+  success:
+    runs-on: ubuntu-latest
+    steps:
+      - name: success
+        run: echo "::notice::success!"

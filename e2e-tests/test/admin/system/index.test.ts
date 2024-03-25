@@ -40,9 +40,9 @@ test.describe.serial('システム設定＞メンバー管理画面を確認を�
   });
 
   const name = faker.name.lastName();
-  const department = faker.company.companyName();
+  const department = faker.company.name();
   const user = fakerEn.internet.password();
-  const password = fakerEn.fake('{{internet.password}}{{datatype.number}}');
+  const password = fakerEn.helpers.fake('{{internet.password}}{{datatype.number}}');
   test('メンバー登録を確認します', async () => {
     popup.on('dialog', dialog => dialog.accept());
     await popup.fill('input[name=name]', name);
