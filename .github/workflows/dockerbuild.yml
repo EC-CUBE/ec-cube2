@@ -1,13 +1,11 @@
 name: Testing dockerbuild
 on:
-  push:
-    branches:
-      - "master"
-    paths:
-      - '**'
-      - '!*.md'
-  release:
-    types: [ published ]
+  workflow_call:
+    inputs:
+      event_name:
+        required: true
+        type: string
+
 env:
   REGISTRY: ghcr.io
 
@@ -21,167 +19,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '5.4', '5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
 
     steps:
-      - name: downcase REPO
-        run: |
-          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}-php" >> ${GITHUB_ENV}
-
-      - if: ${{ matrix.php == 5.4 }}
-        run: |
-          echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
-          echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql mbstring" >> ${GITHUB_ENV}
-          echo "APCU=apcu-4.0.11" >> ${GITHUB_ENV}
-          echo "FORCE_YES=--force-yes" >> ${GITHUB_ENV}
-          echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-          echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive/debian-security" >> ${GITHUB_ENV}
-      - if: ${{ matrix.php == 5.5 }}
-        run: |
-          echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
-          echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
-          echo "APCU=" >>  ${GITHUB_ENV}
-          echo "FORCE_YES=--force-yes" >>  ${GITHUB_ENV}
-          echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-          echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive/debian-security" >> ${GITHUB_ENV}
-      - if: ${{ matrix.php == 5.6 }}
-        run: |
-          echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
-          echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
-          echo "APCU=" >>  ${GITHUB_ENV}
-          echo "FORCE_YES=--force-yes" >>  ${GITHUB_ENV}
-          echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-          echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-      - if: ${{ matrix.php == 7.0 }}
-        run: |
-          echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
-          echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
-          echo "APCU=apcu" >>  ${GITHUB_ENV}
-          echo "FORCE_YES=" >>  ${GITHUB_ENV}
-          echo "APT_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-          echo "APT_SECURITY_REPO=cloudfront.debian.net/debian-archive" >> ${GITHUB_ENV}
-      - if: ${{ matrix.php >= 7.1 && matrix.php <= 7.3 }}
-        run: |
-          echo "GD_OPTIONS=--with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include" >> ${GITHUB_ENV}
-          echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
-          echo "APCU=apcu" >>  ${GITHUB_ENV}
-          echo "FORCE_YES=" >>  ${GITHUB_ENV}
-          echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
-          echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
-      - if: ${{ matrix.php >= 7.4 }}
-        run: |
-          echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
-          echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
-          echo "APCU=apcu" >>  ${GITHUB_ENV}
-          echo "FORCE_YES=" >>  ${GITHUB_ENV}
-          echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
-          echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
-
       - name: Checkout
         uses: actions/checkout@v4
-      ## Used when creating multi-platform images
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v2
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v2
 
-      - name: Setup environment
-        run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+      - name: Build docker image
+        uses: ./.github/actions/dockerbuild
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            # set latest tag for default branch
-            type=raw,value=${{ matrix.php }}-apache,prefix=,enable={{is_default_branch}}
-            type=ref,event=branch,prefix=${{ matrix.php }}-apache-
-            type=ref,event=tag,prefix=${{ matrix.php }}-apache-
-            type=ref,event=pr,prefix=${{ matrix.php }}-apache-pr-
-            type=match,prefix=${{ matrix.php }}-apache-,pattern=eccube-(.*),group=1
-            type=match,prefix=${{ matrix.php }}-apache-,pattern=eccube2-weekly-(.*),group=1
-
-      - name: Build and export to Docker
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          load: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            PHP_VERSION_TAG=${{ matrix.php }}
-            GD_OPTIONS=${{ env.GD_OPTIONS }}
-            EXT_INSTALL_ARGS=${{ env.EXT_INSTALL_ARGS }}
-            APCU=${{ env.APCU }}
-            FORCE_YES=${{ env.FORCE_YES }}
-            APT_REPO=${{ env.APT_REPO }}
-            APT_SECURITY_REPO=${{ env.APT_SECURITY_REPO }}
-
-      - name: Setup to EC-CUBE
-        env:
-          REGISTRY: ${{ env.REGISTRY }}
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
-          TAG: ${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
-          HTTP_URL: https://127.0.0.1:8085/
-          HTTPS_URL: https://127.0.0.1:8085/
-        run: |
-          sudo chown -R 1001:1000 zap
-          sudo chmod -R g+w zap
-          docker-compose up -d
-
-      - run: sleep 1
-      - run: |
-          yarn install
-          yarn run playwright install --with-deps chromium
-          yarn playwright install-deps chromium
-
-      - name: Run to E2E testing
-        env:
-          GROUP: ${{ matrix.group }}
-          PATTERN: ${{ matrix.pattern }}
-          HTTPS_PROXY: 'localhost:8090'
-          HTTP_PROXY: 'localhost:8090'
-          CI: 1
-          FORCE_COLOR: 1
-        run: yarn test:e2e e2e-tests/test/front_guest
-
-      - run: git checkout composer.*
-      ## see https://docs.github.com/ja/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#publishing-a-package-using-an-action
-      - name: Push Docker image
-        uses: docker/build-push-action@v5
-        if: success()
-        with:
-          context: .
-          push: true
-          # platforms: linux/amd64,linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            PHP_VERSION_TAG=${{ matrix.php }}
-            GD_OPTIONS=${{ env.GD_OPTIONS }}
-            EXT_INSTALL_ARGS=${{ env.EXT_INSTALL_ARGS }}
-            APCU=${{ env.APCU }}
-            FORCE_YES=${{ env.FORCE_YES }}
-            APT_REPO=${{ env.APT_REPO }}
-            APT_SECURITY_REPO=${{ env.APT_SECURITY_REPO }}
-
-      - name: Upload evidence
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-php${{ matrix.php }}-evidence
-          path: 'test-results/'
-      - name: Upload logs
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-php${{ matrix.php }}-logs
-          path: data/logs
+          php-version: ${{ matrix.php }}
+          cache-to: type=gha,mode=max,scope=php-${{ matrix.php }}
