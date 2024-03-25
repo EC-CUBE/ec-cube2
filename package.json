@@ -19,7 +19,7 @@
     "webpack": "^5.90.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
+    "@babel/core": "^7.24.3",
     "@babel/preset-env": "^7.23.9",
     "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.42.1",
