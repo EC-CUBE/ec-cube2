@@ -885,6 +885,13 @@ class SC_Utils
     /* かけ算をする（Smarty用) */
     public static function sfMultiply($num1, $num2)
     {
+        if (strlen($num1) == 0) {
+            return '';
+        }
+        if (strlen($num2) == 0) {
+            return '';
+        }
+
         return $num1 * $num2;
     }
 
