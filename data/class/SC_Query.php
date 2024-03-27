@@ -538,7 +538,7 @@ class SC_Query
      * @param  array                    $arrSqlVal  SQL文の中で使用するプレースホルダ配列
      * @param  string                   $from       FROM 句・WHERE 句
      * @param  string                   $arrFromVal FROM 句・WHERE 句で使用するプレースホルダ配列
-     * @return integer|DB_Error|boolean 挿入件数またはエラー(DB_Error, false)
+     * @return integer|MDB2_Error|boolean 挿入件数またはエラー(MDB2_Error, false)
      */
     public function insert($table, $arrVal, $arrSql = array(), $arrSqlVal = array(), $from = '', $arrFromVal = array())
     {
@@ -1024,8 +1024,8 @@ class SC_Query
      * @param  string                $sql          プリペアドステートメントを構築する SQL
      * @param  mixed                 $types        プレースホルダの型指定 デフォルト null
      * @param  mixed                 $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)、nullは指定無し
-     * @return MDB2_Statement_Common|PEAR_Error 通常はプリペアドステートメントインスタンスを返す。
-     *      force_run が有効な場合、エラー時に PEAR_Error を返す。
+     * @return MDB2_Statement_Common|MDB2_Error 通常はプリペアドステートメントインスタンスを返す。
+     *      エラー時に force_run 有効な場合、MDB2_Error を返す。無効な場合、エラー画面を表示する。
      */
     public function prepare($sql, $types = null, $result_types = MDB2_PREPARE_RESULT)
     {
