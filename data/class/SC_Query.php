@@ -243,8 +243,9 @@ class SC_Query
     /**
      * トランザクションを開始する.
      *
-     * @return MDB2_OK 成功した場合は MDB2_OK;
-     *         失敗した場合は PEAR::Error オブジェクト
+     * @return MDB2_OK|MDB2_Error 以下のいずれかを返す。
+     *     - 成功した場合: MDB2_OK
+     *     - 失敗した場合: MDB2_Error
      */
     public function begin()
     {
@@ -254,8 +255,10 @@ class SC_Query
     /**
      * トランザクションをロールバックする.
      *
-     * @return MDB2_OK 成功した場合は MDB2_OK;
-     *         失敗した場合は PEAR::Error オブジェクト
+     * @return MDB2_OK|MDB2_Error|false 以下のいずれかを返す。
+     *     - 成功した場合: MDB2_OK
+     *     - 失敗した場合: MDB2_Error
+     *     - トランザクションが開始されていない場合: false
      */
     public function rollback()
     {
@@ -581,7 +584,7 @@ class SC_Query
      * @param  string                   $from       FROM 句・WHERE 句
      * @param  array                    $arrFromVal FROM 句・WHERE 句で使用するプレースホルダ配列
      *
-     * @return int|DB_Error|bool 挿入件数またはエラー(DB_Error, false)
+     * @return int|MDB2_Error|bool 挿入件数またはエラー(MDB2_Error, false)
      */
     public function insert($table, $arrVal, $arrSql = [], $arrSqlVal = [], $from = '', $arrFromVal = [])
     {
@@ -1097,8 +1100,8 @@ class SC_Query
      * @param  mixed                 $types        プレースホルダの型指定 デフォルト null
      * @param  mixed                 $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)、nullは指定無し
      *
-     * @return MDB2_Statement_Common|MDB2_Error|PEAR_Error 通常はプリペアドステートメントインスタンスを返す。
-     *      force_run が有効な場合、エラー時に PEAR_Error を返す。
+     * @return MDB2_Statement_Common|MDB2_Error 通常はプリペアドステートメントインスタンスを返す。
+     *      エラー時に force_run 有効な場合、MDB2_Error を返す。無効な場合、エラー画面を表示する。
      */
     public function prepare($sql, $types = null, $result_types = MDB2_PREPARE_RESULT)
     {
