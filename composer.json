@@ -45,7 +45,7 @@
         "pear/xml_serializer": "*",
         "pear/xml_util": "*",
         "setasign/fpdf": "^1.8",
-        "setasign/fpdi": "^1.6",
+        "setasign/fpdi": "^2.6",
         "smarty/smarty": "^3.1 || ^4.3"
     },
     "autoload": {
