@@ -35,7 +35,7 @@
         "php": "^5.4 || ^7.0 || ^8.0",
         "ext-gd": "*",
         "ext-mbstring": "*",
-        "mobiledetect/mobiledetectlib": "^2.8",
+        "mobiledetect/mobiledetectlib": "^3.74",
         "nanasess/mdb2": "^2.5",
         "nanasess/php8-compat": "^1.0",
         "pear/archive_tar": "^1.4.3",

@@ -21,6 +21,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+use Detection\MobileDetect;
+
 /**
  * スマートフォンの情報を扱うクラス.
  *
@@ -36,7 +38,7 @@ class SC_SmartphoneUserAgent
      */
     public static function isSmartphone()
     {
-        $detect = new Mobile_Detect;
+        $detect = new MobileDetect();
         // SPでかつPC表示OFFの場合
         // TabletはPC扱い
         return ($detect->isMobile() && !$detect->isTablet()) && !SC_SmartphoneUserAgent_Ex::getSmartphonePcFlag();
