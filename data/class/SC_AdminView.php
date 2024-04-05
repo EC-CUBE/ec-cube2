@@ -27,8 +27,8 @@ class SC_AdminView extends SC_View_Ex
     {
         parent::init();
 
-        $this->_smarty->template_dir = realpath(TEMPLATE_ADMIN_REALDIR);
-        $this->_smarty->compile_dir = realpath(COMPILE_ADMIN_REALDIR);
+        $this->_smarty->setTemplateDir(realpath(TEMPLATE_ADMIN_REALDIR));
+        $this->_smarty->setCompileDir(realpath(COMPILE_ADMIN_REALDIR));
         $this->assign('TPL_URLPATH_PC', ROOT_URLPATH . USER_DIR . USER_PACKAGE_DIR . TEMPLATE_NAME . '/');
         $this->assign('TPL_URLPATH_DEFAULT', ROOT_URLPATH . USER_DIR . USER_PACKAGE_DIR . DEFAULT_TEMPLATE_NAME . '/');
         $this->assign('TPL_URLPATH', ROOT_URLPATH . USER_DIR . USER_PACKAGE_DIR . 'admin/');

@@ -27,8 +27,8 @@ class SC_SiteView extends SC_View_Ex
     {
         parent::init();
 
-        $this->_smarty->template_dir = realpath(TEMPLATE_REALDIR);
-        $this->_smarty->compile_dir = realpath(COMPILE_REALDIR);
+        $this->_smarty->setTemplateDir(realpath(TEMPLATE_REALDIR));
+        $this->_smarty->setCompileDir(realpath(COMPILE_REALDIR));
 
         $this->assignTemplatePath(DEVICE_TYPE_PC);
     }
@@ -38,7 +38,7 @@ class SC_SiteView extends SC_View_Ex
      */
     public function setPrevURL()
     {
-            $objCartSess = new SC_CartSession_Ex();
-            $objCartSess->setPrevURL($_SERVER['REQUEST_URI']);
+        $objCartSess = new SC_CartSession_Ex();
+        $objCartSess->setPrevURL($_SERVER['REQUEST_URI']);
     }
 }
