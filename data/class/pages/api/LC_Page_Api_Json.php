@@ -38,6 +38,7 @@ class LC_Page_Api_Json extends LC_Page_Ex
      */
     public function init()
     {
+        $this->skip_load_page_layout = true;
         parent::init();
     }
 
