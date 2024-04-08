@@ -41,15 +41,13 @@ const config: PlaywrightTestConfig = {
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    baseURL: 'https://ec-cube',
+    baseURL: process.env.HTTP_PROXY ? 'https://ec-cube' : 'https://localhost:4430',
     trace: 'off',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     ignoreHTTPSErrors: true,
     acceptDownloads: true,
-    proxy: {
-      server: process.env.HTTP_PROXY ? `http://${process.env.HTTP_PROXY}` : 'http://localhost:8090'
-    }
+    proxy: process.env.HTTP_PROXY ? { server: `http://${process.env.HTTP_PROXY}` } : undefined,
   },
 
   /* Configure projects for major browsers */

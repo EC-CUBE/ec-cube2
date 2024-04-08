@@ -111,7 +111,7 @@ export class ZapClient {
   /** APIキー. */
   private apiKey: string | null;
   /** プロキシサーバーのホスト名. */
-  private proxy: string;
+  private proxy: string | undefined;
   /** ClientApi のインスタンス. */
   private readonly zaproxy;
 
@@ -119,7 +119,7 @@ export class ZapClient {
    * コンストラクタ.
    */
   constructor(proxy?: string | null, apiKey?: string | null) {
-    this.proxy = proxy ?? PlaywrightConfig.use.proxy.server;
+    this.proxy = proxy ?? PlaywrightConfig.use?.proxy?.server;
     this.apiKey = apiKey !== undefined ? apiKey : null;
     this.zaproxy = new ClientApi({
       apiKey: this.apiKey,
