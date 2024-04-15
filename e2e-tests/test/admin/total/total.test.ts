@@ -1,5 +1,7 @@
 import { test, expect, chromium, Page } from '@playwright/test';
 import { ZapClient, Mode, ContextType } from '../../../utils/ZapClient';
+import { toZonedTime } from 'date-fns-tz';
+
 import fs from 'fs/promises';
 
 import { ADMIN_DIR } from '../../../config/default.config';
@@ -25,7 +27,7 @@ test.describe.serial('売上集計画面を確認をします', () => {
     await page.goto(url);
   });
 
-  const current = new Date();
+  const current = toZonedTime(new Date(), 'Asia/Tokyo');
   test.describe('期間別集計の確認をします', () => {
     const method = 'term';
     test('期間別集計画面を開きます', async () => {
