@@ -56,6 +56,8 @@ jobs:
         OWNER: ${{ inputs.owner }}
         DB: ${{ matrix.db }}
         PHP: ${{ matrix.php }}
+        PATTERN: ${{ matrix.pattern }}
+        GROUP: ${{ matrix.group }}
       run: |
         echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
@@ -64,6 +66,8 @@ jobs:
         else
           echo "TAG=${PHP}-apache-${REF_NAME}" >> $GITHUB_ENV
         fi
+        echo "PATTERN=${PATTERN//:/-}" >> $GITHUB_ENV
+        echo "GROUP=${GROUP//\//-}" >> $GITHUB_ENV
     - if: matrix.pattern == 'test:e2e-extends'
       run: cp -rp tests/class/fixtures/page_extends/* data/class_extends/page_extends
 
@@ -105,13 +109,13 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: linux-php${{ matrix.tag }}-${{ matrix.db }}-evidence
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-evidence
         path: 'test-results/'
     - name: Upload logs
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-logs
         path: data/logs
   installer:
     name: Installer test

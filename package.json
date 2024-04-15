@@ -9,6 +9,7 @@
     "@babel/polyfill": "^7.12.1",
     "css-loader": "^6.10.0",
     "date-fns": "^3.6.0",
+    "date-fns-tz": "^3.0.0",
     "jquery": "3",
     "jquery-colorbox": "^1.6.4",
     "jquery-easing": "^0.0.1",
