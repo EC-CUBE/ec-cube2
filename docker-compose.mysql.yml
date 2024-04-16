@@ -36,12 +36,13 @@ services:
 
   mysql:
     image: mysql:8.0
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --default-time-zone=+09:00
     ports:
       - '13306:3306'
     volumes:
       - mysql-database:/var/lib/mysql
     environment:
+      TZ: Asia/Tokyo
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: eccube_db
       MYSQL_USER: eccube_db_user
