@@ -1,7 +1,8 @@
 import { test, expect, chromium, Page } from '@playwright/test';
 import { faker }  from '@faker-js/faker/locale/en';
+import PlaywrightConfig from '../../../playwright.config';
 
-const baseURL = 'https://ec-cube';
+const baseURL = PlaywrightConfig.use?.baseURL ?? 'https://localhost:4430';
 const url = baseURL + '/install/';
 
 test.describe.serial('インストーラのテストをします', () => {
