@@ -13,8 +13,8 @@ test.describe.serial('会員登録のテストをします', () => {
   test.beforeAll(async () => {
     const browser = await chromium.launch();
     mailcatcher = await request.newContext({
-      baseURL: 'http://mailcatcher:1080',
-      proxy: PlaywrightConfig.use.proxy
+      baseURL: PlaywrightConfig.use?.proxy ? 'http://mailcatcher:1080' : 'http://localhost:1080',
+      proxy: PlaywrightConfig.use?.proxy
     });
     await mailcatcher.delete('/messages');
 

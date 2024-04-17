@@ -4,24 +4,16 @@ import { faker } from '@faker-js/faker/locale/ja';
 import { faker as fakerEN } from '@faker-js/faker/locale/en_US';
 import { addYears } from 'date-fns';
 
-import { ZapClient, Mode, ContextType } from '../../utils/ZapClient';
-const zapClient = new ZapClient();
-
-
 const url = '/products/list.php?category_id=3';
 
 test.describe.serial('購入フロー(ゲスト)のテストをします', () => {
   let page: Page;
   let mailcatcher: APIRequestContext;
   test.beforeAll(async () => {
-    await zapClient.setMode(Mode.Protect);
-    await zapClient.newSession('/zap/wrk/sessions/front_guest_shopping', true);
-    await zapClient.importContext(ContextType.FrontGuest);
-
     const browser = await chromium.launch();
-        mailcatcher = await request.newContext({
-      baseURL: 'http://mailcatcher:1080',
-      proxy: PlaywrightConfig.use.proxy
+    mailcatcher = await request.newContext({
+      baseURL: PlaywrightConfig.use?.proxy ? 'http://mailcatcher:1080' : 'http://localhost:1080',
+      proxy: PlaywrightConfig.use?.proxy
     });
     await mailcatcher.delete('/messages');
 
