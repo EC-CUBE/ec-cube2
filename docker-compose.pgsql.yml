@@ -37,6 +37,7 @@ services:
   postgres:
     image: postgres
     environment:
+      - TZ=Asia/Tokyo
       - POSTGRES_DB=eccube_db
       - POSTGRES_USER=eccube_db_user
       - POSTGRES_PASSWORD=password
