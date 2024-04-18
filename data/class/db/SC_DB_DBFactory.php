@@ -256,7 +256,7 @@ class SC_DB_DBFactory
         // dtb_products_class の Full scan を防ぐため,
         // 商品IDが特定できている場合は, 先に product_id で対象を絞り込む
         if (count($product_ids) > 0) {
-            $in = SC_Utils_Ex::repeatStrWithSeparator('?', count($product_ids));
+            $in = implode(",", $product_ids);
             $product_id_cause = ' AND product_id IN ('.$in.')';
             $dtb_products_table = ' ( SELECT * FROM dtb_products WHERE product_id IN ('.$in.') ) AS dtb_products';
         }
