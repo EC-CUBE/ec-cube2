@@ -97,8 +97,7 @@ jobs:
         PATTERN: ${{ matrix.pattern }}
         CI: 1
         FORCE_COLOR: 1
-      # run: yarn ${PATTERN} e2e-tests/${GROUP}
-      run: yarn ${PATTERN} e2e-tests/test/admin/index.test.ts
+      run: yarn ${PATTERN} e2e-tests/${GROUP}
 
     - name: Upload evidence
       if: failure()
