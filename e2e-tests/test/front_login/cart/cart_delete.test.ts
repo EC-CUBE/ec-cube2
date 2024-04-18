@@ -5,15 +5,16 @@ import { intervalRepeater } from '../../../utils/Progress';
 // 商品をカートに入れて購入手続きへ進むフィクスチャ
 import { test, expect } from '../../../fixtures/cartin.fixture';
 
-const url = `${PlaywrightConfig.use?.baseURL ?? ''}/cart/index.php`;
+const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/cart/index.php`;
 import { CartPage } from '../../../pages/cart.page';
 
 // zap/patches/0009-cart_delete.patch を適用する必要があります
 test.describe.serial('カートページのテストをします', () => {
-  const detailURL = `${PlaywrightConfig.use?.baseURL ?? ''}/products/detail.php?product_id=1`;
+  const detailURL = `${ PlaywrightConfig.use?.baseURL ?? '' }/products/detail.php?product_id=1`;
   test('カートの削除をテストします', async ( { page } ) => {
     await page.goto(detailURL);
     await expect(page.locator('#detailrightbloc > h2')).toContainText('アイスクリーム');
+
     // 商品をカートに入れます
     await page.selectOption('select[name=classcategory_id1]', { label: '抹茶' });
     await page.selectOption('select[name=classcategory_id2]', { label: 'S' });
@@ -23,6 +24,7 @@ test.describe.serial('カートページのテストをします', () => {
     // カートの内容を確認します
     await expect(page.locator('h2.title')).toContainText('現在のカゴの中');
     await expect(page.locator('table[summary=商品情報] >> tr >> nth=1')).toContainText('アイスクリーム');
+
     // カートを削除します
     page.on('dialog', dialog => dialog.accept());
     await page.reload();
@@ -38,6 +40,7 @@ test.describe.serial('カートページのテストをします', () => {
       const message = result.pop();
 
       let scanId: number;
+
       // アクティブスキャンを実行します
       expect(message?.requestBody).toContain('mode=delete');
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', message?.requestBody);

@@ -1,7 +1,7 @@
 import { test, expect } from '../../../fixtures/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 
-const url = `/${ADMIN_DIR}/customer/edit.php`;
+const url = `/${ ADMIN_DIR }/customer/edit.php`;
 test.describe('会員登録画面のテストをします', () => {
 
   test('会員登録画面のテストをします', async ( { loginPage, page }) => {

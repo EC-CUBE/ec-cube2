@@ -1,7 +1,7 @@
 import { test, expect } from '../../../fixtures/mypage_login.fixture';
 import PlaywrightConfig from '../../../../playwright.config';
 
-const url = `${PlaywrightConfig.use?.baseURL ?? ''}/mypage/change.php`;
+const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/mypage/change.php`;
 test.describe.serial('会員登録内容変更画面のテストをします', () => {
   test('会員登録内容変更画面のテストをします', async ( { page }) => {
     await page.goto(url);

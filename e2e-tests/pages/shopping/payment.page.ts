@@ -28,7 +28,7 @@ export class ShoppingPaymentPage {
   }
 
   async goto() {
-    await this.page.goto(`${PlaywrightConfig.use?.baseURL}/shopping/payment.php`);
+    await this.page.goto(`${ PlaywrightConfig.use?.baseURL }/shopping/payment.php`);
   }
 
   async gotoNext() {
@@ -36,7 +36,7 @@ export class ShoppingPaymentPage {
   }
 
   async selectPaymentMethod(label: string) {
-    await this.paymentMethod.locator(`text=${label}`).click();
+    await this.paymentMethod.locator(`text=${ label }`).click();
   }
 
   async selectDeliveryDate(index: number) {

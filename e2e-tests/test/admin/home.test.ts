@@ -2,7 +2,7 @@ import { test, expect } from '../../fixtures/admin_login.fixture';
 import { Page } from '@playwright/test';
 import { ADMIN_DIR } from '../../config/default.config';
 
-const url = `/${ADMIN_DIR}/home.php`;
+const url = `/${ ADMIN_DIR }/home.php`;
 
 test.describe('管理画面Homeの確認をします', () => {
   let page: Page;

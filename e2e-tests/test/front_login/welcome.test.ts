@@ -2,7 +2,7 @@ import { test, expect } from '../../fixtures/mypage_login.fixture';
 import { Page } from '@playwright/test';
 
 const url = '/index.php';
-import { MypageLoginPage } from '../../pages/mypage/login.page'
+import { MypageLoginPage } from '../../pages/mypage/login.page';
 
 test.describe('トップページのテストをします', () => {
   let page: Page;

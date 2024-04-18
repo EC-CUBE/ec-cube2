@@ -2,7 +2,7 @@ import PlaywrightConfig from '../../../../playwright.config';
 import { Risk } from '../../../utils/ZapClient';
 import { intervalRepeater } from '../../../utils/Progress';
 
-const url = `${PlaywrightConfig.use?.baseURL ?? ''}/shopping/deliv.php`;
+const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/shopping/deliv.php`;
 
 // 商品をカートに入れて購入手続きへ進むフィクスチャ
 import { test, expect } from '../../../fixtures/cartin.fixture';
@@ -41,14 +41,15 @@ test.describe.serial('お届け先指定画面のテストをします', () => {
       const cartPage = new CartPage(page);
       const zapClient = cartPage.getZapClient();
       const message = await zapClient.getLastMessage(url);
-      expect(message.requestHeader).toContain(`POST ${url}`);
+      expect(message.requestHeader).toContain(`POST ${ url }`);
       expect(message.responseHeader).toContain('HTTP/1.1 302 Found');
 
       const getMessage = async () => {
+
         // transactionid を取得し直して置換します
         const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
-        const requestBody = message.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
-        await zapClient.sendRequest(`${message.requestHeader}${requestBody}&mode_dummy=dummy`);
+        const requestBody = message.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${ transactionid }`);
+        await zapClient.sendRequest(`${ message.requestHeader }${ requestBody }&mode_dummy=dummy`);
         return await zapClient.getLastMessage(url);
       };
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', await getMessage().then(httpMessage => httpMessage.requestBody));

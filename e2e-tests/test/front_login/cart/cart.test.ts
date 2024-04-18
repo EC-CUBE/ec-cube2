@@ -3,7 +3,7 @@ import PlaywrightConfig from '../../../../playwright.config';
 import { Risk } from '../../../utils/ZapClient';
 import { intervalRepeater } from '../../../utils/Progress';
 
-const url = `${PlaywrightConfig.use?.baseURL ?? ""}/cart/index.php`;
+const url = `${ PlaywrightConfig.use?.baseURL ?? "" }/cart/index.php`;
 import { CartPage } from '../../../pages/cart.page';
 
 // 商品をカートに入れて購入手続きへ進むフィクスチャ
@@ -36,8 +36,8 @@ test.describe.serial('カートページのテストをします', () => {
     const result = await zapClient.getMessages(url, await zapClient.getNumberOfMessages(url) - 1, 1);
     const message = result.pop();
     const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
-    const requestBody = message?.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
-    await zapClient.sendRequest(`${message?.requestHeader}${requestBody}${additionParams}`);
+    const requestBody = message?.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${ transactionid }`);
+    await zapClient.sendRequest(`${ message?.requestHeader }${ requestBody }${ additionParams }`);
     return await zapClient.getLastMessage(url);
   };
 
@@ -80,12 +80,13 @@ test.describe.serial('カートページのテストをします', () => {
       const cartPage = new CartPage(page);
       await cartPage.goto();
       const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
+
       // JavaScript でカートの数量を増やしておく
       await page.evaluate(async (transactionid: string) => {
-        await (async () => {
+        await(async () => {
           const searchParams = data => {
             const params = new URLSearchParams();
-            Object.keys(data).forEach(key => params.append(key, data[key]));
+            Object.keys(data).forEach(key => params.append(key, data[ key ]));
             return params;
           };
           const response = await fetch('/cart/index.php', {
@@ -103,7 +104,7 @@ test.describe.serial('カートページのテストをします', () => {
             })
           });
 
-          return response.body
+          return response.body;
         })();
       }, transactionid);
 

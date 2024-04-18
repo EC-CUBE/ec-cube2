@@ -65,7 +65,7 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
     await page.fill('input[name=order_email]', email);
     await page.fill('input[name=order_email02]', email);
     const sex = faker.datatype.number({ min: 1, max: 2 });
-    await page.check(`input[name=order_sex][value="${sex}"]`);
+    await page.check(`input[name=order_sex][value="${ sex }"]`);
     const job = faker.datatype.number({ min: 1, max: 18 });
     await page.selectOption('select[name=order_job]', { value: String(job) });
     const birth = faker.date.past(20, addYears(new Date(), -20).toISOString());
@@ -115,7 +115,7 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
     await expect(await messages.json()).toContainEqual(expect.objectContaining(
       {
         subject: expect.stringContaining('ご注文ありがとうございます'),
-        recipients: expect.arrayContaining([ `<${email}>` ])
+        recipients: expect.arrayContaining([ `<${ email }>` ])
       }
     ));
   });

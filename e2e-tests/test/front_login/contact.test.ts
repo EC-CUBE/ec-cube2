@@ -10,13 +10,13 @@ const inputNames = [
   'tel01', 'tel02', 'tel03'
 ] as const;
 
-const url = `${PlaywrightConfig?.use?.baseURL ?? ''}/contact/index.php`;
+const url = `${ PlaywrightConfig?.use?.baseURL ?? '' }/contact/index.php`;
 
 test.describe.serial('お問い合わせページのテストをします', () => {
   let page: Page;
 
-  test('お問い合わせページを表示します', async( { page } ) => {
-    const contactPage = new ContactPage(page)
+  test('お問い合わせページを表示します', async ( { page } ) => {
+    const contactPage = new ContactPage(page);
     await contactPage.goto();
     await expect(page).toHaveTitle(/お問い合わせ/);
     await expect(page.locator('h2.title')).toContainText('お問い合わせ');
@@ -24,11 +24,11 @@ test.describe.serial('お問い合わせページのテストをします', () =
 
   test.describe('テストを実行します[GET] @attack', () => {
     let scanId: number;
-    test('アクティブスキャンを実行します', async() => {
-      const contactPage = new ContactPage(page)
+    test('アクティブスキャンを実行します', async () => {
+      const contactPage = new ContactPage(page);
       const zapClient = contactPage.getZapClient();
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'GET');
-      await intervalRepeater(async( { page } ) => await zapClient.getActiveScanStatus(scanId), 5000, page);
+      await intervalRepeater(async ( { page } ) => await zapClient.getActiveScanStatus(scanId), 5000, page);
 
       await zapClient.getAlerts(url, 0, 1, Risk.High)
         .then(alerts => expect(alerts).toEqual([]));
@@ -39,7 +39,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
     await page.goto(PlaywrightConfig.use?.baseURL ?? '/');       // ログアウトしてしまう場合があるので一旦トップへ遷移する
     await page.goto(url);
     await expect(page.locator('#header')).toContainText('ようこそ');
-    inputNames.forEach(async (name) => expect(page.locator(`input[name=${name}]`)).not.toBeEmpty());
+    inputNames.forEach(async (name) => expect(page.locator(`input[name=${ name }]`)).not.toBeEmpty());
     await expect(page.locator('input[name=email]')).toHaveValue('zap_user@example.com');
     await expect(page.locator('input[name=email02]')).toHaveValue('zap_user@example.com');
   });
@@ -47,7 +47,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
   let confirmMessage: HttpMessage;
   let completeMessage: HttpMessage;
   test('お問い合わせ内容を入力します', async ({ page }) => {
-    const contactPage = new ContactPage(page)
+    const contactPage = new ContactPage(page);
     await contactPage.goto();
     const zapClient = contactPage.getZapClient();
     await page.fill('textarea[name=contents]', 'お問い合わせ入力');
@@ -60,8 +60,8 @@ test.describe.serial('お問い合わせページのテストをします', () =
     // 入力内容を確認します
     await expect(page.locator('h2.title')).toContainText('お問い合わせ(確認ページ)');
     inputNames.forEach(async (name) => {
-      await expect(page.locator(`input[name=${name}]`)).toBeHidden();
-      await expect(page.locator(`input[name=${name}]`)).not.toBeEmpty();
+      await expect(page.locator(`input[name=${ name }]`)).toBeHidden();
+      await expect(page.locator(`input[name=${ name }]`)).not.toBeEmpty();
     });
     await expect(page.locator('input[name=email]')).toBeHidden();
     await expect(page.locator('input[name=email]')).toHaveValue('zap_user@example.com');
@@ -91,31 +91,34 @@ test.describe.serial('お問い合わせページのテストをします', () =
     let requestBody: string;
 
     test('アクティブスキャンを実行します', async ({ page }) => {
-      const contactPage = new ContactPage(page)
+      const contactPage = new ContactPage(page);
       const zapClient = contactPage.getZapClient();
 
       completeMessage = await zapClient.getLastMessage(url);
+
       // transactionid を取得し直します
       await page.goto(url);
       const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
-      requestBody = confirmMessage.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
+      requestBody = confirmMessage.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${ transactionid }`);
       expect(requestBody).toContain('mode=confirm');
       const scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', requestBody);
       await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
+
       // 結果を確認します
       await zapClient.getAlerts(url, 0, 1, Risk.High)
         .then(alerts => expect(alerts).toEqual([]));
     });
-  })
+  });
   test.describe('テストを実行します[POST][確認→完了] @attack', () => {
     let requestBody: string;
 
     test('アクティブスキャンを実行します', async () => {
+
       // transactionid を取得し直します
       await page.goto(url);
 
       const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
-      requestBody = completeMessage.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
+      requestBody = completeMessage.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${ transactionid }`);
       expect(completeMessage.responseHeader).toContain('HTTP/1.1 302 Found');
       expect(requestBody).toContain('mode=complete');
       const scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', requestBody);

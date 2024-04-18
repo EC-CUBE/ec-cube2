@@ -13,11 +13,11 @@ export class AdminLoginPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.url = `/${ADMIN_DIR}index.php`;
+    this.url = `/${ ADMIN_DIR }index.php`;
 
     this.loginId = page.locator('input[name=login_id]');
     this.password = page.locator('input[name=password]');
-    this.loginButton = page.getByRole('link', { name: 'LOGIN' })
+    this.loginButton = page.getByRole('link', { name: 'LOGIN' });
     this.zapClient = new ZapClient();
   }
 
@@ -32,7 +32,7 @@ export class AdminLoginPage {
   }
 
   async logout() {
-    await this.page.goto(`/${ADMIN_DIR}/logout.php`);
+    await this.page.goto(`/${ ADMIN_DIR }/logout.php`);
   }
 
   getZapClient() {

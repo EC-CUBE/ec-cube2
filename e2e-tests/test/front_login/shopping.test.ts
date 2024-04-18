@@ -18,6 +18,7 @@ test.describe.serial('購入フロー(ログイン)のテストをします', ()
   test('商品を購入します', async ({ page }) => {
     await page.goto(url);
     await expect(page.locator('#detailrightbloc > h2')).toContainText('アイスクリーム');
+
     // 商品をカートに入れます
     await page.selectOption('select[name=classcategory_id1]', { label: '抹茶' });
     await page.selectOption('select[name=classcategory_id2]', { label: 'S' });
@@ -47,6 +48,7 @@ test.describe.serial('購入フロー(ログイン)のテストをします', ()
     await page.click('[alt=ご注文完了ページへ]');
 
     const email = 'zap_user@example.com';
+
     // 注文完了を確認します
     await expect(page.locator('h2.title')).toContainText('ご注文完了');
 
@@ -55,7 +57,7 @@ test.describe.serial('購入フロー(ログイン)のテストをします', ()
     await expect(await messages.json()).toContainEqual(expect.objectContaining(
       {
         subject: expect.stringContaining('ご注文ありがとうございます'),
-        recipients: expect.arrayContaining([ `<${email}>` ])
+        recipients: expect.arrayContaining([ `<${ email }>` ])
       }
     ));
   });

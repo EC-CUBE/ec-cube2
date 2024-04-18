@@ -2,7 +2,7 @@ import PlaywrightConfig from '../../../../playwright.config';
 import { Risk } from '../../../utils/ZapClient';
 import { intervalRepeater } from '../../../utils/Progress';
 
-const url = `${PlaywrightConfig.use?.baseURL ?? ''}/shopping/complete.php`;
+const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/shopping/complete.php`;
 import { ShoppingPaymentPage } from '../../../pages/shopping/payment.page';
 
 // ご注文確認画面へ進むフィクスチャ

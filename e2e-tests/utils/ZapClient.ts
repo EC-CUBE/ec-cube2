@@ -7,12 +7,16 @@ import PlaywrightConfig from '../../playwright.config';
  * @enum
  */
 export const Mode = {
+
   /** セーフモード - 潜在的に危険な操作を行うことを許可しません. */
   Safe: 'safe',
+
   /** プロテクトモード - スコープ内のアイテム上のみ潜在的に危険な操作を行うことを許可します. */
   Protect: 'protect',
+
   /** 標準モード - どんな潜在的に危険な操作を行うことでも許可します. */
-  Standard: 'standard',
+  Standard: 'standard'
+
   /** 攻撃モード - 危険なので使用しないでください! */
   // Attack: 'attack' denger!!
 } as const;
@@ -25,10 +29,13 @@ type Mode = typeof Mode[keyof typeof Mode];
  * @enum
  */
 export const ContextType = {
+
   /** フロント画面/ログイン状態のコンテキスト. */
   FrontLogin: 'front_login.context',
+
   /** フロント画面/非会員状態のコンテキスト. */
   FrontGuest: 'front_guest.context',
+
   /** 管理画面のコンテキスト. */
   Admin: 'admin.context'
 } as const;
@@ -110,8 +117,10 @@ export class ZapClient {
 
   /** APIキー. */
   private apiKey: string | null;
+
   /** プロキシサーバーのホスト名. */
   private proxy: string | undefined;
+
   /** ClientApi のインスタンス. */
   private readonly zaproxy;
 
@@ -320,7 +329,7 @@ export class ZapClient {
    */
   public async startSession(contextType: ContextType, sessionName: string): Promise<void> {
     await this.setMode(Mode.Protect);
-    await this.newSession(`/zap/wrk/sessions/${sessionName}`, true);
+    await this.newSession(`/zap/wrk/sessions/${ sessionName }`, true);
     await this.importContext(contextType);
 
     switch (contextType) {

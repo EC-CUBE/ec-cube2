@@ -12,7 +12,7 @@ export const test = base.extend<LoginFixtures>({
   loginPage: async ({ page }, use) => {
     const loginPage = new AdminLoginPage(page);
     if (PlaywrightConfig.use?.proxy === undefined) {
-      await page.goto(`/${ADMIN_DIR}`);
+      await page.goto(`/${ ADMIN_DIR }`);
       await loginPage.login(ECCUBE_ADMIN_USER, ECCUBE_ADMIN_PASS);
     } else {
       const zapClient = loginPage.getZapClient();
@@ -24,10 +24,10 @@ export const test = base.extend<LoginFixtures>({
         await zapClient.setForcedUserModeEnabled();
         expect(await zapClient.isForcedUserModeEnabled()).toBeTruthy();
       }
-      await page.goto(`/${ADMIN_DIR}home.php`);
+      await page.goto(`/${ ADMIN_DIR }home.php`);
     }
     await use(loginPage);
-  },
+  }
 });
 
 export { expect } from "@playwright/test";

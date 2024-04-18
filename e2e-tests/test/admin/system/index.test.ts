@@ -5,18 +5,18 @@ import { faker as fakerEn } from '@faker-js/faker/locale/en';
 
 import { ADMIN_DIR } from '../../../config/default.config';
 
-const url = `/${ADMIN_DIR}system/index.php`;
+const url = `/${ ADMIN_DIR }system/index.php`;
 
 test.describe.serial('システム設定＞メンバー管理画面を確認をします', () => {
   let page: Page;
 
-  test('メンバー管理画面を開きます', async( { loginPage, page } ) => {
+  test('メンバー管理画面を開きます', async ( { loginPage, page } ) => {
     await page.goto(url);
     await expect(page.locator('h1')).toContainText('システム設定＞メンバー管理');
   });
 
   let popup: Page;
-  test('メンバー登録画面を開きます', async( { loginPage, page } ) => {
+  test('メンバー登録画面を開きます', async ( { loginPage, page } ) => {
     await page.goto(url);
     [ popup ] = await Promise.all([
       page.waitForEvent('popup'),
@@ -32,7 +32,7 @@ test.describe.serial('システム設定＞メンバー管理画面を確認を�
   const password = fakerEn.helpers.fake('{{internet.password}}{{datatype.number}}');
 
   let edit: Page;
-  test('メンバー登録を確認します', async( { loginPage, page } ) => {
+  test('メンバー登録を確認します', async ( { loginPage, page } ) => {
     await page.goto(url);
     [ popup ] = await Promise.all([
       page.waitForEvent('popup'),
@@ -57,28 +57,28 @@ test.describe.serial('システム設定＞メンバー管理画面を確認を�
     ]);
     edit.on('dialog', dialog => dialog.accept());
     expect(await edit.inputValue('input[name=name]')).toBe(name);
-    await edit.fill('input[name=department]', `${department} 変更`);
+    await edit.fill('input[name=department]', `${ department } 変更`);
     expect(await edit.inputValue('input[name=login_id]')).toBe(user);
     await edit.fill('input[name=password]', password);
     await edit.fill('input[name=password02]', password);
     await edit.click('text=この内容で登録する');
 
-    await expect(page.locator('table.list >> tr >> nth=1')).toContainText(`${department} 変更`);
+    await expect(page.locator('table.list >> tr >> nth=1')).toContainText(`${ department } 変更`);
   });
 
-  test('下へ移動を確認します', async( { loginPage, page } ) => {
+  test('下へ移動を確認します', async ( { loginPage, page } ) => {
     await page.goto(url);
     await page.click('table.list >> tr >> nth=1 >> text=下へ');
     await expect(page.locator('table.list >> tr >> nth=2')).toContainText(name);
   });
 
-  test('上へ移動を確認します', async( { loginPage, page } ) => {
+  test('上へ移動を確認します', async ( { loginPage, page } ) => {
     await page.goto(url);
     await page.click('table.list >> tr >> nth=2 >> text=上へ');
     await expect(page.locator('table.list >> tr >> nth=1')).toContainText(name);
   });
 
-  test('メンバー削除を確認します', async( { loginPage, page } ) => {
+  test('メンバー削除を確認します', async ( { loginPage, page } ) => {
     await page.goto(url);
     page.on('dialog', dialog => dialog.accept());
     await page.click('table.list >> tr >> nth=1 >> text=削除');

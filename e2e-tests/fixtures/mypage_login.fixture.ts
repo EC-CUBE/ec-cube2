@@ -23,7 +23,7 @@ export const test = base.extend({
       await page.goto(`/mypage/index.php`);
     }
     use(page);
-  },
+  }
 });
 
 export { expect } from "@playwright/test";

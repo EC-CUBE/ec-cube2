@@ -28,7 +28,7 @@ export class ContactPage {
   //   'name01', 'name02', 'kana01', 'kana02', 'zip01', 'zip02', 'addr01', 'addr02',  'tel01', 'tel02', 'tel03'
   constructor(page: Page) {
     this.page = page;
-    this.url = `${PlaywrightConfig.use?.baseURL ?? ""}/contact/index.php`;
+    this.url = `${ PlaywrightConfig.use?.baseURL ?? "" }/contact/index.php`;
     this.confirmButton = page.locator('input[name=confirm][alt=確認ページへ]');
     this.submitButton = page.locator('input[name=send][alt=送信]');
     this.name01 = page.locator('input[name=name01]');
@@ -81,7 +81,7 @@ export class ContactPage {
       this.tel02,
       this.tel03,
       this.email,
-      this.emailConfirm,
+      this.emailConfirm
     ];
   }
   getZapClient() {

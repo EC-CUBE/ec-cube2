@@ -45,8 +45,8 @@ test.describe.serial('インストーラのテストをします', () => {
     await page.fill('input[name=login_pass]', password);
     await page.fill('input[name=admin_dir]', adminDirectory);
     await page.check('text=SSLを強制する');
-    await page.fill('input[name=normal_url]', `${baseURL}/`);
-    await page.fill('input[name=secure_url]', `${baseURL}/`);
+    await page.fill('input[name=normal_url]', `${ baseURL }/`);
+    await page.fill('input[name=secure_url]', `${ baseURL }/`);
     await page.click('#options');
     await page.check('text=SMTP');
     await page.fill('input[name=smtp_host]', 'mailcatcher');

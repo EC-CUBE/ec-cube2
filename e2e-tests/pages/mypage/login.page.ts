@@ -16,7 +16,7 @@ export class MypageLoginPage {
     this.url = '/mypage/login.php';
 
     this.loginEmail = page.getByRole('textbox', { name: 'メールアドレスを入力して下さい' });
-    this.loginPass = page.getByRole('textbox', { name: 'パスワードを入力して下さい' })
+    this.loginPass = page.getByRole('textbox', { name: 'パスワードを入力して下さい' });
     this.loginButton = page.locator('id=header_login_form').getByRole('button');
     this.logoutButton = page.getByRole('button', { name: 'ログアウト' }).first();
     this.zapClient = new ZapClient();
