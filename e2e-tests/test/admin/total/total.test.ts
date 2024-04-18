@@ -311,7 +311,7 @@ test.describe('売上集計画面を確認をします', () => {
     });
   });
 
-  test('LC_Page_Admin_Total_Ex クラスのテストをします @extends', async ( { page }) => {
+  test('LC_Page_Admin_Total_Ex クラスのテストをします @extends', async ( { loginPage, page }) => {
     await page.goto(url);
     await expect(page.locator('h1')).toContainText(/カスタマイズ/);
   });
