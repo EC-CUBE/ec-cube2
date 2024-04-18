@@ -1,18 +1,14 @@
 import PlaywrightConfig from '../../../../playwright.config';
-import { ZapClient, ContextType, Risk } from '../../../utils/ZapClient';
+import { Risk } from '../../../utils/ZapClient';
 import { intervalRepeater } from '../../../utils/Progress';
-const zapClient = new ZapClient();
 
-const url = `${PlaywrightConfig.use.baseURL}/shopping/deliv.php`;
+const url = `${PlaywrightConfig.use?.baseURL ?? ''}/shopping/deliv.php`;
 
 // 商品をカートに入れて購入手続きへ進むフィクスチャ
 import { test, expect } from '../../../fixtures/cartin.fixture';
+import { CartPage } from '../../../pages/cart.page';
 
 test.describe.serial('お届け先指定画面のテストをします', () => {
-  test.beforeAll(async () => {
-    await zapClient.startSession(ContextType.FrontLogin, 'front_login_shopping_deliv')
-      .then(async () => expect(await zapClient.isForcedUserModeEnabled()).toBeTruthy());
-  });
 
   test('お届け先指定画面へ遷移します', async ( { page }) => {
     await page.goto(url);       // url を履歴に登録しておく
@@ -22,11 +18,12 @@ test.describe.serial('お届け先指定画面のテストをします', () => {
   test.describe('テストを実行します[GET] @attack', () => {
     let scanId: number;
     test('アクティブスキャンを実行します', async ( { page } ) => {
+      const cartPage = new CartPage(page);
+      const zapClient = cartPage.getZapClient();
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'GET');
       await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
-    });
 
-    test('結果を確認します', async () => {
+      // 結果を確認します
       await zapClient.getAlerts(url, 0, 1, Risk.High)
         .then(alerts => expect(alerts).toEqual([]));
     });
@@ -41,6 +38,8 @@ test.describe.serial('お届け先指定画面のテストをします', () => {
     let scanId: number;
     test('アクティブスキャンを実行します', async ( { page } ) => {
       await page.click('input[alt=選択したお届け先に送る]');
+      const cartPage = new CartPage(page);
+      const zapClient = cartPage.getZapClient();
       const message = await zapClient.getLastMessage(url);
       expect(message.requestHeader).toContain(`POST ${url}`);
       expect(message.responseHeader).toContain('HTTP/1.1 302 Found');
@@ -54,9 +53,8 @@ test.describe.serial('お届け先指定画面のテストをします', () => {
       };
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', await getMessage().then(httpMessage => httpMessage.requestBody));
       await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
-    });
 
-    test('結果を確認します', async () => {
+      // 結果を確認します
       await zapClient.getAlerts(url, 0, 1, Risk.High)
         .then(alerts => expect(alerts).toEqual([]));
     });

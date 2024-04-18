@@ -4,12 +4,8 @@ import { Mode, ContextType } from '../utils/ZapClient';
 import { ECCUBE_DEFAULT_USER, ECCUBE_DEFAULT_PASS } from "../config/default.config";
 import PlaywrightConfig from '../../playwright.config';
 
-type LoginFixtures = {
-  loginPage: MypageLoginPage
-};
-
-export const test = base.extend<LoginFixtures>({
-  loginPage: async ({ page }, use) => {
+export const test = base.extend({
+  page: async ({ page }, use) => {
     const loginPage = new MypageLoginPage(page);
     if (PlaywrightConfig.use?.proxy === undefined) {
       await loginPage.goto();
@@ -26,7 +22,7 @@ export const test = base.extend<LoginFixtures>({
       }
       await page.goto(`/mypage/index.php`);
     }
-    await use(loginPage);
+    use(page);
   },
 });
 

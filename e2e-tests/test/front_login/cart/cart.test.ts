@@ -1,20 +1,15 @@
 import { Page } from '@playwright/test';
 import PlaywrightConfig from '../../../../playwright.config';
-import { ZapClient, ContextType, Risk } from '../../../utils/ZapClient';
+import { Risk } from '../../../utils/ZapClient';
 import { intervalRepeater } from '../../../utils/Progress';
-const zapClient = new ZapClient();
 
-const url = `${PlaywrightConfig.use.baseURL}/cart/index.php`;
+const url = `${PlaywrightConfig.use?.baseURL ?? ""}/cart/index.php`;
 import { CartPage } from '../../../pages/cart.page';
 
 // 商品をカートに入れて購入手続きへ進むフィクスチャ
 import { test, expect } from '../../../fixtures/cartin.fixture';
 
 test.describe.serial('カートページのテストをします', () => {
-  test.beforeAll(async () => {
-    await zapClient.startSession(ContextType.FrontLogin, 'front_login_cart');
-  });
-
   test('カートの内容を確認します', async ( { page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();
@@ -25,29 +20,31 @@ test.describe.serial('カートページのテストをします', () => {
   test.describe('テストを実行します[GET] @attack', () => {
     let scanId: number;
     test('アクティブスキャンを実行します', async ( { page } ) => {
+      const cartPage = new CartPage(page);
+      const zapClient = cartPage.getZapClient();
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'GET');
       await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
-    });
 
-    test('結果を確認します', async () => {
       await zapClient.getAlerts(url, 0, 1, Risk.High)
         .then(alerts => expect(alerts).toEqual([]));
     });
   });
 
   const getMessage = async (page: Page, additionParams: string) => {
+    const cartPage = new CartPage(page);
+    const zapClient = cartPage.getZapClient();
     const result = await zapClient.getMessages(url, await zapClient.getNumberOfMessages(url) - 1, 1);
     const message = result.pop();
     const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
-    const requestBody = message.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
-    await zapClient.sendRequest(`${message.requestHeader}${requestBody}${additionParams}`);
+    const requestBody = message?.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
+    await zapClient.sendRequest(`${message?.requestHeader}${requestBody}${additionParams}`);
     return await zapClient.getLastMessage(url);
   };
 
   test('カートの数量を加算します', async ( { page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();
-    const quantity = parseInt(await cartPage.getQuantity().textContent());
+    const quantity = parseInt(await cartPage.getQuantity().textContent() ?? '');
     await cartPage.addition();
     await expect(cartPage.getQuantity()).toContainText(String(quantity + 1));
   });
@@ -58,13 +55,12 @@ test.describe.serial('カートページのテストをします', () => {
       const cartPage = new CartPage(page);
       await cartPage.goto();
       await cartPage.addition();
+      const zapClient = cartPage.getZapClient();
       const requestBody = await getMessage(page, '&mode_up=dummy').then(httpMessage => httpMessage.requestBody);
       expect(requestBody).toContain('mode=up');
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', requestBody);
       await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
-    });
 
-    test('結果を確認します', async () => {
       await zapClient.getAlerts(url, 0, 1, Risk.High)
         .then(alerts => expect(alerts).toEqual([]));
     });
@@ -73,7 +69,7 @@ test.describe.serial('カートページのテストをします', () => {
   test('カートの数量を減算します', async ( { page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();
-    const quantity = parseInt(await cartPage.getQuantity().textContent());
+    const quantity = parseInt(await cartPage.getQuantity().textContent() ?? '');
     await cartPage.subtruction();
     await expect(cartPage.getQuantity()).toContainText(String(quantity - 1));
   });
@@ -114,11 +110,10 @@ test.describe.serial('カートページのテストをします', () => {
       await cartPage.subtruction();
       const requestBody = await getMessage(page, '&mode_down=dummy').then(httpMessage => httpMessage.requestBody);
       expect(requestBody).toContain('mode=down');
+      const zapClient = cartPage.getZapClient();
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', requestBody);
       await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
-    });
 
-    test('結果を確認します', async () => {
       await zapClient.getAlerts(url, 0, 1, Risk.High)
         .then(alerts => expect(alerts).toEqual([]));
     });

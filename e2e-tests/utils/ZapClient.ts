@@ -335,4 +335,11 @@ export class ZapClient {
       case ContextType.FrontGuest:
     }
   }
+
+  /**
+   * ZapClient のインスタンスが利用可能かどうかを返します.
+   */
+  public isAvailable(): boolean {
+    return this.proxy !== undefined;
+  }
 }

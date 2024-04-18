@@ -1,16 +1,19 @@
 import { Locator, Page } from '@playwright/test';
 import PlaywrightConfig from '../../playwright.config';
+import { ZapClient } from '../utils/ZapClient';
 
 export class CartPage {
   readonly page: Page;
   readonly url: string;
 
   readonly nextButton: Locator;
+  zapClient: ZapClient;
 
   constructor(page: Page) {
     this.page = page;
-    this.url = `${PlaywrightConfig.use.baseURL}/cart/index.php`;
+    this.url = `${PlaywrightConfig.use?.baseURL ?? ""}/cart/index.php`;
     this.nextButton = page.locator('input[name=confirm][alt=購入手続きへ]');
+    this.zapClient = new ZapClient();
   }
 
   async goto() {
@@ -39,5 +42,9 @@ export class CartPage {
 
   async subtruction(row?: number) {
     await this.getSubtructionButton(row).click();
+  }
+
+  getZapClient() {
+    return this.zapClient;
   }
 }
