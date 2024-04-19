@@ -45,8 +45,6 @@ jobs:
     #   run: |
     #     sudo apt-fast install -y sharutils
     #     echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
-    - name: Setup environment
-      run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
 
     - name: Setup environment
       env:
@@ -59,7 +57,7 @@ jobs:
         PATTERN: ${{ matrix.pattern }}
         GROUP: ${{ matrix.group }}
       run: |
-        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
         if [ $EVENT_NAME = "pull_request" ]; then
           echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
@@ -73,8 +71,6 @@ jobs:
 
     - name: Setup to EC-CUBE
       run: |
-        sudo chown -R 1001:1000 zap
-        sudo chmod -R g+w zap
         docker compose up -d --wait
         docker compose exec -T ec-cube composer install
         docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
@@ -99,8 +95,6 @@ jobs:
       env:
         GROUP: ${{ matrix.group }}
         PATTERN: ${{ matrix.pattern }}
-        HTTPS_PROXY: 'localhost:8090'
-        HTTP_PROXY: 'localhost:8090'
         CI: 1
         FORCE_COLOR: 1
       run: yarn ${PATTERN} e2e-tests/${GROUP}
@@ -156,7 +150,7 @@ jobs:
         DB: ${{ matrix.db }}
         PHP: ${{ matrix.php }}
       run: |
-        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
         if [ $EVENT_NAME = "pull_request" ]; then
           echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
@@ -166,8 +160,6 @@ jobs:
 
     - name: Setup to EC-CUBE
       env:
-        HTTP_URL: https://127.0.0.1:8085/
-        HTTPS_URL: https://127.0.0.1:8085/
         PHP_VERSION_TAG: ${{ matrix.php }}
       run: |
         sudo chown -R 1001:1000 zap
@@ -202,8 +194,6 @@ jobs:
 
     - name: Run to E2E testing
       env:
-        HTTP_PROXY: 'localhost:8090'
-        HTTPS_PROXY: 'localhost:8090'
         CI: 1
         FORCE_COLOR: 1
         DB_TYPE: ${{ matrix.db }}
