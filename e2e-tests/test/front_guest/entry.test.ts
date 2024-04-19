@@ -13,8 +13,8 @@ test.describe.serial('会員登録のテストをします', () => {
   test.beforeAll(async () => {
     const browser = await chromium.launch();
     mailcatcher = await request.newContext({
-      baseURL: 'http://mailcatcher:1080',
-      proxy: PlaywrightConfig.use.proxy
+      baseURL: PlaywrightConfig.use?.proxy ? 'http://mailcatcher:1080' : 'http://localhost:1080',
+      proxy: PlaywrightConfig.use?.proxy
     });
     await mailcatcher.delete('/messages');
 
@@ -68,7 +68,7 @@ test.describe.serial('会員登録のテストをします', () => {
     await page.fill('input[name=password]', password);
     await page.fill('input[name=password02]', password);
     const sex = faker.datatype.number({ min: 1, max: 2 });
-    await page.check(`input[name=sex][value="${sex}"]`);
+    await page.check(`input[name=sex][value="${ sex }"]`);
     const job = faker.datatype.number({ min: 1, max: 18 });
     await page.selectOption('select[name=job]', { value: String(job) });
     const birth = faker.date.past(20, addYears(new Date(), -20).toISOString());
@@ -79,7 +79,7 @@ test.describe.serial('会員登録のテストをします', () => {
     await page.selectOption('select[name=reminder]', String(reminder));
     await page.fill('input[name=reminder_answer]', faker.lorem.word());
     const mailmaga_flg = faker.datatype.number({ min: 1, max: 3 });
-    await page.check(`input[name=mailmaga_flg][value="${mailmaga_flg}"]`);
+    await page.check(`input[name=mailmaga_flg][value="${ mailmaga_flg }"]`);
     await page.click('[alt=確認ページへ]');
   });
 
@@ -116,7 +116,7 @@ test.describe.serial('会員登録のテストをします', () => {
     await expect(await messages.json()).toContainEqual(expect.objectContaining(
       {
         subject: expect.stringContaining('会員登録のご完了'),
-        recipients: expect.arrayContaining([ `<${email}>` ])
+        recipients: expect.arrayContaining([ `<${ email }>` ])
       }
     ));
   });
