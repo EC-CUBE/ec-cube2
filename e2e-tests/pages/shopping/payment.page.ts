@@ -1,5 +1,6 @@
 import { Locator, Page } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
+import { ZapClient } from '../../utils/ZapClient';
 
 export class ShoppingPaymentPage {
   readonly page: Page;
@@ -11,6 +12,7 @@ export class ShoppingPaymentPage {
   readonly disablePoint: Locator;
   readonly usePoint: Locator;
   readonly message: Locator;
+  zapClient: ZapClient;
 
   constructor(page: Page) {
     this.page = page;
@@ -22,10 +24,11 @@ export class ShoppingPaymentPage {
     this.disablePoint = page.locator('#point_off');
     this.usePoint = page.locator('input[name=use_point]');
     this.message = page.locator('textarea[name=message]');
+    this.zapClient = new ZapClient();
   }
 
   async goto() {
-    await this.page.goto(`${PlaywrightConfig.use.baseURL}/shopping/payment.php`);
+    await this.page.goto(`${ PlaywrightConfig.use?.baseURL }/shopping/payment.php`);
   }
 
   async gotoNext() {
@@ -33,7 +36,7 @@ export class ShoppingPaymentPage {
   }
 
   async selectPaymentMethod(label: string) {
-    await this.paymentMethod.locator(`text=${label}`).click();
+    await this.paymentMethod.locator(`text=${ label }`).click();
   }
 
   async selectDeliveryDate(index: number) {
@@ -70,5 +73,9 @@ export class ShoppingPaymentPage {
       await this.chooseToUsePoint();
       await this.fillUsePoint(usePoint ?? 1);
     }
+  }
+
+  getZapClient() {
+    return this.zapClient;
   }
 }

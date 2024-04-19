@@ -15,7 +15,7 @@ export class ShoppingDelivPage {
   }
 
   async goto() {
-    await this.page.goto(`${PlaywrightConfig.use.baseURL}/shopping/deliv.php`);
+    await this.page.goto(`${ PlaywrightConfig.use.baseURL }/shopping/deliv.php`);
   }
 
   async gotoNext() {

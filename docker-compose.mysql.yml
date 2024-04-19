@@ -49,3 +49,8 @@ services:
       MYSQL_PASSWORD: password
     networks:
       - backend
+    healthcheck:
+      test: mysqladmin ping
+      interval: 3s
+      timeout: 3s
+      retries: 3
