@@ -45,8 +45,6 @@ jobs:
     #   run: |
     #     sudo apt-fast install -y sharutils
     #     echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
-    - name: Setup environment
-      run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
 
     - name: Setup environment
       env:
@@ -56,25 +54,27 @@ jobs:
         OWNER: ${{ inputs.owner }}
         DB: ${{ matrix.db }}
         PHP: ${{ matrix.php }}
+        PATTERN: ${{ matrix.pattern }}
+        GROUP: ${{ matrix.group }}
       run: |
-        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
         if [ $EVENT_NAME = "pull_request" ]; then
           echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
         else
           echo "TAG=${PHP}-apache-${REF_NAME}" >> $GITHUB_ENV
         fi
+        echo "PATTERN=${PATTERN//:/-}" >> $GITHUB_ENV
+        echo "GROUP=${GROUP//\//-}" >> $GITHUB_ENV
     - if: matrix.pattern == 'test:e2e-extends'
       run: cp -rp tests/class/fixtures/page_extends/* data/class_extends/page_extends
 
     - name: Setup to EC-CUBE
       run: |
-        sudo chown -R 1001:1000 zap
-        sudo chmod -R g+w zap
         docker compose up -d --wait
         docker compose exec -T ec-cube composer install
-        docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" --ignore-platform-req=php -W
-        docker compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
+        docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
+        docker compose exec -T ec-cube composer update 'symfony/*' -W
         docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
 
     - if: ${{ matrix.db == 'pgsql' }}
@@ -95,8 +95,6 @@ jobs:
       env:
         GROUP: ${{ matrix.group }}
         PATTERN: ${{ matrix.pattern }}
-        HTTPS_PROXY: 'localhost:8090'
-        HTTP_PROXY: 'localhost:8090'
         CI: 1
         FORCE_COLOR: 1
       run: yarn ${PATTERN} e2e-tests/${GROUP}
@@ -105,13 +103,13 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: linux-php${{ matrix.tag }}-${{ matrix.db }}-evidence
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-evidence
         path: 'test-results/'
     - name: Upload logs
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-logs
         path: data/logs
   installer:
     name: Installer test
@@ -152,7 +150,7 @@ jobs:
         DB: ${{ matrix.db }}
         PHP: ${{ matrix.php }}
       run: |
-        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
+        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
         if [ $EVENT_NAME = "pull_request" ]; then
           echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
@@ -162,8 +160,6 @@ jobs:
 
     - name: Setup to EC-CUBE
       env:
-        HTTP_URL: https://127.0.0.1:8085/
-        HTTPS_URL: https://127.0.0.1:8085/
         PHP_VERSION_TAG: ${{ matrix.php }}
       run: |
         sudo chown -R 1001:1000 zap
@@ -198,8 +194,6 @@ jobs:
 
     - name: Run to E2E testing
       env:
-        HTTP_PROXY: 'localhost:8090'
-        HTTPS_PROXY: 'localhost:8090'
         CI: 1
         FORCE_COLOR: 1
         DB_TYPE: ${{ matrix.db }}

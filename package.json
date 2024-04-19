@@ -7,8 +7,9 @@
   "license": "GPL",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
-    "css-loader": "^6.10.0",
-    "date-fns": "^3.3.1",
+    "css-loader": "^7.1.1",
+    "date-fns": "^3.6.0",
+    "date-fns-tz": "^3.0.0",
     "jquery": "3",
     "jquery-colorbox": "^1.6.4",
     "jquery-easing": "^0.0.1",
@@ -20,7 +21,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
-    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-env": "^7.24.4",
     "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.42.1",
     "@types/date-fns": "^2.6.0",
