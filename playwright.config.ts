@@ -7,8 +7,8 @@ const config: PlaywrightTestConfig = {
 
   testDir: './e2e-tests',
 
-  /* Maximum time one test can run for. */
-  timeout: 600 * 1000,
+  /* Maximum time one test can run for.(Defaults to 30000) */
+  timeout: process.env.HTTP_PROXY ? 600 * 1000 : 30000,
 
   expect: {
 
