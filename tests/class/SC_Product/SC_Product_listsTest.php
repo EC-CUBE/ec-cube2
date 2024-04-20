@@ -82,7 +82,8 @@ class SC_Product_listsTest extends SC_Product_TestBase
             ),
         );
 
-        $this->actual = $this->objProducts->lists($this->objQuery, array(1001, 1002));
+        $this->objQuery->setWhere('product_id IN (?, ?)', array(1001, 1002));
+        $this->actual = $this->objProducts->lists($this->objQuery);
 
         $this->verify('商品一覧');
     }
