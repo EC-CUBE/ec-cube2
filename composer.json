@@ -46,7 +46,7 @@
         "pear/xml_util": "*",
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^2.6",
-        "smarty/smarty": "^3.1 || ^4.3"
+        "smarty/smarty": "^5.0.2"
     },
     "autoload": {
         "classmap": [
