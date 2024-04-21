@@ -82,6 +82,13 @@ class SC_Product_listsTest extends SC_Product_TestBase
             ),
         );
 
+        // SC_Product::lists() の第二引数を使用するケースは
+        // SC_DB_DBFactory::alldtlSQL() が利用するエイリアスである alldtl.product_id に対応する WHERE 句が必要
+        $result = $this->objProducts->lists($this->objQuery, array(1001, 1002));
+        $this->assertNull($result);
+
+
+        $this->objQuery->setWhere('product_id IN (?, ?)', array(1001, 1002));
         $this->actual = $this->objProducts->lists($this->objQuery);
 
         $this->verify('商品一覧');
