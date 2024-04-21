@@ -27,7 +27,7 @@ class SC_InstallView extends SC_View_Ex
     {
         parent::__construct();
 
-        $this->_smarty->template_dir = realpath($template_dir);
-        $this->_smarty->compile_dir = realpath($compile_dir);
+        $this->_smarty->setTemplateDir(realpath($template_dir));
+        $this->_smarty->setCompileDir(realpath($compile_dir));
     }
 }
