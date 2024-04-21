@@ -52,7 +52,7 @@ EC-CUBEのインストールは、以下の方法があります。
 
 1. パッケージを使用してインストールする
 1. コマンドラインからインストールする
-1. docker-composeを使用してインストールする
+1. docker composeを使用してインストールする
 
 ### パッケージを使用してインストールする
 
@@ -86,7 +86,7 @@ php composer.phar install --no-dev --no-interaction -o
 
 ブラウザからEC-CUBEにアクセスするとWebインストーラが表示されますので、指示にしたがってインストールしてください。
 
-### docker-compose を使用してインストールする
+### docker compose を使用してインストールする
 
 - *開発環境におすすめです。*
 
@@ -100,7 +100,7 @@ docker-compose.pgsql.yml を指定します。 data/config/config.php が存在�
 ```shell
 git clone https://github.com/EC-CUBE/ec-cube2.git
 cd ec-cube2
-docker-compose -f docker-compose.yml -f docker-compose.pgsql.yml up
+docker compose -f docker-compose.yml -f docker-compose.pgsql.yml up
 ```
 
 #### MySQL を使用する場合
@@ -110,7 +110,7 @@ docker-compose.mysql.yml を指定します。 data/config/config.php が存在�
 ```shell
 git clone https://github.com/EC-CUBE/ec-cube2.git
 cd ec-cube2
-docker-compose -f docker-compose.yml -f docker-compose.mysql.yml up
+docker compose -f docker-compose.yml -f docker-compose.mysql.yml up
 ```
 
 #### DB を別途用意する場合
@@ -120,7 +120,7 @@ php:7.4-apache のみ起動します
 ```shell
 git clone https://github.com/EC-CUBE/ec-cube2.git
 cd ec-cube2
-docker-compose up
+docker compose up
 ```
 
 #### ローカル環境をマウントする場合
@@ -132,7 +132,7 @@ git clone https://github.com/EC-CUBE/ec-cube2.git
 cd ec-cube2
 
 ## MySQL を使用する例
-docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.dev.yml up
+docker compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.dev.yml up
 ```
 
 ## E2Eテストの実行方法
