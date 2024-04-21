@@ -135,6 +135,70 @@ cd ec-cube2
 docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.dev.yml up
 ```
 
+## E2Eテストの実行方法
+
+E2Eテストは [Playwright](https://playwright.dev/) によって作成されています。以下の手順で実行します。
+
+### PostgreSQL の場合
+
+```
+## 必要な環境変数を設定
+export COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml
+
+## docker compose up を実行
+docker compose up -d --wait
+
+## ダミーデータ生成
+docker compose exec -T ec-cube composer install
+docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
+docker compose exec -T ec-cube composer update 'symfony/*' -W
+docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+## 会員のメールアドレスを zap_user@example.com へ変更
+docker compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
+
+## playwright をインストール
+yarn install
+yarn run playwright install --with-deps chromium
+yarn playwright install-deps chromium
+
+## 管理画面の E2E テストを実行
+yarn test:e2e e2e-tests/test/admin
+## フロント(ゲスト)のE2Eテストを実行
+yarn test:e2e --workers=1 e2e-tests/test/front_guest
+## フロント(ログイン)のE2Eテストを実行
+yarn test:e2e --workers=1 e2e-tests/test/front_login
+```
+
+### MySQL の場合
+
+```
+## 環境変数を設定
+export COMPOSE_FILE=docker-compose.yml:docker-compose.mysql.yml:docker-compose.dev.yml
+
+## docker compose up を実行
+docker compose up -d --wait
+
+## ダミーデータ生成
+docker compose exec -T ec-cube composer install
+docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
+docker compose exec -T ec-cube composer update 'symfony/*' -W
+docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+## 会員のメールアドレスを zap_user@example.com へ変更
+docker compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
+
+## playwright をインストール
+yarn install
+yarn run playwright install --with-deps chromium
+yarn playwright install-deps chromium
+
+## 管理画面の E2E テストを実行
+yarn test:e2e e2e-tests/test/admin
+## フロント(ゲスト)のE2Eテストを実行
+yarn test:e2e --workers=1 e2e-tests/test/front_guest
+## フロント(ログイン)のE2Eテストを実行
+yarn test:e2e --workers=1 e2e-tests/test/front_login
+```
+
 ---
 
 - EC-CUBE4系については、 [EC-CUBE/ec-cube](https://github.com/EC-CUBE/ec-cube) にて開発を行っております。
