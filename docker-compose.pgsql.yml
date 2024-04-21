@@ -37,6 +37,7 @@ services:
   postgres:
     image: postgres
     environment:
+      - TZ=Asia/Tokyo
       - POSTGRES_DB=eccube_db
       - POSTGRES_USER=eccube_db_user
       - POSTGRES_PASSWORD=password
@@ -48,3 +49,8 @@ services:
       - pg-database:/var/lib/postgresql/data
     networks:
       - backend
+    healthcheck:
+      test: pg_isready -U eccube_db_user
+      interval: 3s
+      timeout: 3s
+      retries: 3

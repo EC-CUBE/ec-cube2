@@ -201,7 +201,7 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
 
             $template = 'ownersstore/products_list.tpl';
 
-            if (!$objView->_smarty->template_exists($template)) {
+            if (!$objView->_smarty->templateExists($template)) {
                 $objLog->log('* template not exist, use default template');
                 // デフォルトテンプレートを使用
                 $template = DATA_REALDIR . 'Smarty/templates/default/admin/' . $template;

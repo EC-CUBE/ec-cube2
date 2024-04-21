@@ -63,7 +63,7 @@ runs:
         load: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=gha,scope=php-${{ inputs.php-version }}
+        cache-from: type=gha,timeout=1m,scope=php-${{ inputs.php-version }}
         cache-to: ${{ inputs.cache-to }}
         build-args: |
           PHP_VERSION_TAG=${{ inputs.php-version }}

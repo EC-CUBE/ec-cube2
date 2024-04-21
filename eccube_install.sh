@@ -269,16 +269,16 @@ case "${DBTYPE}" in
     #${MYSQL} -u ${ROOTUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} -e "GRANT ALL ON \`${DBNAME}\`.* TO '${DBUSER}'@'%' IDENTIFIED BY '${DBPASS}'"
     echo "create table..."
     echo "SET SESSION default_storage_engine = InnoDB; SET sql_mode = 'NO_ENGINE_SUBSTITUTION';" |
-        cat - ${SQL_DIR}/create_table_mysqli.sql |
+        cat - ${SQL_DIR}/create_table_mysqli.sql | sed -e 's/rank/`rank`/g' |
         ${MYSQL} -h ${DBSERVER} -u ${DBUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} ${DBNAME}
     echo "insert data..."
     echo "SET CHARACTER SET 'utf8';" |
-        cat - ${SQL_DIR}/insert_data.sql |
+        cat - ${SQL_DIR}/insert_data.sql | sed -e 's/rank/`rank`/g' |
         ${MYSQL} -u ${DBUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} ${DBNAME}
     echo "create sequence table..."
     create_sequence_tables
     echo "execute optional SQL..."
-    get_optional_sql | ${MYSQL} -u ${DBUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} ${DBNAME}
+    get_optional_sql | sed -e 's/rank/`rank`/g' | ${MYSQL} -u ${DBUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} ${DBNAME}
 ;;
 esac
 
