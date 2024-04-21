@@ -4,24 +4,16 @@ import { faker } from '@faker-js/faker/locale/ja';
 import { faker as fakerEN } from '@faker-js/faker/locale/en_US';
 import { addYears } from 'date-fns';
 
-import { ZapClient, Mode, ContextType } from '../../utils/ZapClient';
-const zapClient = new ZapClient();
-
-
 const url = '/products/list.php?category_id=3';
 
 test.describe.serial('購入フロー(ゲスト)のテストをします', () => {
   let page: Page;
   let mailcatcher: APIRequestContext;
   test.beforeAll(async () => {
-    await zapClient.setMode(Mode.Protect);
-    await zapClient.newSession('/zap/wrk/sessions/front_guest_shopping', true);
-    await zapClient.importContext(ContextType.FrontGuest);
-
     const browser = await chromium.launch();
-        mailcatcher = await request.newContext({
-      baseURL: 'http://mailcatcher:1080',
-      proxy: PlaywrightConfig.use.proxy
+    mailcatcher = await request.newContext({
+      baseURL: PlaywrightConfig.use?.proxy ? 'http://mailcatcher:1080' : 'http://localhost:1080',
+      proxy: PlaywrightConfig.use?.proxy
     });
     await mailcatcher.delete('/messages');
 
@@ -73,7 +65,7 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
     await page.fill('input[name=order_email]', email);
     await page.fill('input[name=order_email02]', email);
     const sex = faker.datatype.number({ min: 1, max: 2 });
-    await page.check(`input[name=order_sex][value="${sex}"]`);
+    await page.check(`input[name=order_sex][value="${ sex }"]`);
     const job = faker.datatype.number({ min: 1, max: 18 });
     await page.selectOption('select[name=order_job]', { value: String(job) });
     const birth = faker.date.past(20, addYears(new Date(), -20).toISOString());
@@ -123,7 +115,7 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
     await expect(await messages.json()).toContainEqual(expect.objectContaining(
       {
         subject: expect.stringContaining('ご注文ありがとうございます'),
-        recipients: expect.arrayContaining([ `<${email}>` ])
+        recipients: expect.arrayContaining([ `<${ email }>` ])
       }
     ));
   });
