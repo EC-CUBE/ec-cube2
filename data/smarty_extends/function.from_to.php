@@ -32,10 +32,6 @@
  */
 function smarty_function_from_to($params, &$smarty)
 {
-    if (!is_callable('smarty_function_escape_special_chars')) {
-        require_once(SMARTY_PLUGINS_DIR . 'shared.escape_special_chars.php');
-    }
-
     $from = null;
     $to = null;
     $separator = ' ～ ';
