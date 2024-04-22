@@ -177,8 +177,6 @@ class SC_Helper_Purchase
 
         static::cancelOrder($order_id, $orderStatus, $is_delete);
         $arrOrderTemp = static::getOrderTempByOrderId($order_id);
-        $objSiteSession = new SC_SiteSession_Ex();
-        $uniqid = $objSiteSession->getUniqId();
 
         if (!empty($arrOrderTemp)) {
             $tempSession = unserialize($arrOrderTemp['session']);
@@ -188,6 +186,7 @@ class SC_Helper_Purchase
             $objCustomer = new SC_Customer_Ex();
 
             // 新たに受注一時情報を保存する
+            $objSiteSession = new SC_SiteSession_Ex();
             $objSiteSession->unsetUniqId();
             $uniqid = $objSiteSession->getUniqId();
             $arrOrderTemp['del_flg'] = 0;
