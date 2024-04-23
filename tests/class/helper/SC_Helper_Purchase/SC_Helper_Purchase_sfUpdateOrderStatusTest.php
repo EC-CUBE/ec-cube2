@@ -82,7 +82,7 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
     $this->verify();
 
     $update_date = $this->objQuery->get('update_date', 'dtb_order', 'order_id = ?', array($order_id));
-    $this->assertTrue($update_date > $old_udpate_date, '受注情報が更新されている');
+    $this->assertTrue($update_date > $old_update_date, '受注情報が更新されている');
   }
 
   // TODO 定数を変更できないためテスト不可
