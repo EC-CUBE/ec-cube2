@@ -26,10 +26,10 @@ test.describe.serial('システム設定＞メンバー管理画面を確認を�
     await expect(popup.locator('h2')).toContainText('メンバー登録/編集');
   });
 
-  const name = faker.name.lastName();
+  const name = faker.person.lastName();
   const department = faker.company.name();
   const user = fakerEn.internet.password();
-  const password = fakerEn.helpers.fake('{{internet.password}}{{datatype.number}}');
+  const password = fakerEn.helpers.fake('{{internet.password}}{{number.int}}');
 
   let edit: Page;
   test('メンバー登録を確認します', async ( { loginPage, page } ) => {
