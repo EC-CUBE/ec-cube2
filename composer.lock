@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a43896d8a7925355d796f71cd8ea207e",
+    "content-hash": "235cb055e37ff4114183e27466f91942",
     "packages": [
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -1118,16 +1118,16 @@
         },
         {
             "name": "nanasess/eccube2-fixture-generator",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nanasess/eccube2-fixture-generator.git",
-                "reference": "59546afe58352a486f32ef6b2db8c07169e9b5f9"
+                "reference": "429c6bfceca272abfa716881ed503fa23f15b416"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/eccube2-fixture-generator/zipball/59546afe58352a486f32ef6b2db8c07169e9b5f9",
-                "reference": "59546afe58352a486f32ef6b2db8c07169e9b5f9",
+                "url": "https://api.github.com/repos/nanasess/eccube2-fixture-generator/zipball/429c6bfceca272abfa716881ed503fa23f15b416",
+                "reference": "429c6bfceca272abfa716881ed503fa23f15b416",
                 "shasum": ""
             },
             "require": {
@@ -1160,9 +1160,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nanasess/eccube2-fixture-generator/issues",
-                "source": "https://github.com/nanasess/eccube2-fixture-generator/tree/2.0.0"
+                "source": "https://github.com/nanasess/eccube2-fixture-generator/tree/2.0.1"
             },
-            "time": "2024-04-05T00:58:13+00:00"
+            "time": "2024-04-07T14:03:55+00:00"
         },
         {
             "name": "php5friends/global-state11",
@@ -1645,16 +1645,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.65",
+            "version": "1.10.67",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6"
+                "reference": "16ddbe776f10da6a95ebd25de7c1dbed397dc493"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3c657d057a0b7ecae19cb12db446bbc99d8839c6",
-                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/16ddbe776f10da6a95ebd25de7c1dbed397dc493",
+                "reference": "16ddbe776f10da6a95ebd25de7c1dbed397dc493",
                 "shasum": ""
             },
             "require": {
@@ -1697,13 +1697,9 @@
                 {
                     "url": "https://github.com/phpstan",
                     "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
-                    "type": "tidelift"
                 }
             ],
-            "time": "2024-03-23T10:30:26+00:00"
+            "time": "2024-04-16T07:22:02+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

@@ -36,7 +36,7 @@ test.describe.serial('インストーラのテストをします', () => {
   let password: string;
   test('step1 - ECサイトの設定をします', async () => {
     await expect(page.locator('h2').first()).toHaveText('ECサイトの設定');
-    adminDirectory = faker.datatype.uuid().substring(0, 8);
+    adminDirectory = faker.string.uuid().substring(0, 8);
     user = faker.internet.userName();
     password = faker.helpers.fake('{{internet.password}}{{datatype.number}}');
     await page.fill('input[name=shop_name]', faker.company.name());
