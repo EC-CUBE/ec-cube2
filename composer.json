@@ -29,10 +29,10 @@
         "php5friends/phpunit48": ">=4.8.41",
         "phpdocumentor/reflection-docblock": "~5.4.0",
         "phpstan/phpstan": "^1.10",
-        "symfony/yaml": "^2.8 || ^3.4 || ^4.4"
+        "symfony/yaml": "^5.4 || ^6.4"
     },
     "require": {
-        "php": "^5.4 || ^7.0 || ^8.0",
+        "php": "^7.4 || ^8.0",
         "ext-gd": "*",
         "ext-mbstring": "*",
         "mobiledetect/mobiledetectlib": "^3.74",
