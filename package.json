@@ -20,7 +20,7 @@
     "webpack": "^5.91.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.4",
+    "@babel/core": "^7.24.5",
     "@babel/preset-env": "^7.24.5",
     "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.43.1",
@@ -35,7 +35,7 @@
     "eslint": "^8.57.0",
     "eslint-config-jquery": "^3.0.2",
     "eslint-plugin-import": "^2.29.1",
-    "tar": "^7.0.1",
+    "tar": "^7.1.0",
     "typescript": "^5.4.5",
     "tar": "^7.0.1",
     "typescript": "^5.4.5",
