@@ -27,16 +27,77 @@ class SC_ResponseWithHeaderTest extends Common_TestCase
         }
     }
 
-    public function testReload()
+    private function file_get_contents($url)
     {
         $context = stream_context_create(
             [
                 'http' => [
-                    'follow_location' => false
-                ]
+                    'follow_location' => 0,
+                ],
             ]
         );
-        $actual = file_get_contents('http://127.0.0.1:8053/sc_response_reload.php', false, $context);
-        self::assertStringEqualsFile(__DIR__.'/'.self::FIXTURES_DIR.'/sc_response_reload.expected', $actual);
+
+        $contents = file_get_contents($url, false, $context);
+
+        return $contents;
+    }
+
+    private function getExpectedContents($url, $additional_query_strings = '')
+    {
+        $contents = file_get_contents(__DIR__ . '/' . self::FIXTURES_DIR . '/sc_response_reload.expected');
+
+        $url .= '';
+
+        if (strlen($additional_query_strings) >= 1) {
+            $url .= '&' . $additional_query_strings;
+        }
+
+        $contents = str_replace('{url}', $url, $contents);
+
+        return $contents;
+    }
+
+    public function testReload_transactionidが絡まない()
+    {
+        $request_url    = 'http://127.0.0.1:8053/sc_response_reload.php?debug=' . urlencode('テスト');
+        $expected_url   = $request_url . '&redirect=1';
+        $expected = $this->getExpectedContents($expected_url);
+
+        $actual = $this->file_get_contents($request_url);
+        self::assertSame($expected, $actual);
+    }
+
+    public function testReload_リクエストにtransactionidを含む()
+    {
+        $request_url    = 'http://127.0.0.1:8053/sc_response_reload.php?debug=' . urlencode('テスト') . '&' . TRANSACTION_ID_NAME . '=on_reqest';
+        $expected_url   = $request_url . '&redirect=1';
+        $expected = $this->getExpectedContents($expected_url);
+
+        $actual = $this->file_get_contents($request_url);
+        self::assertSame($expected, $actual);
+    }
+
+    public function testReload_ロジックにtransactionidを含む()
+    {
+        $request_url    = 'http://127.0.0.1:8053/sc_response_reload_add_transactionid.php?debug=' . urlencode('テスト');
+        $expected_url   = $request_url . '&redirect=1&' . TRANSACTION_ID_NAME . '=on_logic';
+        $expected = $this->getExpectedContents($expected_url);
+
+        $actual = $this->file_get_contents($request_url);
+        self::assertSame($expected, $actual);
+    }
+
+    public function testReload_ロジック・リクエストにtransactionidを含む()
+    {
+        $base_url       = 'http://127.0.0.1:8053/sc_response_reload_add_transactionid.php?debug=' . urlencode('テスト');
+        $request_url    = $base_url;
+        $request_url    .= '&' . TRANSACTION_ID_NAME . '=on_reqest';
+        $expected_url   = $base_url;
+        $expected_url   .= '&' . TRANSACTION_ID_NAME . '=on_logic';
+        $expected_url   .= '&redirect=1';
+        $expected = $this->getExpectedContents($expected_url);
+
+        $actual = $this->file_get_contents($request_url);
+        self::assertSame($expected, $actual);
     }
 }

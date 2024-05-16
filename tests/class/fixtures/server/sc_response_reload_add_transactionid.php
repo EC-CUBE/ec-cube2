@@ -8,4 +8,4 @@ require __DIR__.'/common.php';
  */
 $_SESSION[TRANSACTION_ID_NAME] = 'on_session';
 
-SC_Response_Ex::reload(['redirect' => 1]);
+SC_Response_Ex::reload(['redirect' => 1, TRANSACTION_ID_NAME => 'on_logic']);
