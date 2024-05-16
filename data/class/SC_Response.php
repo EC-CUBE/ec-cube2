@@ -230,7 +230,7 @@ class SC_Response
          * transactionid を受け取ったリクエストに関して、値を継承してリダイレクトする。
          * @see https://github.com/EC-CUBE/ec-cube2/issues/922
          */
-        if (isset($_REQUEST[TRANSACTION_ID_NAME])) {
+        if (isset($_REQUEST[TRANSACTION_ID_NAME]) && !isset($netUrl->querystring[TRANSACTION_ID_NAME])) {
             $netUrl->addQueryString(TRANSACTION_ID_NAME, $_REQUEST[TRANSACTION_ID_NAME]);
         }
 
