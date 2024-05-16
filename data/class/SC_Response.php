@@ -226,7 +226,14 @@ class SC_Response
             $netUrl->addQueryString(session_name(), session_id());
         }
 
-        $netUrl->addQueryString(TRANSACTION_ID_NAME, SC_Helper_Session_Ex::getToken());
+        /**
+         * transactionid を受け取ったリクエストに関して、値を継承してリダイレクトする。
+         * @see https://github.com/EC-CUBE/ec-cube2/issues/922
+         */
+        if (isset($_REQUEST[TRANSACTION_ID_NAME])) {
+            $netUrl->addQueryString(TRANSACTION_ID_NAME, $_REQUEST[TRANSACTION_ID_NAME]);
+        }
+
         $url = $netUrl->getURL();
 
         header("Location: $url");
