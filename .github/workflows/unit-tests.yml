@@ -59,6 +59,7 @@ jobs:
         fi
     - run: |
         docker compose up -d --wait
+        cat data/config/config.php
         docker compose exec -T ec-cube composer install
     - name: Run to PHPUnit
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --exclude-group classloader,mysql_prepare
