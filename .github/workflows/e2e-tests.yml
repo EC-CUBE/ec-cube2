@@ -72,6 +72,11 @@ jobs:
     - name: Setup to EC-CUBE
       run: |
         docker compose up -d --wait
+        while [ ! -e "data/config/config.php" ]
+        do
+            printf "."
+            sleep 1
+        done
         docker compose exec -T ec-cube composer install
         docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
         docker compose exec -T ec-cube composer update 'symfony/*' -W

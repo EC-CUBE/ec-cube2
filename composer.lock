@@ -1118,16 +1118,16 @@
         },
         {
             "name": "nanasess/eccube2-fixture-generator",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nanasess/eccube2-fixture-generator.git",
-                "reference": "429c6bfceca272abfa716881ed503fa23f15b416"
+                "reference": "9a41ed3df3bc7c626c73f30eea9a6d7a17fda715"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/eccube2-fixture-generator/zipball/429c6bfceca272abfa716881ed503fa23f15b416",
-                "reference": "429c6bfceca272abfa716881ed503fa23f15b416",
+                "url": "https://api.github.com/repos/nanasess/eccube2-fixture-generator/zipball/9a41ed3df3bc7c626c73f30eea9a6d7a17fda715",
+                "reference": "9a41ed3df3bc7c626c73f30eea9a6d7a17fda715",
                 "shasum": ""
             },
             "require": {
@@ -1160,9 +1160,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nanasess/eccube2-fixture-generator/issues",
-                "source": "https://github.com/nanasess/eccube2-fixture-generator/tree/2.0.1"
+                "source": "https://github.com/nanasess/eccube2-fixture-generator/tree/2.0.2"
             },
-            "time": "2024-04-07T14:03:55+00:00"
+            "time": "2024-06-06T01:19:24+00:00"
         },
         {
             "name": "php5friends/global-state11",
