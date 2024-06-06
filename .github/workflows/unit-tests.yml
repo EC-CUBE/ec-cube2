@@ -59,6 +59,11 @@ jobs:
         fi
     - run: |
         docker compose up -d --wait
+        while [ ! -e "data/config/config.php" ]
+        do
+            printf "."
+            sleep 1
+        done
         cat data/config/config.php
         docker compose exec -T ec-cube composer install
     - name: Run to PHPUnit
