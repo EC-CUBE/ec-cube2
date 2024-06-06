@@ -76,3 +76,6 @@ jobs:
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: data/logs
+
+    - if: failure()
+      run: docker compose logs -n 200
