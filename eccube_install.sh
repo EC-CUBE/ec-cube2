@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ######################################################################
 #
@@ -23,6 +23,8 @@
 # http://xoops.ec-cube.net/modules/newbb/viewtopic.php?topic_id=4918&forum=14&post_id=23090#forumpost23090
 #
 #######################################################################
+
+set -e -u -o pipefail
 
 #######################################################################
 # Configuration
@@ -241,9 +243,9 @@ case "${DBTYPE}" in
 "appveyor" | "pgsql" )
    # PostgreSQL
     echo "dropdb..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "DROP DATABASE ${DBNAME};"
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "DROP DATABASE IF EXISTS ${DBNAME};" template1
     echo "createdb..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};"
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};" template1
     echo "create table..."
     ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
     echo "insert data..."
