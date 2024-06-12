@@ -243,9 +243,9 @@ case "${DBTYPE}" in
 "appveyor" | "pgsql" )
    # PostgreSQL
     echo "dropdb..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "DROP DATABASE ${DBNAME};"
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "DROP DATABASE IF EXISTS ${DBNAME};" template1
     echo "createdb..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};"
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};" template1
     echo "create table..."
     ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
     echo "insert data..."
