@@ -54,7 +54,13 @@ class SC_View
         $this->_smarty->registerPlugin('modifier', 'sfMultiply', array('SC_Utils_Ex', 'sfMultiply'));
         $this->_smarty->registerPlugin('modifier', 'sfRmDupSlash', array('SC_Utils_Ex', 'sfRmDupSlash'));
         $this->_smarty->registerPlugin('modifier', 'sfCutString', array('SC_Utils_Ex', 'sfCutString'));
-        $this->_smarty->addPluginsDir(array('plugins', realpath(dirname(__FILE__)) . '/../smarty_extends'));
+        $this->_smarty->registerPlugin('function', 'from_to', 'smarty_function_from_to');
+        $this->_smarty->registerPlugin('function', 'include_php_ex', 'smarty_function_include_php_ex');
+        $this->_smarty->registerPlugin('modifier', 'h', 'smarty_modifier_h');
+        $this->_smarty->registerPlugin('modifier', 'n2s', 'smarty_modifier_n2s');
+        $this->_smarty->registerPlugin('modifier', 'nl2br_html', 'smarty_modifier_nl2br_html');
+        $this->_smarty->registerPlugin('modifier', 'script_escape', 'smarty_modifier_script_escape');
+        $this->_smarty->registerPlugin('modifier', 'u', 'smarty_modifier_u');
         $this->_smarty->registerPlugin('modifier', 'sfMbConvertEncoding', array('SC_Utils_Ex', 'sfMbConvertEncoding'));
         $this->_smarty->registerPlugin('modifier', 'sfGetEnabled', array('SC_Utils_Ex', 'sfGetEnabled'));
         $this->_smarty->registerPlugin('modifier', 'sfNoImageMainList', array('SC_Utils_Ex', 'sfNoImageMainList'));
