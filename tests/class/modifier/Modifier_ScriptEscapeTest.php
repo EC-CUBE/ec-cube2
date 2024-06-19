@@ -1,5 +1,4 @@
 <?php
-require 'data/smarty_extends/modifier.script_escape.php';
 
 /**
  * (省略。アノテーションを認識されるのに必要なようなので記述している。)
