@@ -34,7 +34,7 @@ function smarty_modifier_script_escape($value)
     $pattern .= "(\"|').*(onerror|onload|".implode("|", $escapeEvents).").*=.*(\"|').*";
 
     // 正規表現をまとめる
-    $attributesPattern = "/${pattern}/i";
+    $attributesPattern = "/{$pattern}/i";
 
     // 置き換える文字列
     $convert = '#script tag escaped#';
