@@ -37,7 +37,7 @@
     "eslint-plugin-import": "^2.29.1",
     "tar": "^7.1.0",
     "typescript": "^5.4.5",
-    "tar": "^7.2.0",
+    "tar": "^7.4.0",
     "typescript": "^5.4.5",
     "webpack-cli": "^4.10.0",
     "zaproxy": "^1.0.1"
