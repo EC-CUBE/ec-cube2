@@ -62,7 +62,7 @@ class Modifier_ScriptEscapeTest extends PHPUnit_Framework_TestCase
     public function testメールテンプレート_エスケープされる($value)
     {
         $ret = smarty_modifier_script_escape($value);
-        $pattern = "/#script tag escaped#/";
+        $pattern = "/#script escaped#/";
         $this->assertRegExp($pattern, $ret);
     }
 
@@ -72,7 +72,7 @@ class Modifier_ScriptEscapeTest extends PHPUnit_Framework_TestCase
     public function testメールテンプレート_エスケープされない($value)
     {
         $ret = smarty_modifier_script_escape($value);
-        $pattern = "/#script tag escaped#/";
+        $pattern = "/#script escaped#/";
         $this->assertNotRegExp($pattern, $ret);
     }
 }
