@@ -36,8 +36,6 @@ class LC_Page_FrontParts_Bloc_Category extends LC_Page_FrontParts_Bloc_Ex
     public $arrCat;
     /** @var array */
     public $arrTree;
-    /** @var int */
-    public $root_parent_id;
 
     /**
      * Page を初期化する.
@@ -127,7 +125,6 @@ class LC_Page_FrontParts_Bloc_Category extends LC_Page_FrontParts_Bloc_Ex
         foreach ($arrParentCategoryId as $category_id) {
             $arrParentID = $objCategory->getTreeTrail($category_id);
             $this->arrParentID = array_merge($this->arrParentID, $arrParentID);
-            $this->root_parent_id[] = $arrParentID[0];
         }
 
         return $arrTree;

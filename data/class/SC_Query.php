@@ -538,7 +538,7 @@ class SC_Query
      * @param  array                    $arrSql     array('カラム名' => 'SQL文', ...)の連想配列
      * @param  array                    $arrSqlVal  SQL文の中で使用するプレースホルダ配列
      * @param  string                   $from       FROM 句・WHERE 句
-     * @param  string                   $arrFromVal FROM 句・WHERE 句で使用するプレースホルダ配列
+     * @param  array                    $arrFromVal FROM 句・WHERE 句で使用するプレースホルダ配列
      * @return integer|DB_Error|boolean 挿入件数またはエラー(DB_Error, false)
      */
     public function insert($table, $arrVal, $arrSql = array(), $arrSqlVal = array(), $from = '', $arrFromVal = array())
