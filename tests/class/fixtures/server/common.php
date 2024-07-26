@@ -1,8 +1,8 @@
 <?php
 
-putenv('HTTP_URL=http://127.0.0.1:8053/');
+putenv('HTTP_URL=http://127.0.0.1:8085/');
 
-require __DIR__.'/../../../require.php';
+require __DIR__ . '/../../../require.php';
 
 error_reporting(-1);
 ini_set('display_errors', '1');

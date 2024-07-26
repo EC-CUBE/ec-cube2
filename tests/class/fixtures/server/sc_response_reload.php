@@ -2,10 +2,7 @@
 
 require __DIR__.'/common.php';
 
-/**
- * この値は使われない。
- * @see https://github.com/EC-CUBE/ec-cube2/issues/922
- */
-$_SESSION[TRANSACTION_ID_NAME] = 'on_session';
+$_SERVER['REQUEST_URI'] = HTTPS_URL.'index.php?debug='.urlencode('テスト');
+$_SESSION[TRANSACTION_ID_NAME] = 'aaaa';
 
 SC_Response_Ex::reload(['redirect' => 1]);

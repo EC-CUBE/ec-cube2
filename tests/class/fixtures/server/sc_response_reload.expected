@@ -2,6 +2,6 @@
 Array
 (
     [0] => Content-Type: text/plain; charset=utf-8
-    [1] => Location: {url}
+    [1] => Location: http://127.0.0.1:8085/index.php?debug=%E3%83%86%E3%82%B9%E3%83%88&redirect=1
 )
 shutdown
