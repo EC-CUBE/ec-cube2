@@ -16,7 +16,7 @@ $arrHeader = getallheaders();
 if (($arrHeader['X-Test-function'] ?? '') === 'admin') {
     define('ADMIN_FUNCTION', true);
 }
-else {
+elseif (($arrHeader['X-Test-function'] ?? '') === 'front') {
     define('FRONT_FUNCTION', true);
 }
 
