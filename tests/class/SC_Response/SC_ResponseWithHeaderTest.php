@@ -13,7 +13,7 @@ class SC_ResponseWithHeaderTest extends Common_TestCase
             2 => ['file', '/dev/null', 'w']
         ];
 
-        if (!self::$server = @proc_open('exec php -S 127.0.0.1:8053', $spec, $pipes, __DIR__.'/'.self::FIXTURES_DIR)) {
+        if (!self::$server = @proc_open('exec php -S 127.0.0.1:8085', $spec, $pipes, __DIR__.'/'.self::FIXTURES_DIR)) {
             self::markTestSkipped('PHP server unable to start.');
         }
         sleep(1);
@@ -36,7 +36,7 @@ class SC_ResponseWithHeaderTest extends Common_TestCase
                 ]
             ]
         );
-        $actual = file_get_contents('http://127.0.0.1:8053/sc_response_reload.php', false, $context);
+        $actual = file_get_contents('http://127.0.0.1:8085/sc_response_reload.php', false, $context);
         self::assertStringEqualsFile(__DIR__.'/'.self::FIXTURES_DIR.'/sc_response_reload.expected', $actual);
     }
 }
