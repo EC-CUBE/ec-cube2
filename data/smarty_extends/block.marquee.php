@@ -2,6 +2,7 @@
 /**
  * marqueeタグで囲む。
  *
+ * @deprecated mobile テンプレートは廃止されたため非推奨
  * DoCoMoの携帯端末の場合はmarqueeを使用しない。
  *
  * @return string 出力

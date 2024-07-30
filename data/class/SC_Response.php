@@ -121,13 +121,13 @@ class SC_Response
     /**
      * アプリケーション内でリダイレクトする
      *
-     * 内部で生成する URL の searchpart は、下記の順で上書きしていく。(後勝ち)
+     * 内部で生成する URL のクエリは、下記の順で上書きしていく。(後勝ち)
      * 1. 引数 $inheritQueryString が true の場合、$_SERVER['QUERY_STRING']
-     * 2. $location に含まれる searchpart
+     * 2. $location に含まれる クエリ
      * 3. 引数 $arrQueryString
      * @param  string    $location           「url-path」「現在のURLからのパス」「URL」のいずれか。「../」の解釈は行なわない。
-     * @param  array     $arrQueryString     URL に付加する searchpart
-     * @param  bool      $inheritQueryString 現在のリクエストの searchpart を継承するか
+     * @param  array     $arrQueryString     URL に付加するクエリ
+     * @param  bool      $inheritQueryString 現在のリクエストのクエリを継承するか
      * @param  bool|null $useSsl             true:HTTPSを強制, false:HTTPを強制, null:継承
      * @return void
      * @static
@@ -226,7 +226,22 @@ class SC_Response
             $netUrl->addQueryString(session_name(), session_id());
         }
 
-        $netUrl->addQueryString(TRANSACTION_ID_NAME, SC_Helper_Session_Ex::getToken());
+        /**
+         * transactionid を受け取ったリクエストに関して、値を継承してリダイレクトする。
+         * @see https://github.com/EC-CUBE/ec-cube2/issues/922
+         */
+        if (// 管理機能 (本来遷移先で判定すべきだが、簡易的に遷移元で判定している。)
+            GC_Utils_Ex::isAdminFunction()
+            // 遷移元 transactionid 指定あり
+            && isset($_REQUEST[TRANSACTION_ID_NAME])
+            // リダイレクト先 mode 指定あり
+            && isset($netUrl->querystring['mode'])
+            // リダイレクト先 transactionid 指定なし
+            && !isset($netUrl->querystring[TRANSACTION_ID_NAME])
+        ) {
+            $netUrl->addQueryString(TRANSACTION_ID_NAME, $_REQUEST[TRANSACTION_ID_NAME]);
+        }
+
         $url = $netUrl->getURL();
 
         header("Location: $url");
