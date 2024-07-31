@@ -46,7 +46,7 @@ class LC_Page_FrontParts_Bloc extends LC_Page_Ex
         // 開始時刻を設定する。
         $this->timeStart = microtime(true);
 
-        $this->tpl_authority = $_SESSION['authority'];
+        $this->tpl_authority = $_SESSION['authority'] ?? null;
 
         // ディスプレイクラス生成
         $this->objDisplay = new SC_Display_Ex();

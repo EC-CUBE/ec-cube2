@@ -1490,24 +1490,25 @@ __EOS__;
 
     public function checkSessionPendingOrder()
     {
-        if (!SC_Utils_Ex::isBlank($_SESSION['order_id'])) {
-            $order_id = $_SESSION['order_id'];
-            unset($_SESSION['order_id']);
-            $objQuery = SC_Query_Ex::getSingletonInstance();
-            $objQuery->begin();
-            $arrOrder =  SC_Helper_Purchase_Ex::getOrder($order_id);
-            if ($arrOrder['status'] == ORDER_PENDING) {
-                $objCartSess = new SC_CartSession_Ex();
-                $cartKeys = $objCartSess->getKeys();
-                if (SC_Utils_Ex::isBlank($cartKeys)) {
-                    SC_Helper_Purchase_Ex::rollbackOrder($order_id, ORDER_CANCEL, true);
-                    GC_Utils_Ex::gfPrintLog('order rollback.(session pending) order_id=' . $order_id);
-                } else {
-                    SC_Helper_Purchase_Ex::cancelOrder($order_id, ORDER_CANCEL, true);
-                    GC_Utils_Ex::gfPrintLog('order rollback.(session pending and set card) order_id=' . $order_id);
-                }
+        if (!isset($_SESSION['order_id'])) return;
+        if (SC_Utils_Ex::isBlank($_SESSION['order_id'])) return;
+
+        $order_id = $_SESSION['order_id'];
+        unset($_SESSION['order_id']);
+        $objQuery = SC_Query_Ex::getSingletonInstance();
+        $objQuery->begin();
+        $arrOrder =  SC_Helper_Purchase_Ex::getOrder($order_id);
+        if ($arrOrder['status'] == ORDER_PENDING) {
+            $objCartSess = new SC_CartSession_Ex();
+            $cartKeys = $objCartSess->getKeys();
+            if (SC_Utils_Ex::isBlank($cartKeys)) {
+                SC_Helper_Purchase_Ex::rollbackOrder($order_id, ORDER_CANCEL, true);
+                GC_Utils_Ex::gfPrintLog('order rollback.(session pending) order_id=' . $order_id);
+            } else {
+                SC_Helper_Purchase_Ex::cancelOrder($order_id, ORDER_CANCEL, true);
+                GC_Utils_Ex::gfPrintLog('order rollback.(session pending and set card) order_id=' . $order_id);
             }
-            $objQuery->commit();
         }
+        $objQuery->commit();
     }
 }
