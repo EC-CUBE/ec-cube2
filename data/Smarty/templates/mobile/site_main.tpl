@@ -25,10 +25,6 @@
 <!--{strip}-->
     <body bgcolor="#ffffff" text="#555555" link="#3a75af" vlink="#3a75af">
         <a name="top" id="top"></a>
-        <!--{* Moba8リクエスト用 *}-->
-        <!--{if "sfRequestMoba8"|function_exists === TRUE}-->
-            <!--{include file="`$smarty.const.MODULE_REALDIR`mdl_moba8/request_moba8.tpl"}-->
-        <!--{/if}-->
 
         <!--{* ▼HeaderHeaderTop COLUMN *}-->
         <!--{if !empty($arrPageLayout.HeaderTopNavi)}-->
