@@ -63,8 +63,8 @@ class SC_Helper_DB_sfGetRollbackPointTest extends SC_Helper_DB_TestBase
         $this->order_id = $this->objGenerator->createOrder();
         $this->secenario(100, 100, ORDER_CANCEL);
 
-        $this->assertSame('', $this->order_point, '非会員の場合は空');
-        $this->assertSame('', $this->rollback_point, '非会員の場合は空');
+        $this->assertSame(0, $this->order_point, '非会員の場合は0');
+        $this->assertSame(0, $this->rollback_point, '非会員の場合は0');
     }
 
     protected function secenario($use_point, $add_point, $order_status)
