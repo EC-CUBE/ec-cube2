@@ -358,45 +358,44 @@
                     <col width="5%" />
                     <col width="9%" />
                     <col width="5%" />
-                        <tr>
-                            <th>受注日</th>
-                            <th>注文番号</th>
-                            <th>お名前</th>
-                            <th>支払方法</th>
-                            <th>購入金額(円)</th>
-                            <th>全商品発送日</th>
-                            <th>対応状況</th>
-                            <th><label for="pdf_check">帳票</label> <input type="checkbox" name="pdf_check" id="pdf_check" onclick="eccube.checkAllBox(this, 'input[name=\'pdf_order_id[]\']')" /></th>
-                            <th>編集</th>
-                            <th>メール <input type="checkbox" name="mail_check" id="mail_check" onclick="eccube.checkAllBox(this, 'input[name=\'mail_order_id[]\']')" /></th>
-                            <th>削除</th>
-                        </tr>
+                    <tr>
+                        <th>受注日</th>
+                        <th>注文番号</th>
+                        <th>お名前</th>
+                        <th>支払方法</th>
+                        <th>購入金額(円)</th>
+                        <th>全商品発送日</th>
+                        <th>対応状況</th>
+                        <th><label for="pdf_check">帳票</label> <input type="checkbox" name="pdf_check" id="pdf_check" onclick="eccube.checkAllBox(this, 'input[name=\'pdf_order_id[]\']')" /></th>
+                        <th>編集</th>
+                        <th>メール <input type="checkbox" name="mail_check" id="mail_check" onclick="eccube.checkAllBox(this, 'input[name=\'mail_order_id[]\']')" /></th>
+                        <th>削除</th>
+                    </tr>
 
-                        <!--{section name=cnt loop=$arrResults}-->
-                            <!--{assign var=status value="`$arrResults[cnt].status`"}-->
-                            <tr style="background:<!--{$arrORDERSTATUS_COLOR[$status]}-->;">
-                                <td class="center"><!--{$arrResults[cnt].create_date|sfDispDBDate}--></td>
-                                <td class="center"><!--{$arrResults[cnt].order_id}--></td>
-                                <td class="center"><!--{$arrResults[cnt].order_name01|h}--> <!--{$arrResults[cnt].order_name02|h}--></td>
-                                <td class="center"><!--{$arrResults[cnt].payment_method|h}--></td>
-                                <td class="right"><!--{$arrResults[cnt].total|n2s}--></td>
-                                <td class="center"><!--{$arrResults[cnt].commit_date|sfDispDBDate|default:"未発送"}--></td>
-                                <td class="center"><!--{$arrORDERSTATUS[$status]}--></td>
-                                <td class="center">
-                                    <input type="checkbox" name="pdf_order_id[]" value="<!--{$arrResults[cnt].order_id|h}-->" id="pdf_order_id_<!--{$arrResults[cnt].order_id|h}-->"/><label for="pdf_order_id_<!--{$arrResults[cnt].order_id|h}-->">一括出力</label><br />
-                                    <a href="./" onClick="eccube.openWindow('pdf.php?order_id=<!--{$arrResults[cnt].order_id|h}-->','pdf_input','620','650'); return false;"><span class="icon_class">個別出力</span></a>
-                                </td>
-                                <td class="center"><a href="?" onclick="eccube.changeAction('<!--{$smarty.const.ADMIN_ORDER_EDIT_URLPATH}-->'); eccube.setModeAndSubmit('pre_edit', 'order_id', '<!--{$arrResults[cnt].order_id}-->'); return false;"><span class="icon_edit">編集</span></a></td>
-                                <td class="center">
-                                    <!--{if $arrResults[cnt].order_email|strlen >= 1}-->
-                                        <input type="checkbox" name="mail_order_id[]" value="<!--{$arrResults[cnt].order_id|h}-->" id="mail_order_id_<!--{$arrResults[cnt].order_id|h}-->"/><label for="mail_order_id_<!--{$arrResults[cnt].order_id|h}-->">一括通知</label><br />
-                                        <a href="?" onclick="eccube.changeAction('<!--{$smarty.const.ADMIN_ORDER_MAIL_URLPATH}-->'); eccube.setModeAndSubmit('pre_edit', 'order_id', '<!--{$arrResults[cnt].order_id}-->'); return false;"><span class="icon_mail">個別通知</span></a>
-                                    <!--{/if}-->
-                                </td>
-                                <td class="center"><a href="?" onclick="eccube.setModeAndSubmit('delete', 'order_id', <!--{$arrResults[cnt].order_id|h}-->); return false;"><span class="icon_delete">削除</span></a></td>
-                            </tr>
-                        <!--{/section}-->
-                    <!--{/if}-->
+                    <!--{section name=cnt loop=$arrResults}-->
+                        <!--{assign var=status value="`$arrResults[cnt].status`"}-->
+                        <tr style="background:<!--{$arrORDERSTATUS_COLOR[$status]}-->;">
+                            <td class="center"><!--{$arrResults[cnt].create_date|sfDispDBDate}--></td>
+                            <td class="center"><!--{$arrResults[cnt].order_id}--></td>
+                            <td class="center"><!--{$arrResults[cnt].order_name01|h}--> <!--{$arrResults[cnt].order_name02|h}--></td>
+                            <td class="center"><!--{$arrResults[cnt].payment_method|h}--></td>
+                            <td class="right"><!--{$arrResults[cnt].total|n2s}--></td>
+                            <td class="center"><!--{$arrResults[cnt].commit_date|sfDispDBDate|default:"未発送"}--></td>
+                            <td class="center"><!--{$arrORDERSTATUS[$status]}--></td>
+                            <td class="center">
+                                <input type="checkbox" name="pdf_order_id[]" value="<!--{$arrResults[cnt].order_id|h}-->" id="pdf_order_id_<!--{$arrResults[cnt].order_id|h}-->"/><label for="pdf_order_id_<!--{$arrResults[cnt].order_id|h}-->">一括出力</label><br />
+                                <a href="./" onClick="eccube.openWindow('pdf.php?order_id=<!--{$arrResults[cnt].order_id|h}-->','pdf_input','620','650'); return false;"><span class="icon_class">個別出力</span></a>
+                            </td>
+                            <td class="center"><a href="?" onclick="eccube.changeAction('<!--{$smarty.const.ADMIN_ORDER_EDIT_URLPATH}-->'); eccube.setModeAndSubmit('pre_edit', 'order_id', '<!--{$arrResults[cnt].order_id}-->'); return false;"><span class="icon_edit">編集</span></a></td>
+                            <td class="center">
+                                <!--{if $arrResults[cnt].order_email|strlen >= 1}-->
+                                    <input type="checkbox" name="mail_order_id[]" value="<!--{$arrResults[cnt].order_id|h}-->" id="mail_order_id_<!--{$arrResults[cnt].order_id|h}-->"/><label for="mail_order_id_<!--{$arrResults[cnt].order_id|h}-->">一括通知</label><br />
+                                    <a href="?" onclick="eccube.changeAction('<!--{$smarty.const.ADMIN_ORDER_MAIL_URLPATH}-->'); eccube.setModeAndSubmit('pre_edit', 'order_id', '<!--{$arrResults[cnt].order_id}-->'); return false;"><span class="icon_mail">個別通知</span></a>
+                                <!--{/if}-->
+                            </td>
+                            <td class="center"><a href="?" onclick="eccube.setModeAndSubmit('delete', 'order_id', <!--{$arrResults[cnt].order_id|h}-->); return false;"><span class="icon_delete">削除</span></a></td>
+                        </tr>
+                    <!--{/section}-->
                 </table>
                 <!--{* 検索結果表示テーブル *}-->
 
