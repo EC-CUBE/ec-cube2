@@ -807,7 +807,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
     /**
      * 指定されたキーと複数値の有効性の配列内確認
      *
-     * @param  string  $arr       チェック対象配列
+     * @param  array   $arr       チェック対象配列
      * @param  string  $keyname   フォームキー名
      * @param  array   $item      入力データ配列
      * @param  string  $delimiter 分割文字
@@ -894,7 +894,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
     /**
      * 指定されたキーと値の有効性の配列内確認
      *
-     * @param  string  $arr     チェック対象配列
+     * @param  array   $arr     チェック対象配列
      * @param  string  $keyname キー名
      * @param  array   $item    入力データ配列
      * @return boolean true:有効なデータがある false:有効ではない
