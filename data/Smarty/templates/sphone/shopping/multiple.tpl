@@ -34,7 +34,7 @@
     <!--★ボタン★-->
     <!--{if $tpl_addrmax < $smarty.const.DELIV_ADDR_MAX}-->
         <div class="btn_area_top">
-            <a rel="external" href="javascript:void(0);" class="btn_sub addbtn" onclick="eccube.openWindow('<!--{$smarty.const.ROOT_URLPATH}-->mypage/delivery_addr.php?page=<!--{$smarty.server.SCRIPT_NAME|h}-->','new_deiv','600','640'); return false;">新しいお届け先を追加</a>
+            <a href="javascript:void(0);" class="btn_sub addbtn" onclick="eccube.openWindow('<!--{$smarty.const.ROOT_URLPATH}-->mypage/delivery_addr.php?page=<!--{$smarty.server.SCRIPT_NAME|h}-->','new_deiv','600','640'); return false;">新しいお届け先を追加</a>
         </div>
     <!--{/if}-->
 
@@ -108,8 +108,8 @@
             <!--{/section}-->
 
             <ul class="btn_btm">
-                <li><a rel="external" href="javascript:void(document.form1.submit());" class="btn">選択したお届け先に送る</a></li>
-                <li><a rel="external" href="<!--{$smarty.const.CART_URL}-->" class="btn_back">戻る</a></li>
+                <li><a href="javascript:void(document.form1.submit());" class="btn">選択したお届け先に送る</a></li>
+                <li><a href="<!--{$smarty.const.CART_URL}-->" class="btn_back">戻る</a></li>
             </ul>
         </form>
     </div><!-- /.form_area -->

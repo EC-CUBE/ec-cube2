@@ -23,7 +23,7 @@
 <ul <!--{if $treeID != ""}-->id="<!--{$treeID}-->"<!--{/if}--> style="<!--{if $level > 5 || !$display}-->display: none;<!--{/if}-->">
     <!--{foreach from=$children item=child}-->
         <li class="level<!--{$child.level}--><!--{if in_array($child.category_id, $tpl_category_id)}--> onmark<!--{/if}-->">
-            <span class="category_header"></span><span class="category_body"><a rel="external" href="<!--{$smarty.const.ROOT_URLPATH}-->products/list.php?category_id=<!--{$child.category_id}-->"<!--{if in_array($child.category_id, $tpl_category_id)}--> class="onlink"<!--{/if}-->><!--{$child.category_name|h}-->(<!--{$child.product_count|default:0}-->)</a></span>
+            <span class="category_header"></span><span class="category_body"><a href="<!--{$smarty.const.ROOT_URLPATH}-->products/list.php?category_id=<!--{$child.category_id}-->"<!--{if in_array($child.category_id, $tpl_category_id)}--> class="onlink"<!--{/if}-->><!--{$child.category_name|h}-->(<!--{$child.product_count|default:0}-->)</a></span>
             <!--{if in_array($child.category_id, $arrParentID)}-->
                 <!--{assign var=disp_child value=1}-->
             <!--{else}-->

@@ -40,10 +40,10 @@
         <dd><!--{$arrOrder.law_fax01|h}-->-<!--{$arrOrder.law_fax02|h}-->-<!--{$arrOrder.law_fax03|h}--></dd>
 
         <dt>メールアドレス</dt>
-        <dd><a href="mailto:<!--{$arrOrder.law_email|escape:'hex'}-->" rel="external"><!--{$arrOrder.law_email|escape:'hexentity'}--></a></dd>
+        <dd><a href="mailto:<!--{$arrOrder.law_email|escape:'hex'}-->"><!--{$arrOrder.law_email|escape:'hexentity'}--></a></dd>
 
         <dt>URL</dt>
-        <dd><a href="<!--{$arrOrder.law_url|h}-->" rel="external"><!--{$arrOrder.law_url|h}--></a></dd>
+        <dd><a href="<!--{$arrOrder.law_url|h}-->"><!--{$arrOrder.law_url|h}--></a></dd>
 
         <dt>商品以外の必要代金</dt>
         <dd><!--{$arrOrder.law_term01|h|nl2br}--></dd>
