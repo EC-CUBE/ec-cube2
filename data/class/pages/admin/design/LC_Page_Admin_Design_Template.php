@@ -279,7 +279,7 @@ class LC_Page_Admin_Design_Template extends LC_Page_Admin_Ex
         $this->doUpdateMasterData($template_code, $device_type_id);
         // コンパイルファイルのクリア処理
         $objView = new SC_AdminView_Ex();
-        $objView->_smarty->clear_compiled_tpl();
+        $objView->_smarty->clearCompiledTemplate();
 
         return true;
     }
