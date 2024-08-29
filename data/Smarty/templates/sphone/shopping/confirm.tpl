@@ -286,11 +286,11 @@
         <div class="btn_area">
             <ul class="btn_btm">
                 <!--{if $use_module}-->
-                    <li><a rel="external" href="javascript:void(document.form1.submit());" class="btn">次へ</a></li>
+                    <li><a href="javascript:void(document.form1.submit());" class="btn">次へ</a></li>
                 <!--{else}-->
-                    <li><a rel="external" href="javascript:void(document.form1.submit());" class="btn">ご注文完了ページへ</a></li>
+                    <li><a href="javascript:void(document.form1.submit());" class="btn">ご注文完了ページへ</a></li>
                 <!--{/if}-->
-                <li><a rel="external" href="./payment.php" class="btn_back">戻る</a></li>
+                <li><a href="./payment.php" class="btn_back">戻る</a></li>
             </ul>
         </div>
 
