@@ -40,7 +40,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<!--{$smarty.const.ENTRY_URL}-->">
+                        <a href="<!--{$smarty.const.ENTRY_URL}-->" rel="nofollow">
                             <img class="hover_change_image" src="<!--{$TPL_URLPATH}-->img/button/btn_entry_agree.jpg" alt="同意して会員登録へ" />
                         </a>
                     </li>

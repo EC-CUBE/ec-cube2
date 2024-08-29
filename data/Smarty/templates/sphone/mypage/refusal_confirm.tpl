@@ -36,7 +36,7 @@
         <div class="refusetxt">
             <p>退会手続きを実行してもよろしいでしょうか？</p>
             <ul class="btn_refuse">
-                <li><a class="btn" href="./refusal.php" rel="external">いいえ、退会しません</a></li>
+                <li><a class="btn" href="./refusal.php">いいえ、退会しません</a></li>
                 <li><input class="btn data-role-none" type="submit" value="はい、退会します" name="refuse_do" id="refuse_do" /></li>
             </ul>
         </div>

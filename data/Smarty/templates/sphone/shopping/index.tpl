@@ -70,7 +70,7 @@
         <input type="password" name="<!--{$key|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="passtextBox data-role-none" placeholder="パスワード" />
         </div>
 
-        <p class="arrowRtxt"><a rel="external" href="<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->">パスワードを忘れた方</a></p>
+        <p class="arrowRtxt"><a href="<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->">パスワードを忘れた方</a></p>
         <div class="btn_area">
         <p><input type="submit" value="ログイン" class="btn data-role-none" name="log" id="log" /></p>
         </div>
@@ -82,7 +82,7 @@
         <div class="login_area_btm">
             <nav>
                 <ul class="navBox">
-                    <li><a rel="external" href="<!--{$smarty.const.ROOT_URLPATH}-->entry/kiyaku.php" class="navBox_link">新規会員登録</a></li>
+                    <li><a href="<!--{$smarty.const.ROOT_URLPATH}-->entry/kiyaku.php" class="navBox_link">新規会員登録</a></li>
                     <li><input type="submit" value="会員登録をせずに購入" class="nav_nonmember data-role-none" name="buystep" id="buystep" /></li>
                 </ul>
             </nav>

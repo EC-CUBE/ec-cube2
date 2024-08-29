@@ -271,8 +271,8 @@
         <!--★ボタン★-->
         <div class="btn_area">
             <ul class="btn_btm">
-                <li><a rel="external" href="javascript:void(document.form1.submit());" class="btn">確認ページへ</a></li>
-                <li><a rel="external" href="?mode=return" class="btn_back">戻る</a></li>
+                <li><a href="javascript:void(document.form1.submit());" class="btn">確認ページへ</a></li>
+                <li><a href="?mode=return" class="btn_back">戻る</a></li>
             </ul>
         </div>
 
