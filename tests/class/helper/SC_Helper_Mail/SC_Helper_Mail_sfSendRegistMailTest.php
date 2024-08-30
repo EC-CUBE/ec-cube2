@@ -31,7 +31,7 @@ class SC_Helper_Mail_sfSendRegistMailTest extends SC_Helper_Mail_TestBase
         $this->assertContains($this->arrCustomer['name01'] . $this->arrCustomer['name02'] . ' 様', $message['source']);
     }
 
-    public function test会員登録依頼メールの宛名が正しい()
+    public function test会員登録依頼メールの宛名と登録リンクのidが正しい()
     {
         # 仮会員を作成
         $this->setUpCustomer(['status' => 1]);
