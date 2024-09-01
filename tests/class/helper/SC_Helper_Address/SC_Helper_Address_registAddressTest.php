@@ -14,9 +14,9 @@ class SC_Helper_Address_registAddressTest extends SC_Helper_Address_TestBase
         $this->objAddress = new SC_Helper_Address_Ex();
     }
 
-    protected function tearUp()
+    protected function tearDown()
     {
-        parent::tearUp();
+        parent::tearDown();
     }
 
     /////////////////////////////////////////

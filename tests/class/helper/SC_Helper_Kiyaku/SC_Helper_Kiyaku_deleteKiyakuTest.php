@@ -14,9 +14,9 @@ class SC_Helper_Kiyaku_deleteKiyakuTest extends SC_Helper_Kiyaku_TestBase
         $this->objKiyaku = new SC_Helper_Kiyaku_Ex();
     }
 
-    protected function tearUp()
+    protected function tearDown()
     {
-        parent::tearUp();
+        parent::tearDown();
     }
 
     /////////////////////////////////////////
