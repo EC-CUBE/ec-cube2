@@ -135,40 +135,9 @@ class LC_Page_Regist extends LC_Page_Ex
      */
     public function lfSendRegistMail($registSecretKey)
     {
-        $objQuery       = SC_Query_Ex::getSingletonInstance();
-        $objCustomer    = new SC_Customer_Ex();
-        $objHelperMail  = new SC_Helper_Mail_Ex();
+        $objHelperMail = new SC_Helper_Mail_Ex();
+
         $objHelperMail->setPage($this);
-        $CONF           = SC_Helper_DB_Ex::sfGetBasisData();
-
-        //-- 会員データを取得
-        $arrCustomer    = $objQuery->select('*', 'dtb_customer', 'secret_key = ?', array($registSecretKey));
-        $data           = $arrCustomer[0];
-        $objCustomer->setLogin($data['email']);
-
-        //--　メール送信
-        $objMailText    = new SC_SiteView_Ex();
-        $objMailText->setPage($this);
-        $objMailText->assign('CONF', $CONF);
-        $objMailText->assign('name01', $data['name01']);
-        $objMailText->assign('name02', $data['name02']);
-        $toCustomerMail = $objMailText->fetch('mail_templates/customer_regist_mail.tpl');
-        $subject = $objHelperMail->sfMakesubject('会員登録が完了しました。');
-        $objMail = new SC_SendMail_Ex();
-
-        $objMail->setItem(
-                            '',                         // 宛先
-                            $subject,                   // サブジェクト
-                            $toCustomerMail,            // 本文
-                            $CONF['email03'],           // 配送元アドレス
-                            $CONF['shop_name'],         // 配送元 名前
-                            $CONF['email03'],           // reply_to
-                            $CONF['email04'],           // return_path
-                            $CONF['email04']            // Errors_to
-        );
-        // 宛先の設定
-        $name = $data['name01'] . $data['name02'] .' 様';
-        $objMail->setTo($data['email'], $name);
-        $objMail->sendMail();
+        $objHelperMail->sfSendRegistMail($registSecretKey);
     }
 }
