@@ -373,10 +373,11 @@ class SC_Helper_Mail
         $objMailText = new SC_SiteView_Ex();
         $objMailText->setPage($this->getPage());
         $objMailText->assign('CONF', $CONF);
-        $objMailText->assign('name01', $arrCustomerData['name01']);
-        $objMailText->assign('name02', $arrCustomerData['name02']);
+        $objMailText->assign('arrCustomer', $arrCustomerData);
+
+        // 旧テンプレート互換用 https://github.com/EC-CUBE/ec-cube2/issues/982
+        $objMailText->assignarray($arrCustomerData);
         $objMailText->assign('uniqid', $arrCustomerData['secret_key']);
-        $objMailText->assignobj($arrCustomerData);
 
         $objHelperMail  = new SC_Helper_Mail_Ex();
         // 仮会員が有効の場合
@@ -386,7 +387,6 @@ class SC_Helper_Mail
         } else {
             $subject        = $objHelperMail->sfMakeSubject('会員登録のご完了', $objMailText);
             $toCustomerMail = $objMailText->fetch('mail_templates/customer_regist_mail.tpl');
-
         }
 
         $objMail = new SC_SendMail_Ex();
