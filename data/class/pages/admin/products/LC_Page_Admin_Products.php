@@ -274,7 +274,7 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
      * @param  string       $where        構築する WHERE 句
      * @param  array        $arrValues    構築するクエリパラメーター
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
-     * @param  SC_FormParam $objDb        SC_Helper_DB_Ex インスタンス
+     * @param  SC_Helper_DB_Ex $objDb        SC_Helper_DB_Ex インスタンス
      * @return void
      */
     public function buildQuery($key, &$where, &$arrValues, &$objFormParam, &$objDb)
