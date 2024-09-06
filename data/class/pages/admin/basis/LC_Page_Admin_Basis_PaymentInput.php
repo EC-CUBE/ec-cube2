@@ -98,7 +98,8 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
                 if (count($this->arrErr) == 0) {
                     $this->lfRegistData($objFormParam, $objPayment, $_SESSION['member_id'], $post['payment_id']);
                     $this->objUpFile->moveTempFile();
-                    $this->tpl_onload = "location.href = './payment.php'; return;";
+                    SC_Response_Ex::sendRedirect('payment.php');
+                    SC_Response_Ex::actionExit();
                 }
                 $this->tpl_payment_id = $post['payment_id'];
                 break;

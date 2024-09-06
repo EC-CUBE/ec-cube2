@@ -364,8 +364,6 @@ class SC_Initial
         define('FILE_NOT_FOUND', 20);
         /** 書き込みエラー */
         define('WRITE_FILE_ERROR', 21);
-        /** DB接続エラー */
-        define('DB_CONNECT_ERROR', 22);
         /** ダウンロードファイル存在エラー */
         define('DOWNFILE_NOT_FOUND', 22);
         /** フリーメッセージ */

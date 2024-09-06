@@ -70,7 +70,7 @@
                 <input type="password" name="<!--{$key|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="passtextBox data-role-none" placeholder="パスワード" />
             </div><!-- /.loginareaBox -->
 
-            <p class="arrowRtxt"><a rel="external" href="<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->">パスワードを忘れた方</a></p>
+            <p class="arrowRtxt"><a href="<!--{$smarty.const.HTTPS_URL}-->forgot/<!--{$smarty.const.DIR_INDEX_PATH}-->">パスワードを忘れた方</a></p>
 
             <div class="btn_area">
                 <input type="submit" value="ログイン" class="btn data-role-none" name="log" id="log" />
@@ -84,7 +84,7 @@
         <div class="login_area_btm">
             <nav>
                 <ul class="navBox">
-                    <li><a rel="external" href="<!--{$smarty.const.ROOT_URLPATH}-->entry/kiyaku.php">新規会員登録</a></li>
+                    <li><a href="<!--{$smarty.const.ROOT_URLPATH}-->entry/kiyaku.php">新規会員登録</a></li>
                 </ul>
             </nav>
             <p>会員登録をすると便利なMyページをご利用いただけます。</p>
