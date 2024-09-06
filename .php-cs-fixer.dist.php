@@ -22,6 +22,8 @@ $rules = [
     'increment_style' => false,
     'yoda_style' => false,
     'ereg_to_preg' => true,
+    'string_length_to_empty' => false,
+    'ternary_to_elvis_operator' => false,
 ];
 
 $finder = \PhpCsFixer\Finder::create()
