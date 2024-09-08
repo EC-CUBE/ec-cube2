@@ -1,0 +1,87 @@
+name: CI/CD for EC-CUBE
+run-name: CI/CD for EC-CUBE
+
+on:
+  workflow_call:
+    inputs:
+      ref_name:
+        required: false
+        type: string
+      base_ref:
+        required: false
+        type: string
+      event_name:
+        required: true
+        type: string
+      owner:
+        required: true
+        type: string
+jobs:
+  run-on-linux:
+    name: Run on Linux
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ ubuntu-22.04 ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        db: [ mysql, pgsql ]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Build docker image
+      uses: ./.github/actions/dockerbuild
+      with:
+        php-version: ${{ matrix.php }}
+
+    - name: Create ADMIN_DIR
+      run: |
+        sudo apt-fast install -y sharutils
+        echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
+
+    - name: Setup environment
+      env:
+        REF_NAME: ${{ inputs.ref_name }}
+        BASE_REF: ${{ inputs.base_ref }}
+        EVENT_NAME: ${{ inputs.event_name }}
+        OWNER: ${{ inputs.owner }}
+        DB: ${{ matrix.db }}
+        PHP: ${{ matrix.php }}
+      run: |
+        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
+        echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
+        if [ $EVENT_NAME = "pull_request" ]; then
+          echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+        else
+          echo "TAG=${PHP}-apache-${REF_NAME}" >> $GITHUB_ENV
+        fi
+    - run: |
+        docker compose up -d --wait
+        while [ ! -e "data/config/config.php" ]
+        do
+            printf "."
+            sleep 1
+        done
+        cat data/config/config.php
+        docker compose exec -T ec-cube composer install
+    - name: Run to PHPUnit
+      run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --exclude-group classloader,mysql_prepare
+    - name: Run to PHPUnit classloader
+      run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --group classloader
+    - name: Run to PHPUnit mysql_prepare
+      # XXX 連続してテストを実行すると、何故か MySQL の prepare statement に失敗するため個別に実行する
+      run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --group mysql_prepare
+    - name: Run to PHPUnit SessionFactory
+      run: docker compose exec -T ec-cube php data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
+
+    - name: Upload logs
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
+        path: data/logs
+
+    - if: failure()
+      run: docker compose logs -n 200

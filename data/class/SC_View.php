@@ -23,7 +23,7 @@
 
 class SC_View
 {
-    /** @var SmartyBC */
+    /** @var \Smarty\Smarty */
     public $_smarty;
 
     /** @var LC_Page */
@@ -41,11 +41,9 @@ class SC_View
     public function init()
     {
         // include_phpの利用のためSmartyBCを呼び出す、ホントはinclude_phpをなくしたいそうすれば、blank.tplもなくせる
-        $this->_smarty = new SmartyBC;
-        // see https://github.com/smarty-php/smarty/issues/605#issuecomment-742832333
-        $this->_smarty->setErrorReporting(E_ALL & ~E_WARNING & ~E_NOTICE);
-        $this->_smarty->left_delimiter = '<!--{';
-        $this->_smarty->right_delimiter = '}-->';
+        $this->_smarty = new \Smarty\Smarty();
+        $this->_smarty->setLeftDelimiter('<!--{');
+        $this->_smarty->setRightDelimiter('}-->');
         $this->_smarty->registerPlugin('modifier', 'sfDispDBDate', function ($dbdate, $time = true) { return SC_Utils_Ex::sfDispDBDate($dbdate, $time); });
         $this->_smarty->registerPlugin('modifier', 'sfGetErrorColor', array('SC_Utils_Ex', 'sfGetErrorColor'));
         $this->_smarty->registerPlugin('modifier', 'sfTrim', array('SC_Utils_Ex', 'sfTrim'));
@@ -56,10 +54,22 @@ class SC_View
         $this->_smarty->registerPlugin('modifier', 'sfMultiply', array('SC_Utils_Ex', 'sfMultiply'));
         $this->_smarty->registerPlugin('modifier', 'sfRmDupSlash', array('SC_Utils_Ex', 'sfRmDupSlash'));
         $this->_smarty->registerPlugin('modifier', 'sfCutString', array('SC_Utils_Ex', 'sfCutString'));
-        $this->_smarty->addPluginsDir(array('plugins', realpath(dirname(__FILE__)) . '/../smarty_extends'));
+        $this->_smarty->registerPlugin('function', 'from_to', 'smarty_function_from_to');
+        $this->_smarty->registerPlugin('function', 'include_php_ex', 'smarty_function_include_php_ex');
+        $this->_smarty->registerPlugin('modifier', 'h', 'smarty_modifier_h');
+        $this->_smarty->registerPlugin('modifier', 'n2s', 'smarty_modifier_n2s');
+        $this->_smarty->registerPlugin('modifier', 'nl2br_html', 'smarty_modifier_nl2br_html');
+        $this->_smarty->registerPlugin('modifier', 'script_escape', 'smarty_modifier_script_escape');
+        $this->_smarty->registerPlugin('modifier', 'u', 'smarty_modifier_u');
         $this->_smarty->registerPlugin('modifier', 'sfMbConvertEncoding', array('SC_Utils_Ex', 'sfMbConvertEncoding'));
         $this->_smarty->registerPlugin('modifier', 'sfGetEnabled', array('SC_Utils_Ex', 'sfGetEnabled'));
         $this->_smarty->registerPlugin('modifier', 'sfNoImageMainList', array('SC_Utils_Ex', 'sfNoImageMainList'));
+        $this->_smarty->registerPlugin('modifier', 'file_exists', 'file_exists');
+        $this->_smarty->registerPlugin('modifier', 'function_exists', 'function_exists');
+        $this->_smarty->registerPlugin('modifier', 'preg_quote', 'preg_quote');
+        $this->_smarty->registerPlugin('modifier', 'is_numeric', 'is_numeric');
+        $this->_smarty->registerPlugin('modifier', 'php_uname', 'php_uname');
+        $this->_smarty->registerPlugin('modifier', 'array_key_exists', 'array_key_exists');
         // XXX register_function で登録すると if で使用できないのではないか？
         $this->_smarty->registerPlugin('function','sfIsHTTPS', array('SC_Utils_Ex', 'sfIsHTTPS'));
         $this->_smarty->registerPlugin('function','sfSetErrorStyle', array('SC_Utils_Ex', 'sfSetErrorStyle'));
@@ -143,10 +153,10 @@ class SC_View
     /**
      * prefilter用のフィルタ関数。プラグイン用のフックポイント処理を実行
      * @param  string          $source ソース
-     * @param  Smarty_Internal_Template $smarty Smartyのコンパイラクラス
+     * @param  \Smarty\Template $smarty Smartyのコンパイラクラス
      * @return string          $source ソース
      */
-    public function prefilter_transform($source, Smarty_Internal_Template $template)
+    public function prefilter_transform($source, \Smarty\Template $template)
     {
         if (!is_null($this->objPage)) {
             // フックポイントを実行.
@@ -162,10 +172,10 @@ class SC_View
     /**
      * outputfilter用のフィルタ関数。プラグイン用のフックポイント処理を実行
      * @param  string          $source ソース
-     * @param  Smarty_Internal_Template $smarty Smartyのコンパイラクラス
+     * @param  \Smarty\Template $smarty Smartyのコンパイラクラス
      * @return string          $source ソース
      */
-    public function outputfilter_transform($source, Smarty_Internal_Template $template)
+    public function outputfilter_transform($source, \Smarty\Template $template)
     {
         if (!is_null($this->objPage)) {
             // フックポイントを実行.
@@ -283,9 +293,9 @@ class SC_View
      * @param Smarty_Internal_Template $template
      * @return string 現在のテンプレートファイルパス
      */
-    public function getCurrentTemplateFile(Smarty_Internal_Template $template)
+    public function getCurrentTemplateFile(\Smarty\Template $template)
     {
-        $current_file = str_replace($template->smarty->getTemplateDir(), '', $template->source->filepath);
+        $current_file = str_replace($template->getSmarty()->getTemplateDir(), '', $template->getSource()->getFilepath());
         return str_replace('\\', '/', $current_file); // Windows 向けにパスの区切り文字を正規化する
     }
 }

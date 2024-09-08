@@ -155,6 +155,11 @@ class SC_Fpdf extends SC_Helper_FPDI
         //ロゴ画像
         $logo_file = PDF_TEMPLATE_REALDIR . 'logo.png';
         $this->Image($logo_file, 124, 46, 40);
+
+        if (defined('INVOICE_REGISTRATION_NUM')) {
+            $text = '登録番号: '.INVOICE_REGISTRATION_NUM;
+            $this->lfText(125, 87, $text, 8);
+        }
     }
 
     private function setMessageData()
@@ -228,6 +233,8 @@ class SC_Fpdf extends SC_Helper_FPDI
         $monetary_unit = '円';
         $point_unit = 'Pt';
 
+        $arrTaxableTotal = [];
+        $defaultTaxRule = SC_Helper_TaxRule_Ex::getTaxRule();
         // 購入商品情報
         for ($i = 0; $i < count($this->arrDisp['quantity']); $i++) {
             // 購入数量
@@ -249,9 +256,18 @@ class SC_Fpdf extends SC_Helper_FPDI
                     $arrOrder[$i][0] .= ' * '.$this->arrDisp['classcategory_name2'][$i].' ]';
                 }
             }
+
+            // 標準税率より低い税率は軽減税率として※を付与
+            if ($this->arrDisp['tax_rate'][$i] < $defaultTaxRule['tax_rate']) {
+                $arrOrder[$i][0] .= ' ※';
+            }
             $arrOrder[$i][1]  = number_format($data[0]);
             $arrOrder[$i][2]  = number_format($data[1]).$monetary_unit;
             $arrOrder[$i][3]  = number_format($data[2]).$monetary_unit;
+            if (array_key_exists($this->arrDisp['tax_rate'][$i], $arrTaxableTotal) === false) {
+                $arrTaxableTotal[$this->arrDisp['tax_rate'][$i]] = 0;
+            }
+            $arrTaxableTotal[$this->arrDisp['tax_rate'][$i]] += $data[2];
         }
 
         $arrOrder[$i][0] = '';
@@ -270,18 +286,21 @@ class SC_Fpdf extends SC_Helper_FPDI
         $arrOrder[$i][1] = '';
         $arrOrder[$i][2] = '送料';
         $arrOrder[$i][3] = number_format($this->arrDisp['deliv_fee']).$monetary_unit;
+        $arrTaxableTotal[intval($defaultTaxRule['tax_rate'])] += $this->arrDisp['deliv_fee'];
 
         $i++;
         $arrOrder[$i][0] = '';
         $arrOrder[$i][1] = '';
         $arrOrder[$i][2] = '手数料';
         $arrOrder[$i][3] = number_format($this->arrDisp['charge']).$monetary_unit;
+        $arrTaxableTotal[intval($defaultTaxRule['tax_rate'])] += $this->arrDisp['charge'];
 
         $i++;
         $arrOrder[$i][0] = '';
         $arrOrder[$i][1] = '';
         $arrOrder[$i][2] = '値引き';
-        $arrOrder[$i][3] = '- '.number_format(($this->arrDisp['use_point'] * POINT_VALUE) + $this->arrDisp['discount']).$monetary_unit;
+        $discount_total = ($this->arrDisp['use_point'] * POINT_VALUE) + $this->arrDisp['discount'];
+        $arrOrder[$i][3] = '- '.number_format($discount_total).$monetary_unit;
 
         $i++;
         $arrOrder[$i][0] = '';
@@ -311,6 +330,22 @@ class SC_Fpdf extends SC_Helper_FPDI
         }
 
         $this->FancyTable($this->label_cell, $arrOrder, $this->width_cell);
+
+        $this->SetLineWidth(.3);
+        $this->SetFont('SJIS', '', 6);
+
+        $this->Cell(0, 0, '', 0, 1, 'C', 0, '');
+        // 行頭近くの場合、表示崩れがあるためもう一個字下げする
+        if (270 <= $this->GetY()) {
+            $this->Cell(0, 0, '', 0, 1, 'C', 0, '');
+        }
+        $width = array_reduce($this->width_cell, function ($n, $w) {
+            return $n + $w;
+        });
+        $this->SetX(20);
+
+        $message = SC_Helper_TaxRule_Ex::getTaxDetail($arrTaxableTotal, $discount_total);
+        $this->MultiCell($width, 4, $message, 0, 'R', '');
     }
 
     /**

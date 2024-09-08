@@ -28,7 +28,7 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * @author Nobuhiko Kimoto
  * @version $Id$
  */
-class SC_Helper_TaxRule_TestBase extends Common_TestCase
+abstract class SC_Helper_TaxRule_TestBase extends Common_TestCase
 {
 
     /**

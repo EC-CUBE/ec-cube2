@@ -2,17 +2,18 @@ parameters:
   level: 1
   bootstrapFiles:
     - tests/require.php
-    - data/vendor/smarty/smarty/libs/plugins/function.html_radios.php
   excludePaths:
-    - data/Smarty/templates_c/*
-    - data/module/SOAP/*
-    - data/vendor/*
-    - data/downloads/*
-    - data/module/Calendar/Engine/PearDate.php
-    - data/class/helper/SC_Helper_Mobile.php
-    - data/class/SC_MobileEmoji.php
-    - data/class/SC_MobileImage.php
-    - data/**/flycheck_*.php
+    analyse:
+      - data/module/SOAP/*
+      - data/vendor/*
+      - data/downloads/*
+      - data/module/Calendar/Engine/PearDate.php
+      - data/class/helper/SC_Helper_Mobile.php
+      - data/class/SC_MobileEmoji.php
+      - data/class/SC_MobileImage.php
+      - data/**/flycheck_*.php
+    analyseAndScan:
+      - *.tpl.php
   ignoreErrors:
     -
       message: "#^Call to an undefined static method PEAR\\:\\:raiseError\\(\\)\\.$#"
@@ -35,8 +36,8 @@ parameters:
     #   message: "#^Constant SMARTY_PLUGINS_DIR not found\\.$#"
     #   path: data/smarty_extends/*
     -
-      message: "#^Function smarty_function_escape_special_chars not found\\.$#"
-      path: data/smarty_extends/*
-    -
       message: "#^Variable \\$SJIS_widths might not be defined\\.$#"
       path: data/class/helper/SC_Helper_FPDI.php
+    -
+      message: "#^Inner named functions are not supported by PHPStan\\.#"
+      path: data/class/SC_Initial.php

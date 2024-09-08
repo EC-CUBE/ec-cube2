@@ -23,28 +23,22 @@
 
 class SC_SiteView extends SC_View_Ex
 {
-    public function __construct($setPrevURL = true)
-    {
-        parent::__construct();
-
-        if ($setPrevURL) {
-            $this->setPrevURL();
-        }
-    }
-
     public function init()
     {
         parent::init();
 
-        $this->_smarty->template_dir = realpath(TEMPLATE_REALDIR);
-        $this->_smarty->compile_dir = realpath(COMPILE_REALDIR);
+        $this->_smarty->setTemplateDir(realpath(TEMPLATE_REALDIR));
+        $this->_smarty->setCompileDir(realpath(COMPILE_REALDIR));
 
         $this->assignTemplatePath(DEVICE_TYPE_PC);
     }
 
+    /**
+     * @deprecated 2.18.0 本体では利用していない。
+     */
     public function setPrevURL()
     {
-            $objCartSess = new SC_CartSession_Ex();
-            $objCartSess->setPrevURL($_SERVER['REQUEST_URI']);
+        $objCartSess = new SC_CartSession_Ex();
+        $objCartSess->setPrevURL($_SERVER['REQUEST_URI']);
     }
 }

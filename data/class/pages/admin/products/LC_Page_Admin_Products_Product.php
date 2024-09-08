@@ -811,7 +811,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
      * 戻り値： 同名ファイル有り(true) 同名ファイル無し(false)
      *
      * @param  string  $product_id      商品ID
-     * @param  string  $arrImageKey     対象としない画像カラム名
+     * @param  array   $arrImageKey     対象としない画像カラム名
      * @param  string  $image_file_name 画像ファイル名
      * @param  SC_UploadFile_Ex $objUpFile SC_UploadFileインスタンス
      * @return boolean

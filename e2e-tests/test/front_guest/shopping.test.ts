@@ -4,24 +4,16 @@ import { faker } from '@faker-js/faker/locale/ja';
 import { faker as fakerEN } from '@faker-js/faker/locale/en_US';
 import { addYears } from 'date-fns';
 
-import { ZapClient, Mode, ContextType } from '../../utils/ZapClient';
-const zapClient = new ZapClient();
-
-
 const url = '/products/list.php?category_id=3';
 
 test.describe.serial('購入フロー(ゲスト)のテストをします', () => {
   let page: Page;
   let mailcatcher: APIRequestContext;
   test.beforeAll(async () => {
-    await zapClient.setMode(Mode.Protect);
-    await zapClient.newSession('/zap/wrk/sessions/front_guest_shopping', true);
-    await zapClient.importContext(ContextType.FrontGuest);
-
     const browser = await chromium.launch();
-        mailcatcher = await request.newContext({
-      baseURL: 'http://mailcatcher:1080',
-      proxy: PlaywrightConfig.use.proxy
+    mailcatcher = await request.newContext({
+      baseURL: PlaywrightConfig.use?.proxy ? 'http://mailcatcher:1080' : 'http://localhost:1080',
+      proxy: PlaywrightConfig.use?.proxy
     });
     await mailcatcher.delete('/messages');
 
@@ -53,51 +45,51 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
 
   let email: string;
   test('お客様情報を入力します', async () => {
-    await page.fill('input[name=order_name01]', faker.name.lastName());
-    await page.fill('input[name=order_name02]', faker.name.firstName());
+    await page.fill('input[name=order_name01]', faker.person.lastName());
+    await page.fill('input[name=order_name02]', faker.person.firstName());
     await page.fill('input[name=order_kana01]', 'イシ');
     await page.fill('input[name=order_kana02]', 'キュウブ');
-    await page.fill('input[name=order_company_name]', faker.company.companyName());
-    await page.fill('input[name=order_zip01]', faker.address.zipCode('###'));
-    await page.fill('input[name=order_zip02]', faker.address.zipCode('####'));
-    await page.selectOption('select[name=order_pref]', { label: faker.address.state() });
-    await page.fill('input[name=order_addr01]', faker.address.city());
-    await page.fill('input[name=order_addr02]', faker.address.streetName());
-    await page.fill('input[name=order_tel01]', faker.phone.number('###'));
-    await page.fill('input[name=order_tel02]', faker.phone.number('###'));
-    await page.fill('input[name=order_tel03]', faker.phone.number('###'));
-    await page.fill('input[name=order_fax01]', faker.phone.number('###'));
-    await page.fill('input[name=order_fax02]', faker.phone.number('###'));
-    await page.fill('input[name=order_fax03]', faker.phone.number('###'));
-    email = fakerEN.fake(String(Date.now()) + '.{{internet.exampleEmail}}').toLowerCase();
+    await page.fill('input[name=order_company_name]', faker.company.name());
+    await page.fill('input[name=order_zip01]', faker.location.zipCode('###'));
+    await page.fill('input[name=order_zip02]', faker.location.zipCode('####'));
+    await page.selectOption('select[name=order_pref]', { label: faker.location.state() });
+    await page.fill('input[name=order_addr01]', faker.location.city());
+    await page.fill('input[name=order_addr02]', faker.location.street());
+    await page.fill('input[name=order_tel01]', faker.string.numeric(3));
+    await page.fill('input[name=order_tel02]', faker.string.numeric(3));
+    await page.fill('input[name=order_tel03]', faker.string.numeric(3));
+    await page.fill('input[name=order_fax01]', faker.string.numeric(3));
+    await page.fill('input[name=order_fax02]', faker.string.numeric(3));
+    await page.fill('input[name=order_fax03]', faker.string.numeric(3));
+    email = fakerEN.helpers.fake(String(Date.now()) + '.{{internet.exampleEmail}}').toLowerCase();
     await page.fill('input[name=order_email]', email);
     await page.fill('input[name=order_email02]', email);
-    const sex = faker.datatype.number({ min: 1, max: 2 });
-    await page.check(`input[name=order_sex][value="${sex}"]`);
-    const job = faker.datatype.number({ min: 1, max: 18 });
+    const sex = faker.number.int({ min: 1, max: 2 });
+    await page.check(`input[name=order_sex][value="${ sex }"]`);
+    const job = faker.number.int({ min: 1, max: 18 });
     await page.selectOption('select[name=order_job]', { value: String(job) });
-    const birth = faker.date.past(20, addYears(new Date(), -20).toISOString());
+    const birth = faker.date.past({ years:20, refDate:addYears(new Date(), -20).toISOString() });
     await page.selectOption('select[name=order_year]', String(birth.getFullYear()));
     await page.selectOption('select[name=order_month]', String(birth.getMonth() + 1));
     await page.selectOption('select[name=order_day]', String(birth.getDate()));
 
     await page.click('text=お届け先を指定');
-    await page.fill('input[name=shipping_name01]', faker.name.lastName());
-    await page.fill('input[name=shipping_name02]', faker.name.firstName());
+    await page.fill('input[name=shipping_name01]', faker.person.lastName());
+    await page.fill('input[name=shipping_name02]', faker.person.firstName());
     await page.fill('input[name=shipping_kana01]', 'イシ');
     await page.fill('input[name=shipping_kana02]', 'キュウブ');
-    await page.fill('input[name=shipping_company_name]', faker.company.companyName());
-    await page.fill('input[name=shipping_zip01]', faker.address.zipCode('###'));
-    await page.fill('input[name=shipping_zip02]', faker.address.zipCode('####'));
-    await page.selectOption('select[name=shipping_pref]', { label: faker.address.state() });
-    await page.fill('input[name=shipping_addr01]', faker.address.city());
-    await page.fill('input[name=shipping_addr02]', faker.address.streetName());
-    await page.fill('input[name=shipping_tel01]', faker.phone.number('###'));
-    await page.fill('input[name=shipping_tel02]', faker.phone.number('###'));
-    await page.fill('input[name=shipping_tel03]', faker.phone.number('###'));
-    await page.fill('input[name=shipping_fax01]', faker.phone.number('###'));
-    await page.fill('input[name=shipping_fax02]', faker.phone.number('###'));
-    await page.fill('input[name=shipping_fax03]', faker.phone.number('###'));
+    await page.fill('input[name=shipping_company_name]', faker.company.name());
+    await page.fill('input[name=shipping_zip01]', faker.location.zipCode('###'));
+    await page.fill('input[name=shipping_zip02]', faker.location.zipCode('####'));
+    await page.selectOption('select[name=shipping_pref]', { label: faker.location.state() });
+    await page.fill('input[name=shipping_addr01]', faker.location.city());
+    await page.fill('input[name=shipping_addr02]', faker.location.street());
+    await page.fill('input[name=shipping_tel01]', faker.string.numeric(3));
+    await page.fill('input[name=shipping_tel02]', faker.string.numeric(3));
+    await page.fill('input[name=shipping_tel03]', faker.string.numeric(3));
+    await page.fill('input[name=shipping_fax01]', faker.string.numeric(3));
+    await page.fill('input[name=shipping_fax02]', faker.string.numeric(3));
+    await page.fill('input[name=shipping_fax03]', faker.string.numeric(3));
 
     await page.click('[alt=上記のお届け先のみに送る]');
   });
@@ -123,7 +115,7 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
     await expect(await messages.json()).toContainEqual(expect.objectContaining(
       {
         subject: expect.stringContaining('ご注文ありがとうございます'),
-        recipients: expect.arrayContaining([ `<${email}>` ])
+        recipients: expect.arrayContaining([ `<${ email }>` ])
       }
     ));
   });

@@ -55,7 +55,7 @@
 
         <!--{if strlen($arrSiteInfo.email02)}-->
             <dt>メールアドレス</dt>
-            <dd><a href="mailto:<!--{$arrSiteInfo.email02|escape:'hex'}-->" rel="external"><!--{$arrSiteInfo.email02|escape:'hexentity'}--></a></dd>
+            <dd><a href="mailto:<!--{$arrSiteInfo.email02|escape:'hex'}-->"><!--{$arrSiteInfo.email02|escape:'hexentity'}--></a></dd>
         <!--{/if}-->
 
         <!--{if strlen($arrSiteInfo.business_hour)}-->

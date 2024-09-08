@@ -65,7 +65,7 @@
                     <!--{if $arrInfo.free_rule > 0}-->
                         <div class="bubbleBox">
                             <div class="bubble_announce clearfix">
-                                <p><a rel="external" href="<!--{$tpl_prev_url|h}-->">
+                                <p><a href="<!--{$tpl_prev_url|h}-->">
                                     <!--{if !$arrData[$key].is_deliv_free}-->
                                         あと「<span class="price"><!--{$tpl_deliv_free[$key]|n2s}-->円</span>」で<span class="price">送料無料！！</span>
                                     <!--{else}-->
@@ -137,7 +137,7 @@
                         <!--▲カートの中の商品一覧ここまで -->
 
                         <div class="total_area">
-                            <div><span class="mini">合計：</span><span class="price fb"><!--{$arrData[$key].total-$arrData[$key].deliv_fee|n2s}--> 円</span></div>
+                            <div><span class="mini">合計：</span><span class="price fb"><!--{$arrData[$key].subtotal|n2s}--> 円</span></div>
                             <!--{if $smarty.const.USE_POINT !== false}-->
                                 <!--{if $arrData[$key].birth_point > 0}-->
                                     <div><span class="mini">お誕生月ポイント：</span> <!--{$arrData[$key].birth_point|n2s}--> Pt</div>
@@ -157,7 +157,7 @@
             <p class="empty"><em>※ 現在カート内に商品はございません。</em></p>
         <!--{/if}-->
 
-        <p><a rel="external" href="<!--{$smarty.const.TOP_URL}-->" class="btn_sub">お買い物を続ける</a></p>
+        <p><a href="<!--{$smarty.const.TOP_URL}-->" class="btn_sub">お買い物を続ける</a></p>
 
     </div><!-- /.form_area -->
 

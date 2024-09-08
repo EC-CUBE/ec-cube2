@@ -1,8 +1,8 @@
 # EC-CUBE 2.17系
 
-[![GitHub Actions status](https://github.com/EC-CUBE/ec-cube2/workflows/CI/CD%20for%20EC-CUBE/badge.svg)](https://github.com/EC-CUBE/ec-cube2/actions)
+[![CI/CD for EC-CUBE](https://github.com/EC-CUBE/ec-cube2/actions/workflows/main.yml/badge.svg)](https://github.com/EC-CUBE/ec-cube2/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/EC-CUBE/ec-cube2/branch/master/graph/badge.svg?token=4oNLGhIQwy)](https://codecov.io/gh/EC-CUBE/ec-cube2)
-[![PHP Versions Supported](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](#php-version-support)
+[![PHP Versions Supported](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)](#php-version-support)
 [![GitHub All Releases](https://img.shields.io/github/downloads/EC-CUBE/ec-cube2/total)](https://github.com/EC-CUBE/ec-cube2/releases)
 
 ---
@@ -28,14 +28,14 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 
 * EC-CUBE 2.13 系の PHP7 及び PHP8 対応バージョンです。
 * `master` ブランチで開発を行っています。
+* PHP5.4互換ブランチは [compatible/php5.4](https://github.com/EC-CUBE/ec-cube2/tree/compatible/php5.4) にて保守しています。(2024年6月末日まで)
 
 #### システム要件
 
 | 分類      | ソフトウェア         | Version                                                                 |
 |-----------|----------------------|-------------------------------------------------------------------------|
-| WebServer | IIS                  | 8.x or higher<br> PHP8は非対応                                                    |
 | WebServer | Apache               | 2.4.x or higher<br> (mod_rewrite / mod_ssl 必須)                        |
-| PHP       | PHP                  | 5.4.16 or higher                                                        |
+| PHP       | PHP                  | 7.4.33 or higher                                                        |
 | Database  | PostgreSQL           | 9.x or higher                                                           |
 | Database  | MySQL                | 5.x / 8.x or higher<br> (InnoDBエンジン 必須)                           |
 
@@ -44,7 +44,7 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 | 分類           | Extensions                                                                                                                                                                                                                                                                               |
 |----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 必須      | pgsql / mysqli (利用するデータベースに合わせること) <br> pdo_pgsql / pdo_mysql (利用するデータベースに合わせること) <br> pdo <br> mbstring <br> zlib <br> ctype <br> session <br> JSON <br> xml <br> libxml <br> OpenSSL <br> zip <br> cURL <br> gd                                      |
-| 推奨      | hash <br> APCu / WinCache (利用する環境に合わせること) <br> Zend OPcache <br> mcrypt                                                                                                                                                                                                     |
+| 推奨      | hash <br> APCu <br> Zend OPcache
 
 ## インストール方法
 
@@ -52,7 +52,7 @@ EC-CUBEのインストールは、以下の方法があります。
 
 1. パッケージを使用してインストールする
 1. コマンドラインからインストールする
-1. docker-composeを使用してインストールする
+1. docker composeを使用してインストールする
 
 ### パッケージを使用してインストールする
 
@@ -86,7 +86,7 @@ php composer.phar install --no-dev --no-interaction -o
 
 ブラウザからEC-CUBEにアクセスするとWebインストーラが表示されますので、指示にしたがってインストールしてください。
 
-### docker-compose を使用してインストールする
+### docker compose を使用してインストールする
 
 - *開発環境におすすめです。*
 
@@ -100,7 +100,7 @@ docker-compose.pgsql.yml を指定します。 data/config/config.php が存在�
 ```shell
 git clone https://github.com/EC-CUBE/ec-cube2.git
 cd ec-cube2
-docker-compose -f docker-compose.yml -f docker-compose.pgsql.yml up
+docker compose -f docker-compose.yml -f docker-compose.pgsql.yml up
 ```
 
 #### MySQL を使用する場合
@@ -110,7 +110,7 @@ docker-compose.mysql.yml を指定します。 data/config/config.php が存在�
 ```shell
 git clone https://github.com/EC-CUBE/ec-cube2.git
 cd ec-cube2
-docker-compose -f docker-compose.yml -f docker-compose.mysql.yml up
+docker compose -f docker-compose.yml -f docker-compose.mysql.yml up
 ```
 
 #### DB を別途用意する場合
@@ -120,7 +120,7 @@ php:7.4-apache のみ起動します
 ```shell
 git clone https://github.com/EC-CUBE/ec-cube2.git
 cd ec-cube2
-docker-compose up
+docker compose up
 ```
 
 #### ローカル環境をマウントする場合
@@ -132,7 +132,71 @@ git clone https://github.com/EC-CUBE/ec-cube2.git
 cd ec-cube2
 
 ## MySQL を使用する例
-docker-compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.dev.yml up
+docker compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compose.dev.yml up
+```
+
+## E2Eテストの実行方法
+
+E2Eテストは [Playwright](https://playwright.dev/) によって作成されています。以下の手順で実行します。
+
+### PostgreSQL の場合
+
+```
+## 必要な環境変数を設定
+export COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml
+
+## docker compose up を実行
+docker compose up -d --wait
+
+## ダミーデータ生成
+docker compose exec -T ec-cube composer install
+docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
+docker compose exec -T ec-cube composer update 'symfony/*' -W
+docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+## 会員のメールアドレスを zap_user@example.com へ変更
+docker compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
+
+## playwright をインストール
+yarn install
+yarn run playwright install --with-deps chromium
+yarn playwright install-deps chromium
+
+## 管理画面の E2E テストを実行
+yarn test:e2e e2e-tests/test/admin
+## フロント(ゲスト)のE2Eテストを実行
+yarn test:e2e --workers=1 e2e-tests/test/front_guest
+## フロント(ログイン)のE2Eテストを実行
+yarn test:e2e --workers=1 e2e-tests/test/front_login
+```
+
+### MySQL の場合
+
+```
+## 環境変数を設定
+export COMPOSE_FILE=docker-compose.yml:docker-compose.mysql.yml:docker-compose.dev.yml
+
+## docker compose up を実行
+docker compose up -d --wait
+
+## ダミーデータ生成
+docker compose exec -T ec-cube composer install
+docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
+docker compose exec -T ec-cube composer update 'symfony/*' -W
+docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+## 会員のメールアドレスを zap_user@example.com へ変更
+docker compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
+
+## playwright をインストール
+yarn install
+yarn run playwright install --with-deps chromium
+yarn playwright install-deps chromium
+
+## 管理画面の E2E テストを実行
+yarn test:e2e e2e-tests/test/admin
+## フロント(ゲスト)のE2Eテストを実行
+yarn test:e2e --workers=1 e2e-tests/test/front_guest
+## フロント(ログイン)のE2Eテストを実行
+yarn test:e2e --workers=1 e2e-tests/test/front_login
 ```
 
 ---

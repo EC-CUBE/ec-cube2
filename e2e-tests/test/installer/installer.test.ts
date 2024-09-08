@@ -1,7 +1,8 @@
 import { test, expect, chromium, Page } from '@playwright/test';
 import { faker }  from '@faker-js/faker/locale/en';
+import PlaywrightConfig from '../../../playwright.config';
 
-const baseURL = 'https://ec-cube';
+const baseURL = PlaywrightConfig.use?.baseURL ?? 'https://localhost:4430';
 const url = baseURL + '/install/';
 
 test.describe.serial('インストーラのテストをします', () => {
@@ -35,17 +36,17 @@ test.describe.serial('インストーラのテストをします', () => {
   let password: string;
   test('step1 - ECサイトの設定をします', async () => {
     await expect(page.locator('h2').first()).toHaveText('ECサイトの設定');
-    adminDirectory = faker.datatype.uuid().substring(0, 8);
+    adminDirectory = faker.string.uuid().substring(0, 8);
     user = faker.internet.userName();
-    password = faker.fake('{{internet.password}}{{datatype.number}}');
-    await page.fill('input[name=shop_name]', faker.company.companyName());
+    password = faker.helpers.fake('{{internet.password}}{{datatype.number}}');
+    await page.fill('input[name=shop_name]', faker.company.name());
     await page.fill('input[name=admin_mail]', faker.internet.exampleEmail());
     await page.fill('input[name=login_id]', user);
     await page.fill('input[name=login_pass]', password);
     await page.fill('input[name=admin_dir]', adminDirectory);
     await page.check('text=SSLを強制する');
-    await page.fill('input[name=normal_url]', `${baseURL}/`);
-    await page.fill('input[name=secure_url]', `${baseURL}/`);
+    await page.fill('input[name=normal_url]', `${ baseURL }/`);
+    await page.fill('input[name=secure_url]', `${ baseURL }/`);
     await page.click('#options');
     await page.check('text=SMTP');
     await page.fill('input[name=smtp_host]', 'mailcatcher');

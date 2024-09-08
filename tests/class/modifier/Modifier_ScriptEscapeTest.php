@@ -1,8 +1,11 @@
 <?php
-require 'data/smarty_extends/modifier.script_escape.php';
 
 /**
+ * (省略。アノテーションを認識されるのに必要なようなので記述している。)
  *
+ * PHP 8.1 でグローバル変数が消失する不具合を回避するため、下で `backupGlobals` を指定している。本質的には PHPUnit が PHP8 に対応していないのが原因と考えられる。
+ *
+ * @backupGlobals disabled
  */
 class Modifier_ScriptEscapeTest extends PHPUnit_Framework_TestCase
 {
@@ -58,7 +61,7 @@ class Modifier_ScriptEscapeTest extends PHPUnit_Framework_TestCase
     public function testメールテンプレート_エスケープされる($value)
     {
         $ret = smarty_modifier_script_escape($value);
-        $pattern = "/#script tag escaped#/";
+        $pattern = "/#script escaped#/";
         $this->assertRegExp($pattern, $ret);
     }
 
@@ -68,7 +71,7 @@ class Modifier_ScriptEscapeTest extends PHPUnit_Framework_TestCase
     public function testメールテンプレート_エスケープされない($value)
     {
         $ret = smarty_modifier_script_escape($value);
-        $pattern = "/#script tag escaped#/";
+        $pattern = "/#script escaped#/";
         $this->assertNotRegExp($pattern, $ret);
     }
 }
