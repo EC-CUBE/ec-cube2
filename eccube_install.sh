@@ -210,6 +210,7 @@ defined('SMTP_HOST') or define('SMTP_HOST', '${SMTP_HOST}');
 defined('SMTP_PORT') or define('SMTP_PORT', '${SMTP_PORT}');
 defined('SMTP_USER') or define('SMTP_USER', '${SMTP_USER}');
 defined('SMTP_PASSWORD') or define('SMTP_PASSWORD', '${SMTP_PASSWORD}');
+defined('TEST_MAILCATCHER_URL') or define('TEST_MAILCATCHER_URL', '${TEST_MAILCATCHER_URL-"http://127.0.0.1:1080"}');
 
 __EOF__
 

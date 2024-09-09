@@ -18,9 +18,6 @@ require_once($HOME . "/data/class/pages/LC_Page_Index.php");
  */
 class Common_TestCase extends PHPUnit_Framework_TestCase
 {
-    /** MailCatcher の URL. */
-    const MAILCATCHER_URL = 'http://127.0.0.1:1080';
-
     /**
      * MDB2 をグローバル変数のバックアップ対象から除外する。
      *
@@ -49,6 +46,9 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
         $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);
         $this->objQuery->begin();
         $this->objGenerator = new \Eccube2\Tests\Fixture\Generator($this->objQuery);
+        if (!defined('TEST_MAILCATCHER_URL')) {
+            $this->markTestSkipped('TEST_MAILCATCHER_URL is not defined.');
+        }
     }
 
     protected function tearDown()
@@ -77,14 +77,18 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
             $context = stream_context_create(array(
                 'http' => array('ignore_errors' => true)
             ));
-            $response = file_get_contents(self::MAILCATCHER_URL.'/messages', false, $context);
+            $response = file_get_contents(TEST_MAILCATCHER_URL.'/messages', false, $context);
 
             $http_status = strpos($http_response_header[0], '200');
             if ($http_status === false) {
-                $this->markTestSkipped('MailCatcher is not available');
+                throw new Exception('Response code is not 200: $http_response_header[0] = ' . var_export($http_response_header[0], true));
+            }
+
+            if ($response === false) {
+                throw new Exception('file_get_contents response is false.');
             }
         } catch (Exception $e) {
-            $this->markTestSkipped('MailCatcher is not available');
+            $this->markTestSkipped('MailCatcher is not available: ' . $e->getMessage());
         }
     }
 
@@ -102,7 +106,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
                 )
             );
 
-            file_get_contents(self::MAILCATCHER_URL.'/messages', false, $context);
+            file_get_contents(TEST_MAILCATCHER_URL.'/messages', false, $context);
 
         } catch (\Exception $e) {
             // quiet
@@ -116,7 +120,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
      */
     protected function getMailCatcherMessages()
     {
-        return json_decode(file_get_contents(self::MAILCATCHER_URL. '/messages'), true);
+        return json_decode(file_get_contents(TEST_MAILCATCHER_URL. '/messages'), true);
     }
 
     /**
@@ -127,7 +131,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
      */
     protected function getMailCatcherMessage($message)
     {
-        $source = file_get_contents(self::MAILCATCHER_URL. '/messages/'.$message['id'].'.source');
+        $source = file_get_contents(TEST_MAILCATCHER_URL. '/messages/'.$message['id'].'.source');
 
         $message['source'] = quoted_printable_decode($source);
         $message['source'] = mb_convert_encoding($message['source'], 'UTF-8', 'JIS');

@@ -167,15 +167,8 @@ class SC_SendMailTest extends Common_TestCase
         $this->verify();
 
         $this->expected = [
-            'host' => '127.0.0.1',
-            'port' => '1025'
-        ];
-        $this->actual = $this->objSendMail->getBackendParams('smtp');
-        $this->verify();
-
-        $this->expected = [
-            'host' => '127.0.0.1',
-            'port' => '1025'
+            'host' => SMTP_HOST,
+            'port' => SMTP_PORT,
         ];
         $this->actual = $this->objSendMail->getBackendParams('smtp');
         $this->verify();
