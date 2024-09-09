@@ -190,12 +190,13 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
             //対象となるデータが見つからない、または削除済み
             return false;
         }
-        //仮登録メール再送
-        $resend_flg = true;
-        // 登録メール再送
+
+        // 仮登録メール送信
         $objHelperMail = new SC_Helper_Mail_Ex();
         $objHelperMail->setPage($this);
+        $resend_flg = true;
         $objHelperMail->sfSendRegistMail($arrData['secret_key'], $customer_id, null, $resend_flg);
+
         return true;
     }
 
