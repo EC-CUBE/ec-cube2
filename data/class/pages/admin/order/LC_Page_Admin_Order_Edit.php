@@ -202,36 +202,40 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             case 'edit':
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
                 //複数配送時に各商品の総量を設定
                 $this->setProductsQuantity($objFormParam);
-                $this->arrErr = $this->lfCheckError($objFormParam);
-                if (SC_Utils_Ex::isBlank($this->arrErr)) {
-                    $message = '受注を編集しました。';
-                    $order_id = $this->doRegister($order_id, $objPurchase, $objFormParam, $message, $arrValuesBefore);
-                    if ($order_id >= 0) {
-                        $this->setOrderToFormParam($objFormParam, $order_id);
-                    }
-                    $this->tpl_onload = "window.alert('" . $message . "');";
+
+                $message = '受注を編集しました。';
+                $order_id = $this->doRegister($order_id, $objPurchase, $objFormParam, $message, $arrValuesBefore);
+                if ($order_id >= 0) {
+                    $this->setOrderToFormParam($objFormParam, $order_id);
                 }
+                $this->tpl_onload = "window.alert('" . $message . "');";
                 break;
 
             case 'add':
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $objFormParam->setParam($_POST);
                     $objFormParam->convParam();
+                    $this->arrErr = $this->lfCheckError($objFormParam);
+                    if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                        break;
+                    }
                     //複数配送時に各商品の総量を設定
                     $this->setProductsQuantity($objFormParam);
-                    $this->arrErr = $this->lfCheckError($objFormParam);
-                    if (SC_Utils_Ex::isBlank($this->arrErr)) {
-                        $message = '受注を登録しました。';
-                        $order_id = $this->doRegister(null, $objPurchase, $objFormParam, $message, $arrValuesBefore);
-                        if ($order_id >= 0) {
-                            $this->tpl_mode = 'edit';
-                            $objFormParam->setValue('order_id', $order_id);
-                            $this->setOrderToFormParam($objFormParam, $order_id);
-                        }
-                        $this->tpl_onload = "window.alert('" . $message . "');";
+
+                    $message = '受注を登録しました。';
+                    $order_id = $this->doRegister(null, $objPurchase, $objFormParam, $message, $arrValuesBefore);
+                    if ($order_id >= 0) {
+                        $this->tpl_mode = 'edit';
+                        $objFormParam->setValue('order_id', $order_id);
+                        $this->setOrderToFormParam($objFormParam, $order_id);
                     }
+                    $this->tpl_onload = "window.alert('" . $message . "');";
                 }
 
                 break;
@@ -244,9 +248,12 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             case 'deliv':
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
                 //複数配送時に各商品の総量を設定
                 $this->setProductsQuantity($objFormParam);
-                $this->arrErr = $this->lfCheckError($objFormParam);
                 break;
 
             // 商品削除
@@ -255,9 +262,12 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 $objFormParam->convParam();
                 $delete_no = $objFormParam->getValue('delete_no');
                 $this->doDeleteProduct($delete_no, $objFormParam);
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
                 //複数配送時に各商品の総量を設定
                 $this->setProductsQuantity($objFormParam);
-                $this->arrErr = $this->lfCheckError($objFormParam);
                 break;
 
             // 商品追加ポップアップより商品選択
@@ -265,16 +275,18 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
                 $this->doRegisterProduct($objFormParam);
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
                 //複数配送時に各商品の総量を設定
                 $this->setProductsQuantity($objFormParam);
-                $this->arrErr = $this->lfCheckError($objFormParam);
                 break;
 
             // 会員検索ポップアップより会員指定
             case 'search_customer':
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
-                $this->setProductsQuantity($objFormParam);
                 $this->setCustomerTo($objFormParam->getValue('edit_customer_id'),
                                      $objFormParam);
                 $customer_birth = $objFormParam->getValue('order_birth');
@@ -291,16 +303,23 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                         }
                     }
                     $objFormParam->setValue("birth_point", $birth_point);
+                    $this->arrErr = $this->lfCheckError($objFormParam);
+                    if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                        break;
+                    }
+                    $this->setProductsQuantity($objFormParam);
                 }
-                $this->arrErr = $this->lfCheckError($objFormParam);
                 break;
 
                 // 複数配送設定表示
             case 'multiple':
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
-                $this->setProductsQuantity($objFormParam);
                 $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
+                $this->setProductsQuantity($objFormParam);
                 break;
 
                 // 複数配送設定を反映
@@ -308,16 +327,24 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 $this->lfInitMultipleParam($objFormParam);
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
-                $this->setProductsQuantity($objFormParam);
                 $this->setMultipleItemTo($objFormParam);
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
+                $this->setProductsQuantity($objFormParam);
                 break;
 
                 // お届け先の追加
             case 'append_shipping':
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
-                $this->setProductsQuantity($objFormParam);
                 $this->addShipping($objFormParam);
+                $this->arrErr = $this->lfCheckError($objFormParam);
+                if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                    break;
+                }
+                $this->setProductsQuantity($objFormParam);
                 break;
 
             default:
@@ -393,22 +420,24 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $objFormParam->addParam('お支払い方法', 'payment_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam('対応状況', 'status', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam('お支払方法名称', 'payment_method');
-
-        // 受注詳細情報
-        $objFormParam->addParam('商品種別ID', 'product_type_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam('単価', 'price', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam('数量', 'quantity', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam('商品ID', 'product_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam('商品規格ID', 'product_class_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam('ポイント付与率', 'point_rate');
-        $objFormParam->addParam('商品コード', 'product_code');
-        $objFormParam->addParam('商品名', 'product_name');
-        $objFormParam->addParam('規格名1', 'classcategory_name1');
-        $objFormParam->addParam('規格名2', 'classcategory_name2');
-        $objFormParam->addParam('税率', 'tax_rate', INT_LEN, 'n', array('NUM_CHECK'));
-        $objFormParam->addParam('課税規則', 'tax_rule', INT_LEN, 'n', array('NUM_CHECK'));
         $objFormParam->addParam('メモ', 'note', MTEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam('削除用項番', 'delete_no', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+
+        // 受注詳細情報
+        $objFormParam->addParam('商品種別ID', 'product_type_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), []);
+        $objFormParam->addParam('単価', 'price', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), []);
+        $objFormParam->addParam('数量', 'quantity', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), []);
+        $objFormParam->addParam('税額', 'price_tax', '', '', [], [], false);
+        $objFormParam->addParam('税込単価', 'price_inctax', '', '', [], [], false);
+        $objFormParam->addParam('商品ID', 'product_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), []);
+        $objFormParam->addParam('商品規格ID', 'product_class_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), []);
+        $objFormParam->addParam('ポイント付与率', 'point_rate', []);
+        $objFormParam->addParam('商品コード', 'product_code', []);
+        $objFormParam->addParam('商品名', 'product_name', []);
+        $objFormParam->addParam('規格名1', 'classcategory_name1', []);
+        $objFormParam->addParam('規格名2', 'classcategory_name2', []);
+        $objFormParam->addParam('税率', 'tax_rate', INT_LEN, 'n', array('NUM_CHECK'), []);
+        $objFormParam->addParam('課税規則', 'tax_rule', INT_LEN, 'n', array('NUM_CHECK'), []);
 
         // DB読込用
         $objFormParam->addParam('小計', 'subtotal');
@@ -421,7 +450,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $objFormParam->addParam('会員ID', 'customer_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
         $objFormParam->addParam('会員ID', 'edit_customer_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
         $objFormParam->addParam('現在のポイント', 'customer_point');
-        $objFormParam->addParam('受注前ポイント', 'point');
+        $objFormParam->addParam('受注前ポイント', 'point', '', '', [], 0);
         $objFormParam->addParam('注文番号', 'order_id');
         $objFormParam->addParam('受注日', 'create_date');
         $objFormParam->addParam('発送日', 'commit_date');
@@ -457,13 +486,13 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $objFormParam->addParam('お届け日(日)', 'shipping_date_day', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam('お届け日', 'shipping_date', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
 
-        $objFormParam->addParam('商品規格ID', 'shipment_product_class_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('商品コード', 'shipment_product_code');
-        $objFormParam->addParam('商品名', 'shipment_product_name');
-        $objFormParam->addParam('規格名1', 'shipment_classcategory_name1');
-        $objFormParam->addParam('規格名2', 'shipment_classcategory_name2');
-        $objFormParam->addParam('単価', 'shipment_price', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam('数量', 'shipment_quantity', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
+        $objFormParam->addParam('商品規格ID', 'shipment_product_class_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), []);
+        $objFormParam->addParam('商品コード', 'shipment_product_code', '', '', [], []);
+        $objFormParam->addParam('商品名', 'shipment_product_name', '', '', [], []);
+        $objFormParam->addParam('規格名1', 'shipment_classcategory_name1', '', '', [], []);
+        $objFormParam->addParam('規格名2', 'shipment_classcategory_name2', '', '', [], []);
+        $objFormParam->addParam('単価', 'shipment_price', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), []);
+        $objFormParam->addParam('数量', 'shipment_quantity', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), []);
 
         $objFormParam->addParam('商品項番', 'no', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam('追加商品規格ID', 'add_product_class_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
@@ -579,6 +608,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         // 受注詳細を設定
         $arrOrderDetail = $objPurchase->getOrderDetail($order_id, false);
         $objFormParam->setParam(SC_Utils_Ex::sfSwapArray($arrOrderDetail));
+        $this->calcPriceInctax($objFormParam);
 
         $arrShippingsTmp = $objPurchase->getShippings($order_id);
         $arrShippings = array();
@@ -592,12 +622,12 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                     $row['shipping_date_month'] = date('n', $ts);
                     $row['shipping_date_day'] = date('j', $ts);
                 }
-                $arrShippings[$row['shipping_id']] = $row;
+                $arrShippings[$row['shipping_id']] = array_intersect_key($row, array_flip($this->arrShippingKeys));
             }
         } else {
             // ダウンロード商品の場合はお届け先情報がないので受注詳細から必要なデータを挿入する
             foreach ($this->arrShippingKeys as $keys) {
-                $arrShippings[0][$keys] = '';
+                $arrShippings[0][$keys] = null;
             }
             foreach ($arrOrderDetail as $key => $value) {
                 $arrShippings[0]['shipment_item'][$key]['shipping_id'] = $key;
@@ -650,9 +680,6 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             );
             $objFormParam->setValue('total_point', $db_point);
             $objFormParam->setValue('point', $rollback_point);
-        } else {
-            $objFormParam->setValue('total_point', 0);
-            $objFormParam->setValue('point', 0);
         }
 
         if (!SC_Utils_Ex::isBlank($objFormParam->getValue('customer_id'))) {
@@ -670,10 +697,16 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
     public function lfCheckError(&$objFormParam)
     {
         $objProduct = new SC_Product_Ex();
+        $arrErrTemp = $objFormParam->checkError();
+
+        if (!SC_Utils_Ex::isBlank($arrErrTemp)) {
+            return $arrErrTemp;
+        }
+
+        $this->calcPriceInctax($objFormParam);
+
         $arrValues = $objFormParam->getHashArray();
         $arrErr = array();
-        $arrErrTemp = $objFormParam->checkError();
-        $arrErrDate = array();
         foreach ($arrValues['shipping_date_year'] as $key_index => $year) {
             $month = $arrValues['shipping_date_month'][$key_index];
             $day = $arrValues['shipping_date_day'][$key_index];
@@ -681,9 +714,10 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 'shipping_date_month' => $month,
                 'shipping_date_day' => $day));
             $objError->doFunc(array('お届け日', 'shipping_date_year', 'shipping_date_month', 'shipping_date_day'), array('CHECK_DATE'));
-            $arrErrDate['shipping_date_year'][$key_index] = $objError->arrErr['shipping_date_year'];
+            foreach ($objError->arrErr as $key => $error) {
+                $arrErrTemp[$key][$key_index] = $error;
+            }
         }
-        $arrErrTemp = array_merge($arrErrTemp, $arrErrDate);
 
         // 複数項目チェック
         $year = $arrValues['order_birth_year'];
@@ -694,7 +728,9 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                                                'order_birth_day' => $day));
         $objError->doFunc(array('生年月日', 'order_birth_year', 'order_birth_month', 'order_birth_day'),
                           array('CHECK_BIRTHDAY'));
-        $arrErrTemp['order_birth_year'] = $objError->arrErr['order_birth_year'];
+        foreach ($objError->arrErr as $key => $error) {
+            $arrErrTemp[$key] = $error;
+        }
 
         // 商品の種類数
         $max = count($arrValues['quantity']);
@@ -703,10 +739,9 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $totaltax = 0;
         for ($i = 0; $i < $max; $i++) {
             // 小計の計算
-            $tax = SC_Helper_TaxRule_Ex::calcTax($arrValues['price'][$i], $arrValues['tax_rate'][$i], $arrValues['tax_rule'][$i]);
-            $subtotal += ($tax + $arrValues['price'][$i]) * $arrValues['quantity'][$i];
+            $subtotal += $arrValues['price_inctax'][$i] * $arrValues['quantity'][$i];
             // 税額の計算
-            $totaltax += $tax * $arrValues['quantity'][$i];
+            $totaltax += $arrValues['price_tax'][$i] * $arrValues['quantity'][$i];
             // 加算ポイントの計算
             $totalpoint += SC_Utils_Ex::sfPrePoint($arrValues['price'][$i], $arrValues['point_rate'][$i]) * $arrValues['quantity'][$i];
 
@@ -1024,7 +1059,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
     }
 
     /**
-     * 商品を追加
+     * 配送先に商品を追加
      *
      * @param  SC_FormParam $objFormParam         SC_FormParam インスタンス
      * @param  integer      $add_product_class_id 追加商品規格ID
@@ -1032,27 +1067,34 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
      */
     public function shipmentAddProduct(&$objFormParam, $add_product_class_id)
     {
-        //複数配送に商品情報追加
         $select_shipping_id = $objFormParam->getValue('select_shipping_id');
 
-        //届け先に選択済みの商品がある場合
         $arrShipmentProducts = $this->getShipmentProducts($objFormParam);
 
-        if ($arrShipmentProducts['shipment_product_class_id'] && in_array($add_product_class_id, $arrShipmentProducts['shipment_product_class_id'][$select_shipping_id])) {
-            foreach ($arrShipmentProducts['shipment_product_class_id'][$select_shipping_id] as $relation_index => $shipment_product_class_id) {
-                if ($shipment_product_class_id == $add_product_class_id) {
-                    $arrShipmentProducts['shipment_quantity'][$select_shipping_id][$relation_index]++;
-                    break;
-                }
+        // PHP8 で初期化されていない配列によるエラーを回避する目的のワンライナー
+        // XXX 今後同様の処理を量産するかもしれないが、多分、もっと美しい処理がある。正規表現「([^ ]+)\s*=\s*\(array\)\s*\1」で同様の処理を抽出できる。
+        // $arrShipmentProducts['shipment_product_class_id'][$select_shipping_id] = (array) $arrShipmentProducts['shipment_product_class_id'][$select_shipping_id];
+
+        $found = false;
+        foreach ($arrShipmentProducts['shipment_product_class_id'][$select_shipping_id] as $relation_index => $shipment_product_class_id) {
+            // 届け先に選択済みの商品がある場合
+            if ($shipment_product_class_id == $add_product_class_id) {
+                $arrShipmentProducts['shipment_quantity'][$select_shipping_id][$relation_index]++;
+                $found = true;
+                break;
             }
-        } else {
-            //届け先に選択商品がない場合
+        }
+
+        // 届け先に選択商品がない場合
+        if (!$found) {
             $objProduct = new SC_Product_Ex();
             $arrAddProductInfo = $objProduct->getDetailAndProductsClass($add_product_class_id);
 
             $arrShipmentProducts['shipment_product_class_id'][$select_shipping_id][] = $add_product_class_id;
             $arrShipmentProducts['shipment_product_code'][$select_shipping_id][]     = $arrAddProductInfo['product_code'];
             $arrShipmentProducts['shipment_product_name'][$select_shipping_id][]     = $arrAddProductInfo['name'];
+            $arrShipmentProducts['shipment_classcategory_name1'][$select_shipping_id][] = $arrAddProductInfo['classcategory_name1'];
+            $arrShipmentProducts['shipment_classcategory_name2'][$select_shipping_id][] = $arrAddProductInfo['classcategory_name2'];
             $arrShipmentProducts['shipment_price'][$select_shipping_id][]            = $arrAddProductInfo['price02'];
             $arrShipmentProducts['shipment_quantity'][$select_shipping_id][]         = 1;
 
@@ -1061,6 +1103,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $arrProducts = $this->checkInsertOrderProducts($objFormParam, $arrPreProductClassIds, $add_product_class_id, $arrAddProductInfo);
             $objFormParam->setParam($arrProducts);
         }
+
         $objFormParam->setParam($arrShipmentProducts);
     }
 
@@ -1195,6 +1238,9 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $arrUpdateQuantity = array();
             foreach ($arrShipmentsItems as $arritems) {
                 foreach ($arritems['shipment_product_class_id'] as $relation_index => $shipment_product_class_id) {
+                    if (!isset($arrUpdateQuantity[$shipment_product_class_id])) {
+                        $arrUpdateQuantity[$shipment_product_class_id] = 0;
+                    }
                     $arrUpdateQuantity[$shipment_product_class_id] += $arritems['shipment_quantity'][$relation_index];
                 }
             }
@@ -1307,5 +1353,25 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             //受注商品の数量は、複数配送側の集計で出しているので、重複しても数量を増やさない。
             return null;
         }
+    }
+
+    /**
+     * 税込単価を計算する。
+     *
+     * @param SC_FormParam $objFormParam
+     * @return void
+     */
+    public function calcPriceInctax(&$objFormParam)
+    {
+        $arrValues = $objFormParam->getHashArray();
+        foreach ($arrValues['price'] as $index => $dummy) {
+            // 税額
+            $arrValues['price_tax'][$index] =
+            $tax = SC_Helper_TaxRule_Ex::calcTax($arrValues['price'][$index], $arrValues['tax_rate'][$index], $arrValues['tax_rule'][$index]);
+
+            // 税込単価
+            $arrValues['price_inctax'][$index] = $tax + $arrValues['price'][$index];
+        }
+        $objFormParam->setParam($arrValues);
     }
 }
