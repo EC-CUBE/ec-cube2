@@ -222,44 +222,11 @@ class LC_Page_Entry extends LC_Page_Ex
      */
     public function lfSendMail($uniqid, $arrForm)
     {
-        $CONF           = SC_Helper_DB_Ex::sfGetBasisData();
+        $objHelperMail = new SC_Helper_Mail_Ex();
 
-        $objMailText    = new SC_SiteView_Ex();
-        $objMailText->setPage($this);
-        $objMailText->assign('CONF', $CONF);
-        $objMailText->assign('name01', $arrForm['name01']);
-        $objMailText->assign('name02', $arrForm['name02']);
-        $objMailText->assign('uniqid', $uniqid);
-
-        $objHelperMail  = new SC_Helper_Mail_Ex();
         $objHelperMail->setPage($this);
-
-        // 仮会員が有効の場合
-        if (CUSTOMER_CONFIRM_MAIL == true) {
-            $subject        = $objHelperMail->sfMakeSubject('会員登録のご確認');
-            $toCustomerMail = $objMailText->fetch('mail_templates/customer_mail.tpl');
-        } else {
-            $subject        = $objHelperMail->sfMakeSubject('会員登録のご完了');
-            $toCustomerMail = $objMailText->fetch('mail_templates/customer_regist_mail.tpl');
-        }
-
-        $objMail = new SC_SendMail_Ex();
-        $objMail->setItem(
-            '',                     // 宛先
-            $subject,               // サブジェクト
-            $toCustomerMail,        // 本文
-            $CONF['email03'],       // 配送元アドレス
-            $CONF['shop_name'],     // 配送元 名前
-            $CONF['email03'],       // reply_to
-            $CONF['email04'],       // return_path
-            $CONF['email04'],       // Errors_to
-            $CONF['email01']        // Bcc
-        );
-        // 宛先の設定
-        $objMail->setTo($arrForm['email'],
-                        $arrForm['name01'] . $arrForm['name02'] .' 様');
-
-        $objMail->sendMail();
+        $resend_flg = true;
+        $objHelperMail->sfSendRegistMail($uniqid, '', false, $resend_flg);
     }
 
     /**
