@@ -171,10 +171,12 @@ class SC_FormParam
         if (empty($db_date)) {
             return;
         }
-        list($y, $m, $d) = preg_split('/[- ]/', $db_date);
-        $this->setValue($year_key, $y);
-        $this->setValue($month_key, $m);
-        $this->setValue($day_key, $d);
+
+        // Smarty3以降は月日が1桁の場合、0埋めされていると補完されないため0を除去する
+        $objDate = new DateTime($db_date);
+        $this->setValue($year_key, $objDate->format('Y'));
+        $this->setValue($month_key, $objDate->format('n'));
+        $this->setValue($day_key, $objDate->format('j'));
     }
 
     // キーに対応した値をセットする。

@@ -345,11 +345,11 @@ class SC_FormParamTest extends Common_TestCase
         $this->objFormParam->addParam('月', 'month', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $this->objFormParam->addParam('日', 'day', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
 
-        $this->objFormParam->setDbDate('2019-04-01');
+        $this->objFormParam->setDbDate('2019-04-01 00:00:00');
 
-        $this->assertEquals('2019', $this->objFormParam->getValue('year'));
-        $this->assertEquals('04', $this->objFormParam->getValue('month'));
-        $this->assertEquals('01', $this->objFormParam->getValue('day'));
+        $this->assertSame('2019', $this->objFormParam->getValue('year'));
+        $this->assertSame('4', $this->objFormParam->getValue('month'));
+        $this->assertSame('1', $this->objFormParam->getValue('day'));
     }
 
     public function testSetDbDateWithEmpty()
