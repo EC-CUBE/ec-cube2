@@ -68,7 +68,14 @@ class SC_Initial
      */
     public function requireInitialConfig()
     {
-        define('CONFIG_REALFILE', realpath(dirname(__FILE__)) . '/../config/config.php');
+        $testConfig = realpath(dirname(__FILE__)) . '/../config/config4test.php';
+        $configPath = realpath(dirname(__FILE__)) . '/../config/config.php';
+        // テスト実行にはテスト用configファイルに
+        if (defined('TEST_FUNCTION') && TEST_FUNCTION && file_exists($testConfig)) {
+            $configPath = $testConfig;
+        }
+        define('CONFIG_REALFILE', $configPath);
+
         if (file_exists(CONFIG_REALFILE)) {
             require_once CONFIG_REALFILE;
 
