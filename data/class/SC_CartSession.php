@@ -740,8 +740,7 @@ class SC_CartSession
      * @param integer       $product_type_id 商品種別ID
      * @param SC_Customer   $objCustomer   ログイン中の SC_Customer インスタンス
      * @param integer       $use_point     今回使用ポイント
-     * @param integer|array $deliv_pref    配送先都道府県ID.
-                                        複数に配送する場合は都道府県IDの配列
+     * @param integer|array $deliv_pref    配送先都道府県ID. 複数に配送する場合は都道府県IDの配列
      * @param  integer $charge           手数料
      * @param  integer $discount         値引き
      * @param  integer $deliv_id         配送業者ID
