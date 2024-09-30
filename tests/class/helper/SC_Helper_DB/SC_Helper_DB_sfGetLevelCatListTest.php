@@ -12,9 +12,8 @@ class SC_Helper_DB_sfGetLevelCatListTest extends SC_Helper_DB_TestBase
     public function testSfGetLevelCatList()
     {
         $this->expected = [
-            0 => ['9', '', '', '', '', '', '', '',''],
-            1 =>
-            [
+            0 => ['9', '', '', '', '', '', '', '', ''],
+            1 => [
                 0 => '>カテゴリ1>カテゴリ3>カテゴリ7>カテゴリ8>カテゴリ9',
                 1 => '>カテゴリ1>カテゴリ3>カテゴリ7>カテゴリ8',
                 2 => '>カテゴリ1>カテゴリ3>カテゴリ7',
@@ -33,9 +32,8 @@ class SC_Helper_DB_sfGetLevelCatListTest extends SC_Helper_DB_TestBase
     public function testSfGetLevelCatListWithArgurmentFalse()
     {
         $this->expected = [
-            0 => ['9', '8', '7', '6', '5', '4', '3', '2','1'],
-            1 =>
-            [
+            0 => ['9', '8', '7', '6', '5', '4', '3', '2', '1'],
+            1 => [
                 0 => '>カテゴリ1>カテゴリ3>カテゴリ7>カテゴリ8>カテゴリ9',
                 1 => '>カテゴリ1>カテゴリ3>カテゴリ7>カテゴリ8',
                 2 => '>カテゴリ1>カテゴリ3>カテゴリ7',

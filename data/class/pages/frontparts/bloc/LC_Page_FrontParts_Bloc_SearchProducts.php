@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 検索ブロック のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_FrontParts_Bloc_SearchProducts extends LC_Page_FrontParts_Bloc_Ex
@@ -63,11 +62,11 @@ class LC_Page_FrontParts_Bloc_SearchProducts extends LC_Page_FrontParts_Bloc_Ex
     public function action()
     {
         // 商品ID取得
-        $product_id = $this -> lfGetProductId();
+        $product_id = $this->lfGetProductId();
         // カテゴリID取得
-        $category_id = $this -> lfGetCategoryId();
+        $category_id = $this->lfGetCategoryId();
         // メーカーID取得
-        $maker_id = $this -> lfGetMakerId();
+        $maker_id = $this->lfGetMakerId();
         // 選択中のカテゴリIDを判定する
         $this->category_id = $this->lfGetSelectedCategoryId($product_id, $category_id);
         // カテゴリ検索用選択リスト
@@ -128,6 +127,7 @@ class LC_Page_FrontParts_Bloc_SearchProducts extends LC_Page_FrontParts_Bloc_Ex
      *
      * @param string $product_id
      * @param string $category_id
+     *
      * @return array $arrCategoryId 選択中のカテゴリID
      */
     public function lfGetSelectedCategoryId($product_id, $category_id)
@@ -144,6 +144,7 @@ class LC_Page_FrontParts_Bloc_SearchProducts extends LC_Page_FrontParts_Bloc_Ex
      *
      * @param string $product_id
      * @param string $maker_id
+     *
      * @return array $arrMakerId 選択中のメーカーID
      */
     public function lfGetSelectedMakerId($product_id, $maker_id)

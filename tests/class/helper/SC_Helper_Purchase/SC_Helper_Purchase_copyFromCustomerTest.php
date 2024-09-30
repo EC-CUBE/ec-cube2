@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,72 +27,71 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /**
  * SC_Helper_Purchase::copyFromCustomer()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBase
 {
+    public $customer;
+    public $customer_array;
 
-  var $customer;
-  var $customer_array;
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->customer = new SC_Customer_Ex();
+        $this->customer->setValue('customer_id', '1001');
+        $this->customer->setValue('name01', '姓01');
+        $this->customer->setValue('name02', '名01');
+        $this->customer->setValue('kana01', 'セイ01');
+        $this->customer->setValue('kana02', 'メイ01');
+        $this->customer->setValue('sex', '1');
+        $this->customer->setValue('zip01', '123');
+        $this->customer->setValue('zip02', '4567');
+        $this->customer->setValue('pref', '東京都');
+        $this->customer->setValue('addr01', 'abc市');
+        $this->customer->setValue('addr02', 'def町');
+        $this->customer->setValue('tel01', '01');
+        $this->customer->setValue('tel02', '234');
+        $this->customer->setValue('tel03', '5678');
+        $this->customer->setValue('fax01', '02');
+        $this->customer->setValue('fax02', '345');
+        $this->customer->setValue('fax03', '6789');
+        $this->customer->setValue('job', '会社員');
+        $this->customer->setValue('birth', '2012-01-01');
+        $this->customer->setValue('email', 'test@example.com');
 
-  protected function setUp()
-  {
-    parent::setUp();
-    $this->customer = new SC_Customer_Ex();
-    $this->customer->setValue('customer_id', '1001');
-    $this->customer->setValue('name01', '姓01');
-    $this->customer->setValue('name02', '名01');
-    $this->customer->setValue('kana01', 'セイ01');
-    $this->customer->setValue('kana02', 'メイ01');
-    $this->customer->setValue('sex', '1');
-    $this->customer->setValue('zip01', '123');
-    $this->customer->setValue('zip02', '4567');
-    $this->customer->setValue('pref', '東京都');
-    $this->customer->setValue('addr01', 'abc市');
-    $this->customer->setValue('addr02', 'def町');
-    $this->customer->setValue('tel01', '01');
-    $this->customer->setValue('tel02', '234');
-    $this->customer->setValue('tel03', '5678');
-    $this->customer->setValue('fax01', '02');
-    $this->customer->setValue('fax02', '345');
-    $this->customer->setValue('fax03', '6789');
-    $this->customer->setValue('job', '会社員');
-    $this->customer->setValue('birth', '2012-01-01');
-    $this->customer->setValue('email', 'test@example.com');
+        $this->customer_array = ['customer_id' => '1001', 'email' => 'test@example.com'];
+    }
 
-    $this->customer_array = array('customer_id' => '1001', 'email' => 'test@example.com');
-  }
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+    // ///////////////////////////////////////
+    public function testCopyFromCustomerログインしていない場合何もしない()
+    {
+        $dest = [];
+        User_Utils::setLoginState(false, $this->customer_array, $this->objQuery);
 
-  /////////////////////////////////////////
-  public function testCopyFromCustomer_ログインしていない場合_何もしない()
-  {
-    $dest = array();
-    User_Utils::setLoginState(FALSE, $this->customer_array, $this->objQuery);
+        $this->expected = [];
+        $helper = new SC_Helper_Purchase_Ex();
+        $helper->copyFromCustomer($dest, $this->customer);
+        $this->actual = $dest;
 
-    $this->expected = array();
-    $helper = new SC_Helper_Purchase_Ex();
-    $helper->copyFromCustomer($dest, $this->customer);
-    $this->actual = $dest;
+        $this->verify();
+    }
 
-    $this->verify();
-  }
+    public function testCopyFromCustomerモバイルの場合モバイルのメールアドレスを設定する()
+    {
+        $this->markTestIncomplete('DEVICE_TYPE の切り替えテストは実装されていません');
+        $dest = [];
+        User_Utils::setLoginState(true, $this->customer_array, $this->objQuery);
+        User_Utils::setDeviceType(DEVICE_TYPE_MOBILE);
+        $this->customer->setValue('email_mobile', 'mobile@example.com');
 
-  public function testCopyFromCustomer_モバイルの場合_モバイルのメールアドレスを設定する()
-  {
-      $this->markTestIncomplete('DEVICE_TYPE の切り替えテストは実装されていません');
-    $dest = array();
-    User_Utils::setLoginState(TRUE, $this->customer_array, $this->objQuery);
-    User_Utils::setDeviceType(DEVICE_TYPE_MOBILE);
-    $this->customer->setValue('email_mobile', 'mobile@example.com');
-
-    $this->expected = array(
+        $this->expected = [
       'order_name01' => '姓01',
       'order_name02' => '名01',
       'order_kana01' => 'セイ01',
@@ -117,59 +116,58 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
       'order_country_id' => '',
       'order_company_name' => '',
       'order_zipcode' => ''
-    );
-    $helper = new SC_Helper_Purchase_Ex();
-    $helper->copyFromCustomer($dest, $this->customer);
-    $this->actual = $dest;
+    ];
+        $helper = new SC_Helper_Purchase_Ex();
+        $helper->copyFromCustomer($dest, $this->customer);
+        $this->actual = $dest;
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testCopyFromCustomer_モバイルかつモバイルのメールアドレスがない場合_通常のメールアドレスを設定する()
-  {
-    $dest = array();
-    $prefix = 'order';
-    // キーを絞る
-    $keys = array('name01', 'email');
-    User_Utils::setLoginState(TRUE, $this->customer_array, $this->objQuery);
-    User_Utils::setDeviceType(DEVICE_TYPE_MOBILE);
+    public function testCopyFromCustomerモバイルかつモバイルのメールアドレスがない場合通常のメールアドレスを設定する()
+    {
+        $dest = [];
+        $prefix = 'order';
+        // キーを絞る
+        $keys = ['name01', 'email'];
+        User_Utils::setLoginState(true, $this->customer_array, $this->objQuery);
+        User_Utils::setDeviceType(DEVICE_TYPE_MOBILE);
 
-    $this->expected = array(
+        $this->expected = [
       'order_name01' => '姓01',
       'order_email' => 'test@example.com',
       'customer_id' => '1001',
       'update_date' => 'CURRENT_TIMESTAMP'
-    );
-    $helper = new SC_Helper_Purchase_Ex();
-    $helper->copyFromCustomer($dest, $this->customer, $prefix, $keys);
-    $this->actual = $dest;
+    ];
+        $helper = new SC_Helper_Purchase_Ex();
+        $helper->copyFromCustomer($dest, $this->customer, $prefix, $keys);
+        $this->actual = $dest;
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testCopyFromCustomer_モバイルでない場合_通常のメールアドレスをそのまま設定する()
-  {
-    $dest = array();
-    $prefix = 'prefix';
-    // キーを絞る
-    $keys = array('name01', 'email');
-    User_Utils::setLoginState(TRUE, $this->customer_array, $this->objQuery);
-    User_Utils::setDeviceType(DEVICE_TYPE_PC);
-    $this->customer->setValue('email_mobile', 'mobile@example.com');
+    public function testCopyFromCustomerモバイルでない場合通常のメールアドレスをそのまま設定する()
+    {
+        $dest = [];
+        $prefix = 'prefix';
+        // キーを絞る
+        $keys = ['name01', 'email'];
+        User_Utils::setLoginState(true, $this->customer_array, $this->objQuery);
+        User_Utils::setDeviceType(DEVICE_TYPE_PC);
+        $this->customer->setValue('email_mobile', 'mobile@example.com');
 
-    $this->expected = array(
+        $this->expected = [
       'prefix_name01' => '姓01',
       'prefix_email' => 'test@example.com',
       'customer_id' => '1001',
       'update_date' => 'CURRENT_TIMESTAMP'
-    );
-    $helper = new SC_Helper_Purchase_Ex();
-    $helper->copyFromCustomer($dest, $this->customer, $prefix, $keys);
-    $this->actual = $dest;
+    ];
+        $helper = new SC_Helper_Purchase_Ex();
+        $helper->copyFromCustomer($dest, $this->customer, $prefix, $keys);
+        $this->actual = $dest;
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 配送方法設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Basis_Delivery extends LC_Page_Admin_Ex
@@ -113,16 +112,17 @@ class LC_Page_Admin_Basis_Delivery extends LC_Page_Admin_Ex
      *
      * @param  string $mode
      * @param SC_FormParam_Ex $objFormParam
+     *
      * @return array
      */
     public function lfCheckError($mode, &$objFormParam)
     {
-        $arrErr = array();
+        $arrErr = [];
         switch ($mode) {
             case 'delete':
             case 'up':
             case 'down':
-                $objFormParam->addParam('配送業者ID', 'deliv_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('配送業者ID', 'deliv_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
 
                 $objFormParam->convParam();
 

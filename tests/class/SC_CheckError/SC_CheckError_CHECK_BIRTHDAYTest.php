@@ -1,16 +1,13 @@
 <?php
 
-use Faker\Provider\DateTime;
-
-
 class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
 {
     /** @var string */
-    const FORM_NAME1 = 'year';
+    public const FORM_NAME1 = 'year';
     /** @var string */
-    const FORM_NAME2 = 'month';
+    public const FORM_NAME2 = 'month';
     /** @var string */
-    const FORM_NAME3 = 'day';
+    public const FORM_NAME3 = 'day';
     /** @var string */
     protected $year;
     /** @var string */
@@ -32,7 +29,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->day = $this->targetDateTime->format('d');
     }
 
-    public function testCHECK_BIRTHDAY()
+    public function testCHECKBIRTHDAY()
     {
         $this->arrForm = [
             self::FORM_NAME1 => $this->year,
@@ -45,8 +42,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testCHECK_BIRTHDAYWithEmpty()
+    public function testCHECKBIRTHDAYWithEmpty()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '2019',
@@ -59,7 +55,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_BIRTHDAYWithNull()
+    public function testCHECKBIRTHDAYWithNull()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '2019',
@@ -72,7 +68,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_BIRTHDAYWithZero()
+    public function testCHECKBIRTHDAYWithZero()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '0',
@@ -85,7 +81,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_BIRTHDAYWithInvalid()
+    public function testCHECKBIRTHDAYWithInvalid()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 2001,
@@ -98,7 +94,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_BIRTHDAYWithMaxYear()
+    public function testCHECKBIRTHDAYWithMaxYear()
     {
         $now = new \DateTime();
         $now->modify('+1 year');
@@ -112,7 +108,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->assertContains('以下で入力', $this->actual);
     }
 
-    public function testCHECK_BIRTHDAYWithMinYear()
+    public function testCHECKBIRTHDAYWithMinYear()
     {
         $this->arrForm = [
             self::FORM_NAME1 => BIRTH_YEAR - 1,

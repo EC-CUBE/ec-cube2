@@ -24,8 +24,8 @@
 /**
  * DBに依存した処理を抽象化するファクトリークラス.
  *
- * @package DB
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_DB_DBFactory
@@ -34,6 +34,7 @@ class SC_DB_DBFactory
      * DB_TYPE に応じた DBFactory インスタンスを生成する.
      *
      * @param  string $db_type 任意のインスタンスを返したい場合は DB_TYPE 文字列を指定
+     *
      * @return SC_DB_DBFactory  DBFactory インスタンス
      */
     public static function getInstance($db_type = DB_TYPE)
@@ -47,7 +48,7 @@ class SC_DB_DBFactory
                 return new SC_DB_DBFactory_PGSQL();
 
             default:
-                return new SC_DB_DBFactory();
+                return new self();
         }
     }
 
@@ -59,20 +60,21 @@ class SC_DB_DBFactory
      * $dsn が空ではない場合は, $dsn の値を返す.
      *
      * @param  string $dsn データソース名
+     *
      * @return string データソース名またはDB接続パラメータの連想配列
      */
     public function getDSN($dsn = '')
     {
         if (empty($dsn)) {
             if (defined('DEFAULT_DSN')) {
-                $dsn = array('phptype'  => DB_TYPE,
+                $dsn = ['phptype' => DB_TYPE,
                              'username' => DB_USER,
                              'password' => DB_PASSWORD,
                              'protocol' => 'tcp',
                              'hostspec' => DB_SERVER,
-                             'port'     => DB_PORT,
+                             'port' => DB_PORT,
                              'database' => DB_NAME
-                             );
+                             ];
             } else {
                 return '';
             }
@@ -85,6 +87,7 @@ class SC_DB_DBFactory
      * DBのバージョンを取得する.
      *
      * @param  string $dsn データソース名
+     *
      * @return string データベースのバージョン
      */
     public function sfGetDBVersion($dsn = '')
@@ -96,6 +99,7 @@ class SC_DB_DBFactory
      * MySQL 用の SQL 文に変更する.
      *
      * @param  string $sql SQL 文
+     *
      * @return string MySQL 用に置換した SQL 文
      */
     public function sfChangeMySQL($sql)
@@ -107,6 +111,7 @@ class SC_DB_DBFactory
      * 昨日の売上高・売上件数を算出する SQL を返す.
      *
      * @param  string $method SUM または COUNT
+     *
      * @return string 昨日の売上高・売上件数を算出する SQL
      */
     public function getOrderYesterdaySql($method)
@@ -118,6 +123,7 @@ class SC_DB_DBFactory
      * 当月の売上高・売上件数を算出する SQL を返す.
      *
      * @param  string $method SUM または COUNT
+     *
      * @return string 当月の売上高・売上件数を算出する SQL
      */
     public function getOrderMonthSql($method)
@@ -159,6 +165,7 @@ class SC_DB_DBFactory
      * 文字列連結を行う.
      *
      * @param  string[]  $columns 連結を行うカラム名
+     *
      * @return string 連結後の SQL 文
      */
     public function concatColumn($columns)
@@ -172,12 +179,14 @@ class SC_DB_DBFactory
      * 引数に部分一致するテーブル名を配列で返す.
      *
      * @deprecated SC_Query::listTables() を使用してください
+     *
      * @param  string $expression 検索文字列
+     *
      * @return array  テーブル名の配列
      */
     public function findTableNames($expression = '')
     {
-        return array();
+        return [];
     }
 
     /**
@@ -187,6 +196,7 @@ class SC_DB_DBFactory
      *
      * @param  string $table 対象テーブル名
      * @param  string $name  対象カラム名
+     *
      * @return array  インデックス設定情報配列
      */
     public function sfGetCreateIndexDefinition($table, $name, $definition)
@@ -198,6 +208,7 @@ class SC_DB_DBFactory
      * 各 DB に応じた SC_Query での初期化を行う
      *
      * @param  SC_Query $objQuery SC_Query インスタンス
+     *
      * @return void
      */
     public function initObjQuery(SC_Query &$objQuery)
@@ -211,7 +222,7 @@ class SC_DB_DBFactory
      */
     public function listTables(SC_Query &$objQuery)
     {
-        $objManager =& $objQuery->conn->loadModule('Manager');
+        $objManager = &$objQuery->conn->loadModule('Manager');
 
         return $objManager->listTables();
     }
@@ -220,11 +231,12 @@ class SC_DB_DBFactory
      * SQL 文に OFFSET, LIMIT を付加する。
      *
      * @param string 元の SQL 文
-     * @param integer LIMIT
-     * @param integer OFFSET
+     * @param int LIMIT
+     * @param int OFFSET
+     *
      * @return string 付加後の SQL 文
      */
-    function addLimitOffset($sql, $limit = 0, $offset = 0)
+    public function addLimitOffset($sql, $limit = 0, $offset = 0)
     {
         if ($limit != 0) {
             $sql .= " LIMIT $limit";
@@ -242,12 +254,13 @@ class SC_DB_DBFactory
      *
      * @param  string $where_products_class 商品規格情報の WHERE 句
      * @param array $product_ids 商品IDの配列
+     *
      * @return string 商品詳細の SQL
      */
-    public function alldtlSQL($where_products_class = '', $product_ids = array())
+    public function alldtlSQL($where_products_class = '', $product_ids = [])
     {
         if (!SC_Utils_Ex::isBlank($where_products_class)) {
-            $where_products_class = 'AND (' . $where_products_class . ')';
+            $where_products_class = 'AND ('.$where_products_class.')';
         }
 
         $dtb_products_table = 'dtb_products';

@@ -26,7 +26,6 @@
  *
  * :XXX: addParam と setParam で言う「パラメーター」が用語として競合しているように感じる。(2009/10/17 Seasoft 塚田)
  *
- * @package SC
  * @author EC-CUBE CO.,LTD.
  */
 class SC_FormParam
@@ -35,29 +34,29 @@ class SC_FormParam
      * 何も入力されていないときに表示する値
      * キーはキー名
      */
-    public $arrValue = array();
+    public $arrValue = [];
 
     /** 表示名 */
-    public $disp_name = array();
+    public $disp_name = [];
 
     /** キー名 */
-    public $keyname = array();
+    public $keyname = [];
 
-    public $length = array();
-    public $convert = array();
-    public $arrCheck = array();
+    public $length = [];
+    public $convert = [];
+    public $arrCheck = [];
     public $check_dir;
 
     /**
      * 何も入力されていないときに表示する値
      * キーはキー名
      */
-    public $arrDefault = array();
+    public $arrDefault = [];
 
     /** DBにそのまま挿入可能か否か */
-    public $input_db = array();
+    public $input_db = [];
 
-    public $html_disp_name = array();
+    public $html_disp_name = [];
 
     /**
      * コンストラクタ
@@ -73,7 +72,7 @@ class SC_FormParam
         $class = $backtraces[1]['class'];
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         if (is_object($objPlugin)) {
-            $objPlugin->doAction('SC_FormParam_construct', array($class, $this));
+            $objPlugin->doAction('SC_FormParam_construct', [$class, $this]);
         }
     }
 
@@ -84,17 +83,17 @@ class SC_FormParam
      */
     public function initParam()
     {
-        $this->disp_name = array();
-        $this->keyname = array();
-        $this->length = array();
-        $this->convert = array();
-        $this->arrCheck = array();
-        $this->arrDefault = array();
-        $this->input_db = array();
+        $this->disp_name = [];
+        $this->keyname = [];
+        $this->length = [];
+        $this->convert = [];
+        $this->arrCheck = [];
+        $this->arrDefault = [];
+        $this->input_db = [];
     }
 
     // パラメーターの追加
-    public function addParam($disp_name, $keyname, $length = '', $convert = '', $arrCheck = array(), $default = '', $input_db = true)
+    public function addParam($disp_name, $keyname, $length = '', $convert = '', $arrCheck = [], $default = '', $input_db = true)
     {
         $this->disp_name[] = $disp_name;
         $this->keyname[] = $keyname;
@@ -111,7 +110,9 @@ class SC_FormParam
     // $seq     :trueの場合、$arrVal[0]~の配列を登録順にインスタンスに格納する
     public function setParam($arrVal, $seq = false)
     {
-        if (!is_array($arrVal)) return;
+        if (!is_array($arrVal)) {
+            return;
+        }
         if (!$seq) {
             foreach ($arrVal as $key => $val) {
                 $this->setValue($key, $val);
@@ -135,12 +136,12 @@ class SC_FormParam
             }
 
             if ($find) {
-                $this->html_disp_name[$index] = $this->disp_name[$index] . '<span class="red">(※ 必須)</span>';
+                $this->html_disp_name[$index] = $this->disp_name[$index].'<span class="red">(※ 必須)</span>';
             } else {
                 $this->html_disp_name[$index] = $this->disp_name[$index];
             }
             if (strlen($this->arrDefault[$key]) >= 1) {
-                $this->html_disp_name[$index] .= ' [省略時初期値: ' . $this->arrDefault[$key] . ']';
+                $this->html_disp_name[$index] .= ' [省略時初期値: '.$this->arrDefault[$key].']';
             }
             if ($this->input_db[$index] == false) {
                 $this->html_disp_name[$index] .= ' [登録・更新不可] ';
@@ -160,7 +161,7 @@ class SC_FormParam
         // DBの件数を取得する。
         $no = 1;
         foreach ($arrVal2d as $arrVal) {
-            $key = $keyname . $no;
+            $key = $keyname.$no;
             $this->setValue($key, $arrVal[$keyname]);
             $no++;
         }
@@ -197,7 +198,7 @@ class SC_FormParam
     // エラーチェック
     public function checkError($br = true)
     {
-        $arrErr = array();
+        $arrErr = [];
 
         foreach ($this->keyname as $index => $key) {
             foreach ($this->arrCheck[$index] as $func) {
@@ -237,20 +238,20 @@ class SC_FormParam
                             unset($arrErr[$key]);
                         }
                         break;
-                    // 小文字に変換
+                        // 小文字に変換
                     case 'CHANGE_LOWER':
                         $this->toLower($key);
                         break;
-                    // ファイルの存在チェック
+                        // ファイルの存在チェック
                     case 'FILE_EXISTS':
-                        if ($value != '' && !file_exists($this->check_dir . $value)) {
-                            $arrErr[$key] = '※ ' . $this->disp_name[$index] . 'のファイルが存在しません。<br>';
+                        if ($value != '' && !file_exists($this->check_dir.$value)) {
+                            $arrErr[$key] = '※ '.$this->disp_name[$index].'のファイルが存在しません。<br>';
                         }
                         break;
-                    // ダウンロード用ファイルの存在チェック
+                        // ダウンロード用ファイルの存在チェック
                     case 'DOWN_FILE_EXISTS':
-                        if ($value != '' && !file_exists(DOWN_SAVE_REALDIR . $value)) {
-                            $arrErr[$key] = '※ ' . $this->disp_name[$index] . 'のファイルが存在しません。<br>';
+                        if ($value != '' && !file_exists(DOWN_SAVE_REALDIR.$value)) {
+                            $arrErr[$key] = '※ '.$this->disp_name[$index].'のファイルが存在しません。<br>';
                         }
                         break;
                     default:
@@ -277,7 +278,8 @@ class SC_FormParam
      * @param  mixed   $value     チェック対象の値
      *                            配列の場合は再帰的にチェックする
      * @param  array   $arrErr    エラーメッセージを格納する配列(の一部)
-     * @param  integer $length    チェック対象の値の長さ
+     * @param  int $length    チェック対象の値の長さ
+     *
      * @return void
      */
     public function recursionCheck($disp_name, $func, $value, &$arrErr,
@@ -287,17 +289,18 @@ class SC_FormParam
         if (is_array($value)) {
             foreach ($value as $key => $in) {
                 $this->recursionCheck($disp_name, $func, $in, $arrErr[$key],
-                                      $length);
+                    $length);
                 if (SC_Utils_Ex::isBlank($arrErr[$key])) {
                     unset($arrErr[$key]);
                 }
             }
+
             return;
         }
 
         $dummy_key = 'dummy'; // 仮のキーを指定。どんな値でも良い。
-        $objErr = new SC_CheckError_Ex(array($dummy_key => $value));
-        $objErr->doFunc(array($disp_name, $dummy_key, $length), array($func));
+        $objErr = new SC_CheckError_Ex([$dummy_key => $value]);
+        $objErr->doFunc([$disp_name, $dummy_key, $length], [$func]);
         if (array_key_exists($dummy_key, $objErr->arrErr) && !SC_Utils_Ex::isBlank($objErr->arrErr[$dummy_key])) {
             $arrErr = $objErr->arrErr[$dummy_key];
         }
@@ -307,6 +310,7 @@ class SC_FormParam
      * フォームの入力パラメーターに応じて, 再帰的に mb_convert_kana 関数を実行する.
      *
      * @return void
+     *
      * @see mb_convert_kana
      */
     public function convParam()
@@ -341,11 +345,12 @@ class SC_FormParam
      * 連想配列で返す
      *
      * @param  array $arrKey 対象のキー
+     *
      * @return array 連想配列
      */
-    public function getHashArray($arrKey = array())
+    public function getHashArray($arrKey = [])
     {
-        $arrRet = array();
+        $arrRet = [];
         foreach ($this->keyname as $keyname) {
             if (empty($arrKey) || in_array($keyname, $arrKey)) {
                 $arrRet[$keyname] = $this->getValue($keyname);
@@ -358,7 +363,7 @@ class SC_FormParam
     // DB格納用配列の作成
     public function getDbArray()
     {
-        $dbArray = array();
+        $dbArray = [];
         foreach ($this->keyname as $index => $key) {
             if ($this->input_db[$index]) {
                 $dbArray[$key] = $this->getValue($key);
@@ -372,9 +377,10 @@ class SC_FormParam
      * 配列の縦横を入れ替えて返す
      *
      * @param  array $arrKey 対象のキー
+     *
      * @return array 縦横を入れ替えた配列
      */
-    public function getSwapArray($arrKey = array())
+    public function getSwapArray($arrKey = [])
     {
         $arrTmp = $this->getHashArray($arrKey);
 
@@ -398,7 +404,7 @@ class SC_FormParam
     // フォームに渡す用のパラメーターを返す
     public function getFormParamList()
     {
-        $formParamList = array();
+        $formParamList = [];
         foreach ($this->keyname as $index => $key) {
             // キー名
             $formParamList[$key]['keyname'] = $key;
@@ -463,7 +469,8 @@ class SC_FormParam
     /**
      * 入力パラメーターの先頭及び末尾にある空白文字を削除する.
      *
-     * @param  boolean $has_wide_space 全角空白も削除する場合 true
+     * @param  bool $has_wide_space 全角空白も削除する場合 true
+     *
      * @return void
      */
     public function trimParam($has_wide_space = true)
@@ -477,7 +484,8 @@ class SC_FormParam
      * 再帰的に入力パラメーターの先頭及び末尾にある空白文字を削除する.
      *
      * @param  mixed   $value          変換する値. 配列の場合は再帰的に実行する.
-     * @param  boolean $has_wide_space 全角空白も削除する場合 true
+     * @param  bool $has_wide_space 全角空白も削除する場合 true
+     *
      * @return void
      */
     public function recursionTrim(&$value, $has_wide_space = true)
@@ -503,13 +511,14 @@ class SC_FormParam
      * 引数で指定した文字列で始まるパラメーター名の入力値を連想配列で取得する.
      *
      * @param  string $prefix パラメーター名の接頭辞
+     *
      * @return array  検索結果引き継ぎ用の連想配列.
      */
     public function getSearchArray($prefix = 'search_')
     {
-        $arrResults = array();
+        $arrResults = [];
         foreach ($this->keyname as $key) {
-            if (preg_match('/^' . $prefix . '/', $key)) {
+            if (preg_match('/^'.$prefix.'/', $key)) {
                 $arrResults[$key] = $this->getValue($key);
             }
         }
@@ -521,16 +530,17 @@ class SC_FormParam
      * 前方互換用
      *
      * 1次キーが添字なのが特徴だったと思われる。
+     *
      * @deprecated 2.12.0 必要ならば getFormParamList メソッドに引数を追加するなどで実現可能
      */
     public function getFormDispArray()
     {
-        $formDispArray = array();
+        $formDispArray = [];
         foreach ($this->keyname as $index => $key) {
             // キー名
             $formDispArray[$index]['keyname'] = $key;
             // 表示名
-            $formDispArray[$index]['disp_name']  = $this->disp_name[$index];
+            $formDispArray[$index]['disp_name'] = $this->disp_name[$index];
             // 文字数制限
             $formDispArray[$index]['length'] = $this->length[$index];
             // 入力値
@@ -544,13 +554,14 @@ class SC_FormParam
      * パラメーターの削除
      *
      * addParamの逆の関数
+     *
      * @param string $keyname
      */
     public function removeParam($keyname)
     {
         $index = array_search($keyname, $this->keyname);
 
-        if ($index !== FALSE) {
+        if ($index !== false) {
             // 削除
             unset($this->disp_name[$index]);
             unset($this->keyname[$index]);
@@ -561,12 +572,12 @@ class SC_FormParam
             unset($this->input_db[$index]);
 
             // 歯抜けになった配列を詰める
-            $this->disp_name    = array_merge($this->disp_name);
-            $this->keyname      = array_merge($this->keyname);
-            $this->length       = array_merge($this->length);
-            $this->convert      = array_merge($this->convert);
-            $this->arrCheck     = array_merge($this->arrCheck);
-            $this->input_db     = array_merge($this->input_db);
+            $this->disp_name = array_merge($this->disp_name);
+            $this->keyname = array_merge($this->keyname);
+            $this->length = array_merge($this->length);
+            $this->convert = array_merge($this->convert);
+            $this->arrCheck = array_merge($this->arrCheck);
+            $this->input_db = array_merge($this->input_db);
         }
     }
 
@@ -581,7 +592,7 @@ class SC_FormParam
     {
         $index = array_search($keyname, $this->keyname);
 
-        if ($index !== FALSE) {
+        if ($index !== false) {
             if ($target == 'default') {
                 $this->arrDefault[$keyname] = $value;
             } else {
@@ -595,11 +606,12 @@ class SC_FormParam
      *
      * @param   string  $keyname    取得するキー名
      * @param   string  $target     項目名(disp_name,length,convert等)
+     *
      * @return  mixed   パラメーターの設定情報
      */
     public function getParamSetting($keyname = null, $target = null)
     {
-        $arrSetting = array(
+        $arrSetting = [
             'disp_name',
             'keyname',
             'length',
@@ -607,12 +619,12 @@ class SC_FormParam
             'arrCheck',
             'arrDefault',
             'input_db',
-        );
+        ];
 
         if (is_null($keyname)) {
             // 全ての設定情報を取得
-            $ret = array();
-            foreach ($this->keyname as $index=>$key) {
+            $ret = [];
+            foreach ($this->keyname as $index => $key) {
                 foreach ($arrSetting as $item) {
                     if ($item == 'arrDefault') {
                         $ret[$key]['default'] = $this->{$item}[$key];
@@ -621,6 +633,7 @@ class SC_FormParam
                     }
                 }
             }
+
             return $ret;
         }
 
@@ -629,7 +642,7 @@ class SC_FormParam
         if ($index !== false) {
             if (is_null($target)) {
                 // 指定のkeynameの全ての設定情報を取得
-                $ret = array();
+                $ret = [];
                 foreach ($arrSetting as $item) {
                     if ($item == 'arrDefault') {
                         $ret['default'] = $this->{$item}[$keyname];
@@ -637,6 +650,7 @@ class SC_FormParam
                         $ret[$item] = $this->{$item}[$index];
                     }
                 }
+
                 return $ret;
             }
 

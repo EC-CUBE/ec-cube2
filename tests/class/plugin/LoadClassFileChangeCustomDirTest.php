@@ -42,7 +42,7 @@ class LoadClassFileChangeCustomDirTest extends Common_TestCase
     public function testLOading()
     {
         //  __DIR__.'/../fixtures/plugin/ に配置したプラグインをオートロード対象にする
-        spl_autoload_register(function ($class){
+        spl_autoload_register(function ($class) {
             SC_ClassAutoloader_Ex::autoload($class, __DIR__.'/../fixtures/plugin/');
         }, true, true);
 

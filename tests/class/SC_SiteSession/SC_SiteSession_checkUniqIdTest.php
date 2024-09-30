@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Session_checkUniqIdTest extends Common_TestCase
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -38,31 +37,31 @@ class SC_Session_checkUniqIdTest extends Common_TestCase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testCheckUniqId_POST値がない場合_True()
+    public function testCheckUniqIdPOST値がない場合True()
     {
         $_POST = null;
         $this->expected = true;
         $this->actual = $this->objSiteSession->checkUniqId();
         $this->verify('ポスト値空');
     }
-    
-    public function testCheckUniqId_POSTとセッションのUniqIDが一致する場合_True()
+
+    public function testCheckUniqIdPOSTとセッションのUniqIDが一致する場合True()
     {
         $_POST['uniqid'] = '1234567890';
         $_SESSION['site']['uniqid'] = '1234567890';
-        
+
         $this->expected = true;
         $this->actual = $this->objSiteSession->checkUniqId();
         $this->verify('ユニークID一致');
     }
-    
-    public function testCheckUniqId_POSTとセッションのUniqIDが一致しない場合_False()
+
+    public function testCheckUniqIdPOSTとセッションのUniqIDが一致しない場合False()
     {
         $_POST['uniqid'] = '0987654321';
         $_SESSION['site']['uniqid'] = '1234567890';
-        
+
         $this->expected = false;
         $this->actual = $this->objSiteSession->checkUniqId();
         $this->verify('ユニークID不一致');

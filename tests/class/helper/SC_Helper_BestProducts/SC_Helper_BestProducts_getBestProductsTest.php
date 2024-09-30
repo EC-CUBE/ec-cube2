@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -44,7 +44,7 @@ class SC_Helper_BestProducts_getBestProductsTest extends SC_Helper_BestProducts_
 
     /**　best_idが存在しない場合、空を返す。
      */
-    public function testGetBestProducts_おすすめidが存在しない場合_空を返す()
+    public function testGetBestProductsおすすめidが存在しない場合空を返す()
     {
         $best_id = '9999';
 
@@ -55,33 +55,33 @@ class SC_Helper_BestProducts_getBestProductsTest extends SC_Helper_BestProducts_
     }
 
     // best_idが存在する場合、対応した結果を取得できる。
-    public function testGetBestProducts_おすすめIDが存在する場合_対応した結果を取得できる(){
-
+    public function testGetBestProductsおすすめIDが存在する場合対応した結果を取得できる()
+    {
         $best_id = '1001';
 
-        $this->expected = array(
+        $this->expected = [
             'category_id' => '0',
             'rank' => '1',
             'title' => 'タイトルですよ',
             'comment' => 'コメントですよ',
             'del_flg' => '0'
-        );
+        ];
 
         $result = SC_Helper_BestProducts_Ex::getBestProducts($best_id);
         $this->actual = Test_Utils::mapArray($result,
-            array('category_id',
+            ['category_id',
                 'rank',
                 'title',
                 'comment',
                 'del_flg'
-            ));
+            ]);
 
         $this->verify();
     }
 
     // best_idが存在するが、del_flg=1の場合、空が帰る。
-    public function testGetBestProducts_おすすめIDがあり_かつ削除済みの場合_空が返る(){
-
+    public function testGetBestProductsおすすめIDがありかつ削除済みの場合空が返る()
+    {
         $best_id = '1002';
 
         $this->expected = null;
@@ -91,28 +91,27 @@ class SC_Helper_BestProducts_getBestProductsTest extends SC_Helper_BestProducts_
     }
 
     // best_idが存在するが、del_flg=1の場合、かつ。$has_deleted=trueを指定
-    public function testGetBestProducts_削除済みでかつhas_deletedがtrueの場合_対応した結果が返る(){
-
+    public function testGetBestProducts削除済みでかつhasDeletedがtrueの場合対応した結果が返る()
+    {
         $best_id = '1002';
 
-        $this->expected = array(
+        $this->expected = [
             'category_id' => '0',
             'rank' => '2',
             'title' => 'タイトルですよ',
             'comment' => 'コメントですよ',
             'del_flg' => '1'
-        );
+        ];
 
-        $result = SC_Helper_BestProducts_Ex::getBestProducts($best_id,true);
+        $result = SC_Helper_BestProducts_Ex::getBestProducts($best_id, true);
         $this->actual = Test_Utils::mapArray($result,
-            array('category_id',
+            ['category_id',
                 'rank',
                 'title',
                 'comment',
                 'del_flg'
-            ));
+            ]);
 
         $this->verify();
     }
 }
-

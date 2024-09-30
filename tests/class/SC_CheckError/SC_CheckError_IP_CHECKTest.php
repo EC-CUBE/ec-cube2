@@ -12,7 +12,7 @@ class SC_CheckError_IP_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->faker = Faker\Factory::create('ja_JP');
     }
 
-    public function testIP_CHECK()
+    public function testIPCHECK()
     {
         $this->arrForm = [self::FORM_NAME => $this->faker->ipv4];
         $this->expected = '';
@@ -21,7 +21,7 @@ class SC_CheckError_IP_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testIP_CHECKWithEmpty()
+    public function testIPCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -30,7 +30,7 @@ class SC_CheckError_IP_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testIP_CHECKWithNull()
+    public function testIPCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '';
@@ -39,7 +39,7 @@ class SC_CheckError_IP_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testIP_CHECKWithError()
+    public function testIPCHECKWithError()
     {
         $this->arrForm = [
             self::FORM_NAME => '256.123.123.123'
@@ -50,7 +50,7 @@ class SC_CheckError_IP_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testIP_CHECKWithMultiple()
+    public function testIPCHECKWithMultiple()
     {
         $this->arrForm = [
             self::FORM_NAME => "{$this->faker->ipv4}\n{$this->faker->ipv4}\r\n{$this->faker->ipv4}\n\n{$this->faker->ipv4}"
@@ -61,7 +61,7 @@ class SC_CheckError_IP_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testIP_CHECKWithMultipleError()
+    public function testIPCHECKWithMultipleError()
     {
         $this->arrForm = [
             self::FORM_NAME => "{$this->faker->ipv4}\n256.11.1.1\r\n{$this->faker->ipv4}\n\n{$this->faker->ipv4}"

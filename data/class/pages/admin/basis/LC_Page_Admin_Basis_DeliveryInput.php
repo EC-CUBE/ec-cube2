@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 配送方法設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Basis_DeliveryInput extends LC_Page_Admin_Ex
@@ -104,27 +103,27 @@ class LC_Page_Admin_Basis_DeliveryInput extends LC_Page_Admin_Ex
 
         switch ($mode) {
             case 'edit':
-                $objFormParam->addParam('配送業者ID', 'deliv_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('配送業者名', 'name', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('名称', 'service_name', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('説明', 'remark', LLTEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('伝票No.確認URL', 'confirm_url', URL_LEN, 'n', array('URL_CHECK', 'MAX_LENGTH_CHECK'), 'http://');
-                $objFormParam->addParam('取扱商品種別', 'product_type_id', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('取扱支払方法', 'payment_ids', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('配送業者ID', 'deliv_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('配送業者名', 'name', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('名称', 'service_name', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('説明', 'remark', LLTEXT_LEN, 'KVa', ['MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('伝票No.確認URL', 'confirm_url', URL_LEN, 'n', ['URL_CHECK', 'MAX_LENGTH_CHECK'], 'http://');
+                $objFormParam->addParam('取扱商品種別', 'product_type_id', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('取扱支払方法', 'payment_ids', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
 
                 for ($cnt = 1; $cnt <= DELIVTIME_MAX; $cnt++) {
-                    $objFormParam->addParam("お届け時間$cnt", "deliv_time$cnt", STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
+                    $objFormParam->addParam("お届け時間$cnt", "deliv_time$cnt", STEXT_LEN, 'KVa', ['MAX_LENGTH_CHECK']);
                 }
 
                 if (INPUT_DELIV_FEE) {
                     for ($cnt = 1; $cnt <= DELIVFEE_MAX; $cnt++) {
-                        $objFormParam->addParam("配送料", "fee$cnt", PRICE_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
+                        $objFormParam->addParam('配送料', "fee$cnt", PRICE_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
                     }
                 }
                 break;
 
             case 'pre_edit':
-                $objFormParam->addParam('配送業者ID', 'deliv_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('配送業者ID', 'deliv_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
                 break;
 
             default:
@@ -151,7 +150,7 @@ class LC_Page_Admin_Basis_DeliveryInput extends LC_Page_Admin_Ex
         $sqlval['creator_id'] = $member_id;
 
         // お届け時間
-        $sqlval['deliv_time'] = array();
+        $sqlval['deliv_time'] = [];
         for ($cnt = 1; $cnt <= DELIVTIME_MAX; $cnt++) {
             $keyname = "deliv_time$cnt";
             if ($arrRet[$keyname] != '') {
@@ -161,12 +160,12 @@ class LC_Page_Admin_Basis_DeliveryInput extends LC_Page_Admin_Ex
 
         // 配送料
         if (INPUT_DELIV_FEE) {
-            $sqlval['deliv_fee'] = array();
+            $sqlval['deliv_fee'] = [];
             // 配送料金の設定
             for ($cnt = 1; $cnt <= DELIVFEE_MAX; $cnt++) {
                 $keyname = "fee$cnt";
                 if ($arrRet[$keyname] != '') {
-                    $fee = array();
+                    $fee = [];
                     $fee['fee_id'] = $cnt;
                     $fee['fee'] = $arrRet[$keyname];
                     $fee['pref'] = $cnt;
@@ -176,7 +175,7 @@ class LC_Page_Admin_Basis_DeliveryInput extends LC_Page_Admin_Ex
         }
 
         // 支払い方法
-        $sqlval['payment_ids'] = array();
+        $sqlval['payment_ids'] = [];
         foreach ($arrRet['payment_ids'] as $payment_id) {
             $sqlval['payment_ids'][] = $payment_id;
         }
@@ -199,14 +198,14 @@ class LC_Page_Admin_Basis_DeliveryInput extends LC_Page_Admin_Ex
         $arrDeliv = $objDelivery->get($deliv_id);
 
         // お届け時間
-        $deliv_times = array();
+        $deliv_times = [];
         foreach ($arrDeliv['deliv_time'] as $value) {
             $deliv_times[]['deliv_time'] = $value;
         }
         $objFormParam->setParamList($deliv_times, 'deliv_time');
         unset($arrDeliv['deliv_time']);
         // 配送料金
-        $deliv_fee = array();
+        $deliv_fee = [];
         foreach ($arrDeliv['deliv_fee'] as $value) {
             $deliv_fee[]['fee'] = $value['fee'];
         }
@@ -223,7 +222,7 @@ class LC_Page_Admin_Basis_DeliveryInput extends LC_Page_Admin_Ex
     public function lfCheckError(&$objFormParam)
     {
         // 入力データを渡す。
-        $arrRet =  $objFormParam->getHashArray();
+        $arrRet = $objFormParam->getHashArray();
         $objErr = new SC_CheckError_Ex($arrRet);
         $objErr->arrErr = $objFormParam->checkError();
 

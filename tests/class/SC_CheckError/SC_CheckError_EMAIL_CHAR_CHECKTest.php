@@ -12,7 +12,7 @@ class SC_CheckError_EMAIL_CHAR_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->faker = Faker\Factory::create('ja_JP');
     }
 
-    public function testEMAIL_CHAR_CHECK()
+    public function testEMAILCHARCHECK()
     {
         $this->arrForm = [self::FORM_NAME => $this->faker->safeEmail];
         $this->expected = '';
@@ -21,7 +21,7 @@ class SC_CheckError_EMAIL_CHAR_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testEMAIL_CHAR_CHECKWithEmpty()
+    public function testEMAILCHARCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -30,7 +30,7 @@ class SC_CheckError_EMAIL_CHAR_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testEMAIL_CHAR_CHECKWithNull()
+    public function testEMAILCHARCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '';
@@ -39,7 +39,7 @@ class SC_CheckError_EMAIL_CHAR_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testEMAIL_CHAR_CHECKWithRegex()
+    public function testEMAILCHARCHECKWithRegex()
     {
         $this->arrForm = [
             self::FORM_NAME => $this->faker->regexify('^[a-zA-Z0-9_@\+\?-]+$')
@@ -49,7 +49,7 @@ class SC_CheckError_EMAIL_CHAR_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify($this->arrForm[self::FORM_NAME].' は使用可能なパターンのはず');
     }
 
-    public function testEMAIL_CHAR_CHECKWithError()
+    public function testEMAILCHARCHECKWithError()
     {
         $email = $this->faker->randomNumber().'='.$this->faker->userName.'@'.$this->faker->safeEmailDomain;
         $this->arrForm = [

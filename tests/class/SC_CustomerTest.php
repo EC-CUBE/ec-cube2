@@ -5,7 +5,7 @@ class SC_CustomerTest extends Common_TestCase
     /** @var int */
     protected $customer_id;
 
-    /** @var Faker\Generator $faker */
+    /** @var Faker\Generator */
     protected $faker;
 
     /** @var string */

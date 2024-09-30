@@ -1,13 +1,15 @@
 <?php
-class plugin_info {
-    static $PLUGIN_CODE        = 'PrefilterTransformPlugin';
-    static $PLUGIN_NAME        = 'PrefilterTransformPlugin';
-    static $CLASS_NAME         = 'PrefilterTransformPlugin';
-    static $PLUGIN_VERSION     = '0.0.0';
-    static $COMPLIANT_VERSION  = '2.17';
-    static $AUTHOR             = 'dummy';
-    static $DESCRIPTION        = 'dummy';
-    static $HOOK_POINTS        = [
+
+class plugin_info
+{
+    public static $PLUGIN_CODE = 'PrefilterTransformPlugin';
+    public static $PLUGIN_NAME = 'PrefilterTransformPlugin';
+    public static $CLASS_NAME = 'PrefilterTransformPlugin';
+    public static $PLUGIN_VERSION = '0.0.0';
+    public static $COMPLIANT_VERSION = '2.17';
+    public static $AUTHOR = 'dummy';
+    public static $DESCRIPTION = 'dummy';
+    public static $HOOK_POINTS = [
         ['prefilterTransform', 'prefilterTransform']
     ];
 }

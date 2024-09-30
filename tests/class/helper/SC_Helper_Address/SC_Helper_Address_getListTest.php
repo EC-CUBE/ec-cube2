@@ -1,13 +1,10 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Address/SC_Helper_Address_TestBase.php");
-/**
- *
- */
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Address/SC_Helper_Address_TestBase.php';
+
 class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -19,14 +16,14 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
-    public function testgetListTest_会員が該当テーブルに存在するかつstart_idが指定されている場合_配送先のarrayを返す()
+    // ///////////////////////////////////////
+    public function testgetListTest会員が該当テーブルに存在するかつstartIdが指定されている場合配送先のarrayを返す()
     {
         $this->setUpAddress();
         $customer_id = '1';
         $startno = '1';
-        $this->expected = array(
-            array(
+        $this->expected = [
+            [
                 'other_deliv_id' => '1000',
                 'customer_id' => '1',
                 'name01' => 'テスト',
@@ -34,7 +31,7 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'kana01' => 'テスト',
                 'kana02' => 'イチ',
                 'zip01' => '000',
-                'zip02'=> '0000',
+                'zip02' => '0000',
                 'pref' => '1',
                 'addr01' => 'テスト',
                 'addr02' => 'テスト２',
@@ -47,20 +44,19 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'country_id' => null,
                 'company_name' => null,
                 'zipcode' => null
-                  )
-
-                                );
+                  ]
+                                ];
         $this->actual = $this->objAddress->getList($customer_id, $startno);
-        
+
         $this->verify('配送先一覧取得');
     }
 
-    public function testgetListTest_会員が該当テーブルに存在する場合_配送先のarrayを返す()
+    public function testgetListTest会員が該当テーブルに存在する場合配送先のarrayを返す()
     {
         $this->setUpAddress();
         $customer_id = '1';
-        $this->expected = array(
-                        array(
+        $this->expected = [
+                        [
                 'other_deliv_id' => '1001',
                 'customer_id' => '1',
                 'name01' => 'テスト',
@@ -68,7 +64,7 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'kana01' => 'テスト',
                 'kana02' => 'ニ',
                 'zip01' => '222',
-                'zip02'=> '2222',
+                'zip02' => '2222',
                 'pref' => '2',
                 'addr01' => 'テスト1',
                 'addr02' => 'テスト2',
@@ -81,8 +77,8 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'country_id' => null,
                 'company_name' => null,
                 'zipcode' => null
-                  ),
-            array(
+                  ],
+            [
                 'other_deliv_id' => '1000',
                 'customer_id' => '1',
                 'name01' => 'テスト',
@@ -90,7 +86,7 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'kana01' => 'テスト',
                 'kana02' => 'イチ',
                 'zip01' => '000',
-                'zip02'=> '0000',
+                'zip02' => '0000',
                 'pref' => '1',
                 'addr01' => 'テスト',
                 'addr02' => 'テスト２',
@@ -103,11 +99,10 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'country_id' => null,
                 'company_name' => null,
                 'zipcode' => null
-                  )
-
-                                );
+                  ]
+                                ];
         $this->actual = $this->objAddress->getList($customer_id);
-        
+
         $this->verify('配送先一覧取得');
     }
 }

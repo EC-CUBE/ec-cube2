@@ -3,17 +3,17 @@
 class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
 {
     /** @var string */
-    const FORM_NAME1 = 'year';
+    public const FORM_NAME1 = 'year';
     /** @var string */
-    const FORM_NAME2 = 'month';
+    public const FORM_NAME2 = 'month';
     /** @var string */
-    const FORM_NAME3 = 'day';
+    public const FORM_NAME3 = 'day';
     /** @var string */
-    const FORM_NAME4 = 'hour';
+    public const FORM_NAME4 = 'hour';
     /** @var string */
-    const FORM_NAME5 = 'minute';
+    public const FORM_NAME5 = 'minute';
     /** @var string */
-    const FORM_NAME6 = 'second';
+    public const FORM_NAME6 = 'second';
     /** @var string */
     protected $year;
     /** @var string */
@@ -44,7 +44,7 @@ class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
         $this->second = $this->targetDateTime->format('s');
     }
 
-    public function testCHECK_DATE2()
+    public function testCHECKDATE2()
     {
         $this->arrForm = [
             self::FORM_NAME1 => $this->year,
@@ -60,8 +60,7 @@ class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testCHECK_DATE2WithEmpty()
+    public function testCHECKDATE2WithEmpty()
     {
         $this->arrForm = [
             self::FORM_NAME1 => $this->year,
@@ -77,7 +76,7 @@ class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_DATE2WithNull()
+    public function testCHECKDATE2WithNull()
     {
         $this->arrForm = [
             self::FORM_NAME1 => $this->year,
@@ -93,7 +92,7 @@ class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_DATE2WithZero()
+    public function testCHECKDATE2WithZero()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '0',
@@ -109,7 +108,7 @@ class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_DATE2WithInvalid()
+    public function testCHECKDATE2WithInvalid()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 2001,
@@ -145,4 +144,3 @@ class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
         $this->assertEquals($this->expected, $this->actual, $message);
     }
 }
-

@@ -21,15 +21,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_REALDIR . 'pages/upgrade/LC_Page_Upgrade_Base.php';
+require_once CLASS_REALDIR.'pages/upgrade/LC_Page_Upgrade_Base.php';
 
 /**
  * オーナーズストアからダウンロードデータを取得する.
  *
  * TODO 要リファクタリング
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
@@ -55,10 +55,10 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
     public function process()
     {
         $mode = $this->getMode();
-        $objLog  = new LC_Upgrade_Helper_Log;
+        $objLog = new LC_Upgrade_Helper_Log();
         $objLog->start($mode);
 
-        $objJson = new LC_Upgrade_Helper_Json;
+        $objJson = new LC_Upgrade_Helper_Json();
 
         // アクセスチェック
         $objLog->log('* auth start');
@@ -79,7 +79,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
             $objJson->setError(OSTORE_E_C_INVALID_PARAM);
             $objJson->display();
             $objLog->error(OSTORE_E_C_INVALID_PARAM, $_POST);
-            $objLog->log('* post param check error ' . print_r($arrErr, true));
+            $objLog->log('* post param check error '.print_r($arrErr, true));
 
             return;
         }
@@ -115,20 +115,20 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
 
         switch ($mode) {
             case 'patch_download':
-                $arrPostData = array(
+                $arrPostData = [
                     'eccube_url' => HTTP_URL,
-                    'public_key' => sha1($public_key . $sha1_key),
-                    'sha1_key'   => $sha1_key,
+                    'public_key' => sha1($public_key.$sha1_key),
+                    'sha1_key' => $sha1_key,
                     'patch_code' => 'latest'
-                );
+                ];
                 break;
             default:
-                $arrPostData = array(
+                $arrPostData = [
                     'eccube_url' => HTTP_URL,
-                    'public_key' => sha1($public_key . $sha1_key),
-                    'sha1_key'   => $sha1_key,
+                    'public_key' => sha1($public_key.$sha1_key),
+                    'sha1_key' => $sha1_key,
                     'product_id' => $this->objForm->getValue('product_id')
-                );
+                ];
                 break;
         }
 
@@ -171,26 +171,26 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
         if ($objRet->status === OSTORE_STATUS_SUCCESS) {
             $objLog->log('* save file start');
             $time = time();
-            $dir  = DATA_REALDIR . 'downloads/tmp/';
-            $filename = $time . '.tar.gz';
+            $dir = DATA_REALDIR.'downloads/tmp/';
+            $filename = $time.'.tar.gz';
 
             $data = base64_decode($objRet->data->dl_file);
 
-            $objLog->log("* open ${filename} start");
-            if ($fp = @fopen($dir . $filename, 'w')) {
+            $objLog->log("* open {$filename} start");
+            if ($fp = @fopen($dir.$filename, 'w')) {
                 @fwrite($fp, $data);
                 @fclose($fp);
             } else {
                 $objJson->setError(OSTORE_E_C_PERMISSION);
                 $objJson->display();
-                $objLog->error(OSTORE_E_C_PERMISSION, $dir . $filename);
+                $objLog->error(OSTORE_E_C_PERMISSION, $dir.$filename);
 
                 return;
             }
 
             // ダウンロードアーカイブを展開する
-            $exract_dir = $dir . $time;
-            $objLog->log("* mkdir ${exract_dir} start");
+            $exract_dir = $dir.$time;
+            $objLog->log("* mkdir {$exract_dir} start");
             if (!@mkdir($exract_dir)) {
                 $objJson->setError(OSTORE_E_C_PERMISSION);
                 $objJson->display();
@@ -199,12 +199,12 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
                 return;
             }
 
-            $objLog->log("* extract ${dir}${filename} start");
-            $tar = new Archive_Tar($dir . $filename);
+            $objLog->log("* extract {$dir}{$filename} start");
+            $tar = new Archive_Tar($dir.$filename);
             $tar->extract($exract_dir);
 
             $objLog->log('* copy batch start');
-            @include_once CLASS_REALDIR . 'batch/SC_Batch_Update.php';
+            @include_once CLASS_REALDIR.'batch/SC_Batch_Update.php';
             $objBatch = new SC_Batch_Update();
             $arrCopyLog = $objBatch->execute($exract_dir);
 
@@ -235,7 +235,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
             $objLog->log('* notify to ec-cube server start');
             $objReq = $this->notifyDownload($mode, $objReq->getResponseCookies());
 
-            $objLog->log('* dl commit result:' . serialize($objReq));
+            $objLog->log('* dl commit result:'.serialize($objReq));
 
             $productData = $objRet->data;
             $productData->dl_file = '';
@@ -257,7 +257,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
     {
         $this->objForm = new SC_FormParam_Ex();
         $this->objForm->addParam(
-            'product_id', 'product_id', INT_LEN, '', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK')
+            'product_id', 'product_id', INT_LEN, '', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']
         );
         $this->objForm->setParam($_POST);
     }
@@ -273,23 +273,23 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
         $where = 'module_id = ?';
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $exists = $objQuery->exists($table, $where, array($objRet->product_id));
+        $exists = $objQuery->exists($table, $where, [$objRet->product_id]);
         if ($exists) {
-            $arrUpdate = array(
+            $arrUpdate = [
                 'module_code' => $objRet->product_code,
                 'module_name' => $objRet->product_name,
                 'update_date' => 'CURRENT_TIMESTAMP'
-            );
-            $objQuery->update($table, $arrUpdate, $where, array($objRet->product_id));
+            ];
+            $objQuery->update($table, $arrUpdate, $where, [$objRet->product_id]);
         } else {
-            $arrInsert = array(
-                'module_id'   => $objRet->product_id,
+            $arrInsert = [
+                'module_id' => $objRet->product_id,
                 'module_code' => $objRet->product_code,
                 'module_name' => $objRet->product_name,
                 'auto_update_flg' => '0',
-                'create_date'     => 'CURRENT_TIMESTAMP',
+                'create_date' => 'CURRENT_TIMESTAMP',
                 'update_date' => 'CURRENT_TIMESTAMP'
-            );
+            ];
             $objQuery->insert($table, $arrInsert);
         }
     }
@@ -298,15 +298,17 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
      * 配信サーバーへダウンロード完了を通知する.
      *
      * FIXME エラーコード追加
+     *
      * @param array #arrCookies Cookie配列
+     *
      * @return
      */
     public function notifyDownload($mode, $arrCookies)
     {
-        $arrPOSTParams = array(
+        $arrPOSTParams = [
             'eccube_url' => HTTP_URL
-        );
-        $objReq = $this->request($mode . '_commit', $arrPOSTParams, $arrCookies);
+        ];
+        $objReq = $this->request($mode.'_commit', $arrPOSTParams, $arrCookies);
 
         return $objReq;
     }
@@ -314,59 +316,59 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
     /**
      * アクセスチェック
      *
-     * @return boolean
+     * @return bool
      */
     public function isValidAccess($mode)
     {
-        $objLog = new LC_Upgrade_Helper_Log;
+        $objLog = new LC_Upgrade_Helper_Log();
         switch ($mode) {
-        // モジュールダウンロード
-        case 'download':
-            if ($this->isLoggedInAdminPage() === true) {
-                $objLog->log('* admin login ok');
+            // モジュールダウンロード
+            case 'download':
+                if ($this->isLoggedInAdminPage() === true) {
+                    $objLog->log('* admin login ok');
 
-                return true;
-            }
-            break;
-        // 自動アップロード最新ファイル取得
-        case 'patch_download':
-        // モジュール自動アップロード
-        case 'auto_update':
-            $objForm = new SC_FormParam;
-            $objForm->addParam('public_key', 'public_key', MTEXT_LEN, '', array('EXIST_CHECK', 'ALNUM_CHECK', 'MAX_LENGTH_CHECK'));
-            $objForm->addParam('sha1_key', 'sha1_key', MTEXT_LEN, '', array('EXIST_CHECK', 'ALNUM_CHECK', 'MAX_LENGTH_CHECK'));
-            $objForm->setParam($_POST);
+                    return true;
+                }
+                break;
+                // 自動アップロード最新ファイル取得
+            case 'patch_download':
+                // モジュール自動アップロード
+            case 'auto_update':
+                $objForm = new SC_FormParam();
+                $objForm->addParam('public_key', 'public_key', MTEXT_LEN, '', ['EXIST_CHECK', 'ALNUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objForm->addParam('sha1_key', 'sha1_key', MTEXT_LEN, '', ['EXIST_CHECK', 'ALNUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objForm->setParam($_POST);
 
-            $objLog->log('* param check start');
-            $arrErr = $objForm->checkError();
-            if ($arrErr) {
-                $objLog->log('* invalid param ' . print_r($arrErr, true));
+                $objLog->log('* param check start');
+                $arrErr = $objForm->checkError();
+                if ($arrErr) {
+                    $objLog->log('* invalid param '.print_r($arrErr, true));
+
+                    return false;
+                }
+
+                $objLog->log('* public_key check start');
+                $public_key = $this->getPublicKey();
+                if (empty($public_key)) {
+                    $objLog->log('* public_key not found');
+
+                    return false;
+                }
+
+                $sha1_key = $objForm->getValue('sha1_key');
+                $public_key_sha1 = $objForm->getValue('public_key');
+
+                $objLog->log('* ip check start');
+                if ($public_key_sha1 === sha1($public_key.$sha1_key)) {
+                    $objLog->log('* auto update login ok');
+
+                    return true;
+                }
+                break;
+            default:
+                $objLog->log('* mode invalid '.$mode);
 
                 return false;
-            }
-
-            $objLog->log('* public_key check start');
-            $public_key = $this->getPublicKey();
-            if (empty($public_key)) {
-                $objLog->log('* public_key not found');
-
-                return false;
-            }
-
-            $sha1_key = $objForm->getValue('sha1_key');
-            $public_key_sha1 = $objForm->getValue('public_key');
-
-            $objLog->log('* ip check start');
-            if ($public_key_sha1 === sha1($public_key . $sha1_key)) {
-                $objLog->log('* auto update login ok');
-
-                return true;
-            }
-            break;
-        default:
-            $objLog->log('* mode invalid ' . $mode);
-
-            return false;
         }
 
         return false;
@@ -375,16 +377,16 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
     public function registerUpdateLog($arrLog, $objRet)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $arrInsert = array(
-            'log_id'      => $objQuery->nextVal('dtb_module_update_logs_log_id'),
-            'module_id'   => $objRet->product_id,
+        $arrInsert = [
+            'log_id' => $objQuery->nextVal('dtb_module_update_logs_log_id'),
+            'module_id' => $objRet->product_id,
             'buckup_path' => $arrLog['buckup_path'],
-            'error_flg'   => count($arrLog['err']),
-            'error'       => implode("\n", $arrLog['err']),
-            'ok'          => implode("\n", $arrLog['ok']),
+            'error_flg' => count($arrLog['err']),
+            'error' => implode("\n", $arrLog['err']),
+            'ok' => implode("\n", $arrLog['ok']),
             'update_date' => 'CURRENT_TIMESTAMP',
             'create_date' => 'CURRENT_TIMESTAMP',
-        );
+        ];
         $objQuery->insert('dtb_module_update_logs', $arrInsert);
     }
 
@@ -397,11 +399,11 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
      */
     public function fileExecute($productCode)
     {
-        $file = DATA_REALDIR . 'downloads/update/' . $productCode . '_update.php';
+        $file = DATA_REALDIR.'downloads/update/'.$productCode.'_update.php';
         if (file_exists($file)) {
             @include_once $file;
             if (class_exists('LC_Update_Updater')) {
-                $update = new LC_Update_Updater;
+                $update = new LC_Update_Updater();
                 $update->execute();
             }
         }

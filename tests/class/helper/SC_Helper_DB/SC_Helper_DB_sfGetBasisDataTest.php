@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,11 +28,11 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
  * SC_Helper_DB::sfGetBasisData()のテストクラス.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_DB_sfGetBasisData extends SC_Helper_DB_TestBase
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -44,11 +44,11 @@ class SC_Helper_DB_sfGetBasisData extends SC_Helper_DB_TestBase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
     public function testsfGetBasisData_条件を指定しない場合_baseinfoを全て返す()
     {
         $this->setUpBasisData();
-        $this->expected = array(
+        $this->expected = [
             'id' => '1',
             'company_name' => 'testshop',
             'company_kana' => 'テストショップ',
@@ -115,7 +115,7 @@ class SC_Helper_DB_sfGetBasisData extends SC_Helper_DB_TestBase
             'downloadable_days_unlimited' => '0',
             'zipcode' => null,
             'law_zipcode' => null
-        );
+        ];
         $this->actual = $this->helper->sfGetBasisData(true);
         $this->verify();
     }
@@ -142,17 +142,17 @@ class SC_Helper_DB_sfGetBasisData extends SC_Helper_DB_TestBase
         $this->actual = $this->helper->sfGetBasisData(true);
         $this->verify();
     }
-    
+
     public function testsfGetBasisData_forceがfalseの場合_キャッシュを返す()
     {
         $this->setUpBasisData();
         $force = true;
-        //事前にキャッシュを生成
+        // 事前にキャッシュを生成
         $this->actual = $this->helper->sfGetBasisData($force);
-        //baseinfoを空にしてしまう
+        // baseinfoを空にしてしまう
         $this->objQuery->delete('dtb_baseinfo');
         $force = false;
-        $this->expected = array(
+        $this->expected = [
             'id' => '1',
             'company_name' => 'testshop',
             'company_kana' => 'テストショップ',
@@ -219,7 +219,7 @@ class SC_Helper_DB_sfGetBasisData extends SC_Helper_DB_TestBase
             'law_country_id' => null,
             'zipcode' => null,
             'law_zipcode' => null
-        );
+        ];
         $this->actual = $this->helper->sfGetBasisData(false);
         $this->verify();
     }

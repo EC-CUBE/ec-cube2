@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 登録内容変更 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Mypage_Change extends LC_Page_AbstractMypage_Ex
@@ -42,20 +41,20 @@ class LC_Page_Mypage_Change extends LC_Page_AbstractMypage_Ex
         $this->tpl_subtitle = '会員登録内容変更(入力ページ)';
         $this->tpl_mypageno = 'change';
 
-        $masterData         = new SC_DB_MasterData_Ex();
-        $this->arrReminder  = $masterData->getMasterData('mtb_reminder');
-        $this->arrPref      = $masterData->getMasterData('mtb_pref');
-        $this->arrCountry   = $masterData->getMasterData('mtb_country');
-        $this->arrJob       = $masterData->getMasterData('mtb_job');
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrReminder = $masterData->getMasterData('mtb_reminder');
+        $this->arrPref = $masterData->getMasterData('mtb_pref');
+        $this->arrCountry = $masterData->getMasterData('mtb_country');
+        $this->arrJob = $masterData->getMasterData('mtb_job');
         $this->arrMAILMAGATYPE = $masterData->getMasterData('mtb_mail_magazine_type');
-        $this->arrSex       = $masterData->getMasterData('mtb_sex');
+        $this->arrSex = $masterData->getMasterData('mtb_sex');
         $this->httpCacheControl('nocache');
 
         // 生年月日選択肢の取得
-        $objDate            = new SC_Date_Ex(BIRTH_YEAR, date('Y'));
-        $this->arrYear      = $objDate->getYear('', START_BIRTH_YEAR, '');
-        $this->arrMonth     = $objDate->getMonth(true);
-        $this->arrDay       = $objDate->getDay(true);
+        $objDate = new SC_Date_Ex(BIRTH_YEAR, date('Y'));
+        $this->arrYear = $objDate->getYear('', START_BIRTH_YEAR, '');
+        $this->arrMonth = $objDate->getMonth(true);
+        $this->arrDay = $objDate->getDay(true);
     }
 
     /**
@@ -70,6 +69,7 @@ class LC_Page_Mypage_Change extends LC_Page_AbstractMypage_Ex
 
     /**
      * Page のプロセス
+     *
      * @return void
      */
     public function action()
@@ -96,7 +96,7 @@ class LC_Page_Mypage_Change extends LC_Page_AbstractMypage_Ex
                     // 入力エラーの場合は終了
                     if (count($this->arrErr) == 0) {
                         // 郵便番号検索文作成
-                        $zipcode = $_POST['zip01'] . $_POST['zip02'];
+                        $zipcode = $_POST['zip01'].$_POST['zip02'];
 
                         // 郵便番号検索
                         $arrAdsList = SC_Utils_Ex::sfGetAddress($zipcode);
@@ -104,7 +104,7 @@ class LC_Page_Mypage_Change extends LC_Page_AbstractMypage_Ex
                         // 郵便番号が発見された場合
                         if (!empty($arrAdsList)) {
                             $data['pref'] = $arrAdsList[0]['state'];
-                            $data['addr01'] = $arrAdsList[0]['city']. $arrAdsList[0]['town'];
+                            $data['addr01'] = $arrAdsList[0]['city'].$arrAdsList[0]['town'];
                             $objFormParam->setParam($data);
                         // 該当無し
                         } else {
@@ -117,15 +117,15 @@ class LC_Page_Mypage_Change extends LC_Page_AbstractMypage_Ex
 
                 // 入力エラーなし
                 if (empty($this->arrErr)) {
-                    //パスワード表示
-                    $this->passlen      = SC_Utils_Ex::sfPassLen(strlen($objFormParam->getValue('password')));
+                    // パスワード表示
+                    $this->passlen = SC_Utils_Ex::sfPassLen(strlen($objFormParam->getValue('password')));
 
                     $this->tpl_mainpage = 'mypage/change_confirm.tpl';
-                    $this->tpl_title    = '会員登録(確認ページ)';
+                    $this->tpl_title = '会員登録(確認ページ)';
                     $this->tpl_subtitle = '会員登録内容変更(確認ページ)';
                 }
                 break;
-            // 会員登録と完了画面
+                // 会員登録と完了画面
             case 'complete':
                 $this->arrErr = SC_Helper_Customer_Ex::sfCustomerMypageErrorCheck($objFormParam);
 
@@ -134,14 +134,14 @@ class LC_Page_Mypage_Change extends LC_Page_AbstractMypage_Ex
                     // 会員情報の登録
                     $this->lfRegistCustomerData($objFormParam, $customer_id);
 
-                    //セッション情報を最新の状態に更新する
+                    // セッション情報を最新の状態に更新する
                     $objCustomer->updateSession();
 
                     // 完了ページに移動させる。
                     SC_Response_Ex::sendRedirect('change_complete.php');
                 }
                 break;
-            // 確認ページからの戻り
+                // 確認ページからの戻り
             case 'return':
                 // quiet.
                 break;
@@ -157,14 +157,14 @@ class LC_Page_Mypage_Change extends LC_Page_AbstractMypage_Ex
      *
      * @param SC_FormParam $objFormParam
      * @param mixed $customer_id
-     * @access private
+     *
      * @return void
      */
     public function lfRegistCustomerData(&$objFormParam, $customer_id)
     {
-        $arrRet             = $objFormParam->getHashArray();
-        $sqlval             = $objFormParam->getDbArray();
-        $sqlval['birth']    = SC_Utils_Ex::sfGetTimestamp($arrRet['year'], $arrRet['month'], $arrRet['day']);
+        $arrRet = $objFormParam->getHashArray();
+        $sqlval = $objFormParam->getDbArray();
+        $sqlval['birth'] = SC_Utils_Ex::sfGetTimestamp($arrRet['year'], $arrRet['month'], $arrRet['day']);
 
         SC_Helper_Customer_Ex::sfEditCustomerData($sqlval, $customer_id);
     }
@@ -173,6 +173,7 @@ class LC_Page_Mypage_Change extends LC_Page_AbstractMypage_Ex
      * 入力エラーのチェック.
      *
      * @param  array $arrRequest リクエスト値($_GET)
+     *
      * @return array $arrErr エラーメッセージ配列
      */
     public function lfCheckError($arrRequest)
@@ -180,8 +181,8 @@ class LC_Page_Mypage_Change extends LC_Page_AbstractMypage_Ex
         // パラメーター管理クラス
         $objFormParam = new SC_FormParam_Ex();
         // パラメーター情報の初期化
-        $objFormParam->addParam('郵便番号1', 'zip01', ZIP01_LEN, 'n', array('EXIST_CHECK', 'NUM_COUNT_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('郵便番号2', 'zip02', ZIP02_LEN, 'n', array('EXIST_CHECK', 'NUM_COUNT_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('郵便番号1', 'zip01', ZIP01_LEN, 'n', ['EXIST_CHECK', 'NUM_COUNT_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('郵便番号2', 'zip02', ZIP02_LEN, 'n', ['EXIST_CHECK', 'NUM_COUNT_CHECK', 'NUM_CHECK']);
         // // リクエスト値をセット
         $arrData['zip01'] = $arrRequest['zip01'];
         $arrData['zip02'] = $arrRequest['zip02'];

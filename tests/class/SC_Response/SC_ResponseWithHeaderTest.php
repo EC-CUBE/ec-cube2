@@ -4,7 +4,7 @@ class SC_ResponseWithHeaderTest extends Common_TestCase
 {
     /** @var resource|bool */
     private static $server;
-    const FIXTURES_DIR = '../fixtures/server';
+    public const FIXTURES_DIR = '../fixtures/server';
 
     public static function setUpBeforeClass()
     {

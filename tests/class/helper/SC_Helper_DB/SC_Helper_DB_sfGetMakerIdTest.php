@@ -1,4 +1,5 @@
 <?php
+
 class SC_Helper_DB_sfGetMakerIdTest extends SC_Helper_DB_TestBase
 {
     /** @var SC_Helper_DB_Ex */
@@ -64,6 +65,7 @@ class SC_Helper_DB_sfGetMakerIdTest extends SC_Helper_DB_TestBase
             [2, false, false, '商品非公開かつ closed = false は空の配列を返す']
         ];
     }
+
     /**
      * @dataProvider sfGetMakerIdWithProductVisibleProvider
      *
@@ -71,7 +73,6 @@ class SC_Helper_DB_sfGetMakerIdTest extends SC_Helper_DB_TestBase
      * @param bool $closed 非公開の商品も含めるか
      * @param bool $actual 想定
      * @param string $message
-     *
      */
     public function testsfGetMakerIdWithProductVisible($product_status_id, $closed, $actual, $message)
     {

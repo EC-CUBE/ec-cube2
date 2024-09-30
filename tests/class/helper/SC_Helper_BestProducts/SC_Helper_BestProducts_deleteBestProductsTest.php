@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -43,9 +43,9 @@ class SC_Helper_BestProducts_deleteBestProductsTest extends SC_Helper_BestProduc
     }
 
     // データが削除されていることを確認
-    public function testDeleteBestProducts_データが削除される(){
-
-        SC_Helper_BestProducts_Ex::deleteBestProducts("1001");
+    public function testDeleteBestProductsデータが削除される()
+    {
+        SC_Helper_BestProducts_Ex::deleteBestProducts('1001');
 
         $this->expected = null;
 
@@ -55,17 +55,16 @@ class SC_Helper_BestProducts_deleteBestProductsTest extends SC_Helper_BestProduc
     }
 
     // データが削除後、ランクが変動しないことを確認
-    public function testDeleteBestProducts_データ削除後_ランクは変動しない(){
+    public function testDeleteBestProductsデータ削除後ランクは変動しない()
+    {
+        SC_Helper_BestProducts_Ex::deleteBestProducts('1001');
 
-        SC_Helper_BestProducts_Ex::deleteBestProducts("1001");
+        $this->expected = '2';
 
-        $this->expected = "2";
-
-        $arrRet = SC_Helper_BestProducts_Ex::getBestProducts('1002',true);
+        $arrRet = SC_Helper_BestProducts_Ex::getBestProducts('1002', true);
 
         $this->actual = $arrRet['rank'];
 
         $this->verify();
     }
 }
-

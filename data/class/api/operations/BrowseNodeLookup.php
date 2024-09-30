@@ -24,11 +24,10 @@
 /**
  * APIの基本クラス
  *
- * @package Api
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
-
 class API_BrowseNodeLookup extends SC_Api_Abstract_Ex
 {
     protected $operation_name = 'BrowseNodeLookup';
@@ -51,7 +50,7 @@ class API_BrowseNodeLookup extends SC_Api_Abstract_Ex
             }
             // LC_Page_Products_CategoryList::lfGetCategories() と相当類似しているので共通化したい
             $arrCategory = null;    // 選択されたカテゴリ
-            $arrChildren = array(); // 子カテゴリ
+            $arrChildren = []; // 子カテゴリ
 
             $arrAll = SC_Helper_DB_Ex::sfGetCatTree($category_id, true);
             foreach ($arrAll as $category) {
@@ -69,30 +68,30 @@ class API_BrowseNodeLookup extends SC_Api_Abstract_Ex
             }
 
             if (!SC_Utils_Ex::isBlank($arrCategory)) {
-                $arrData = array(
+                $arrData = [
                     'BrowseNodeId' => $category_id,
                     'Name' => $arrCategory['category_name'],
-                    'PageURL' =>  HTTP_URL . 'products/list.php?category_id=' . $arrCategory['category_id'],
+                    'PageURL' => HTTP_URL.'products/list.php?category_id='.$arrCategory['category_id'],
                     'has_children' => count($arrChildren) > 0
-                );
+                ];
             } else {
-                $arrData = array(
+                $arrData = [
                     'BrowseNodeId' => $category_id,
                     'Name' => 'ホーム',
-                    'PageURL' =>  HTTP_URL,
+                    'PageURL' => HTTP_URL,
                     'has_children' => count($arrChildren) > 0
-                );
+                ];
             }
 
             if (!SC_Utils_Ex::isBlank($arrChildren)) {
-                $arrData['Children'] = array();
+                $arrData['Children'] = [];
                 foreach ($arrChildren as $category) {
-                    $arrData['Children']['BrowseNode'][] = array(
+                    $arrData['Children']['BrowseNode'][] = [
                         'BrowseNodeId' => $category['category_id'],
                         'Name' => $category['category_name'],
-                        'PageURL' => HTTP_URL . 'products/list.php?category_id=' . $category['category_id'],
+                        'PageURL' => HTTP_URL.'products/list.php?category_id='.$category['category_id'],
                         'has_children' => $category['has_children']
-                        );
+                        ];
                 }
             }
             $this->setResponse('BrowseNode', $arrData);
@@ -106,8 +105,8 @@ class API_BrowseNodeLookup extends SC_Api_Abstract_Ex
 
     protected function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('対象カテゴリID', 'BrowseNodeId', INT_LEN, 'a', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('返答種別', 'ResponseGroup', INT_LEN, 'a', array('GRAPH_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('対象カテゴリID', 'BrowseNodeId', INT_LEN, 'a', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('返答種別', 'ResponseGroup', INT_LEN, 'a', ['GRAPH_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     public function getResponseGroupName()

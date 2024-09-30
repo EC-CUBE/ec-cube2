@@ -3,9 +3,9 @@
 class SC_CheckError_CHECK_DATE3Test extends SC_CheckError_AbstractTestCase
 {
     /** @var string */
-    const FORM_NAME1 = 'year';
+    public const FORM_NAME1 = 'year';
     /** @var string */
-    const FORM_NAME2 = 'month';
+    public const FORM_NAME2 = 'month';
     /** @var string */
     protected $year;
     /** @var string */
@@ -24,7 +24,7 @@ class SC_CheckError_CHECK_DATE3Test extends SC_CheckError_AbstractTestCase
         $this->month = $this->targetDateTime->format('m');
     }
 
-    public function testCHECK_DATE3()
+    public function testCHECKDATE3()
     {
         $this->arrForm = [
             self::FORM_NAME1 => $this->year,
@@ -36,8 +36,7 @@ class SC_CheckError_CHECK_DATE3Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testCHECK_DATE3WithEmpty()
+    public function testCHECKDATE3WithEmpty()
     {
         $this->arrForm = [
             self::FORM_NAME1 => $this->year,
@@ -49,7 +48,7 @@ class SC_CheckError_CHECK_DATE3Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_DATE3WithNull()
+    public function testCHECKDATE3WithNull()
     {
         $this->arrForm = [
             self::FORM_NAME1 => null,
@@ -61,7 +60,7 @@ class SC_CheckError_CHECK_DATE3Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_DATE3WithZero()
+    public function testCHECKDATE3WithZero()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '0',
@@ -73,7 +72,7 @@ class SC_CheckError_CHECK_DATE3Test extends SC_CheckError_AbstractTestCase
         $this->verify('0 の入力は無視される');
     }
 
-    public function testCHECK_DATE3WithInvalid()
+    public function testCHECKDATE3WithInvalid()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 2001,
@@ -105,4 +104,3 @@ class SC_CheckError_CHECK_DATE3Test extends SC_CheckError_AbstractTestCase
         $this->assertEquals($this->expected, $this->actual, $message);
     }
 }
-

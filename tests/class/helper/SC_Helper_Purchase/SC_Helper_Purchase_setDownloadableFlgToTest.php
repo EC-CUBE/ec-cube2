@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,90 +27,87 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /**
  * SC_Helper_Purchase::setDownloadableFlgTo()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_setDownloadableFlgToTest extends SC_Helper_Purchase_TestBase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSetDownloadableFlgTo販売価格が0円の場合フラグがONになる()
+    {
+        $input = [
+      '1001' => ['price' => 0]
+    ];
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->expected = true;
+        SC_Helper_Purchase::setDownloadableFlgTo($input);
+        $this->actual = $input['1001']['is_downloadable'];
 
-  /////////////////////////////////////////
-  public function testSetDownloadableFlgTo_販売価格が0円の場合_フラグがONになる()
-  {
-    $input = array(
-      '1001' => array('price' => 0)
-    );
-    
-    $this->expected = true;
-    SC_Helper_Purchase::setDownloadableFlgTo($input);
-    $this->actual = $input['1001']['is_downloadable'];
+        $this->verify('ダウンロード可能フラグ設定結果');
+    }
 
-    $this->verify('ダウンロード可能フラグ設定結果');
-  }
+    public function testSetDownloadableFlgToダウンロード期限内かつ入金日ありの場合フラグがONになる()
+    {
+        $input = [
+      '1001' => ['price' => 1000, 'effective' => '1', 'payment_date' => '2012-12-12']
+    ];
 
-  public function testSetDownloadableFlgTo_ダウンロード期限内かつ入金日ありの場合_フラグがONになる()
-  {
-    $input = array(
-      '1001' => array('price' => 1000, 'effective' => '1', 'payment_date' => '2012-12-12')
-    );
-    
-    $this->expected = true;
-    SC_Helper_Purchase::setDownloadableFlgTo($input);
-    $this->actual = $input['1001']['is_downloadable'];
+        $this->expected = true;
+        SC_Helper_Purchase::setDownloadableFlgTo($input);
+        $this->actual = $input['1001']['is_downloadable'];
 
-    $this->verify('ダウンロード可能フラグ設定結果');
-  }
+        $this->verify('ダウンロード可能フラグ設定結果');
+    }
 
-  public function testSetDownloadableFlgTo_ダウンロード期限内かつ入金日なしの場合_フラグがOFFになる()
-  {
-    $input = array(
-      '1001' => array('price' => 1000, 'effective' => '1', 'payment_date' => null)
-    );
-    
-    $this->expected = false;
-    SC_Helper_Purchase::setDownloadableFlgTo($input);
-    $this->actual = $input['1001']['is_downloadable'];
+    public function testSetDownloadableFlgToダウンロード期限内かつ入金日なしの場合フラグがOFFになる()
+    {
+        $input = [
+      '1001' => ['price' => 1000, 'effective' => '1', 'payment_date' => null]
+    ];
 
-    $this->verify('ダウンロード可能フラグ設定結果');
-  }
+        $this->expected = false;
+        SC_Helper_Purchase::setDownloadableFlgTo($input);
+        $this->actual = $input['1001']['is_downloadable'];
 
-  public function testSetDownloadableFlgTo_ダウンロード期限外かつ入金日ありの場合_フラグがOFFになる()
-  {
-    $input = array(
-      '1001' => array('price' => 1000, 'effective' => '0', 'payment_date' => '2012-12-12')
-    );
-    
-    $this->expected = false;
-    SC_Helper_Purchase::setDownloadableFlgTo($input);
-    $this->actual = $input['1001']['is_downloadable'];
+        $this->verify('ダウンロード可能フラグ設定結果');
+    }
 
-    $this->verify('ダウンロード可能フラグ設定結果');
-  }
+    public function testSetDownloadableFlgToダウンロード期限外かつ入金日ありの場合フラグがOFFになる()
+    {
+        $input = [
+      '1001' => ['price' => 1000, 'effective' => '0', 'payment_date' => '2012-12-12']
+    ];
 
-  public function testSetDownloadableFlgTo_ダウンロード期限外かつ入金日なしの場合_フラグがOFFになる()
-  {
-    $input = array(
-      '1001' => array('price' => 1000, 'effective' => '0', 'payment_date' => null)
-    );
-    
-    $this->expected = false;
-    SC_Helper_Purchase::setDownloadableFlgTo($input);
-    $this->actual = $input['1001']['is_downloadable'];
+        $this->expected = false;
+        SC_Helper_Purchase::setDownloadableFlgTo($input);
+        $this->actual = $input['1001']['is_downloadable'];
 
-    $this->verify('ダウンロード可能フラグ設定結果');
-  }
+        $this->verify('ダウンロード可能フラグ設定結果');
+    }
 
-  //////////////////////////////////////////
+    public function testSetDownloadableFlgToダウンロード期限外かつ入金日なしの場合フラグがOFFになる()
+    {
+        $input = [
+      '1001' => ['price' => 1000, 'effective' => '0', 'payment_date' => null]
+    ];
+
+        $this->expected = false;
+        SC_Helper_Purchase::setDownloadableFlgTo($input);
+        $this->actual = $input['1001']['is_downloadable'];
+
+        $this->verify('ダウンロード可能フラグ設定結果');
+    }
+
+    // ////////////////////////////////////////
 }
-

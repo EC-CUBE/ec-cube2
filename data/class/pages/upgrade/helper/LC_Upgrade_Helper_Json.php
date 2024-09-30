@@ -1,17 +1,15 @@
 <?php
 /**
  * Enter description here...
- *
  */
 class LC_Upgrade_Helper_Json
 {
-    /** */
-    public $arrData = array(
-        'status'  => null,
+    public $arrData = [
+        'status' => null,
         'errcode' => null,
-        'msg'     => null,
-        'data'    => array()
-    );
+        'msg' => null,
+        'data' => []
+    ];
 
     /**
      * Enter description here...
@@ -24,7 +22,6 @@ class LC_Upgrade_Helper_Json
 
     /**
      * Enter description here...
-     *
      */
     public function isError()
     {
@@ -50,9 +47,9 @@ class LC_Upgrade_Helper_Json
         $masterData = new SC_DB_MasterData_Ex();
         $arrOStoreErrMsg = $masterData->getMasterData('mtb_ownersstore_err');
 
-        $this->arrData['status']  = OSTORE_STATUS_ERROR;
+        $this->arrData['status'] = OSTORE_STATUS_ERROR;
         $this->arrData['errcode'] = $errCode;
-        $this->arrData['msg']  = isset($arrOStoreErrMsg[$errCode])
+        $this->arrData['msg'] = isset($arrOStoreErrMsg[$errCode])
             ? $arrOStoreErrMsg[$errCode]
             : $arrOStoreErrMsg[OSTORE_E_UNKNOWN];
     }
@@ -62,16 +59,15 @@ class LC_Upgrade_Helper_Json
      *
      * @param mixed $data
      */
-    public function setSuccess($data = array(), $msg = '')
+    public function setSuccess($data = [], $msg = '')
     {
         $this->arrData['status'] = OSTORE_STATUS_SUCCESS;
-        $this->arrData['data']   = $data;
-        $this->arrData['msg']    = $msg;
+        $this->arrData['data'] = $data;
+        $this->arrData['msg'] = $msg;
     }
 
     /**
      * Enter description here...
-     *
      */
     public function display()
     {
@@ -87,7 +83,9 @@ class LC_Upgrade_Helper_Json
      * そのため5.2.0以上の場合は組み込み関数のjson_decode()を使用する.
      *
      * @param  string   $str
+     *
      * @return mixed
+     *
      * @see SC_Utils_Ex::jsonDecode
      */
     public function decode($str)

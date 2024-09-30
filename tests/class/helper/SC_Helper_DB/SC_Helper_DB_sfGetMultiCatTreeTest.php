@@ -22,7 +22,6 @@ class SC_Helper_DB_sfGetMultiCatTreeTest extends SC_Helper_DB_TestBase
             }, $category_root);
         }, $categories_tree);
 
-
         $this->verify();
     }
 
@@ -40,7 +39,6 @@ class SC_Helper_DB_sfGetMultiCatTreeTest extends SC_Helper_DB_TestBase
                 return $category['category_id'];
             }, $category_root);
         }, $categories_tree);
-
 
         $this->verify();
     }

@@ -1,10 +1,7 @@
 <?php
 /**
  * Smarty plugin
- * @package Smarty
- * @subpackage plugins
  */
-
 
 /**
  * Smarty n2s modifier plugin
@@ -12,15 +9,18 @@
  * Type:     modifier<br>
  * Name:     n2s<br>
  * Purpose:  formatting number to string.
+ *
  * @author   pineray 松田光貴 <matsudaterutaka at gmail dot com>
+ *
  * @param string
+ *
  * @return string
  */
 function smarty_modifier_n2s($number)
 {
     $decimals = 0;
-    $dec_point = ".";
-    $thousands_sep = ",";
+    $dec_point = '.';
+    $thousands_sep = ',';
 
     // 引数を取得
     $args = func_get_args();
@@ -37,5 +37,5 @@ function smarty_modifier_n2s($number)
         }
     }
 
-    return number_format(floatval($number), $decimals, $dec_point, $thousands_sep);
+    return number_format((float) $number, $decimals, $dec_point, $thousands_sep);
 }

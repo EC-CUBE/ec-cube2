@@ -44,7 +44,7 @@ class SC_Plugin_Util
         $max = count($arrRet);
         for ($i = 0; $i < $max; $i++) {
             $plugin_id = $arrRet[$i]['plugin_id'];
-            $arrHookPoint = SC_Plugin_Util::getPluginHookPoint($plugin_id);
+            $arrHookPoint = self::getPluginHookPoint($plugin_id);
             $arrRet[$i]['plugin_hook_point'] = $arrHookPoint;
         }
 
@@ -75,6 +75,7 @@ class SC_Plugin_Util
      * プラグインIDをキーにプラグインを取得する。
      *
      * @param  int   $plugin_id プラグインID.
+     *
      * @return array プラグインの基本情報.
      */
     public static function getPluginByPluginId($plugin_id)
@@ -83,7 +84,7 @@ class SC_Plugin_Util
         $col = '*';
         $table = 'dtb_plugin';
         $where = 'plugin_id = ?';
-        $plugin = $objQuery->getRow($col, $table, $where, array($plugin_id));
+        $plugin = $objQuery->getRow($col, $table, $where, [$plugin_id]);
 
         return $plugin;
     }
@@ -92,6 +93,7 @@ class SC_Plugin_Util
      * プラグインコードをキーにプラグインを取得する。
      *
      * @param  string $plugin_code プラグインコード.
+     *
      * @return array  プラグインの基本情報.
      */
     public static function getPluginByPluginCode($plugin_code)
@@ -100,7 +102,7 @@ class SC_Plugin_Util
         $col = '*';
         $table = 'dtb_plugin';
         $where = 'plugin_code = ?';
-        $plugin = $objQuery->getRow($col, $table, $where, array($plugin_code));
+        $plugin = $objQuery->getRow($col, $table, $where, [$plugin_code]);
 
         return $plugin;
     }
@@ -109,14 +111,15 @@ class SC_Plugin_Util
      * プラグインIDをキーにプラグインを削除する。
      *
      * @param  string $plugin_id プラグインID.
+     *
      * @return void
      */
     public static function deletePluginByPluginId($plugin_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'plugin_id = ?';
-        $objQuery->delete('dtb_plugin', $where, array($plugin_id));
-        $objQuery->delete('dtb_plugin_hookpoint', $where, array($plugin_id));
+        $objQuery->delete('dtb_plugin', $where, [$plugin_id]);
+        $objQuery->delete('dtb_plugin_hookpoint', $where, [$plugin_id]);
     }
 
     /**
@@ -126,7 +129,7 @@ class SC_Plugin_Util
      */
     public static function getPluginDirectory($plugin_upload_realdir = PLUGIN_UPLOAD_REALDIR)
     {
-        $arrPluginDirectory = array();
+        $arrPluginDirectory = [];
         if (is_dir($plugin_upload_realdir)) {
             if ($dh = opendir($plugin_upload_realdir)) {
                 while (($pluginDirectory = readdir($dh)) !== false) {
@@ -142,8 +145,9 @@ class SC_Plugin_Util
     /**
      * プラグインIDをキーに, プラグインフックポイントを取得する.
      *
-     * @param  integer $plugin_id
-     * @param  integer $use_type  1=有効のみ 2=無効のみ 3=全て
+     * @param  int $plugin_id
+     * @param  int $use_type  1=有効のみ 2=無効のみ 3=全て
+     *
      * @return array   フックポイントの一覧
      */
     public static function getPluginHookPoint($plugin_id, $use_type = 1)
@@ -166,13 +170,14 @@ class SC_Plugin_Util
                 break;
         }
 
-        return $objQuery->select($cols, $from, $where, array($plugin_id));
+        return $objQuery->select($cols, $from, $where, [$plugin_id]);
     }
 
     /**
      *  プラグインフックポイントを取得する.
      *
-     * @param  integer $use_type 1=有効のみ 2=無効のみ 3=全て
+     * @param  int $use_type 1=有効のみ 2=無効のみ 3=全て
+     *
      * @return array   フックポイントの一覧
      */
     public static function getPluginHookPointList($use_type = 3)
@@ -197,34 +202,35 @@ class SC_Plugin_Util
         }
 
         return $objQuery->select($cols, $from, $where);
-        //$arrList = array();
-        //foreach ($arrRet AS $key=>$val) {
+        // $arrList = array();
+        // foreach ($arrRet AS $key=>$val) {
         //    $arrList[$val['hook_point']][$val['plugin_id']] = $val;
-        //}
-        //return $arrList;
+        // }
+        // return $arrList;
     }
 
     /**
      * プラグイン利用に必須のモジュールチェック
      *
      * @param  string $key エラー情報を格納するキー
+     *
      * @return array  $arrErr エラー情報を格納した連想配列.
      */
     public static function checkExtension($key)
     {
         // プラグイン利用に必須のモジュール
         // 'EC-CUBEバージョン' => array('モジュール名')
-        $arrRequireExtension = array(
-                                     '2.12.0' => array('dom'),
-                                     '2.12.1' => array('dom'),
-                                     '2.12.2' => array('dom')
-                                    );
+        $arrRequireExtension = [
+                                     '2.12.0' => ['dom'],
+                                     '2.12.1' => ['dom'],
+                                     '2.12.2' => ['dom']
+                                    ];
         // 必須拡張モジュールのチェック
-        $arrErr = array();
+        $arrErr = [];
         if (is_array($arrRequireExtension[ECCUBE_VERSION])) {
-            foreach ($arrRequireExtension[ECCUBE_VERSION] AS $val) {
+            foreach ($arrRequireExtension[ECCUBE_VERSION] as $val) {
                 if (!extension_loaded($val)) {
-                    $arrErr[$key] .= "※ プラグインを利用するには、拡張モジュール「${val}」が必要です。<br />";
+                    $arrErr[$key] .= "※ プラグインを利用するには、拡張モジュール「{$val}」が必要です。<br />";
                 }
             }
         }
@@ -236,19 +242,21 @@ class SC_Plugin_Util
      * フックポイントのON/OFF変更
      *
      * @param  intger $plugin_hookpoint_id フックポイントID
+     *
      * @return void
      */
     public static function setPluginHookPointChangeUse($plugin_hookpoint_id, $use_flg = 0)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $sqlval['use_flg'] = $use_flg;
-        $objQuery->update('dtb_plugin_hookpoint', $sqlval, 'plugin_hookpoint_id = ?', array($plugin_hookpoint_id));
+        $objQuery->update('dtb_plugin_hookpoint', $sqlval, 'plugin_hookpoint_id = ?', [$plugin_hookpoint_id]);
     }
 
     /**
      * フックポイントで衝突する可能性のあるプラグインを判定.メッセージを返します.
      *
      * @param  int    $plugin_id プラグインID
+     *
      * @return string $conflict_alert_message メッセージ
      */
     public static function checkConflictPlugin($plugin_id = '')
@@ -256,21 +264,21 @@ class SC_Plugin_Util
         // フックポイントを取得します.
         $where = 'T1.hook_point = ? AND NOT T1.plugin_id = ? AND T2.enable = ?';
         if ($plugin_id > 0) {
-            $hookPoints = SC_Plugin_Util::getPluginHookPoint($plugin_id, '');
+            $hookPoints = self::getPluginHookPoint($plugin_id, '');
         } else {
-            $hookPoints = SC_Plugin_Util::getPluginHookPointList(1);
+            $hookPoints = self::getPluginHookPointList(1);
             $where .= ' AND T1.use_flg = 1';
         }
 
         $conflict_alert_message = '';
-        $arrConflictPluginName = array();
-        $arrConflictHookPoint = array();
+        $arrConflictPluginName = [];
+        $arrConflictHookPoint = [];
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setGroupBy('T1.hook_point, T1.plugin_id, T2.plugin_name');
         $table = 'dtb_plugin_hookpoint AS T1 LEFT JOIN dtb_plugin AS T2 ON T1.plugin_id = T2.plugin_id';
         foreach ($hookPoints as $hookPoint) {
             // 競合するプラグインを取得する,
-            $conflictPlugins = $objQuery->select('T1.hook_point, T1.plugin_id, T2.plugin_name', $table, $where, array($hookPoint['hook_point'], $hookPoint['plugin_id'], PLUGIN_ENABLE_TRUE));
+            $conflictPlugins = $objQuery->select('T1.hook_point, T1.plugin_id, T2.plugin_name', $table, $where, [$hookPoint['hook_point'], $hookPoint['plugin_id'], PLUGIN_ENABLE_TRUE]);
 
             // プラグイン名重複を削除する為、専用の配列に格納し直す.
             foreach ($conflictPlugins as $conflictPlugin) {
@@ -288,7 +296,7 @@ class SC_Plugin_Util
         if ($plugin_id > 0) {
             // メッセージをセットします.
             foreach ($arrConflictPluginName as $conflictPluginName) {
-                $conflict_alert_message .= '* ' .  $conflictPluginName . 'と競合する可能性があります。<br/>';
+                $conflict_alert_message .= '* '.$conflictPluginName.'と競合する可能性があります。<br/>';
             }
 
             return $conflict_alert_message;
@@ -296,5 +304,4 @@ class SC_Plugin_Util
             return $arrConflictHookPoint;
         }
     }
-
 }

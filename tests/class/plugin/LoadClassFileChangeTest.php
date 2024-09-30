@@ -18,13 +18,15 @@ class LoadClassFileChangeTest extends Common_TestCase
         $plugins = ['AutoloadingPlugin'];
         foreach ($plugins as $plugin) {
             $dir = PLUGIN_UPLOAD_REALDIR.$plugin;
-            if (!file_exists($dir)) break;
+            if (!file_exists($dir)) {
+                break;
+            }
             $files = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS),
                 RecursiveIteratorIterator::CHILD_FIRST
             );
             foreach ($files as $file) {
-                /** @var SplFileInfo $file */
+                /* @var SplFileInfo $file */
                 $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getRealPath());
             }
             rmdir($dir);
@@ -34,6 +36,7 @@ class LoadClassFileChangeTest extends Common_TestCase
 
     /**
      * loadClassFileChange で拡張したクラスのテストケース.
+     *
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
@@ -72,7 +75,7 @@ class plugin_info {
     static \$HOOK_POINTS        = 'loadClassFileChange';
 }
 __EOS__;
-       $autoloadingPlugin = <<< __EOS__
+        $autoloadingPlugin = <<< __EOS__
 <?php
 class AutoloadingPlugin extends SC_Plugin_Base
 {
@@ -84,7 +87,7 @@ class AutoloadingPlugin extends SC_Plugin_Base
     }
 }
 __EOS__;
-       $Autoloading_SC_Product = <<< __EOS__
+        $Autoloading_SC_Product = <<< __EOS__
 <?php
 class Autoloading_SC_Product extends SC_Product
 {

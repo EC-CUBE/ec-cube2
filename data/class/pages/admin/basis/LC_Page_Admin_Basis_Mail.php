@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * メール設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Basis_Mail extends LC_Page_Admin_Ex
@@ -72,7 +71,7 @@ class LC_Page_Admin_Basis_Mail extends LC_Page_Admin_Ex
 
         $mode = $this->getMode();
 
-        $post = array();
+        $post = [];
         if (!empty($_POST)) {
             $objFormParam = new SC_FormParam_Ex();
             $this->lfInitParam($mode, $objFormParam);
@@ -87,32 +86,30 @@ class LC_Page_Admin_Basis_Mail extends LC_Page_Admin_Ex
 
         switch ($mode) {
             case 'id_set':
-                    $mailtemplate = $objMailtemplate->get($post['template_id']);
-                    if ($mailtemplate) {
-                        $this->arrForm = $mailtemplate;
-                    } else {
-                        $this->arrForm['template_id'] = $post['template_id'];
-                    }
+                $mailtemplate = $objMailtemplate->get($post['template_id']);
+                if ($mailtemplate) {
+                    $this->arrForm = $mailtemplate;
+                } else {
+                    $this->arrForm['template_id'] = $post['template_id'];
+                }
                 break;
             case 'regist':
+                $this->arrForm = $post;
+                if ($this->arrErr) {
+                    // エラーメッセージ
+                    $this->tpl_msg = 'エラーが発生しました';
+                } else {
+                    // 正常
+                    $this->lfRegistMailTemplate($this->arrForm, $_SESSION['member_id'], $objMailtemplate);
 
-                    $this->arrForm = $post;
-                    if ($this->arrErr) {
-                        // エラーメッセージ
-                        $this->tpl_msg = 'エラーが発生しました';
-                    } else {
-                        // 正常
-                        $this->lfRegistMailTemplate($this->arrForm, $_SESSION['member_id'], $objMailtemplate);
-
-                        // 完了メッセージ
-                        $this->tpl_onload = "window.alert('メール設定が完了しました。テンプレートを選択して内容をご確認ください。');";
-                        unset($this->arrForm);
-                    }
+                    // 完了メッセージ
+                    $this->tpl_onload = "window.alert('メール設定が完了しました。テンプレートを選択して内容をご確認ください。');";
+                    unset($this->arrForm);
+                }
                 break;
             default:
                 break;
         }
-
     }
 
     public function lfRegistMailTemplate($post, $member_id, SC_Helper_Mailtemplate_Ex $objMailtemplate)
@@ -129,12 +126,13 @@ class LC_Page_Admin_Basis_Mail extends LC_Page_Admin_Ex
     {
         switch ($mode) {
             case 'regist':
-                $objFormParam->addParam('メールタイトル', 'subject', MTEXT_LEN, 'KVa', array('EXIST_CHECK','SPTAB_CHECK','MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('ヘッダー', 'header', LTEXT_LEN, 'KVa', array('SPTAB_CHECK','MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('フッター', 'footer', LTEXT_LEN, 'KVa', array('SPTAB_CHECK','MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('テンプレート', 'template_id', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('メールタイトル', 'subject', MTEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('ヘッダー', 'header', LTEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('フッター', 'footer', LTEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('テンプレート', 'template_id', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                // no break
             case 'id_set':
-                $objFormParam->addParam('テンプレート', 'template_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('テンプレート', 'template_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
                 break;
             default:
                 break;

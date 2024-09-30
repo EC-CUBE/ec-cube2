@@ -3,11 +3,11 @@
 class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
 {
     /** @var string */
-    const FORM_NAME1 = 'tel01';
+    public const FORM_NAME1 = 'tel01';
     /** @var string */
-    const FORM_NAME2 = 'tel02';
+    public const FORM_NAME2 = 'tel02';
     /** @var string */
-    const FORM_NAME3 = 'tel03';
+    public const FORM_NAME3 = 'tel03';
 
     /** @var int */
     protected $tel_item_length = 6;
@@ -20,7 +20,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'TEL_CHECK';
     }
 
-    public function testTEL_CHECK()
+    public function testTELCHECK()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '056375',
@@ -33,8 +33,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testTEL_CHECKWithNumber()
+    public function testTELCHECKWithNumber()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 5637,
@@ -47,7 +46,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testTEL_CHECKWithEmpty()
+    public function testTELCHECKWithEmpty()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '',
@@ -60,7 +59,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testTEL_CHECKWithNull()
+    public function testTELCHECKWithNull()
     {
         $this->arrForm = [
             self::FORM_NAME1 => null,
@@ -73,7 +72,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testTEL_CHECKWithLastEmpty()
+    public function testTELCHECKWithLastEmpty()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '090',
@@ -86,7 +85,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testTEL_CHECKWithAlpha()
+    public function testTELCHECKWithAlpha()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '111',
@@ -99,7 +98,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testTEL_CHECKWithMaxlength()
+    public function testTELCHECKWithMaxlength()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '1111',
@@ -112,7 +111,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testTEL_CHECKWithItemMaxlength()
+    public function testTELCHECKWithItemMaxlength()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '1234567',
@@ -145,4 +144,3 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->assertEquals($this->expected, $this->actual, $message);
     }
 }
-

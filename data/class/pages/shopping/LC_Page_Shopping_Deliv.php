@@ -21,19 +21,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * お届け先の指定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Shopping_Deliv extends LC_Page_Ex
 {
     /** @var array */
     public $arrAddr;
-
 
     /**
      * Page を初期化する.
@@ -69,7 +67,7 @@ class LC_Page_Shopping_Deliv extends LC_Page_Ex
      */
     public function action()
     {
-        //決済処理中ステータスのロールバック
+        // 決済処理中ステータスのロールバック
         $objPurchase = new SC_Helper_Purchase_Ex();
         $objPurchase->cancelPendingOrder(PENDING_ORDER_CANCEL_FLAG);
 
@@ -120,7 +118,7 @@ class LC_Page_Shopping_Deliv extends LC_Page_Ex
                 }
                 break;
 
-            // 会員登録住所に送る
+                // 会員登録住所に送る
             case 'customer_addr':
                 $objPurchase->unsetShippingTemp();
 
@@ -137,15 +135,14 @@ class LC_Page_Shopping_Deliv extends LC_Page_Ex
                 SC_Response_Ex::actionExit();
                 break;
 
-            // 前のページに戻る
+                // 前のページに戻る
             case 'return':
-
                 // 確認ページへ移動
                 SC_Response_Ex::sendRedirect(CART_URL);
                 SC_Response_Ex::actionExit();
                 break;
 
-            // お届け先複数指定
+                // お届け先複数指定
             case 'multiple':
                 // 複数配送先指定が無効な場合はエラー
                 if (USE_MULTIPLE_SHIPPING === false) {
@@ -170,42 +167,42 @@ class LC_Page_Shopping_Deliv extends LC_Page_Ex
         }
 
         // 登録済み住所を取得
-        $addr = array(
-            array(
-                'other_deliv_id'    => NULL,
-                'customer_id'       => $objCustomer->getValue('customer_id'),
-                'name01'            => $objCustomer->getValue('name01'),
-                'name02'            => $objCustomer->getValue('name02'),
-                'kana01'            => $objCustomer->getValue('kana01'),
-                'kana02'            => $objCustomer->getValue('kana02'),
-                'company_name'      => $objCustomer->getValue('company_name'),
-                'country_id'           => $objCustomer->getValue('country_id'),
-                'zipcode'           => $objCustomer->getValue('zipcode'),
-                'zip01'             => $objCustomer->getValue('zip01'),
-                'zip02'             => $objCustomer->getValue('zip02'),
-                'pref'              => $objCustomer->getValue('pref'),
-                'addr01'            => $objCustomer->getValue('addr01'),
-                'addr02'            => $objCustomer->getValue('addr02'),
-                'tel01'             => $objCustomer->getValue('tel01'),
-                'tel02'             => $objCustomer->getValue('tel02'),
-                'tel03'             => $objCustomer->getValue('tel03'),
-            )
-        );
+        $addr = [
+            [
+                'other_deliv_id' => null,
+                'customer_id' => $objCustomer->getValue('customer_id'),
+                'name01' => $objCustomer->getValue('name01'),
+                'name02' => $objCustomer->getValue('name02'),
+                'kana01' => $objCustomer->getValue('kana01'),
+                'kana02' => $objCustomer->getValue('kana02'),
+                'company_name' => $objCustomer->getValue('company_name'),
+                'country_id' => $objCustomer->getValue('country_id'),
+                'zipcode' => $objCustomer->getValue('zipcode'),
+                'zip01' => $objCustomer->getValue('zip01'),
+                'zip02' => $objCustomer->getValue('zip02'),
+                'pref' => $objCustomer->getValue('pref'),
+                'addr01' => $objCustomer->getValue('addr01'),
+                'addr02' => $objCustomer->getValue('addr02'),
+                'tel01' => $objCustomer->getValue('tel01'),
+                'tel02' => $objCustomer->getValue('tel02'),
+                'tel03' => $objCustomer->getValue('tel03'),
+            ]
+        ];
         $this->arrAddr = array_merge($addr, $objAddress->getList($objCustomer->getValue('customer_id')));
         $this->tpl_addrmax = count($this->arrAddr) - 1; // 会員の住所をカウントしない
-
     }
 
     /**
      * パラメーター情報の初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('その他のお届け先ID', 'other_deliv_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('お届け先チェック', 'deliv_check', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('その他のお届け先ID', 'other_deliv_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('お届け先チェック', 'deliv_check', INT_LEN, 'n', ['MAX_LENGTH_CHECK']);
     }
 
     /**
@@ -215,16 +212,17 @@ class LC_Page_Shopping_Deliv extends LC_Page_Ex
      * その他のお届け先がチェックされている場合は, その他のお届け先からお届け先を取得する.
      * お届け先チェックの値が不正な場合は false を返す.
      *
-     * @param  integer            $other_deliv_id
+     * @param  int            $other_deliv_id
      * @param  string             $uniqid         受注一時テーブルのユニークID
      * @param  SC_Helper_Purchase $objPurchase    SC_Helper_Purchase インスタンス
      * @param  SC_Customer        $objCustomer    SC_Customer インスタンス
      * @param SC_Helper_Address_Ex $objAddress
-     * @return boolean            お届け先チェックの値が妥当な場合 true
+     *
+     * @return bool            お届け先チェックの値が妥当な場合 true
      */
     public function registerDeliv($other_deliv_id, $uniqid, &$objPurchase, &$objCustomer, $objAddress)
     {
-        $arrValues = array();
+        $arrValues = [];
         // 会員登録住所がチェックされている場合
         if ($other_deliv_id == 0) {
             $objPurchase->copyFromCustomer($arrValues, $objCustomer, 'shipping');

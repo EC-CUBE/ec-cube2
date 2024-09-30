@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -29,38 +29,36 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * 環境によるfunctionの変更まではカバーできないため、簡単な出力のみテスト.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_jsonDecodeTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testJsonDecodeJSON形式にエンコードされた文字列からarrayに変換される()
+    {
+        $input = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $obj = new stdClass();
+        $obj->a = 1;
+        $obj->b = 2;
+        $obj->c = 3;
+        $obj->d = 4;
+        $obj->e = 5;
+        $this->expected = $obj;
+        $this->actual = SC_Utils::jsonDecode($input);
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testJsonDecode__JSON形式にエンコードされた文字列からarrayに変換される()
-  {
-    $input = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
-
-    $obj = new stdClass;
-    $obj->a = 1;
-    $obj->b = 2;
-    $obj->c = 3;
-    $obj->d = 4;
-    $obj->e = 5;
-    $this->expected = $obj;
-    $this->actual = SC_Utils::jsonDecode($input);
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

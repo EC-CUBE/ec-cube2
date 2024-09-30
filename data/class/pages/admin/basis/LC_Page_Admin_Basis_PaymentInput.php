@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 支払方法設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
@@ -103,7 +102,7 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
                 }
                 $this->tpl_payment_id = $post['payment_id'];
                 break;
-            // 画像のアップロード
+                // 画像のアップロード
             case 'upload_image':
                 $objFormParam->setParam($_REQUEST);
                 $objFormParam->convParam();
@@ -114,7 +113,7 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
                 $this->arrErr[$post['image_key']] = $this->objUpFile->makeTempFile($post['image_key']);
                 $this->tpl_payment_id = $post['payment_id'];
                 break;
-            // 画像の削除
+                // 画像の削除
             case 'delete_image':
                 $objFormParam->setParam($_REQUEST);
                 $objFormParam->convParam();
@@ -134,10 +133,10 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
                 if (count($this->arrErr) == 0) {
                     $arrRet = $objPayment->get($post['payment_id']);
 
-                    $objFormParam->addParam('支払方法', 'payment_method', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
-                    $objFormParam->addParam('手数料', 'charge', PRICE_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                    $objFormParam->addParam('利用条件(～円以上)', 'rule_max', PRICE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                    $objFormParam->addParam('利用条件(～円以下)', 'upper_rule', PRICE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                    $objFormParam->addParam('支払方法', 'payment_method', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
+                    $objFormParam->addParam('手数料', 'charge', PRICE_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                    $objFormParam->addParam('利用条件(～円以上)', 'rule_max', PRICE_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                    $objFormParam->addParam('利用条件(～円以下)', 'upper_rule', PRICE_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
                     $objFormParam->addParam('固定', 'fix');
                     $objFormParam->setParam($arrRet);
 
@@ -161,7 +160,7 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
     /* ファイル情報の初期化 */
     public function lfInitFile()
     {
-        $this->objUpFile->addFile('ロゴ画像', 'payment_image', array('gif','jpeg','jpg','png'), IMAGE_SIZE, false);
+        $this->objUpFile->addFile('ロゴ画像', 'payment_image', ['gif', 'jpeg', 'jpg', 'png'], IMAGE_SIZE, false);
 
         return $this->objUpFile;
     }
@@ -176,36 +175,36 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
     {
         switch ($mode) {
             case 'edit':
-                $objFormParam->addParam('支払方法', 'payment_method', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('手数料', 'charge', PRICE_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('利用条件(～円以上)', 'rule_max', PRICE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('利用条件(～円以下)', 'upper_rule', PRICE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('支払方法', 'payment_method', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('手数料', 'charge', PRICE_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('利用条件(～円以上)', 'rule_max', PRICE_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('利用条件(～円以下)', 'upper_rule', PRICE_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
                 $objFormParam->addParam('固定', 'fix');
-                $objFormParam->addParam('支払いID', 'payment_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('課金フラグ', 'charge_flg', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('支払いID', 'payment_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('課金フラグ', 'charge_flg', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
 
                 break;
             case 'upload_image':
             case 'delete_image':
-                $objFormParam->addParam('支払いID', 'payment_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('支払方法', 'payment_method', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('手数料', 'charge', PRICE_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('利用条件(～円以上)', 'rule_max', PRICE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('利用条件(～円以下)', 'upper_rule', PRICE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('支払いID', 'payment_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('支払方法', 'payment_method', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('手数料', 'charge', PRICE_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('利用条件(～円以上)', 'rule_max', PRICE_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('利用条件(～円以下)', 'upper_rule', PRICE_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
                 $objFormParam->addParam('固定', 'fix');
-                $objFormParam->addParam('画像キー', 'image_key', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('画像キー', 'image_key', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
 
                 break;
             case 'pre_edit':
-                $objFormParam->addParam('支払いID', 'payment_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('課金フラグ', 'charge_flg', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('支払いID', 'payment_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('課金フラグ', 'charge_flg', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
                 break;
 
             default:
-                $objFormParam->addParam('支払方法', 'payment_method', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('手数料', 'charge', PRICE_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('利用条件(～円以上)', 'rule_max', PRICE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('利用条件(～円以下)', 'upper_rule', PRICE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('支払方法', 'payment_method', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('手数料', 'charge', PRICE_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('利用条件(～円以上)', 'rule_max', PRICE_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('利用条件(～円以下)', 'upper_rule', PRICE_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
                 $objFormParam->addParam('固定', 'fix');
 
                 break;
@@ -248,22 +247,22 @@ class LC_Page_Admin_Basis_PaymentInput extends LC_Page_Admin_Ex
         }
 
         // 入力データを渡す。
-        $arrRet =  $objFormParam->getHashArray();
+        $arrRet = $objFormParam->getHashArray();
         $objErr = new SC_CheckError_Ex($arrRet);
         $objErr->arrErr = $objFormParam->checkError();
 
         // 利用条件(下限)チェック
-        if ($arrRet['rule_max'] < $arrPaymentData['rule_min'] and $arrPaymentData['rule_min'] != '') {
-            $objErr->arrErr['rule'] = '利用条件(下限)は' . $arrPaymentData['rule_min'] .'円以上にしてください。<br>';
+        if ($arrRet['rule_max'] < $arrPaymentData['rule_min'] && $arrPaymentData['rule_min'] != '') {
+            $objErr->arrErr['rule'] = '利用条件(下限)は'.$arrPaymentData['rule_min'].'円以上にしてください。<br>';
         }
 
         // 利用条件(上限)チェック
-        if ($arrRet['upper_rule'] > $arrPaymentData['upper_rule_max'] and $arrPaymentData['upper_rule_max'] != '') {
-            $objErr->arrErr['upper_rule'] = '利用条件(上限)は' . $arrPaymentData['upper_rule_max'] .'円以下にしてください。<br>';
+        if ($arrRet['upper_rule'] > $arrPaymentData['upper_rule_max'] && $arrPaymentData['upper_rule_max'] != '') {
+            $objErr->arrErr['upper_rule'] = '利用条件(上限)は'.$arrPaymentData['upper_rule_max'].'円以下にしてください。<br>';
         }
 
         // 利用条件チェック
-        $objErr->doFunc(array('利用条件(～円以上)', '利用条件(～円以下)', 'rule_max', 'upper_rule'), array('GREATER_CHECK'));
+        $objErr->doFunc(['利用条件(～円以上)', '利用条件(～円以下)', 'rule_max', 'upper_rule'], ['GREATER_CHECK']);
 
         return $objErr->arrErr;
     }

@@ -3,17 +3,17 @@
 class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
 {
     /** @var string */
-    const FORM_NAME1 = 'start';
+    public const FORM_NAME1 = 'start';
     /** @var string */
-    const FORM_NAME2 = 'end';
+    public const FORM_NAME2 = 'end';
     /** @var string */
-    const FORM_NAME3 = 'start_year';
+    public const FORM_NAME3 = 'start_year';
     /** @var string */
-    const FORM_NAME4 = 'start_month';
+    public const FORM_NAME4 = 'start_month';
     /** @var string */
-    const FORM_NAME5 = 'end_year';
+    public const FORM_NAME5 = 'end_year';
     /** @var string */
-    const FORM_NAME6 = 'end_month';
+    public const FORM_NAME6 = 'end_month';
 
     /** @var string */
     protected $start_year;
@@ -41,7 +41,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
         $this->end_month = $this->targetDateTime->format('m');
     }
 
-    public function testCHECK_SET_TERM3()
+    public function testCHECKSETTERM3()
     {
         $this->arrForm = [
             self::FORM_NAME3 => $this->start_year,
@@ -55,8 +55,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testCHECK_SET_TERM3WithEmpty()
+    public function testCHECKSETTERM3WithEmpty()
     {
         $this->arrForm = [
             self::FORM_NAME3 => $this->start_year,
@@ -70,7 +69,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_SET_TERM3WithNull()
+    public function testCHECKSETTERM3WithNull()
     {
         $this->arrForm = [
             self::FORM_NAME3 => '2019',
@@ -88,7 +87,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_SET_TERM3WithZero()
+    public function testCHECKSETTERM3WithZero()
     {
         $this->arrForm = [
             self::FORM_NAME3 => '0',
@@ -106,7 +105,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_SET_TERM3WithInvalid()
+    public function testCHECKSETTERM3WithInvalid()
     {
         $this->arrForm = [
             self::FORM_NAME3 => '2000',
@@ -121,7 +120,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_SET_TERM3WithReverse()
+    public function testCHECKSETTERM3WithReverse()
     {
         $this->arrForm = [
             self::FORM_NAME3 => '2001',

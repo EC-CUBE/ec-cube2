@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 //
 // +----------------------------------------------------------------------+
@@ -19,12 +20,12 @@
 //
 // $Id: Weekdays.php,v 1.4 2005/10/22 10:28:49 quipo Exp $
 //
-/**
+/*
  * @package Calendar
  * @version $Id$
  */
 
-/**
+/*
  * Allows Calendar include path to be redefined
  * @ignore
  */
@@ -62,33 +63,31 @@ require_once CALENDAR_ROOT.'Month.php';
  *     }
  * }
  * </code>
- * @package Calendar
- * @access public
  */
 class Calendar_Month_Weekdays extends Calendar_Month
 {
     /**
      * Instance of Calendar_Table_Helper
+     *
      * @var Calendar_Table_Helper
-     * @access private
      */
-    var $tableHelper;
+    public $tableHelper;
 
     /**
      * First day of the week
-     * @access private
+     *
      * @var string
      */
-    var $firstDay;
+    public $firstDay;
 
     /**
      * Constructs Calendar_Month_Weekdays
+     *
      * @param int year e.g. 2003
      * @param int month e.g. 5
      * @param int (optional) first day of week (e.g. 0 for Sunday, 2 for Tuesday etc.)
-     * @access public
      */
-    function __construct($y, $m, $firstDay=null)
+    public function __construct($y, $m, $firstDay = null)
     {
         parent::__construct($y, $m, $firstDay);
     }
@@ -97,14 +96,16 @@ class Calendar_Month_Weekdays extends Calendar_Month
      * Builds Day objects in tabular form, to allow display of calendar month
      * with empty cells if the first day of the week does not fall on the first
      * day of the month.
+     *
      * @see Calendar_Day::isEmpty()
      * @see Calendar_Day_Base::isFirst()
      * @see Calendar_Day_Base::isLast()
+     *
      * @param array (optional) Calendar_Day objects representing selected dates
-     * @return boolean
-     * @access public
+     *
+     * @return bool
      */
-    function build($sDates=array())
+    public function build($sDates = [])
     {
         require_once CALENDAR_ROOT.'Table/Helper.php';
         $this->tableHelper = new Calendar_Table_Helper($this, $this->firstDay);
@@ -113,23 +114,24 @@ class Calendar_Month_Weekdays extends Calendar_Month
         $this->shiftDays();
         $this->buildEmptyDaysAfter();
         $this->setWeekMarkers();
+
         return true;
     }
 
     /**
      * Prepends empty days before the real days in the month
+     *
      * @return void
-     * @access private
      */
-    function buildEmptyDaysBefore()
+    public function buildEmptyDaysBefore()
     {
         $eBefore = $this->tableHelper->getEmptyDaysBefore();
-        for ($i=0; $i < $eBefore; $i++) {
+        for ($i = 0; $i < $eBefore; $i++) {
             $stamp = $this->cE->dateToStamp($this->year, $this->month, -$i);
             $Day = new Calendar_Day(
-                                $this->cE->stampToYear($stamp),
-                                $this->cE->stampToMonth($stamp),
-                                $this->cE->stampToDay($stamp));
+                $this->cE->stampToYear($stamp),
+                $this->cE->stampToMonth($stamp),
+                $this->cE->stampToDay($stamp));
             $Day->setEmpty();
             $Day->adjust();
             array_unshift($this->children, $Day);
@@ -138,12 +140,12 @@ class Calendar_Month_Weekdays extends Calendar_Month
 
     /**
      * Shifts the array of children forward, if necessary
+     *
      * @return void
-     * @access private
      */
-    function shiftDays()
+    public function shiftDays()
     {
-        if (isset ($this->children[0])) {
+        if (isset($this->children[0])) {
             array_unshift($this->children, null);
             unset($this->children[0]);
         }
@@ -151,39 +153,38 @@ class Calendar_Month_Weekdays extends Calendar_Month
 
     /**
      * Appends empty days after the real days in the month
+     *
      * @return void
-     * @access private
      */
-    function buildEmptyDaysAfter()
+    public function buildEmptyDaysAfter()
     {
         $eAfter = $this->tableHelper->getEmptyDaysAfter();
         $sDOM = $this->tableHelper->getNumTableDaysInMonth();
-        for ($i = 1; $i <= $sDOM-$eAfter; $i++) {
-            $Day = new Calendar_Day($this->year, $this->month+1, $i);
+        for ($i = 1; $i <= $sDOM - $eAfter; $i++) {
+            $Day = new Calendar_Day($this->year, $this->month + 1, $i);
             $Day->setEmpty();
             $Day->adjust();
-            array_push($this->children, $Day);
+            $this->children[] = $Day;
         }
     }
 
     /**
      * Sets the "markers" for the beginning and of a of week, in the
      * built Calendar_Day children
+     *
      * @return void
-     * @access private
      */
-    function setWeekMarkers()
+    public function setWeekMarkers()
     {
-        $dIW  = $this->cE->getDaysInWeek(
+        $dIW = $this->cE->getDaysInWeek(
             $this->thisYear(),
             $this->thisMonth(),
             $this->thisDay()
         );
         $sDOM = $this->tableHelper->getNumTableDaysInMonth();
-        for ($i=1; $i <= $sDOM; $i+= $dIW) {
+        for ($i = 1; $i <= $sDOM; $i += $dIW) {
             $this->children[$i]->setFirst();
-            $this->children[$i+($dIW-1)]->setLast();
+            $this->children[$i + ($dIW - 1)]->setLast();
         }
     }
 }
-?>

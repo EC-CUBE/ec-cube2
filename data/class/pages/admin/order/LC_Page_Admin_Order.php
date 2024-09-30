@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 受注管理 のページクラス
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Order extends LC_Page_Admin_Ex
@@ -55,11 +54,11 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
         $objDate = new SC_Date_Ex();
         // 登録・更新日検索用
         $objDate->setStartYear(RELEASE_YEAR);
-        $objDate->setEndYear(DATE('Y'));
+        $objDate->setEndYear(date('Y'));
         $this->arrRegistYear = $objDate->getYear();
         // 生年月日検索用
         $objDate->setStartYear(BIRTH_YEAR);
-        $objDate->setEndYear(DATE('Y'));
+        $objDate->setEndYear(date('Y'));
         $this->arrBirthYear = $objDate->getYear();
         // 月日の設定
         $this->arrMonth = $objDate->getMonth();
@@ -106,11 +105,11 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
                 $objPurchase->cancelOrder($order_id, ORDER_CANCEL, true);
                 // 削除後に検索結果を表示するため breakしない
 
-            // 検索パラメーター生成後に処理実行するため breakしない
+                // 検索パラメーター生成後に処理実行するため breakしない
+                // no break
             case 'csv':
             case 'delete_all':
-
-            // 検索パラメーターの生成
+                // 検索パラメーターの生成
             case 'search':
                 $objFormParam->convParam();
                 $objFormParam->trimParam();
@@ -119,7 +118,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
 
                 if (count($this->arrErr) == 0) {
                     $where = 'del_flg = 0';
-                    $arrWhereVal = array();
+                    $arrWhereVal = [];
                     foreach ($arrParam as $key => $val) {
                         if ($val == '') {
                             continue;
@@ -140,17 +139,17 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
                             SC_Response_Ex::actionExit();
                             break;
 
-                        // 全件削除(ADMIN_MODE)
+                            // 全件削除(ADMIN_MODE)
                         case 'delete_all':
                             $page_max = 0;
                             $arrResults = $this->findOrders($where, $arrWhereVal,
-                                                           $page_max, 0, $order);
+                                $page_max, 0, $order);
                             foreach ($arrResults as $element) {
                                 $objPurchase->cancelOrder($element['order_id'], ORDER_CANCEL, true);
                             }
                             break;
 
-                        // 検索実行
+                            // 検索実行
                         default:
                             // 行数の取得
                             $this->tpl_linemax = $this->getNumberOfLines($where, $arrWhereVal);
@@ -158,13 +157,13 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
                             $page_max = SC_Utils_Ex::sfGetSearchPageMax($objFormParam->getValue('search_page_max'));
                             // ページ送りの取得
                             $objNavi = new SC_PageNavi_Ex($this->arrHidden['search_pageno'],
-                                                          $this->tpl_linemax, $page_max,
-                                                          'eccube.moveNaviPage', NAVI_PMAX);
+                                $this->tpl_linemax, $page_max,
+                                'eccube.moveNaviPage', NAVI_PMAX);
                             $this->arrPagenavi = $objNavi->arrPagenavi;
 
                             // 検索結果の取得
                             $this->arrResults = $this->findOrders($where, $arrWhereVal,
-                                                                  $page_max, $objNavi->start_row, $order);
+                                $page_max, $objNavi->start_row, $order);
                             break;
                     }
                 }
@@ -172,61 +171,62 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
             default:
                 break;
         }
-
     }
 
     /**
      * パラメーター情報の初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('注文番号1', 'search_order_id1', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('注文番号2', 'search_order_id2', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('対応状況', 'search_order_status', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('注文者 お名前', 'search_order_name', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('注文者 お名前(フリガナ)', 'search_order_kana', STEXT_LEN, 'KVCa', array('KANA_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('性別', 'search_order_sex', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('年齢1', 'search_age1', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('年齢2', 'search_age2', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('メールアドレス', 'search_order_email', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('TEL', 'search_order_tel', TEL_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('支払い方法', 'search_payment_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('購入金額1', 'search_total1', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('購入金額2', 'search_total2', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('表示件数', 'search_page_max', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('注文番号1', 'search_order_id1', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('注文番号2', 'search_order_id2', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('対応状況', 'search_order_status', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('注文者 お名前', 'search_order_name', STEXT_LEN, 'KVa', ['MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('注文者 お名前(フリガナ)', 'search_order_kana', STEXT_LEN, 'KVCa', ['KANA_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('性別', 'search_order_sex', INT_LEN, 'n', ['MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('年齢1', 'search_age1', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('年齢2', 'search_age2', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('メールアドレス', 'search_order_email', STEXT_LEN, 'KVa', ['MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('TEL', 'search_order_tel', TEL_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('支払い方法', 'search_payment_id', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('購入金額1', 'search_total1', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('購入金額2', 'search_total2', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('表示件数', 'search_page_max', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
         // 受注日
-        $objFormParam->addParam('開始年', 'search_sorderyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('開始月', 'search_sordermonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('開始日', 'search_sorderday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('終了年', 'search_eorderyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('終了月', 'search_eordermonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('終了日', 'search_eorderday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('開始年', 'search_sorderyear', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('開始月', 'search_sordermonth', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('開始日', 'search_sorderday', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('終了年', 'search_eorderyear', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('終了月', 'search_eordermonth', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('終了日', 'search_eorderday', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
         // 更新日
-        $objFormParam->addParam('開始年', 'search_supdateyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('開始月', 'search_supdatemonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('開始日', 'search_supdateday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('終了年', 'search_eupdateyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('終了月', 'search_eupdatemonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('終了日', 'search_eupdateday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('開始年', 'search_supdateyear', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('開始月', 'search_supdatemonth', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('開始日', 'search_supdateday', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('終了年', 'search_eupdateyear', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('終了月', 'search_eupdatemonth', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('終了日', 'search_eupdateday', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
         // 生年月日
-        $objFormParam->addParam('開始年', 'search_sbirthyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('開始月', 'search_sbirthmonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('開始日', 'search_sbirthday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('終了年', 'search_ebirthyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('終了月', 'search_ebirthmonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('終了日', 'search_ebirthday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('購入商品名', 'search_product_name', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('ページ送り番号', 'search_pageno', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('受注ID', 'order_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('開始年', 'search_sbirthyear', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('開始月', 'search_sbirthmonth', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('開始日', 'search_sbirthday', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('終了年', 'search_ebirthyear', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('終了月', 'search_ebirthmonth', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('終了日', 'search_ebirthday', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('購入商品名', 'search_product_name', STEXT_LEN, 'KVa', ['MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('ページ送り番号', 'search_pageno', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('受注ID', 'order_id', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
     }
 
     /**
      * 入力内容のチェックを行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return array
      */
     public function lfCheckError(&$objFormParam)
@@ -235,21 +235,21 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
         $objErr->arrErr = $objFormParam->checkError();
 
         // 相関チェック
-        $objErr->doFunc(array('注文番号1', '注文番号2', 'search_order_id1', 'search_order_id2'), array('GREATER_CHECK'));
-        $objErr->doFunc(array('年齢1', '年齢2', 'search_age1', 'search_age2'), array('GREATER_CHECK'));
-        $objErr->doFunc(array('購入金額1', '購入金額2', 'search_total1', 'search_total2'), array('GREATER_CHECK'));
+        $objErr->doFunc(['注文番号1', '注文番号2', 'search_order_id1', 'search_order_id2'], ['GREATER_CHECK']);
+        $objErr->doFunc(['年齢1', '年齢2', 'search_age1', 'search_age2'], ['GREATER_CHECK']);
+        $objErr->doFunc(['購入金額1', '購入金額2', 'search_total1', 'search_total2'], ['GREATER_CHECK']);
         // 受注日
-        $objErr->doFunc(array('開始', 'search_sorderyear', 'search_sordermonth', 'search_sorderday'), array('CHECK_DATE'));
-        $objErr->doFunc(array('終了', 'search_eorderyear', 'search_eordermonth', 'search_eorderday'), array('CHECK_DATE'));
-        $objErr->doFunc(array('開始', '終了', 'search_sorderyear', 'search_sordermonth', 'search_sorderday', 'search_eorderyear', 'search_eordermonth', 'search_eorderday'), array('CHECK_SET_TERM'));
+        $objErr->doFunc(['開始', 'search_sorderyear', 'search_sordermonth', 'search_sorderday'], ['CHECK_DATE']);
+        $objErr->doFunc(['終了', 'search_eorderyear', 'search_eordermonth', 'search_eorderday'], ['CHECK_DATE']);
+        $objErr->doFunc(['開始', '終了', 'search_sorderyear', 'search_sordermonth', 'search_sorderday', 'search_eorderyear', 'search_eordermonth', 'search_eorderday'], ['CHECK_SET_TERM']);
         // 更新日
-        $objErr->doFunc(array('開始', 'search_supdateyear', 'search_supdatemonth', 'search_supdateday'), array('CHECK_DATE'));
-        $objErr->doFunc(array('終了', 'search_eupdateyear', 'search_eupdatemonth', 'search_eupdateday'), array('CHECK_DATE'));
-        $objErr->doFunc(array('開始', '終了', 'search_supdateyear', 'search_supdatemonth', 'search_supdateday', 'search_eupdateyear', 'search_eupdatemonth', 'search_eupdateday'), array('CHECK_SET_TERM'));
+        $objErr->doFunc(['開始', 'search_supdateyear', 'search_supdatemonth', 'search_supdateday'], ['CHECK_DATE']);
+        $objErr->doFunc(['終了', 'search_eupdateyear', 'search_eupdatemonth', 'search_eupdateday'], ['CHECK_DATE']);
+        $objErr->doFunc(['開始', '終了', 'search_supdateyear', 'search_supdatemonth', 'search_supdateday', 'search_eupdateyear', 'search_eupdatemonth', 'search_eupdateday'], ['CHECK_SET_TERM']);
         // 生年月日
-        $objErr->doFunc(array('開始', 'search_sbirthyear', 'search_sbirthmonth', 'search_sbirthday'), array('CHECK_DATE'));
-        $objErr->doFunc(array('終了', 'search_ebirthyear', 'search_ebirthmonth', 'search_ebirthday'), array('CHECK_DATE'));
-        $objErr->doFunc(array('開始', '終了', 'search_sbirthyear', 'search_sbirthmonth', 'search_sbirthday', 'search_ebirthyear', 'search_ebirthmonth', 'search_ebirthday'), array('CHECK_SET_TERM'));
+        $objErr->doFunc(['開始', 'search_sbirthyear', 'search_sbirthmonth', 'search_sbirthday'], ['CHECK_DATE']);
+        $objErr->doFunc(['終了', 'search_ebirthyear', 'search_ebirthmonth', 'search_ebirthday'], ['CHECK_DATE']);
+        $objErr->doFunc(['開始', '終了', 'search_sbirthyear', 'search_sbirthmonth', 'search_sbirthday', 'search_ebirthyear', 'search_ebirthmonth', 'search_ebirthday'], ['CHECK_SET_TERM']);
 
         return $objErr->arrErr;
     }
@@ -266,6 +266,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      * @param  string       $where        構築する WHERE 句
      * @param  array        $arrValues    構築するクエリパラメーター
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function buildQuery($key, &$where, &$arrValues, &$objFormParam)
@@ -277,11 +278,11 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
                 $arrValues[] = sprintf('%%%s%%', $objFormParam->getValue($key));
                 break;
             case 'search_order_name':
-                $where .= ' AND ' . $dbFactory->concatColumn(array('order_name01', 'order_name02')) . ' LIKE ?';
+                $where .= ' AND '.$dbFactory->concatColumn(['order_name01', 'order_name02']).' LIKE ?';
                 $arrValues[] = sprintf('%%%s%%', preg_replace('/[ 　]/u', '', $objFormParam->getValue($key)));
                 break;
             case 'search_order_kana':
-                $where .= ' AND ' . $dbFactory->concatColumn(array('order_kana01', 'order_kana02')) . ' LIKE ?';
+                $where .= ' AND '.$dbFactory->concatColumn(['order_kana01', 'order_kana02']).' LIKE ?';
                 $arrValues[] = sprintf('%%%s%%', preg_replace('/[ 　]/u', '', $objFormParam->getValue($key)));
                 break;
             case 'search_order_id1':
@@ -311,7 +312,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
                 }
                 break;
             case 'search_order_tel':
-                $where .= ' AND (' . $dbFactory->concatColumn(array('order_tel01', 'order_tel02', 'order_tel03')) . ' LIKE ?)';
+                $where .= ' AND ('.$dbFactory->concatColumn(['order_tel01', 'order_tel02', 'order_tel03']).' LIKE ?)';
                 $arrValues[] = SC_SelectSql_Ex::addSearchStr(preg_replace('/[()-]+/', '', $objFormParam->getValue($key)));
                 break;
             case 'search_order_email':
@@ -346,48 +347,48 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
                 break;
             case 'search_sorderyear':
                 $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_sorderyear'),
-                                                    $objFormParam->getValue('search_sordermonth'),
-                                                    $objFormParam->getValue('search_sorderday'));
-                $where.= ' AND create_date >= ?';
+                    $objFormParam->getValue('search_sordermonth'),
+                    $objFormParam->getValue('search_sorderday'));
+                $where .= ' AND create_date >= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_eorderyear':
                 $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_eorderyear'),
-                                                    $objFormParam->getValue('search_eordermonth'),
-                                                    $objFormParam->getValue('search_eorderday'), true);
-                $where.= ' AND create_date <= ?';
+                    $objFormParam->getValue('search_eordermonth'),
+                    $objFormParam->getValue('search_eorderday'), true);
+                $where .= ' AND create_date <= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_supdateyear':
                 $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_supdateyear'),
-                                                    $objFormParam->getValue('search_supdatemonth'),
-                                                    $objFormParam->getValue('search_supdateday'));
-                $where.= ' AND update_date >= ?';
+                    $objFormParam->getValue('search_supdatemonth'),
+                    $objFormParam->getValue('search_supdateday'));
+                $where .= ' AND update_date >= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_eupdateyear':
                 $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_eupdateyear'),
-                                                    $objFormParam->getValue('search_eupdatemonth'),
-                                                    $objFormParam->getValue('search_eupdateday'), true);
-                $where.= ' AND update_date <= ?';
+                    $objFormParam->getValue('search_eupdatemonth'),
+                    $objFormParam->getValue('search_eupdateday'), true);
+                $where .= ' AND update_date <= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_sbirthyear':
                 $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_sbirthyear'),
-                                                    $objFormParam->getValue('search_sbirthmonth'),
-                                                    $objFormParam->getValue('search_sbirthday'));
-                $where.= ' AND order_birth >= ?';
+                    $objFormParam->getValue('search_sbirthmonth'),
+                    $objFormParam->getValue('search_sbirthday'));
+                $where .= ' AND order_birth >= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_ebirthyear':
                 $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_ebirthyear'),
-                                                    $objFormParam->getValue('search_ebirthmonth'),
-                                                    $objFormParam->getValue('search_ebirthday'), true);
-                $where.= ' AND order_birth <= ?';
+                    $objFormParam->getValue('search_ebirthmonth'),
+                    $objFormParam->getValue('search_ebirthday'), true);
+                $where .= ' AND order_birth <= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_order_status':
-                $where.= ' AND status = ?';
+                $where .= ' AND status = ?';
                 $arrValues[] = $objFormParam->getValue($key);
                 break;
             default:
@@ -400,12 +401,13 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      *
      * @param  string $where    削除対象の WHERE 句
      * @param  array  $arrParam 削除対象の値
+     *
      * @return void
      */
-    public function doDelete($where, $arrParam = array())
+    public function doDelete($where, $arrParam = [])
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $sqlval['del_flg']     = 1;
+        $sqlval['del_flg'] = 1;
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
         $objQuery->update('dtb_order', $sqlval, $where, $arrParam);
     }
@@ -419,6 +421,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      * @param  string $where  検索条件の WHERE 句
      * @param  array  $arrVal 検索条件のパラメーター
      * @param  string $order  検索結果の並び順
+     *
      * @return void
      */
     public function doOutputCSV($where, $arrVal, $order)
@@ -432,7 +435,8 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      *
      * @param  string  $where     検索条件の WHERE 句
      * @param  array   $arrValues 検索条件のパラメーター
-     * @return integer 検索結果の行数
+     *
+     * @return int 検索結果の行数
      */
     public function getNumberOfLines($where, $arrValues)
     {
@@ -446,9 +450,10 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
      *
      * @param  string  $where     検索条件の WHERE 句
      * @param  array   $arrValues 検索条件のパラメーター
-     * @param  integer $limit     表示件数
-     * @param  integer $offset    開始件数
+     * @param  int $limit     表示件数
+     * @param  int $offset    開始件数
      * @param  string  $order     検索結果の並び順
+     *
      * @return array   受注の検索結果
      */
     public function findOrders($where, $arrValues, $limit, $offset, $order)

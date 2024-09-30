@@ -26,8 +26,8 @@
 /**
  * プラグインの基底クラス
  *
- * @package Plugin
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 abstract class SC_Plugin_Base
@@ -38,18 +38,21 @@ abstract class SC_Plugin_Base
      * コンストラクタ
      *
      * @param  array $arrSelfInfo 自身のプラグイン情報
+     *
      * @return void
      */
     public function __construct(array $arrSelfInfo)
     {
         $this->arrSelfInfo = $arrSelfInfo;
     }
+
     /**
      * インストール
      * installはプラグインのインストール時に実行されます.
      * 引数にはdtb_pluginのプラグイン情報が渡されます.
      *
      * @param  array $arrPlugin plugin_infoを元にDBに登録されたプラグイン情報(dtb_plugin)
+     *
      * @return void
      */
     public static function install($arrPlugin, $objPluginInstaller = null)
@@ -62,6 +65,7 @@ abstract class SC_Plugin_Base
      * 引数にはdtb_pluginのプラグイン情報が渡されます.
      *
      * @param  array $arrPlugin プラグイン情報の連想配列(dtb_plugin)
+     *
      * @return void
      */
     public static function uninstall($arrPlugin, $objPluginInstaller = null)
@@ -74,6 +78,7 @@ abstract class SC_Plugin_Base
      * 引数にはdtb_pluginのプラグイン情報が渡されます.
      *
      * @param  array $arrPlugin プラグイン情報の連想配列(dtb_plugin)
+     *
      * @return void
      */
     public static function enable($arrPlugin, $objPluginInstaller = null)
@@ -86,6 +91,7 @@ abstract class SC_Plugin_Base
      * 引数にはdtb_pluginのプラグイン情報が渡されます.
      *
      * @param  array $arrPlugin プラグイン情報の連想配列(dtb_plugin)
+     *
      * @return void
      */
     public static function disable($arrPlugin, $objPluginInstaller = null)
@@ -95,7 +101,7 @@ abstract class SC_Plugin_Base
     /**
      * プラグインヘルパーへ, コールバックメソッドを登録します.
      *
-     * @param integer $priority
+     * @param int $priority
      */
     public function register(SC_Helper_Plugin $objHelperPlugin, $priority)
     {
@@ -104,8 +110,8 @@ abstract class SC_Plugin_Base
             foreach ($arrHookPoints as $hook_point) {
                 if (isset($hook_point['callback'])) {
                     $hook_point_name = $hook_point['hook_point'];
-                    $callback_name   = $hook_point['callback'];
-                    $objHelperPlugin->addAction($hook_point_name, array($this, $callback_name), $priority);
+                    $callback_name = $hook_point['callback'];
+                    $objHelperPlugin->addAction($hook_point_name, [$this, $callback_name], $priority);
                 }
             }
         }

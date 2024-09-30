@@ -12,7 +12,7 @@ class SC_CheckError_DOMAIN_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->faker = Faker\Factory::create('ja_JP');
     }
 
-    public function testDOMAIN_CHECK()
+    public function testDOMAINCHECK()
     {
         $this->arrForm = [
             self::FORM_NAME => '.'.$this->faker->domainName // 行頭に . を含める必要がある
@@ -23,8 +23,7 @@ class SC_CheckError_DOMAIN_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testDOMAIN_CHECKWithInvalid()
+    public function testDOMAINCHECKWithInvalid()
     {
         $this->arrForm = [self::FORM_NAME => 'aaaaa'];
         $this->expected = '※ DOMAIN_CHECKの形式が不正です。<br />';
@@ -33,7 +32,7 @@ class SC_CheckError_DOMAIN_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testDOMAIN_CHECKWithEmpty()
+    public function testDOMAINCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -42,7 +41,7 @@ class SC_CheckError_DOMAIN_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testDOMAIN_CHECKWithNull()
+    public function testDOMAINCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '';

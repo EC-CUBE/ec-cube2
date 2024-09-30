@@ -9,9 +9,9 @@ class SC_CheckError_FILE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         parent::setUp();
         $this->target_func = 'FILE_EXIST_CHECK';
-     }
+    }
 
-    public function testFILE_EXIST_CHECK()
+    public function testFILEEXISTCHECK()
     {
         $this->fileSize = 1;
         $this->expected = '';
@@ -20,7 +20,7 @@ class SC_CheckError_FILE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_EXIST_CHECKWithZero()
+    public function testFILEEXISTCHECKWithZero()
     {
         $this->fileSize = 0;
         $this->expected = '※ FILE_EXIST_CHECKをアップロードして下さい。<br />';
@@ -29,7 +29,7 @@ class SC_CheckError_FILE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_EXIST_CHECKWithEmpty()
+    public function testFILEEXISTCHECKWithEmpty()
     {
         $this->fileSize = '';
         $this->expected = '※ FILE_EXIST_CHECKをアップロードして下さい。<br />';
@@ -38,7 +38,7 @@ class SC_CheckError_FILE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_EXIST_CHECKWithMinus()
+    public function testFILEEXISTCHECKWithMinus()
     {
         $this->fileSize = -1;
         $this->expected = '※ FILE_EXIST_CHECKをアップロードして下さい。<br />';
@@ -59,7 +59,7 @@ class SC_CheckError_FILE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         ];
         $this->arrForm = [];
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
-        $this->objErr->doFunc([$this->target_func, self::FORM_NAME, ], [$this->target_func]);
+        $this->objErr->doFunc([$this->target_func, self::FORM_NAME], [$this->target_func]);
         $this->objErr->doFunc(['dummy', self::FORM_NAME], [$this->target_func]);
     }
 }

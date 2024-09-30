@@ -1,10 +1,8 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
-/**
- *
- */
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
+
 class SC_CartSession_TestBase extends Common_TestCase
 {
     protected function setUp()
@@ -22,8 +20,8 @@ class SC_CartSession_TestBase extends Common_TestCase
      */
     protected function setUpProductClass()
     {
-        $product_class = array(
-            array(
+        $product_class = [
+            [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'product_class_id' => '1001',
                 'product_id' => '1001',
@@ -36,8 +34,8 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'stock' => '99',
                 'creator_id' => '1',
                 'del_flg' => '0'
-            ),
-            array(
+            ],
+            [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'product_class_id' => '1002',
                 'product_id' => '1002',
@@ -47,8 +45,8 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'creator_id' => '1',
                 'stock_unlimited' => '1',
                 'del_flg' => '0'
-            ),
-            array(
+            ],
+            [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'product_class_id' => '2001',
                 'product_id' => '2001',
@@ -58,8 +56,8 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'creator_id' => '1',
                 'stock_unlimited' => '1',
                 'del_flg' => '1'
-            )
-        );
+            ]
+        ];
 
         $this->objQuery->delete('dtb_products_class');
         foreach ($product_class as $key => $item) {
@@ -75,22 +73,22 @@ class SC_CartSession_TestBase extends Common_TestCase
      */
     protected function setUpClassCategory()
     {
-        $class_category = array(
-            array(
+        $class_category = [
+            [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'classcategory_id' => '1001',
                 'class_id' => '1',
                 'creator_id' => '1',
                 'name' => 'cat1001'
-            ),
-            array(
+            ],
+            [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'classcategory_id' => '1002',
                 'class_id' => '1',
                 'creator_id' => '1',
                 'name' => 'cat1002'
-            )
-        );
+            ]
+        ];
 
         // classcategory_id=0のものは削除しない
         $this->objQuery->delete('dtb_classcategory', 'classcategory_id <> 0');
@@ -104,8 +102,8 @@ class SC_CartSession_TestBase extends Common_TestCase
      */
     protected function setUpProducts()
     {
-        $products = array(
-            array(
+        $products = [
+            [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'product_id' => '1001',
                 'name' => '製品名1001',
@@ -120,8 +118,8 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'del_flg' => '0',
                 'creator_id' => '1',
                 'status' => '1'
-            ),
-            array(
+            ],
+            [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'product_id' => '1002',
                 'name' => '製品名1002',
@@ -135,8 +133,8 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'del_flg' => '0',
                 'creator_id' => '1',
                 'status' => '2'
-            ),
-            array(
+            ],
+            [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'product_id' => '2001',
                 'name' => '製品名2001',
@@ -151,8 +149,8 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'del_flg' => '1',
                 'creator_id' => '1',
                 'status' => '1'
-            )
-        );
+            ]
+        ];
 
         $this->objQuery->delete('dtb_products');
         foreach ($products as $key => $item) {
@@ -165,29 +163,28 @@ class SC_CartSession_TestBase extends Common_TestCase
      */
     protected function setUpProductStatus()
     {
-        $class_category = array(
-            array(
+        $class_category = [
+            [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'product_status_id' => '1',
                 'product_id' => '1001',
                 'creator_id' => '1',
                 'del_flg' => '0'
-            ),
-            array(
+            ],
+            [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'product_status_id' => '1',
                 'product_id' => '1002',
                 'creator_id' => '1',
                 'del_flg' => '0'
-            )
-        );
+            ]
+        ];
 
         $this->objQuery->delete('dtb_product_status');
         foreach ($class_category as $key => $item) {
             $this->objQuery->insert('dtb_product_status', $item);
         }
     }
-
 
     /**
      * DBに商品クラス情報を大量に設定します.
@@ -197,11 +194,11 @@ class SC_CartSession_TestBase extends Common_TestCase
         $this->objQuery->delete('dtb_products_class');
         // 商品を一気に投入
         for ($i = 3000; $i < 3030; $i++) {
-            $item = array(
+            $item = [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'product_class_id' => $i,
                 'product_id' => $i,
-                'product_type_id' => $i%3+1,
+                'product_type_id' => $i % 3 + 1,
                 'product_code' => 'code'.$i,
                 'classcategory_id1' => '1001',
                 'classcategory_id2' => '1002',
@@ -210,7 +207,7 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'stock' => '99',
                 'creator_id' => '1',
                 'del_flg' => '0'
-            );
+            ];
             $this->objQuery->insert('dtb_products_class', $item);
         }
 
@@ -226,7 +223,7 @@ class SC_CartSession_TestBase extends Common_TestCase
         $this->objQuery->delete('dtb_products');
         // 商品一気に投入
         for ($i = 3000; $i < 3030; $i++) {
-            $item = array(
+            $item = [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'product_id' => $i,
                 'name' => '製品名'.$i,
@@ -241,7 +238,7 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'del_flg' => '0',
                 'creator_id' => '1',
                 'status' => '1'
-            );
+            ];
             $this->objQuery->insert('dtb_products', $item);
         }
     }

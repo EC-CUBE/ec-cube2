@@ -32,7 +32,7 @@ class SC_CheckError_CHECK_REGIST_CUSTOMER_EMAILTest extends SC_CheckError_Abstra
         parent::tearDown();
     }
 
-    public function testCHECK_REGIST_CUSTOMER_EMAIL()
+    public function testCHECKREGISTCUSTOMEREMAIL()
     {
         $this->arrForm = [self::FORM_NAME => $this->faker->freeEmail];
         $this->expected = '';
@@ -41,7 +41,7 @@ class SC_CheckError_CHECK_REGIST_CUSTOMER_EMAILTest extends SC_CheckError_Abstra
         $this->verify();
     }
 
-    public function testCHECK_REGIST_CUSTOMER_EMAILWithExists()
+    public function testCHECKREGISTCUSTOMEREMAILWithExists()
     {
         $this->arrForm = [self::FORM_NAME => $this->email];
         $this->expected = '※ すでに会員登録で使用されているCHECK_REGIST_CUSTOMER_EMAILです。<br />';
@@ -50,7 +50,7 @@ class SC_CheckError_CHECK_REGIST_CUSTOMER_EMAILTest extends SC_CheckError_Abstra
         $this->verify();
     }
 
-    public function testCHECK_REGIST_CUSTOMER_EMAILWithExpired()
+    public function testCHECKREGISTCUSTOMEREMAILWithExpired()
     {
         SC_Helper_Customer_Ex::sfEditCustomerData(
             [
@@ -68,7 +68,7 @@ class SC_CheckError_CHECK_REGIST_CUSTOMER_EMAILTest extends SC_CheckError_Abstra
         $this->verify();
     }
 
-    public function testCHECK_REGIST_CUSTOMER_EMAILWithEmpty()
+    public function testCHECKREGISTCUSTOMEREMAILWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -77,7 +77,7 @@ class SC_CheckError_CHECK_REGIST_CUSTOMER_EMAILTest extends SC_CheckError_Abstra
         $this->verify();
     }
 
-    public function testCHECK_REGIST_CUSTOMER_EMAILWithNull()
+    public function testCHECKREGISTCUSTOMEREMAILWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '';

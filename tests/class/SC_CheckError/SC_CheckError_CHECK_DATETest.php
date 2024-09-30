@@ -3,11 +3,11 @@
 class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
 {
     /** @var string */
-    const FORM_NAME1 = 'year';
+    public const FORM_NAME1 = 'year';
     /** @var string */
-    const FORM_NAME2 = 'month';
+    public const FORM_NAME2 = 'month';
     /** @var string */
-    const FORM_NAME3 = 'day';
+    public const FORM_NAME3 = 'day';
     /** @var string */
     protected $year;
     /** @var string */
@@ -29,7 +29,7 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->day = $this->targetDateTime->format('d');
     }
 
-    public function testCHECK_DATE()
+    public function testCHECKDATE()
     {
         $this->arrForm = [
             self::FORM_NAME1 => $this->year,
@@ -42,8 +42,7 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testCHECK_DATEWithEmpty()
+    public function testCHECKDATEWithEmpty()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '2019',
@@ -56,7 +55,7 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_DATEWithNull()
+    public function testCHECKDATEWithNull()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '2019',
@@ -69,7 +68,7 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_DATEWithZero()
+    public function testCHECKDATEWithZero()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '0',
@@ -82,7 +81,7 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_DATEWithInvalid()
+    public function testCHECKDATEWithInvalid()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 2001,
@@ -115,4 +114,3 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->assertEquals($this->expected, $this->actual, $message);
     }
 }
-

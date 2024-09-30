@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ご利用規約 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Entry_Kiyaku extends LC_Page_Ex
@@ -68,7 +67,7 @@ class LC_Page_Entry_Kiyaku extends LC_Page_Ex
      */
     public function action()
     {
-        //決済処理中ステータスのロールバック
+        // 決済処理中ステータスのロールバック
         $objPurchase = new SC_Helper_Purchase_Ex();
         $objPurchase->cancelPendingOrder(PENDING_ORDER_CANCEL_FLAG);
 
@@ -87,18 +86,20 @@ class LC_Page_Entry_Kiyaku extends LC_Page_Ex
      * 規約文の作成
      *
      * @param mixed $arrKiyaku
-     * @param integer $max
+     * @param int $max
      * @param mixed $offset
-     * @access public
+     *
      * @return string 規約の内容をテキストエリアで表示するように整形したデータ
      */
     public function lfMakeKiyakuText($arrKiyaku, $max, $offset)
     {
         $tpl_kiyaku_text = '';
         for ($i = 0; $i < $max; $i++) {
-            if ($offset !== null && ($offset - 1) <> $i) continue;
-            $tpl_kiyaku_text.=$arrKiyaku[$i]['kiyaku_title'] . "\n\n";
-            $tpl_kiyaku_text.=$arrKiyaku[$i]['kiyaku_text'] . "\n\n";
+            if ($offset !== null && ($offset - 1) != $i) {
+                continue;
+            }
+            $tpl_kiyaku_text .= $arrKiyaku[$i]['kiyaku_title']."\n\n";
+            $tpl_kiyaku_text .= $arrKiyaku[$i]['kiyaku_text']."\n\n";
         }
 
         return $tpl_kiyaku_text;
@@ -107,7 +108,6 @@ class LC_Page_Entry_Kiyaku extends LC_Page_Ex
     /**
      * 規約内容の取得
      *
-     * @access private
      * @return array $arrKiyaku 規約の配列
      */
     public function lfGetKiyakuData()
@@ -119,15 +119,14 @@ class LC_Page_Entry_Kiyaku extends LC_Page_Ex
     }
 
     /**
-     *
      * 携帯の場合getで来る次ページのidを適切に処理する
      *
      * @param mixed $offset
-     * @access private
+     *
      * @return int
      */
     public function lfSetOffset($offset)
     {
-        return is_numeric($offset) === true ? intval($offset) : 1;
+        return is_numeric($offset) === true ? (int) $offset : 1;
     }
 }

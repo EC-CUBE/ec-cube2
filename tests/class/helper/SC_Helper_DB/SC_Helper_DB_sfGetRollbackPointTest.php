@@ -30,6 +30,7 @@ class SC_Helper_DB_sfGetRollbackPointTest extends SC_Helper_DB_TestBase
         $use_point = $faker->randomNumber(5);
         $add_point = $faker->randomNumber(5);
         $random = $faker->randomNumber(5);
+
         return [
             [$use_point, $add_point, ORDER_NEW, $use_point, '利用ポイントのみ加算される'],
             [$use_point, $add_point, ORDER_CANCEL, 0, '変化なし'],

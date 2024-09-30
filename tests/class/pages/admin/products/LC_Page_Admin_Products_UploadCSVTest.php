@@ -1,10 +1,8 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
-/**
- *
- */
+$HOME = realpath(__DIR__).'/../../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
+
 class LC_Page_Admin_Products_UploadCSVTest extends Common_TestCase
 {
     protected function setUp()
@@ -26,10 +24,10 @@ class LC_Page_Admin_Products_UploadCSVTest extends Common_TestCase
     public function test日本語ロケールで商品csvアップロード()
     {
         // 日本語版 Windows のロケールを設定する
-        setLocale(LC_ALL, 'Japanese_Japan.932');
+        setlocale(LC_ALL, 'Japanese_Japan.932');
 
-        $HOME = realpath(dirname(__FILE__)) . "/../../../../..";
-        $filepath = $HOME . "/tests/product.csv";
+        $HOME = realpath(__DIR__).'/../../../../..';
+        $filepath = $HOME.'/tests/product.csv';
         $enc_filepath = SC_Utils_Ex::sfEncodeFile($filepath, CHAR_CODE, CSV_TEMP_REALDIR);
 
         $fp = fopen($enc_filepath, 'r');
@@ -64,10 +62,10 @@ class LC_Page_Admin_Products_UploadCSVTest extends Common_TestCase
         $this->verify('列数');
     }
 
-    public function testSC_Initialのロケールで商品csvアップロード()
+    public function testSCInitialのロケールで商品csvアップロード()
     {
-        $HOME = realpath(dirname(__FILE__)) . "/../../../../..";
-        $filepath = $HOME . "/tests/product.csv";
+        $HOME = realpath(__DIR__).'/../../../../..';
+        $filepath = $HOME.'/tests/product.csv';
         $enc_filepath = SC_Utils_Ex::sfEncodeFile($filepath, CHAR_CODE, CSV_TEMP_REALDIR);
 
         $fp = fopen($enc_filepath, 'r');
@@ -103,8 +101,8 @@ class LC_Page_Admin_Products_UploadCSVTest extends Common_TestCase
         // 英語版 Windows のロケールを設定する
         setlocale(LC_ALL, 'English_United States.1252');
 
-        $HOME = realpath(dirname(__FILE__)) . "/../../../../..";
-        $filepath = $HOME . "/tests/product.csv";
+        $HOME = realpath(__DIR__).'/../../../../..';
+        $filepath = $HOME.'/tests/product.csv';
         $enc_filepath = SC_Utils_Ex::sfEncodeFile($filepath, CHAR_CODE, CSV_TEMP_REALDIR);
 
         $fp = fopen($enc_filepath, 'r');

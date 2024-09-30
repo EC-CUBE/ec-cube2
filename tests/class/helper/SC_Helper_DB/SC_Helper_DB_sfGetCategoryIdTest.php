@@ -60,6 +60,7 @@ class SC_Helper_DB_sfGetCategoryIdTest extends SC_Helper_DB_TestBase
             [2, false, false, '商品非公開かつ closed = false は空の配列を返す']
         ];
     }
+
     /**
      * @dataProvider sfGetCategoryIdWithProductVisibleProvider
      *
@@ -67,7 +68,6 @@ class SC_Helper_DB_sfGetCategoryIdTest extends SC_Helper_DB_TestBase
      * @param bool $closed 非公開の商品も含めるか
      * @param bool $actual 想定
      * @param string $message
-     *
      */
     public function testSfGetCategoryIdWithProductVisible($product_status_id, $closed, $actual, $message)
     {

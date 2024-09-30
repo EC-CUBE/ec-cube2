@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -26,107 +26,107 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Helper_Purchaseのテストの基底クラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_TestBase extends Common_TestCase
 {
-  protected function setUp()
-  {
-    parent::setUp();
-  }
-
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
-
-  /////////////////////////////////////////
-  /**
-   * セッションに配送情報を設定します。
-   *
-   * @param array $shipping 単一配送情報
-   */
-  protected function setUpShipping($shipping)
-  {
-    if (!$shipping) {
-      $shipping = $this->getSingleShipping();
+    protected function setUp()
+    {
+        parent::setUp();
     }
 
-    $_SESSION['shipping'] = $shipping;
-  }
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
 
-  protected function getSingleShipping()
-  {
-    return array(
-      '00001' => array(
+    // ///////////////////////////////////////
+    /**
+     * セッションに配送情報を設定します。
+     *
+     * @param array $shipping 単一配送情報
+     */
+    protected function setUpShipping($shipping)
+    {
+        if (!$shipping) {
+            $shipping = $this->getSingleShipping();
+        }
+
+        $_SESSION['shipping'] = $shipping;
+    }
+
+    protected function getSingleShipping()
+    {
+        return [
+      '00001' => [
         'shipment_id' => '00001',
         'shipment_item' => '商品1',
-        'shipping_pref' => '東京都')
-    );
-  }
+        'shipping_pref' => '東京都']
+    ];
+    }
 
-  protected function getMultipleShipping()
-  {
-    return array(
-      '00001' => array(
+    protected function getMultipleShipping()
+    {
+        return [
+      '00001' => [
         'shipment_id' => '00001',
-        'shipment_item' => array('商品1'),
-        'shipping_pref' => '東京都'),
-      '00002' => array(
+        'shipment_item' => ['商品1'],
+        'shipping_pref' => '東京都'],
+      '00002' => [
         'shipment_id' => '00002',
-        'shipment_item' => array('商品2'),
-        'shipping_pref' => '沖縄県'),
-      '00003' => array(
+        'shipment_item' => ['商品2'],
+        'shipping_pref' => '沖縄県'],
+      '00003' => [
         'shipment_id' => '00003',
-        'shipment_item' => array(),
-        'shipping_pref' => '埼玉県')
-    );
-  }
+        'shipment_item' => [],
+        'shipping_pref' => '埼玉県']
+    ];
+    }
 
-  /**
-   * DBに配送情報を設定します。
-   */
-  protected function setUpShippingOnDb()
-  {
-    $shippings = array(
-      array(
+    /**
+     * DBに配送情報を設定します。
+     */
+    protected function setUpShippingOnDb()
+    {
+        $shippings = [
+      [
         'update_date' => '2000-01-01 00:00:00',
         'shipping_id' => '1',
         'order_id' => '1001',
         'shipping_name01' => '配送情報01',
         'shipping_date' => '2012-01-12'
-      ),
-      array(
+      ],
+      [
         'update_date' => '2000-01-01 00:00:00',
         'shipping_id' => '2',
         'order_id' => '2',
         'shipping_name01' => '配送情報02',
         'shipping_date' => '2011-10-01'
-      ),
-      array(
+      ],
+      [
         'update_date' => '2000-01-01 00:00:00',
         'shipping_id' => '1002',
         'order_id' => '1002',
         'shipping_time' => '午後',
         'time_id' => '1'
-      )
-    );
+      ]
+    ];
 
-    $this->objQuery->delete('dtb_shipping');
-    foreach ($shippings as $key => $item) {
-      $this->objQuery->insert('dtb_shipping', $item);
+        $this->objQuery->delete('dtb_shipping');
+        foreach ($shippings as $key => $item) {
+            $this->objQuery->insert('dtb_shipping', $item);
+        }
     }
-  }
 
- /**
-  * DBに受注情報を設定します.
-  */
-  protected function setUpOrder($customer_ids = [], $product_class_ids = [])
-  {
-    $orders = array(
-      array(
+    /**
+     * DBに受注情報を設定します.
+     */
+    protected function setUpOrder($customer_ids = [], $product_class_ids = [])
+    {
+        $orders = [
+      [
         'update_date' => '2000-01-01 00:00:00',
         'customer_id' => $customer_ids[0],
         'order_name01' => '受注情報01',
@@ -134,44 +134,47 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
         'payment_date' => '2032-12-31 01:20:30', // 日付が変わっても良いように、遠い未来に設定
         'use_point' => '10',
         'add_point' => '20'
-      ),
-      array(
+      ],
+      [
         'update_date' => '2000-01-01 00:00:00',
         'customer_id' => $customer_ids[1],
         'order_name01' => '受注情報02',
         'status' => '5',
         'use_point' => '10',
         'add_point' => '20'
-      )
-    );
+      ]
+    ];
 
-    $this->objQuery->delete('dtb_order');
-    return array_map(function ($properties) use ($product_class_ids) {
-      $order_id = $this->objGenerator->createOrder($properties['customer_id'], $product_class_ids);
-      $this->objQuery->update('dtb_order', $properties, 'order_id = ?', [$order_id]);
+        $this->objQuery->delete('dtb_order');
 
-      return $order_id;
-    }, $orders);
-  }
+        return array_map(function ($properties) use ($product_class_ids) {
+            $order_id = $this->objGenerator->createOrder($properties['customer_id'], $product_class_ids);
+            $this->objQuery->update('dtb_order', $properties, 'order_id = ?', [$order_id]);
 
- /**
-  * setUpOrder() で生成した一時情報を返す.
-  */
-  protected function setUpOrderTemp($order_ids)
-  {
-    return array_map(function ($order_id) {
-      return $this->objQuery->get('order_temp_id', 'dtb_order_temp', 'order_id = ?', [$order_id]);
-    } , $order_ids);
-  }
- /**
-  * DBに顧客情報を設定します。
-  */
- protected function setUpCustomer()
- {
-   $this->objQuery->delete('dtb_customer');
-   return [
+            return $order_id;
+        }, $orders);
+    }
+
+    /**
+     * setUpOrder() で生成した一時情報を返す.
+     */
+    protected function setUpOrderTemp($order_ids)
+    {
+        return array_map(function ($order_id) {
+            return $this->objQuery->get('order_temp_id', 'dtb_order_temp', 'order_id = ?', [$order_id]);
+        }, $order_ids);
+    }
+
+    /**
+     * DBに顧客情報を設定します。
+     */
+    protected function setUpCustomer()
+    {
+        $this->objQuery->delete('dtb_customer');
+
+        return [
      $this->objGenerator->createCustomer(null, ['point' => 100]),
      $this->objGenerator->createCustomer(null, ['point' => 200])
    ];
- }
+    }
 }

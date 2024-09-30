@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,60 +27,59 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /**
  * SC_Helper_Purchase::getOrderTemp()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_getOrderTempTest extends SC_Helper_Purchase_TestBase
 {
-  /** @var array */
-  private $customer_ids = [];
-  /** @var array */
-  private $order_ids = [];
-  /** @var array */
-  private $order_temp_ids = [];
+    /** @var array */
+    private $customer_ids = [];
+    /** @var array */
+    private $order_ids = [];
+    /** @var array */
+    private $order_temp_ids = [];
 
-  protected function setUp()
-  {
-    parent::setUp();
-    $this->customer_ids = $this->setUpCustomer();
-    $this->order_ids = $this->setUpOrder($this->customer_ids);
-    $this->order_temp_ids = $this->setUpOrderTemp($this->order_ids);
-  }
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->customer_ids = $this->setUpCustomer();
+        $this->order_ids = $this->setUpOrder($this->customer_ids);
+        $this->order_temp_ids = $this->setUpOrderTemp($this->order_ids);
+    }
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
 
-  /////////////////////////////////////////
-  public function testGetOrderTemp_存在しない受注IDを指定した場合_結果が空になる()
-  {
-    $order_id = '9999';
+    // ///////////////////////////////////////
+    public function testGetOrderTemp存在しない受注IDを指定した場合結果が空になる()
+    {
+        $order_id = '9999';
 
-    $this->expected = null;
-    $this->actual = SC_Helper_Purchase::getOrderTemp($order_id);
+        $this->expected = null;
+        $this->actual = SC_Helper_Purchase::getOrderTemp($order_id);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testGetOrderTemp_存在する受注IDを指定した場合_対応する結果が取得できる()
-  {
-    $order_temp_id = $this->order_temp_ids[0];
-    $arrCustomer = $this->objQuery->getRow('*', 'dtb_customer', 'customer_id = ?', [$this->customer_ids[0]]);
+    public function testGetOrderTemp存在する受注IDを指定した場合対応する結果が取得できる()
+    {
+        $order_temp_id = $this->order_temp_ids[0];
+        $arrCustomer = $this->objQuery->getRow('*', 'dtb_customer', 'customer_id = ?', [$this->customer_ids[0]]);
 
-    $this->expected = array(
+        $this->expected = [
       'order_temp_id' => $order_temp_id,
       'customer_id' => $this->customer_ids[0],
       'order_name01' => $arrCustomer['name01']
-    );
-    $result = SC_Helper_Purchase::getOrderTemp($order_temp_id);
+    ];
+        $result = SC_Helper_Purchase::getOrderTemp($order_temp_id);
 
-    $this->actual = Test_Utils::mapArray($result, array('order_temp_id', 'customer_id', 'order_name01'));
+        $this->actual = Test_Utils::mapArray($result, ['order_temp_id', 'customer_id', 'order_name01']);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

@@ -3,11 +3,11 @@
 class SC_CheckError_ONE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
 {
     /** @var string */
-    const FORM_NAME1 = 'year';
+    public const FORM_NAME1 = 'year';
     /** @var string */
-    const FORM_NAME2 = 'month';
+    public const FORM_NAME2 = 'month';
     /** @var string */
-    const FORM_NAME3 = 'day';
+    public const FORM_NAME3 = 'day';
 
     protected function setUp()
     {
@@ -15,7 +15,7 @@ class SC_CheckError_ONE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'ONE_EXIST_CHECK';
     }
 
-    public function testONE_EXIST_CHECK()
+    public function testONEEXISTCHECK()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 2019,
@@ -28,8 +28,7 @@ class SC_CheckError_ONE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testONE_EXIST_CHECKWithEmpty()
+    public function testONEEXISTCHECKWithEmpty()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '',
@@ -44,7 +43,7 @@ class SC_CheckError_ONE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testONE_EXIST_CHECKWithNull()
+    public function testONEEXISTCHECKWithNull()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 'a',
@@ -57,7 +56,7 @@ class SC_CheckError_ONE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testONE_EXIST_CHECKWithZero()
+    public function testONEEXISTCHECKWithZero()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '0',
@@ -70,7 +69,7 @@ class SC_CheckError_ONE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testONE_EXIST_CHECKWithErrorExists()
+    public function testONEEXISTCHECKWithErrorExists()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 'a',
@@ -112,4 +111,3 @@ class SC_CheckError_ONE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->assertEquals($this->expected, $this->actual, $message);
     }
 }
-
