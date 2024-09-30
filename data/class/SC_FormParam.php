@@ -173,7 +173,7 @@ class SC_FormParam
         }
 
         // Smarty3以降は月日が1桁の場合、0埋めされていると補完されないため0を除去する
-        $objDate = new DateTime($db_date);
+        $objDate = new DateTimeImmutable($db_date);
         $this->setValue($year_key, $objDate->format('Y'));
         $this->setValue($month_key, $objDate->format('n'));
         $this->setValue($day_key, $objDate->format('j'));
