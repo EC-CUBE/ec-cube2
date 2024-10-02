@@ -267,7 +267,7 @@ class SOAP_Parser extends SOAP_Base
             'type_namespace' => '',
             'cdata' => '',
             'pos' => $pos,
-            'id' => ''];
+            'id' => '', ];
 
         // Parent/child/depth determinations.
 

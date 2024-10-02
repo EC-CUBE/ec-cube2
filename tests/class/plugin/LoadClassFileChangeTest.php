@@ -102,7 +102,7 @@ __EOS__;
         $files = [
             'plugin_info' => $plugin_info,
             'AutoloadingPlugin' => $autoloadingPlugin,
-            'Autoloading_SC_Product' => $Autoloading_SC_Product
+            'Autoloading_SC_Product' => $Autoloading_SC_Product,
         ];
 
         $dir = PLUGIN_UPLOAD_REALDIR.'AutoloadingPlugin';
@@ -123,7 +123,7 @@ __EOS__;
             'compliant_version' => '2.17',
             'enable' => 1,
             'create_date' => 'CURRENT_TIMESTAMP',
-            'update_date' => 'CURRENT_TIMESTAMP'
+            'update_date' => 'CURRENT_TIMESTAMP',
         ];
         $this->objQuery->insert('dtb_plugin', $pluginValues);
 
@@ -133,7 +133,7 @@ __EOS__;
             'plugin_id' => $plugin_id,
             'hook_point' => 'loadClassFileChange',
             'callback' => 'loadClassFileChange',
-            'update_date' => 'CURRENT_TIMESTAMP'
+            'update_date' => 'CURRENT_TIMESTAMP',
         ];
         $this->objQuery->insert('dtb_plugin_hookpoint', $hookpointValues);
     }

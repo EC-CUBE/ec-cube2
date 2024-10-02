@@ -84,7 +84,7 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
             'eccube_url' => HTTP_URL,
             'public_key' => sha1($public_key.$sha1_key),
             'sha1_key' => $sha1_key,
-            'ver' => ECCUBE_VERSION
+            'ver' => ECCUBE_VERSION,
         ];
         $objReq = $this->request('products_list', $arrPostData);
 
@@ -144,7 +144,7 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
                 'eccube_url' => HTTP_URL,
                 'public_key' => sha1($public_key.$sha1_key),
                 'sha1_key' => $sha1_key,
-                'ver' => '2.13.17' // 2.13系も取得する
+                'ver' => '2.13.17', // 2.13系も取得する
             ];
             $objReq = $this->request('products_list', $arrPostData);
 

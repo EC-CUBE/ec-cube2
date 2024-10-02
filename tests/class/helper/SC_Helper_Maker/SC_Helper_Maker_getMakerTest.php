@@ -66,7 +66,7 @@ class SC_Helper_Maker_getMakerTest extends SC_Helper_Maker_TestBase
             'creator_id' => '1',
             'create_date' => '2000-01-01 00:00:00',
             'update_date' => '2000-01-01 00:00:00',
-            'del_flg' => '0'
+            'del_flg' => '0',
         ];
 
         $result = $this->objHelperMaker->getMaker('1001');
@@ -78,7 +78,7 @@ class SC_Helper_Maker_getMakerTest extends SC_Helper_Maker_TestBase
                 'creator_id',
                 'create_date',
                 'update_date',
-                'del_flg'
+                'del_flg',
             ]);
 
         $this->verify();
@@ -105,7 +105,7 @@ class SC_Helper_Maker_getMakerTest extends SC_Helper_Maker_TestBase
             'creator_id' => '2',
             'create_date' => '2000-01-01 00:00:00',
             'update_date' => '2000-01-01 00:00:00',
-            'del_flg' => '1'
+            'del_flg' => '1',
         ];
 
         $result = $this->objHelperMaker->getMaker('1002', true);
@@ -117,7 +117,7 @@ class SC_Helper_Maker_getMakerTest extends SC_Helper_Maker_TestBase
                 'creator_id',
                 'create_date',
                 'update_date',
-                'del_flg'
+                'del_flg',
             ]);
 
         $this->verify();

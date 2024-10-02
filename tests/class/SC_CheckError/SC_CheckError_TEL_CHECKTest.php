@@ -25,7 +25,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => '056375',
             self::FORM_NAME2 => '1',
-            self::FORM_NAME3 => '2222'
+            self::FORM_NAME3 => '2222',
         ];
         $this->expected = [];
 
@@ -38,7 +38,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => 5637,
             self::FORM_NAME2 => 1111,
-            self::FORM_NAME3 => 2222
+            self::FORM_NAME3 => 2222,
         ];
         $this->expected = [];
 
@@ -51,7 +51,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => '',
             self::FORM_NAME2 => '',
-            self::FORM_NAME3 => ''
+            self::FORM_NAME3 => '',
         ];
         $this->expected = [];
 
@@ -64,7 +64,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => null,
             self::FORM_NAME2 => null,
-            self::FORM_NAME3 => null
+            self::FORM_NAME3 => null,
         ];
         $this->expected = [];
 
@@ -77,7 +77,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => '090',
             self::FORM_NAME2 => 1111,
-            self::FORM_NAME3 => ''
+            self::FORM_NAME3 => '',
         ];
         $this->expected = [self::FORM_NAME1 => '※ TEL_CHECKは全ての項目を入力してください。<br />'];
 
@@ -90,7 +90,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => '111',
             self::FORM_NAME2 => 'aaa',
-            self::FORM_NAME3 => 11
+            self::FORM_NAME3 => 11,
         ];
         $this->expected = [self::FORM_NAME2 => '※ TEL_CHECK2は数字で入力してください。<br />'];
 
@@ -103,7 +103,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => '1111',
             self::FORM_NAME2 => '22222',
-            self::FORM_NAME3 => '3333'
+            self::FORM_NAME3 => '3333',
         ];
         $this->expected = [self::FORM_NAME3 => '※ TEL_CHECKは12文字以内で入力してください。<br />'];
 
@@ -116,7 +116,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => '1234567',
             self::FORM_NAME2 => '7',
-            self::FORM_NAME3 => '333'
+            self::FORM_NAME3 => '333',
         ];
         $this->expected = [self::FORM_NAME1 => '※ TEL_CHECK1は6字以内で入力してください。<br />'];
 

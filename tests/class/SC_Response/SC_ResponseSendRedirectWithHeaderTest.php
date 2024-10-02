@@ -10,7 +10,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
     {
         $spec = [
             1 => ['file', '/dev/null', 'w'],
-            2 => ['file', '/dev/null', 'w']
+            2 => ['file', '/dev/null', 'w'],
         ];
 
         if (!self::$server = @proc_open('exec php -S 127.0.0.1:8085', $spec, $pipes, __DIR__.'/'.self::FIXTURES_DIR)) {

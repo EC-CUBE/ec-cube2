@@ -247,7 +247,7 @@ class SOAP_Attachment extends SOAP_Value
                                              'disposition' => $filename,
                                              'content_type' => $type,
                                              'encoding' => 'base64',
-                                             'cid' => $cid];
+                                             'cid' => $cid, ];
     }
 
     /**

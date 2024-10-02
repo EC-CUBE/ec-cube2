@@ -16,7 +16,6 @@ $rules = [
     'no_superfluous_phpdoc_tags' => false, // 副作用があるため
     'increment_style' => false, // 強制しなくて良い
     'yoda_style' => false, // 強制しなくて良い
-    'trailing_comma_in_multiline' => false, // `, ]` となるケースを防ぐため
 
     // @Symfony:risky のうち、以下のルールを無効化
     'psr_autoloading' => false, // PSR-4 に準拠していないため

@@ -684,7 +684,7 @@ class SC_Helper_DB
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $sqlval = ['category_id' => $category_id,
-                        'product_id' => $product_id];
+                        'product_id' => $product_id, ];
 
         $arrSql = [];
         $arrSql['rank'] = '(SELECT COALESCE(MAX(rank), 0) FROM dtb_product_categories sub WHERE category_id = ?) + 1';
@@ -707,7 +707,7 @@ class SC_Helper_DB
     public function addProductAfterCategories($category_id, $product_id)
     {
         $sqlval = ['category_id' => $category_id,
-                        'product_id' => $product_id];
+                        'product_id' => $product_id, ];
 
         $objQuery = SC_Query_Ex::getSingletonInstance();
 

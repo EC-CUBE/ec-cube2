@@ -32,29 +32,29 @@ class SC_Helper_News_getListTest extends SC_Helper_News_TestBase
             'news_id' => '1004',
             'news_title' => 'ニュース情報04',
             'creator_id' => '1',
-            'del_flg' => '0'
+            'del_flg' => '0',
             ],
           [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '1003',
             'news_title' => 'ニュース情報03',
             'creator_id' => '1',
-            'del_flg' => '1'
+            'del_flg' => '1',
             ],
           [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '1002',
             'news_title' => 'ニュース情報02',
             'creator_id' => '1',
-            'del_flg' => '0'
+            'del_flg' => '0',
             ],
           [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '1001',
             'news_title' => 'ニュース情報01',
             'creator_id' => '1',
-            'del_flg' => '0'
-            ]
+            'del_flg' => '0',
+            ],
           ];
         $result = $this->objNews->getList($dispNumber, $pageNumber, $has_deleted);
         foreach ($result as $value) {
@@ -78,22 +78,22 @@ class SC_Helper_News_getListTest extends SC_Helper_News_TestBase
             'news_id' => '1004',
             'news_title' => 'ニュース情報04',
             'creator_id' => '1',
-            'del_flg' => '0'
+            'del_flg' => '0',
             ],
           [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '1002',
             'news_title' => 'ニュース情報02',
             'creator_id' => '1',
-            'del_flg' => '0'
+            'del_flg' => '0',
             ],
           [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '1001',
             'news_title' => 'ニュース情報01',
             'creator_id' => '1',
-            'del_flg' => '0'
-            ]
+            'del_flg' => '0',
+            ],
           ];
 
         $result = $this->objNews->getList($dispNumber, $pageNumber, $has_deleted);
@@ -117,7 +117,7 @@ class SC_Helper_News_getListTest extends SC_Helper_News_TestBase
           'news_id' => '1001',
           'news_title' => 'ニュース情報01',
           'creator_id' => '1',
-          'del_flg' => '0'
+          'del_flg' => '0',
         ];
 
         $result = $this->objNews->getList($dispNumber, $pageNumber, $has_deleted);
@@ -139,7 +139,7 @@ class SC_Helper_News_getListTest extends SC_Helper_News_TestBase
           'news_id' => '1004',
           'news_title' => 'ニュース情報04',
           'creator_id' => '1',
-          'del_flg' => '0'
+          'del_flg' => '0',
         ];
 
         $result = $this->objNews->getList($dispNumber, $pageNumber, $has_deleted);

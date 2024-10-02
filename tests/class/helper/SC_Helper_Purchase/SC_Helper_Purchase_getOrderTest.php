@@ -79,7 +79,7 @@ class SC_Helper_Purchase_getOrderTest extends SC_Helper_Purchase_TestBase
         $this->expected = [
       'order_id' => $order_id,
       'customer_id' => $this->customer_ids[1],
-      'order_name01' => '受注情報02'
+      'order_name01' => '受注情報02',
     ];
         $result = SC_Helper_Purchase::getOrder($order_id);
         $this->actual = Test_Utils::mapArray($result, ['order_id', 'customer_id', 'order_name01']);
@@ -95,7 +95,7 @@ class SC_Helper_Purchase_getOrderTest extends SC_Helper_Purchase_TestBase
         $this->expected = [
       'order_id' => $order_id,
       'customer_id' => $customer_id,
-      'order_name01' => '受注情報02'
+      'order_name01' => '受注情報02',
     ];
         $result = SC_Helper_Purchase::getOrder($order_id, $customer_id);
         $this->actual = Test_Utils::mapArray($result, ['order_id', 'customer_id', 'order_name01']);

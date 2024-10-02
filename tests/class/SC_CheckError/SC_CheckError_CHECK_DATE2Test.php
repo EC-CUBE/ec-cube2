@@ -52,7 +52,7 @@ class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
             self::FORM_NAME3 => $this->day,
             self::FORM_NAME4 => $this->hour,
             self::FORM_NAME5 => $this->minute,
-            self::FORM_NAME6 => $this->second
+            self::FORM_NAME6 => $this->second,
         ];
         $this->expected = [];
 
@@ -68,7 +68,7 @@ class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
             self::FORM_NAME3 => $this->day,
             self::FORM_NAME4 => $this->hour,
             self::FORM_NAME5 => $this->minute,
-            self::FORM_NAME6 => $this->second
+            self::FORM_NAME6 => $this->second,
         ];
         $this->expected = [self::FORM_NAME1 => '※ CHECK_DATE2は全ての項目を入力して下さい。<br />'];
 
@@ -84,7 +84,7 @@ class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
             self::FORM_NAME3 => $this->day,
             self::FORM_NAME4 => $this->hour,
             self::FORM_NAME5 => null,
-            self::FORM_NAME6 => $this->second
+            self::FORM_NAME6 => $this->second,
         ];
         $this->expected = [self::FORM_NAME1 => '※ CHECK_DATE2は全ての項目を入力して下さい。<br />'];
 
@@ -100,7 +100,7 @@ class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
             self::FORM_NAME3 => '0',
             self::FORM_NAME4 => '0',
             self::FORM_NAME5 => '0',
-            self::FORM_NAME6 => '0'
+            self::FORM_NAME6 => '0',
         ];
         $this->expected = [self::FORM_NAME1 => '※ CHECK_DATE2が正しくありません。<br />'];
 
@@ -116,7 +116,7 @@ class SC_CheckError_CHECK_DATE2Test extends SC_CheckError_AbstractTestCase
             self::FORM_NAME3 => '29',
             self::FORM_NAME4 => '0',
             self::FORM_NAME5 => '0',
-            self::FORM_NAME6 => '0'
+            self::FORM_NAME6 => '0',
         ];
         $this->expected = [self::FORM_NAME1 => '※ CHECK_DATE2が正しくありません。<br />'];
 

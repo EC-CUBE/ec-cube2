@@ -64,7 +64,7 @@ class SC_Utils_sfArrCombineTest extends Common_TestCase
         $this->expected = [
       'apple' => 'りんご',
       'banana' => 'バナナ',
-      null => '梨'
+      null => '梨',
     ];
         $this->actual = SC_Utils::sfArrCombine($keys, $values);
 
@@ -80,7 +80,7 @@ class SC_Utils_sfArrCombineTest extends Common_TestCase
       'apple' => 'りんご',
       'banana' => 'バナナ',
       'orange' => null,
-      'pear' => null
+      'pear' => null,
     ];
         $this->actual = SC_Utils::sfArrCombine($keys, $values);
 

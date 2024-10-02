@@ -42,7 +42,7 @@ class Calendar_Test extends Common_TestCase
                 'day' => 30,
                 'hour' => 0,
                 'minute' => 0,
-                'second' => 0],
+                'second' => 0, ],
             $this->cal->prevDay('array'));
     }
 

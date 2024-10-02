@@ -235,9 +235,9 @@ class SC_Api_Utils
             'encoding' => 'UTF-8',
             'rootName' => $response_outer_name,
             'rootAttributes' => ['xmlns' => self::API_XMLNS.ECCUBE_VERSION,
-                                        'xml:lang' => self::API_XML_LANG],
+                                        'xml:lang' => self::API_XML_LANG, ],
             'defaultTagName' => 'Response',
-            'attributesArray' => '_attributes'
+            'attributesArray' => '_attributes',
         ];
 
         $objSerializer = new XML_Serializer($options);

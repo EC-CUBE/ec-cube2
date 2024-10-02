@@ -61,8 +61,8 @@ class SC_Utils_sfGetAddressTest extends Common_TestCase
       [
         'state' => '1',    // 北海道
         'city' => '札幌市中央区',
-        'town' => '大通東'
-      ]
+        'town' => '大通東',
+      ],
     ];
         $this->actual = SC_Utils::sfGetAddress('0600041');
 
@@ -98,8 +98,8 @@ class SC_Utils_sfGetAddressTest extends Common_TestCase
       [
         'state' => '1',    // 北海道
         'city' => '札幌市中央区',
-        'town' => '大通西'
-      ]
+        'town' => '大通西',
+      ],
     ];
         $this->actual = SC_Utils::sfGetAddress('0600042');
 
@@ -112,8 +112,8 @@ class SC_Utils_sfGetAddressTest extends Common_TestCase
       [
         'state' => '1',    // 北海道
         'city' => '札幌市中央区',
-        'town' => ''
-      ]
+        'town' => '',
+      ],
     ];
         $this->actual = SC_Utils::sfGetAddress('0600000');
 
@@ -126,8 +126,8 @@ class SC_Utils_sfGetAddressTest extends Common_TestCase
       [
         'state' => '8',    // 茨城県
         'city' => '猿島郡堺町',
-        'town' => ''
-      ]
+        'town' => '',
+      ],
     ];
         $this->actual = SC_Utils::sfGetAddress('3060433');
 
@@ -144,43 +144,43 @@ class SC_Utils_sfGetAddressTest extends Common_TestCase
         'zipcode' => '0600041',
         'state' => '北海道',
         'city' => '札幌市中央区',
-        'town' => '大通東'
+        'town' => '大通東',
       ],
       [
         'zip_id' => '3',
         'zipcode' => '0600042',
         'state' => '北海道',
         'city' => '札幌市中央区',
-        'town' => '大通西（１〜１９丁目）'
+        'town' => '大通西（１〜１９丁目）',
       ],
       [
         'zip_id' => '0',
         'zipcode' => '0600000',
         'state' => '北海道',
         'city' => '札幌市中央区',
-        'town' => '以下に掲載がない場合'
+        'town' => '以下に掲載がない場合',
       ],
       [
         'zip_id' => '26867',
         'zipcode' => '3060433',
         'state' => '茨城県',
         'city' => '猿島郡堺町',
-        'town' => '堺町の次に番地がくる場合'
+        'town' => '堺町の次に番地がくる場合',
       ],
       [
         'zip_id' => '16223',
         'zipcode' => '0110951',
         'state' => '秋田県',
         'city' => '秋田市',
-        'town' => '土崎港相染町'
+        'town' => '土崎港相染町',
       ],
       [
         'zip_id' => '16226',
         'zipcode' => '0110951',
         'state' => '秋田県',
         'city' => '秋田市',
-        'town' => '土崎港古川町'
-      ]
+        'town' => '土崎港古川町',
+      ],
     ];
 
         $this->objQuery->delete('mtb_zip');

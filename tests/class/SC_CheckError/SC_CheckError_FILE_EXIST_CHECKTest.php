@@ -54,8 +54,8 @@ class SC_CheckError_FILE_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         $_FILES = [
             self::FORM_NAME => [
-                'size' => $this->fileSize
-            ]
+                'size' => $this->fileSize,
+            ],
         ];
         $this->arrForm = [];
         $this->objErr = new SC_CheckError_Ex($this->arrForm);

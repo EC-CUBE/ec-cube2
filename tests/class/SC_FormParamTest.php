@@ -25,7 +25,7 @@ class SC_FormParamTest extends Common_TestCase
         $this->actual = $this->objFormParam->checkError();
 
         $this->expected = [
-            'name01' => '※ お名前(姓)が入力されていません。<br />'
+            'name01' => '※ お名前(姓)が入力されていません。<br />',
         ];
 
         $this->verify();
@@ -43,8 +43,8 @@ class SC_FormParamTest extends Common_TestCase
                 'keyname' => 'name01',
                 'disp_name' => 'お名前(姓)',
                 'length' => STEXT_LEN,
-                'value' => 'アイウエオ'
-            ]
+                'value' => 'アイウエオ',
+            ],
         ];
 
         $this->verify();
@@ -68,7 +68,7 @@ class SC_FormParamTest extends Common_TestCase
         $this->objFormParam->setParam(
             [
                 'name01' => 'あ',
-                'name02' => 'い'
+                'name02' => 'い',
             ]
         );
 
@@ -85,14 +85,14 @@ class SC_FormParamTest extends Common_TestCase
         $this->objFormParam->setParam(
             [
                 'name01' => ['test01' => 'ああ'],
-                'name02' => ['test02' => 'い']
+                'name02' => ['test02' => 'い'],
             ]
         );
         $this->actual = $this->objFormParam->getSwapArray();
 
         $this->expected = [
             'test01' => ['name01' => 'ああ'],
-            'test02' => ['name02' => 'い']
+            'test02' => ['name02' => 'い'],
         ];
         $this->verify();
     }
@@ -106,7 +106,7 @@ class SC_FormParamTest extends Common_TestCase
 
         $this->expected = [
             'name01' => 'あ',
-            'name02' => 'い'
+            'name02' => 'い',
         ];
         $this->verify();
     }
@@ -118,7 +118,7 @@ class SC_FormParamTest extends Common_TestCase
         $this->objFormParam->setParam(
             [
                 'name01' => 'A',
-                'name02' => 'B'
+                'name02' => 'B',
             ]
         );
         $this->objFormParam->toLower('name01');
@@ -126,7 +126,7 @@ class SC_FormParamTest extends Common_TestCase
 
         $this->expected = [
             'name01' => 'a',
-            'name02' => 'B'
+            'name02' => 'B',
         ];
         $this->verify();
     }
@@ -139,9 +139,9 @@ class SC_FormParamTest extends Common_TestCase
             [
                 'name01' => [
                     ['ああ', ''],
-                    ['うう', 'ええ']
+                    ['うう', 'ええ'],
                 ],
-                'name02' => [['ｱｱｱ'], ['ｱｱｱ']]
+                'name02' => [['ｱｱｱ'], ['ｱｱｱ']],
             ]
         );
         $this->objFormParam->convParam();
@@ -183,7 +183,7 @@ class SC_FormParamTest extends Common_TestCase
         $this->objFormParam->setParam(
             [
                 'name01' => '',
-                'name02' => ['', '']
+                'name02' => ['', ''],
             ]
         );
         $this->assertEquals('あ', $this->objFormParam->getValue('name01', 'あ'));
@@ -198,9 +198,9 @@ class SC_FormParamTest extends Common_TestCase
             [
                 'name01' => [
                     [' ああ ', ''],
-                    ["\tうう", "\n\nええ"]
+                    ["\tうう", "\n\nええ"],
                 ],
-                'name02' => [['あああ'], ['あああ　']]
+                'name02' => [['あああ'], ['あああ　']],
             ]
         );
         $this->objFormParam->trimParam(true);
@@ -217,9 +217,9 @@ class SC_FormParamTest extends Common_TestCase
             [
                 'name01' => [
                     [' ああ ', ''],
-                    ["\tうう", "\n\nええ"]
+                    ["\tうう", "\n\nええ"],
                 ],
-                'name02' => [['あああ'], ['あああ　']]
+                'name02' => [['あああ'], ['あああ　']],
             ]
         );
         $this->objFormParam->trimParam(false);
@@ -370,13 +370,13 @@ class SC_FormParamTest extends Common_TestCase
         $this->objFormParam->setParam(
             [
                 'name01' => 'あ',
-                'name02' => 'い'
+                'name02' => 'い',
             ]
         );
 
         $this->expected = [
             'name01' => 'あ',
-            'name02' => 'い'
+            'name02' => 'い',
         ];
 
         $this->actual = $this->objFormParam->getSearchArray('name');
@@ -393,12 +393,12 @@ class SC_FormParamTest extends Common_TestCase
         $this->objFormParam->setParam(
             [
                 'name01' => 'あ',
-                'name02' => 'い'
+                'name02' => 'い',
             ]
         );
 
         $this->expected = [
-            'name02' => 'い'
+            'name02' => 'い',
         ];
 
         $this->actual = $this->objFormParam->getSearchArray('name');
@@ -460,7 +460,7 @@ class SC_FormParamTest extends Common_TestCase
             'CHANGE_LOWER',
             'FILE_EXISTS',
             'DOWN_FILE_EXISTS',
-            'XXXXXXXXXX'
+            'XXXXXXXXXX',
         ];
 
         foreach ($arrCheck as $key => $check) {
@@ -485,7 +485,7 @@ class SC_FormParamTest extends Common_TestCase
             'FILE_EXISTS_key' => '※ FILE_EXISTSのファイルが存在しません。',
             'DOWN_FILE_EXISTS_key' => '※ DOWN_FILE_EXISTSのファイルが存在しません。',
             'XXXXXXXXXX_key' => '※※　エラーチェック形式(XXXXXXXXXX)には対応していません　※※ ',
-            'NUM_COUNT_CHECK_key' => '※ NUM_COUNT_CHECKは50桁で入力して下さい。'
+            'NUM_COUNT_CHECK_key' => '※ NUM_COUNT_CHECKは50桁で入力して下さい。',
         ];
         $this->actual = @$this->objFormParam->checkError(false);
         $this->verify();

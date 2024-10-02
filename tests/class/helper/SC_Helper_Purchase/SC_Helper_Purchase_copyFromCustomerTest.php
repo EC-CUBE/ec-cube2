@@ -115,7 +115,7 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
       'update_date' => 'CURRENT_TIMESTAMP',
       'order_country_id' => '',
       'order_company_name' => '',
-      'order_zipcode' => ''
+      'order_zipcode' => '',
     ];
         $helper = new SC_Helper_Purchase_Ex();
         $helper->copyFromCustomer($dest, $this->customer);
@@ -137,7 +137,7 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
       'order_name01' => '姓01',
       'order_email' => 'test@example.com',
       'customer_id' => '1001',
-      'update_date' => 'CURRENT_TIMESTAMP'
+      'update_date' => 'CURRENT_TIMESTAMP',
     ];
         $helper = new SC_Helper_Purchase_Ex();
         $helper->copyFromCustomer($dest, $this->customer, $prefix, $keys);
@@ -160,7 +160,7 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
       'prefix_name01' => '姓01',
       'prefix_email' => 'test@example.com',
       'customer_id' => '1001',
-      'update_date' => 'CURRENT_TIMESTAMP'
+      'update_date' => 'CURRENT_TIMESTAMP',
     ];
         $helper = new SC_Helper_Purchase_Ex();
         $helper->copyFromCustomer($dest, $this->customer, $prefix, $keys);

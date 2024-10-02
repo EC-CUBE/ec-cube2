@@ -70,7 +70,7 @@ class SC_Helper_DB_sfCountCategoryTest extends SC_Helper_DB_TestBase
             'dtb_products_class',
             [
                 'stock' => 0,
-                'stock_unlimited' => 0
+                'stock_unlimited' => 0,
             ],
             'product_id = ?', [$this->product_id]);
         $this->objDb->updateProductCategories($this->category_ids, $this->product_id);

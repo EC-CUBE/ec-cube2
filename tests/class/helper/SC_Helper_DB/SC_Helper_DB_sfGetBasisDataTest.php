@@ -114,7 +114,7 @@ class SC_Helper_DB_sfGetBasisData extends SC_Helper_DB_TestBase
             'downloadable_days' => '10',
             'downloadable_days_unlimited' => '0',
             'zipcode' => null,
-            'law_zipcode' => null
+            'law_zipcode' => null,
         ];
         $this->actual = $this->helper->sfGetBasisData(true);
         $this->verify();
@@ -218,7 +218,7 @@ class SC_Helper_DB_sfGetBasisData extends SC_Helper_DB_TestBase
             'country_id' => null,
             'law_country_id' => null,
             'zipcode' => null,
-            'law_zipcode' => null
+            'law_zipcode' => null,
         ];
         $this->actual = $this->helper->sfGetBasisData(false);
         $this->verify();

@@ -710,7 +710,7 @@ class SC_Helper_Transform
         $this->arrErr[] = [
             'selector' => $selector,
             'type' => $type,
-            'err_msg' => $err_msg
+            'err_msg' => $err_msg,
         ];
     }
 }

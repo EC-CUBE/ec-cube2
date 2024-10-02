@@ -68,11 +68,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'order' => [
         'status' => '3',
         'add_point' => '20',
-        'use_point' => '10'
+        'use_point' => '10',
       ],
       'customer' => [
-        'point' => $customer_point
-      ]
+        'point' => $customer_point,
+      ],
     ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
@@ -111,11 +111,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'order' => [
         'status' => ORDER_DELIV,
         'add_point' => '50',  // 引数の設定どおりになる
-        'use_point' => '45' // 引数の設定どおりになる
+        'use_point' => '45', // 引数の設定どおりになる
       ],
       'customer' => [
-        'point' => $customer_point // ポイントを使わない
-      ]
+        'point' => $customer_point, // ポイントを使わない
+      ],
     ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
@@ -148,8 +148,8 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'order' => [
         'status' => ORDER_PRE_END,
         'add_point' => '50',  // 引数の設定どおりになる
-        'use_point' => '45' // 引数の設定どおりになる
-      ]
+        'use_point' => '45', // 引数の設定どおりになる
+      ],
     ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
@@ -181,11 +181,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'order' => [
         'status' => ORDER_CANCEL,
         'add_point' => '0',  // 引数の設定どおりになる
-        'use_point' => '45' // 引数の設定どおりになる
+        'use_point' => '45', // 引数の設定どおりになる
       ],
       'customer' => [
-        'point' => '210' // 元々200pt+10pt戻す
-      ]
+        'point' => '210', // 元々200pt+10pt戻す
+      ],
     ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
@@ -211,11 +211,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'order' => [
         'status' => ORDER_NEW,
         'add_point' => '50',  // 引数の設定どおりになる
-        'use_point' => '45' // 引数の設定どおりになる
+        'use_point' => '45', // 引数の設定どおりになる
       ],
       'customer' => [
-        'point' => '55' // 元々100pt→45pt引く
-      ]
+        'point' => '55', // 元々100pt→45pt引く
+      ],
     ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
@@ -241,11 +241,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'order' => [
         'status' => ORDER_CANCEL,
         'add_point' => '50',  // 引数の設定どおりになる
-        'use_point' => '45' // 引数の設定どおりになる
+        'use_point' => '45', // 引数の設定どおりになる
       ],
       'customer' => [
-        'point' => '180' // 元々200pt→20pt引く
-      ]
+        'point' => '180', // 元々200pt→20pt引く
+      ],
     ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
@@ -271,11 +271,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'order' => [
         'status' => ORDER_DELIV,
         'add_point' => '50',  // 引数の設定どおりになる
-        'use_point' => '0' // 引数の設定どおりになる
+        'use_point' => '0', // 引数の設定どおりになる
       ],
       'customer' => [
-        'point' => '150' // 元々100pt→50pt足す
-      ]
+        'point' => '150', // 元々100pt→50pt足す
+      ],
     ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
@@ -301,11 +301,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'order' => [
         'status' => ORDER_PRE_END,
         'add_point' => '40',  // 引数の設定どおりになる
-        'use_point' => '25' // 引数の設定どおりになる
+        'use_point' => '25', // 引数の設定どおりになる
       ],
       'customer' => [
-        'point' => '105' // 変更前の状態で-10pt,変更後の状態で+15pt
-      ]
+        'point' => '105', // 変更前の状態で-10pt,変更後の状態で+15pt
+      ],
     ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
@@ -331,11 +331,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
       'order' => [
         'status' => ORDER_PRE_END,
         'add_point' => '0',  // 引数の設定どおりになる
-        'use_point' => '50' // 引数の設定どおりになる
+        'use_point' => '50', // 引数の設定どおりになる
       ],
       'customer' => [
-        'point' => '40' // 変更前の状態で-10pt,変更後の状態で-50pt
-      ]
+        'point' => '40', // 変更前の状態で-10pt,変更後の状態で-50pt
+      ],
     ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',

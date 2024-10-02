@@ -62,23 +62,23 @@ class SC_Helper_Purchase_rollbackOrderTest extends SC_Helper_Purchase_TestBase
         'cancelOrder' => [
           'order_id' => '1001',
           'orderStatus' => ORDER_CANCEL,
-          'is_delete' => false
+          'is_delete' => false,
         ],
         'getOrderTempByOrderId' => [
-          'order_id' => '1001'
+          'order_id' => '1001',
         ],
         'saveOrderTemp' => [
           'uniqid' => $uniqid,
           'arrOrderTemp' => [
             'customer_id' => '2001',
-            'del_flg' => '0'
-          ]
+            'del_flg' => '0',
+          ],
         ],
         'verifyChangeCart' => [
-          'uniqid' => $uniqid
-        ]
+          'uniqid' => $uniqid,
+        ],
       ],
-      'siteRegist' => true
+      'siteRegist' => true,
     ];
         $this->verify();
     }
@@ -100,23 +100,23 @@ class SC_Helper_Purchase_rollbackOrderTest extends SC_Helper_Purchase_TestBase
         'cancelOrder' => [
           'order_id' => '1001',
           'orderStatus' => ORDER_DELIV,
-          'is_delete' => true
+          'is_delete' => true,
         ],
         'getOrderTempByOrderId' => [
-          'order_id' => '1001'
+          'order_id' => '1001',
         ],
         'saveOrderTemp' => [
           'uniqid' => $uniqid,
           'arrOrderTemp' => [
             'customer_id' => '2001',
-            'del_flg' => '0'
-          ]
+            'del_flg' => '0',
+          ],
         ],
         'verifyChangeCart' => [
-          'uniqid' => $uniqid
-        ]
+          'uniqid' => $uniqid,
+        ],
       ],
-      'siteRegist' => true
+      'siteRegist' => true,
     ];
         $this->verify();
     }
@@ -132,18 +132,18 @@ class SC_Helper_Purchase_rollbackOrderMock extends SC_Helper_Purchase
         $_SESSION['testResult']['cancelOrder'] = [
       'order_id' => $order_id,
       'orderStatus' => $orderStatus,
-      'is_delete' => $is_delete
+      'is_delete' => $is_delete,
     ];
     }
 
     public static function getOrderTempByOrderId($order_id)
     {
         $_SESSION['testResult']['getOrderTempByOrderId'] = [
-      'order_id' => $order_id
+      'order_id' => $order_id,
     ];
 
         return [
-      'customer_id' => '2001'
+      'customer_id' => '2001',
     ];
     }
 
@@ -151,14 +151,14 @@ class SC_Helper_Purchase_rollbackOrderMock extends SC_Helper_Purchase
     {
         $_SESSION['testResult']['saveOrderTemp'] = [
       'uniqid' => $uniqid,
-      'arrOrderTemp' => $arrOrderTemp
+      'arrOrderTemp' => $arrOrderTemp,
     ];
     }
 
     public static function verifyChangeCart($uniqid, &$objCartSession)
     {
         $_SESSION['testResult']['verifyChangeCart'] = [
-      'uniqid' => $uniqid
+      'uniqid' => $uniqid,
     ];
     }
 }

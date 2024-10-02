@@ -479,7 +479,7 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
         $arrKeys = ['classcategory_id1', 'classcategory_id2', 'product_code',
             'classcategory_name1', 'classcategory_name2', 'stock',
             'stock_unlimited', 'price01', 'price02',
-            'product_type_id', 'down_filename', 'down_realfilename', 'upload_index', 'tax_rate'
+            'product_type_id', 'down_filename', 'down_realfilename', 'upload_index', 'tax_rate',
         ];
         $arrFormValues = $objFormParam->getSwapArray($arrKeys);
         // フォームの規格1, 規格2をキーにした配列を生成

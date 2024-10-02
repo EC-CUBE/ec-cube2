@@ -20,7 +20,7 @@ class LoadClassFileChangeCustomDirTest extends Common_TestCase
             'compliant_version' => '2.17',
             'enable' => 1,
             'create_date' => 'CURRENT_TIMESTAMP',
-            'update_date' => 'CURRENT_TIMESTAMP'
+            'update_date' => 'CURRENT_TIMESTAMP',
         ];
         $this->objQuery->insert('dtb_plugin', $pluginValues);
 
@@ -30,7 +30,7 @@ class LoadClassFileChangeCustomDirTest extends Common_TestCase
             'plugin_id' => $plugin_id,
             'hook_point' => 'loadClassFileChange',
             'callback' => 'loadClassFileChange',
-            'update_date' => 'CURRENT_TIMESTAMP'
+            'update_date' => 'CURRENT_TIMESTAMP',
         ];
         $this->objQuery->insert('dtb_plugin_hookpoint', $hookpointValues);
     }

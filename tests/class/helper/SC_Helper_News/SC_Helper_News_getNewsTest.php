@@ -40,7 +40,7 @@ class SC_Helper_News_getNewsTest extends SC_Helper_News_TestBase
         'news_id' => '1001',
         'news_title' => 'ニュース情報01',
         'creator_id' => '1',
-        'del_flg' => '0'
+        'del_flg' => '0',
         ];
 
         $result = $this->objNews->getNews($news_id);

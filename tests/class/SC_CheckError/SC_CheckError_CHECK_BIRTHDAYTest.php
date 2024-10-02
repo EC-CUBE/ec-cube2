@@ -34,7 +34,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => $this->year,
             self::FORM_NAME2 => $this->month,
-            self::FORM_NAME3 => $this->day
+            self::FORM_NAME3 => $this->day,
         ];
         $this->expected = [];
 
@@ -47,7 +47,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => '2019',
             self::FORM_NAME2 => '',
-            self::FORM_NAME3 => ''
+            self::FORM_NAME3 => '',
         ];
         $this->expected = [self::FORM_NAME1 => '※ CHECK_BIRTHDAYは全ての項目を入力して下さい。<br />'];
 
@@ -60,7 +60,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => '2019',
             self::FORM_NAME2 => null,
-            self::FORM_NAME3 => null
+            self::FORM_NAME3 => null,
         ];
         $this->expected = [self::FORM_NAME1 => '※ CHECK_BIRTHDAYは全ての項目を入力して下さい。<br />'];
 
@@ -73,7 +73,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => '0',
             self::FORM_NAME2 => '0',
-            self::FORM_NAME3 => '0'
+            self::FORM_NAME3 => '0',
         ];
         $this->expected = [self::FORM_NAME1 => '※ CHECK_BIRTHDAY(年)は1901以上で入力してください。<br />'];
 
@@ -86,7 +86,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => 2001,
             self::FORM_NAME2 => '2',
-            self::FORM_NAME3 => '29'
+            self::FORM_NAME3 => '29',
         ];
         $this->expected = [self::FORM_NAME1 => '※ CHECK_BIRTHDAYが正しくありません。<br />'];
 
@@ -101,7 +101,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => $now->format('Y'),
             self::FORM_NAME2 => $this->month,
-            self::FORM_NAME3 => $this->day
+            self::FORM_NAME3 => $this->day,
         ];
         $this->scenario();
         $this->actual = $this->objErr->arrErr[self::FORM_NAME1];
@@ -113,7 +113,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         $this->arrForm = [
             self::FORM_NAME1 => BIRTH_YEAR - 1,
             self::FORM_NAME2 => $this->month,
-            self::FORM_NAME3 => $this->day
+            self::FORM_NAME3 => $this->day,
         ];
         $this->scenario();
         $this->actual = $this->objErr->arrErr[self::FORM_NAME1];

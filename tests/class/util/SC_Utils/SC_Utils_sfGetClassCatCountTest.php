@@ -51,7 +51,7 @@ class SC_Utils_sfGetClassCatCountTest extends Common_TestCase
     {
         $this->expected = [
       '1001' => '2',
-      '1002' => '1'
+      '1002' => '1',
     ];
         $this->actual = SC_Utils::sfGetClassCatCount();
 
@@ -68,14 +68,14 @@ class SC_Utils_sfGetClassCatCountTest extends Common_TestCase
         'name' => '味',
         'creator_id' => '1',
         'update_date' => 'CURRENT_TIMESTAMP',
-        'del_flg' => '0'
+        'del_flg' => '0',
       ],
       [
         'class_id' => '1002',
         'name' => '大きさ',
         'creator_id' => '1',
         'update_date' => 'CURRENT_TIMESTAMP',
-        'del_flg' => '0'
+        'del_flg' => '0',
       ],
       // 削除フラグが立っているので検索されない
       [
@@ -83,8 +83,8 @@ class SC_Utils_sfGetClassCatCountTest extends Common_TestCase
         'name' => '匂い',
         'creator_id' => '1',
         'update_date' => 'CURRENT_TIMESTAMP',
-        'del_flg' => '1'
-      ]
+        'del_flg' => '1',
+      ],
     ];
         $this->objQuery->delete('dtb_class');
         foreach ($classes as $item) {
@@ -96,7 +96,7 @@ class SC_Utils_sfGetClassCatCountTest extends Common_TestCase
         'classcategory_id' => '1011',
         'class_id' => '1001',
         'creator_id' => '1',
-        'update_date' => 'CURRENT_TIMESTAMP'
+        'update_date' => 'CURRENT_TIMESTAMP',
       ],
       // 削除フラグが立っているので検索されない
       [
@@ -104,27 +104,27 @@ class SC_Utils_sfGetClassCatCountTest extends Common_TestCase
         'class_id' => '1001',
         'creator_id' => '1',
         'update_date' => 'CURRENT_TIMESTAMP',
-        'del_flg' => '1'
+        'del_flg' => '1',
       ],
       [
         'classcategory_id' => '1013',
         'class_id' => '1001',
         'creator_id' => '1',
-        'update_date' => 'CURRENT_TIMESTAMP'
+        'update_date' => 'CURRENT_TIMESTAMP',
       ],
       [
         'classcategory_id' => '1021',
         'class_id' => '1002',
         'creator_id' => '1',
-        'update_date' => 'CURRENT_TIMESTAMP'
+        'update_date' => 'CURRENT_TIMESTAMP',
       ],
       // dtb_classでdel_flgが立っているので検索されない
       [
         'classcategory_id' => '1031',
         'class_id' => '1003',
         'creator_id' => '1',
-        'update_date' => 'CURRENT_TIMESTAMP'
-      ]
+        'update_date' => 'CURRENT_TIMESTAMP',
+      ],
     ];
         // classcategory_id=0のものは削除しない
         $this->objQuery->delete('dtb_classcategory', 'classcategory_id <> 0');

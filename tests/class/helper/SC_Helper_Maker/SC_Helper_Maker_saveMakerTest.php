@@ -74,7 +74,7 @@ class SC_Helper_Maker_saveMakerTest extends SC_Helper_Maker_TestBase
             $sqlVal = [
                 'name' => 'フジスリー',
                 'creator_id' => '1',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ];
 
             $maker_id = $this->objHelperMaker->saveMaker($sqlVal);
@@ -83,7 +83,7 @@ class SC_Helper_Maker_saveMakerTest extends SC_Helper_Maker_TestBase
                 'name' => 'フジスリー',
                 'rank' => '5',
                 'creator_id' => '1',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ];
 
             $arrRet = $this->objHelperMaker->getMaker($maker_id);
@@ -93,7 +93,7 @@ class SC_Helper_Maker_saveMakerTest extends SC_Helper_Maker_TestBase
                     'name',
                     'rank',
                     'creator_id',
-                    'del_flg'
+                    'del_flg',
                 ]
             );
 

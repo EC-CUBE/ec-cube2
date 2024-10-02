@@ -62,16 +62,16 @@ class SC_Helper_Maker_getListTest extends SC_Helper_Maker_TestBase
         $this->expected = [
             [
                 'maker_id' => '1004',
-                'name' => 'MEC'
+                'name' => 'MEC',
             ],
             [
                 'maker_id' => '1003',
-                'name' => 'シャンプー'
+                'name' => 'シャンプー',
             ],
             [
                 'maker_id' => '1001',
-                'name' => 'ソニン'
-            ]
+                'name' => 'ソニン',
+            ],
         ];
 
         $this->actual = $this->objHelperMaker->getList();
@@ -83,20 +83,20 @@ class SC_Helper_Maker_getListTest extends SC_Helper_Maker_TestBase
         $this->expected = [
             [
                 'maker_id' => '1004',
-                'name' => 'MEC'
+                'name' => 'MEC',
             ],
             [
                 'maker_id' => '1003',
-                'name' => 'シャンプー'
+                'name' => 'シャンプー',
             ],
             [
                 'maker_id' => '1002',
-                'name' => 'パソナニック'
+                'name' => 'パソナニック',
             ],
             [
                 'maker_id' => '1001',
-                'name' => 'ソニン'
-            ]
+                'name' => 'ソニン',
+            ],
         ];
 
         $this->actual = $this->objHelperMaker->getList(true);

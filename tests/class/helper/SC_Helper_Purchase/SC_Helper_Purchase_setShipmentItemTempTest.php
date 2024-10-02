@@ -49,7 +49,7 @@ class SC_Helper_Purchase_setShipmentItemTempTest extends SC_Helper_Purchase_Test
         $this->productsClass = $this->objQuery->getRow('*', 'dtb_products_class', 'product_id = ?', [$this->product_id]);
 
         $_SESSION['shipping']['1001']['shipment_item'] = [
-      '1001' => ['productsClass' => ['price02' => 9000]]
+      '1001' => ['productsClass' => ['price02' => 9000]],
     ];
         $this->helper = new SC_Helper_Purchase_Ex();
     }
@@ -70,7 +70,7 @@ class SC_Helper_Purchase_setShipmentItemTempTest extends SC_Helper_Purchase_Test
       'quantity' => 10,
       'price' => 9000,
       'total_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax(90000),
-      'productsClass' => ['price02' => 9000]
+      'productsClass' => ['price02' => 9000],
     ];
         $this->actual = $_SESSION['shipping']['1001']['shipment_item']['1001'];
 

@@ -53,7 +53,7 @@ class SC_Helper_DB_sfCreateBasisDataCache extends SC_Helper_DB_TestBase
         }
         $arrData = [
             'id' => '1',
-            'company_name' => 'testshop'
+            'company_name' => 'testshop',
         ];
         $this->expected = true;
         $this->actual = $this->helper->sfCreateBasisDataCache();
@@ -68,7 +68,7 @@ class SC_Helper_DB_sfCreateBasisDataCacheMock extends SC_Helper_DB_Ex
     {
         $arrData = [
             'id' => '1',
-            'company_name' => 'testshop'
+            'company_name' => 'testshop',
         ];
 
         return $arrData;

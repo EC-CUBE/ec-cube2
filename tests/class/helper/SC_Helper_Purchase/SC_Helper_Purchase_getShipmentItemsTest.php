@@ -86,7 +86,7 @@ class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBas
       'product_class_id' => '2',
       'product_name' => 'アイスクリーム',
       'price' => '1008',
-      'productsClass' => ['product_class_id' => '2', 'product_id' => '1']
+      'productsClass' => ['product_class_id' => '2', 'product_id' => '1'],
     ];
         $this->expected['first'] = [
       'order_id' => (string) $order_id,
@@ -94,17 +94,17 @@ class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBas
       'product_class_id' => '1',
       'product_name' => 'アイスクリーム',
       'price' => '1008',
-      'productsClass' => ['product_class_id' => '1', 'product_id' => '1']
+      'productsClass' => ['product_class_id' => '1', 'product_id' => '1'],
     ];
 
         $result = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id);
         $this->actual['count'] = count($result);
 
         $this->actual['first'] = Test_Utils::mapArray($result[0], [
-      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass']);
+      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass', ]);
         $this->actual['first']['productsClass'] = Test_Utils::mapArray($this->actual['first']['productsClass'], ['product_class_id', 'product_id']);
         $this->actual['second'] = Test_Utils::mapArray($result[1], [
-      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass']);
+      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass', ]);
         $this->actual['second']['productsClass'] = Test_Utils::mapArray($this->actual['second']['productsClass'], ['product_class_id', 'product_id']);
         $this->verify('配送情報');
     }
@@ -121,7 +121,7 @@ class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBas
       'product_class_id' => '2',
       'product_name' => 'アイスクリーム',
       'price' => '1008',
-      'productsClass' => null
+      'productsClass' => null,
     ];
         $this->expected['first'] = [
       'order_id' => (string) $order_id,
@@ -129,15 +129,15 @@ class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBas
       'product_class_id' => '1',
       'product_name' => 'アイスクリーム',
       'price' => '1008',
-      'productsClass' => null
+      'productsClass' => null,
     ];
 
         $result = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id, false);
         $this->actual['count'] = count($result);
         $this->actual['first'] = Test_Utils::mapArray($result[0], [
-      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass']);
+      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass', ]);
         $this->actual['second'] = Test_Utils::mapArray($result[1], [
-      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass']);
+      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass', ]);
         $this->verify('配送情報');
     }
 

@@ -43,8 +43,8 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'fax03' => '1111',
                 'country_id' => null,
                 'company_name' => null,
-                'zipcode' => null
-                  ]
+                'zipcode' => null,
+                  ],
                                 ];
         $this->actual = $this->objAddress->getList($customer_id, $startno);
 
@@ -76,7 +76,7 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'fax03' => '1111',
                 'country_id' => null,
                 'company_name' => null,
-                'zipcode' => null
+                'zipcode' => null,
                   ],
             [
                 'other_deliv_id' => '1000',
@@ -98,8 +98,8 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'fax03' => '1111',
                 'country_id' => null,
                 'company_name' => null,
-                'zipcode' => null
-                  ]
+                'zipcode' => null,
+                  ],
                                 ];
         $this->actual = $this->objAddress->getList($customer_id);
 

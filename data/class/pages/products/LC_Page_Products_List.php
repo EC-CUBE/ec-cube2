@@ -121,7 +121,7 @@ class LC_Page_Products_List extends LC_Page_Ex
         $this->arrSearchData = [
             'category_id' => $this->lfGetCategoryId((int) $this->arrForm['category_id']),
             'maker_id' => (int) $this->arrForm['maker_id'],
-            'name' => $this->arrForm['name']
+            'name' => $this->arrForm['name'],
         ];
         $this->orderby = $this->arrForm['orderby'];
 
@@ -375,7 +375,7 @@ class LC_Page_Products_List extends LC_Page_Ex
             'where' => '',
             'arrval' => [],
             'where_category' => '',
-            'arrvalCategory' => []
+            'arrvalCategory' => [],
         ];
 
         // カテゴリからのWHERE文字列取得

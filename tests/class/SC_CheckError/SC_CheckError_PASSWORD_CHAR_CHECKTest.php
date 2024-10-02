@@ -51,7 +51,7 @@ class SC_CheckError_PASSWORD_CHAR_CHECKTest extends SC_CheckError_AbstractTestCa
     public function testPASSWORDCHARCHECKWithFaker()
     {
         $this->arrForm = [
-            self::FORM_NAME => $this->faker->password(8, 99).'1'
+            self::FORM_NAME => $this->faker->password(8, 99).'1',
         ];
         $this->expected = '';
         $this->scenario();
@@ -61,7 +61,7 @@ class SC_CheckError_PASSWORD_CHAR_CHECKTest extends SC_CheckError_AbstractTestCa
     public function testPASSWORDCHARCHECKWithAlphabetOnly()
     {
         $this->arrForm = [
-            self::FORM_NAME => 'password'
+            self::FORM_NAME => 'password',
         ];
         $this->expected = '※ PASSWORD_CHAR_CHECKは英数字をそれぞれ1種類使用し、8文字以上で入力してください。<br />';
 
@@ -72,7 +72,7 @@ class SC_CheckError_PASSWORD_CHAR_CHECKTest extends SC_CheckError_AbstractTestCa
     public function testPASSWORDCHARCHECKWithNumberOnly()
     {
         $this->arrForm = [
-            self::FORM_NAME => '12345678'
+            self::FORM_NAME => '12345678',
         ];
         $this->expected = '※ PASSWORD_CHAR_CHECKは英数字をそれぞれ1種類使用し、8文字以上で入力してください。<br />';
 
@@ -83,7 +83,7 @@ class SC_CheckError_PASSWORD_CHAR_CHECKTest extends SC_CheckError_AbstractTestCa
     public function testPASSWORDCHARCHECKWithMinute()
     {
         $this->arrForm = [
-            self::FORM_NAME => $this->faker->password(6, 7)
+            self::FORM_NAME => $this->faker->password(6, 7),
         ];
         $this->expected = '※ PASSWORD_CHAR_CHECKは英数字をそれぞれ1種類使用し、8文字以上で入力してください。<br />';
 

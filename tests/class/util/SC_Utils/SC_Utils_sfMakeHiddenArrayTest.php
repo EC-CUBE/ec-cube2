@@ -51,15 +51,15 @@ class SC_Utils_sfMakeHiddenArrayest extends Common_TestCase
       'vegetable' => '野菜',
       'fruit' => [
         'apple' => 'りんご',
-        'banana' => 'バナナ'
+        'banana' => 'バナナ',
       ],
       'drink' => [
          'alcohol' => [
-           'beer' => 'ビール'
+           'beer' => 'ビール',
          ],
-         'water' => '水'
+         'water' => '水',
       ],
-      'rice' => '米'
+      'rice' => '米',
     ];
         $this->expected = [
       'vegetable' => '野菜',
@@ -67,7 +67,7 @@ class SC_Utils_sfMakeHiddenArrayest extends Common_TestCase
       'fruit[banana]' => 'バナナ',
       'drink[alcohol][beer]' => 'ビール',
       'drink[water]' => '水',
-      'rice' => '米'
+      'rice' => '米',
     ];
         $this->actual = SC_Utils::sfMakeHiddenArray($input_array);
         $this->verify();

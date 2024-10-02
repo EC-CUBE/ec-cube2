@@ -14,7 +14,7 @@ class SC_Helper_DB_sfGetMultiCatTreeTest extends SC_Helper_DB_TestBase
 
         $this->expected = [
             [1, 4],
-            [6]
+            [6],
         ];
         $this->actual = array_map(function ($category_root) {
             return array_map(function ($category) {
@@ -32,7 +32,7 @@ class SC_Helper_DB_sfGetMultiCatTreeTest extends SC_Helper_DB_TestBase
 
         $this->expected = [
             [1],
-            [6]
+            [6],
         ];
         $this->actual = array_map(function ($category_root) {
             return array_map(function ($category) {

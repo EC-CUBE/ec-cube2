@@ -33,7 +33,7 @@ class SC_Helper_Kiyaku_getKiyakuTest extends SC_Helper_Kiyaku_TestBase
             'creator_id' => '0',
             'create_date' => '2000-01-01 00:00:00',
             'update_date' => '2000-01-01 00:00:00',
-            'del_flg' => '0'
+            'del_flg' => '0',
                                 ];
 
         $this->actual = $this->objKiyaku->getKiyaku($kiyaku_id, $has_deleted);
@@ -68,7 +68,7 @@ class SC_Helper_Kiyaku_getKiyakuTest extends SC_Helper_Kiyaku_TestBase
                 'creator_id' => '0',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '1'
+                'del_flg' => '1',
                                 ];
 
         $this->actual = $this->objKiyaku->getKiyaku($kiyaku_id, $has_deleted);

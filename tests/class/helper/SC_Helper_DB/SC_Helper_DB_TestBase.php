@@ -54,7 +54,7 @@ class SC_Helper_DB_TestBase extends Common_TestCase
             'news_title' => 'ニュース情報01',
             'rank' => '1',
             'creator_id' => '1',
-            'del_flg' => '0'
+            'del_flg' => '0',
             ],
             [
             'update_date' => '2000-01-01 00:00:00',
@@ -62,7 +62,7 @@ class SC_Helper_DB_TestBase extends Common_TestCase
             'news_title' => 'ニュース情報02',
             'rank' => '2',
             'creator_id' => '1',
-            'del_flg' => '0'
+            'del_flg' => '0',
             ],
             [
             'update_date' => '2000-01-01 00:00:00',
@@ -70,8 +70,8 @@ class SC_Helper_DB_TestBase extends Common_TestCase
             'news_title' => 'ニュース情報03',
             'rank' => '3',
             'creator_id' => '1',
-            'del_flg' => '0'
-            ]
+            'del_flg' => '0',
+            ],
         ];
 
         $this->objQuery->delete('dtb_news');
@@ -147,7 +147,7 @@ class SC_Helper_DB_TestBase extends Common_TestCase
             'latitude' => '30.0001',
             'longitude' => '45.0001',
             'downloadable_days' => '10',
-            'downloadable_days_unlimited' => '0'
+            'downloadable_days_unlimited' => '0',
         ];
 
         $this->objQuery->delete('dtb_baseinfo');

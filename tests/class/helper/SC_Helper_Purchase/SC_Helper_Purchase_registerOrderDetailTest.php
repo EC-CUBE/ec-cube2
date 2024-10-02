@@ -59,8 +59,8 @@ class SC_Helper_Purchase_registerOrderDetailTest extends SC_Helper_Purchase_Test
         'hoge' => '999', // DBに存在しないカラム
         'product_id' => '9001',
         'product_class_id' => '9001',
-        'product_name' => '製品名9001'
-      ]
+        'product_name' => '製品名9001',
+      ],
     ];
         SC_Helper_Purchase::registerOrderDetail($this->order_ids[0], $params);
 
@@ -70,7 +70,7 @@ class SC_Helper_Purchase_registerOrderDetailTest extends SC_Helper_Purchase_Test
       'product_id' => '9001',
       'product_class_id' => '9001',
       'product_name' => '製品名9001',
-      'product_code' => null // 古いデータにはあるが、deleteされたので消えている
+      'product_code' => null, // 古いデータにはあるが、deleteされたので消えている
     ];
 
         $this->actual['count'] = $this->objQuery->count('dtb_order_detail', 'order_id = ?', [$this->order_ids[0]]);
@@ -92,8 +92,8 @@ class SC_Helper_Purchase_registerOrderDetailTest extends SC_Helper_Purchase_Test
         'hoge' => '999', // DBに存在しないカラム
         'product_id' => '9003',
         'product_class_id' => '9003',
-        'product_name' => '製品名9003'
-      ]
+        'product_name' => '製品名9003',
+      ],
     ];
         SC_Helper_Purchase::registerOrderDetail('1003', $params);
 
@@ -103,7 +103,7 @@ class SC_Helper_Purchase_registerOrderDetailTest extends SC_Helper_Purchase_Test
       'product_id' => '9003',
       'product_class_id' => '9003',
       'product_name' => '製品名9003',
-      'product_code' => null
+      'product_code' => null,
     ];
 
         $this->actual['count'] = $this->objQuery->count('dtb_order_detail', 'order_id = ?', [1003]);

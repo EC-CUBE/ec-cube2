@@ -10,7 +10,7 @@ class SC_ResponseWithHeaderTest extends Common_TestCase
     {
         $spec = [
             1 => ['file', '/dev/null', 'w'],
-            2 => ['file', '/dev/null', 'w']
+            2 => ['file', '/dev/null', 'w'],
         ];
 
         if (!self::$server = @proc_open('exec php -S 127.0.0.1:8085', $spec, $pipes, __DIR__.'/'.self::FIXTURES_DIR)) {
@@ -32,8 +32,8 @@ class SC_ResponseWithHeaderTest extends Common_TestCase
         $context = stream_context_create(
             [
                 'http' => [
-                    'follow_location' => false
-                ]
+                    'follow_location' => false,
+                ],
             ]
         );
         $actual = file_get_contents('http://127.0.0.1:8085/sc_response_reload.php', false, $context);

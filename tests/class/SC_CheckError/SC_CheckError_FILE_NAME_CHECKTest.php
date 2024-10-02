@@ -56,8 +56,8 @@ class SC_CheckError_FILE_NAME_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         $_FILES = [
             self::FORM_NAME => [
-                'name' => $this->fileName
-            ]
+                'name' => $this->fileName,
+            ],
         ];
         $this->arrForm = [];
         $this->objErr = new SC_CheckError_Ex($this->arrForm);

@@ -119,7 +119,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
                     'eccube_url' => HTTP_URL,
                     'public_key' => sha1($public_key.$sha1_key),
                     'sha1_key' => $sha1_key,
-                    'patch_code' => 'latest'
+                    'patch_code' => 'latest',
                 ];
                 break;
             default:
@@ -127,7 +127,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
                     'eccube_url' => HTTP_URL,
                     'public_key' => sha1($public_key.$sha1_key),
                     'sha1_key' => $sha1_key,
-                    'product_id' => $this->objForm->getValue('product_id')
+                    'product_id' => $this->objForm->getValue('product_id'),
                 ];
                 break;
         }
@@ -278,7 +278,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
             $arrUpdate = [
                 'module_code' => $objRet->product_code,
                 'module_name' => $objRet->product_name,
-                'update_date' => 'CURRENT_TIMESTAMP'
+                'update_date' => 'CURRENT_TIMESTAMP',
             ];
             $objQuery->update($table, $arrUpdate, $where, [$objRet->product_id]);
         } else {
@@ -288,7 +288,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
                 'module_name' => $objRet->product_name,
                 'auto_update_flg' => '0',
                 'create_date' => 'CURRENT_TIMESTAMP',
-                'update_date' => 'CURRENT_TIMESTAMP'
+                'update_date' => 'CURRENT_TIMESTAMP',
             ];
             $objQuery->insert($table, $arrInsert);
         }
@@ -306,7 +306,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
     public function notifyDownload($mode, $arrCookies)
     {
         $arrPOSTParams = [
-            'eccube_url' => HTTP_URL
+            'eccube_url' => HTTP_URL,
         ];
         $objReq = $this->request($mode.'_commit', $arrPOSTParams, $arrCookies);
 

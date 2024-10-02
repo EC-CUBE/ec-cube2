@@ -182,7 +182,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
 
         return [
             'where' => $where,
-            'bind' => $bind
+            'bind' => $bind,
         ];
     }
 

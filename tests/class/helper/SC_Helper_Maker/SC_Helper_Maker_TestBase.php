@@ -55,7 +55,7 @@ class SC_Helper_Maker_TestBase extends Common_TestCase
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ],
             [
                 'maker_id' => '1002',
@@ -64,7 +64,7 @@ class SC_Helper_Maker_TestBase extends Common_TestCase
                 'creator_id' => '2',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '1'
+                'del_flg' => '1',
             ],
             [
                 'maker_id' => '1003',
@@ -73,7 +73,7 @@ class SC_Helper_Maker_TestBase extends Common_TestCase
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ],
             [
                 'maker_id' => '1004',
@@ -82,8 +82,8 @@ class SC_Helper_Maker_TestBase extends Common_TestCase
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-            ]
+                'del_flg' => '0',
+            ],
         ];
 
         $this->objQuery->delete('dtb_maker');

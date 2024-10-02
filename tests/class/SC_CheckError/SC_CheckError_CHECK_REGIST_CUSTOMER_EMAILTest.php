@@ -20,7 +20,7 @@ class SC_CheckError_CHECK_REGIST_CUSTOMER_EMAILTest extends SC_CheckError_Abstra
                 'name01' => $this->faker->lastName,
                 'name02' => $this->faker->firstName,
                 'email' => $this->email,
-                'secret_key' => uniqid()
+                'secret_key' => uniqid(),
             ]
         );
     }
@@ -54,7 +54,7 @@ class SC_CheckError_CHECK_REGIST_CUSTOMER_EMAILTest extends SC_CheckError_Abstra
     {
         SC_Helper_Customer_Ex::sfEditCustomerData(
             [
-                'del_flg' => 1
+                'del_flg' => 1,
             ],
             $this->customer_id
         );

@@ -51,7 +51,7 @@ class SC_Utils_sfGetUnderChildrenArrayTest extends Common_TestCase
       ['parent_id' => '1002', 'child_id' => '1002001'],
       ['parent_id' => '1002', 'child_id' => '1002002'],
       ['parent_id' => '1003', 'child_id' => '1003001'],
-      ['parent_id' => '1004', 'child_id' => '1004001']
+      ['parent_id' => '1004', 'child_id' => '1004001'],
     ];
         $this->expected = ['1002001', '1002002'];
         $this->actual = SC_Utils::sfGetUnderChildrenArray(

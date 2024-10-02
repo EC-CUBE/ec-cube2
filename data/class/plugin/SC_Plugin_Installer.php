@@ -144,7 +144,7 @@ class SC_Plugin_Installer
     {
         $this->arrInstallData['copy_file'][] = [
             'src' => $src,
-            'dist' => $dist
+            'dist' => $dist,
         ];
     }
 
@@ -152,21 +152,21 @@ class SC_Plugin_Installer
     {
         $this->arrInstallData['copy_directory'][] = [
             'src' => $src,
-            'dist' => $dist
+            'dist' => $dist,
         ];
     }
 
     public function removeFile($dist)
     {
         $this->arrInstallData['remove_file'][] = [
-            'dist' => $dist
+            'dist' => $dist,
         ];
     }
 
     public function removeDirectory($dist)
     {
         $this->arrInstallData['remove_directory'][] = [
-            'dist' => $dist
+            'dist' => $dist,
         ];
     }
 
@@ -174,7 +174,7 @@ class SC_Plugin_Installer
     {
         $this->arrInstallData['sql'][] = [
             'sql' => $sql,
-            'params' => $params
+            'params' => $params,
         ];
     }
 
@@ -210,7 +210,7 @@ class SC_Plugin_Installer
             'arrSql' => $arrSql,
             'arrSqlVal' => $arrSqlVal,
             'form' => $from,
-            'arrFromVal' => $arrFromVal
+            'arrFromVal' => $arrFromVal,
         ];
     }
 
@@ -222,7 +222,7 @@ class SC_Plugin_Installer
             'where' => $where,
             'arrWhereVal' => $arrWhereVal,
             'arrRawSql' => $arrRawSql,
-            'arrRawSqlVal' => $arrRawSqlVal
+            'arrRawSqlVal' => $arrRawSqlVal,
         ];
     }
 

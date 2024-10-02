@@ -19,7 +19,7 @@ class SC_CheckError_PROHIBITED_STR_CHECKTest extends SC_CheckError_AbstractTestC
     public function testPROHIBITEDSTRCHECK()
     {
         $this->arrForm = [
-            self::FORM_NAME => 'ddd'
+            self::FORM_NAME => 'ddd',
         ];
         $this->expected = '';
 

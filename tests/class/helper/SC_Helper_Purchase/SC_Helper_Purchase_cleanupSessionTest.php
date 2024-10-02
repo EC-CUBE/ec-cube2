@@ -72,7 +72,7 @@ class SC_Helper_Purchase_cleanupSessionTest extends SC_Helper_Purchase_TestBase
       'cart_max_notdeleted' => 1,
       'uniqid' => '',
       'shipping' => null,
-      'multiple_temp' => null
+      'multiple_temp' => null,
     ];
 
         $this->actual['cart_max_deleted'] = $cartSession->getMax(PRODUCT_TYPE_NORMAL);

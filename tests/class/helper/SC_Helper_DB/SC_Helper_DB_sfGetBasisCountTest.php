@@ -58,7 +58,7 @@ class SC_Helper_DB_sfGetBasisCount extends SC_Helper_DB_TestBase
         $this->setUpBasisData();
         $baseinfo = [
             'id' => 2,
-            'update_date' => 'CURRENT_TIMESTAMP'
+            'update_date' => 'CURRENT_TIMESTAMP',
             ];
         $this->objQuery->insert('dtb_baseinfo', $baseinfo);
         $this->expected = 2;

@@ -24,8 +24,8 @@ class SC_UploadFileTest extends Common_TestCase
             'main_image' => [
                 'name' => 'ice500.jpg',
                 'tmp_name' => $this->tempDir.'/ice500.jpg',
-                'error' => UPLOAD_ERR_OK
-            ]
+                'error' => UPLOAD_ERR_OK,
+            ],
         ];
     }
 
@@ -162,8 +162,8 @@ class SC_UploadFileTest extends Common_TestCase
             'down_file' => [
                 'name' => 'ice500.jpg',
                 'tmp_name' => $this->tempDir.'/ice500.jpg',
-                'error' => UPLOAD_ERR_OK
-            ]
+                'error' => UPLOAD_ERR_OK,
+            ],
         ];
         $this->objUpFile->addFile('ダウンロードファイル', 'down_file', ['jpg'], IMAGE_SIZE, false, 0, 0, false);
 
@@ -180,8 +180,8 @@ class SC_UploadFileTest extends Common_TestCase
             'down_file' => [
                 'name' => 'ice500.jpg',
                 'tmp_name' => $this->tempDir.'/ice500.jpg',
-                'error' => UPLOAD_ERR_OK
-            ]
+                'error' => UPLOAD_ERR_OK,
+            ],
         ];
         $this->objUpFile->addFile('ダウンロードファイル', 'down_file', ['jpg'], IMAGE_SIZE, false, 0, 0, false);
 
@@ -210,13 +210,13 @@ class SC_UploadFileTest extends Common_TestCase
         $this->objUpFile->setHiddenFileList(
             [
                 'temp_main_image' => 'ice500.jpg',
-                'save_main_image' => 'ice500.jpg'
+                'save_main_image' => 'ice500.jpg',
             ]
         );
 
         $this->expected = [
             'temp_main_image' => 'ice500.jpg',
-            'save_main_image' => 'ice500.jpg'
+            'save_main_image' => 'ice500.jpg',
         ];
         $this->actual = $this->objUpFile->getHiddenFileList();
         $this->verify();
@@ -235,8 +235,8 @@ class SC_UploadFileTest extends Common_TestCase
                 'real_filepath' => $this->tempDir.'/ice500.jpg',
                 'width' => 0,
                 'height' => 0,
-                'disp_name' => '詳細-メイン画像'
-            ]
+                'disp_name' => '詳細-メイン画像',
+            ],
         ];
         $this->actual = $this->objUpFile->getFormFileList('/temp', '/save');
         $this->verify();
@@ -260,8 +260,8 @@ class SC_UploadFileTest extends Common_TestCase
                 'real_filepath' => $this->saveDir.'/ice500.jpg',
                 'width' => 0,
                 'height' => 0,
-                'disp_name' => '詳細-メイン画像'
-            ]
+                'disp_name' => '詳細-メイン画像',
+            ],
         ];
         $this->actual = $this->objUpFile->getFormFileList('/temp', '/save');
         $this->verify();
@@ -284,8 +284,8 @@ class SC_UploadFileTest extends Common_TestCase
                 'real_filepath' => $this->tempDir.'/ice500.jpg',
                 'width' => 500,
                 'height' => 500,
-                'disp_name' => '詳細-メイン画像'
-            ]
+                'disp_name' => '詳細-メイン画像',
+            ],
         ];
         $this->actual = $this->objUpFile->getFormFileList('/temp', '/save', true);
         $this->verify();
@@ -308,7 +308,7 @@ class SC_UploadFileTest extends Common_TestCase
         $this->objUpFile->addFile('詳細-メイン画像', 'main_image', ['jpg'], IMAGE_SIZE, true, 0, 0, false);
 
         $this->expected = [
-            'main_image' => '※ 詳細-メイン画像がアップロードされていません。<br>'
+            'main_image' => '※ 詳細-メイン画像がアップロードされていません。<br>',
         ];
         $this->actual = $this->objUpFile->checkExists('main_image');
         $this->verify();
@@ -350,8 +350,8 @@ class SC_UploadFileTest extends Common_TestCase
             'down_file' => [
                 'name' => 'ice500.jpg',
                 'tmp_name' => $this->tempDir.'/ice500.jpg',
-                'error' => UPLOAD_ERR_OK
-            ]
+                'error' => UPLOAD_ERR_OK,
+            ],
         ];
         $this->objUpFile->addFile('ダウンロードファイル', 'down_file', ['jpg'], IMAGE_SIZE, false, 0, 0, false);
 
@@ -379,8 +379,8 @@ class SC_UploadFileTest extends Common_TestCase
             'down_file' => [
                 'name' => 'ice500.jpg',
                 'tmp_name' => $this->tempDir.'/ice500.jpg',
-                'error' => UPLOAD_ERR_OK
-            ]
+                'error' => UPLOAD_ERR_OK,
+            ],
         ];
         $this->objUpFile->addFile('ダウンロードファイル', 'down_file', ['jpg'], IMAGE_SIZE, false, 0, 0, false);
         $this->objUpFile->makeTempDownFile('down_file');
@@ -394,8 +394,8 @@ class SC_UploadFileTest extends Common_TestCase
             'down_file' => [
                 'name' => 'ice500.jpg',
                 'tmp_name' => $this->tempDir.'/ice500.jpg',
-                'error' => UPLOAD_ERR_OK
-            ]
+                'error' => UPLOAD_ERR_OK,
+            ],
         ];
         $this->objUpFile->addFile('ダウンロードファイル', 'down_file', ['jpg'], IMAGE_SIZE, false, 0, 0, false);
 
@@ -411,8 +411,8 @@ class SC_UploadFileTest extends Common_TestCase
             'down_file' => [
                 'name' => 'ice500.jpg',
                 'tmp_name' => $this->tempDir.'/ice500.jpg',
-                'error' => UPLOAD_ERR_OK
-            ]
+                'error' => UPLOAD_ERR_OK,
+            ],
         ];
         $this->objUpFile->addFile('ダウンロードファイル', 'down_file', ['jpg'], IMAGE_SIZE, false, 0, 0, false);
 

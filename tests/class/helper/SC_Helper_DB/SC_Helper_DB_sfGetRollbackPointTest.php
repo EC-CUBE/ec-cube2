@@ -38,7 +38,7 @@ class SC_Helper_DB_sfGetRollbackPointTest extends SC_Helper_DB_TestBase
             [$use_point, $add_point, ORDER_BACK_ORDER, $use_point, '利用ポイントのみ加算される'],
             [$use_point, $add_point, ORDER_DELIV, $use_point - $add_point, '利用ポイントは加算, 加算ポイントは減算される'],
             [$use_point, $add_point, ORDER_PRE_END, $use_point, '利用ポイントのみ加算される'],
-            [$use_point, $add_point, ORDER_PENDING, $use_point, '利用ポイントのみ加算される']
+            [$use_point, $add_point, ORDER_PENDING, $use_point, '利用ポイントのみ加算される'],
         ];
     }
 

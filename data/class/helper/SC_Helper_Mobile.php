@@ -73,7 +73,7 @@ class SC_Helper_Mobile
             'zip' => 'application/zip',
             'doc' => 'application/msword',
             'xls' => 'application/vnd.ms-excel',
-            'ppt' => 'application/vnd.ms-powerpoint'
+            'ppt' => 'application/vnd.ms-powerpoint',
         ];
 
     /**

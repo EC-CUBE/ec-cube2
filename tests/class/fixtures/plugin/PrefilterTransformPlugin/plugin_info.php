@@ -10,6 +10,6 @@ class plugin_info
     public static $AUTHOR = 'dummy';
     public static $DESCRIPTION = 'dummy';
     public static $HOOK_POINTS = [
-        ['prefilterTransform', 'prefilterTransform']
+        ['prefilterTransform', 'prefilterTransform'],
     ];
 }

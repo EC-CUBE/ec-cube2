@@ -369,8 +369,8 @@ class SC_Api_Operation
             // 実行成功
             $arrResponseValidSection = ['Request' => [
                                                             'IsValid' => 'True',
-                                                            $operation_name.'Request' => $arrOperationRequestValid
-                                                            ]
+                                                            $operation_name.'Request' => $arrOperationRequestValid,
+                                                            ],
                                             ];
             $response_outer = $operation_name.'Response';
             SC_Api_Utils_Ex::printApiLog('Operation SUCCESS', $start_time, $response_outer);
@@ -382,8 +382,8 @@ class SC_Api_Operation
             }
             $arrResponseValidSection = ['Request' => [
                                                             'IsValid' => 'False',
-                                                            'Errors' => ['Error' => $arrResponseErrorSection]
-                                                            ]
+                                                            'Errors' => ['Error' => $arrResponseErrorSection],
+                                                            ],
                                             ];
             if (is_object($objApiOperation)) {
                 $response_outer = $operation_name.'Response';
@@ -416,7 +416,7 @@ class SC_Api_Operation
     {
         $arrRet = [
                 'HTTPHeaders' => ['Header' => ['_attributes' => ['Name' => 'UserAgent',
-                                                                                'Value' => htmlspecialchars($_SERVER['HTTP_USER_AGENT'])]]],
+                                                                                'Value' => htmlspecialchars($_SERVER['HTTP_USER_AGENT']), ]]],
                 'RequestId' => $start_time,
                 'Arguments' => [],
                 ];

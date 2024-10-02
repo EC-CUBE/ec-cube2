@@ -364,7 +364,7 @@ class SC_Response
             503 => 'Service Unavailable',               // サービス利用不可
             504 => 'Gateway Timeout',                   // ゲートウェイタイムアウト
             505 => 'HTTP Version Not Supported',        // サポートしていないHTTPバージョン
-            509 => 'Bandwidth Limit Exceeded'           // 帯域幅制限超過
+            509 => 'Bandwidth Limit Exceeded',           // 帯域幅制限超過
         ];
         if (isset($messages[$statusCode])) {
             if ($httpVersion !== '1.1') {

@@ -61,7 +61,7 @@ class SC_Batch_Update extends SC_Batch
         $arrLog = [
             'err' => [],
             'ok' => [],
-            'buckup_path' => $bkupPath
+            'buckup_path' => $bkupPath,
         ];
 
         if (!is_writable($bkupPath) || !is_writable($bkupPathFile)) {

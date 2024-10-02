@@ -36,8 +36,8 @@ class SC_Product_getListsByProductIdsTest extends SC_Product_TestBase
 
         $this->expected = [
             '1001' => [
-                'product_id' => '1001', 'product_code_min' => 'code1001', 'product_code_max' => 'code1001', 'name' => '製品名1001', 'comment1' => 'コメント10011', 'comment2' => 'コメント10012', 'comment3' => 'コメント10013', 'main_list_comment' => 'リストコメント1001', 'main_image' => '1001.jpg', 'main_list_image' => '1001-main.jpg', 'price01_min' => '1500', 'price01_max' => '1500', 'price02_min' => '1500', 'price02_max' => '1500', 'stock_min' => '99', 'stock_max' => '99', 'stock_unlimited_min' => '0', 'stock_unlimited_max' => '0', 'deliv_date_id' => '1', 'status' => '1', 'del_flg' => '0', 'update_date' => $arrRet[0], 'price01_min_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax(1500), 'price01_max_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax(1500), 'price02_min_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax(1500), 'price02_max_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax(1500)
-            ]
+                'product_id' => '1001', 'product_code_min' => 'code1001', 'product_code_max' => 'code1001', 'name' => '製品名1001', 'comment1' => 'コメント10011', 'comment2' => 'コメント10012', 'comment3' => 'コメント10013', 'main_list_comment' => 'リストコメント1001', 'main_image' => '1001.jpg', 'main_list_image' => '1001-main.jpg', 'price01_min' => '1500', 'price01_max' => '1500', 'price02_min' => '1500', 'price02_max' => '1500', 'stock_min' => '99', 'stock_max' => '99', 'stock_unlimited_min' => '0', 'stock_unlimited_max' => '0', 'deliv_date_id' => '1', 'status' => '1', 'del_flg' => '0', 'update_date' => $arrRet[0], 'price01_min_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax(1500), 'price01_max_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax(1500), 'price02_min_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax(1500), 'price02_max_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax(1500),
+            ],
         ];
 
         $this->actual = $this->objProducts->getListByProductIds($this->objQuery, $arrProductId);

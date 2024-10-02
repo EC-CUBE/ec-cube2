@@ -42,7 +42,7 @@ class SC_Date_isHolidayTest extends Common_TestCase
                 'creator_id' => '1',
                 'create_date' => '2013-02-14 11:22:33',
                 'update_date' => '2013-02-14 22:11:33',
-                'del_flg' => '0'
+                'del_flg' => '0',
                   ],
             [
                 'holiday_id' => '2',
@@ -53,14 +53,14 @@ class SC_Date_isHolidayTest extends Common_TestCase
                 'creator_id' => '1',
                 'create_date' => '2013-02-15 11:22:33',
                 'update_date' => '2013-02-16 22:11:33',
-                'del_flg' => '0'
-                  ]
+                'del_flg' => '0',
+                  ],
             ];
         // 休みの曜日を登録
         $baseInfo = [
             'id' => '1',
             'regular_holiday_ids' => '0|6', // 土日を休みに登録
-            'update_date' => '2013-02-14 22:11:33'
+            'update_date' => '2013-02-14 22:11:33',
         ];
 
         $objQuery->delete('dtb_holiday');

@@ -72,14 +72,14 @@ class API_BrowseNodeLookup extends SC_Api_Abstract_Ex
                     'BrowseNodeId' => $category_id,
                     'Name' => $arrCategory['category_name'],
                     'PageURL' => HTTP_URL.'products/list.php?category_id='.$arrCategory['category_id'],
-                    'has_children' => count($arrChildren) > 0
+                    'has_children' => count($arrChildren) > 0,
                 ];
             } else {
                 $arrData = [
                     'BrowseNodeId' => $category_id,
                     'Name' => 'ホーム',
                     'PageURL' => HTTP_URL,
-                    'has_children' => count($arrChildren) > 0
+                    'has_children' => count($arrChildren) > 0,
                 ];
             }
 
@@ -90,7 +90,7 @@ class API_BrowseNodeLookup extends SC_Api_Abstract_Ex
                         'BrowseNodeId' => $category['category_id'],
                         'Name' => $category['category_name'],
                         'PageURL' => HTTP_URL.'products/list.php?category_id='.$category['category_id'],
-                        'has_children' => $category['has_children']
+                        'has_children' => $category['has_children'],
                         ];
                 }
             }

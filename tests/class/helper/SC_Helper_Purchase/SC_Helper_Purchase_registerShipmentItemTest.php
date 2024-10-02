@@ -63,8 +63,8 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
         'product_code' => 'newcode01',
         'classcategory_name1' => 'newcat01',
         'classcategory_name2' => 'newcat02',
-        'price' => '2500'
-      ]
+        'price' => '2500',
+      ],
     ];
 
         // 期待値の設定
@@ -95,8 +95,8 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
         'product_code' => 'newcode01',
         'classcategory_name1' => 'newcat01',
         'classcategory_name2' => 'newcat02',
-        'price' => '2500'
-      ]
+        'price' => '2500',
+      ],
     ];
 
         // 期待値の設定
@@ -107,7 +107,7 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
       'product_code' => 'newcode01',
       'classcategory_name1' => 'newcat01',
       'classcategory_name2' => 'newcat02',
-      'price' => '2500'
+      'price' => '2500',
     ];
 
         // 対象functionの呼び出し
@@ -132,13 +132,13 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
         $shipping_id = '1';
         $arrParams = [
       [
-        'product_class_id' => '1'
+        'product_class_id' => '1',
         // 'product_name' => '追加製品名01',
         // 'product_code' => 'newcode01',
         // 'classcategory_name1' => 'newcat01',
         // 'classcategory_name2' => 'newcat02',
         // 'price' => '2500'
-      ]
+      ],
     ];
 
         // 期待値の設定
@@ -151,7 +151,7 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
       'classcategory_name2' => 'S',
   // TODO 要確認price01, price02を設定しても価格が取れない。実際にはDBから取るケースが無い?
       // 'price' => '1500'
-      'price' => null
+      'price' => null,
     ];
 
         // 対象functionの呼び出し
@@ -181,8 +181,8 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
         'classcategory_name1' => 'newcat01',
         'classcategory_name2' => 'newcat02',
         'price' => '2500',
-        'xxxx' => 'yyyyyy' // 存在しないカラム
-      ]
+        'xxxx' => 'yyyyyy', // 存在しないカラム
+      ],
     ];
 
         // 期待値の設定
@@ -193,7 +193,7 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
       'product_code' => 'newcode01',
       'classcategory_name1' => 'newcat01',
       'classcategory_name2' => 'newcat02',
-      'price' => '2500'
+      'price' => '2500',
     ];
 
         // 対象functionの呼び出し

@@ -62,7 +62,7 @@ class SC_Helper_DB_sfGetMakerIdTest extends SC_Helper_DB_TestBase
             [1, true, true, '商品公開かつ closed = true はメーカーIDを返す'],
             [2, true, true, '商品非公開かつ closed = true はメーカーIDを返す'],
             [1, false, true, '商品公開かつ closed = false はメーカーIDを返す'],
-            [2, false, false, '商品非公開かつ closed = false は空の配列を返す']
+            [2, false, false, '商品非公開かつ closed = false は空の配列を返す'],
         ];
     }
 
@@ -108,7 +108,7 @@ class SC_Helper_DB_sfGetMakerIdTest extends SC_Helper_DB_TestBase
                 'creator_id' => 2,
                 'create_date' => 'CURRENT_TIMESTAMP',
                 'update_date' => 'CURRENT_TIMESTAMP',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ];
             $this->objQuery->insert('dtb_maker', $maker);
             $this->objQuery->update('dtb_products', ['maker_id' => $maker['maker_id']], 'product_id = ?', [$this->product_ids[$i]]);

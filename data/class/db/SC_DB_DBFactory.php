@@ -73,7 +73,7 @@ class SC_DB_DBFactory
                              'protocol' => 'tcp',
                              'hostspec' => DB_SERVER,
                              'port' => DB_PORT,
-                             'database' => DB_NAME
+                             'database' => DB_NAME,
                              ];
             } else {
                 return '';

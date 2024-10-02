@@ -65,7 +65,7 @@ class SC_Utils_arrayDefineIndexesTest extends Common_TestCase
       'banana' => 'バナナ',
       'orange' => 'オレンジ',
       'tomato' => '',
-      'kiwi' => ''
+      'kiwi' => '',
     ];
         $this->actual = SC_Utils::arrayDefineIndexes($input_array, $defineIndexes);
 

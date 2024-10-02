@@ -279,7 +279,7 @@ class Calendar
             'day' => $this->cE->stampToDay($stamp),
             'hour' => $this->cE->stampToHour($stamp),
             'minute' => $this->cE->stampToMinute($stamp),
-            'second' => $this->cE->stampToSecond($stamp)
+            'second' => $this->cE->stampToSecond($stamp),
         ];
     }
 

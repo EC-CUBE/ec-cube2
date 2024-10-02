@@ -33,7 +33,7 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'price02' => '1500',
                 'stock' => '99',
                 'creator_id' => '1',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ],
             [
                 'update_date' => 'CURRENT_TIMESTAMP',
@@ -44,7 +44,7 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'price02' => '2500',
                 'creator_id' => '1',
                 'stock_unlimited' => '1',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ],
             [
                 'update_date' => 'CURRENT_TIMESTAMP',
@@ -55,8 +55,8 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'price02' => '2000',
                 'creator_id' => '1',
                 'stock_unlimited' => '1',
-                'del_flg' => '1'
-            ]
+                'del_flg' => '1',
+            ],
         ];
 
         $this->objQuery->delete('dtb_products_class');
@@ -79,15 +79,15 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'classcategory_id' => '1001',
                 'class_id' => '1',
                 'creator_id' => '1',
-                'name' => 'cat1001'
+                'name' => 'cat1001',
             ],
             [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'classcategory_id' => '1002',
                 'class_id' => '1',
                 'creator_id' => '1',
-                'name' => 'cat1002'
-            ]
+                'name' => 'cat1002',
+            ],
         ];
 
         // classcategory_id=0のものは削除しない
@@ -117,7 +117,7 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'deliv_date_id' => '1',
                 'del_flg' => '0',
                 'creator_id' => '1',
-                'status' => '1'
+                'status' => '1',
             ],
             [
                 'update_date' => 'CURRENT_TIMESTAMP',
@@ -132,7 +132,7 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'deliv_date_id' => '2',
                 'del_flg' => '0',
                 'creator_id' => '1',
-                'status' => '2'
+                'status' => '2',
             ],
             [
                 'update_date' => 'CURRENT_TIMESTAMP',
@@ -148,8 +148,8 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'deliv_date_id' => '1',
                 'del_flg' => '1',
                 'creator_id' => '1',
-                'status' => '1'
-            ]
+                'status' => '1',
+            ],
         ];
 
         $this->objQuery->delete('dtb_products');
@@ -169,15 +169,15 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'product_status_id' => '1',
                 'product_id' => '1001',
                 'creator_id' => '1',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ],
             [
                 'update_date' => 'CURRENT_TIMESTAMP',
                 'product_status_id' => '1',
                 'product_id' => '1002',
                 'creator_id' => '1',
-                'del_flg' => '0'
-            ]
+                'del_flg' => '0',
+            ],
         ];
 
         $this->objQuery->delete('dtb_product_status');
@@ -206,7 +206,7 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'price02' => $i,
                 'stock' => '99',
                 'creator_id' => '1',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ];
             $this->objQuery->insert('dtb_products_class', $item);
         }
@@ -237,7 +237,7 @@ class SC_CartSession_TestBase extends Common_TestCase
                 'deliv_date_id' => '1',
                 'del_flg' => '0',
                 'creator_id' => '1',
-                'status' => '1'
+                'status' => '1',
             ];
             $this->objQuery->insert('dtb_products', $item);
         }

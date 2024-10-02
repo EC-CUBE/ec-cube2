@@ -15,7 +15,7 @@ class SC_CheckError_DOMAIN_CHECKTest extends SC_CheckError_AbstractTestCase
     public function testDOMAINCHECK()
     {
         $this->arrForm = [
-            self::FORM_NAME => '.'.$this->faker->domainName // 行頭に . を含める必要がある
+            self::FORM_NAME => '.'.$this->faker->domainName, // 行頭に . を含める必要がある
         ];
         $this->expected = '';
 

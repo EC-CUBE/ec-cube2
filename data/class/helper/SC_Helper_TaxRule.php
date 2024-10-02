@@ -246,7 +246,7 @@ class SC_Helper_TaxRule
             $arrRequest = ['product_id' => $product_id,
                             'product_class_id' => $product_class_id,
                             'pref_id' => $pref_id,
-                            'country_id' => $country_id];
+                            'country_id' => $country_id, ];
 
             // 地域設定を優先するが、システムパラメーターなどに設定を持っていくか
             // 後に書いてあるほど優先される、詳細後述MEMO参照

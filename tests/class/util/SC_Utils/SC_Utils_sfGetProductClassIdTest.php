@@ -99,7 +99,7 @@ class SC_Utils_sfGetProductClassIdTest extends Common_TestCase
         'product_code' => 'code2001',
         'price02' => '1000',
         'creator_id' => '1',
-        'update_date' => 'CURRENT_TIMESTAMP'
+        'update_date' => 'CURRENT_TIMESTAMP',
       ],
       [
         'product_class_id' => '1001',
@@ -108,7 +108,7 @@ class SC_Utils_sfGetProductClassIdTest extends Common_TestCase
         'price02' => '1000',
         'classcategory_id1' => '1',
         'creator_id' => '1',
-        'update_date' => 'CURRENT_TIMESTAMP'
+        'update_date' => 'CURRENT_TIMESTAMP',
       ],
       [
         'product_class_id' => '1002',
@@ -117,8 +117,8 @@ class SC_Utils_sfGetProductClassIdTest extends Common_TestCase
         'price02' => '1000',
         'classcategory_id1' => '2',
         'creator_id' => '1',
-        'update_date' => 'CURRENT_TIMESTAMP'
-      ]
+        'update_date' => 'CURRENT_TIMESTAMP',
+      ],
     ];
 
         $this->objQuery->delete('dtb_products_class');

@@ -289,7 +289,7 @@ class SC_CartSession
     {
         // 前頁として記録しないページを指定する。
         $arrExclude = [
-            '/shopping/'
+            '/shopping/',
         ];
         $arrExclude = array_merge($arrExclude, $excludePaths);
         $exclude = false;

@@ -76,7 +76,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     {
         try {
             $context = stream_context_create([
-                'http' => ['ignore_errors' => true]
+                'http' => ['ignore_errors' => true],
             ]);
             $response = file_get_contents(TEST_MAILCATCHER_URL.'/messages', false, $context);
 
@@ -102,8 +102,8 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
             $context = stream_context_create(
                 [
                     'http' => [
-                        'method' => 'DELETE'
-                    ]
+                        'method' => 'DELETE',
+                    ],
                 ]
             );
 

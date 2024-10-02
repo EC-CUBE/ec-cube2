@@ -60,7 +60,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
             [self::FORM_NAME, self::FORM_NAME],
             [
                 'NUM_CHECK',
-                $this->target_func
+                $this->target_func,
             ]
         );
 

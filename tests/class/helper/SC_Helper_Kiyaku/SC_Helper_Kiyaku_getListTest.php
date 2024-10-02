@@ -28,18 +28,18 @@ class SC_Helper_Kiyaku_getListTest extends SC_Helper_Kiyaku_TestBase
             [
                 'kiyaku_id' => '1000',
                 'kiyaku_title' => 'test1',
-                'kiyaku_text' => 'test_text'
+                'kiyaku_text' => 'test_text',
                   ],
             [
                 'kiyaku_id' => '1001',
                 'kiyaku_title' => 'test2',
-                'kiyaku_text' => 'test_text2'
+                'kiyaku_text' => 'test_text2',
                   ],
             [
                 'kiyaku_id' => '1002',
                 'kiyaku_title' => 'test3',
-                'kiyaku_text' => 'test_text'
-                  ]
+                'kiyaku_text' => 'test_text',
+                  ],
                                 ];
 
         $this->actual = $this->objKiyaku->getList($has_deleted);
@@ -56,12 +56,12 @@ class SC_Helper_Kiyaku_getListTest extends SC_Helper_Kiyaku_TestBase
             [
                 'kiyaku_id' => '1000',
                 'kiyaku_title' => 'test1',
-                'kiyaku_text' => 'test_text'
+                'kiyaku_text' => 'test_text',
                   ],
             [
                 'kiyaku_id' => '1001',
                 'kiyaku_title' => 'test2',
-                'kiyaku_text' => 'test_text2'
+                'kiyaku_text' => 'test_text2',
                   ],
                                 ];
 

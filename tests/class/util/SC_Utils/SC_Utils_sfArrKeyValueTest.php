@@ -45,7 +45,7 @@ class SC_Utils_sfArrKeyValueTest extends Common_TestCase
       ['testkey' => '1011', 'testvalue' => '2001', 'key' => '3001'],
       ['testkey' => '2022', 'testvalue' => '2002', 'key' => '3002'],
       ['testkey' => '3033', 'testvalue' => '2003', 'key' => '3003'],
-      ['testkey' => '4044', 'testvalue' => '2004', 'key' => '3004']
+      ['testkey' => '4044', 'testvalue' => '2004', 'key' => '3004'],
     ];
         $this->keyname = 'testkey';
         $this->valuename = 'testvalue';
@@ -64,7 +64,7 @@ class SC_Utils_sfArrKeyValueTest extends Common_TestCase
         $this->expected = [
       '1011' => '2001',
       '2022' => '2002',
-      '3033' => '2003'
+      '3033' => '2003',
     ];
         $this->actual = SC_Utils::sfArrKeyValue($this->arrList, $this->keyname, $this->valuename, $len_max);
 
@@ -77,7 +77,7 @@ class SC_Utils_sfArrKeyValueTest extends Common_TestCase
       '1011' => '2001',
       '2022' => '2002',
       '3033' => '2003',
-      '4044' => '2004'
+      '4044' => '2004',
     ];
         $this->actual = SC_Utils::sfArrKeyValue($this->arrList, $this->keyname, $this->valuename, $len_max);
 
@@ -93,7 +93,7 @@ class SC_Utils_sfArrKeyValueTest extends Common_TestCase
       '1...' => '2001',
       '2...' => '2002',
       '3...' => '2003',
-      '4...' => '2004'
+      '4...' => '2004',
     ];
         $this->actual = SC_Utils::sfArrKeyValue($this->arrList, $this->keyname, $this->valuename, $len_max, $keysize);
 

@@ -75,7 +75,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
                     $arrData[] = [
                         'product_id' => $val['product_id'],
                         'DetailPageURL' => HTTP_URL.'products/detail.php?product_id='.$val['product_id'],
-                        'ItemAttributes' => $val
+                        'ItemAttributes' => $val,
                         ];
                 }
                 $this->setResponse('Item', $arrData);
@@ -188,7 +188,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
             'arrval' => [],
             'where_category' => '',
             'arrvalCategory' => [],
-            'orderby' => ''
+            'orderby' => '',
         ];
 
         // カテゴリからのWHERE文字列取得

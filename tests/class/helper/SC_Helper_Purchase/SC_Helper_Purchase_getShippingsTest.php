@@ -71,7 +71,7 @@ class SC_Helper_Purchase_getShippingsTest extends SC_Helper_Purchase_TestBase
       'order_id' => (string) $order_id,
       'shipping_id' => '0',
       'shipping_name01' => $arrCustomer['name01'],
-      'shipping_date' => null
+      'shipping_date' => null,
     ];
         $this->expected['shipment_item_count'] = 3;
 
@@ -81,7 +81,7 @@ class SC_Helper_Purchase_getShippingsTest extends SC_Helper_Purchase_TestBase
         $this->actual['count'] = count($result);
         // shipping_idごとの配列になっているのでshipping_idで抽出
         $this->actual['first'] = Test_Utils::mapArray($result[0], [
-      'order_id', 'shipping_id', 'shipping_name01', 'shipping_date']);
+      'order_id', 'shipping_id', 'shipping_name01', 'shipping_date', ]);
         $this->actual['shipment_item_count'] = count($result[0]['shipment_item']);
         $this->verify('配送情報');
     }
@@ -96,7 +96,7 @@ class SC_Helper_Purchase_getShippingsTest extends SC_Helper_Purchase_TestBase
       'order_id' => (string) $order_id,
       'shipping_id' => '0',
       'shipping_name01' => $arrCustomer['name01'],
-      'shipping_date' => null
+      'shipping_date' => null,
     ];
         $this->expected['shipment_item_count'] = 0;
 
@@ -105,7 +105,7 @@ class SC_Helper_Purchase_getShippingsTest extends SC_Helper_Purchase_TestBase
         $this->actual['count'] = count($result);
         // shipping_idごとの配列になっているのでshipping_idで抽出
         $this->actual['first'] = Test_Utils::mapArray($result[0], [
-      'order_id', 'shipping_id', 'shipping_name01', 'shipping_date']);
+      'order_id', 'shipping_id', 'shipping_name01', 'shipping_date', ]);
         $this->actual['shipment_item_count'] = is_array($result['1']['shipment_item']) ? count($result['1']['shipment_item']) : 0;
         $this->verify('配送情報');
     }

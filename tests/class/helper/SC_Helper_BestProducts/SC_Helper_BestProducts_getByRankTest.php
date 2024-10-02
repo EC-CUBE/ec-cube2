@@ -64,7 +64,7 @@ class SC_Helper_BestProducts_getByRankTest extends SC_Helper_BestProducts_TestBa
             'category_id' => '0',
             'title' => 'タイトルですよ',
             'comment' => 'コメントですよ',
-            'del_flg' => '0'
+            'del_flg' => '0',
         ];
 
         $result = SC_Helper_BestProducts_Ex::getByRank($rank);
@@ -74,7 +74,7 @@ class SC_Helper_BestProducts_getByRankTest extends SC_Helper_BestProducts_TestBa
                 'category_id',
                 'title',
                 'comment',
-                'del_flg'
+                'del_flg',
             ]);
 
         $this->verify();
@@ -101,7 +101,7 @@ class SC_Helper_BestProducts_getByRankTest extends SC_Helper_BestProducts_TestBa
             'category_id' => '0',
             'title' => 'タイトルですよ',
             'comment' => 'コメントですよ',
-            'del_flg' => '1'
+            'del_flg' => '1',
         ];
 
         $result = SC_Helper_BestProducts_Ex::getByRank($rank, true);
@@ -111,7 +111,7 @@ class SC_Helper_BestProducts_getByRankTest extends SC_Helper_BestProducts_TestBa
                 'category_id',
                 'title',
                 'comment',
-                'del_flg'
+                'del_flg',
             ]);
 
         $this->verify();

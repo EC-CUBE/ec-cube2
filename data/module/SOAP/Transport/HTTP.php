@@ -273,7 +273,7 @@ class SOAP_Transport_HTTP extends SOAP_Transport
                 $cookie = ['expires' => null,
                                 'domain' => $this->urlparts['host'],
                                 'path' => null,
-                                'secure' => false];
+                                'secure' => false, ];
 
                 if (!strpos($headervalue, ';')) {
                     // Only a name=value pair.

@@ -57,7 +57,7 @@ class SC_CartSessionTest extends Common_TestCase
         $this->assertEquals(
             [
                 PRODUCT_TYPE_NORMAL,
-                PRODUCT_TYPE_DOWNLOAD
+                PRODUCT_TYPE_DOWNLOAD,
             ],
             $product_type_ids,
             '商品種別は通常商品とダウンロード商品'

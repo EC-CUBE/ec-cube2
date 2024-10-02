@@ -57,7 +57,7 @@ class SC_Helper_DB_sfGetCategoryIdTest extends SC_Helper_DB_TestBase
             [1, true, true, '商品公開かつ closed = true はカテゴリIDを返す'],
             [2, true, true, '商品非公開かつ closed = true はカテゴリIDを返す'],
             [1, false, true, '商品公開かつ closed = false はカテゴリIDを返す'],
-            [2, false, false, '商品非公開かつ closed = false は空の配列を返す']
+            [2, false, false, '商品非公開かつ closed = false は空の配列を返す'],
         ];
     }
 

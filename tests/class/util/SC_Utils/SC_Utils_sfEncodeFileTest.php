@@ -61,7 +61,7 @@ class SC_Utils_sfEncodeFileTest extends Common_TestCase
 
         $this->expected = [
       'filename' => $outdir.'enc_test.txt',
-      'content' => 'こんにちは'
+      'content' => 'こんにちは',
     ];
 
         $this->actual['filename'] = SC_Utils::sfEncodeFile($filepath, 'euc-jp', $outdir);

@@ -63,7 +63,7 @@ class SC_Helper_Purchase_copyFromOrderTest extends SC_Helper_Purchase_TestBase
        'order_tel03' => '5678',
        'order_fax01' => '02',
        'order_fax02' => '2345',
-       'order_fax03' => '6789'
+       'order_fax03' => '6789',
      ];
 
         $this->expected = [
@@ -82,7 +82,7 @@ class SC_Helper_Purchase_copyFromOrderTest extends SC_Helper_Purchase_TestBase
        'shipping_tel03' => '5678',
        'shipping_fax01' => '02',
        'shipping_fax02' => '2345',
-       'shipping_fax03' => '6789'
+       'shipping_fax03' => '6789',
      ];
         $helper = new SC_Helper_Purchase_Ex();
         $helper->copyFromOrder($dest, $src);
@@ -97,12 +97,12 @@ class SC_Helper_Purchase_copyFromOrderTest extends SC_Helper_Purchase_TestBase
         $src = [
        'input_name01' => '姓',
        'input_name02' => '名',
-       'input_zip01' => '012' // キーに含まれないもの
+       'input_zip01' => '012', // キーに含まれないもの
      ];
 
         $this->expected = [
        'output_name01' => '姓',
-       'output_name02' => '名'
+       'output_name02' => '名',
      ];
         $helper = new SC_Helper_Purchase_Ex();
         $helper->copyFromOrder($dest, $src, 'output', 'input', ['name01', 'name02']);

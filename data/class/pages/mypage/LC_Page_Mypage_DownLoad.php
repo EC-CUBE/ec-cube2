@@ -40,7 +40,7 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
      * Application/octet-streamで対応出来ないファイルタイプのみ拡張子をキーに記述する
      * 拡張子が本配列に存在しない場合は $defaultContentTypeを利用する */
     public $arrContentType = ['apk' => 'application/vnd.android.package-archive',
-                                'pdf' => 'application/pdf'
+                                'pdf' => 'application/pdf',
         ];
 
     /**

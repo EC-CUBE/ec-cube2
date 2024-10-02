@@ -52,7 +52,7 @@ class SC_SessionFactory_UseCookie extends SC_SessionFactory_Ex
             'domain' => DOMAIN_NAME,
             'secure' => $this->getSecureOption(),
             'httponly' => true,
-            'samesite' => ''
+            'samesite' => '',
         ];
         if ($this->getSecureOption()) {
             $params['samesite'] = 'None'; // require secure option

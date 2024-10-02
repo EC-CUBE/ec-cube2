@@ -8,7 +8,7 @@ class LC_Upgrade_Helper_Json
         'status' => null,
         'errcode' => null,
         'msg' => null,
-        'data' => []
+        'data' => [],
     ];
 
     /**

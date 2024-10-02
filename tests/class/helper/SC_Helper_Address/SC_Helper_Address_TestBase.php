@@ -41,7 +41,7 @@ class SC_Helper_Address_TestBase extends Common_TestCase
                 'tel03' => '0000',
                 'fax01' => '111',
                 'fax02' => '1111',
-                'fax03' => '1111'
+                'fax03' => '1111',
                   ],
             [
                 'other_deliv_id' => '1001',
@@ -60,8 +60,8 @@ class SC_Helper_Address_TestBase extends Common_TestCase
                 'tel03' => '0000',
                 'fax01' => '111',
                 'fax02' => '1111',
-                'fax03' => '1111'
-                  ]
+                'fax03' => '1111',
+                  ],
                                 ];
 
         $this->objQuery->delete('dtb_other_deliv');

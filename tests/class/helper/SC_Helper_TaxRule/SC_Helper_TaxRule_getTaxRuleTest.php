@@ -43,7 +43,7 @@ class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase
             'tax_rate' => '5',
             'product_id' => '0',
             'product_class_id' => '0',
-            'del_flg' => '0'
+            'del_flg' => '0',
         ];
 
         $return = $this->objTaxRule->getTaxRule();
@@ -52,7 +52,7 @@ class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase
             'tax_rate' => $return['tax_rate'],
             'product_id' => $return['product_id'],
             'product_class_id' => $return['product_class_id'],
-            'del_flg' => $return['del_flg']
+            'del_flg' => $return['del_flg'],
         ];
 
         $this->verify();
@@ -69,7 +69,7 @@ class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase
             'tax_rate' => '5',
             'product_id' => '0',
             'product_class_id' => '0',
-            'del_flg' => '0'
+            'del_flg' => '0',
         ];
 
         $return = $this->objTaxRule->getTaxRule(1000);
@@ -78,7 +78,7 @@ class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase
             'tax_rate' => $return['tax_rate'],
             'product_id' => $return['product_id'],
             'product_class_id' => $return['product_class_id'],
-            'del_flg' => $return['del_flg']
+            'del_flg' => $return['del_flg'],
         ];
 
         $this->verify();
@@ -95,7 +95,7 @@ class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase
             'tax_rate' => '5',
             'product_id' => '0',
             'product_class_id' => '0',
-            'del_flg' => '0'
+            'del_flg' => '0',
         ];
 
         $return = $this->objTaxRule->getTaxRule(1000, 2000);
@@ -104,7 +104,7 @@ class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase
             'tax_rate' => $return['tax_rate'],
             'product_id' => $return['product_id'],
             'product_class_id' => $return['product_class_id'],
-            'del_flg' => $return['del_flg']
+            'del_flg' => $return['del_flg'],
         ];
 
         $this->verify();

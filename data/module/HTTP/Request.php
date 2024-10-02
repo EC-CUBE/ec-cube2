@@ -634,7 +634,7 @@ class HTTP_Request
         $this->addHeader('Content-Type', 'multipart/form-data');
         $this->_postFiles[$inputName] = [
             'name' => $fileName,
-            'type' => $contentType
+            'type' => $contentType,
         ];
 
         return true;
@@ -1347,7 +1347,7 @@ class HTTP_Response
             'expires' => null,
             'domain' => null,
             'path' => null,
-            'secure' => false
+            'secure' => false,
         ];
 
         // Only a name=value pair

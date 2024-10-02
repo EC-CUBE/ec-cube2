@@ -83,7 +83,7 @@ class SOAP_Server extends SOAP_Base
                           'style' => 'rpc',
                           'parameters' => 0,
                           'http_status_success' => '200 OK',
-                          'http_status_fault' => '500 SOAP Fault'];
+                          'http_status_fault' => '500 SOAP Fault', ];
 
     public function __construct($options = null)
     {

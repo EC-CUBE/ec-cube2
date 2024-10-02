@@ -149,7 +149,7 @@ class SOAP_Transport_SMTP extends SOAP_Transport
             'port' => $this->port,
             'username' => $this->username,
             'password' => $this->password,
-            'auth' => $this->auth
+            'auth' => $this->auth,
         ];
         $mailer = new Mail_smtp($mailer_params);
         $result = $mailer->send($this->urlparts['path'], $headers, $out);

@@ -168,7 +168,7 @@ class SC_SendMail
         $this->host = $host;
         $arrHost = [
                 'host' => $this->host,
-                'port' => $this->port
+                'port' => $this->port,
         ];
         // PEAR::Mailを使ってメール送信オブジェクト作成
         $this->objMail = &Mail::factory('smtp', $arrHost);
@@ -185,7 +185,7 @@ class SC_SendMail
         $this->port = $port;
         $arrHost = [
                 'host' => $this->host,
-                'port' => $this->port
+                'port' => $this->port,
         ];
         // PEAR::Mailを使ってメール送信オブジェクト作成
         $this->objMail = &Mail::factory('smtp', $arrHost);

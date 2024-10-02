@@ -171,7 +171,7 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
             [3, 2, 1],
             [2, 2, 1],
             [1, 2, 2],
-            [0, 2, 2]
+            [0, 2, 2],
         ];
     }
 

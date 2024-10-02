@@ -67,7 +67,7 @@ class SC_Helper_Purchase_getOrderDetailTest extends SC_Helper_Purchase_TestBase
       'product_id', 'product_class_id', 'product_type_id', 'product_code',
       'product_name', 'classcategory_name1', 'classcategory_name2', 'price',
       'quantity', 'point_rate', 'status', 'payment_date', 'enable', 'effective',
-      'tax_rate', 'tax_rule'];
+      'tax_rate', 'tax_rule', ];
 
         $this->objQuery->setOrder('order_detail_id');
         $arrOrderDetails = $this->objQuery->select('*', 'dtb_order_detail T1 JOIN dtb_order T2 ON T1.order_id = T2.order_id', 'T1.order_id = ?', [$this->order_ids[0]]);
@@ -104,7 +104,7 @@ class SC_Helper_Purchase_getOrderDetailTest extends SC_Helper_Purchase_TestBase
       'product_id', 'product_class_id', 'product_type_id', 'product_code',
       'product_name', 'classcategory_name1', 'classcategory_name2', 'price',
       'quantity', 'point_rate', 'enable', 'effective',
-      'tax_rate', 'tax_rule'];
+      'tax_rate', 'tax_rule', ];
 
         $this->objQuery->setOrder('order_detail_id');
         $arrOrderDetails = $this->objQuery->select('*', 'dtb_order_detail T1 JOIN dtb_order T2 ON T1.order_id = T2.order_id', 'T1.order_id = ?', [$this->order_ids[0]]);

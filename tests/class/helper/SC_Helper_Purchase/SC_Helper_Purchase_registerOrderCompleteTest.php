@@ -65,7 +65,7 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
       'status' => ORDER_PAY_WAIT,
       'mail_maga_flg' => '1',
       'order_tax_rate' => '5',
-      'order_tax_rule' => '1'
+      'order_tax_rule' => '1',
     ];
         $cartSession = new SC_CartSession_registerOrderCompleteMock();
         $_SESSION['site']['uniqid'] = $this->order_temp_ids[0];
@@ -76,7 +76,7 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
       'registerOrder' => [
         'order_id' => $this->order_ids[0],
         'status' => ORDER_PAY_WAIT,
-        'mailmaga_flg' => null
+        'mailmaga_flg' => null,
       ],
       'registerOrderDetail' => [
         'order_id' => $this->order_ids[0],
@@ -94,11 +94,11 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
             'quantity' => '10',
             'tax_rate' => null,
             'tax_rule' => null,
-            'tax_adjust' => null
-          ]
-        ]
+            'tax_adjust' => null,
+          ],
+        ],
       ],
-      'del_flg' => '1'
+      'del_flg' => '1',
     ];
 
         $this->actual = $_SESSION['testResult'];
@@ -113,7 +113,7 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
       'order_id' => '1001',
     //  'status' => ORDER_PAY_WAIT,
       'order_tax_rate' => '5',
-      'order_tax_rule' => '1'
+      'order_tax_rule' => '1',
     ];
         $cartSession = new SC_CartSession_registerOrderCompleteMock();
         $_SESSION['site']['uniqid'] = '1001';
@@ -125,8 +125,8 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
       'registerOrder' => [
         'order_id' => '1001',
         'status' => ORDER_NEW,
-        'mailmaga_flg' => null
-      ]
+        'mailmaga_flg' => null,
+      ],
     ];
 
         $this->actual['registerOrder'] = $_SESSION['testResult']['registerOrder'];
@@ -143,7 +143,7 @@ class SC_Helper_Purchase_registerOrderCompleteMock extends SC_Helper_Purchase
         $_SESSION['testResult']['registerOrder'] = [
       'order_id' => $order_id,
       'status' => $params['status'],
-      'mailmaga_flg' => $params['mailmaga_flg']
+      'mailmaga_flg' => $params['mailmaga_flg'],
     ];
     }
 
@@ -151,7 +151,7 @@ class SC_Helper_Purchase_registerOrderCompleteMock extends SC_Helper_Purchase
     {
         $_SESSION['testResult']['registerOrderDetail'] = [
       'order_id' => $order_id,
-      'params' => $params
+      'params' => $params,
     ];
     }
 
@@ -173,12 +173,12 @@ class SC_CartSession_registerOrderCompleteMock extends SC_CartSession
           'name' => '製品02',
           'product_code' => 'cd1002',
           'classcategory_name1' => 'cat01',
-          'classcategory_name2' => 'cat02'
+          'classcategory_name2' => 'cat02',
         ],
         'point_rate' => '5',
         'price' => '1000',
-        'quantity' => '10'
-      ]
+        'quantity' => '10',
+      ],
     ];
     }
 }

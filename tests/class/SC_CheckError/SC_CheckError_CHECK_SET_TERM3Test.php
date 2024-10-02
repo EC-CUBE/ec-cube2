@@ -61,7 +61,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
             self::FORM_NAME3 => $this->start_year,
             self::FORM_NAME4 => $this->start_month,
             self::FORM_NAME5 => $this->end_year,
-            self::FORM_NAME6 => ''
+            self::FORM_NAME6 => '',
         ];
         $this->expected = [self::FORM_NAME5 => '※ endを正しく指定してください。<br />'];
 
@@ -75,12 +75,12 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
             self::FORM_NAME3 => '2019',
             self::FORM_NAME4 => null,
             self::FORM_NAME5 => '2019',
-            self::FORM_NAME6 => null
+            self::FORM_NAME6 => null,
         ];
 
         $this->expected = [
             self::FORM_NAME3 => '※ startを正しく指定してください。<br />',
-            self::FORM_NAME5 => '※ endを正しく指定してください。<br />'
+            self::FORM_NAME5 => '※ endを正しく指定してください。<br />',
         ];
 
         $this->scenario();
@@ -98,7 +98,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
 
         $this->expected = [
             self::FORM_NAME3 => '※ startを正しく指定してください。<br />',
-            self::FORM_NAME5 => '※ endを正しく指定してください。<br />'
+            self::FORM_NAME5 => '※ endを正しく指定してください。<br />',
         ];
 
         $this->scenario();
@@ -111,7 +111,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
             self::FORM_NAME3 => '2000',
             self::FORM_NAME4 => '2',
             self::FORM_NAME5 => '2001',
-            self::FORM_NAME6 => '13'
+            self::FORM_NAME6 => '13',
         ];
 
         $this->expected = [self::FORM_NAME5 => '※ endを正しく指定してください。<br />'];
@@ -126,7 +126,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
             self::FORM_NAME3 => '2001',
             self::FORM_NAME4 => '2',
             self::FORM_NAME5 => '2000',
-            self::FORM_NAME6 => '2'
+            self::FORM_NAME6 => '2',
         ];
 
         $this->expected = [self::FORM_NAME3 => '※ startとendの期間指定が不正です。<br />'];
@@ -148,7 +148,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
                 self::FORM_NAME3,
                 self::FORM_NAME4,
                 self::FORM_NAME5,
-                self::FORM_NAME6
+                self::FORM_NAME6,
             ],
             [$this->target_func]
         );
@@ -159,7 +159,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
                 self::FORM_NAME3,
                 self::FORM_NAME4,
                 self::FORM_NAME5,
-                self::FORM_NAME6
+                self::FORM_NAME6,
             ],
             [$this->target_func]
         );

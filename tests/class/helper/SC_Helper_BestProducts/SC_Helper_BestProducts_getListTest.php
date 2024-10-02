@@ -68,7 +68,7 @@ class SC_Helper_BestProducts_getListTest extends SC_Helper_BestProducts_TestBase
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ],
             1 => [
                 'best_id' => '1003',
@@ -80,8 +80,8 @@ class SC_Helper_BestProducts_getListTest extends SC_Helper_BestProducts_TestBase
                 'creator_id' => '3',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-            ]
+                'del_flg' => '0',
+            ],
         ];
 
         $this->actual = SC_Helper_BestProducts_Ex::getList();
@@ -103,7 +103,7 @@ class SC_Helper_BestProducts_getListTest extends SC_Helper_BestProducts_TestBase
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ],
             1 => [
                 'best_id' => '1002',
@@ -115,7 +115,7 @@ class SC_Helper_BestProducts_getListTest extends SC_Helper_BestProducts_TestBase
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '1'
+                'del_flg' => '1',
             ],
             2 => [
                 'best_id' => '1003',
@@ -127,8 +127,8 @@ class SC_Helper_BestProducts_getListTest extends SC_Helper_BestProducts_TestBase
                 'creator_id' => '3',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-            ]
+                'del_flg' => '0',
+            ],
         ];
 
         $this->actual = SC_Helper_BestProducts_Ex::getList(0, 0, true);
@@ -150,8 +150,8 @@ class SC_Helper_BestProducts_getListTest extends SC_Helper_BestProducts_TestBase
                 'creator_id' => '3',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-            ]
+                'del_flg' => '0',
+            ],
         ];
 
         $this->actual = SC_Helper_BestProducts_Ex::getList(1, 2);
@@ -173,8 +173,8 @@ class SC_Helper_BestProducts_getListTest extends SC_Helper_BestProducts_TestBase
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-            ]
+                'del_flg' => '0',
+            ],
         ];
 
         $this->actual = SC_Helper_BestProducts_Ex::getList(1, 0);

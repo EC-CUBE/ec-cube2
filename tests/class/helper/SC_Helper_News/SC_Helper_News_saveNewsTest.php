@@ -27,14 +27,14 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
             $sqlval = [
             'news_title' => 'ニュース情報05',
             'creator_id' => '1',
-            'del_flg' => '0'
+            'del_flg' => '0',
             ];
 
             $this->expected['count'] = '5';
             $this->expected['content'] = [
             'news_title' => 'ニュース情報05',
             'creator_id' => '1',
-            'del_flg' => '0'
+            'del_flg' => '0',
             ];
 
             // $sqlval['news_id'] = $objQuery->setVal('dtb_news_news_id', 5);
@@ -61,7 +61,7 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
           'news_id' => '1002',
           'news_title' => 'ニュース情報05更新',
           'creator_id' => '1',
-          'del_flg' => '0'
+          'del_flg' => '0',
           ];
 
         $this->expected['count'] = '4';
@@ -69,7 +69,7 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
           'news_id' => '1002',
           'news_title' => 'ニュース情報05更新',
           'creator_id' => '1',
-          'del_flg' => '0'
+          'del_flg' => '0',
           ];
 
         $ret_id = $this->objNews->saveNews($sqlval);

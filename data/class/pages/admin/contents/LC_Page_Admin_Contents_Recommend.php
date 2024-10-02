@@ -251,7 +251,7 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
         $return = [
             'product_id' => $arrProduct['product_id'],
             'main_list_image' => $arrProduct['main_list_image'],
-            'name' => $arrProduct['name']
+            'name' => $arrProduct['name'],
         ];
 
         return $return;

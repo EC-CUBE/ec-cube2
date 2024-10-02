@@ -51,7 +51,7 @@ class SC_CheckError_EMAIL_CHECKTest extends SC_CheckError_AbstractTestCase
     public function testEMAILCHECKWithLoose()
     {
         $this->arrForm = [
-            self::FORM_NAME => $this->faker->userName.'.@'.$this->faker->safeEmailDomain
+            self::FORM_NAME => $this->faker->userName.'.@'.$this->faker->safeEmailDomain,
         ];
         $this->expected = '';
 
@@ -62,7 +62,7 @@ class SC_CheckError_EMAIL_CHECKTest extends SC_CheckError_AbstractTestCase
     public function testEMAILCHECKWithLoose2()
     {
         $this->arrForm = [
-            self::FORM_NAME => $this->faker->randomNumber().'..'.$this->faker->userName.'@'.$this->faker->safeEmailDomain
+            self::FORM_NAME => $this->faker->randomNumber().'..'.$this->faker->userName.'@'.$this->faker->safeEmailDomain,
         ];
         $this->expected = '';
 
@@ -78,7 +78,7 @@ class SC_CheckError_EMAIL_CHECKTest extends SC_CheckError_AbstractTestCase
         $localpart = $this->faker->regexify('[a-z]{'.$localpartLength.'}');
 
         $this->arrForm = [
-            self::FORM_NAME => $localpart.$domainPart
+            self::FORM_NAME => $localpart.$domainPart,
         ];
         $this->expected = '';
 
@@ -94,7 +94,7 @@ class SC_CheckError_EMAIL_CHECKTest extends SC_CheckError_AbstractTestCase
         $localpart = $this->faker->regexify('[a-z]{'.$localpartLength.'}');
 
         $this->arrForm = [
-            self::FORM_NAME => $localpart.$domainPart
+            self::FORM_NAME => $localpart.$domainPart,
         ];
         $this->expected = '※ EMAIL_CHECKは256字以下で入力してください。<br />';
 

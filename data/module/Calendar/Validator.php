@@ -83,7 +83,7 @@ class Calendar_Validator
     public function isValid()
     {
         $checks = ['isValidYear', 'isValidMonth', 'isValidDay',
-            'isValidHour', 'isValidMinute', 'isValidSecond'];
+            'isValidHour', 'isValidMinute', 'isValidSecond', ];
         $valid = true;
         foreach ($checks as $check) {
             if (!$this->{$check}()) {

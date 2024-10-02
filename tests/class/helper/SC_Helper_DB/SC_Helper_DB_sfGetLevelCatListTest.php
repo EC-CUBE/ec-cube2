@@ -60,7 +60,7 @@ class SC_Helper_DB_sfGetLevelCatListTest extends SC_Helper_DB_TestBase
             5 => ['category_id' => 6, 'category_name' => 'カテゴリ6', 'parent_category_id' => 1, 'level' => 2, 'rank' => 6, 'creator_id' => 2, 'update_date' => 'CURRENT_TIMESTAMP', 'create_date' => 'CURRENT_TIMESTAMP', 'del_flg' => 0],
             6 => ['category_id' => 7, 'category_name' => 'カテゴリ7', 'parent_category_id' => 3, 'level' => 3, 'rank' => 7, 'creator_id' => 2, 'update_date' => 'CURRENT_TIMESTAMP', 'create_date' => 'CURRENT_TIMESTAMP', 'del_flg' => 0],
             7 => ['category_id' => 8, 'category_name' => 'カテゴリ8', 'parent_category_id' => 7, 'level' => 4, 'rank' => 8, 'creator_id' => 2, 'update_date' => 'CURRENT_TIMESTAMP', 'create_date' => 'CURRENT_TIMESTAMP', 'del_flg' => 0],
-            8 => ['category_id' => 9, 'category_name' => 'カテゴリ9', 'parent_category_id' => 8, 'level' => 5, 'rank' => 9, 'creator_id' => 2, 'update_date' => 'CURRENT_TIMESTAMP', 'create_date' => 'CURRENT_TIMESTAMP', 'del_flg' => 0]
+            8 => ['category_id' => 9, 'category_name' => 'カテゴリ9', 'parent_category_id' => 8, 'level' => 5, 'rank' => 9, 'creator_id' => 2, 'update_date' => 'CURRENT_TIMESTAMP', 'create_date' => 'CURRENT_TIMESTAMP', 'del_flg' => 0],
         ];
         foreach ($categories as $category) {
             $this->objQuery->insert('dtb_category', $category);

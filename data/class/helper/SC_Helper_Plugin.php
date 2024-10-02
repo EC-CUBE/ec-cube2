@@ -311,7 +311,7 @@ class SC_Helper_Plugin
         foreach ($this->arrHeadNaviBlocsByPlugin as $key => $value) {
             $arrBlocs[] = [
                 'target_id' => $value,
-                'php_path' => $key
+                'php_path' => $key,
             ];
         }
     }

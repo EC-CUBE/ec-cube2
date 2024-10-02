@@ -152,7 +152,7 @@ class SOAP_Base_Object extends PEAR
 class SOAP_Base extends SOAP_Base_Object
 {
     public $_XMLSchema = ['http://www.w3.org/2001/XMLSchema',
-                            'http://www.w3.org/1999/XMLSchema'];
+                            'http://www.w3.org/1999/XMLSchema', ];
     public $_XMLSchemaVersion = 'http://www.w3.org/2001/XMLSchema';
 
     // load types into typemap array
@@ -203,7 +203,7 @@ class SOAP_Base extends SOAP_Base_Object
             'positiveInteger' => 'integer',
             'anyType' => 'string',
             'anyURI' => 'string',
-            'QName' => 'string'
+            'QName' => 'string',
         ],
         'http://www.w3.org/1999/XMLSchema' => [
             'i4' => 'integer',
@@ -216,13 +216,13 @@ class SOAP_Base extends SOAP_Base_Object
             'timeInstant' => 'string',
             'base64Binary' => 'string',
             'base64' => 'string',
-            'ur-type' => 'string'
+            'ur-type' => 'string',
         ],
         'http://schemas.xmlsoap.org/soap/encoding/' => [
             'base64' => 'string',
             'array' => 'array',
             'Array' => 'array',
-            'Struct' => 'array']
+            'Struct' => 'array', ],
     ];
 
     /**
@@ -250,7 +250,7 @@ class SOAP_Base extends SOAP_Base_Object
                               '<' => '&lt;',
                               '>' => '&gt;',
                               "'" => '&apos;',
-                              '"' => '&quot;'];
+                              '"' => '&quot;', ];
 
     public $_doconversion = false;
 
@@ -330,7 +330,7 @@ class SOAP_Base extends SOAP_Base_Object
             'http://schemas.xmlsoap.org/soap/envelope/' => self::SOAPENVPrefix(),
             'http://www.w3.org/2001/XMLSchema' => 'xsd',
             'http://www.w3.org/2001/XMLSchema-instance' => 'xsi',
-            'http://schemas.xmlsoap.org/soap/encoding/' => self::SOAPENCPrefix()];
+            'http://schemas.xmlsoap.org/soap/encoding/' => self::SOAPENCPrefix(), ];
     }
 
     /**
@@ -806,7 +806,7 @@ class SOAP_Base extends SOAP_Base_Object
                         } elseif (isset($return->{$item->name})) {
                             $return->{$item->name} = [
                                 $return->{$item->name},
-                                $this->_decode($item)
+                                $this->_decode($item),
                             ];
                         } elseif (is_array($return)) {
                             $return[] = $this->_decode($item);
@@ -832,7 +832,7 @@ class SOAP_Base extends SOAP_Base_Object
                     if (method_exists($return, '__set_attribute')) {
                         foreach ($soapval->attributes as $key => $value) {
                             call_user_func_array([&$return,
-                                                       '__set_attribute'],
+                                                       '__set_attribute', ],
                                 [$key, $value]);
                         }
                     }

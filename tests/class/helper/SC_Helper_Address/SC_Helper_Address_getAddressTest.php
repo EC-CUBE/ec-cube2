@@ -64,7 +64,7 @@ class SC_Helper_Address_getAddressTest extends SC_Helper_Address_TestBase
                 'fax03' => '1111',
                 'country_id' => null,
                 'company_name' => null,
-                'zipcode' => null
+                'zipcode' => null,
             ];
         $this->actual = $this->objAddress->getAddress($other_deliv_id, $customer_id);
 

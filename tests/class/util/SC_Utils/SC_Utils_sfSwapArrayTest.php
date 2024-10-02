@@ -48,12 +48,12 @@ class SC_Utils_sfSwapArrayTest extends Common_TestCase
     {
         $input_array = [
       ['id' => '1001', 'name' => 'name1001'],
-      ['id' => '1002', 'name' => 'name1002']
+      ['id' => '1002', 'name' => 'name1002'],
     ];
 
         $this->expected = [
       'id' => ['1001', '1002'],
-      'name' => ['name1001', 'name1002']
+      'name' => ['name1001', 'name1002'],
     ];
         $this->actual = SC_Utils::sfSwapArray($input_array);
 
@@ -64,12 +64,12 @@ class SC_Utils_sfSwapArrayTest extends Common_TestCase
     {
         $input_array = [
       ['id' => '1001', 'name' => 'name1001'],
-      ['id' => '1002', 'name' => 'name1002']
+      ['id' => '1002', 'name' => 'name1002'],
     ];
 
         $this->expected = [
       ['1001', '1002'],
-      ['name1001', 'name1002']
+      ['name1001', 'name1002'],
     ];
         $this->actual = SC_Utils::sfSwapArray($input_array, false);
 

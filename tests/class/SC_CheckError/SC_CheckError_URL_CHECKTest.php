@@ -42,7 +42,7 @@ class SC_CheckError_URL_CHECKTest extends SC_CheckError_AbstractTestCase
     public function testURLCHECKWithError()
     {
         $this->arrForm = [
-            self::FORM_NAME => 'ftp://'.$this->faker->safeEmailDomain.'/'
+            self::FORM_NAME => 'ftp://'.$this->faker->safeEmailDomain.'/',
         ];
         $this->expected = '※ URL_CHECKを正しく入力してください。<br />';
 

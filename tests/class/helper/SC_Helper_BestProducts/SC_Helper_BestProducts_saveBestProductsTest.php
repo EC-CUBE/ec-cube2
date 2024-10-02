@@ -55,7 +55,7 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
             'creator_id' => '2',
             'create_date' => '2000-01-01 00:00:00',
             'update_date' => '2000-01-01 00:00:00',
-            'del_flg' => '0'
+            'del_flg' => '0',
         ];
 
         $result = SC_Helper_BestProducts_Ex::saveBestProducts($sqlVal);
@@ -68,7 +68,7 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
             'comment' => 'コメントですよ1001',
             'creator_id' => '1', // 変わらない
             'create_date' => '2000-01-01 00:00:00',
-            'del_flg' => '0'
+            'del_flg' => '0',
         ];
 
         $this->actual = SC_Helper_BestProducts_Ex::getBestProducts('1001');
@@ -83,7 +83,7 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
                 'comment',
                 'creator_id',
                 'create_date',
-                'del_flg'
+                'del_flg',
             ]
         );
 
@@ -101,7 +101,7 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
                 'title' => 'タイトルですよ1004',
                 'comment' => 'コメントですよ1004',
                 'creator_id' => '3',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ];
 
             $best_id = SC_Helper_BestProducts_Ex::saveBestProducts($sqlVal);
@@ -113,7 +113,7 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
                 'title' => 'タイトルですよ1004',
                 'comment' => 'コメントですよ1004',
                 'creator_id' => '3',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ];
 
             $arrRet = SC_Helper_BestProducts_Ex::getBestProducts($best_id);
@@ -125,7 +125,7 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
                     'title',
                     'comment',
                     'creator_id',
-                    'del_flg'
+                    'del_flg',
                 ]
             );
 
@@ -143,7 +143,7 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
                 'title' => 'タイトルですよ5',
                 'comment' => 'コメントですよ5',
                 'creator_id' => '3',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ];
 
             $best_id = SC_Helper_BestProducts_Ex::saveBestProducts($sqlVal);

@@ -63,7 +63,7 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
             [
               'customer_id' => '1003',
               'order_name01' => '受注情報03',
-              'update_date' => 'CURRENT_TIMESTAMP'
+              'update_date' => 'CURRENT_TIMESTAMP',
             ]
         );
 
@@ -79,7 +79,7 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
             [
               'customer_id' => '1003',
               'order_name01' => '受注情報03',
-              'update_date' => 'CURRENT_TIMESTAMP'
+              'update_date' => 'CURRENT_TIMESTAMP',
             ]
         );
 
@@ -88,8 +88,8 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
         [
           'order_temp_id' => '1003',
           'customer_id' => '1003',
-          'order_name01' => '受注情報03'
-        ]
+          'order_name01' => '受注情報03',
+        ],
       ];
         $this->actual['count'] = $this->objQuery->count('dtb_order_temp');
         $this->actual['content'] = $this->objQuery->select(
@@ -105,7 +105,7 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
             [
               'customer_id' => '2002',
               'order_name01' => '受注情報92',
-              'update_date' => 'CURRENT_TIMESTAMP'
+              'update_date' => 'CURRENT_TIMESTAMP',
             ]
         );
 
@@ -114,8 +114,8 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
         [
           'order_temp_id' => $this->order_temp_ids[0],
           'customer_id' => '2002',
-          'order_name01' => '受注情報92'
-        ]
+          'order_name01' => '受注情報92',
+        ],
       ];
         $this->actual['count'] = $this->objQuery->count('dtb_order_temp');
         $this->actual['content'] = $this->objQuery->select(
@@ -132,7 +132,7 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
               'order_temp_id' => '1003',
               'customer_id' => '1003',
               'order_name01' => '受注情報03',
-              'update_date' => 'CURRENT_TIMESTAMP'
+              'update_date' => 'CURRENT_TIMESTAMP',
             ],
             new SC_Customer_Ex()
         );

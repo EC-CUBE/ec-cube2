@@ -207,7 +207,7 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
                     'tel01' => $objCustomer->getValue('tel01'),
                     'tel02' => $objCustomer->getValue('tel02'),
                     'tel03' => $objCustomer->getValue('tel03'),
-                ]
+                ],
             ];
             $arrAddrs = array_merge($addr, $objAddress->getList($objCustomer->getValue('customer_id')));
             foreach ($arrAddrs as $val) {

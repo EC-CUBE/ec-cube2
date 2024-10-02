@@ -92,7 +92,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         'quantity',
         'price',
         'tax_rate',
-        'tax_rule'
+        'tax_rule',
     ];
 
     /**
@@ -508,7 +508,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 'multiple_classcategory_name1',
                 'multiple_classcategory_name2',
                 'multiple_price',
-                'multiple_quantity'];
+                'multiple_quantity', ];
         $arrMultipleParams = $objFormParam->getSwapArray($arrMultipleKey);
 
         /*
@@ -684,7 +684,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $day = $arrValues['shipping_date_day'][$key_index];
             $objError = new SC_CheckError_Ex(['shipping_date_year' => $year,
                 'shipping_date_month' => $month,
-                'shipping_date_day' => $day]);
+                'shipping_date_day' => $day, ]);
             $objError->doFunc(['お届け日', 'shipping_date_year', 'shipping_date_month', 'shipping_date_day'], ['CHECK_DATE']);
             $arrErrDate['shipping_date_year'][$key_index] = $objError->arrErr['shipping_date_year'];
         }
@@ -696,7 +696,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $day = $arrValues['order_birth_day'];
         $objError = new SC_CheckError_Ex(['order_birth_year' => $year,
                                                'order_birth_month' => $month,
-                                               'order_birth_day' => $day]);
+                                               'order_birth_day' => $day, ]);
         $objError->doFunc(['生年月日', 'order_birth_year', 'order_birth_month', 'order_birth_day'],
             ['CHECK_BIRTHDAY']);
         $arrErrTemp['order_birth_year'] = $objError->arrErr['order_birth_year'];
@@ -811,7 +811,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 'classcategory_name1',
                 'classcategory_name2',
                 'tax_rate',
-                'tax_rule'
+                'tax_rule',
         ]);
 
         // 変更しようとしている商品情報とDBに登録してある商品情報を比較することで、更新すべき数量を計算

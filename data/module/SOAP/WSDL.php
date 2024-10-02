@@ -134,7 +134,7 @@ class SOAP_WSDL extends SOAP_Base
                            'or', 'php_user_filter', 'print', 'private',
                            'protected', 'public', 'require', 'require_once',
                            'return', 'static', 'switch', 'this', 'throw',
-                           'try', 'unset', 'use', 'var', 'while', 'xor'];
+                           'try', 'unset', 'use', 'var', 'while', 'xor', ];
 
     /**
      * Regular expressions for invalid PHP labels.
@@ -2162,7 +2162,7 @@ class SOAP_WSDL_ObjectParser extends SOAP_Base
                         $thisMessage[$partName] = [
                             'name' => $partName,
                             'type' => $typeName,
-                            'namespace' => $nsPrefix
+                            'namespace' => $nsPrefix,
                             ];
                     }
                 }
@@ -2186,13 +2186,13 @@ class SOAP_WSDL_ObjectParser extends SOAP_Base
                     case 'in':
                         $thisPortType[$operationName]['input'] = [
                             'message' => $operationName.'Request',
-                            'namespace' => $this->tnsPrefix];
+                            'namespace' => $this->tnsPrefix, ];
                         break;
 
                     case 'out':
                         $thisPortType[$operationName]['output'] = [
                             'message' => $operationName.'Response',
-                            'namespace' => $this->tnsPrefix];
+                            'namespace' => $this->tnsPrefix, ];
                         break;
                 }
             }
@@ -2225,20 +2225,20 @@ class SOAP_WSDL_ObjectParser extends SOAP_Base
                 'namespace' => $this->tnsPrefix,
                 'style' => 'rpc',
                 'transport' => SCHEMA_SOAP_HTTP,
-                'operations' => []];
+                'operations' => [], ];
         $thisBinding = &$this->wsdl->bindings[$service_name.'Binding'];
 
         foreach ($this->wsdl->portTypes[$service_name.'Port'] as $operationName => $operationData) {
             $thisBinding['operations'][$operationName] = [
                 'soapAction' => $schemaNamespace.'#'.$operationName,
-                'style' => $thisBinding['style']];
+                'style' => $thisBinding['style'], ];
 
             foreach (['input', 'output'] as $messageType) {
                 if (isset($operationData[$messageType])) {
                     $thisBinding['operations'][$operationName][$messageType] = [
                             'use' => 'encoded',
                             'namespace' => $schemaNamespace,
-                            'encodingStyle' => SOAP_SCHEMA_ENCODING];
+                            'encodingStyle' => SOAP_SCHEMA_ENCODING, ];
                 }
             }
         }
@@ -2260,8 +2260,8 @@ class SOAP_WSDL_ObjectParser extends SOAP_Base
                     'namespace' => $this->tnsPrefix,
                     'address' => ['location' => ($https ? 'https://' : 'http://').
                         $_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].
-                        (isset($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING'] : '')],
-                    'type' => 'soap'];
+                        (isset($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING'] : ''), ],
+                    'type' => 'soap', ];
         }
 
         // Set service
@@ -2274,7 +2274,7 @@ class SOAP_WSDL_ObjectParser extends SOAP_Base
         $this->wsdl->definition = [
                 'name' => $service_name,
                 'targetNamespace' => $this->wsdl->namespaces[$this->tnsPrefix],
-                'xmlns' => SCHEMA_WSDL];
+                'xmlns' => SCHEMA_WSDL, ];
 
         foreach ($this->wsdl->namespaces as $nsPrefix => $namespace) {
             $this->wsdl->definition['xmlns:'.$nsPrefix] = $namespace;
