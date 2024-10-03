@@ -76,20 +76,38 @@ class SC_Helper_Purchase_setShipmentItemTempTest extends SC_Helper_Purchase_Test
     $this->verify();
   }
 
-  public function testSetShipmentItemTemp_製品情報が存在しない場合_DBから取得した値が反映される()
+  public function testSetShipmentItemTemp_製品情報が存在しない場合_DBから取得した値が反映され_不要な情報は削除される()
   {
     $quantity = 10;
     $this->helper->setShipmentItemTemp('1001', $this->productsClass['product_class_id'], $quantity);
 
+    $objProduct = new SC_Product_Ex;
+    $arrProduct = $objProduct->getDetailAndProductsClass($this->productsClass['product_class_id']);
     $this->expected = array(
       'shipping_id' => '1001',
       'product_class_id' => $this->productsClass['product_class_id'],
       'quantity' => $quantity,
       'price' => $this->productsClass['price02'],
       'total_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax($this->productsClass['price02']) * $quantity,
+      'productsClass' => array(
+        'product_id'          => $arrProduct['product_id'],
+        'product_class_id'    => $arrProduct['product_class_id'],
+        'name'                => $arrProduct['name'],
+        'price02'             => $arrProduct['price02'],
+        'point_rate'          => $arrProduct['point_rate'],
+        'main_list_image'     => $arrProduct['main_list_image'],
+        'main_image'          => $arrProduct['main_image'],
+        'product_code'        => $arrProduct['product_code'],
+        'stock'               => $arrProduct['stock'],
+        'stock_unlimited'     => $arrProduct['stock_unlimited'],
+        'sale_limit'          => $arrProduct['sale_limit'],
+        'class_name1'         => $arrProduct['class_name1'],
+        'classcategory_name1' => $arrProduct['classcategory_name1'],
+        'class_name2'         => $arrProduct['class_name2'],
+        'classcategory_name2' => $arrProduct['classcategory_name2'],
+      ),
     );
     $result = $_SESSION['shipping']['1001']['shipment_item'][$this->productsClass['product_class_id']];
-    unset($result['productsClass']);
     $this->actual = $result;
 
     $this->verify();
@@ -97,4 +115,3 @@ class SC_Helper_Purchase_setShipmentItemTempTest extends SC_Helper_Purchase_Test
 
   //////////////////////////////////////////
 }
-
