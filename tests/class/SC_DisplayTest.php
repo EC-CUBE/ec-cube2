@@ -7,7 +7,7 @@ class SC_DisplayTest extends Common_TestCase
      */
     protected $objDisplay;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

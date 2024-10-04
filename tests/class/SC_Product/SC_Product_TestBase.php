@@ -7,12 +7,12 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  */
 class SC_Product_TestBase extends Common_TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

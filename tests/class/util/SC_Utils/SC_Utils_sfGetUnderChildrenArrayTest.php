@@ -35,12 +35,12 @@ class SC_Utils_sfGetUnderChildrenArrayTest extends Common_TestCase
 {
 
 
-  protected function setUp()
+  protected function setUp(): void
   {
     // parent::setUp();
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     // parent::tearDown();
   }

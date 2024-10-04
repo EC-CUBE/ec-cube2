@@ -42,7 +42,7 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
   private $order_temp_ids = [];
   private $helper;
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
     $this->customer_ids = $this->setUpCustomer();
@@ -51,7 +51,7 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
     $this->helper = new SC_Helper_Purchase_registerOrderCompleteMock();
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
   }

@@ -7,7 +7,7 @@ class SC_CheckError_FILE_NAME_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var string|null */
     protected $fileName;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'FILE_NAME_CHECK';

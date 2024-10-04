@@ -36,12 +36,12 @@ abstract class SC_Helper_TaxRule_TestBase extends Common_TestCase
      */
     protected $objTaxRule;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

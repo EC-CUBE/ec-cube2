@@ -15,7 +15,7 @@ class SC_Helper_DB_sfGetRollbackPointTest extends SC_Helper_DB_TestBase
     /** @var int */
     protected $rollback_point;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->customer_id = $this->objGenerator->createCustomer();

@@ -37,12 +37,12 @@ class SC_Utils_sfGetHashString_authTypePlainTest extends Common_TestCase
 {
 
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
   }

@@ -36,13 +36,13 @@ class SC_Utils_sfGetClassCatCountTest extends Common_TestCase
 {
 
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
     $this->setUpClassCat();
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
   }

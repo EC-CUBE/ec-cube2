@@ -2,7 +2,7 @@
 
 class SC_CheckError_SELECT_CHECKTest extends SC_CheckError_AbstractTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'SELECT_CHECK';

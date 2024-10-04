@@ -7,12 +7,12 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Mail/SC_Helper_Mail_TestBase
  */
 class SC_Helper_Mail_sfSendRegistMailTest extends SC_Helper_Mail_TestBase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

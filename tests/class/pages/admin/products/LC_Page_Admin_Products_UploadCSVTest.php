@@ -7,7 +7,7 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  */
 class LC_Page_Admin_Products_UploadCSVTest extends Common_TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         if ('\\' !== DIRECTORY_SEPARATOR) {
@@ -15,7 +15,7 @@ class LC_Page_Admin_Products_UploadCSVTest extends Common_TestCase
         }
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         // ロケールを初期化する

@@ -7,7 +7,7 @@ class SC_CheckError_FILE_SIZE_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $maxFileSize;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'FILE_SIZE_CHECK';

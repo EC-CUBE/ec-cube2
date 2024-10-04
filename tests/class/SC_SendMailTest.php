@@ -7,7 +7,7 @@ class SC_SendMailTest extends Common_TestCase
      */
     protected $objSendMail;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->checkMailCatcherStatus();

@@ -27,13 +27,13 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 class SC_Date_getHourTest extends Common_TestCase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objDate = new SC_Date_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

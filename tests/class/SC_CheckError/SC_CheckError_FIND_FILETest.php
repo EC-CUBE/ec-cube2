@@ -9,7 +9,7 @@ class SC_CheckError_FIND_FILETest extends SC_CheckError_AbstractTestCase
     /** @var string */
     protected $targetDir;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'FIND_FILE';

@@ -9,14 +9,14 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
      */
     const OPTION_PRODUCT_TAX_RULE_ENABLE = 1;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objTaxRule = new SC_Helper_TaxRule_Ex();
         $this->setUpTax();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

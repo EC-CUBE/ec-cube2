@@ -24,13 +24,13 @@
 class SC_CheckError_SPTAB_CHECKTest extends SC_CheckError_AbstractTestCase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'SPTAB_CHECK';
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

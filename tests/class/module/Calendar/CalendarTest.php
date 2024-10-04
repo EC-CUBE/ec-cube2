@@ -16,11 +16,11 @@ class Calendar_Test extends Common_TestCase
     {
         $this->UnitTestCase('Test of Month Weekdays');
     }
-    public function setUp()
+    public function setUp(): void
     {
         $this->cal = new Calendar_Month_Weekdays(2003,10);
     }
-    public function tearDown()
+    public function tearDown(): void
     {
     }
     public function testPrevDay()

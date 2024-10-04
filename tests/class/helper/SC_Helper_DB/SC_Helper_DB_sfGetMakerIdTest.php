@@ -11,7 +11,7 @@ class SC_Helper_DB_sfGetMakerIdTest extends SC_Helper_DB_TestBase
     /** @var Faker\Generator */
     protected $faker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objDb = new SC_Helper_DB_Ex();

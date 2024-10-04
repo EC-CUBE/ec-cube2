@@ -34,7 +34,7 @@ class SC_CheckError_CHECK_SET_TERMTest extends SC_CheckError_AbstractTestCase
     /** @var \DateTime */
     protected $targetDateTime;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         /** @var Faker\Generator $faker */
         $faker = Faker\Factory::create('ja_JP');

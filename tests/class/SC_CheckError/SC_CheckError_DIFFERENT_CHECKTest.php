@@ -4,7 +4,7 @@ class SC_CheckError_DIFFERENT_CHECKTest extends SC_CheckError_AbstractTestCase
 {
     const FORM_NAME_REPEAT = 'form_repeat';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'DIFFERENT_CHECK';

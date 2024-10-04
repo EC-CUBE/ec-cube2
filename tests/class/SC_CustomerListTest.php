@@ -11,7 +11,7 @@ class SC_CustomerListTest extends Common_TestCase
     /** @var array */
     protected $params = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->faker = Faker\Factory::create('ja_JP');

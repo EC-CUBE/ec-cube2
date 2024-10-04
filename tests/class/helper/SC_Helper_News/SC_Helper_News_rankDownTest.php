@@ -8,13 +8,13 @@ require_once($HOME . "/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase
 class SC_Helper_News_rankDownTest extends SC_Helper_News_TestBase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objNews = new SC_Helper_News_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

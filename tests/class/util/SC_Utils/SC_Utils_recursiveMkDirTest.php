@@ -36,7 +36,7 @@ class SC_Utils_recursiveMkdirTest extends Common_TestCase
 
     static $TMP_DIR;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         self::$TMP_DIR = realpath(dirname(__FILE__)) . "/../../../tmp";
         SC_Helper_FileManager::deleteFile(self::$TMP_DIR);
@@ -44,7 +44,7 @@ class SC_Utils_recursiveMkdirTest extends Common_TestCase
         // parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // parent::tearDown();
     }

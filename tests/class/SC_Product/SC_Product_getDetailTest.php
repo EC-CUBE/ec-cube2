@@ -8,14 +8,14 @@ require_once($HOME . "/tests/class/SC_Product/SC_Product_TestBase.php");
 class SC_Product_getDetailTest extends SC_Product_TestBase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpProductClass();
         $this->objProducts = new SC_Product_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

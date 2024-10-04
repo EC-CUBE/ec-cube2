@@ -38,14 +38,14 @@ class SC_Helper_Purchase_getOrderTest extends SC_Helper_Purchase_TestBase
   /** @var array */
   private $order_ids = [];
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
     $this->customer_ids = $this->setUpCustomer();
     $this->order_ids = $this->setUpOrder($this->customer_ids);
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
   }

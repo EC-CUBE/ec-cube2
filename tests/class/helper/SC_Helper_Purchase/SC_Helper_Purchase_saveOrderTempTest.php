@@ -41,7 +41,7 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
   private $order_temp_ids = [];
   private $helper;
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
     $this->objQuery->delete('dtb_order_temp');
@@ -51,7 +51,7 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
     $this->helper = new SC_Helper_Purchase_saveOrderTempMock();
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
   }

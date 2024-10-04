@@ -5,7 +5,7 @@ class SC_CheckError_MIN_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $min;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'MIN_CHECK';

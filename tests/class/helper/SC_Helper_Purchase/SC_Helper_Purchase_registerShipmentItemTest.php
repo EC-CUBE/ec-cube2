@@ -38,14 +38,14 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
   /** @var array */
   private $order_ids = [];
 
-  protected function setUp()
+  protected function setUp(): void
   {
     parent::setUp();
     $this->customer_ids = $this->setUpCustomer();
     $this->order_ids = $this->setUpOrder($this->customer_ids, [1, 2]);
   }
 
-  protected function tearDown()
+  protected function tearDown(): void
   {
     parent::tearDown();
   }

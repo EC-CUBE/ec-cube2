@@ -9,7 +9,7 @@ class SC_UploadFileTest extends Common_TestCase
     /** @var string */
     protected $tempDir;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->saveDir = sys_get_temp_dir().'/'.uniqid();
@@ -29,7 +29,7 @@ class SC_UploadFileTest extends Common_TestCase
         ];
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         foreach ([$this->saveDir, $this->tempDir] as $dir) {
             $files = new RecursiveIteratorIterator(

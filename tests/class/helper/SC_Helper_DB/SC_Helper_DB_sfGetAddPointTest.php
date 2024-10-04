@@ -5,7 +5,7 @@ class SC_Helper_DB_sfGetAddPointTest extends SC_Helper_DB_TestBase
     /** @var int */
     const POINT_RATE = 4;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objQuery->update('dtb_baseinfo', ['point_rate' => self::POINT_RATE], 'id = 1');

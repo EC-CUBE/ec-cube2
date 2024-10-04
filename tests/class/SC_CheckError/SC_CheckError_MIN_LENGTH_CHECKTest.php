@@ -5,7 +5,7 @@ class SC_CheckError_MIN_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $minlength;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'MIN_LENGTH_CHECK';

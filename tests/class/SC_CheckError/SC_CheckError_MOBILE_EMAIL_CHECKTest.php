@@ -7,7 +7,7 @@ class SC_CheckError_MOBILE_EMAIL_CHECKTest extends SC_CheckError_AbstractTestCas
     /** @var string */
     protected $mobileEmail;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'MOBILE_EMAIL_CHECK';

@@ -7,13 +7,13 @@ class SC_CartSessionTest extends Common_TestCase
      */
     protected $objCartSession;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objCartSession = new SC_CartSession_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         $objDb = new SC_Helper_DB_Ex();
