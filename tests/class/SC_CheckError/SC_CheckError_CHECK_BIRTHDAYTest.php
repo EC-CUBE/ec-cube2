@@ -109,7 +109,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         ];
         $this->scenario();
         $this->actual = $this->objErr->arrErr[self::FORM_NAME1];
-        $this->assertContains('以下で入力', $this->actual);
+        $this->assertStringContainsString('以下で入力', $this->actual);
     }
 
     public function testCHECK_BIRTHDAYWithMinYear()
@@ -121,7 +121,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         ];
         $this->scenario();
         $this->actual = $this->objErr->arrErr[self::FORM_NAME1];
-        $this->assertContains('以上で入力', $this->actual);
+        $this->assertStringContainsString('以上で入力', $this->actual);
     }
 
     /**

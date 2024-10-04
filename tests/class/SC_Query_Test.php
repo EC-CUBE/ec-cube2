@@ -37,9 +37,9 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
      *
      * @var array
      * @see PHPUnit_Framework_TestCase::$backupGlobals
-     * @see PHPUnit_Framework_TestCase::$backupGlobalsBlacklist
+     * @see PHPUnit_Framework_TestCase::$backupGlobalsExcludeList
      */
-    protected $backupGlobalsBlacklist = array(
+    protected $backupGlobalsExcludeList = array(
         '_MDB2_databases',
         '_MDB2_dsninfo_default',
     );

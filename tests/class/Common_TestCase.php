@@ -3,10 +3,7 @@
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED &~E_STRICT);
 ini_set('display_errors', 1);
 $HOME = realpath(dirname(__FILE__)) . "/../..";
-// TODO PHPUnit 4.8 で動作しないため一旦コメントアウト
-// require_once($HOME . "/tests/class/replace/SC_Display_Ex.php");
-// require_once($HOME . "/tests/class/replace/SC_Response_Ex.php");
-// require_once($HOME . "/tests/class/replace/SC_Utils_Ex.php");
+
 require_once($HOME . "/tests/class/test/util/Test_Utils.php");
 require_once($HOME . "/tests/class/test/util/User_Utils.php");
 
@@ -16,16 +13,16 @@ require_once($HOME . "/data/class/pages/LC_Page_Index.php");
  * SC_Queryのテスト以外は基本的にこのクラスを継承して作成してください。
  *
  */
-class Common_TestCase extends PHPUnit_Framework_TestCase
+class Common_TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * MDB2 をグローバル変数のバックアップ対象から除外する。
      *
      * @var array
      * @see PHPUnit_Framework_TestCase::$backupGlobals
-     * @see PHPUnit_Framework_TestCase::$backupGlobalsBlacklist
+     * @see PHPUnit_Framework_TestCase::$backupGlobalsExcludeList
      */
-    protected $backupGlobalsBlacklist = array(
+    protected $backupGlobalsExcludeList = array(
         '_MDB2_databases',
         '_MDB2_dsninfo_default',
     );
@@ -63,7 +60,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
      */
     protected function verify($message = null)
     {
-        $this->assertEquals($this->expected, $this->actual, $message);
+        $this->assertEquals($this->expected, $this->actual, $message ?? '');
     }
 
     /**

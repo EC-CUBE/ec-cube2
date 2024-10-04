@@ -67,31 +67,31 @@ class SC_Utils_isBlankTest extends Common_TestCase
   public function testIsBlank_空の配列の場合_trueが返る()
   {
     $input = array();
-    $this->assertTrue(SC_Utils::isBlank($input), $input);
+    $this->assertTrue(SC_Utils::isBlank($input), 'Array');
   }
 
   public function testIsBlank_ネストした配列の場合_trueが返る()
   {
     $input = array(array(array()));
-    $this->assertTrue(SC_Utils::isBlank($input), $input);
+    $this->assertTrue(SC_Utils::isBlank($input), 'Array');
   }
 
   public function testIsBlank_greedy指定なしでネストした配列の場合_falseが返る()
   {
     $input = array(array(array()));
-    $this->assertFalse(SC_Utils::isBlank($input, false), $input);
+    $this->assertFalse(SC_Utils::isBlank($input, false), 'Array');
   }
 
   public function testIsBlank_空でない配列の場合_falseが返る()
   {
     $input = array(array(array('1')));
-    $this->assertFalse(SC_Utils::isBlank($input), $input);
+    $this->assertFalse(SC_Utils::isBlank($input), 'Array');
   }
 
   public function testIsBlank_greedy指定なしで空でない配列の場合_falseが返る()
   {
     $input = array(array(array('1')));
-    $this->assertFalse(SC_Utils::isBlank($input, false), $input);
+    $this->assertFalse(SC_Utils::isBlank($input, false), 'Array');
   }
 
   public function testIsBlank_全角スペースと空白の組み合わせの場合_trueが返る()
@@ -121,13 +121,13 @@ class SC_Utils_isBlankTest extends Common_TestCase
   public function testIsBlank_数値のゼロを入力した場合_falseが返る()
   {
     $input = 0;
-    $this->assertFalse(SC_Utils::isBlank($input), $input);
+    $this->assertFalse(SC_Utils::isBlank($input), (string) $input);
   }
 
   public function testIsBlank_値が空の配列を入力した場合_trueが返る()
   {
     $input = array("");
-    $this->assertTrue(SC_Utils::isBlank($input), $input);
+    $this->assertTrue(SC_Utils::isBlank($input), 'Array');
   }
 
   public function testIsBlank_全てのホワイトスペースを並べた場合_trueが返る()
@@ -144,4 +144,3 @@ class SC_Utils_isBlankTest extends Common_TestCase
 
   //////////////////////////////////////////
 }
-

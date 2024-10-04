@@ -112,7 +112,7 @@ class SC_UploadFileTest extends Common_TestCase
         $this->actual = $this->objUpFile->makeTempFile('main_image');
         $this->verify('move_uploaded_file() が false になるため必ず失敗する');
 
-        $this->assertContains(date('mdHi').'_', $this->objUpFile->temp_file[0]);
+        $this->assertStringContainsString(date('mdHi').'_', $this->objUpFile->temp_file[0]);
     }
 
     public function testMakeTempFileWithNotRename()
@@ -144,7 +144,7 @@ class SC_UploadFileTest extends Common_TestCase
         $this->objUpFile->addFile('詳細-メイン画像', 'main_image', array('jpg'), IMAGE_SIZE, false, 0, 0, false);
         $this->objUpFile->makeTempFile('main_image', true); // rename
 
-        $this->assertContains(date('mdHi').'_', $this->objUpFile->getTempFilePath('main_image'));
+        $this->assertStringContainsString(date('mdHi').'_', $this->objUpFile->getTempFilePath('main_image'));
     }
 
     public function testMoveTempFile()
@@ -217,7 +217,7 @@ class SC_UploadFileTest extends Common_TestCase
         $this->expected = [
             'temp_main_image' => 'ice500.jpg',
             'save_main_image' => 'ice500.jpg'
-        ]; 
+        ];
         $this->actual = $this->objUpFile->getHiddenFileList();
         $this->verify();
     }
@@ -385,7 +385,7 @@ class SC_UploadFileTest extends Common_TestCase
         $this->objUpFile->addFile('ダウンロードファイル', 'down_file', array('jpg'), IMAGE_SIZE, false, 0, 0, false);
         $this->objUpFile->makeTempDownFile('down_file');
 
-        $this->assertContains(date('mdHi').'_', $this->objUpFile->getFormDownFile());
+        $this->assertStringContainsString(date('mdHi').'_', $this->objUpFile->getFormDownFile());
     }
 
     public function testGetFormDownloadFileWithSaveFile()
@@ -423,4 +423,3 @@ class SC_UploadFileTest extends Common_TestCase
         $this->assertFileNotExists($this->saveDir.'/ice500.jpg');
     }
 }
-

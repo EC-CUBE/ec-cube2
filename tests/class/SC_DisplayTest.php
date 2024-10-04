@@ -23,7 +23,7 @@ class SC_DisplayTest extends Common_TestCase
     public function testDetectDevice()
     {
         $this->assertEquals(DEVICE_TYPE_PC, SC_Display_Ex::detectDevice());
-        
+
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1';
         $this->assertEquals(DEVICE_TYPE_SMARTPHONE, SC_Display_Ex::detectDevice(true));
 
@@ -70,7 +70,7 @@ class SC_DisplayTest extends Common_TestCase
         $this->assertTrue($this->objDisplay->response->containsHeader('test'));
 
         $expected = ECCUBE_VERSION;
-        $this->assertContains($expected, $this->objDisplay->response->body);
+        $this->assertStringContainsString($expected, $this->objDisplay->response->body);
         $this->objDisplay->response->setHeader(['Content-Type' => 'text/html']);
         $this->objDisplay->response->headerForDownload('test.csv');
         $this->objDisplay->response->setStatusCode(200);
