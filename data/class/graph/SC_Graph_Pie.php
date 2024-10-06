@@ -50,7 +50,7 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
         if (!is_array($array)) {
             return;
         }
-        $arrRet = array();
+        $arrRet = [];
         foreach ($array as $val) {
             $total += $val;
         }
@@ -63,10 +63,10 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
         $cnt = 0;
         foreach ($array as $val) {
             $ret = round($val * $rate);
-            $new_total+= $ret;
+            $new_total += $ret;
             $arrRet[] = $ret;
             // パーセント表示用
-            $this->arrLabel[] = round($val * $p_rate) . ' %';
+            $this->arrLabel[] = round($val * $p_rate).' %';
             $cnt++;
         }
         // 合計が360になるように補正しておく
@@ -78,8 +78,8 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
     // 円の位置設定を行う
 
     /**
-     * @param double $cx
-     * @param double $cy
+     * @param float $cx
+     * @param float $cy
      */
     public function setPosition($cx, $cy)
     {
@@ -147,10 +147,10 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
                     $end = $start + $arrRad[$j];
                     if ($start == 0 && $end == 360) {
                         // -90~270で指定すると円が描画できないので0~360に指定
-                        imagearc($this->image, $x, $i, $w, $h, 0, 360, $this->arrDarkColor[($j % $dc_max)]);
+                        imagearc($this->image, $x, $i, $w, $h, 0, 360, $this->arrDarkColor[$j % $dc_max]);
                     } else {
                         // -90°は12時の位置から開始するように補正している
-                        imagearc($this->image, $x, $i, $w, $h, $start - 90, $end - 90, $this->arrDarkColor[($j % $dc_max)]);
+                        imagearc($this->image, $x, $i, $w, $h, $start - 90, $end - 90, $this->arrDarkColor[$j % $dc_max]);
                     }
                     $start = $end;
                 }
@@ -166,15 +166,15 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
             // 開始・終了が同一値だと、(imagefilledarc 関数における) 0°から360°として動作するようなので、スキップする。
             // XXX 値ラベルは別ロジックなので、実質問題を生じないと考えている。
             if ($start == $end) {
-                continue 1;
+                continue;
             }
             // -90°は12時の位置から開始するように補正するもの。
             // 塗りつぶし
-            imagefilledarc($this->image, $x, $y, $w, $h, $start - 90, $end - 90, $this->arrColor[($key % $c_max)], IMG_ARC_PIE);
+            imagefilledarc($this->image, $x, $y, $w, $h, $start - 90, $end - 90, $this->arrColor[$key % $c_max], IMG_ARC_PIE);
             // FIXME 360°描画の場合、(imagefilledarc 関数における) 0°から360°として動作する。本来-90°から360°として動作すべき。
             //       なお、360°と0°の組み合わせを考慮すると線が無いのも問題があるので、この処理をスキップする対応は不適当である。
             // 縁取り線
-            imagefilledarc($this->image, $x, $y, $w, $h, $start - 90, $end - 90, $this->flame_color, IMG_ARC_EDGED|IMG_ARC_NOFILL);
+            imagefilledarc($this->image, $x, $y, $w, $h, $start - 90, $end - 90, $this->flame_color, IMG_ARC_EDGED | IMG_ARC_NOFILL);
             $start = $end;
         }
 
@@ -209,11 +209,11 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
         foreach ($arrRad as $key => $rad) {
             $center = $start + ($rad / 2);
             $end = $start + $rad;
-            list($sx, $sy) = $this->lfGetArcPos($this->cx, $this->cy, ($this->cw / 1.5), ($this->ch / 1.5), $center);
-            list($ex, $ey) = $this->lfGetArcPos($this->cx, $this->cy, ($this->cw * 1.5), ($this->ch * 1.5), $center);
+            list($sx, $sy) = $this->lfGetArcPos($this->cx, $this->cy, $this->cw / 1.5, $this->ch / 1.5, $center);
+            list($ex, $ey) = $this->lfGetArcPos($this->cx, $this->cy, $this->cw * 1.5, $this->ch * 1.5, $center);
             // 指示線の描画
             imageline($this->image, $sx, $sy, $ex + 2, $ey - PIE_LABEL_UP, $this->flame_color);
-            $this->setText(FONT_SIZE, $ex - 10, $ey - PIE_LABEL_UP - FONT_SIZE, $this->arrLabel[$key], NULL, 0, true);
+            $this->setText(FONT_SIZE, $ex - 10, $ey - PIE_LABEL_UP - FONT_SIZE, $this->arrLabel[$key], null, 0, true);
             $start = $end;
         }
     }

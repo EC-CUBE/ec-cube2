@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 管理者ログイン のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Index extends LC_Page_Admin_Ex
@@ -66,7 +65,7 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
 
         switch ($this->getMode()) {
             case 'login':
-                //ログイン処理
+                // ログイン処理
                 $this->lfInitParam($objFormParam);
                 $objFormParam->setParam($_POST);
                 $objFormParam->trimParam();
@@ -95,12 +94,13 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
      * パラメーター情報の初期化
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('ID', 'login_id', ID_MAX_LEN, '', array('EXIST_CHECK', 'GRAPH_CHECK' ,'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('PASSWORD', 'password', PASSWORD_MAX_LEN, '', array('EXIST_CHECK', 'GRAPH_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('ID', 'login_id', ID_MAX_LEN, '', ['EXIST_CHECK', 'GRAPH_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('PASSWORD', 'password', PASSWORD_MAX_LEN, '', ['EXIST_CHECK', 'GRAPH_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     /**
@@ -109,6 +109,7 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
      * TODO: ブルートフォースアタック対策チェックの実装
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
+     *
      * @return array $arrErr エラー配列
      */
     public function lfCheckError(&$objFormParam)
@@ -132,16 +133,17 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
      *
      * @param  string  $login_id ログインID文字列
      * @param  string  $pass     ログインパスワード文字列
-     * @return boolean ログイン情報が有効な場合 true
+     *
+     * @return bool ログイン情報が有効な場合 true
      */
     public function lfIsLoginMember($login_id, $pass)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        //パスワード、saltの取得
+        // パスワード、saltの取得
         $cols = 'password, salt';
         $table = 'dtb_member';
         $where = 'login_id = ? AND del_flg <> 1 AND work = 1';
-        $arrData = $objQuery->getRow($cols, $table, $where, array($login_id));
+        $arrData = $objQuery->getRow($cols, $table, $where, [$login_id]);
         if (SC_Utils_Ex::isBlank($arrData)) {
             return false;
         }
@@ -157,16 +159,17 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
      * 管理者ログイン設定処理
      *
      * @param  string $login_id ログインID文字列
+     *
      * @return void
      */
     public function lfDoLogin($login_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        //メンバー情報取得
+        // メンバー情報取得
         $cols = 'member_id, authority, login_date, name';
         $table = 'dtb_member';
         $where = 'login_id = ?';
-        $arrData = $objQuery->getRow($cols, $table, $where, array($login_id));
+        $arrData = $objQuery->getRow($cols, $table, $where, [$login_id]);
         // セッション登録
         $sid = $this->lfSetLoginSession($arrData['member_id'], $login_id, $arrData['authority'], $arrData['name'], $arrData['login_date']);
         // ログイン情報記録
@@ -176,11 +179,12 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
     /**
      * ログイン情報セッション登録
      *
-     * @param  integer $member_id  メンバーID
+     * @param  int $member_id  メンバーID
      * @param  string  $login_id   ログインID文字列
-     * @param  integer $authority  権限ID
+     * @param  int $authority  権限ID
      * @param  string  $login_name ログイン表示名
      * @param  string  $last_login 最終ログイン日時(YYYY/MM/DD HH:ii:ss形式) またはNULL
+     *
      * @return string  $sid 設定したセッションのセッションID
      */
     public function lfSetLoginSession($member_id, $login_id, $authority, $login_name, $last_login)
@@ -209,26 +213,27 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
      * ログイン情報の記録
      *
      * @param  string   $sid        セッションID
-     * @param  integer $member_id  メンバーID
+     * @param  int $member_id  メンバーID
      * @param  string  $login_id   ログインID文字列
-     * @param  integer $authority  権限ID
+     * @param  int $authority  権限ID
      * @param  string  $last_login 最終ログイン日時(YYYY/MM/DD HH:ii:ss形式) またはNULL
+     *
      * @return void
      */
     public function lfSetLoginData($sid, $member_id, $login_id, $authority, $last_login)
     {
         // ログイン記録ログ出力
         $str_log = "login: user=$login_id($member_id) auth=$authority "
-                    . "lastlogin=$last_login sid=$sid";
+                    ."lastlogin=$last_login sid=$sid";
         GC_Utils_Ex::gfPrintLog($str_log);
 
         // 最終ログイン日時更新
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $sqlval = array();
+        $sqlval = [];
         $sqlval['login_date'] = date('Y-m-d H:i:s');
         $table = 'dtb_member';
         $where = 'member_id = ?';
-        $objQuery->update($table, $sqlval, $where, array($member_id));
+        $objQuery->update($table, $sqlval, $where, [$member_id]);
     }
 
     /**
@@ -237,10 +242,11 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
      * TODO: ブルートフォースアタック対策の実装
      *
      * @param  string $error_login_id ログイン失敗時に投入されたlogin_id文字列
+     *
      * @return void
      */
     public function lfSetIncorrectData($error_login_id)
     {
-        GC_Utils_Ex::gfPrintLog($error_login_id . ' password incorrect.');
+        GC_Utils_Ex::gfPrintLog($error_login_id.' password incorrect.');
     }
 }

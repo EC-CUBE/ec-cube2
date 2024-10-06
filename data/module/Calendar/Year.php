@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 //
 // +----------------------------------------------------------------------+
@@ -19,12 +20,12 @@
 //
 // $Id: Year.php,v 1.4 2005/10/22 10:25:39 quipo Exp $
 //
-/**
+/*
  * @package Calendar
  * @version $Id$
  */
 
-/**
+/*
  * Allows Calendar include path to be redefined
  * @ignore
  */
@@ -47,8 +48,6 @@ require_once CALENDAR_ROOT.'Calendar.php';
  *     echo $Month->thisMonth().'<br />';
  * }
  * </code>
- * @package Calendar
- * @access public
  */
 class Calendar_Year extends Calendar
 {
@@ -57,8 +56,8 @@ class Calendar_Year extends Calendar
 
     /**
      * Constructs Calendar_Year
+     *
      * @param int year e.g. 2003
-     * @access public
      */
     public function __construct($y)
     {
@@ -76,32 +75,36 @@ class Calendar_Year extends Calendar
      * // define ('CALENDAR_MONTH_STATE',CALENDAR_USE_MONTH); // Use Calendar_Month
      * </code>
      * It defaults to building Calendar_Month objects.
+     *
      * @param array (optional) array of Calendar_Month objects representing selected dates
      * @param int (optional) first day of week (e.g. 0 for Sunday, 2 for Tuesday etc.)
-     * @return boolean
-     * @access public
+     *
+     * @return bool
      */
-    function build($sDates = array(), $firstDay = null)
+    public function build($sDates = [], $firstDay = null)
     {
         require_once CALENDAR_ROOT.'Factory.php';
         $this->firstDay = $this->defineFirstDayOfWeek($firstDay);
         $monthsInYear = $this->cE->getMonthsInYear($this->thisYear());
-        for ($i=1; $i <= $monthsInYear; $i++) {
+        for ($i = 1; $i <= $monthsInYear; $i++) {
             $this->children[$i] = Calendar_Factory::create('Month', $this->year, $i);
         }
         if (count($sDates) > 0) {
             $this->setSelection($sDates);
         }
+
         return true;
     }
 
     /**
      * Called from build()
+     *
      * @param array
+     *
      * @return void
-     * @access private
      */
-    function setSelection($sDates) {
+    public function setSelection($sDates)
+    {
         foreach ($sDates as $sDate) {
             if ($this->year == $sDate->thisYear()) {
                 $key = $sDate->thisMonth();
@@ -113,4 +116,3 @@ class Calendar_Year extends Calendar
         }
     }
 }
-?>

@@ -26,8 +26,8 @@ require_once 'LC_Page_Upgrade_Base.php';
 /**
  * オーナーズストア購入商品一覧を返すページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
@@ -50,8 +50,8 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
     public function process()
     {
         $mode = $this->getMode();
-        $objLog  = new LC_Upgrade_Helper_Log;
-        $objJson = new LC_Upgrade_Helper_Json;
+        $objLog = new LC_Upgrade_Helper_Log();
+        $objJson = new LC_Upgrade_Helper_Json();
 
         $objLog->start($mode);
 
@@ -80,12 +80,12 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
 
         // リクエストを開始
         $objLog->log('* http request start');
-        $arrPostData = array(
+        $arrPostData = [
             'eccube_url' => HTTP_URL,
-            'public_key' => sha1($public_key . $sha1_key),
-            'sha1_key'   => $sha1_key,
-            'ver'        => ECCUBE_VERSION
-        );
+            'public_key' => sha1($public_key.$sha1_key),
+            'sha1_key' => $sha1_key,
+            'ver' => ECCUBE_VERSION,
+        ];
         $objReq = $this->request('products_list', $arrPostData);
 
         // リクエストチェック
@@ -126,7 +126,7 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
         if ($objRet->status === OSTORE_STATUS_SUCCESS) {
             $objLog->log('* get products list ok');
 
-            $arrProducts = array();
+            $arrProducts = [];
 
             foreach ($objRet->data as $product) {
                 $tmp = get_object_vars($product);
@@ -140,12 +140,12 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
 
             // 再度リクエストを開始
             $objLog->log('* http request start');
-            $arrPostData = array(
+            $arrPostData = [
                 'eccube_url' => HTTP_URL,
-                'public_key' => sha1($public_key . $sha1_key),
-                'sha1_key'   => $sha1_key,
-                'ver'        => "2.13.17" // 2.13系も取得する
-            );
+                'public_key' => sha1($public_key.$sha1_key),
+                'sha1_key' => $sha1_key,
+                'ver' => '2.13.17', // 2.13系も取得する
+            ];
             $objReq = $this->request('products_list', $arrPostData);
 
             // リクエストチェック
@@ -189,7 +189,7 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
                     $this->detectInstalledFlagByHostState($tmp);
                     if (!isset($arrProducts[$tmp['product_id']])) {
                         if ($tmp['download_flg'] == 1) {
-                            $tmp['status'] = "2.13系のモジュールは十分に動作確認できてない場合があります" ;
+                            $tmp['status'] = '2.13系のモジュールは十分に動作確認できてない場合があります';
                         }
                         $arrProducts[$tmp['product_id']] = $tmp;
                     }
@@ -204,11 +204,11 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
             if (!$objView->_smarty->templateExists($template)) {
                 $objLog->log('* template not exist, use default template');
                 // デフォルトテンプレートを使用
-                $template = DATA_REALDIR . 'Smarty/templates/default/admin/' . $template;
+                $template = DATA_REALDIR.'Smarty/templates/default/admin/'.$template;
             }
 
             $html = $objView->fetch('ownersstore/products_list.tpl');
-            $objJson->setSuccess(array(), $html);
+            $objJson->setSuccess([], $html);
             $objJson->display();
             $objLog->end();
 
@@ -225,7 +225,9 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
     /**
      * ホストの dtb_module に基づいた本当のインストール有無状態を取得し、
      * オーナーズストアからの installed_flg を上書きする。
+     *
      * @param array $productData
+     *
      * @return void
      */
     private function detectInstalledFlagByHostState(&$productData)
@@ -233,7 +235,7 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
         $productId = $productData['product_id'];
         $objQuery = \SC_Query_Ex::getSingletonInstance();
 
-        $isInstalled = $objQuery->exists('dtb_module', 'module_id = ? AND del_flg = 0', array($productId));
+        $isInstalled = $objQuery->exists('dtb_module', 'module_id = ? AND del_flg = 0', [$productId]);
 
         $productData['installed_flg'] = $isInstalled;
     }

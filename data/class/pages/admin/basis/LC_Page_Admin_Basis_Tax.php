@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 税率設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
@@ -57,22 +56,21 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
         $this->arrPref = $masterData->getMasterData('mtb_pref');
         $this->arrTAXCALCRULE = $masterData->getMasterData('mtb_taxrule');
 
-        //適用時刻の項目値設定
+        // 適用時刻の項目値設定
         $this->objDate = new SC_Date_Ex();
-        //適用時間の年を、「現在年~現在年＋2」の範囲に設定
-        $arrYear = array();
-        for ($year=date("Y"); $year<=date("Y") + 2;$year++) {
+        // 適用時間の年を、「現在年~現在年＋2」の範囲に設定
+        $arrYear = [];
+        for ($year = date('Y'); $year <= date('Y') + 2; $year++) {
             $arrYear[$year] = $year;
         }
         $this->arrYear = $arrYear;
-        $arrMinutes = array();
-        for ($minutes=0; $minutes< 60; $minutes++) {
+        $arrMinutes = [];
+        for ($minutes = 0; $minutes < 60; $minutes++) {
             $arrMinutes[$minutes] = $minutes;
         }
         $this->arrMinutes = $arrMinutes;
 
-        $this->arrEnable = array( '1' => '有効', '0' => '無効');
-
+        $this->arrEnable = ['1' => '有効', '0' => '無効'];
     }
 
     /**
@@ -105,7 +103,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
         // POST値の入力文字変換
         $objFormParam->convParam();
 
-        //tax_rule_idを変数にセット
+        // tax_rule_idを変数にセット
         $tax_rule_id = $objFormParam->getValue('tax_rule_id');
 
         // モードによる処理切り替え
@@ -128,7 +126,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
 
                 break;
 
-            // 編集処理
+                // 編集処理
             case 'edit':
                 // エラーチェック
                 $this->arrErr = $this->lfCheckError($objFormParam, $objTaxRule);
@@ -138,7 +136,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
                     $arrParam = $objFormParam->getHashArray();
                     // 登録実行
                     $res_tax_rule_id = $this->doRegist($tax_rule_id, $arrParam, $objTaxRule);
-                    if ($res_tax_rule_id !== FALSE) {
+                    if ($res_tax_rule_id !== false) {
                         // 完了メッセージ
                         $this->tpl_onload = "alert('登録が完了しました。');";
 
@@ -152,16 +150,16 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
 
                 break;
 
-            // 編集前処理
+                // 編集前処理
             case 'pre_edit':
                 $TaxRule = $objTaxRule->getTaxRuleData($tax_rule_id);
 
-                $tmp = explode(" ", $TaxRule['apply_date']);
-                $tmp_ymd = array_map("intval",explode('-', $tmp[0]));
+                $tmp = explode(' ', $TaxRule['apply_date']);
+                $tmp_ymd = array_map('intval', explode('-', $tmp[0]));
                 $TaxRule['apply_date_year'] = $tmp_ymd[0];
                 $TaxRule['apply_date_month'] = $tmp_ymd[1];
                 $TaxRule['apply_date_day'] = $tmp_ymd[2];
-                $tmp_hm = array_map("intval",explode(":", $tmp[1]));
+                $tmp_hm = array_map('intval', explode(':', $tmp[1]));
                 $TaxRule['apply_date_hour'] = $tmp_hm[0];
                 $TaxRule['apply_date_minutes'] = $tmp_hm[1];
 
@@ -171,7 +169,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
                 $this->tpl_tax_rule_id = $tax_rule_id;
                 break;
 
-            // 削除
+                // 削除
             case 'delete':
                 $objTaxRule->deleteTaxRuleData($tax_rule_id);
 
@@ -193,39 +191,41 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
      * パラメーター情報の初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('商品個別 税率設定機能', 'product_tax_flg', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'), OPTION_PRODUCT_TAX_RULE);
-        $objFormParam->addParam('税規約ID', 'tax_rule_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('消費税率', 'tax_rate', PERCENTAGE_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('課税規則', 'calc_rule', PERCENTAGE_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('商品個別 税率設定機能', 'product_tax_flg', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'], OPTION_PRODUCT_TAX_RULE);
+        $objFormParam->addParam('税規約ID', 'tax_rule_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('消費税率', 'tax_rate', PERCENTAGE_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('課税規則', 'calc_rule', PERCENTAGE_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
 
         // 適用日時
-        $objFormParam->addParam('適用年', 'apply_date_year', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('適用月', 'apply_date_month', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('適用日', 'apply_date_day', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('適用時', 'apply_date_hour', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('適用分', 'apply_date_minutes', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('適用年', 'apply_date_year', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('適用月', 'apply_date_month', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('適用日', 'apply_date_day', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('適用時', 'apply_date_hour', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('適用分', 'apply_date_minutes', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
     }
 
     /**
      * 登録処理を実行.
      *
-     * @param  integer  $tax_rule_id
+     * @param  int  $tax_rule_id
      * @param  SC_Helper_TaxRule_Ex   $objTaxRule
+     *
      * @return multiple
      */
     public function doRegist($tax_rule_id, $arrParam, SC_Helper_TaxRule_Ex $objTaxRule)
     {
         $apply_date = SC_Utils_Ex::sfGetTimestampistime(
-                $arrParam['apply_date_year'],
-                sprintf("%02d", $arrParam['apply_date_month']),
-                sprintf("%02d", $arrParam['apply_date_day']),
-                sprintf("%02d", $arrParam['apply_date_hour']),
-                sprintf("%02d", $arrParam['apply_date_minutes'])
-                );
+            $arrParam['apply_date_year'],
+            sprintf('%02d', $arrParam['apply_date_month']),
+            sprintf('%02d', $arrParam['apply_date_day']),
+            sprintf('%02d', $arrParam['apply_date_hour']),
+            sprintf('%02d', $arrParam['apply_date_minutes'])
+        );
 
         $calc_rule = $arrParam['calc_rule'];
         $tax_rate = $arrParam['tax_rate'];
@@ -237,24 +237,25 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
      * 共通設定の登録処理を実行.
      *
      * @param  array   $arrParam
-     * @return integer
+     *
+     * @return int
      */
     public function doParamRegist($arrParam)
     {
-        $arrData = array();
+        $arrData = [];
         foreach ($arrParam as $key => $val) {
             switch ($key) {
-            case 'product_tax_flg':
-                $arrData['OPTION_PRODUCT_TAX_RULE'] = $val;
-                break;
-            default:
-            }
+                case 'product_tax_flg':
+                    $arrData['OPTION_PRODUCT_TAX_RULE'] = $val;
+                    break;
+                default:
+                }
         }
         $masterData = new SC_DB_MasterData_Ex();
         // DBのデータを更新
-        $res = $masterData->updateMasterData('mtb_constants', array(), $arrData);
+        $res = $masterData->updateMasterData('mtb_constants', [], $arrData);
         // キャッシュを生成
-        $masterData->createCache('mtb_constants', array(), true, array('id', 'remarks'));
+        $masterData->createCache('mtb_constants', [], true, ['id', 'remarks']);
 
         return $res;
     }
@@ -263,6 +264,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
      * 入力エラーチェック.
      *
      * @param SC_FormParam $objFormParam
+     *
      * @return array $objErr->arrErr エラー内容
      */
     public function lfCheckError(&$objFormParam, SC_Helper_TaxRule_Ex &$objTaxRule)
@@ -282,15 +284,15 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
         }
 
         // 適用日時チェック
-        $objErr->doFunc(array('適用日時', 'apply_date_year', 'apply_date_month', 'apply_date_day'), array('CHECK_DATE'));
+        $objErr->doFunc(['適用日時', 'apply_date_year', 'apply_date_month', 'apply_date_day'], ['CHECK_DATE']);
         if (SC_Utils_Ex::isBlank($objErr->arrErr['apply_date_year']) && $arrForm['tax_rule_id'] != '0') {
             $apply_date = SC_Utils_Ex::sfGetTimestampistime(
-                    $arrForm['apply_date_year'],
-                    sprintf("%02d", $arrForm['apply_date_month']),
-                    sprintf("%02d", $arrForm['apply_date_day']),
-                    sprintf("%02d", $arrForm['apply_date_hour']),
-                    sprintf("%02d", $arrForm['apply_date_minutes'])
-                    );
+                $arrForm['apply_date_year'],
+                sprintf('%02d', $arrForm['apply_date_month']),
+                sprintf('%02d', $arrForm['apply_date_day']),
+                sprintf('%02d', $arrForm['apply_date_hour']),
+                sprintf('%02d', $arrForm['apply_date_minutes'])
+            );
 
             // 税規約情報読み込み
             $arrTaxRuleByTime = $objTaxRule->getTaxRuleByTime($apply_date);

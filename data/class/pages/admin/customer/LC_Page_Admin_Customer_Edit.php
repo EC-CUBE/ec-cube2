@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 会員情報修正 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
@@ -126,7 +125,7 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
                 $objFormSearchParam->setParam($objFormParam->getValue('search_data'));
                 $this->arrSearchErr = $this->lfCheckErrorSearchParam($objFormSearchParam);
                 $this->arrSearchData = $objFormSearchParam->getSearchArray();
-                if (!SC_Utils_Ex::isBlank($this->arrErr) or !SC_Utils_Ex::isBlank($this->arrSearchErr)) {
+                if (!SC_Utils_Ex::isBlank($this->arrErr) || !SC_Utils_Ex::isBlank($this->arrSearchErr)) {
                     return;
                 }
                 // 確認画面テンプレートに切り替え
@@ -145,7 +144,7 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
                 $objFormSearchParam->setParam($objFormParam->getValue('search_data'));
                 $this->arrSearchErr = $this->lfCheckErrorSearchParam($objFormSearchParam);
                 $this->arrSearchData = $objFormSearchParam->getSearchArray();
-                if (!SC_Utils_Ex::isBlank($this->arrErr) or !SC_Utils_Ex::isBlank($this->arrSearchErr)) {
+                if (!SC_Utils_Ex::isBlank($this->arrErr) || !SC_Utils_Ex::isBlank($this->arrSearchErr)) {
                     return;
                 }
                 // 購入履歴情報の取得
@@ -169,7 +168,7 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
                 $objFormSearchParam->setParam($objFormParam->getValue('search_data'));
                 $this->arrSearchErr = $this->lfCheckErrorSearchParam($objFormSearchParam);
                 $this->arrSearchData = $objFormSearchParam->getSearchArray();
-                if (!SC_Utils_Ex::isBlank($this->arrErr) or !SC_Utils_Ex::isBlank($this->arrSearchErr)) {
+                if (!SC_Utils_Ex::isBlank($this->arrErr) || !SC_Utils_Ex::isBlank($this->arrSearchErr)) {
                     return;
                 }
                 $this->lfRegistData($objFormParam);
@@ -187,18 +186,19 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
                 if (!SC_Utils_Ex::isBlank($this->arrSearchErr)) {
                     return;
                 }
+                // no break
             default:
                 $this->lfInitParam($objFormParam);
                 $this->arrForm = $objFormParam->getHashArray();
                 break;
         }
-
     }
 
     /**
      * パラメーター情報の初期化
      *
      * @param  array $objFormParam フォームパラメータークラス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
@@ -206,28 +206,30 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
         // 会員項目のパラメーター取得
         SC_Helper_Customer_Ex::sfCustomerEntryParam($objFormParam, true);
         // 検索結果一覧画面への戻り用パラメーター
-        $objFormParam->addParam('検索用データ', 'search_data', '', '', array(), '', false);
+        $objFormParam->addParam('検索用データ', 'search_data', '', '', [], '', false);
         // 会員購入履歴ページング用
-        $objFormParam->addParam('', 'search_pageno', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'), '', false);
+        $objFormParam->addParam('', 'search_pageno', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK'], '', false);
     }
 
     /**
      * 検索パラメーター引き継ぎ用情報の初期化
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
+     *
      * @return void
      */
     public function lfInitSearchParam(&$objFormParam)
     {
         SC_Helper_Customer_Ex::sfSetSearchParam($objFormParam);
         // 初回受け入れ時用
-        $objFormParam->addParam('編集対象会員ID', 'edit_customer_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('編集対象会員ID', 'edit_customer_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     /**
      * 検索パラメーターエラーチェック
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
+     *
      * @return array エラー配列
      */
     public function lfCheckErrorSearchParam(&$objFormParam)
@@ -239,6 +241,7 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
      * フォーム入力パラメーターエラーチェック
      *
      * @param  array $objFormParam フォームパラメータークラス
+     *
      * @return array エラー配列
      */
     public function lfCheckError(&$objFormParam)
@@ -246,11 +249,11 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
         $arrErr = SC_Helper_Customer_Ex::sfCustomerMypageErrorCheck($objFormParam, true);
 
         // メアド重複チェック(共通ルーチンは使えない)
-        $objQuery   = SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'email, email_mobile, customer_id';
         $table = 'dtb_customer';
         $where = 'del_flg <> 1 AND (email Like ? OR email_mobile Like ?)';
-        $arrVal = array($objFormParam->getValue('email'), $objFormParam->getValue('email_mobile'));
+        $arrVal = [$objFormParam->getValue('email'), $objFormParam->getValue('email_mobile')];
         if ($objFormParam->getValue('customer_id')) {
             $where .= ' AND customer_id <> ?';
             $arrVal[] = $objFormParam->getValue('customer_id');
@@ -258,17 +261,17 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
         $arrData = $objQuery->getRow($col, $table, $where, $arrVal);
         if (!SC_Utils_Ex::isBlank($arrData['email'])) {
             if ($arrData['email'] == $objFormParam->getValue('email')) {
-                $arrErr['email'] = '※ すでに他の会員(ID:' . $arrData['customer_id'] . ')が使用しているアドレスです。';
+                $arrErr['email'] = '※ すでに他の会員(ID:'.$arrData['customer_id'].')が使用しているアドレスです。';
             } elseif ($arrData['email'] == $objFormParam->getValue('email_mobile')) {
-                $arrErr['email_mobile'] = '※ すでに他の会員(ID:' . $arrData['customer_id'] . ')が使用しているアドレスです。';
+                $arrErr['email_mobile'] = '※ すでに他の会員(ID:'.$arrData['customer_id'].')が使用しているアドレスです。';
             }
         }
         if (!SC_Utils_Ex::isBlank($arrData['email_mobile'])) {
             if ($arrData['email_mobile'] == $objFormParam->getValue('email_mobile')) {
-                $arrErr['email_mobile'] = '※ すでに他の会員(ID:' . $arrData['customer_id'] . ')が使用している携帯アドレスです。';
+                $arrErr['email_mobile'] = '※ すでに他の会員(ID:'.$arrData['customer_id'].')が使用している携帯アドレスです。';
             } elseif ($arrData['email_mobile'] == $objFormParam->getValue('email')) {
                 if ($arrErr['email'] == '') {
-                    $arrErr['email'] = '※ すでに他の会員(ID:' . $arrData['customer_id'] . ')が使用している携帯アドレスです。';
+                    $arrErr['email'] = '※ すでに他の会員(ID:'.$arrData['customer_id'].')が使用している携帯アドレスです。';
                 }
             }
         }
@@ -280,7 +283,8 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
      * 登録処理
      *
      * @param  array $objFormParam フォームパラメータークラス
-     * @return integer エラー配列
+     *
+     * @return int エラー配列
      */
     public function lfRegistData(&$objFormParam)
     {
@@ -288,10 +292,10 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
         $arrData = $objFormParam->getDbArray();
         // 足りないものを作る
         if (!SC_Utils_Ex::isBlank($objFormParam->getValue('year'))) {
-            $arrData['birth'] = $objFormParam->getValue('year') . '/'
-                            . $objFormParam->getValue('month') . '/'
-                            . $objFormParam->getValue('day')
-                            . ' 00:00:00';
+            $arrData['birth'] = $objFormParam->getValue('year').'/'
+                            .$objFormParam->getValue('month').'/'
+                            .$objFormParam->getValue('day')
+                            .' 00:00:00';
         }
 
         if (!is_numeric($arrData['customer_id'])) {
@@ -314,13 +318,13 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
     public function lfPurchaseHistory($customer_id, $pageno = 0)
     {
         if (SC_Utils_Ex::isBlank($customer_id)) {
-            return array('0', array(), NULL);
+            return ['0', [], null];
         }
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $page_max = SEARCH_PMAX;
         $table = 'dtb_order';
         $where = 'customer_id = ? AND del_flg <> 1';
-        $arrVal = array($customer_id);
+        $arrVal = [$customer_id];
         // 購入履歴の件数取得
         $linemax = $objQuery->count($table, $where, $arrVal);
         // ページ送りの取得
@@ -333,6 +337,6 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex
         // 購入履歴情報の取得
         $arrPurchaseHistory = $objQuery->select('*', $table, $where, $arrVal);
 
-        return array($linemax, $arrPurchaseHistory, $objNavi);
+        return [$linemax, $arrPurchaseHistory, $objNavi];
     }
 }

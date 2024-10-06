@@ -3,20 +3,23 @@
  * Scriptタグをエスケープする
  *
  * @param  string $value 入力
+ *
  * @return string $value マッチした場合は変換後の文字列、しない場合は入力された文字列をそのまま返す。
  */
 function smarty_modifier_script_escape($value)
 {
     // パフォーマンス低下を軽減するため文字列以外は処理しない。
     // TODO: Stringable なオブジェクトも対象とするのが安全かもしれない。しかし、この modifier は、default_modifiers に設定しているため、影響が見通せない (文字列として返して良いのか不確か)。
-    if (!is_string($value)) return $value;
+    if (!is_string($value)) {
+        return $value;
+    }
 
     static $pattern;
     if (is_null($pattern)) {
         $pattern = "<script.*?>|<\/script>|javascript:|<svg.*(onload|onerror).*?>|<img.*(onload|onerror).*?>|<body.*onload.*?>|<iframe.*?>|<object.*?>|<embed.*?>|";
 
         // 追加でサニタイズするイベント一覧
-        $escapeEvents = array(
+        $escapeEvents = [
             'onmouse',
             'onclick',
             'onblur',
@@ -28,14 +31,14 @@ function smarty_modifier_script_escape($value)
             'onselect',
             'onsubmit',
             'onkey',
-        );
+        ];
 
         // イベント毎の正規表現を生成
-        $generateHtmlTagPatterns = array_map(function($str) {
-            return "<(\w+)([^>]*\s)?\/?".$str."[^>]*>";
+        $generateHtmlTagPatterns = array_map(function ($str) {
+            return "<(\w+)([^>]*\s)?\/?".$str.'[^>]*>';
         }, $escapeEvents);
-        $pattern .= implode("|", $generateHtmlTagPatterns)."|";
-        $pattern .= "(\"|').*(onerror|onload|".implode("|", $escapeEvents).").*=.*(\"|').*";
+        $pattern .= implode('|', $generateHtmlTagPatterns).'|';
+        $pattern .= "(\"|').*(onerror|onload|".implode('|', $escapeEvents).").*=.*(\"|').*";
         $pattern = "/{$pattern}/i";
     }
 

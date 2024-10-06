@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * システム情報 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_System_System extends LC_Page_Admin_Ex
@@ -43,8 +42,8 @@ class LC_Page_Admin_System_System extends LC_Page_Admin_Ex
     {
         parent::init();
         $this->tpl_mainpage = 'system/system.tpl';
-        $this->tpl_subno    = 'system';
-        $this->tpl_mainno   = 'system';
+        $this->tpl_subno = 'system';
+        $this->tpl_mainno = 'system';
         $this->tpl_maintitle = 'システム設定';
         $this->tpl_subtitle = 'システム情報';
     }
@@ -89,11 +88,12 @@ class LC_Page_Admin_System_System extends LC_Page_Admin_Ex
      *
      * @param  SC_FormParam_Ex $objFormParam
      * @param  array  $arrParams    $_GET値
+     *
      * @return void
      */
     public function initForm(&$objFormParam, &$arrParams)
     {
-        $objFormParam->addParam('mode', 'mode', INT_LEN, '', array('ALPHA_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('mode', 'mode', INT_LEN, '', ['ALPHA_CHECK', 'MAX_LENGTH_CHECK']);
         $objFormParam->setParam($arrParams);
     }
 
@@ -106,27 +106,27 @@ class LC_Page_Admin_System_System extends LC_Page_Admin_Ex
     {
         $objDB = SC_DB_DBFactory_Ex::getInstance();
 
-        $arrSystemInfo = array(
-            array('title' => 'EC-CUBE',     'value' => ECCUBE_VERSION),
-            array('title' => 'サーバーOS',    'value' => php_uname()),
-            array('title' => 'DBサーバー',    'value' => $objDB->sfGetDBVersion()),
-            array('title' => 'WEBサーバー',   'value' => $_SERVER['SERVER_SOFTWARE']),
-        );
+        $arrSystemInfo = [
+            ['title' => 'EC-CUBE',     'value' => ECCUBE_VERSION],
+            ['title' => 'サーバーOS',    'value' => php_uname()],
+            ['title' => 'DBサーバー',    'value' => $objDB->sfGetDBVersion()],
+            ['title' => 'WEBサーバー',   'value' => $_SERVER['SERVER_SOFTWARE']],
+        ];
 
-        $value = phpversion() . ' (' . implode(', ', get_loaded_extensions()) . ')';
-        $arrSystemInfo[] = array('title' => 'PHP', 'value' => $value);
+        $value = PHP_VERSION.' ('.implode(', ', get_loaded_extensions()).')';
+        $arrSystemInfo[] = ['title' => 'PHP', 'value' => $value];
 
         if (extension_loaded('GD') || extension_loaded('gd')) {
-            $arrValue = array();
+            $arrValue = [];
             foreach (gd_info() as $key => $val) {
                 $arrValue[] = "$key => $val";
             }
-            $value = '有効 (' . implode(', ', $arrValue) . ')';
+            $value = '有効 ('.implode(', ', $arrValue).')';
         } else {
             $value = '無効';
         }
-        $arrSystemInfo[] = array('title' => 'GD', 'value' => $value);
-        $arrSystemInfo[] = array('title' => 'HTTPユーザーエージェント', 'value' => $_SERVER['HTTP_USER_AGENT']);
+        $arrSystemInfo[] = ['title' => 'GD', 'value' => $value];
+        $arrSystemInfo[] = ['title' => 'HTTPユーザーエージェント', 'value' => $_SERVER['HTTP_USER_AGENT']];
 
         return $arrSystemInfo;
     }

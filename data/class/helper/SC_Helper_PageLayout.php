@@ -24,8 +24,8 @@
 /**
  * Webページのレイアウト情報を制御するヘルパークラス.
  *
- * @package Helper
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_Helper_PageLayout
@@ -36,19 +36,19 @@ class SC_Helper_PageLayout
      * 現在の URL に応じたページのレイアウト情報を取得し, LC_Page インスタンスに
      * 設定する.
      *
-     * @access public
      * @param  LC_Page $objPage        LC_Page インスタンス
-     * @param  boolean $preview        プレビュー表示の場合 true
+     * @param  bool $preview        プレビュー表示の場合 true
      * @param  string  $url            ページのURL($_SERVER['SCRIPT_NAME'] の情報)
-     * @param  integer $device_type_id 端末種別ID
+     * @param  int $device_type_id 端末種別ID
+     *
      * @return void
      */
     public function sfGetPageLayout(&$objPage, $preview = false, $url = '', $device_type_id = DEVICE_TYPE_PC)
     {
         // URLを元にページ情報を取得
         if ($preview === false) {
-            $url = preg_replace('|^' . preg_quote(ROOT_URLPATH) . '|', '', $url);
-            $arrPageData = $this->getPageProperties($device_type_id, null, 'url = ?', array($url));
+            $url = preg_replace('|^'.preg_quote(ROOT_URLPATH).'|', '', $url);
+            $arrPageData = $this->getPageProperties($device_type_id, null, 'url = ?', [$url]);
         // プレビューの場合は, プレビュー用のデータを取得
         } else {
             $arrPageData = $this->getPageProperties($device_type_id, 0);
@@ -58,14 +58,14 @@ class SC_Helper_PageLayout
             trigger_error('ページ情報を取得できませんでした。', E_USER_WARNING);
         }
 
-        $objPage->tpl_mainpage = static::getTemplatePath($device_type_id) . $arrPageData[0]['filename'] . '.tpl';
+        $objPage->tpl_mainpage = static::getTemplatePath($device_type_id).$arrPageData[0]['filename'].'.tpl';
 
         if (!file_exists($objPage->tpl_mainpage)) {
-            $msg = 'メイン部のテンプレートが存在しません。[' . $objPage->tpl_mainpage . ']';
+            $msg = 'メイン部のテンプレートが存在しません。['.$objPage->tpl_mainpage.']';
             trigger_error($msg, E_USER_WARNING);
         }
 
-        $objPage->arrPageLayout =& $arrPageData[0];
+        $objPage->arrPageLayout = &$arrPageData[0];
         if (strlen($objPage->arrPageLayout['author']) === 0) {
             $arrInfo = SC_Helper_DB_Ex::sfGetBasisData();
             $objPage->arrPageLayout['author'] = $arrInfo['company_name'];
@@ -94,8 +94,8 @@ class SC_Helper_PageLayout
                     $objPage->arrPageLayout[$arrTarget[$target_id]][] = $arrBloc;
                 } else {
                     $error = "ブロックが見つかりません\n"
-                        . 'tpl_path: ' . $arrBloc['tpl_path'] . "\n"
-                        . 'php_path: ' . $arrBloc['php_path'];
+                        .'tpl_path: '.$arrBloc['tpl_path']."\n"
+                        .'php_path: '.$arrBloc['php_path'];
                     trigger_error($error, E_USER_WARNING);
                 }
             }
@@ -111,25 +111,25 @@ class SC_Helper_PageLayout
      * $device_type_id は必須. デフォルト値は DEVICE_TYPE_PC.
      * $page_id が null の場合は, $page_id が 0 以外のものを検索する.
      *
-     * @access public
-     * @param  integer $device_type_id 端末種別ID
-     * @param  integer $page_id        ページID; null の場合は, 0 以外を検索する.
+     * @param  int $device_type_id 端末種別ID
+     * @param  int $page_id        ページID; null の場合は, 0 以外を検索する.
      * @param  string  $where          追加の検索条件
      * @param  string[]   $arrParams      追加の検索パラメーター
+     *
      * @return array   ページ属性の配列
      */
-    public function getPageProperties($device_type_id = DEVICE_TYPE_PC, $page_id = null, $where = '', $arrParams = array())
+    public function getPageProperties($device_type_id = DEVICE_TYPE_PC, $page_id = null, $where = '', $arrParams = [])
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $where = 'device_type_id = ? ' . (SC_Utils_Ex::isBlank($where) ? $where : 'AND ' . $where);
+        $where = 'device_type_id = ? '.(SC_Utils_Ex::isBlank($where) ? $where : 'AND '.$where);
         if ($page_id === null) {
-            $where = 'page_id <> ? AND ' . $where;
+            $where = 'page_id <> ? AND '.$where;
             $page_id = 0;
         } else {
-            $where = 'page_id = ? AND ' . $where;
+            $where = 'page_id = ? AND '.$where;
         }
         $objQuery->setOrder('page_id');
-        $arrParams = array_merge(array($page_id, $device_type_id), $arrParams);
+        $arrParams = array_merge([$page_id, $device_type_id], $arrParams);
 
         return $objQuery->select('*', 'dtb_pagelayout', $where, $arrParams);
     }
@@ -137,14 +137,14 @@ class SC_Helper_PageLayout
     /**
      * ブロック情報を取得する.
      *
-     * @access public
-     * @param  integer $device_type_id 端末種別ID
+     * @param  int $device_type_id 端末種別ID
      * @param  string  $where          追加の検索条件
      * @param  array   $arrParams      追加の検索パラメーター
-     * @param  boolean $has_realpath   php_path, tpl_path の絶対パスを含める場合 true
+     * @param  bool $has_realpath   php_path, tpl_path の絶対パスを含める場合 true
+     *
      * @return array   ブロック情報の配列
      */
-    public function getBlocs($device_type_id = DEVICE_TYPE_PC, $where = '', $arrParams = array(), $has_realpath = true)
+    public function getBlocs($device_type_id = DEVICE_TYPE_PC, $where = '', $arrParams = [], $has_realpath = true)
     {
         $objBloc = new SC_Helper_Bloc_Ex($device_type_id);
         $arrBlocs = $objBloc->getWhere($where, $arrParams);
@@ -158,10 +158,10 @@ class SC_Helper_PageLayout
     /**
      * ブロック配置情報を取得する.
      *
-     * @access public
-     * @param  integer $device_type_id 端末種別ID
-     * @param  integer $page_id        ページID
-     * @param  boolean $has_realpath   php_path, tpl_path の絶対パスを含める場合 true
+     * @param  int $device_type_id 端末種別ID
+     * @param  int $page_id        ページID
+     * @param  bool $has_realpath   php_path, tpl_path の絶対パスを含める場合 true
+     *
      * @return array   配置情報を含めたブロックの配列
      */
     public function getBlocPositions($device_type_id, $page_id, $has_realpath = true)
@@ -176,13 +176,13 @@ class SC_Helper_PageLayout
 __EOF__;
         $where = 'bloc.device_type_id = ? AND ((anywhere = 1 AND pos.page_id != 0) OR pos.page_id = ?)';
         $objQuery->setOrder('target_id, bloc_row');
-        $arrBlocs = $objQuery->select('*', $table, $where, array($device_type_id, $page_id));
+        $arrBlocs = $objQuery->select('*', $table, $where, [$device_type_id, $page_id]);
         if ($has_realpath) {
             $this->setBlocPathTo($device_type_id, $arrBlocs);
         }
 
-        //全ページ設定と各ページのブロックの重複を削除
-        $arrUniqBlocIds = array();
+        // 全ページ設定と各ページのブロックの重複を削除
+        $arrUniqBlocIds = [];
         foreach ($arrBlocs as $index => $arrBloc) {
             if ($arrBloc['anywhere'] == 1) {
                 $arrUniqBlocIds[] = $arrBloc['bloc_id'];
@@ -202,10 +202,10 @@ __EOF__;
      *
      * XXX ファイルを確実に削除したかどうかのチェック
      *
-     * @access public
-     * @param  integer $page_id        ページID
-     * @param  integer $device_type_id 端末種別ID
-     * @return integer 削除数
+     * @param  int $page_id        ページID
+     * @param  int $device_type_id 端末種別ID
+     *
+     * @return int 削除数
      */
     public function lfDelPageData($page_id, $device_type_id = DEVICE_TYPE_PC)
     {
@@ -214,7 +214,7 @@ __EOF__;
         $ret = null;
         if ($page_id != '') {
             $arrPageData = $this->getPageProperties($device_type_id, $page_id);
-            $ret = $objQuery->delete('dtb_pagelayout', 'page_id = ? AND device_type_id = ?', array($page_id, $device_type_id));
+            $ret = $objQuery->delete('dtb_pagelayout', 'page_id = ? AND device_type_id = ?', [$page_id, $device_type_id]);
             // ファイルの削除
             $this->lfDelFile($arrPageData[0]['filename'], $device_type_id);
         }
@@ -227,9 +227,9 @@ __EOF__;
      *
      * dtb_pagelayout の削除後に呼び出すこと。
      *
-     * @access private
      * @param  string  $filename
-     * @param  integer $device_type_id 端末種別ID
+     * @param  int $device_type_id 端末種別ID
+     *
      * @return void    // TODO boolean にするべき?
      */
     public function lfDelFile($filename, $device_type_id)
@@ -240,18 +240,18 @@ __EOF__;
          * 同名ファイルの使用件数
          * PHP ファイルは, 複数のデバイスで共有するため, device_type_id を条件に入れない
          */
-        $exists = $objQuery->exists('dtb_pagelayout', 'filename = ?', array($filename));
+        $exists = $objQuery->exists('dtb_pagelayout', 'filename = ?', [$filename]);
 
         if (!$exists) {
             // phpファイルの削除
-            $del_php = HTML_REALDIR . $filename . '.php';
+            $del_php = HTML_REALDIR.$filename.'.php';
             if (file_exists($del_php)) {
                 unlink($del_php);
             }
         }
 
         // tplファイルの削除
-        $del_tpl = static::getTemplatePath($device_type_id) . $filename . '.tpl';
+        $del_tpl = static::getTemplatePath($device_type_id).$filename.'.tpl';
         if (file_exists($del_tpl)) {
             unlink($del_tpl);
         }
@@ -260,10 +260,10 @@ __EOF__;
     /**
      * 編集可能ページかどうか.
      *
-     * @access public
-     * @param  integer                   $device_type_id 端末種別ID
-     * @param  integer                   $page_id        ページID
-     * @return boolean �合 true
+     * @param  int                   $device_type_id 端末種別ID
+     * @param  int                   $page_id        ページID
+     *
+     * @return bool �合 true
      */
     public function isEditablePage($device_type_id, $page_id)
     {
@@ -281,9 +281,9 @@ __EOF__;
     /**
      * テンプレートのパスを取得する.
      *
-     * @access public
-     * @param  integer $device_type_id 端末種別ID
-     * @param  boolean $isUser         USER_REALDIR 以下のパスを返す場合 true
+     * @param  int $device_type_id 端末種別ID
+     * @param  bool $isUser         USER_REALDIR 以下のパスを返す場合 true
+     *
      * @return string  テンプレートのパス
      */
     public static function getTemplatePath($device_type_id = DEVICE_TYPE_PC, $isUser = false)
@@ -308,7 +308,7 @@ __EOF__;
         }
         $userPath = USER_REALDIR;
         if ($isUser) {
-            $dir = $userPath . USER_PACKAGE_DIR . $templateName . '/';
+            $dir = $userPath.USER_PACKAGE_DIR.$templateName.'/';
         }
 
         return $dir;
@@ -320,29 +320,29 @@ __EOF__;
      * 引数 $hasPackage を true にした場合は, user_data/packages/template_name
      * を取得する.
      *
-     * @access public
-     * @param  integer $device_type_id 端末種別ID
-     * @param  boolean $hasPackage     パッケージのパスも含める場合 true
+     * @param  int $device_type_id 端末種別ID
+     * @param  bool $hasPackage     パッケージのパスも含める場合 true
+     *
      * @return string  端末に応じた DocumentRoot から user_data までのパス
      */
     public static function getUserDir($device_type_id = DEVICE_TYPE_PC, $hasPackage = false)
     {
         switch ($device_type_id) {
-        case DEVICE_TYPE_MOBILE:
-            $templateName = MOBILE_TEMPLATE_NAME;
-            break;
+            case DEVICE_TYPE_MOBILE:
+                $templateName = MOBILE_TEMPLATE_NAME;
+                break;
 
-        case DEVICE_TYPE_SMARTPHONE:
-            $templateName = SMARTPHONE_TEMPLATE_NAME;
-            break;
+            case DEVICE_TYPE_SMARTPHONE:
+                $templateName = SMARTPHONE_TEMPLATE_NAME;
+                break;
 
-        case DEVICE_TYPE_PC:
-        default:
-            $templateName = TEMPLATE_NAME;
+            case DEVICE_TYPE_PC:
+            default:
+                $templateName = TEMPLATE_NAME;
         }
-        $userDir = ROOT_URLPATH . USER_DIR;
+        $userDir = ROOT_URLPATH.USER_DIR;
         if ($hasPackage) {
-            return $userDir . USER_PACKAGE_DIR . $templateName . '/';
+            return $userDir.USER_PACKAGE_DIR.$templateName.'/';
         }
 
         return $userDir;
@@ -351,36 +351,41 @@ __EOF__;
     /**
      * ブロックの php_path, tpl_path を設定する.
      *
-     * @access private
-     * @param  integer $device_type_id 端末種別ID
+     * @param  int $device_type_id 端末種別ID
      * @param  array   $arrBlocs       設定するブロックの配列
+     *
      * @return void
      */
-    public function setBlocPathTo($device_type_id = DEVICE_TYPE_PC, &$arrBlocs = array())
+    public function setBlocPathTo($device_type_id = DEVICE_TYPE_PC, &$arrBlocs = [])
     {
         foreach ($arrBlocs as $key => $value) {
-            $arrBloc =& $arrBlocs[$key];
-            $arrBloc['php_path'] = SC_Utils_Ex::isBlank($arrBloc['php_path']) ? '' : HTML_REALDIR . $arrBloc['php_path'];
-            $bloc_dir = $this->getTemplatePath($device_type_id) . BLOC_DIR;
-            $arrBloc['tpl_path'] = SC_Utils_Ex::isBlank($arrBloc['tpl_path']) ? '' : $bloc_dir . $arrBloc['tpl_path'];
+            $arrBloc = &$arrBlocs[$key];
+            $arrBloc['php_path'] = SC_Utils_Ex::isBlank($arrBloc['php_path']) ? '' : HTML_REALDIR.$arrBloc['php_path'];
+            $bloc_dir = $this->getTemplatePath($device_type_id).BLOC_DIR;
+            $arrBloc['tpl_path'] = SC_Utils_Ex::isBlank($arrBloc['tpl_path']) ? '' : $bloc_dir.$arrBloc['tpl_path'];
         }
     }
 
     /**
      * カラム数を取得する.
      *
-     * @access private
      * @param  array   $arrPageLayout レイアウト情報の配列
-     * @return integer $col_num カラム数
+     *
+     * @return int $col_num カラム数
      */
     public function getColumnNum($arrPageLayout)
     {
         // メインは確定
         $col_num = 1;
         // LEFT NAVI
-        if (!empty($arrPageLayout['LeftNavi'])) $col_num++;
+        if (!empty($arrPageLayout['LeftNavi'])) {
+            $col_num++;
+        }
         // RIGHT NAVI
-        if (!empty($arrPageLayout['RightNavi'])) $col_num++;
+        if (!empty($arrPageLayout['RightNavi'])) {
+            $col_num++;
+        }
+
         return $col_num;
     }
 }

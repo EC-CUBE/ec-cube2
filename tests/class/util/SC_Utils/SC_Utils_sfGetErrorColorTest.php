@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,44 +27,39 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfGetErrorColor()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetErrorColorTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    // TODO 要確認 実際には使われていない?
+    public function testSfGetErrorColor引数が空でない場合背景色変更用の文字列が返る()
+    {
+        $this->expected = 'background-color:#ffe8e8';
+        $this->actual = SC_Utils::sfGetErrorColor('value');
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  // TODO 要確認 実際には使われていない?
-  public function testSfGetErrorColor_引数が空でない場合_背景色変更用の文字列が返る()
-  {
-    
-    $this->expected = 'background-color:#ffe8e8';
-    $this->actual = SC_Utils::sfGetErrorColor('value');
+    public function testSfGetErrorColor引数が空の場合0バイト文字列が返る()
+    {
+        $this->expected = '';
+        $this->actual = SC_Utils::sfGetErrorColor('');
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfGetErrorColor_引数が空の場合_0バイト文字列が返る()
-  {
-    
-    $this->expected = '';
-    $this->actual = SC_Utils::sfGetErrorColor('');
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

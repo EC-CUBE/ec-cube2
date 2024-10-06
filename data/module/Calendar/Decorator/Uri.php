@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 //
 // +----------------------------------------------------------------------+
@@ -20,12 +21,12 @@
 //
 // $Id: Uri.php,v 1.3 2004/08/16 09:04:20 hfuecks Exp $
 //
-/**
+/*
  * @package Calendar
  * @version $Id$
  */
 
-/**
+/*
  * Allows Calendar include path to be redefined
  * @ignore
  */
@@ -53,51 +54,51 @@ require_once CALENDAR_ROOT.'Util'.DIRECTORY_SEPARATOR.'Uri.php';
  * $Uri->setFragments('year', 'month', 'day');
  * echo $Uri->getPrev(); // Displays year=2003&month=10&day=22
  * </code>
+ *
  * @see Calendar_Util_Uri
- * @package Calendar
- * @access public
  */
 class Calendar_Decorator_Uri extends Calendar_Decorator
 {
-
     /**
-    * @var Calendar_Util_Uri
-    * @access private
-    */
-    var $Uri;
+     * @var Calendar_Util_Uri
+     */
+    public $Uri;
 
     /**
      * Constructs Calendar_Decorator_Uri
+     *
      * @param object subclass of Calendar
-     * @access public
      */
-    function __construct(&$Calendar)
+    public function __construct(&$Calendar)
     {
         parent::__construct($Calendar);
     }
 
     /**
      * Sets the URI fragment names
+     *
      * @param string URI fragment for year
      * @param string (optional) URI fragment for month
      * @param string (optional) URI fragment for day
      * @param string (optional) URI fragment for hour
      * @param string (optional) URI fragment for minute
      * @param string (optional) URI fragment for second
+     *
      * @return void
-     * @access public
      */
-    function setFragments($y, $m=null, $d=null, $h=null, $i=null, $s=null) {
+    public function setFragments($y, $m = null, $d = null, $h = null, $i = null, $s = null)
+    {
         $this->Uri = new Calendar_Util_Uri($y, $m, $d, $h, $i, $s);
     }
 
     /**
      * Sets the separator string between fragments
+     *
      * @param string separator e.g. /
+     *
      * @return void
-     * @access public
      */
-    function setSeparator($separator)
+    public function setSeparator($separator)
     {
         $this->Uri->separator = $separator;
     }
@@ -105,47 +106,49 @@ class Calendar_Decorator_Uri extends Calendar_Decorator
     /**
      * Puts Uri decorator into "scalar mode" - URI variable names are not
      * returned
-     * @param boolean (optional)
+     *
+     * @param bool (optional)
+     *
      * @return void
-     * @access public
      */
-    function setScalar($state=true)
+    public function setScalar($state = true)
     {
         $this->Uri->scalar = $state;
     }
 
     /**
      * Gets the URI string for the previous calendar unit
+     *
      * @param string calendar unit to fetch uri for (year,month,week or day etc)
+     *
      * @return string
-     * @access public
      */
-    function prev($method)
+    public function prev($method)
     {
         return $this->Uri->prev($this, $method);
     }
 
     /**
      * Gets the URI string for the current calendar unit
+     *
      * @param string calendar unit to fetch uri for (year,month,week or day etc)
+     *
      * @return string
-     * @access public
      */
-    function this($method)
+    public function this($method)
     {
         return $this->Uri->this($this, $method);
     }
 
     /**
      * Gets the URI string for the next calendar unit
+     *
      * @param string calendar unit to fetch uri for (year,month,week or day etc)
+     *
      * @return string
-     * @access public
      */
-    function next($method)
+    public function next($method)
     {
         return $this->Uri->next($this, $method);
     }
-
 }
-?>

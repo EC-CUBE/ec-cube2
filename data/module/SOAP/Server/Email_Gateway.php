@@ -12,11 +12,12 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
  * @copyright  2003-2005 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
 
 /** SOAP_Server_Email */
@@ -35,17 +36,15 @@ require_once 'SOAP/Transport.php';
  * This class calls a provided HTTP SOAP server, forwarding the email request,
  * then sending the HTTP response out as an email.
  *
- * @access   public
- * @package  SOAP
  * @author   Shane Caraveo <shane@php.net>
  */
-class SOAP_Server_Email_Gateway extends SOAP_Server_Email {
+class SOAP_Server_Email_Gateway extends SOAP_Server_Email
+{
+    public $gateway = null;
+    public $dump = false;
 
-    var $gateway = null;
-    var $dump = false;
-
-    function SOAP_Server_Email_Gateway($gateway = '', $send_response = true,
-                                       $dump = false)
+    public function __construct($gateway = '', $send_response = true,
+        $dump = false)
     {
         parent::SOAP_Server();
         $this->send_response = $send_response;
@@ -53,13 +52,13 @@ class SOAP_Server_Email_Gateway extends SOAP_Server_Email {
         $this->dump = $dump;
     }
 
-    function service(&$data, $gateway = '', $endpoint = '',
-                     $send_response = true, $dump = false)
+    public function service(&$data, $gateway = '', $endpoint = '',
+        $send_response = true, $dump = false)
     {
         $this->endpoint = $endpoint;
         $response = '';
         $useEncoding = 'Mime';
-        $options = array();
+        $options = [];
         if (!$gateway) {
             $gateway = $this->gateway;
         }
@@ -70,12 +69,13 @@ class SOAP_Server_Email_Gateway extends SOAP_Server_Email {
         if ($this->fault) {
             $response = $this->fault->message();
         }
-        if ($this->headers['content-type'] == 'application/dime')
+        if ($this->headers['content-type'] == 'application/dime') {
             $useEncoding = 'DIME';
+        }
 
         /* Call the HTTP Server. */
         if (!$response) {
-            $soap_transport =& SOAP_Transport::getTransport($gateway, $this->xml_encoding);
+            $soap_transport = &SOAP_Transport::getTransport($gateway, $this->xml_encoding);
             if ($soap_transport->fault) {
                 $response = $soap_transport->fault->message();
             }
@@ -87,14 +87,15 @@ class SOAP_Server_Email_Gateway extends SOAP_Server_Email {
             $options['headers']['Content-Type'] = $this->headers['content-type'];
 
             $response = $soap_transport->send($data, $options);
-            if (isset($this->headers['mime-version']))
+            if (isset($this->headers['mime-version'])) {
                 $options['headers']['MIME-Version'] = $this->headers['mime-version'];
+            }
 
             if ($soap_transport->fault) {
                 $response = $soap_transport->fault->message();
             } else {
                 foreach ($soap_transport->transport->attachments as $cid => $body) {
-                    $this->attachments[] = array('body' => $body, 'cid' => $cid, 'encoding' => 'base64');
+                    $this->attachments[] = ['body' => $body, 'cid' => $cid, 'encoding' => 'base64'];
                 }
                 if (count($this->_attachments)) {
                     if ($useEncoding == 'Mime') {
@@ -124,14 +125,14 @@ class SOAP_Server_Email_Gateway extends SOAP_Server_Email {
 
         if ($this->send_response) {
             if ($this->dump || $dump) {
-                print $response;
+                echo $response;
             } else {
                 $from = array_key_exists('reply-to', $this->headers) ? $this->headers['reply-to'] : $this->headers['from'];
 
-                $soap_transport =& SOAP_Transport::getTransport('mailto:' . $from, $this->response_encoding);
+                $soap_transport = &SOAP_Transport::getTransport('mailto:'.$from, $this->response_encoding);
                 $from = $this->endpoint ? $this->endpoint : $this->headers['to'];
-                $headers = array('In-Reply-To' => $this->headers['message-id']);
-                $options = array('from' => $from, 'subject'=> $this->headers['subject'], 'headers' => $headers);
+                $headers = ['In-Reply-To' => $this->headers['message-id']];
+                $options = ['from' => $from, 'subject' => $this->headers['subject'], 'headers' => $headers];
                 $soap_transport->send($response, $options);
             }
         }

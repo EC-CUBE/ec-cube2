@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ログイン のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_FrontParts_Bloc_Login extends LC_Page_FrontParts_Bloc_Ex
@@ -88,14 +87,14 @@ class LC_Page_FrontParts_Bloc_Login extends LC_Page_FrontParts_Bloc_Ex
         }
 
         $this->tpl_disable_logout = $this->lfCheckDisableLogout();
-        //スマートフォン版ログアウト処理で不正なページ移動エラーを防ぐ為、トークンをセット
+        // スマートフォン版ログアウト処理で不正なページ移動エラーを防ぐ為、トークンをセット
         $this->transactionid = SC_Helper_Session_Ex::getToken();
     }
 
     /**
      * lfCheckDisableLogout.
      *
-     * @return boolean
+     * @return bool
      */
     public function lfCheckDisableLogout()
     {

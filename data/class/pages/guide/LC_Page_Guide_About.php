@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 店舗案内 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Guide_About extends LC_Page_Ex
@@ -39,8 +38,8 @@ class LC_Page_Guide_About extends LC_Page_Ex
     public function init()
     {
         parent::init();
-    $masterData = new SC_DB_MasterData_Ex();
-    $this->arrPref = $masterData->getMasterData('mtb_pref');
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrPref = $masterData->getMasterData('mtb_pref');
     }
 
     /**

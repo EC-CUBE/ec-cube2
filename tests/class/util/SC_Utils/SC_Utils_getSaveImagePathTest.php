@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,55 +27,52 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::getSaveImagePath()のテストクラス.
  *
- *
  * @author Yangsin
+ *
  * @version $Id$
  */
 class SC_Utils_getSaveImagePathTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testGetSaveImagePath存在する画像ファイル場合IMAGESAVEREALDIRをつけたパスを返す()
+    {
+        $input = 'nabe130.jpg';
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+        $this->expected = IMAGE_SAVE_REALDIR.$input;
+        $this->actual = SC_Utils::getSaveImagePath($input);
 
-  /////////////////////////////////////////
-  public function testGetSaveImagePath_存在する画像ファイル場合_IMAGE_SAVE_REALDIRをつけたパスを返す()
-  {
-    $input = 'nabe130.jpg';
+        $this->verify();
+    }
 
-    $this->expected = IMAGE_SAVE_REALDIR . $input;
-    $this->actual = SC_Utils::getSaveImagePath($input);
+    public function testGetSaveImagePath存在しない画像ファイル場合NOIMAGEREALFILEを返す()
+    {
+        $input = 'nothing.jpg';
 
-    $this->verify();
-  }
+        $this->expected = NO_IMAGE_REALFILE;
+        $this->actual = SC_Utils::getSaveImagePath($input);
 
-  public function testGetSaveImagePath_存在しない画像ファイル場合_NO_IMAGE_REALFILEを返す()
-  {
-    $input = 'nothing.jpg';
+        $this->verify();
+    }
 
-    $this->expected = NO_IMAGE_REALFILE;
-    $this->actual = SC_Utils::getSaveImagePath($input);
+    public function testGetSaveImagePath入力値が空の場合NOIMAGEREALFILEを返す()
+    {
+        $input = '';
 
-    $this->verify();
-  }
+        $this->expected = NO_IMAGE_REALFILE;
+        $this->actual = SC_Utils::getSaveImagePath($input);
 
-  public function testGetSaveImagePath_入力値が空の場合_NO_IMAGE_REALFILEを返す()
-  {
-    $input = '';
+        $this->verify();
+    }
 
-    $this->expected = NO_IMAGE_REALFILE;
-    $this->actual = SC_Utils::getSaveImagePath($input);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

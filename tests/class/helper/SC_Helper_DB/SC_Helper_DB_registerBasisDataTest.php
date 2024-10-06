@@ -1,4 +1,5 @@
 <?php
+
 class SC_Helper_DB_registerBasisDataTest extends SC_Helper_DB_TestBase
 {
     /** @var array */
@@ -17,6 +18,7 @@ class SC_Helper_DB_registerBasisDataTest extends SC_Helper_DB_TestBase
         $this->objDb = new SC_Helper_DB_Ex();
         $this->BaseInfo = $this->objDb->sfGetBasisData(true);
     }
+
     public function testRegisterBasisData()
     {
         $this->BaseInfo['company_name'] = $this->faker->company;

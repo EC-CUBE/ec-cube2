@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * リサイズイメージ のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_ResizeImage extends LC_Page_Ex
@@ -65,14 +64,13 @@ class LC_Page_ResizeImage extends LC_Page_Ex
         $objFormParam->setParam($_GET);
         $arrErr = $objFormParam->checkError();
         if (SC_Utils_Ex::isBlank($arrErr)) {
-
-            $arrForm  = $objFormParam->getHashArray();
+            $arrForm = $objFormParam->getHashArray();
 
             // TODO: ファイル名を直接指定するような処理は避けるべき
             // NO_IMAGE_REALFILE以外のファイル名が直接渡された場合、ファイル名のチェックを行う
-            if (strlen($arrForm['image']) >= 1 && $arrForm['image'] !== NO_IMAGE_REALFILE ) {
+            if (strlen($arrForm['image']) >= 1 && $arrForm['image'] !== NO_IMAGE_REALFILE) {
                 if (!$this->lfCheckFileName($arrForm['image'])) {
-                    GC_Utils_Ex::gfPrintLog('invalid access :resize_image.php image=' . $arrForm['image']);
+                    GC_Utils_Ex::gfPrintLog('invalid access :resize_image.php image='.$arrForm['image']);
                 }
                 $file = SC_Utils_Ex::getSaveImagePath($arrForm['image']);
             } else {
@@ -90,23 +88,25 @@ class LC_Page_ResizeImage extends LC_Page_Ex
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('商品ID', 'product_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('商品イメージキー', 'image_key', STEXT_LEN, '', array('GRAPH_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('画像ファイル名', 'image', STEXT_LEN, 'a', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('画像の幅', 'width', STEXT_LEN, 'n', array('NUM_CHECK'));
-        $objFormParam->addParam('画像の高さ', 'height', STEXT_LEN, 'n', array('NUM_CHECK'));
+        $objFormParam->addParam('商品ID', 'product_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('商品イメージキー', 'image_key', STEXT_LEN, '', ['GRAPH_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('画像ファイル名', 'image', STEXT_LEN, 'a', ['MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('画像の幅', 'width', STEXT_LEN, 'n', ['NUM_CHECK']);
+        $objFormParam->addParam('画像の高さ', 'height', STEXT_LEN, 'n', ['NUM_CHECK']);
     }
 
     /**
      * ファイル名の形式をチェック.
      *
      * @deprecated 2.13.0 商品IDを渡す事を推奨
+     *
      * @param $image
-     * @return boolean 正常な形式:true 不正な形式:false
+     *
+     * @return bool 正常な形式:true 不正な形式:false
      */
     public function lfCheckFileName($image)
     {
-        $file    = trim($image);
+        $file = trim($image);
         if (!preg_match("/^[[:alnum:]_\.-]+$/i", $file)) {
             return false;
         } else {
@@ -118,6 +118,7 @@ class LC_Page_ResizeImage extends LC_Page_Ex
      * 商品画像のパスを取得する
      *
      * @param $arrForm
+     *
      * @return string 指定された商品画像のパス
      */
     public function lfGetProductImage($arrForm)
@@ -126,11 +127,11 @@ class LC_Page_ResizeImage extends LC_Page_Ex
         $table = 'dtb_products';
         $col = $arrForm['image_key'];
         $product_id = $arrForm['product_id'];
-        //指定されたカラムが存在する場合にのみ商品テーブルからファイル名を取得
+        // 指定されたカラムが存在する場合にのみ商品テーブルからファイル名を取得
         if (SC_Helper_DB_Ex::sfColumnExists($table, $col, '', '', false)) {
-            $product_image = $objQuery->get($col, $table, 'product_id = ?', array($product_id));
+            $product_image = $objQuery->get($col, $table, 'product_id = ?', [$product_id]);
         } else {
-            GC_Utils_Ex::gfPrintLog('invalid access :resize_image.php image_key=' . $col);
+            GC_Utils_Ex::gfPrintLog('invalid access :resize_image.php image_key='.$col);
             $product_image = '';
         }
         // ファイル名が正しく、ファイルが存在する場合だけ、$fileを設定
@@ -143,8 +144,8 @@ class LC_Page_ResizeImage extends LC_Page_Ex
      * 画像の出力
      *
      * @param string  $file   画像ファイル名
-     * @param integer $width  画像の幅
-     * @param integer $height 画像の高さ
+     * @param int $width  画像の幅
+     * @param int $height 画像の高さ
      *
      * @return void
      */

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 //
 // +----------------------------------------------------------------------+
@@ -19,12 +20,12 @@
 //
 // $Id: Minute.php,v 1.1 2004/05/24 22:25:42 quipo Exp $
 //
-/**
+/*
  * @package Calendar
  * @version $Id$
  */
 
-/**
+/*
  * Allows Calendar include path to be redefined
  * @ignore
  */
@@ -47,19 +48,17 @@ require_once CALENDAR_ROOT.'Calendar.php';
  *     echo $Second->thisSecond().'<br />';
  * }
  * </code>
- * @package Calendar
- * @access public
  */
 class Calendar_Minute extends Calendar
 {
     /**
      * Constructs Minute
+     *
      * @param int year e.g. 2003
      * @param int month e.g. 5
      * @param int day e.g. 11
      * @param int hour e.g. 13
      * @param int minute e.g. 31
-     * @access public
      */
     public function __construct($y, $m, $d, $h, $i)
     {
@@ -68,41 +67,43 @@ class Calendar_Minute extends Calendar
 
     /**
      * Builds the Calendar_Second objects
+     *
      * @param array (optional) Calendar_Second objects representing selected dates
-     * @return boolean
-     * @access public
+     *
+     * @return bool
      */
-    function build($sDates=array())
+    public function build($sDates = [])
     {
         require_once CALENDAR_ROOT.'Second.php';
         $sIM = $this->cE->getSecondsInMinute($this->year, $this->month,
-                $this->day, $this->hour, $this->minute);
-        for ($i=0; $i < $sIM; $i++) {
+            $this->day, $this->hour, $this->minute);
+        for ($i = 0; $i < $sIM; $i++) {
             $this->children[$i] = new Calendar_Second($this->year, $this->month,
                 $this->day, $this->hour, $this->minute, $i);
         }
         if (count($sDates) > 0) {
             $this->setSelection($sDates);
         }
+
         return true;
     }
 
     /**
      * Called from build()
+     *
      * @param array
+     *
      * @return void
-     * @access private
      */
-    function setSelection($sDates)
+    public function setSelection($sDates)
     {
         foreach ($sDates as $sDate) {
             if ($this->year == $sDate->thisYear()
                 && $this->month == $sDate->thisMonth()
                 && $this->day == $sDate->thisDay()
                 && $this->hour == $sDate->thisHour()
-                && $this->minute == $sDate->thisMinute())
-            {
-                $key = (int)$sDate->thisSecond();
+                && $this->minute == $sDate->thisMinute()) {
+                $key = (int) $sDate->thisSecond();
                 if (isset($this->children[$key])) {
                     $sDate->setSelected();
                     $this->children[$key] = $sDate;
@@ -111,4 +112,3 @@ class Calendar_Minute extends Calendar
         }
     }
 }
-?>
