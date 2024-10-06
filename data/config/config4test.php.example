@@ -1,0 +1,27 @@
+<?php
+
+// テスト実行時に使用する設定ファイル
+// config4test.phpにリネームして配置するとテスト実行時に使用されます。
+define('ECCUBE_INSTALL', 'ON');
+define('HTTP_URL', 'http://example.com/eccube/html/');
+define('HTTPS_URL', 'https://example.com/eccube/html/');
+define('ROOT_URLPATH', '/eccube/html/path/');
+define('DOMAIN_NAME', '');
+define('DB_TYPE', 'pgsql_or_mysql');
+define('DB_USER', 'your_db_user');
+define('DB_PASSWORD', 'your_password');
+define('DB_SERVER', 'db_server');
+define('DB_NAME', 'eccube_db_name');
+define('DB_PORT', '');
+define('ADMIN_DIR', 'admin/');
+define('ADMIN_FORCE_SSL', TRUE);
+define('ADMIN_ALLOW_HOSTS', 'a:0:{}');
+define('AUTH_MAGIC', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+define('PASSWORD_HASH_ALGOS', 'sha256');
+define('MAIL_BACKEND', 'smtp');
+define('SMTP_HOST', 'mailcatcher');
+define('SMTP_PORT', '25');
+define('SMTP_USER', '');
+define('SMTP_PASSWORD', '');
+
+define('TEST_MAILCATCHER_URL', 'http://127.0.0.1:1080');
