@@ -23,7 +23,6 @@
 
 /**
  * オーナーズストア管理用ログクラス
- *
  */
 class LC_Upgrade_Helper_Log
 {
@@ -37,15 +36,16 @@ class LC_Upgrade_Helper_Log
         $message = "##### $mode start #####";
         $this->log($message);
     }
+
     /**
      * 終了メッセージを出力
-     *
      */
     public function end()
     {
         $message = '##### end #####';
         $this->log($message);
     }
+
     /**
      * メッセージを出力
      *
@@ -55,6 +55,7 @@ class LC_Upgrade_Helper_Log
     {
         GC_Utils_Ex::gfPrintLog($message, OSTORE_LOG_REALFILE);
     }
+
     /**
      * エラーメッセージを出力
      *

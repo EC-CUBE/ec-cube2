@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,35 +27,32 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfUpDirName()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfUpDirNameTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfUpDirName1階層上のディレクトリ名が取得できる()
+    {
+        $_SERVER['SCRIPT_NAME'] = 'dir1/dir2/updir/current';
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->expected = 'updir';
+        $this->actual = SC_Utils::sfUpDirName();
 
-  /////////////////////////////////////////
-  public function testSfUpDirName__1階層上のディレクトリ名が取得できる()
-  {
-    $_SERVER['SCRIPT_NAME'] = 'dir1/dir2/updir/current';
+        $this->verify('ディレクトリ名');
+    }
 
-    $this->expected = 'updir';
-    $this->actual = SC_Utils::sfUpDirName();
-
-    $this->verify('ディレクトリ名');
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

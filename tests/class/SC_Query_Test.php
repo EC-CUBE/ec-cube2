@@ -27,22 +27,23 @@
  * SC_Query のテストケース.
  *
  * @author Kentaro Ohkouchi
+ *
  * @version $Id$
  */
 class SC_Query_Test extends PHPUnit_Framework_TestCase
 {
-
     /**
      * MDB2 をグローバル変数のバックアップ対象から除外する。
      *
      * @var array
+     *
      * @see PHPUnit_Framework_TestCase::$backupGlobals
      * @see PHPUnit_Framework_TestCase::$backupGlobalsBlacklist
      */
-    protected $backupGlobalsBlacklist = array(
+    protected $backupGlobalsBlacklist = [
         '_MDB2_databases',
         '_MDB2_dsninfo_default',
-    );
+    ];
 
     /** @var SC_Query_Ex */
     protected $objQuery;
@@ -101,11 +102,11 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $result = $this->createTestTable();
         $result = $this->setTestData(1, '2', 'f');
 
-        $this->expected =  array(array('id' => '1',
+        $this->expected = [['id' => '1',
                                        'column1' => '1',
                                        'column2' => '2',
-                                       'column3' => 'f'));
-        $this->actual = $this->objQuery->getAll("SELECT * FROM test_table WHERE id = ?", array(1));
+                                       'column3' => 'f', ]];
+        $this->actual = $this->objQuery->getAll('SELECT * FROM test_table WHERE id = ?', [1]);
 
         $this->verify();
     }
@@ -118,14 +119,14 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->createTestTable();
         $result = $this->setTestData(1, '2', 'f');
 
-        $this->expected =  array(array('id' => '1',
+        $this->expected = [['id' => '1',
                                        'column1' => '1',
                                        'column2' => '2',
-                                       'column3' => 'f'));
+                                       'column3' => 'f', ]];
 
-        $this->actual = $this->objQuery->setWhere("id = ?")
+        $this->actual = $this->objQuery->setWhere('id = ?')
                                        ->setOrder('id')
-                                       ->select("*", 'test_table', "", array(1));
+                                       ->select('*', 'test_table', '', [1]);
 
         $this->verify();
     }
@@ -141,7 +142,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->setTestData(1, '2', 'f');
 
         $this->expected = 3;
-        $this->actual = $this->objQuery->getOne("SELECT COUNT(*) FROM test_table");
+        $this->actual = $this->objQuery->getOne('SELECT COUNT(*) FROM test_table');
 
         $this->verify();
     }
@@ -156,8 +157,8 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->setTestData(2, '2', 'f');
         $this->setTestData(3, '3', 'f');
 
-        $this->expected = array('column1' => 1, 'column2' => 1);
-        $this->actual = $this->objQuery->getRow("column1, column2", 'test_table', "id = ?", array(1));
+        $this->expected = ['column1' => 1, 'column2' => 1];
+        $this->actual = $this->objQuery->getRow('column1, column2', 'test_table', 'id = ?', [1]);
         $this->verify();
     }
 
@@ -171,8 +172,8 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->setTestData(2, '2', 'f');
         $this->setTestData(3, '3', 'f');
 
-        $this->expected = array(1, 2);
-        $this->actual = $this->objQuery->getCol('column1', 'test_table', "id < ?", array(3));
+        $this->expected = [1, 2];
+        $this->actual = $this->objQuery->getCol('column1', 'test_table', 'id < ?', [3]);
 
         $this->verify();
     }
@@ -183,17 +184,17 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     public function testQuery1()
     {
         $this->createTestTable();
-        $sql = "INSERT INTO test_table VALUES (?, ?, ?, ?)";
-        $data = array('1', '1', '1', 'f');
+        $sql = 'INSERT INTO test_table VALUES (?, ?, ?, ?)';
+        $data = ['1', '1', '1', 'f'];
 
         $this->objQuery->query($sql, $data);
 
-        $this->expected =  array(array('id' => '1',
+        $this->expected = [['id' => '1',
                                        'column1' => '1',
                                        'column2' => '1',
-                                       'column3' => 'f'));
+                                       'column3' => 'f', ]];
 
-        $this->actual = $this->objQuery->getAll("SELECT * FROM test_table");
+        $this->actual = $this->objQuery->getAll('SELECT * FROM test_table');
 
         $this->verify();
     }
@@ -203,17 +204,17 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->createTestTable();
 
         $this->objQuery->insert('test_table',
-                                array('id' => '1',
-                                      'column1' => '1',
-                                      'column2' => '1',
-                                      'column3' => 'f'));
+            ['id' => '1',
+                  'column1' => '1',
+                  'column2' => '1',
+                  'column3' => 'f', ]);
 
-        $this->expected =  array(array('id' => '1',
+        $this->expected = [['id' => '1',
                                        'column1' => '1',
                                        'column2' => '1',
-                                       'column3' => 'f'));
+                                       'column3' => 'f', ]];
 
-        $this->actual = $this->objQuery->getAll("SELECT * FROM test_table");
+        $this->actual = $this->objQuery->getAll('SELECT * FROM test_table');
 
         $this->verify();
     }
@@ -226,17 +227,17 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->createTestTable();
         $this->setTestData(1, '2', 'f');
 
-        $sql = "UPDATE test_table SET column1 = ?, column2 = ? WHERE id = ?";
-        $data = array('2', '2', '1');
+        $sql = 'UPDATE test_table SET column1 = ?, column2 = ? WHERE id = ?';
+        $data = ['2', '2', '1'];
 
         $this->objQuery->query($sql, $data);
 
-        $this->expected =  array(array('id' => '1',
+        $this->expected = [['id' => '1',
                                        'column1' => '2',
                                        'column2' => '2',
-                                       'column3' => 'f'));
+                                       'column3' => 'f', ]];
 
-        $this->actual = $this->objQuery->getAll("SELECT * FROM test_table");
+        $this->actual = $this->objQuery->getAll('SELECT * FROM test_table');
 
         $this->verify();
     }
@@ -247,17 +248,17 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->setTestData(1, '2', 'f');
 
         $this->objQuery->update('test_table',
-                                array('id' => '1',
-                                      'column1' => '2',
-                                      'column2' => '2',
-                                      'column3' => 'f'),
-                                "id = ?", array(1));
-        $this->expected =  array(array('id' => '1',
+            ['id' => '1',
+                  'column1' => '2',
+                  'column2' => '2',
+                  'column3' => 'f', ],
+            'id = ?', [1]);
+        $this->expected = [['id' => '1',
                                        'column1' => '2',
                                        'column2' => '2',
-                                       'column3' => 'f'));
+                                       'column3' => 'f', ]];
 
-        $this->actual = $this->objQuery->getAll("SELECT * FROM test_table");
+        $this->actual = $this->objQuery->getAll('SELECT * FROM test_table');
 
         $this->verify();
     }
@@ -277,7 +278,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
 
     public function testListTableFields()
     {
-        $this->expected = array('id', 'name', 'rank', 'remarks');
+        $this->expected = ['id', 'name', 'rank', 'remarks'];
         $this->actual = $this->objQuery->listTableFields('mtb_constants');
         $this->verify();
     }
@@ -290,12 +291,12 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
 
     protected function createTestTable()
     {
-        $sql = "CREATE TABLE test_table ("
-            . "id SERIAL PRIMARY KEY,"
-            . "column1 numeric(9),"
-            . "column2 varchar(20),"
-            . "column3 char(1)"
-            . ")";
+        $sql = 'CREATE TABLE test_table ('
+            .'id SERIAL PRIMARY KEY,'
+            .'column1 numeric(9),'
+            .'column2 varchar(20),'
+            .'column3 char(1)'
+            .')';
 
         return $this->objQuery->query($sql);
     }
@@ -305,7 +306,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->objQuery->setOrder('');
         $tables = $this->objQuery->listTables();
         if (in_array('test_table', $tables)) {
-            $this->objQuery->query("DROP TABLE test_table");
+            $this->objQuery->query('DROP TABLE test_table');
         }
 
         return;
@@ -313,8 +314,8 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
 
     protected function setTestData($column1, $column2, $column3)
     {
-        $fields_values = array($column1, $column2, $column3);
-        $sql = "INSERT INTO test_table (column1, column2, column3) VALUES (?, ?, ?)";
+        $fields_values = [$column1, $column2, $column3];
+        $sql = 'INSERT INTO test_table (column1, column2, column3) VALUES (?, ?, ?)';
         $result = $this->objQuery->query($sql, $fields_values);
         if (PEAR::isError($result)) {
             throw new \Exception($result->getMessage());

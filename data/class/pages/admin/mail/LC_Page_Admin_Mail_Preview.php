@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * メルマガプレビュー のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Mail_Preview extends LC_Page_Admin_Ex
@@ -73,14 +72,15 @@ class LC_Page_Admin_Mail_Preview extends LC_Page_Admin_Ex
                     $this->mail = $arrMail[0];
                 }
                 break;
-            case 'history';
+            case 'history':
                 if (SC_Utils_Ex::sfIsInt($_GET['send_id'])) {
                     $arrMail = $objMailHelper->sfGetSendHistory($_GET['send_id']);
                     $this->mail = $arrMail[0];
                 }
                 break;
-            case 'presend';
+            case 'presend':
                 $this->mail['body'] = $_POST['body'];
+                // no break
             default:
                 break;
         }

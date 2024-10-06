@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
+/*
  * 表示できない絵文字を置き換える文字列 (Shift JIS)
  * デフォルトは空文字列。
  */
@@ -29,6 +29,7 @@ define('MOBILE_EMOJI_SUBSTITUTE', '');
 
 /**
  * 携帯端末の絵文字を扱うクラス
+ *
  * @deprecated
  */
 class SC_MobileEmoji
@@ -38,6 +39,7 @@ class SC_MobileEmoji
      * output buffering 用コールバック関数
      *
      * @param string 入力
+     *
      * @return string 出力
      */
     public static function handler($buffer)
@@ -51,6 +53,7 @@ class SC_MobileEmoji
      * 絵文字番号を絵文字を表す Shift JIS の文字列に変換する。
      *
      * @param  string $index 絵文字番号
+     *
      * @return string 絵文字を表す Shift JIS の文字列を返す。
      */
     public function indexToCode($index)
@@ -60,9 +63,9 @@ class SC_MobileEmoji
             return MOBILE_EMOJI_SUBSTITUTE;
         }
 
-        static $arrMap = array();
+        static $arrMap = [];
         if (empty($arrMap)) {
-            $arrMap = @include_once dirname(__FILE__) . "/../include/mobile_emoji_map_$carrier.inc";
+            $arrMap = @include_once __DIR__."/../include/mobile_emoji_map_$carrier.inc";
         }
 
         return isset($arrMap[$index]) ? $arrMap[$index] : MOBILE_EMOJI_SUBSTITUTE;

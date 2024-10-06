@@ -1,4 +1,5 @@
 <?php
+
 class LC_Page_Admin_Customer_Edit_Ex extends LC_Page_Admin_Customer_Edit
 {
     public function init()

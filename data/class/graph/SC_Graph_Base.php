@@ -21,113 +21,113 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/** TTFフォントファイル */
-define('FONT_REALFILE', DATA_REALDIR . 'fonts/wlmaru20044.ttf');
+/* TTFフォントファイル */
+define('FONT_REALFILE', DATA_REALDIR.'fonts/wlmaru20044.ttf');
 
-/** フォントサイズ */
+/* フォントサイズ */
 define('FONT_SIZE', 8);
 
-/** タイトルフォントサイズ */
+/* タイトルフォントサイズ */
 define('TITLE_FONT_SIZE', 11);
 
-/** 背景幅 */
+/* 背景幅 */
 define('BG_WIDTH', 720);
 
-/** 背景高さ */
+/* 背景高さ */
 define('BG_HEIGHT', 400);
 
-/** 行間 */
+/* 行間 */
 define('LINE_PAD', 5);
 
-/** フォント補正値(実際の描画幅/フォントサイズ) */
+/* フォント補正値(実際の描画幅/フォントサイズ) */
 define('TEXT_RATE', 0.75);
 
 // -----------------------------------------------------------------------------
 // 円グラフ
 // -----------------------------------------------------------------------------
-/** 円グラフ位置 */
+/* 円グラフ位置 */
 define('PIE_LEFT', 200);
 
-/** 円グラフ位置 */
+/* 円グラフ位置 */
 define('PIE_TOP', 150);
 
-/** 円グラフ幅 */
+/* 円グラフ幅 */
 define('PIE_WIDTH', 230);
 
-/** 円グラフ高さ */
+/* 円グラフ高さ */
 define('PIE_HEIGHT', 100);
 
-/** 円グラフ太さ */
+/* 円グラフ太さ */
 define('PIE_THICK', 30);
 
-/** 円グラフのラベル位置を上にあげる */
+/* 円グラフのラベル位置を上にあげる */
 define('PIE_LABEL_UP', 20);
 
-/** 値が大きいほど影が長くなる */
+/* 値が大きいほど影が長くなる */
 define('PIE_SHADE_IMPACT', 0.1);
 
 // -----------------------------------------------------------------------------
 // 折れ線グラフ
 // -----------------------------------------------------------------------------
-/** Y軸の目盛り数 */
+/* Y軸の目盛り数 */
 define('LINE_Y_SCALE', 10);
 
-/** X軸の目盛り数 */
+/* X軸の目盛り数 */
 define('LINE_X_SCALE', 10);
 
-/** 線グラフ位置 */
+/* 線グラフ位置 */
 define('LINE_LEFT', 60);
 
-/** 線グラフ位置 */
+/* 線グラフ位置 */
 define('LINE_TOP', 50);
 
-/** 線グラフ背景のサイズ */
+/* 線グラフ背景のサイズ */
 define('LINE_AREA_WIDTH', 600);
 
-/** 線グラフ背景のサイズ */
+/* 線グラフ背景のサイズ */
 define('LINE_AREA_HEIGHT', 300);
 
-/** 線グラフマークのサイズ */
+/* 線グラフマークのサイズ */
 define('LINE_MARK_SIZE', 6);
 
-/** 目盛り幅 */
+/* 目盛り幅 */
 define('LINE_SCALE_SIZE', 6);
 
-/** X軸のラベルの表示制限数 */
+/* X軸のラベルの表示制限数 */
 define('LINE_XLABEL_MAX', 30);
 
-/** X軸のタイトルと軸の間隔 */
+/* X軸のタイトルと軸の間隔 */
 define('LINE_XTITLE_PAD', -5);
 
-/** Y軸のタイトルと軸の間隔 */
+/* Y軸のタイトルと軸の間隔 */
 define('LINE_YTITLE_PAD', 15);
 
 // -----------------------------------------------------------------------------
 //  棒グラフ
 // -----------------------------------------------------------------------------
-/** グラフと目盛りの間隔 */
+/* グラフと目盛りの間隔 */
 define('BAR_PAD', 6);
 
 // -----------------------------------------------------------------------------
 //  タイトルラベル
 // -----------------------------------------------------------------------------
-/** 背景枠との上幅 */
+/* 背景枠との上幅 */
 define('TITLE_TOP', 10);
 
 // -----------------------------------------------------------------------------
 //  凡例
 // -----------------------------------------------------------------------------
-/** 背景枠との上幅 */
+/* 背景枠との上幅 */
 define('LEGEND_TOP', 10);
 
-/** 背景枠との右幅 */
+/* 背景枠との右幅 */
 define('LEGEND_RIGHT', 10);
 
 /**
  * SC_Graph 共通クラス.
  *
- * @package Graph
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_Graph_Base
@@ -190,7 +190,9 @@ class SC_Graph_Base
         $this->bgh = $bgh;
         $this->image = imagecreatetruecolor($bgw, $bgh);
         // アンチエイリアス有効
-        if (function_exists('imageantialias')) imageantialias($this->image, true);
+        if (function_exists('imageantialias')) {
+            imageantialias($this->image, true);
+        }
         // 背景色をセット
         imagefill($this->image, 0, 0, $this->lfGetImageColor($this->image, $this->ARR_BG_COLOR));
 
@@ -277,9 +279,9 @@ class SC_Graph_Base
     // テキストを出力する
 
     /**
-     * @param integer $color
+     * @param int $color
      */
-    public function setText($font_size, $left, $top, $text, $color = NULL, $angle = 0, $labelbg = false)
+    public function setText($font_size, $left, $top, $text, $color = null, $angle = 0, $labelbg = false)
     {
         // 時計回りに角度を変更
         $angle = -$angle;
@@ -303,11 +305,11 @@ class SC_Graph_Base
          *
          */
         $text = mb_convert_encoding($text, 'EUC-JP', CHAR_CODE);
-        //$text = mb_convert_encoding($text, CHAR_CODE);
-        if ($color != NULL) {
-            ImageTTFText($this->image, $font_size, $angle, $left, $top + $font_size, $color, FONT_REALFILE, $text);
+        // $text = mb_convert_encoding($text, CHAR_CODE);
+        if ($color != null) {
+            imagettftext($this->image, $font_size, $angle, $left, $top + $font_size, $color, FONT_REALFILE, $text);
         } else {
-            ImageTTFText($this->image, $font_size, $angle, $left, $top + $font_size, $this->text_color, FONT_REALFILE, $text);
+            imagettftext($this->image, $font_size, $angle, $left, $top + $font_size, $this->text_color, FONT_REALFILE, $text);
         }
     }
 
@@ -333,7 +335,7 @@ class SC_Graph_Base
             $this->text_top = FONT_SIZE + LINE_PAD;
         }
         // テキスト描画
-        ImageTTFText($this->image, FONT_SIZE, 0, LINE_PAD, $this->text_top, $this->text_color, FONT_REALFILE, $text);
+        imagettftext($this->image, FONT_SIZE, 0, LINE_PAD, $this->text_top, $this->text_color, FONT_REALFILE, $text);
         $this->text_top += FONT_SIZE + LINE_PAD;
     }
 
@@ -380,7 +382,7 @@ class SC_Graph_Base
         for ($i = 0; $i < $label_max; $i++) {
             // カラーアイコンの表示
             imagerectangle($this->image, $left, $top, $left + FONT_SIZE, $top + FONT_SIZE, $this->flame_color);
-            imagefilledrectangle($this->image, $left + 1, $top + 1, $left + FONT_SIZE - 1, $top + FONT_SIZE - 1, $this->arrColor[($i % $c_max)]);
+            imagefilledrectangle($this->image, $left + 1, $top + 1, $left + FONT_SIZE - 1, $top + FONT_SIZE - 1, $this->arrColor[$i % $c_max]);
             // ラベルの表示
             $this->setText(FONT_SIZE, $left + FONT_SIZE + LINE_PAD, $top, $this->arrLegend[$i]);
             $top += FONT_SIZE + LINE_PAD;
@@ -390,9 +392,9 @@ class SC_Graph_Base
     // カラーラベル背景の描画
 
     /**
-     * @param double $left
-     * @param double $right
-     * @param integer $bottom
+     * @param float $left
+     * @param float $right
+     * @param int $bottom
      */
     public function drawClabelBG($left, $top, $right, $bottom)
     {
@@ -416,50 +418,50 @@ class SC_Graph_Base
      *
      * 表示色をメンバ変数にセットする.
      *
-     * @access protected
      * @return void
      */
     public function init()
     {
         // 凡例背景
-        $this->ARR_LEGENDBG_COLOR = array(245,245,245);
+        $this->ARR_LEGENDBG_COLOR = [245, 245, 245];
         // ラベル背景
-        $this->ARR_LABELBG_COLOR = array(255,255,255);
+        $this->ARR_LABELBG_COLOR = [255, 255, 255];
         // グラフカラー
-        $this->ARR_GRAPH_RGB = array(
-            array(200,50,50),
-            array(50,50,200),
-            array(50,200,50),
-            array(255,255,255),
-            array(244,200,200),
-            array(200,200,255),
-            array(50,200,50),
-            array(255,255,255),
-            array(244,244,244),
-        );
+        $this->ARR_GRAPH_RGB = [
+            [200, 50, 50],
+            [50, 50, 200],
+            [50, 200, 50],
+            [255, 255, 255],
+            [244, 200, 200],
+            [200, 200, 255],
+            [50, 200, 50],
+            [255, 255, 255],
+            [244, 244, 244],
+        ];
         // 影の色
-        $this->ARR_SHADE_COLOR = array(100,100,100);
+        $this->ARR_SHADE_COLOR = [100, 100, 100];
         // 縁の色
-        $this->ARR_FLAME_COLOR = array(0, 0, 0);
+        $this->ARR_FLAME_COLOR = [0, 0, 0];
         // 文字色
-        $this->ARR_TEXT_COLOR = array(0, 0, 0);
+        $this->ARR_TEXT_COLOR = [0, 0, 0];
         // 背景カラー
-        $this->ARR_BG_COLOR = array(255,255,255);
+        $this->ARR_BG_COLOR = [255, 255, 255];
         // タイトル文字色
-        $this->ARR_TITLE_COLOR = array(0, 0, 0);
+        $this->ARR_TITLE_COLOR = [0, 0, 0];
         // グリッド線色
-        $this->ARR_GRID_COLOR = array(200, 200, 200);
+        $this->ARR_GRID_COLOR = [200, 200, 200];
         // マークの色
-        $this->ARR_MARK_COLOR = array(130, 130, 255);
+        $this->ARR_MARK_COLOR = [130, 130, 255];
     }
 
     /**
      * 円の中心点と直径から弧の終端座標を算出する.
      *
-     * @param  integer $cx 中心点X座標
-     * @param  integer $cy 中心点Y座標
-     * @param  integer $e  角度
-     * @return double[]   円の中心点と直径から弧の終端座標の配列
+     * @param  int $cx 中心点X座標
+     * @param  int $cy 中心点Y座標
+     * @param  int $e  角度
+     *
+     * @return float[]   円の中心点と直径から弧の終端座標の配列
      */
     public function lfGetArcPos($cx, $cy, $cw, $ch, $e)
     {
@@ -470,25 +472,25 @@ class SC_Graph_Base
         $x = $cx + ($r * cos(deg2rad($s)));
         $y = $cy - (($r * sin(deg2rad($s))) * ($ch / $cw));
 
-        return array(round($x), round($y));
+        return [round($x), round($y)];
     }
 
     /** 画像にテキストを描画する */
     public function lfImageText($dst_image, $text, $font_size, $left, $top, $font, $arrRGB)
     {
-        $color = ImageColorAllocate($dst_image, $arrRGB[0], $arrRGB[1], $arrRGB[2]);
+        $color = imagecolorallocate($dst_image, $arrRGB[0], $arrRGB[1], $arrRGB[2]);
         $text = mb_convert_encoding($text, 'UTF-8', CHAR_CODE);
         // 表示角度
         $angle = 0;
         // テキスト描画
-        ImageTTFText($dst_image, $font_size, $angle, $left, $top, $color, $font, $text);
+        imagettftext($dst_image, $font_size, $angle, $left, $top, $color, $font, $text);
     }
 
     /** 表示色の取得 */
     public function lfGetImageColor($image, $array)
     {
         if (count($array) != 3) {
-            return NULL;
+            return null;
         }
         $ret = imagecolorallocate($image, $array[0], $array[1], $array[2]);
 
@@ -499,10 +501,10 @@ class SC_Graph_Base
     public function lfGetImageDarkColor($image, $array)
     {
         if (count($array) != 3) {
-            return NULL;
+            return null;
         }
         $i = 0;
-        $dark = array();
+        $dark = [];
         foreach ($array as $val) {
             $dark[$i] = $val - 45;
             if ($dark[$i] < 0) {

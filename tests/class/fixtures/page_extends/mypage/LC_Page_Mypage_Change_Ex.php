@@ -1,4 +1,5 @@
 <?php
+
 class LC_Page_Mypage_Change_Ex extends LC_Page_Mypage_Change
 {
     public function init()

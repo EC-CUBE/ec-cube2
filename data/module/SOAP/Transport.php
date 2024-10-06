@@ -12,15 +12,15 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Dietrich Ayala <dietrich@ganx4.com>
  * @author     Shane Caraveo <Shane@Caraveo.com>
  * @author     Jan Schneider <jan@horde.org>
  * @copyright  2003-2006 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
-
 require_once 'SOAP/Base.php';
 
 /**
@@ -32,8 +32,6 @@ require_once 'SOAP/Base.php';
  * No knowlege of the SOAP protocol is available at this level.
  * No knowlege of the transport protocols is available at this level.
  *
- * @access   public
- * @package  SOAP
  * @author   Shane Caraveo <shane@php.net>
  * @author   Jan Schneider <jan@horde.org>
  */
@@ -44,7 +42,7 @@ class SOAP_Transport extends SOAP_Base
      *
      * @var string
      */
-    var $url = '';
+    public $url = '';
 
     /**
      * Array containing urlparts.
@@ -53,28 +51,28 @@ class SOAP_Transport extends SOAP_Base
      *
      * @var mixed
      */
-    var $urlparts = null;
+    public $urlparts = null;
 
     /**
      * Incoming payload.
      *
      * @var string
      */
-    var $incoming_payload = '';
+    public $incoming_payload = '';
 
     /**
      * Outgoing payload.
      *
      * @var string
      */
-    var $outgoing_payload = '';
+    public $outgoing_payload = '';
 
     /**
      * Request encoding.
      *
      * @var string
      */
-    var $encoding = SOAP_DEFAULT_ENCODING;
+    public $encoding = SOAP_DEFAULT_ENCODING;
 
     /**
      * Response encoding.
@@ -83,26 +81,25 @@ class SOAP_Transport extends SOAP_Base
      *
      * @var string
      */
-    var $result_encoding = 'UTF-8';
+    public $result_encoding = 'UTF-8';
 
     /**
      * Decoded attachments from the reponse.
      *
      * @var array
      */
-    var $attachments;
+    public $attachments;
 
     /**
      * Request User-Agent.
      *
      * @var string
      */
-    var $_userAgent = SOAP_LIBRARY_NAME;
+    public $_userAgent = SOAP_LIBRARY_NAME;
 
     /**
      * Sends and receives SOAP data.
      *
-     * @access public
      * @abstract
      *
      * @param string  Outgoing SOAP data.
@@ -110,12 +107,12 @@ class SOAP_Transport extends SOAP_Base
      *
      * @return string|SOAP_Fault
      */
-    function send($msg, $options = null)
+    public function send($msg, $options = null)
     {
         return $this->_raiseSoapFault('SOAP_Transport::send() not implemented.');
     }
 
-    function getTransport($url, $encoding = SOAP_DEFAULT_ENCODING)
+    public function getTransport($url, $encoding = SOAP_DEFAULT_ENCODING)
     {
         $urlparts = @parse_url($url);
 
@@ -133,7 +130,7 @@ class SOAP_Transport extends SOAP_Base
         }
         $transport_class = "SOAP_Transport_$transport_type";
         if (!class_exists($transport_class)) {
-            if (!(@include_once('SOAP/Transport/' . basename($transport_type) . '.php'))) {
+            if (!(@include_once('SOAP/Transport/'.basename($transport_type).'.php'))) {
                 return SOAP_Base_Object::_raiseSoapFault("No Transport for {$urlparts['scheme']}");
             }
         }
@@ -143,5 +140,4 @@ class SOAP_Transport extends SOAP_Base
 
         return new $transport_class($url, $encoding);
     }
-
 }

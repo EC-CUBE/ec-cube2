@@ -11,9 +11,9 @@ class SC_CheckError_FILE_SIZE_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         parent::setUp();
         $this->target_func = 'FILE_SIZE_CHECK';
-     }
+    }
 
-    public function testFILE_SIZE_CHECK()
+    public function testFILESIZECHECK()
     {
         $this->maxFileSize = 1;
         $this->fileSize = 1024 * 1; // 1KB
@@ -23,7 +23,7 @@ class SC_CheckError_FILE_SIZE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_SIZE_CHECKWithOver()
+    public function testFILESIZECHECKWithOver()
     {
         $this->maxFileSize = 1;
         $this->fileSize = 1024 * 2; // 2KB
@@ -33,7 +33,7 @@ class SC_CheckError_FILE_SIZE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_SIZE_CHECKWithOverToMB()
+    public function testFILESIZECHECKWithOverToMB()
     {
         $this->maxFileSize = 1024;         // 1MB
         $this->fileSize = 1024 * 1024 * 2; // 2MB
@@ -43,7 +43,7 @@ class SC_CheckError_FILE_SIZE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_SIZE_CHECKWithEmpty()
+    public function testFILESIZECHECKWithEmpty()
     {
         $this->maxFileSize = 1;
         $this->fileSize = '';
@@ -53,7 +53,7 @@ class SC_CheckError_FILE_SIZE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_SIZE_CHECKWithMinus()
+    public function testFILESIZECHECKWithMinus()
     {
         $this->maxFileSize = 1;
         $this->fileSize = -1;
@@ -70,8 +70,8 @@ class SC_CheckError_FILE_SIZE_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         $_FILES = [
             self::FORM_NAME => [
-                'size' => $this->fileSize
-            ]
+                'size' => $this->fileSize,
+            ],
         ];
         $this->arrForm = [];
         $this->objErr = new SC_CheckError_Ex($this->arrForm);

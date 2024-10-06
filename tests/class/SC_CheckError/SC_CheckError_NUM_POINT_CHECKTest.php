@@ -8,7 +8,7 @@ class SC_CheckError_NUM_POINT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'NUM_POINT_CHECK';
     }
 
-    public function testNUM_POINT_CHECK()
+    public function testNUMPOINTCHECK()
     {
         $this->arrForm = [self::FORM_NAME => 'a'];
         $this->expected = '※ NUM_POINT_CHECKは数字で入力してください。<br />';
@@ -17,8 +17,7 @@ class SC_CheckError_NUM_POINT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testNUM_POINT_CHECKWithNoError()
+    public function testNUMPOINTCHECKWithNoError()
     {
         $this->arrForm = [self::FORM_NAME => 5];
         $this->expected = '';
@@ -27,7 +26,7 @@ class SC_CheckError_NUM_POINT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_POINT_CHECKWithEmpty()
+    public function testNUMPOINTCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -36,7 +35,7 @@ class SC_CheckError_NUM_POINT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_POINT_CHECKWithNull()
+    public function testNUMPOINTCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '';
@@ -45,7 +44,7 @@ class SC_CheckError_NUM_POINT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_POINT_CHECKWithString()
+    public function testNUMPOINTCHECKWithString()
     {
         $this->arrForm = [self::FORM_NAME => '5'];
         $this->expected = '';
@@ -54,7 +53,7 @@ class SC_CheckError_NUM_POINT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_POINT_CHECKWithFloat()
+    public function testNUMPOINTCHECKWithFloat()
     {
         $this->arrForm = [self::FORM_NAME => 1.1];
         $this->expected = '';
@@ -63,7 +62,7 @@ class SC_CheckError_NUM_POINT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_POINT_CHECKWithIntmax()
+    public function testNUMPOINTCHECKWithIntmax()
     {
         $this->arrForm = [self::FORM_NAME => PHP_INT_MAX];
         $this->expected = '';
@@ -72,4 +71,3 @@ class SC_CheckError_NUM_POINT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 }
-

@@ -11,7 +11,7 @@ class SC_CheckError_MIN_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'MIN_CHECK';
     }
 
-    public function testMIN_CHECK()
+    public function testMINCHECK()
     {
         $this->min = 5;
         $this->arrForm = [self::FORM_NAME => 4];
@@ -21,8 +21,7 @@ class SC_CheckError_MIN_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testMIN_CHECKWithNoError()
+    public function testMINCHECKWithNoError()
     {
         $this->min = 5;
         $this->arrForm = [self::FORM_NAME => 5];
@@ -32,7 +31,7 @@ class SC_CheckError_MIN_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testMIN_CHECKWithEmpty()
+    public function testMINCHECKWithEmpty()
     {
         $this->min = 5;
         $this->arrForm = [self::FORM_NAME => ''];
@@ -42,7 +41,7 @@ class SC_CheckError_MIN_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testMIN_CHECKWithNull()
+    public function testMINCHECKWithNull()
     {
         $this->min = 5;
         $this->arrForm = [self::FORM_NAME => null];
@@ -52,7 +51,7 @@ class SC_CheckError_MIN_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testMIN_CHECKWithNotType()
+    public function testMINCHECKWithNotType()
     {
         $this->min = 5;
         $this->arrForm = [self::FORM_NAME => '5'];
@@ -72,4 +71,3 @@ class SC_CheckError_MIN_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->objErr->doFunc(['dummy', self::FORM_NAME, $this->min], [$this->target_func]);
     }
 }
-

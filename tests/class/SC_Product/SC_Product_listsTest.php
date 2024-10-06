@@ -1,13 +1,10 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/SC_Product/SC_Product_TestBase.php");
-/**
- *
- */
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/SC_Product/SC_Product_TestBase.php';
+
 class SC_Product_listsTest extends SC_Product_TestBase
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -20,19 +17,19 @@ class SC_Product_listsTest extends SC_Product_TestBase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testlists_商品一覧取得()
+    public function testlists商品一覧取得()
     {
-        //更新日を取得
+        // 更新日を取得
         $col = 'update_date';
         $table = 'dtb_products';
         $where = 'product_id IN (1001, 1002)';
         $this->objQuery->setOrder('product_id');
         $arrRet = $this->objQuery->getCol($col, $table, $where);
 
-        $this->expected = array(
-            0 => array(
+        $this->expected = [
+            0 => [
                 'product_id' => '1001',
                 'product_code_min' => 'code1001',
                 'product_code_max' => 'code1001',
@@ -55,8 +52,8 @@ class SC_Product_listsTest extends SC_Product_TestBase
                 'status' => '1',
                 'del_flg' => '0',
                 'update_date' => $arrRet[0],
-            ),
-            1 => array(
+            ],
+            1 => [
                 'product_id' => '1002',
                 'product_code_min' => 'code1002',
                 'product_code_max' => 'code1002',
@@ -79,19 +76,17 @@ class SC_Product_listsTest extends SC_Product_TestBase
                 'status' => '2',
                 'del_flg' => '0',
                 'update_date' => $arrRet[1],
-            ),
-        );
+            ],
+        ];
 
         // SC_Product::lists() の第二引数を使用するケースは
         // SC_DB_DBFactory::alldtlSQL() が利用するエイリアスである alldtl.product_id に対応する WHERE 句が必要
-        $result = $this->objProducts->lists($this->objQuery, array(1001, 1002));
+        $result = $this->objProducts->lists($this->objQuery, [1001, 1002]);
         $this->assertNull($result);
 
-
-        $this->objQuery->setWhere('product_id IN (?, ?)', array(1001, 1002));
+        $this->objQuery->setWhere('product_id IN (?, ?)', [1001, 1002]);
         $this->actual = $this->objProducts->lists($this->objQuery);
 
         $this->verify('商品一覧');
     }
-    
 }

@@ -12,16 +12,16 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Dietrich Ayala <dietrich@ganx4.com> Original Author
  * @author     Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
  * @author     Chuck Hagenbuch <chuck@horde.org>   Maintenance
  * @author     Jan Schneider <jan@horde.org>       Maintenance
  * @copyright  2003-2005 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
-
 require_once 'SOAP/Base.php';
 require_once 'SOAP/Value.php';
 
@@ -32,35 +32,33 @@ require_once 'SOAP/Value.php';
  * packets. Originally based on SOAPx4 by Dietrich Ayala
  * http://dietrich.ganx4.com/soapx4
  *
- * @access public
- * @package SOAP
  * @author Shane Caraveo <shane@php.net> Conversion to PEAR and updates
  * @author Dietrich Ayala <dietrich@ganx4.com> Original Author
  */
 class SOAP_Parser extends SOAP_Base
 {
-    var $status = '';
-    var $position = 0;
-    var $depth = 0;
-    var $default_namespace = '';
-    var $message = array();
-    var $depth_array = array();
-    var $parent = 0;
-    var $root_struct_name = array();
-    var $header_struct_name = array();
-    var $curent_root_struct_name = '';
-    var $root_struct = array();
-    var $header_struct = array();
-    var $curent_root_struct = 0;
-    var $references = array();
-    var $need_references = array();
+    public $status = '';
+    public $position = 0;
+    public $depth = 0;
+    public $default_namespace = '';
+    public $message = [];
+    public $depth_array = [];
+    public $parent = 0;
+    public $root_struct_name = [];
+    public $header_struct_name = [];
+    public $curent_root_struct_name = '';
+    public $root_struct = [];
+    public $header_struct = [];
+    public $curent_root_struct = 0;
+    public $references = [];
+    public $need_references = [];
 
     /**
      * Used to handle non-root elements before root body element.
      *
-     * @var integer
+     * @var int
      */
-    var $bodyDepth;
+    public $bodyDepth;
 
     /**
      * Constructor.
@@ -69,10 +67,10 @@ class SOAP_Parser extends SOAP_Base
      * @param string $encoding    Character set encoding, defaults to 'UTF-8'.
      * @param array $attachments  List of attachments.
      */
-    function SOAP_Parser($xml, $encoding = SOAP_DEFAULT_ENCODING,
-                         $attachments = null)
+    public function __construct($xml, $encoding = SOAP_DEFAULT_ENCODING,
+        $attachments = null)
     {
-        parent::SOAP_Base('Parser');
+        parent::__construct('Parser');
         $this->_setSchemaVersion(SOAP_XML_SCHEMA_VERSION);
 
         $this->attachments = $attachments;
@@ -101,10 +99,10 @@ class SOAP_Parser extends SOAP_Base
             // Parse the XML file.
             if (!xml_parse($parser, $xml, true)) {
                 $err = sprintf('XML error on line %d col %d byte %d %s',
-                               xml_get_current_line_number($parser),
-                               xml_get_current_column_number($parser),
-                               xml_get_current_byte_index($parser),
-                               xml_error_string(xml_get_error_code($parser)));
+                    xml_get_current_line_number($parser),
+                    xml_get_current_column_number($parser),
+                    xml_get_current_byte_index($parser),
+                    xml_error_string(xml_get_error_code($parser)));
                 $this->_raiseSoapFault($err, htmlspecialchars($xml));
             }
             xml_parser_free($parser);
@@ -118,7 +116,7 @@ class SOAP_Parser extends SOAP_Base
      *
      * @return array
      */
-    function getResponse()
+    public function getResponse()
     {
         if (!empty($this->root_struct[0])) {
             return $this->_buildResponse($this->root_struct[0]);
@@ -134,7 +132,7 @@ class SOAP_Parser extends SOAP_Base
      *
      * @return array
      */
-    function getHeaders()
+    public function getHeaders()
     {
         if (!empty($this->header_struct[0])) {
             return $this->_buildResponse($this->header_struct[0]);
@@ -150,7 +148,7 @@ class SOAP_Parser extends SOAP_Base
      *
      * @see _buildResponse()
      */
-    function _domulti($d, &$ar, &$r, &$v, $ad = 0)
+    public function _domulti($d, &$ar, &$r, &$v, $ad = 0)
     {
         if ($d) {
             $this->_domulti($d - 1, $ar, $r[$ar[$ad]], $v, $ad + 1);
@@ -162,11 +160,11 @@ class SOAP_Parser extends SOAP_Base
     /**
      * Loops through the message, building response structures.
      *
-     * @param integer $pos  Position.
+     * @param int $pos  Position.
      *
      * @return SOAP_Value
      */
-    function _buildResponse($pos)
+    public function _buildResponse($pos)
     {
         $response = null;
 
@@ -180,7 +178,7 @@ class SOAP_Parser extends SOAP_Base
             if (isset($this->message[$pos]['arraySize'])) {
                 $ardepth = count($this->message[$pos]['arraySize']);
                 if ($ardepth > 1) {
-                    $ar = array_pad(array(), $ardepth, 0);
+                    $ar = array_pad([], $ardepth, 0);
                     if (isset($this->message[$pos]['arrayOffset'])) {
                         for ($i = 0; $i < $ardepth; $i++) {
                             $ar[$i] += $this->message[$pos]['arrayOffset'][$i];
@@ -212,7 +210,7 @@ class SOAP_Parser extends SOAP_Base
         }
 
         // Build attributes.
-        $attrs = array();
+        $attrs = [];
         foreach ($this->message[$pos]['attrs'] as $atn => $atv) {
             if (!strstr($atn, 'xmlns') && !strpos($atn, ':')) {
                 $attrs[$atn] = $atv;
@@ -221,25 +219,25 @@ class SOAP_Parser extends SOAP_Base
 
         // Add current node's value.
         $nqn = new QName($this->message[$pos]['name'],
-                         $this->message[$pos]['namespace']);
+            $this->message[$pos]['namespace']);
         $tqn = new QName($this->message[$pos]['type'],
-                         $this->message[$pos]['type_namespace']);
+            $this->message[$pos]['type_namespace']);
         if ($response) {
             $response = new SOAP_Value($nqn->fqn(), $tqn->fqn(), $response,
-                                       $attrs);
+                $attrs);
             if (isset($this->message[$pos]['arrayType'])) {
                 $response->arrayType = $this->message[$pos]['arrayType'];
             }
         } else {
             // Check if value is an empty array
             if ($tqn->name == 'Array') {
-                $response = new SOAP_Value($nqn->fqn(), $tqn->fqn(), array(),
-                                           $attrs);
-                //if ($pos == 4) var_dump($this->message[$pos], $response);
+                $response = new SOAP_Value($nqn->fqn(), $tqn->fqn(), [],
+                    $attrs);
+            // if ($pos == 4) var_dump($this->message[$pos], $response);
             } else {
                 $response = new SOAP_Value($nqn->fqn(), $tqn->fqn(),
-                                           $this->message[$pos]['cdata'],
-                                           $attrs);
+                    $this->message[$pos]['cdata'],
+                    $attrs);
             }
         }
 
@@ -257,19 +255,19 @@ class SOAP_Parser extends SOAP_Base
     /**
      * Start element handler used with the XML parser.
      */
-    function _startElement($parser, $name, $attrs)
+    public function _startElement($parser, $name, $attrs)
     {
         // Position in a total number of elements, starting from 0.
         // Update class level position.
         $pos = $this->position++;
 
         // And set mine.
-        $this->message[$pos] = array(
+        $this->message[$pos] = [
             'type' => '',
             'type_namespace' => '',
             'cdata' => '',
             'pos' => $pos,
-            'id' => '');
+            'id' => '', ];
 
         // Parent/child/depth determinations.
 
@@ -280,7 +278,7 @@ class SOAP_Parser extends SOAP_Base
         // Else add self as child to whoever the current parent is.
         if ($pos != 0) {
             if (isset($this->message[$this->parent]['children'])) {
-                $this->message[$this->parent]['children'] .= '|' . $pos;
+                $this->message[$this->parent]['children'] .= '|'.$pos;
             } else {
                 $this->message[$this->parent]['children'] = $pos;
             }
@@ -366,9 +364,8 @@ class SOAP_Parser extends SOAP_Base
                 $this->message[$pos]['type'] = $vqn->name;
                 $this->message[$pos]['type_namespace'] = $this->_getNamespaceForPrefix($vqn->prefix);
 
-                // Should do something here with the namespace of specified
-                // type?
-
+            // Should do something here with the namespace of specified
+            // type?
             } elseif ($kqn->name == 'arrayType') {
                 $vqn = new QName($value);
                 $this->message[$pos]['type'] = 'Array';
@@ -376,15 +373,12 @@ class SOAP_Parser extends SOAP_Base
                     $this->message[$pos]['arraySize'] = $vqn->arraySize;
                 }
                 $this->message[$pos]['arrayType'] = $vqn->name;
-
             } elseif ($kqn->name == 'offset') {
                 $this->message[$pos]['arrayOffset'] = explode(',', substr($value, 1, strlen($value) - 2));
-
             } elseif ($kqn->name == 'id') {
                 // Save id to reference array.
                 $this->references[$value] = $pos;
                 $this->message[$pos]['id'] = $value;
-
             } elseif ($kqn->name == 'href') {
                 if ($value[0] == '#') {
                     $ref = substr($value, 1);
@@ -399,7 +393,7 @@ class SOAP_Parser extends SOAP_Base
                     } else {
                         // Reverse reference, store in 'need reference'.
                         if (!isset($this->need_references[$ref])) {
-                            $this->need_references[$ref] = array();
+                            $this->need_references[$ref] = [];
                         }
                         $this->need_references[$ref][] = $pos;
                     }
@@ -409,8 +403,8 @@ class SOAP_Parser extends SOAP_Base
             }
         }
         // See if namespace is defined in tag.
-        if (isset($attrs['xmlns:' . $qname->prefix])) {
-            $namespace = $attrs['xmlns:' . $qname->prefix];
+        if (isset($attrs['xmlns:'.$qname->prefix])) {
+            $namespace = $attrs['xmlns:'.$qname->prefix];
         } elseif ($qname->prefix && !$qname->namespace) {
             $namespace = $this->_getNamespaceForPrefix($qname->prefix);
         } else {
@@ -424,7 +418,7 @@ class SOAP_Parser extends SOAP_Base
     /**
      * End element handler used with the XML parser.
      */
-    function _endElement($parser, $name)
+    public function _endElement($parser, $name)
     {
         // Position of current element is equal to the last value left in
         // depth_array for my depth.
@@ -486,7 +480,7 @@ class SOAP_Parser extends SOAP_Base
     /**
      * Element content handler used with the XML parser.
      */
-    function _characterData($parser, $data)
+    public function _characterData($parser, $data)
     {
         $pos = $this->depth_array[$this->depth];
         if (isset($this->message[$pos]['cdata'])) {
@@ -495,5 +489,4 @@ class SOAP_Parser extends SOAP_Base
             $this->message[$pos]['cdata'] = $data;
         }
     }
-
 }

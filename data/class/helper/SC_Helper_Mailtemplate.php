@@ -24,8 +24,8 @@
 /**
  * メールテンプレートを管理するヘルパークラス.
  *
- * @package Helper
  * @author pineray
+ *
  * @version $Id$
  */
 class SC_Helper_Mailtemplate
@@ -33,8 +33,9 @@ class SC_Helper_Mailtemplate
     /**
      * メールテンプレートの情報を取得.
      *
-     * @param  integer $template_id メールテンプレートID
-     * @param  boolean $has_deleted 削除されたメールテンプレートも含む場合 true; 初期値 false
+     * @param  int $template_id メールテンプレートID
+     * @param  bool $has_deleted 削除されたメールテンプレートも含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function get($template_id, $has_deleted = false)
@@ -45,7 +46,7 @@ class SC_Helper_Mailtemplate
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select($col, 'dtb_mailtemplate', $where, array($template_id));
+        $arrRet = $objQuery->select($col, 'dtb_mailtemplate', $where, [$template_id]);
 
         return $arrRet[0];
     }
@@ -53,7 +54,8 @@ class SC_Helper_Mailtemplate
     /**
      * メールテンプレート一覧の取得.
      *
-     * @param  boolean $has_deleted 削除されたメールテンプレートも含む場合 true; 初期値 false
+     * @param  bool $has_deleted 削除されたメールテンプレートも含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function getList($has_deleted = false)
@@ -74,6 +76,7 @@ class SC_Helper_Mailtemplate
      * メールテンプレートの登録.
      *
      * @param  array    $sqlval
+     *
      * @return multiple 登録成功:メールテンプレートID, 失敗:FALSE
      */
     public function save($sqlval)
@@ -84,7 +87,7 @@ class SC_Helper_Mailtemplate
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
         // 存在確認
         $where = 'template_id = ?';
-        $exist = $objQuery->exists('dtb_mailtemplate', $where, array($template_id));
+        $exist = $objQuery->exists('dtb_mailtemplate', $where, [$template_id]);
         // 新規登録
         if (!$exist) {
             // INSERTの実行
@@ -97,9 +100,9 @@ class SC_Helper_Mailtemplate
         } else {
             unset($sqlval['creator_id']);
             unset($sqlval['create_date']);
-            $ret = $objQuery->update('dtb_mailtemplate', $sqlval, $where, array($template_id));
+            $ret = $objQuery->update('dtb_mailtemplate', $sqlval, $where, [$template_id]);
         }
 
-        return ($ret) ? $sqlval['template_id'] : FALSE;
+        return ($ret) ? $sqlval['template_id'] : false;
     }
 }

@@ -42,7 +42,8 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
     // コンストラクタ
     public function __construct(
         $bgw = BG_WIDTH, $bgh = BG_HEIGHT, $left = LINE_LEFT, $top = LINE_TOP,
-        $area_width = LINE_AREA_WIDTH, $area_height = LINE_AREA_HEIGHT) {
+        $area_width = LINE_AREA_WIDTH, $area_height = LINE_AREA_HEIGHT)
+    {
         parent::__construct($bgw, $bgh, $left, $top);
         $this->area_width = $area_width;
         $this->area_height = $area_height;
@@ -57,7 +58,7 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
     // X軸ラベルの角度セット
 
     /**
-     * @param integer $Angle
+     * @param int $Angle
      */
     public function setXLabelAngle($Angle)
     {
@@ -123,7 +124,7 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
 
         // 棒グラフの場合は半目盛りずらす
         if ($bar) {
-            $half_scale = intval($this->area_width / ($count + 1) / 2);
+            $half_scale = (int) ($this->area_width / ($count + 1) / 2);
         } else {
             $half_scale = 0;
         }
@@ -148,7 +149,7 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
                     $bar_margin = 0;
                 }
 
-                $this->setText(FONT_SIZE, $x_pos + $this->x_margin + $bar_margin, $pos + FONT_SIZE + $this->y_margin, $this->arrXLabel[$i], NULL, $this->XLabelAngle);
+                $this->setText(FONT_SIZE, $x_pos + $this->x_margin + $bar_margin, $pos + FONT_SIZE + $this->y_margin, $this->arrXLabel[$i], null, $this->XLabelAngle);
             }
         }
 
@@ -169,18 +170,18 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
     // ポイントの描画
 
     /**
-     * @param integer $line_no
+     * @param int $line_no
      */
     public function setMark($line_no, $left, $top, $size = LINE_MARK_SIZE)
     {
         // 偶数に変換しておく
         $size += $size % 2;
-        $array = array(
+        $array = [
             $left, $top - ($size / 2),
             $left + ($size / 2), $top,
             $left, $top + ($size / 2),
             $left - ($size / 2), $top,
-        );
+        ];
         imagefilledpolygon($this->image, $array, 4, $this->arrColor[$line_no]);
         imagepolygon($this->image, $array, 4, $this->flame_color);
         imagesetpixel($this->image, $left, $top + ($size / 2), $this->flame_color);
@@ -190,7 +191,7 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
     public function setYScale()
     {
         // 1目盛りの値
-        $number = intval($this->graph_max / LINE_Y_SCALE);
+        $number = (int) ($this->graph_max / LINE_Y_SCALE);
         // 目盛り幅を求める
         $size = $this->area_height / LINE_Y_SCALE;
         $pos = 0;
@@ -203,7 +204,6 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
         }
     }
 
-    //
     public function setMax($arrData)
     {
         // データの最大値を取得する。
@@ -211,9 +211,9 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
         // 10の何倍かを取得
         $figure = strlen($data_max) - 1;
         // 次の桁を計算する
-        $tenval = pow(10, $figure);
+        $tenval = 10 ** $figure;
         // グラフ上での最大値を求める
-        $this->graph_max = $tenval * (intval($data_max / $tenval) + 1);
+        $this->graph_max = $tenval * ((int) ($data_max / $tenval) + 1);
         // 最大値が10未満の場合の対応
         if ($this->graph_max < 10) {
             $this->graph_max = 10;
@@ -249,7 +249,7 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
     // ラインを描画する
 
     /**
-     * @param integer $line_no
+     * @param int $line_no
      */
     public function drawLine($line_no)
     {
@@ -270,7 +270,7 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
     // マークを描画する
 
     /**
-     * @param integer $line_no
+     * @param int $line_no
      */
     public function drawMark($line_no)
     {
@@ -286,7 +286,7 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
     // ラベルを描画する
 
     /**
-     * @param integer $line_no
+     * @param int $line_no
      */
     public function drawLabel($line_no)
     {
@@ -313,14 +313,14 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
         // 描画率を計算
         $count = count($this->arrDataList[$this->line_max]);
         $scale_width = $this->area_width / ($count + 1);
-        $this->arrPointList[$this->line_max] = array();
+        $this->arrPointList[$this->line_max] = [];
         for ($i = 0; $i < $count; $i++) {
             // X座標を求める
-            $x = intval($this->left + ($scale_width * ($i + 1)));
+            $x = (int) ($this->left + ($scale_width * ($i + 1)));
             // Y座標を求める
-            $y = intval($this->top + $this->area_height - ($this->arrDataList[$this->line_max][$i] * $rate));
+            $y = (int) ($this->top + $this->area_height - ($this->arrDataList[$this->line_max][$i] * $rate));
             // XY座標を保存する
-            $this->arrPointList[$this->line_max][] = array($x, $y);
+            $this->arrPointList[$this->line_max][] = [$x, $y];
         }
         $this->line_max++;
     }

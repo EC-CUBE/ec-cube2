@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 //
 // +----------------------------------------------------------------------+
@@ -19,12 +20,12 @@
 //
 // $Id: Second.php,v 1.1 2004/05/24 22:25:42 quipo Exp $
 //
-/**
+/*
  * @package Calendar
  * @version $Id$
  */
 
-/**
+/*
  * Allows Calendar include path to be redefined
  * @ignore
  */
@@ -41,12 +42,12 @@ require_once CALENDAR_ROOT.'Calendar.php';
  * Represents a Second<br />
  * <b>Note:</b> Seconds do not build other objects
  * so related methods are overridden to return NULL
- * @package Calendar
  */
 class Calendar_Second extends Calendar
 {
     /**
      * Constructs Second
+     *
      * @param int year e.g. 2003
      * @param int month e.g. 5
      * @param int day e.g. 11
@@ -61,38 +62,41 @@ class Calendar_Second extends Calendar
 
     /**
      * Overwrite build
-     * @return NULL
+     *
+     * @return null
      */
-    function build($sDates = [])
+    public function build($sDates = [])
     {
         return null;
     }
 
     /**
      * Overwrite fetch
-     * @return NULL
+     *
+     * @return null
      */
-    function fetch($decorator = null)
+    public function fetch($decorator = null)
     {
         return null;
     }
 
     /**
      * Overwrite fetchAll
-     * @return NULL
+     *
+     * @return null
      */
-    function fetchAll($decorator = null)
+    public function fetchAll($decorator = null)
     {
         return null;
     }
 
     /**
      * Overwrite size
-     * @return NULL
+     *
+     * @return null
      */
-    function size()
+    public function size()
     {
         return null;
     }
 }
-?>

@@ -1,6 +1,7 @@
 <?php
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 
 /**
  * HTTP_RequestTest
@@ -15,10 +16,10 @@ class HTTP_RequestTest extends Common_TestCase
     {
         $url = 'http://www.example.com/foo';
         $req = new HTTP_Request($url);
-        //$req->setMethod(HTTP_REQUEST_METHOD_POST);
-        //$req->addPostData('Foo', 'bar');
+        // $req->setMethod(HTTP_REQUEST_METHOD_POST);
+        // $req->addPostData('Foo', 'bar');
 
         $this->assertSame($url, $req->getUrl());
-        //$this->assertEquals(HTTP_REQUEST_METHOD_POST, $req->getMethod());
+        // $this->assertEquals(HTTP_REQUEST_METHOD_POST, $req->getMethod());
     }
 }

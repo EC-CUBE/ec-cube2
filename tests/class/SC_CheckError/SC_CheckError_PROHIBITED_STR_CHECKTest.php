@@ -16,10 +16,10 @@ class SC_CheckError_PROHIBITED_STR_CHECKTest extends SC_CheckError_AbstractTestC
         $this->denyStrings = ['aaa', 'bbb', 'ccc'];
     }
 
-    public function testPROHIBITED_STR_CHECK()
+    public function testPROHIBITEDSTRCHECK()
     {
         $this->arrForm = [
-            self::FORM_NAME => 'ddd'
+            self::FORM_NAME => 'ddd',
         ];
         $this->expected = '';
 
@@ -27,8 +27,7 @@ class SC_CheckError_PROHIBITED_STR_CHECKTest extends SC_CheckError_AbstractTestC
         $this->verify();
     }
 
-
-    public function testPROHIBITED_STR_CHECKWithInvalid()
+    public function testPROHIBITEDSTRCHECKWithInvalid()
     {
         $this->arrForm = [self::FORM_NAME => 'aaaaa'];
         $this->expected = '※ PROHIBITED_STR_CHECKは入力できません。<br />';
@@ -37,7 +36,7 @@ class SC_CheckError_PROHIBITED_STR_CHECKTest extends SC_CheckError_AbstractTestC
         $this->verify();
     }
 
-    public function testPROHIBITED_STR_CHECKWithEmpty()
+    public function testPROHIBITEDSTRCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -46,7 +45,7 @@ class SC_CheckError_PROHIBITED_STR_CHECKTest extends SC_CheckError_AbstractTestC
         $this->verify();
     }
 
-    public function testPROHIBITED_STR_CHECKWithNull()
+    public function testPROHIBITEDSTRCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '';

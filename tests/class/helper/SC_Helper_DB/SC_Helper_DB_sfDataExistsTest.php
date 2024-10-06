@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,11 +28,11 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
  * SC_Helper_DB::sfDataExists()のテストクラス.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_DB_sfDataExists extends SC_Helper_DB_TestBase
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -44,27 +44,26 @@ class SC_Helper_DB_sfDataExists extends SC_Helper_DB_TestBase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
     public function testSfDataExists_データが存在する場合_TRUEを返す()
     {
         $this->setUpNews();
         $tableName = 'dtb_news';
         $where = 'news_id = ?';
-        $arrWhereVal = array(3);
+        $arrWhereVal = [3];
         $this->expected = true;
         $this->actual = $this->helper->sfDataExists($tableName, $where, $arrWhereVal);
         $this->verify();
     }
-    
+
     public function testSfDataExists_データが存在しない場合_FALSEを返す()
     {
         $this->setUpNews();
         $tableName = 'dtb_news';
         $where = 'news_id = ?';
-        $arrWhereVal = array(4);
+        $arrWhereVal = [4];
         $this->expected = false;
         $this->actual = $this->helper->sfDataExists($tableName, $where, $arrWhereVal);
         $this->verify();
     }
 }
-

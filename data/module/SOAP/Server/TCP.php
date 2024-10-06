@@ -12,17 +12,16 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
  * @copyright  2003-2005 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
-
 require_once 'SOAP/Server.php';
 
 require_once 'SOAP/Server/TCP/Handler.php';
-
 
 /**
  * SOAP Server Class that implements a TCP SOAP Server.
@@ -36,61 +35,60 @@ require_once 'SOAP/Server/TCP/Handler.php';
  *   implement some security scheme
  *   implement support for attachments
  *
- * @access   public
- * @package  SOAP
  * @author   Shane Caraveo <shane@php.net>
  */
-class SOAP_Server_TCP extends SOAP_Server {
+class SOAP_Server_TCP extends SOAP_Server
+{
+    public $headers = [];
+    public $localaddr;
+    public $port;
+    public $type;
 
-    var $headers = array();
-    var $localaddr;
-    var $port;
-    var $type;
-
-    function SOAP_Server_TCP($localaddr = '127.0.0.1', $port = 10000,
-                             $type = 'sequential')
+    public function __construct($localaddr = '127.0.0.1', $port = 10000,
+        $type = 'sequential')
     {
-        parent::SOAP_Server();
+        parent::__construct();
         $this->localaddr = $localaddr;
         $this->port = $port;
         $this->type = $type;
     }
 
-    function run($idleTimeout = null)
-    {        
+    public function run($idleTimeout = null)
+    {
         $server = &Net_Server::create($this->type, $this->localaddr,
-                                      $this->port);
+            $this->port);
         if (PEAR::isError($server)) {
             echo $server->getMessage()."\n";
         }
-        
-        $handler = new SOAP_Server_TCP_Handler;
+
+        $handler = new SOAP_Server_TCP_Handler();
         $handler->setSOAPServer($this);
-        
+
         // hand over the object that handles server events
         $server->setCallbackObject($handler);
         $server->readEndCharacter = '</SOAP-ENV:Envelope>';
         $server->setIdleTimeout($idleTimeout);
-        
+
         // start the server
         $server->start();
     }
 
-    function service(&$data)
+    public function service(&$data)
     {
         /* TODO: we need to handle attachments somehow. */
         $response = $this->parseRequest($data);
         if ($this->fault) {
             $response = $this->fault->message($this->response_encoding);
         }
+
         return $response;
     }
-    
-    function onStart()
+
+    public function onStart()
     {
     }
-    
-    function onIdle()
+
+    public function onIdle()
     {
     }
 }

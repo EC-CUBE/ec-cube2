@@ -26,6 +26,7 @@
  *
  * @author EC-CUBE CO.,LTD.
  * @author Kentaro Ohkouchi
+ *
  * @version $Id$
  */
 class SC_Product
@@ -35,7 +36,7 @@ class SC_Product
     /** 規格分類名一覧 */
     public $arrClassCatName;
     /** このプロパティが保持する price01 及び price02 は、税金付与した金額である。 */
-    public $classCategories = array();
+    public $classCategories = [];
     public $stock_find;
     /** 規格1クラス名 */
     public $className1 = [];
@@ -61,11 +62,12 @@ class SC_Product
      * @param  string $col   並び替えの基準とするフィールド
      * @param  string $table 並び替えの基準とするフィールドがあるテーブル
      * @param  string $order 並び替えの順序 ASC / DESC
+     *
      * @return void
      */
     public function setProductsOrder($col, $table = 'dtb_products', $order = 'ASC')
     {
-        $this->arrOrderData = array('col' => $col, 'table' => $table, 'order' => $order);
+        $this->arrOrderData = ['col' => $col, 'table' => $table, 'order' => $order];
     }
 
     /**
@@ -75,13 +77,14 @@ class SC_Product
      *
      * @param  SC_Query $objQuery SC_Query インスタンス
      * @param  array    $arrVal   検索パラメーターの配列
+     *
      * @return array    商品IDの配列
      */
-    public function findProductIdsOrder(&$objQuery, $arrVal = array())
+    public function findProductIdsOrder(&$objQuery, $arrVal = [])
     {
         $table = 'dtb_products AS alldtl';
 
-        if (is_array($this->arrOrderData) and $objQuery->order == '') {
+        if (is_array($this->arrOrderData) && $objQuery->order == '') {
             $o_col = $this->arrOrderData['col'];
             $o_table = $this->arrOrderData['table'];
             $o_order = $this->arrOrderData['order'];
@@ -103,9 +106,10 @@ class SC_Product
      *
      * @param  SC_Query $objQuery SC_Query インスタンス
      * @param  array    $arrVal   検索パラメーターの配列
-     * @return integer    対象商品ID数
+     *
+     * @return int    対象商品ID数
      */
-    public function findProductCount(&$objQuery, $arrVal = array())
+    public function findProductCount(&$objQuery, $arrVal = [])
     {
         $table = 'dtb_products AS alldtl';
 
@@ -121,9 +125,10 @@ class SC_Product
      *
      * @param  SC_Query $objQuery SC_Query インスタンス
      * @param array $product_ids 商品IDの配列
+     *
      * @return array    商品一覧の配列
      */
-    public function lists(&$objQuery, $product_ids = array())
+    public function lists(&$objQuery, $product_ids = [])
     {
         $col = <<< __EOS__
              product_id
@@ -163,15 +168,16 @@ __EOS__;
      *
      * @param  SC_Query $objQuery     SC_Query インスタンス
      * @param  array    $arrProductId 商品ID
+     *
      * @return array    商品一覧の配列 (キー: 商品ID)
      */
-    public function getListByProductIds(&$objQuery, $arrProductId = array())
+    public function getListByProductIds(&$objQuery, $arrProductId = [])
     {
         if (empty($arrProductId)) {
-            return array();
+            return [];
         }
 
-        $where = 'alldtl.product_id IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', count($arrProductId)) . ')';
+        $where = 'alldtl.product_id IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($arrProductId)).')';
         $where .= ' AND alldtl.del_flg = 0';
 
         $objQuery->setWhere(
@@ -187,11 +193,11 @@ __EOS__;
 
         // SC_Query::setOrder() の指定がない場合、$arrProductId で指定された商品IDの順に配列要素を並び替え
         if (strlen($objQuery->order) === 0) {
-            $arrTmp = array();
+            $arrTmp = [];
             foreach ($arrProductId as $product_id) {
                 $arrTmp[$product_id] = $arrProducts[$product_id];
             }
-            $arrProducts =& $arrTmp;
+            $arrProducts = &$arrTmp;
             unset($arrTmp);
         }
 
@@ -204,19 +210,20 @@ __EOS__;
     /**
      * 商品詳細を取得する.
      *
-     * @param  integer $product_id 商品ID
+     * @param  int $product_id 商品ID
+     *
      * @return array   商品詳細情報の配列
      */
     public function getDetail($product_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $from = static::alldtlSQL('', array($product_id));
+        $from = static::alldtlSQL('', [$product_id]);
         $where = 'product_id = ?';
         // SC_DB_DBFactory::alldtlSQL() で生成される追加条件のため
         // product_id の配列を生成ておく
-        $arrWhereVal = array($product_id, $product_id, $product_id);
-        $arrProduct = (array)$objQuery->getRow('*', $from, $where, $arrWhereVal);
+        $arrWhereVal = [$product_id, $product_id, $product_id];
+        $arrProduct = (array) $objQuery->getRow('*', $from, $where, $arrWhereVal);
 
         // 税込金額を設定する
         SC_Product_Ex::setIncTaxToProduct($arrProduct);
@@ -227,7 +234,8 @@ __EOS__;
     /**
      * 商品詳細情報と商品規格を取得する.
      *
-     * @param  integer $productClassId 商品規格ID
+     * @param  int $productClassId 商品規格ID
+     *
      * @return array   商品詳細情報と商品規格の配列
      */
     public function getDetailAndProductsClass($productClassId)
@@ -245,7 +253,8 @@ __EOS__;
      * 設定する.
      *
      * @param  array   $arrProductId 商品ID の配列
-     * @param  boolean $has_deleted  削除された商品規格も含む場合 true; 初期値 false
+     * @param  bool $has_deleted  削除された商品規格も含む場合 true; 初期値 false
+     *
      * @return void
      */
     public function setProductsClassByProductIds($arrProductId, $has_deleted = false)
@@ -253,7 +262,7 @@ __EOS__;
         foreach ($arrProductId as $productId) {
             $arrProductClasses = $this->getProductsClassFullByProductId($productId, $has_deleted);
 
-            $classCats1 = array();
+            $classCats1 = [];
             $classCats1['__unselected'] = '選択してください';
 
             // 規格1クラス名
@@ -274,7 +283,7 @@ __EOS__;
             $this->classCat2_find[$productId] = $arrProductClasses[0]['classcategory_id2'] > 0; // 要変更ただし、他にも改修が必要となる
 
             $this->stock_find[$productId] = false;
-            $classCategories = array();
+            $classCategories = [];
             $classCategories['__unselected']['__unselected']['name'] = '選択してください';
             $classCategories['__unselected']['__unselected']['product_class_id'] = $arrProductClasses[0]['product_class_id'];
             // 商品種別
@@ -283,14 +292,14 @@ __EOS__;
             // 商品種別
             $this->product_type[$productId] = $arrProductClasses[0]['product_type_id'];
             foreach ($arrProductClasses as $arrProductsClass) {
-                $arrClassCats2 = array();
+                $arrClassCats2 = [];
                 $classcategory_id1 = $arrProductsClass['classcategory_id1'];
                 $classcategory_id2 = $arrProductsClass['classcategory_id2'];
                 // 在庫
                 $stock_find_class = ($arrProductsClass['stock_unlimited'] || $arrProductsClass['stock'] > 0);
 
                 $arrClassCats2['classcategory_id2'] = $classcategory_id2;
-                $arrClassCats2['name'] = $arrProductsClass['classcategory_name2'] . ($stock_find_class ? '' : ' (品切れ中)');
+                $arrClassCats2['name'] = $arrProductsClass['classcategory_name2'].($stock_find_class ? '' : ' (品切れ中)');
 
                 $arrClassCats2['stock_find'] = $stock_find_class;
 
@@ -300,7 +309,7 @@ __EOS__;
 
                 if (!in_array($classcategory_id1, array_keys($classCats1))) {
                     $classCats1[$classcategory_id1] = $arrProductsClass['classcategory_name1']
-                        . ($classcategory_id2 == 0 && !$stock_find_class ? ' (品切れ中)' : '');
+                        .($classcategory_id2 == 0 && !$stock_find_class ? ' (品切れ中)' : '');
                 }
 
                 // 価格
@@ -330,11 +339,11 @@ __EOS__;
                 if (!$this->classCat1_find[$productId]) {
                     $classcategory_id1 = '__unselected2';
                 }
-                $classCategories[$classcategory_id1]['#'] = array(
+                $classCategories[$classcategory_id1]['#'] = [
                     'classcategory_id2' => '',
                     'name' => '選択してください',
-                );
-                $classCategories[$classcategory_id1]['#' . $classcategory_id2] = $arrClassCats2;
+                ];
+                $classCategories[$classcategory_id1]['#'.$classcategory_id2] = $arrClassCats2;
             }
 
             $this->classCategories[$productId] = $classCategories;
@@ -349,6 +358,7 @@ __EOS__;
      *
      * @param  SC_Query $objQuery SC_Queryインスタンス
      * @param  array    $params   検索パラメーターの配列
+     *
      * @return array    商品規格の配列
      */
     public function getProductsClassByQuery(&$objQuery, $params)
@@ -403,7 +413,8 @@ __EOS__;
      *
      * 削除された商品規格は取得しない.
      *
-     * @param  integer $productClassId 商品規格ID
+     * @param  int $productClassId 商品規格ID
+     *
      * @return array   商品規格の配列
      */
     public function getProductsClass($productClassId)
@@ -429,16 +440,17 @@ __EOS__;
      * 複数の商品IDに紐づいた, 商品規格を取得する.
      *
      * @param  array   $productIds  商品IDの配列
-     * @param  boolean $has_deleted 削除された商品規格も含む場合 true; 初期値 false
+     * @param  bool $has_deleted 削除された商品規格も含む場合 true; 初期値 false
+     *
      * @return array   商品規格の配列
      */
-    public function getProductsClassByProductIds($productIds = array(), $has_deleted = false)
+    public function getProductsClassByProductIds($productIds = [], $has_deleted = false)
     {
         if (empty($productIds)) {
-            return array();
+            return [];
         }
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $where = 'product_id IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', count($productIds)) . ')';
+        $where = 'product_id IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($productIds)).')';
         if (!$has_deleted) {
             $where .= ' AND T1.del_flg = 0';
         }
@@ -451,12 +463,13 @@ __EOS__;
      * 商品IDに紐づいた, 商品規格を全ての組み合わせごとに取得する.
      *
      * @param  array   $productId   商品ID
-     * @param  boolean $has_deleted 削除された商品規格も含む場合 true; 初期値 false
+     * @param  bool $has_deleted 削除された商品規格も含む場合 true; 初期値 false
+     *
      * @return array   全ての組み合わせの商品規格の配列
      */
     public function getProductsClassFullByProductId($productId, $has_deleted = false)
     {
-        $arrRet = $this->getProductsClassByProductIds(array($productId), $has_deleted);
+        $arrRet = $this->getProductsClassByProductIds([$productId], $has_deleted);
 
         return $arrRet;
     }
@@ -465,19 +478,20 @@ __EOS__;
      * 商品IDをキーにした, 商品ステータスIDの配列を取得する.
      *
      * @param array 商品ID の配列
+     *
      * @return array 商品IDをキーにした商品ステータスIDの配列
      */
     public function getProductStatus($productIds)
     {
         if (empty($productIds)) {
-            return array();
+            return [];
         }
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $cols = 'product_id, product_status_id';
         $from = 'dtb_product_status';
-        $where = 'del_flg = 0 AND product_id IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', count($productIds)) . ')';
+        $where = 'del_flg = 0 AND product_id IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($productIds)).')';
         $productStatus = $objQuery->select($cols, $from, $where, $productIds);
-        $results = array();
+        $results = [];
         foreach ($productStatus as $status) {
             $results[$status['product_id']][] = $status['product_status_id'];
         }
@@ -490,7 +504,7 @@ __EOS__;
      *
      * TODO 現在は DELETE/INSERT だが, UPDATE を検討する.
      *
-     * @param integer $productId        商品ID
+     * @param int $productId        商品ID
      * @param array   $productStatusIds ON にする商品ステータスIDの配列
      */
     public function setProductStatus($productId, $productStatusIds)
@@ -502,9 +516,11 @@ __EOS__;
         $val['del_flg'] = '0';
 
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $objQuery->delete('dtb_product_status', 'product_id = ?', array($productId));
+        $objQuery->delete('dtb_product_status', 'product_id = ?', [$productId]);
         foreach ($productStatusIds as $productStatusId) {
-            if ($productStatusId == '') continue;
+            if ($productStatusId == '') {
+                continue;
+            }
             $val['product_status_id'] = $productStatusId;
             $objQuery->insert('dtb_product_status', $val);
         }
@@ -516,7 +532,9 @@ __EOS__;
      * getDetailAndProductsClass() の結果から, 販売制限数を取得する.
      *
      * @param  array   $p 商品詳細の検索結果の配列
-     * @return integer 商品詳細の結果から求めた販売制限数.
+     *
+     * @return int 商品詳細の結果から求めた販売制限数.
+     *
      * @see getDetailAndProductsClass()
      */
     public function getBuyLimit($p)
@@ -541,9 +559,10 @@ __EOS__;
      * 在庫の減少を中止し, false を返す.
      * 在庫の減少に成功した場合は true を返す.
      *
-     * @param  integer $productClassId 商品規格ID
-     * @param  integer $quantity       減少させる在庫数
-     * @return boolean 在庫の減少に成功した場合 true; 失敗した場合 false
+     * @param  int $productClassId 商品規格ID
+     * @param  int $quantity       減少させる在庫数
+     *
+     * @return bool 在庫の減少に成功した場合 true; 失敗した場合 false
      */
     public function reduceStock($productClassId, $quantity)
     {
@@ -552,9 +571,9 @@ __EOS__;
         }
 
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $objQuery->update('dtb_products_class', array(),
-                          'product_class_id = ?', array($productClassId),
-                          array('stock' => 'stock - ?'), array($quantity));
+        $objQuery->update('dtb_products_class', [],
+            'product_class_id = ?', [$productClassId],
+            ['stock' => 'stock - ?'], [$quantity]);
         // TODO エラーハンドリング
 
         $productsClass = $this->getDetailAndProductsClass($productClassId);
@@ -571,6 +590,7 @@ __EOS__;
      * この関数は, 主にスマートフォンで使用します.
      *
      * @param  array $arrProducts 商品情報の配列
+     *
      * @return array 旧バージョン互換用のデータ
      */
     public static function setPriceTaxTo(&$arrProducts)
@@ -591,10 +611,10 @@ __EOS__;
             // @deprecated 2.12.4
             // 旧バージョン互換用
             // 本来は、税額の代入で使用すべきキー名。
-            $arrProduct['price01_min_tax_format'] =& $arrProduct['price01_min_inctax_format'];
-            $arrProduct['price01_max_tax_format'] =& $arrProduct['price01_max_inctax_format'];
-            $arrProduct['price02_min_tax_format'] =& $arrProduct['price02_min_inctax_format'];
-            $arrProduct['price02_max_tax_format'] =& $arrProduct['price02_max_inctax_format'];
+            $arrProduct['price01_min_tax_format'] = &$arrProduct['price01_min_inctax_format'];
+            $arrProduct['price01_max_tax_format'] = &$arrProduct['price01_max_inctax_format'];
+            $arrProduct['price02_min_tax_format'] = &$arrProduct['price02_min_inctax_format'];
+            $arrProduct['price02_max_tax_format'] = &$arrProduct['price02_max_inctax_format'];
         }
         // @deprecated 2.12.4
         // 旧バージョン互換用
@@ -606,6 +626,7 @@ __EOS__;
      * 商品情報の配列に税込金額を設定する
      *
      * @param  array $arrProducts 商品情報の配列
+     *
      * @return void
      */
     public static function setIncTaxToProducts(&$arrProducts)
@@ -619,6 +640,7 @@ __EOS__;
      * 商品情報の配列に税込金額を設定する
      *
      * @param  array $arrProduct 商品情報の配列
+     *
      * @return void
      */
     public static function setIncTaxToProduct(&$arrProduct)
@@ -634,9 +656,10 @@ __EOS__;
      *
      * @param  string $where_products_class 商品規格情報の WHERE 句
      * @param array $product_ids 商品IDの配列
+     *
      * @return string 商品詳細の SQL
      */
-    public static function alldtlSQL($where_products_class = '', $product_ids = array())
+    public static function alldtlSQL($where_products_class = '', $product_ids = [])
     {
         $objDBFactory = SC_DB_DBFactory_Ex::getInstance();
 
@@ -649,13 +672,14 @@ __EOS__;
      * MEMO: 2.4系 vw_product_classに相当(?)するイメージ
      *
      * @param  string $where 商品詳細の WHERE 句
+     *
      * @return string 商品規格詳細の SQL
      */
     public static function prdclsSQL($where = '')
     {
         $where_clause = '';
         if (!SC_Utils_Ex::isBlank($where)) {
-            $where_clause = ' WHERE ' . $where;
+            $where_clause = ' WHERE '.$where;
         }
         $sql = <<< __EOS__
         (
@@ -699,9 +723,9 @@ __EOS__;
      */
     public static function getProductDispConditions($tablename = null)
     {
-        $tablename = ($tablename) ? $tablename . '.' : null;
+        $tablename = ($tablename) ? $tablename.'.' : null;
 
-        return $tablename . 'del_flg = 0 AND ' . $tablename . 'status = 1 ';
+        return $tablename.'del_flg = 0 AND '.$tablename.'status = 1 ';
     }
 
     /**
@@ -709,16 +733,17 @@ __EOS__;
      *
      * @param int $product_id
      * @param bool $include_hidden
+     *
      * @return array
      */
     public function getCategoryIds($product_id, $include_hidden = false)
     {
         if ($this->isValidProductId($product_id, $include_hidden)) {
             $objQuery = SC_Query_Ex::getSingletonInstance();
-            $category_id = $objQuery->getCol('category_id', 'dtb_product_categories', 'product_id = ?', array($product_id));
+            $category_id = $objQuery->getCol('category_id', 'dtb_product_categories', 'product_id = ?', [$product_id]);
         } else {
             // 不正な場合は、空の配列を返す。
-            $category_id = array();
+            $category_id = [];
         }
 
         return $category_id;
@@ -730,6 +755,7 @@ __EOS__;
      * @param int $product_id
      * @param bool $include_hidden
      * @param bool $include_deleted
+     *
      * @return bool
      */
     public function isValidProductId($product_id, $include_hidden = false, $include_deleted = false)
@@ -747,10 +773,11 @@ __EOS__;
         if (
             SC_Utils_Ex::sfIsInt($product_id)
             && !SC_Utils_Ex::sfIsZeroFilling($product_id)
-            && SC_Helper_DB_Ex::sfIsRecord('dtb_products', 'product_id', array($product_id), $where)
+            && SC_Helper_DB_Ex::sfIsRecord('dtb_products', 'product_id', [$product_id], $where)
         ) {
             return true;
         }
+
         return false;
     }
 }

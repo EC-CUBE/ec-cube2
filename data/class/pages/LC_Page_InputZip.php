@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 郵便番号入力 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_InputZip extends LC_Page_Ex
@@ -63,14 +62,14 @@ class LC_Page_InputZip extends LC_Page_Ex
         // エラー無し
         } else {
             // 郵便番号検索文作成
-            $zipcode = $_GET['zip1'] . $_GET['zip2'];
+            $zipcode = $_GET['zip1'].$_GET['zip2'];
 
             // 郵便番号検索
             $arrAdsList = SC_Utils_Ex::sfGetAddress($zipcode);
 
             // 郵便番号が発見された場合
             if (!empty($arrAdsList)) {
-                $data = $arrAdsList[0]['state']. '|'. $arrAdsList[0]['city']. '|'. $arrAdsList[0]['town'];
+                $data = $arrAdsList[0]['state'].'|'.$arrAdsList[0]['city'].'|'.$arrAdsList[0]['town'];
                 echo $data;
 
             // 該当無し
@@ -84,6 +83,7 @@ class LC_Page_InputZip extends LC_Page_Ex
      * 入力エラーのチェック.
      *
      * @param  array $arrRequest リクエスト値($_GET)
+     *
      * @return array $arrErr エラーメッセージ配列
      */
     public function fnErrorCheck($arrRequest)
@@ -91,8 +91,8 @@ class LC_Page_InputZip extends LC_Page_Ex
         // パラメーター管理クラス
         $objFormParam = new SC_FormParam_Ex();
         // パラメーター情報の初期化
-        $objFormParam->addParam('郵便番号1', 'zip1', ZIP01_LEN, 'n', array('NUM_COUNT_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('郵便番号2', 'zip2', ZIP02_LEN, 'n', array('NUM_COUNT_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('郵便番号1', 'zip1', ZIP01_LEN, 'n', ['NUM_COUNT_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('郵便番号2', 'zip2', ZIP02_LEN, 'n', ['NUM_COUNT_CHECK', 'NUM_CHECK']);
         // // リクエスト値をセット
         $objFormParam->setParam($arrRequest);
         // エラーチェック
@@ -112,7 +112,8 @@ class LC_Page_InputZip extends LC_Page_Ex
      * エラーチェック.
      *
      * @param  string                 $value
-     * @return boolean エラー：false
+     *
+     * @return bool エラー：false
      */
     public function lfInputNameCheck($value)
     {

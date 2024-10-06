@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 利用規約について のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Guide_Kiyaku extends LC_Page_Ex
@@ -60,15 +59,16 @@ class LC_Page_Guide_Kiyaku extends LC_Page_Ex
      */
     public function action()
     {
-        $this->lfGetKiyaku(intval($_GET['page']), $this);
+        $this->lfGetKiyaku((int) $_GET['page'], $this);
     }
 
     /**
      * 利用規約を取得し、ページオブジェクトに格納する。
      *
-     * @param integer $index 規約のインデックス
+     * @param int $index 規約のインデックス
      * @param object &$objPage ページオブジェクト
      * @param LC_Page_Guide_Kiyaku $objPage
+     *
      * @return void
      */
     public function lfGetKiyaku($index, &$objPage)

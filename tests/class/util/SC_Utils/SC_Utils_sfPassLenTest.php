@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,43 +27,40 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfPassLen()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_getSfPassLenTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfPassLen入力が0の場合0バイト文字列が返る()
+    {
+        $input = '';
+        $this->expected = '';
+        $this->actual = SC_Utils::sfPassLen($input);
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfPassLen_入力が0の場合_0バイト文字列が返る()
-  {
-    $input = '';
-    $this->expected = '';
-    $this->actual = SC_Utils::sfPassLen($input);
+    public function testSfPassLen入力が正の数の場合入力と同じ文字数のアスタリスクが返る()
+    {
+        $input = 17;
+        $this->expected = '*****************';
+        $this->actual = SC_Utils::sfPassLen($input);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfPassLen_入力が正の数の場合_入力と同じ文字数のアスタリスクが返る()
-  {
-    $input = 17;
-    $this->expected = '*****************';
-    $this->actual = SC_Utils::sfPassLen($input);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-
