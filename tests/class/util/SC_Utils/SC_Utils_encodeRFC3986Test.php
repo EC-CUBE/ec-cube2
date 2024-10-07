@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,34 +27,31 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::encodeRFC3986()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_encodeRFC3986Test extends Common_TestCase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testEncodeRFC3986チルダが含まれる場合エンコードされない()
+    {
+        $input = 'http://www.example.co.jp/~';
+        $this->expected = 'http%3A%2F%2Fwww.example.co.jp%2F~';
+        $this->actual = SC_Utils::encodeRFC3986($input);
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testEncodeRFC3986_チルダが含まれる場合_エンコードされない()
-  {
-    $input = 'http://www.example.co.jp/~';
-    $this->expected = 'http%3A%2F%2Fwww.example.co.jp%2F~';
-    $this->actual = SC_Utils::encodeRFC3986($input);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

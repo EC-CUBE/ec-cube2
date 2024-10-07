@@ -1,4 +1,5 @@
 <?php
+
 class LC_Page_Index_Ex extends LC_Page_Index
 {
     public function init()

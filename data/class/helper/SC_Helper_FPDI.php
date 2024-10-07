@@ -1,6 +1,7 @@
 <?php
-#require DATA_REALDIR . 'module/fpdf/fpdf.php';
-require DATA_REALDIR . 'module/fpdi/japanese.php';
+
+// require DATA_REALDIR . 'module/fpdf/fpdf.php';
+require DATA_REALDIR.'module/fpdi/japanese.php';
 
 // japanese.php のバグ回避
 $GLOBALS['SJIS_widths'] = $SJIS_widths;
@@ -15,16 +16,16 @@ class SC_Helper_FPDI extends PDF_Japanese
      *
      * @return void
      */
-    public function AddSJISFont($family='SJIS')
+    public function AddSJISFont($family = 'SJIS')
     {
         parent::AddSJISFont();
         $cw = $GLOBALS['SJIS_widths'];
         $c_map = '90msp-RKSJ-H';
-        $registry = array('ordering'=>'Japan1','supplement'=>2);
+        $registry = ['ordering' => 'Japan1', 'supplement' => 2];
         $this->AddCIDFonts('Gothic', 'KozGoPro-Medium-Acro,MS-PGothic,Osaka', $cw, $c_map, $registry);
     }
 
-    public function SJISMultiCell($w, $h, $txt, $border=0, $align='L', $fill=false)
+    public function SJISMultiCell($w, $h, $txt, $border = 0, $align = 'L', $fill = false)
     {
         $arrArg = func_get_args();
 
@@ -72,7 +73,7 @@ class SC_Helper_FPDI extends PDF_Japanese
             $this->Cell(0, $h, '', 0, 0, '', 0, '');
             $product_width = $this->GetStringWidth($row[0]);
             if ($w[0] < $product_width) {
-                $output_lines = (int)($product_width / $w[0]) + 1;
+                $output_lines = (int) ($product_width / $w[0]) + 1;
                 $output_height = $output_lines * $h;
                 if ($this->y + $output_height >= $this->PageBreakTrigger) {
                     $this->AddPage();
@@ -102,15 +103,15 @@ class SC_Helper_FPDI extends PDF_Japanese
     }
 
     /**
-     * @param integer $x
-     * @param integer $y
+     * @param int $x
+     * @param int $y
      */
     public function Text($x, $y, $txt)
     {
         parent::Text($x, $y, $this->lfConvSjis($txt));
     }
 
-    public function Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
+    public function Cell($w, $h = 0, $txt = '', $border = 0, $ln = 0, $align = '', $fill = false, $link = '')
     {
         parent::Cell($w, $h, $this->lfConvSjis($txt), $border, $ln, $align, $fill, $link);
     }
@@ -128,13 +129,14 @@ class SC_Helper_FPDI extends PDF_Japanese
     public function _out($s)
     {
         // Add a line to the document
-        if($this->state==2)
+        if ($this->state == 2) {
             $this->pages[$this->page] .= $s."\n";
-        elseif($this->state==1)
+        } elseif ($this->state == 1) {
             $this->_put($s);
-        elseif($this->state==0)
+        } elseif ($this->state == 0) {
             $this->Error('No page has been added yet');
-        elseif($this->state==3)
+        } elseif ($this->state == 3) {
             $this->Error('The document is closed');
+        }
     }
 }

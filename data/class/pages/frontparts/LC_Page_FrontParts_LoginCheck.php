@@ -21,14 +21,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ログインチェック のページクラス.
  *
  * TODO mypage/LC_Page_Mypage_LoginCheck と統合
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
@@ -62,7 +61,7 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
      */
     public function action()
     {
-        //決済処理中ステータスのロールバック
+        // 決済処理中ステータスのロールバック
         $objPurchase = new SC_Helper_Purchase_Ex();
         $objPurchase->cancelPendingOrder(PENDING_ORDER_CANCEL_FLAG);
 
@@ -135,7 +134,7 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
 
                         // --- ログインに成功した場合
                         if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                            echo SC_Utils_Ex::jsonEncode(array('success' => $url));
+                            echo SC_Utils_Ex::jsonEncode(['success' => $url]);
                         } else {
                             SC_Response_Ex::sendRedirect($url);
                         }
@@ -150,7 +149,7 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                         $arrForm['login_email'] = strtolower($arrForm['login_email']);
                         $objQuery = SC_Query_Ex::getSingletonInstance();
                         $where = '(email = ? OR email_mobile = ?) AND status = 1 AND del_flg = 0';
-                        $exists = $objQuery->exists('dtb_customer', $where, array($arrForm['login_email'], $arrForm['login_email']));
+                        $exists = $objQuery->exists('dtb_customer', $where, [$arrForm['login_email'], $arrForm['login_email']]);
                         // ログインエラー表示 TODO リファクタリング
                         if ($exists) {
                             if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
@@ -206,13 +205,14 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
      * パラメーター情報の初期化.
      *
      * @param  SC_FormParam $objFormParam パラメーター管理クラス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('記憶する', 'login_memory', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('メールアドレス', 'login_email', MTEXT_LEN, 'a', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('パスワード', 'login_pass', PASSWORD_MAX_LEN, '', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('記憶する', 'login_memory', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('メールアドレス', 'login_email', MTEXT_LEN, 'a', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('パスワード', 'login_pass', PASSWORD_MAX_LEN, '', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     /**
@@ -221,8 +221,10 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
      * TODO リファクタリング
      * この関数は主にスマートフォンで使用します.
      *
-     * @param integer エラーコード
+     * @param int エラーコード
+     *
      * @return string JSON 形式のエラーメッセージ
+     *
      * @see LC_PageError
      */
     public function lfGetErrorMessage($error)
@@ -236,6 +238,6 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                 $msg = 'メールアドレスもしくはパスワードが正しくありません。';
         }
 
-        return SC_Utils_Ex::jsonEncode(array('login_error' => $msg));
+        return SC_Utils_Ex::jsonEncode(['login_error' => $msg]);
     }
 }

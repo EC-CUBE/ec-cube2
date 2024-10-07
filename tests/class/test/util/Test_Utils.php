@@ -26,63 +26,69 @@
  * テストケースで使う一般的なユーティリティを持つクラス.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class Test_Utils
 {
+    /**
+     * 連想配列から指定されたキーだけを抜き出したものを返します.
+     * 入力の連想配列には変更を加えません.
+     *
+     * @static
+     *
+     * @param input_array 入力の連想配列
+     * @param map_keys 出力結果に入れたいキーを配列で指定します
+     *
+     * @return 指定したキーのみを持つ連想配列
+     */
+    public static function mapArray($input_array, $map_keys)
+    {
+        $output_array = [];
+        foreach ($map_keys as $index => $map_key) {
+            $output_array[$map_key] = $input_array[$map_key];
+        }
 
-  /**
-   * 連想配列から指定されたキーだけを抜き出したものを返します.
-   * 入力の連想配列には変更を加えません.
-   *
-   * @static
-   * @param input_array 入力の連想配列
-   * @param map_keys 出力結果に入れたいキーを配列で指定します
-   * @return 指定したキーのみを持つ連想配列
-   */
-  public static function mapArray($input_array, $map_keys)
-  {
-    $output_array = array();
-    foreach ($map_keys as $index => $map_key) {
-      $output_array[$map_key] = $input_array[$map_key];
+        return $output_array;
     }
 
-    return $output_array;
-  }
+    /**
+     * 配列の各要素（連想配列）から特定のキーだけを抜き出した配列を返します.
+     * 入力の連想配列には変更を加えません.
+     *
+     * @static
+     *
+     * @param input_array 入力の配列
+     * @param key 抽出対象のキー
+     *
+     * @return 指定のキーだけを抜き出した配列
+     */
+    public static function mapCols($input_array, $key)
+    {
+        $output_array = [];
+        foreach ($input_array as $data) {
+            $output_array[] = $data[$key];
+        }
 
-  /**
-   * 配列の各要素（連想配列）から特定のキーだけを抜き出した配列を返します.
-   * 入力の連想配列には変更を加えません.
-   * 
-   * @static
-   * @param input_array 入力の配列
-   * @param key 抽出対象のキー
-   * @return 指定のキーだけを抜き出した配列
-   */
-  public static function mapCols($input_array, $key)
-  {
-    $output_array = array();
-    foreach ($input_array as $data) {
-      $output_array[] = $data[$key];
+        return $output_array;
     }
-    
-    return $output_array;
-  }
 
-  /**
-   * 配列に別の配列をappendします。
-   * $orig_arrayが直接変更されます。
-   * 
-   * @static
-   * @param array $orig_array 追加先の配列
-   * @param array $new_array 追加要素を持つ配列
-   */
-  public static function array_append(&$orig_array, $new_array)
-  {
-    if (!is_array($new_array)) return;
-    foreach ($new_array as $element) {
-      $orig_array[] = $element;
+    /**
+     * 配列に別の配列をappendします。
+     * $orig_arrayが直接変更されます。
+     *
+     * @static
+     *
+     * @param array $orig_array 追加先の配列
+     * @param array $new_array 追加要素を持つ配列
+     */
+    public static function array_append(&$orig_array, $new_array)
+    {
+        if (!is_array($new_array)) {
+            return;
+        }
+        foreach ($new_array as $element) {
+            $orig_array[] = $element;
+        }
     }
-  }
 }
-

@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * カート のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_FrontParts_Bloc_Cart extends LC_Page_FrontParts_Bloc_Ex
@@ -43,7 +42,7 @@ class LC_Page_FrontParts_Bloc_Cart extends LC_Page_FrontParts_Bloc_Ex
     {
         parent::init();
         $masterData = new SC_DB_MasterData_Ex();
-        $this->arrProductType = $masterData->getMasterData('mtb_product_type'); //商品種類を取得
+        $this->arrProductType = $masterData->getMasterData('mtb_product_type'); // 商品種類を取得
     }
 
     /**
@@ -68,13 +67,14 @@ class LC_Page_FrontParts_Bloc_Cart extends LC_Page_FrontParts_Bloc_Ex
         $this->isMultiple = $objCart->isMultiple();
         $this->hasDownload = $objCart->hasProductType(PRODUCT_TYPE_DOWNLOAD);
         // 旧仕様との互換のため、不自然なセットとなっている
-        $this->arrCartList = array(0 => $this->lfGetCartData($objCart));
+        $this->arrCartList = [0 => $this->lfGetCartData($objCart)];
     }
 
     /**
      * カートの情報を取得する
      *
      * @param  SC_CartSession $objCart カートセッション管理クラス
+     *
      * @return array          カートデータ配列
      */
     public function lfGetCartData(&$objCart)
@@ -95,7 +95,7 @@ class LC_Page_FrontParts_Bloc_Cart extends LC_Page_FrontParts_Bloc_Ex
             }
         }
 
-        $arrCartList = array();
+        $arrCartList = [];
 
         $arrCartList['ProductsTotal'] = $products_total;
         $arrCartList['TotalQuantity'] = $total_quantity;

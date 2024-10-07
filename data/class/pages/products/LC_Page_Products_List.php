@@ -21,21 +21,20 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 商品一覧 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Products_List extends LC_Page_Ex
 {
     /** テンプレートクラス名1 */
-    public $tpl_class_name1 = array();
+    public $tpl_class_name1 = [];
 
     /** テンプレートクラス名2 */
-    public $tpl_class_name2 = array();
+    public $tpl_class_name2 = [];
 
     /** JavaScript テンプレート */
     public $tpl_javascript;
@@ -45,10 +44,10 @@ class LC_Page_Products_List extends LC_Page_Ex
     public $mode;
 
     /** 検索条件(内部データ) */
-    public $arrSearchData = array();
+    public $arrSearchData = [];
 
     /** 検索条件(表示用) */
-    public $arrSearch = array();
+    public $arrSearch = [];
 
     public $tpl_subtitle = '';
 
@@ -69,11 +68,11 @@ class LC_Page_Products_List extends LC_Page_Ex
     {
         parent::init();
 
-        $masterData                 = new SC_DB_MasterData_Ex();
-        $this->arrSTATUS            = $masterData->getMasterData('mtb_status');
-        $this->arrSTATUS_IMAGE      = $masterData->getMasterData('mtb_status_image');
-        $this->arrDELIVERYDATE      = $masterData->getMasterData('mtb_delivery_date');
-        $this->arrPRODUCTLISTMAX    = $masterData->getMasterData('mtb_product_list_max');
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrSTATUS = $masterData->getMasterData('mtb_status');
+        $this->arrSTATUS_IMAGE = $masterData->getMasterData('mtb_status_image');
+        $this->arrDELIVERYDATE = $masterData->getMasterData('mtb_delivery_date');
+        $this->arrPRODUCTLISTMAX = $masterData->getMasterData('mtb_product_list_max');
     }
 
     /**
@@ -95,7 +94,7 @@ class LC_Page_Products_List extends LC_Page_Ex
      */
     public function action()
     {
-        //決済処理中ステータスのロールバック
+        // 決済処理中ステータスのロールバック
         $objPurchase = new SC_Helper_Purchase_Ex();
         $objPurchase->cancelPendingOrder(PENDING_ORDER_CANCEL_FLAG);
 
@@ -115,38 +114,38 @@ class LC_Page_Products_List extends LC_Page_Ex
         // 値の取得
         $this->arrForm = $objFormParam->getHashArray();
 
-        //modeの取得
+        // modeの取得
         $this->mode = $this->getMode();
 
-        //表示条件の取得
-        $this->arrSearchData = array(
-            'category_id'   => $this->lfGetCategoryId(intval($this->arrForm['category_id'])),
-            'maker_id'      => intval($this->arrForm['maker_id']),
-            'name'          => $this->arrForm['name']
-        );
+        // 表示条件の取得
+        $this->arrSearchData = [
+            'category_id' => $this->lfGetCategoryId((int) $this->arrForm['category_id']),
+            'maker_id' => (int) $this->arrForm['maker_id'],
+            'name' => $this->arrForm['name'],
+        ];
         $this->orderby = $this->arrForm['orderby'];
 
-        //ページング設定
-        $this->tpl_pageno   = $this->arrForm['pageno'];
-        $this->disp_number  = $this->lfGetDisplayNum($this->arrForm['disp_number']);
+        // ページング設定
+        $this->tpl_pageno = $this->arrForm['pageno'];
+        $this->disp_number = $this->lfGetDisplayNum($this->arrForm['disp_number']);
 
         // 画面に表示するサブタイトルの設定
         $this->tpl_subtitle = $this->lfGetPageTitle($this->mode, $this->arrSearchData['category_id']);
 
         // 画面に表示する検索条件を設定
-        $this->arrSearch    = $this->lfGetSearchConditionDisp($this->arrSearchData);
+        $this->arrSearch = $this->lfGetSearchConditionDisp($this->arrSearchData);
 
         // 商品一覧データの取得
         $arrSearchCondition = $this->lfGetSearchCondition($this->arrSearchData);
-        $this->tpl_linemax  = $this->lfGetProductAllNum($arrSearchCondition);
-        $urlParam           = "category_id={$this->arrSearchData['category_id']}&pageno=#page#";
+        $this->tpl_linemax = $this->lfGetProductAllNum($arrSearchCondition);
+        $urlParam = "category_id={$this->arrSearchData['category_id']}&pageno=#page#";
         // モバイルの場合に検索条件をURLの引数に追加
         if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_MOBILE) {
             $searchNameUrl = urlencode(mb_convert_encoding($this->arrSearchData['name'], 'SJIS-win', 'UTF-8'));
             $urlParam .= "&mode={$this->mode}&name={$searchNameUrl}&orderby={$this->orderby}";
         }
-        $this->objNavi      = new SC_PageNavi_Ex($this->tpl_pageno, $this->tpl_linemax, $this->disp_number, 'eccube.movePage', NAVI_PMAX, $urlParam, SC_Display_Ex::detectDevice() !== DEVICE_TYPE_MOBILE);
-        $this->arrProducts  = $this->lfGetProductsList($arrSearchCondition, $this->disp_number, $this->objNavi->start_row, $objProduct);
+        $this->objNavi = new SC_PageNavi_Ex($this->tpl_pageno, $this->tpl_linemax, $this->disp_number, 'eccube.movePage', NAVI_PMAX, $urlParam, SC_Display_Ex::detectDevice() !== DEVICE_TYPE_MOBILE);
+        $this->arrProducts = $this->lfGetProductsList($arrSearchCondition, $this->disp_number, $this->objNavi->start_row, $objProduct);
 
         switch ($this->getMode()) {
             case 'json':
@@ -165,36 +164,40 @@ class LC_Page_Products_List extends LC_Page_Ex
      * パラメーター情報の初期化
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
         // 抽出条件
         // XXX カートインしていない場合、チェックしていない
-        $objFormParam->addParam('カテゴリID', 'category_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('メーカーID', 'maker_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('商品名', 'name', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('表示順序', 'orderby', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('ページ番号', 'pageno', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('表示件数', 'disp_number', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('カテゴリID', 'category_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('メーカーID', 'maker_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('商品名', 'name', STEXT_LEN, 'KVa', ['MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('表示順序', 'orderby', STEXT_LEN, 'KVa', ['MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('ページ番号', 'pageno', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('表示件数', 'disp_number', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
         // カートイン
-        $objFormParam->addParam('規格1', 'classcategory_id1', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('規格2', 'classcategory_id2', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('数量', 'quantity', INT_LEN, 'n', array('EXIST_CHECK', 'ZERO_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('商品ID', 'product_id', INT_LEN, 'n', array('ZERO_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('商品規格ID', 'product_class_id', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('規格1', 'classcategory_id1', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('規格2', 'classcategory_id2', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('数量', 'quantity', INT_LEN, 'n', ['EXIST_CHECK', 'ZERO_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('商品ID', 'product_id', INT_LEN, 'n', ['ZERO_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('商品規格ID', 'product_class_id', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     /**
      * カテゴリIDの取得
      *
      * @param int $category_id
-     * @return integer|void カテゴリID
+     *
+     * @return int|void カテゴリID
      */
     public function lfGetCategoryId($category_id)
     {
         // 指定なしの場合、0 を返す
-        if (empty($category_id)) return 0;
+        if (empty($category_id)) {
+            return 0;
+        }
 
         // 正当性チェック
         $objCategory = new SC_Helper_Category_Ex();
@@ -214,7 +217,7 @@ class LC_Page_Products_List extends LC_Page_Ex
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $arrOrderVal = array();
+        $arrOrderVal = [];
 
         // 表示順序
         switch ($this->orderby) {
@@ -223,7 +226,7 @@ class LC_Page_Products_List extends LC_Page_Ex
                 $objProduct->setProductsOrder('price02', 'dtb_products_class', 'ASC');
                 break;
 
-            // 新着順
+                // 新着順
             case 'date':
                 $objProduct->setProductsOrder('create_date', 'dtb_products', 'DESC');
                 break;
@@ -231,7 +234,7 @@ class LC_Page_Products_List extends LC_Page_Ex
             default:
                 if (strlen($searchCondition['where_category']) >= 1) {
                     $dtb_product_categories = '(SELECT * FROM dtb_product_categories WHERE '.$searchCondition['where_category'].')';
-                    $arrOrderVal           = $searchCondition['arrvalCategory'];
+                    $arrOrderVal = $searchCondition['arrvalCategory'];
                 } else {
                     $dtb_product_categories = 'dtb_product_categories';
                 }
@@ -268,16 +271,16 @@ class LC_Page_Products_List extends LC_Page_Ex
     public function lfCheckError($objFormParam)
     {
         // 入力データを渡す。
-        $arrForm =  $objFormParam->getHashArray();
+        $arrForm = $objFormParam->getHashArray();
         $objErr = new SC_CheckError_Ex($arrForm);
         $objErr->arrErr = $objFormParam->checkError();
 
         // 動的チェック
         if ($this->tpl_classcat_find1[$arrForm['product_id']]) {
-            $objErr->doFunc(array('規格1', 'classcategory_id1'), array('EXIST_CHECK'));
+            $objErr->doFunc(['規格1', 'classcategory_id1'], ['EXIST_CHECK']);
         }
         if ($this->tpl_classcat_find2[$arrForm['product_id']]) {
-            $objErr->doFunc(array('規格2', 'classcategory_id2'), array('EXIST_CHECK'));
+            $objErr->doFunc(['規格2', 'classcategory_id2'], ['EXIST_CHECK']);
         }
 
         return $objErr->arrErr;
@@ -300,7 +303,8 @@ class LC_Page_Products_List extends LC_Page_Ex
      * ページタイトルの設定
      *
      * @param string|null $mode
-     * @return str
+     *
+     * @return string
      */
     public function lfGetPageTitle($mode, $category_id = 0)
     {
@@ -323,23 +327,23 @@ class LC_Page_Products_List extends LC_Page_Ex
      */
     public function lfGetSearchConditionDisp($arrSearchData)
     {
-        $objQuery   = SC_Query_Ex::getSingletonInstance();
-        $arrSearch  = array('category' => '指定なし', 'maker' => '指定なし', 'name' => '指定なし');
+        $objQuery = SC_Query_Ex::getSingletonInstance();
+        $arrSearch = ['category' => '指定なし', 'maker' => '指定なし', 'name' => '指定なし'];
         // カテゴリ検索条件
         if ($arrSearchData['category_id'] > 0) {
-            $arrSearch['category']  = $objQuery->get('category_name', 'dtb_category', 'category_id = ?', array($arrSearchData['category_id']));
+            $arrSearch['category'] = $objQuery->get('category_name', 'dtb_category', 'category_id = ?', [$arrSearchData['category_id']]);
         }
 
         // メーカー検索条件
         if (strlen($arrSearchData['maker_id']) > 0) {
             $objMaker = new SC_Helper_Maker_Ex();
             $maker = $objMaker->getMaker($arrSearchData['maker_id']);
-            $arrSearch['maker']     = $maker['name'];
+            $arrSearch['maker'] = $maker['name'];
         }
 
         // 商品名検索条件
         if (strlen($arrSearchData['name']) > 0) {
-            $arrSearch['name']      = $arrSearchData['name'];
+            $arrSearch['name'] = $arrSearchData['name'];
         }
 
         return $arrSearch;
@@ -353,7 +357,7 @@ class LC_Page_Products_List extends LC_Page_Ex
     public function lfGetProductAllNum($searchCondition)
     {
         // 検索結果対象となる商品の数を取得
-        $objQuery   = SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setWhere($searchCondition['where_for_count']);
         $objProduct = new SC_Product_Ex();
 
@@ -367,12 +371,12 @@ class LC_Page_Products_List extends LC_Page_Ex
      */
     public function lfGetSearchCondition($arrSearchData)
     {
-        $searchCondition = array(
-            'where'             => '',
-            'arrval'            => array(),
-            'where_category'    => '',
-            'arrvalCategory'    => array()
-        );
+        $searchCondition = [
+            'where' => '',
+            'arrval' => [],
+            'where_category' => '',
+            'arrvalCategory' => [],
+        ];
 
         // カテゴリからのWHERE文字列取得
         if ($arrSearchData['category_id'] != 0) {
@@ -383,7 +387,7 @@ class LC_Page_Products_List extends LC_Page_Ex
         $searchCondition['where'] = SC_Product_Ex::getProductDispConditions('alldtl');
 
         if (strlen($searchCondition['where_category']) >= 1) {
-            $searchCondition['where'] .= ' AND EXISTS (SELECT * FROM dtb_product_categories WHERE ' . $searchCondition['where_category'] . ' AND product_id = alldtl.product_id)';
+            $searchCondition['where'] .= ' AND EXISTS (SELECT * FROM dtb_product_categories WHERE '.$searchCondition['where_category'].' AND product_id = alldtl.product_id)';
             $searchCondition['arrval'] = array_merge($searchCondition['arrval'], $searchCondition['arrvalCategory']);
         }
 
@@ -397,15 +401,15 @@ class LC_Page_Products_List extends LC_Page_Ex
         // 分割したキーワードを一つずつwhere文に追加
         foreach ($names as $val) {
             if (strlen($val) > 0) {
-                $searchCondition['where']    .= ' AND ( alldtl.name ILIKE ? OR alldtl.comment3 ILIKE ?) ';
-                $searchCondition['arrval'][]  = "%$val%";
-                $searchCondition['arrval'][]  = "%$val%";
+                $searchCondition['where'] .= ' AND ( alldtl.name ILIKE ? OR alldtl.comment3 ILIKE ?) ';
+                $searchCondition['arrval'][] = "%$val%";
+                $searchCondition['arrval'][] = "%$val%";
             }
         }
 
         // メーカーらのWHERE文字列取得
         if ($arrSearchData['maker_id']) {
-            $searchCondition['where']   .= ' AND alldtl.maker_id = ? ';
+            $searchCondition['where'] .= ' AND alldtl.maker_id = ? ';
             $searchCondition['arrval'][] = $arrSearchData['maker_id'];
         }
 
@@ -423,19 +427,20 @@ class LC_Page_Products_List extends LC_Page_Ex
     /**
      * カートに入れる商品情報にエラーがあったら戻す
      *
-     * @param integer $product_id
-     * @return str
+     * @param int $product_id
+     *
+     * @return string
      */
     public function lfSetSelectedData(&$arrProducts, $arrForm, $arrErr, $product_id)
     {
         $js_fnOnLoad = '';
         foreach (array_keys($arrProducts) as $key) {
             if ($arrProducts[$key]['product_id'] == $product_id) {
-                $arrProducts[$key]['product_class_id']  = $arrForm['product_class_id'];
+                $arrProducts[$key]['product_class_id'] = $arrForm['product_class_id'];
                 $arrProducts[$key]['classcategory_id1'] = $arrForm['classcategory_id1'];
                 $arrProducts[$key]['classcategory_id2'] = $arrForm['classcategory_id2'];
-                $arrProducts[$key]['quantity']          = $arrForm['quantity'];
-                $arrProducts[$key]['arrErr']            = $arrErr;
+                $arrProducts[$key]['quantity'] = $arrForm['quantity'];
+                $arrProducts[$key]['arrErr'] = $arrErr;
                 $classcategory_id2 = SC_Utils_Ex::jsonEncode($arrForm['classcategory_id2']);
                 $js_fnOnLoad .= "fnSetClassCategories(document.product_form{$arrProducts[$key]['product_id']}, {$classcategory_id2});";
             }
@@ -460,10 +465,11 @@ class LC_Page_Products_List extends LC_Page_Ex
     /**
      * 商品情報配列に商品ステータス情報を追加する
      *
-     * @param  Array $arrProducts    商品一覧情報
-     * @param  Array $arrStatus      商品ステータス配列
-     * @param  Array $arrStatusImage スタータス画像配列
-     * @return Array $arrProducts 商品一覧情報
+     * @param  array $arrProducts    商品一覧情報
+     * @param  array $arrStatus      商品ステータス配列
+     * @param  array $arrStatusImage スタータス画像配列
+     *
+     * @return array $arrProducts 商品一覧情報
      */
     public function setStatusDataTo($arrProducts, $arrStatus, $arrStatusImage)
     {
@@ -471,11 +477,11 @@ class LC_Page_Products_List extends LC_Page_Ex
             for ($i = 0; $i < count($arrValues); $i++) {
                 $product_status_id = $arrValues[$i];
                 if (!empty($product_status_id)) {
-                    $arrProductStatus = array(
+                    $arrProductStatus = [
                         'status_cd' => $product_status_id,
                         'status_name' => $arrStatus[$product_status_id],
-                        'status_image' =>$arrStatusImage[$product_status_id],
-                    );
+                        'status_image' => $arrStatusImage[$product_status_id],
+                    ];
                     $arrProducts['productStatus'][$product_id][$i] = $arrProductStatus;
                 }
             }
@@ -485,7 +491,6 @@ class LC_Page_Products_List extends LC_Page_Ex
     }
 
     /**
-     *
      * @return void
      */
     public function doJson()
@@ -493,9 +498,9 @@ class LC_Page_Products_List extends LC_Page_Ex
         $this->arrProducts = $this->setStatusDataTo($this->arrProducts, $this->arrSTATUS, $this->arrSTATUS_IMAGE);
         SC_Product_Ex::setPriceTaxTo($this->arrProducts);
 
-        $arrJson = array();
+        $arrJson = [];
         foreach ($this->arrProducts as $key => &$val) {
-            if ($key == "productStatus") {
+            if ($key == 'productStatus') {
                 $arrJson[$key] = $val;
             } else {
                 // 一覧メイン画像の指定が無い商品のための処理
@@ -511,43 +516,43 @@ class LC_Page_Products_List extends LC_Page_Ex
     }
 
     /**
-     *
      * @param  SC_Product_Ex $objProduct
      * @param SC_FormParam_Ex $objFormParam
+     *
      * @return void
      */
     public function doDefault(&$objProduct, &$objFormParam)
     {
-        //商品一覧の表示処理
-        $strnavi            = $this->objNavi->strnavi;
+        // 商品一覧の表示処理
+        $strnavi = $this->objNavi->strnavi;
         // 表示文字列
-        $this->tpl_strnavi  = empty($strnavi) ? '&nbsp;' : $strnavi;
+        $this->tpl_strnavi = empty($strnavi) ? '&nbsp;' : $strnavi;
 
         // 規格1クラス名
-        $this->tpl_class_name1  = $objProduct->className1;
+        $this->tpl_class_name1 = $objProduct->className1;
 
         // 規格2クラス名
-        $this->tpl_class_name2  = $objProduct->className2;
+        $this->tpl_class_name2 = $objProduct->className2;
 
         // 規格1
-        $this->arrClassCat1     = $objProduct->classCats1;
+        $this->arrClassCat1 = $objProduct->classCats1;
 
         // 規格1が設定されている
         $this->tpl_classcat_find1 = $objProduct->classCat1_find;
         // 規格2が設定されている
         $this->tpl_classcat_find2 = $objProduct->classCat2_find;
 
-        $this->tpl_stock_find       = $objProduct->stock_find;
+        $this->tpl_stock_find = $objProduct->stock_find;
         $this->tpl_product_class_id = $objProduct->product_class_id;
-        $this->tpl_product_type     = $objProduct->product_type;
+        $this->tpl_product_type = $objProduct->product_type;
 
         // 商品ステータスを取得
         $this->productStatus = $this->arrProducts['productStatus'];
         unset($this->arrProducts['productStatus']);
-        $this->tpl_javascript .= 'eccube.productsClassCategories = ' . SC_Utils_Ex::jsonEncode($objProduct->classCategories) . ';';
+        $this->tpl_javascript .= 'eccube.productsClassCategories = '.SC_Utils_Ex::jsonEncode($objProduct->classCategories).';';
         $js_fnOnLoad = '';
         if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_PC) {
-            //onloadスクリプトを設定. 在庫ありの商品のみ出力する
+            // onloadスクリプトを設定. 在庫ありの商品のみ出力する
             foreach ($this->arrProducts as $arrProduct) {
                 if ($arrProduct['stock_unlimited_max'] || $arrProduct['stock_max'] > 0) {
                     $js_fnOnLoad .= "fnSetClassCategories(document.product_form{$arrProduct['product_id']});";
@@ -555,8 +560,8 @@ class LC_Page_Products_List extends LC_Page_Ex
             }
         }
 
-        //カート処理
-        $target_product_id = intval($this->arrForm['product_id']);
+        // カート処理
+        $target_product_id = (int) $this->arrForm['product_id'];
         if ($target_product_id > 0) {
             // 商品IDの正当性チェック
             if (!SC_Utils_Ex::sfIsInt($this->arrForm['product_id'])
@@ -570,9 +575,9 @@ class LC_Page_Products_List extends LC_Page_Ex
                 $this->lfAddCart($this->arrForm);
 
                 // 開いているカテゴリーツリーを維持するためのパラメーター
-                $arrQueryString = array(
+                $arrQueryString = [
                     'category_id' => $this->arrForm['category_id'],
-                );
+                ];
 
                 SC_Response_Ex::sendRedirect(CART_URL, $arrQueryString);
                 SC_Response_Ex::actionExit();
@@ -580,7 +585,7 @@ class LC_Page_Products_List extends LC_Page_Ex
             $js_fnOnLoad .= $this->lfSetSelectedData($this->arrProducts, $this->arrForm, $arrErr, $target_product_id);
         }
 
-        $this->tpl_javascript   .= 'function fnOnLoad() {' . $js_fnOnLoad . '}';
-        $this->tpl_onload       .= 'fnOnLoad(); ';
+        $this->tpl_javascript .= 'function fnOnLoad() {'.$js_fnOnLoad.'}';
+        $this->tpl_onload .= 'fnOnLoad(); ';
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 //
 // +----------------------------------------------------------------------+
@@ -20,14 +21,11 @@
 // $Id: Interface.php,v 1.5 2004/08/16 12:29:18 hfuecks Exp $
 //
 /**
- * @package Calendar
  * @version $Id$
  */
 /**
  * The methods the classes implementing the Calendar_Engine must implement.
  * Note this class is not used but simply to help development
- * @package Calendar
- * @access protected
  */
 class Calendar_Engine_Interface
 {
@@ -36,77 +34,84 @@ class Calendar_Engine_Interface
      * into human dates is only performed once per timestamp.
      * Typically called "internally" by methods like stampToYear.
      * Return value can vary, depending on the specific implementation
+     *
      * @param int timestamp (depending on implementation)
+     *
      * @return mixed
-     * @access protected
      */
-    function stampCollection($stamp)
+    public function stampCollection($stamp)
     {
         return 0;
     }
 
     /**
      * Returns a numeric year given a timestamp
+     *
      * @param int timestamp (depending on implementation)
+     *
      * @return int year (e.g. 2003)
-     * @access protected
      */
-    function stampToYear($stamp)
+    public function stampToYear($stamp)
     {
         return 0;
     }
 
     /**
      * Returns a numeric month given a timestamp
+     *
      * @param int timestamp (depending on implementation)
+     *
      * @return int month (e.g. 9)
-     * @access protected
      */
-    function stampToMonth($stamp)
+    public function stampToMonth($stamp)
     {
         return 0;
     }
 
     /**
      * Returns a numeric day given a timestamp
+     *
      * @param int timestamp (depending on implementation)
+     *
      * @return int day (e.g. 15)
-     * @access protected
      */
-    function stampToDay($stamp)
+    public function stampToDay($stamp)
     {
         return 0;
     }
 
     /**
      * Returns a numeric hour given a timestamp
+     *
      * @param int timestamp (depending on implementation)
+     *
      * @return int hour (e.g. 13)
-     * @access protected
      */
-    function stampToHour($stamp)
+    public function stampToHour($stamp)
     {
         return 0;
     }
 
     /**
      * Returns a numeric minute given a timestamp
+     *
      * @param int timestamp (depending on implementation)
+     *
      * @return int minute (e.g. 34)
-     * @access protected
      */
-    function stampToMinute($stamp)
+    public function stampToMinute($stamp)
     {
         return 0;
     }
 
     /**
      * Returns a numeric second given a timestamp
+     *
      * @param int timestamp (depending on implementation)
+     *
      * @return int second (e.g. 51)
-     * @access protected
      */
-    function stampToSecond($stamp)
+    public function stampToSecond($stamp)
     {
         return 0;
     }
@@ -116,59 +121,62 @@ class Calendar_Engine_Interface
      * timestamps in a static variable, identified by the
      * params this method accepts, to timestamp will only
      * be calculated once.
+     *
      * @param int year (e.g. 2003)
      * @param int month (e.g. 9)
      * @param int day (e.g. 13)
      * @param int hour (e.g. 13)
      * @param int minute (e.g. 34)
      * @param int second (e.g. 53)
+     *
      * @return int (depends on implementation)
-     * @access protected
      */
-    function dateToStamp($y,$m,$d,$h,$i,$s)
+    public function dateToStamp($y, $m, $d, $h, $i, $s)
     {
         return 0;
     }
 
     /**
      * The upper limit on years that the Calendar Engine can work with
+     *
      * @return int (e.g. 2037)
-     * @access protected
      */
-    function getMaxYears()
+    public function getMaxYears()
     {
         return 0;
     }
 
     /**
      * The lower limit on years that the Calendar Engine can work with
+     *
      * @return int (e.g 1902)
-     * @access protected
      */
-    function getMinYears()
+    public function getMinYears()
     {
         return 0;
     }
 
     /**
      * Returns the number of months in a year
+     *
      * @param int (optional) year to get months for
+     *
      * @return int (e.g. 12)
-     * @access protected
      */
-    function getMonthsInYear($y=null)
+    public function getMonthsInYear($y = null)
     {
         return 0;
     }
 
     /**
      * Returns the number of days in a month, given year and month
+     *
      * @param int year (e.g. 2003)
      * @param int month (e.g. 9)
+     *
      * @return int days in month
-     * @access protected
      */
-    function getDaysInMonth($y, $m)
+    public function getDaysInMonth($y, $m)
     {
         return 0;
     }
@@ -176,91 +184,98 @@ class Calendar_Engine_Interface
     /**
      * Returns numeric representation of the day of the week in a month,
      * given year and month
+     *
      * @param int year (e.g. 2003)
      * @param int month (e.g. 9)
+     *
      * @return int
-     * @access protected
      */
-    function getFirstDayInMonth ($y, $m)
+    public function getFirstDayInMonth($y, $m)
     {
         return 0;
     }
 
     /**
      * Returns the number of days in a week
+     *
      * @param int year (2003)
      * @param int month (9)
      * @param int day (4)
+     *
      * @return int (e.g. 7)
-     * @access protected
      */
-    function getDaysInWeek($y=NULL, $m=NULL, $d=NULL)
+    public function getDaysInWeek($y = null, $m = null, $d = null)
     {
         return 0;
     }
 
     /**
      * Returns the number of the week in the year (ISO-8601), given a date
+     *
      * @param int year (2003)
      * @param int month (9)
      * @param int day (4)
+     *
      * @return int week number
-     * @access protected
      */
-    function getWeekNInYear($y, $m, $d)
+    public function getWeekNInYear($y, $m, $d)
     {
         return 0;
     }
 
     /**
      * Returns the number of the week in the month, given a date
+     *
      * @param int year (2003)
      * @param int month (9)
      * @param int day (4)
      * @param int first day of the week (default: 1 - monday)
+     *
      * @return int week number
-     * @access protected
      */
-    function getWeekNInMonth($y, $m, $d, $firstDay=1)
+    public function getWeekNInMonth($y, $m, $d, $firstDay = 1)
     {
         return 0;
     }
 
     /**
      * Returns the number of weeks in the month
+     *
      * @param int year (2003)
      * @param int month (9)
      * @param int first day of the week (default: 1 - monday)
+     *
      * @return int weeks number
-     * @access protected
      */
-    function getWeeksInMonth($y, $m)
+    public function getWeeksInMonth($y, $m)
     {
         return 0;
     }
 
     /**
      * Returns the number of the day of the week (0=sunday, 1=monday...)
+     *
      * @param int year (2003)
      * @param int month (9)
      * @param int day (4)
+     *
      * @return int weekday number
-     * @access protected
      */
-    function getDayOfWeek($y, $m, $d)
+    public function getDayOfWeek($y, $m, $d)
     {
         return 0;
     }
 
     /**
      * Returns the numeric values of the days of the week.
+     *
      * @param int year (2003)
      * @param int month (9)
      * @param int day (4)
+     *
      * @return array list of numeric values of days in week, beginning 0
-     * @access protected
      */
-    function getWeekDays($y=NULL, $m=NULL, $d=NULL)
+    public function getWeekDays($y = null, $m = null, $d = null)
     {
         return 0;
     }
@@ -268,49 +283,53 @@ class Calendar_Engine_Interface
     /**
      * Returns the default first day of the week as an integer. Must be a
      * member of the array returned from getWeekDays
+     *
      * @param int year (2003)
      * @param int month (9)
      * @param int day (4)
+     *
      * @return int (e.g. 1 for Monday)
+     *
      * @see getWeekDays
-     * @access protected
      */
-    function getFirstDayOfWeek($y=NULL, $m=NULL, $d=NULL)
+    public function getFirstDayOfWeek($y = null, $m = null, $d = null)
     {
         return 0;
     }
 
     /**
      * Returns the number of hours in a day<br>
+     *
      * @param int (optional) day to get hours for
+     *
      * @return int (e.g. 24)
-     * @access protected
      */
-    function getHoursInDay($y=null,$m=null,$d=null)
+    public function getHoursInDay($y = null, $m = null, $d = null)
     {
         return 0;
     }
 
     /**
      * Returns the number of minutes in an hour
+     *
      * @param int (optional) hour to get minutes for
+     *
      * @return int
-     * @access protected
      */
-    function getMinutesInHour($y=null,$m=null,$d=null,$h=null)
+    public function getMinutesInHour($y = null, $m = null, $d = null, $h = null)
     {
         return 0;
     }
 
     /**
      * Returns the number of seconds in a minutes
+     *
      * @param int (optional) minute to get seconds for
+     *
      * @return int
-     * @access protected
      */
-    function getSecondsInMinute($y=null,$m=null,$d=null,$h=null,$i=null)
+    public function getSecondsInMinute($y = null, $m = null, $d = null, $h = null, $i = null)
     {
         return 0;
     }
 }
-?>

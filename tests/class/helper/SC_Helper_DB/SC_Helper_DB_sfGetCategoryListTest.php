@@ -18,7 +18,7 @@ class SC_Helper_DB_sfGetCategoryListTest extends SC_Helper_DB_TestBase
 
         $this->actual = $this->objDb->sfGetCategoryList('category_id = '.$category_id);
         $this->expected = [
-            $category_id => '>>お菓子'
+            $category_id => '>>お菓子',
         ];
 
         $this->verify();
@@ -31,7 +31,7 @@ class SC_Helper_DB_sfGetCategoryListTest extends SC_Helper_DB_TestBase
 
         $this->expected = [
             1 => '>食品',
-            3 => '>>お菓子'
+            3 => '>>お菓子',
         ];
 
         $this->verify();
@@ -44,7 +44,7 @@ class SC_Helper_DB_sfGetCategoryListTest extends SC_Helper_DB_TestBase
 
         $this->expected = [
             1 => '+食品',
-            3 => '++お菓子'
+            3 => '++お菓子',
         ];
 
         $this->verify();

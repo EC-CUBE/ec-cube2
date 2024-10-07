@@ -21,13 +21,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
+/*
  * PDF 納品書を出力する
  *
  * TODO ページクラスとすべき要素を多々含んでいるように感じる。
  */
 
-define('PDF_TEMPLATE_REALDIR', TEMPLATE_ADMIN_REALDIR . 'pdf/');
+define('PDF_TEMPLATE_REALDIR', TEMPLATE_ADMIN_REALDIR.'pdf/');
 
 class SC_Fpdf extends SC_Helper_FPDI
 {
@@ -55,35 +55,36 @@ class SC_Fpdf extends SC_Helper_FPDI
     public $disp_mode;
     /** @var int */
     public $pageno;
+
     public function __construct($download, $title, $tpl_pdf = 'nouhinsyo1.pdf')
     {
         parent::__construct();
 
         // デフォルトの設定
-        $this->tpl_pdf = PDF_TEMPLATE_REALDIR . $tpl_pdf;  // テンプレートファイル
+        $this->tpl_pdf = PDF_TEMPLATE_REALDIR.$tpl_pdf;  // テンプレートファイル
         $this->pdf_download = $download;      // PDFのダウンロード形式（0:表示、1:ダウンロード）
         $this->tpl_title = $title;
         $this->tpl_dispmode = 'real';      // 表示モード
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrPref = $masterData->getMasterData('mtb_pref');
-        $this->width_cell = array(110.3,12,21.7,24.5);
+        $this->width_cell = [110.3, 12, 21.7, 24.5];
 
         $this->label_cell[] = '商品名 / 商品コード / [ 規格 ]';
         $this->label_cell[] = '数量';
         $this->label_cell[] = '単価';
         $this->label_cell[] = '金額(税込)';
 
-        $this->arrMessage = array(
+        $this->arrMessage = [
             'このたびはお買上げいただきありがとうございます。',
             '下記の内容にて納品させていただきます。',
-            'ご確認くださいますよう、お願いいたします。'
-        );
+            'ご確認くださいますよう、お願いいたします。',
+        ];
 
         // SJISフォント
         $this->AddSJISFont();
         $this->SetFont('SJIS');
 
-        //ページ総数取得
+        // ページ総数取得
         $this->AliasNbPages();
 
         // マージン設定
@@ -103,7 +104,7 @@ class SC_Fpdf extends SC_Helper_FPDI
         // ページを追加（新規）
         $this->AddPage();
 
-        //表示倍率(100%)
+        // 表示倍率(100%)
         $this->SetDisplayMode($this->tpl_dispmode);
 
         if (SC_Utils_Ex::sfIsInt($arrData['order_id'])) {
@@ -133,27 +134,27 @@ class SC_Fpdf extends SC_Helper_FPDI
         // 会社名
         $this->lfText(125, 68, $arrInfo['law_company'], 8);
         // 郵便番号
-        $text = '〒 ' . $arrInfo['law_zip01'] . ' - ' . $arrInfo['law_zip02'];
+        $text = '〒 '.$arrInfo['law_zip01'].' - '.$arrInfo['law_zip02'];
         $this->lfText(125, 71, $text, 8);
         // 都道府県+所在地
-        $text = $this->arrPref[$arrInfo['law_pref']] . $arrInfo['law_addr01'];
+        $text = $this->arrPref[$arrInfo['law_pref']].$arrInfo['law_addr01'];
         $this->lfText(125, 74, $text, 8);
         $this->lfText(125, 77, $arrInfo['law_addr02'], 8);
 
         $text = 'TEL: '.$arrInfo['law_tel01'].'-'.$arrInfo['law_tel02'].'-'.$arrInfo['law_tel03'];
-        //FAX番号が存在する場合、表示する
+        // FAX番号が存在する場合、表示する
         if (strlen($arrInfo['law_fax01']) > 0) {
             $text .= '　FAX: '.$arrInfo['law_fax01'].'-'.$arrInfo['law_fax02'].'-'.$arrInfo['law_fax03'];
         }
-        $this->lfText(125, 80, $text, 8);  //TEL・FAX
+        $this->lfText(125, 80, $text, 8);  // TEL・FAX
 
         if (strlen($arrInfo['law_email']) > 0) {
             $text = 'Email: '.$arrInfo['law_email'];
-            $this->lfText(125, 83, $text, 8);      //Email
+            $this->lfText(125, 83, $text, 8);      // Email
         }
 
-        //ロゴ画像
-        $logo_file = PDF_TEMPLATE_REALDIR . 'logo.png';
+        // ロゴ画像
+        $logo_file = PDF_TEMPLATE_REALDIR.'logo.png';
         $this->Image($logo_file, 124, 46, 40);
 
         if (defined('INVOICE_REGISTRATION_NUM')) {
@@ -165,63 +166,63 @@ class SC_Fpdf extends SC_Helper_FPDI
     private function setMessageData()
     {
         // メッセージ
-        $this->lfText(27, 89, $this->arrData['msg1'], 8);  //メッセージ1
-        $this->lfText(27, 92, $this->arrData['msg2'], 8);  //メッセージ2
-        $this->lfText(27, 95, $this->arrData['msg3'], 8);  //メッセージ3
+        $this->lfText(27, 89, $this->arrData['msg1'], 8);  // メッセージ1
+        $this->lfText(27, 92, $this->arrData['msg2'], 8);  // メッセージ2
+        $this->lfText(27, 95, $this->arrData['msg3'], 8);  // メッセージ3
         $text = '作成日: '.$this->arrData['year'].'年'.$this->arrData['month'].'月'.$this->arrData['day'].'日';
-        $this->lfText(158, 288, $text, 8);  //作成日
+        $this->lfText(158, 288, $text, 8);  // 作成日
     }
 
     private function setOrderData()
     {
-        $arrOrder = array();
+        $arrOrder = [];
         // DBから受注情報を読み込む
         $this->lfGetOrderData($this->arrData['order_id']);
 
         // 購入者情報
         $text = '〒 '.$this->arrDisp['order_zip01'].' - '.$this->arrDisp['order_zip02'];
-        $this->lfText(23, 43, $text, 8); //購入者郵便番号
+        $this->lfText(23, 43, $text, 8); // 購入者郵便番号
 
         $y = 47; // 住所1の1行目の高さ
 
-        $text = $this->arrPref[$this->arrDisp['order_pref']] . $this->arrDisp['order_addr01']; //購入者都道府県+住所1
+        $text = $this->arrPref[$this->arrDisp['order_pref']].$this->arrDisp['order_addr01']; // 購入者都道府県+住所1
 
-        while (mb_strwidth($text) > 68){
+        while (mb_strwidth($text) > 68) {
             $line = mb_strimwidth($text, 0, 68); // 1行分の文字列
             $this->lfText(27, $y, $line, 8);
             $cut = strlen($line);
-            $text = substr($text, $cut , strlen($text) - $cut);
+            $text = substr($text, $cut, strlen($text) - $cut);
             $y = $y + 3;
         }
-        if ($text != ""){
+        if ($text != '') {
             $this->lfText(27, $y, $text, 8);
             $y = $y + 3;
         }
 
-        $text = $this->arrDisp['order_addr02']; //購入者住所2
+        $text = $this->arrDisp['order_addr02']; // 購入者住所2
 
-        while (mb_strwidth($text) > 68){
+        while (mb_strwidth($text) > 68) {
             $line = mb_strimwidth($text, 0, 68); // 1行分の文字列
             $this->lfText(27, $y, $line, 8);
             $cut = strlen($line);
-            $text = substr($text, $cut , strlen($text) - $cut);
+            $text = substr($text, $cut, strlen($text) - $cut);
             $y = $y + 3;
         }
-        if ($text != ""){
+        if ($text != '') {
             $this->lfText(27, $y, $text, 8);
             $y = $y + 3;
         }
 
         $text = $this->arrDisp['order_name01'].'　'.$this->arrDisp['order_name02'].'　様';
-        $this->lfText(27, $y + 2, $text, 11); //購入者氏名
+        $this->lfText(27, $y + 2, $text, 11); // 購入者氏名
 
         // お届け先情報
         $this->SetFont('SJIS', '', 10);
-        $this->lfText(25, 125, SC_Utils_Ex::sfDispDBDate($this->arrDisp['create_date']), 10); //ご注文日
-        $this->lfText(25, 135, $this->arrDisp['order_id'], 10); //注文番号
+        $this->lfText(25, 125, SC_Utils_Ex::sfDispDBDate($this->arrDisp['create_date']), 10); // ご注文日
+        $this->lfText(25, 135, $this->arrDisp['order_id'], 10); // 注文番号
 
         $this->SetFont('Gothic', 'B', 15);
-        $this->Cell(0, 10, $this->tpl_title, 0, 2, 'C', 0, '');  //文書タイトル（納品書・請求書）
+        $this->Cell(0, 10, $this->tpl_title, 0, 2, 'C', 0, '');  // 文書タイトル（納品書・請求書）
         $this->Cell(0, 66, '', 0, 2, 'R', 0, '');
         $this->Cell(5, 0, '', 0, 0, 'R', 0, '');
         $this->SetFont('SJIS', 'B', 15);
@@ -246,7 +247,7 @@ class SC_Fpdf extends SC_Helper_FPDI
             // 小計（商品毎）
             $data[2] = $data[0] * $data[1];
 
-            $arrOrder[$i][0]  = $this->arrDisp['product_name'][$i].' / ';
+            $arrOrder[$i][0] = $this->arrDisp['product_name'][$i].' / ';
             $arrOrder[$i][0] .= $this->arrDisp['product_code'][$i].' / ';
             if ($this->arrDisp['classcategory_name1'][$i]) {
                 $arrOrder[$i][0] .= ' [ '.$this->arrDisp['classcategory_name1'][$i];
@@ -261,9 +262,9 @@ class SC_Fpdf extends SC_Helper_FPDI
             if ($this->arrDisp['tax_rate'][$i] < $defaultTaxRule['tax_rate']) {
                 $arrOrder[$i][0] .= ' ※';
             }
-            $arrOrder[$i][1]  = number_format($data[0]);
-            $arrOrder[$i][2]  = number_format($data[1]).$monetary_unit;
-            $arrOrder[$i][3]  = number_format($data[2]).$monetary_unit;
+            $arrOrder[$i][1] = number_format($data[0]);
+            $arrOrder[$i][2] = number_format($data[1]).$monetary_unit;
+            $arrOrder[$i][3] = number_format($data[2]).$monetary_unit;
             if (array_key_exists($this->arrDisp['tax_rate'][$i], $arrTaxableTotal) === false) {
                 $arrTaxableTotal[$this->arrDisp['tax_rate'][$i]] = 0;
             }
@@ -286,14 +287,14 @@ class SC_Fpdf extends SC_Helper_FPDI
         $arrOrder[$i][1] = '';
         $arrOrder[$i][2] = '送料';
         $arrOrder[$i][3] = number_format($this->arrDisp['deliv_fee']).$monetary_unit;
-        $arrTaxableTotal[intval($defaultTaxRule['tax_rate'])] += $this->arrDisp['deliv_fee'];
+        $arrTaxableTotal[(int) $defaultTaxRule['tax_rate']] += $this->arrDisp['deliv_fee'];
 
         $i++;
         $arrOrder[$i][0] = '';
         $arrOrder[$i][1] = '';
         $arrOrder[$i][2] = '手数料';
         $arrOrder[$i][3] = number_format($this->arrDisp['charge']).$monetary_unit;
-        $arrTaxableTotal[intval($defaultTaxRule['tax_rate'])] += $this->arrDisp['charge'];
+        $arrTaxableTotal[(int) $defaultTaxRule['tax_rate']] += $this->arrDisp['charge'];
 
         $i++;
         $arrOrder[$i][0] = '';
@@ -359,7 +360,7 @@ class SC_Fpdf extends SC_Helper_FPDI
         $this->SetFont('Gothic', 'B', 9);
         $this->MultiCell(0, 6, '＜ 備考 ＞', 'T', 2, 'L');
         $this->SetFont('SJIS', '', 8);
-        $text = SC_Utils_Ex::rtrim($this->arrData['etc1'] . "\n" . $this->arrData['etc2'] . "\n" . $this->arrData['etc3']);
+        $text = SC_Utils_Ex::rtrim($this->arrData['etc1']."\n".$this->arrData['etc2']."\n".$this->arrData['etc3']);
         $this->MultiCell(0, 4, $text, '', 2, 'L');
     }
 
@@ -385,8 +386,8 @@ class SC_Fpdf extends SC_Helper_FPDI
     // PDF_Japanese::Text へのパーサー
 
     /**
-     * @param integer $x
-     * @param integer $y
+     * @param int $x
+     * @param int $y
      */
     private function lfText($x, $y, $text, $size = 0, $style = '')
     {

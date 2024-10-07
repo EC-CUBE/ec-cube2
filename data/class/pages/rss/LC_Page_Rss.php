@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * RSS のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Rss extends LC_Page_Ex
@@ -39,6 +38,7 @@ class LC_Page_Rss extends LC_Page_Ex
     public $site_title;
     /** @var string */
     public $email;
+
     /**
      * Page を初期化する.
      *
@@ -62,28 +62,28 @@ class LC_Page_Rss extends LC_Page_Ex
     {
         $objView = new SC_SiteView_Ex();
 
-        //新着情報を取得
+        // 新着情報を取得
         $arrNews = $this->lfGetNews();
 
-        //キャッシュしない(念のため)
+        // キャッシュしない(念のため)
         header('pragma: no-cache');
 
-        //XMLテキスト(これがないと正常にRSSとして認識してくれないツールがあるため)
+        // XMLテキスト(これがないと正常にRSSとして認識してくれないツールがあるため)
         header('Content-type: application/xml');
 
-        //新着情報をセット
+        // 新着情報をセット
         $this->arrNews = $arrNews;
 
-        //店名をセット
+        // 店名をセット
         $this->site_title = $arrNews[0]['shop_name'];
 
-        //代表Emailアドレスをセット
+        // 代表Emailアドレスをセット
         $this->email = $arrNews[0]['email'];
 
-        //セットしたデータをテンプレートファイルに出力
+        // セットしたデータをテンプレートファイルに出力
         $objView->assignobj($this);
 
-        //画面表示
+        // 画面表示
         $objView->display($this->tpl_mainpage, true);
     }
 
@@ -104,7 +104,7 @@ class LC_Page_Rss extends LC_Page_Ex
         foreach (array_keys($arrNews) as $key) {
             $netUrlHttpUrl = new Net_URL(HTTP_URL);
 
-            $row =& $arrNews[$key];
+            $row = &$arrNews[$key];
             $row['shop_name'] = $arrInfo['shop_name'];
             $row['email'] = $arrInfo['email04'];
             // 日付

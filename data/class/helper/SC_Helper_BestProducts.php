@@ -24,8 +24,8 @@
 /**
  * おすすめ商品を管理するヘルパークラス.
  *
- * @package Helper
  * @author pineray
+ *
  * @version $Id$
  */
 class SC_Helper_BestProducts
@@ -33,8 +33,9 @@ class SC_Helper_BestProducts
     /**
      * おすすめ商品の情報を取得.
      *
-     * @param  integer $best_id     おすすめ商品ID
-     * @param  boolean $has_deleted 削除されたおすすめ商品も含む場合 true; 初期値 false
+     * @param  int $best_id     おすすめ商品ID
+     * @param  bool $has_deleted 削除されたおすすめ商品も含む場合 true; 初期値 false
+     *
      * @return array
      */
     public static function getBestProducts($best_id, $has_deleted = false)
@@ -45,7 +46,7 @@ class SC_Helper_BestProducts
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select($col, 'dtb_best_products', $where, array($best_id));
+        $arrRet = $objQuery->select($col, 'dtb_best_products', $where, [$best_id]);
 
         return $arrRet[0];
     }
@@ -53,8 +54,9 @@ class SC_Helper_BestProducts
     /**
      * おすすめ商品の情報をランクから取得.
      *
-     * @param  integer $rank        ランク
-     * @param  boolean $has_deleted 削除されたおすすめ商品も含む場合 true; 初期値 false
+     * @param  int $rank        ランク
+     * @param  bool $has_deleted 削除されたおすすめ商品も含む場合 true; 初期値 false
+     *
      * @return array
      */
     public static function getByRank($rank, $has_deleted = false)
@@ -65,7 +67,7 @@ class SC_Helper_BestProducts
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select($col, 'dtb_best_products', $where, array($rank));
+        $arrRet = $objQuery->select($col, 'dtb_best_products', $where, [$rank]);
 
         return $arrRet[0];
     }
@@ -73,9 +75,10 @@ class SC_Helper_BestProducts
     /**
      * おすすめ商品一覧の取得.
      *
-     * @param  integer $dispNumber  表示件数
-     * @param  integer $pageNumber  ページ番号
-     * @param  boolean $has_deleted 削除されたおすすめ商品も含む場合 true; 初期値 false
+     * @param  int $dispNumber  表示件数
+     * @param  int $pageNumber  ページ番号
+     * @param  bool $has_deleted 削除されたおすすめ商品も含む場合 true; 初期値 false
+     *
      * @return array
      */
     public static function getList($dispNumber = 0, $pageNumber = 0, $has_deleted = false)
@@ -90,7 +93,7 @@ class SC_Helper_BestProducts
         $objQuery->setOrder('rank');
         if ($dispNumber > 0) {
             if ($pageNumber > 0) {
-                $objQuery->setLimitOffset($dispNumber, (($pageNumber - 1) * $dispNumber));
+                $objQuery->setLimitOffset($dispNumber, ($pageNumber - 1) * $dispNumber);
             } else {
                 $objQuery->setLimit($dispNumber);
             }
@@ -104,6 +107,7 @@ class SC_Helper_BestProducts
      * おすすめ商品の登録.
      *
      * @param  array    $sqlval
+     *
      * @return multiple 登録成功:おすすめ商品ID, 失敗:FALSE
      */
     public static function saveBestProducts($sqlval)
@@ -126,16 +130,17 @@ class SC_Helper_BestProducts
             unset($sqlval['creator_id']);
             unset($sqlval['create_date']);
             $where = 'best_id = ?';
-            $ret = $objQuery->update('dtb_best_products', $sqlval, $where, array($best_id));
+            $ret = $objQuery->update('dtb_best_products', $sqlval, $where, [$best_id]);
         }
 
-        return ($ret) ? $sqlval['best_id'] : FALSE;
+        return ($ret) ? $sqlval['best_id'] : false;
     }
 
     /**
      * おすすめ商品の削除.
      *
-     * @param  integer $best_id おすすめ商品ID
+     * @param  int $best_id おすすめ商品ID
+     *
      * @return void
      */
     public static function deleteBestProducts($best_id)
@@ -143,9 +148,9 @@ class SC_Helper_BestProducts
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $table = 'dtb_best_products';
-        $arrVal = array('del_flg' => 1);
+        $arrVal = ['del_flg' => 1];
         $where = 'best_id = ?';
-        $arrWhereVal = array($best_id);
+        $arrWhereVal = [$best_id];
         $objQuery->update($table, $arrVal, $where, $arrWhereVal);
     }
 
@@ -153,6 +158,7 @@ class SC_Helper_BestProducts
      * 商品IDの配列からおすすめ商品を削除.
      *
      * @param  array $productIDs 商品ID
+     *
      * @return void
      */
     public static function deleteByProductIDs($productIDs)
@@ -168,7 +174,8 @@ class SC_Helper_BestProducts
     /**
      * おすすめ商品の表示順をひとつ上げる.
      *
-     * @param  integer $best_id おすすめ商品ID
+     * @param  int $best_id おすすめ商品ID
+     *
      * @return void
      */
     public static function rankUp($best_id)
@@ -196,7 +203,8 @@ class SC_Helper_BestProducts
     /**
      * おすすめ商品の表示順をひとつ下げる.
      *
-     * @param  integer $best_id おすすめ商品ID
+     * @param  int $best_id おすすめ商品ID
+     *
      * @return void
      */
     public static function rankDown($best_id)
@@ -224,8 +232,9 @@ class SC_Helper_BestProducts
     /**
      * 対象IDのrankを指定値に変更する
      *
-     * @param integer $best_id 対象ID
-     * @param integer $rank 変更したいrank値
+     * @param int $best_id 対象ID
+     * @param int $rank 変更したいrank値
+     *
      * @return void
      */
     public static function changeRank($best_id, $rank)
@@ -233,9 +242,9 @@ class SC_Helper_BestProducts
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $table = 'dtb_best_products';
-        $sqlval = array('rank' => $rank);
+        $sqlval = ['rank' => $rank];
         $where = 'best_id = ?';
-        $arrWhereVal = array($best_id);
+        $arrWhereVal = [$best_id];
         $objQuery->update($table, $sqlval, $where, $arrWhereVal);
     }
 }

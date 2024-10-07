@@ -7,7 +7,7 @@ abstract class SC_CheckError_AbstractTestCase extends Common_TestCase
      *
      * @var string
      */
-    const FORM_NAME = 'form';
+    public const FORM_NAME = 'form';
 
     /** @var string */
     protected $target_func;

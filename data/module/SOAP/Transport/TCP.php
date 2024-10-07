@@ -12,14 +12,14 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Shane Hanna <iordy_at_iordy_dot_com>
  * @author     Jan Schneider <jan@horde.org>
  * @copyright  2003-2006 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
-
 require_once 'SOAP/Transport.php';
 
 /**
@@ -27,8 +27,7 @@ require_once 'SOAP/Transport.php';
  *
  * @todo    use Net_Socket; implement some security scheme; implement support
  *          for attachments
- * @access  public
- * @package SOAP
+ *
  * @author  Shane Hanna <iordy_at_iordy_dot_com>
  * @author  Jan Schneider <jan@horde.org>
  */
@@ -37,16 +36,14 @@ class SOAP_Transport_TCP extends SOAP_Transport
     /**
      * Socket.
      */
-    var $socket = null;
+    public $socket = null;
 
     /**
      * Constructor.
      *
      * @param string $url  HTTP url to SOAP endpoint.
-     *
-     * @access public
      */
-    function SOAP_Transport_TCP($url, $encoding = SOAP_DEFAULT_ENCODING)
+    public function __construct($url, $encoding = SOAP_DEFAULT_ENCODING)
     {
         parent::SOAP_Base_Object('TCP');
         $this->urlparts = @parse_url($url);
@@ -54,37 +51,35 @@ class SOAP_Transport_TCP extends SOAP_Transport
         $this->encoding = $encoding;
     }
 
-    function _socket_ping()
+    public function _socket_ping()
     {
         // XXX how do we restart after socket_shutdown?
-        //if (!$this->socket) {
-            // Create socket resource.
-            $this->socket = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-            if ($this->socket < 0) {
-                return 0;
-            }
+        // if (!$this->socket) {
+        // Create socket resource.
+        $this->socket = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        if ($this->socket < 0) {
+            return 0;
+        }
 
-            // Connect.
-            $result = socket_connect($this->socket, $this->urlparts['host'],
-                                     $this->urlparts['port']);
-            if ($result < 0) {
-                return 0;
-            }
-        //}
+        // Connect.
+        $result = socket_connect($this->socket, $this->urlparts['host'],
+            $this->urlparts['port']);
+        if ($result < 0) {
+            return 0;
+        }
+        // }
         return 1;
     }
 
     /**
      * Sends and receives SOAP data.
      *
-     * @access public
-     *
      * @param string  Outgoing SOAP data.
      * @param array   Options.
      *
      * @return string|SOAP_Fault
      */
-    function send($msg, $options = array())
+    public function send($msg, $options = [])
     {
         $this->fault = null;
         $this->incoming_payload = '';
@@ -97,17 +92,17 @@ class SOAP_Transport_TCP extends SOAP_Transport
         if (strcasecmp($this->urlparts['scheme'], 'TCP') == 0) {
             // Check connection.
             if (!$this->_socket_ping()) {
-                return $this->_raiseSoapFault('Error connecting to ' . $this->url . '; reason: ' . socket_strerror(socket_last_error($this->socket)));
+                return $this->_raiseSoapFault('Error connecting to '.$this->url.'; reason: '.socket_strerror(socket_last_error($this->socket)));
             }
 
             // Write to the socket.
             if (!@socket_write($this->socket, $this->outgoing_payload,
-                               strlen($this->outgoing_payload))) {
-                return $this->_raiseSoapFault('Error sending data to ' . $this->url . '; reason: ' . socket_strerror(socket_last_error($this->socket)));
+                strlen($this->outgoing_payload))) {
+                return $this->_raiseSoapFault('Error sending data to '.$this->url.'; reason: '.socket_strerror(socket_last_error($this->socket)));
             }
 
             // Shutdown writing.
-            if(!socket_shutdown($this->socket, 1)) {
+            if (!socket_shutdown($this->socket, 1)) {
                 return $this->_raiseSoapFault('Cannot change socket mode to read.');
             }
 
@@ -121,26 +116,27 @@ class SOAP_Transport_TCP extends SOAP_Transport
                 return $this->incoming_payload;
             }
 
-            return $this->_raiseSoapFault('Error reveiving data from ' . $this->url);
+            return $this->_raiseSoapFault('Error reveiving data from '.$this->url);
         }
 
-        return $this->_raiseSoapFault('Invalid url scheme ' . $this->url);
+        return $this->_raiseSoapFault('Invalid url scheme '.$this->url);
     }
 
     /**
      * Validates the url data passed to the constructor.
      *
-     * @return boolean
-     * @access private
+     * @return bool
      */
-    function _validateUrl()
+    public function _validateUrl()
     {
-        if (!is_array($this->urlparts) ) {
+        if (!is_array($this->urlparts)) {
             $this->_raiseSoapFault("Unable to parse URL $this->url");
+
             return false;
         }
         if (!isset($this->urlparts['host'])) {
             $this->_raiseSoapFault("No host in URL $this->url");
+
             return false;
         }
         if (!isset($this->urlparts['path']) || !$this->urlparts['path']) {
@@ -149,5 +145,4 @@ class SOAP_Transport_TCP extends SOAP_Transport
 
         return true;
     }
-
 }

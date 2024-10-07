@@ -26,8 +26,9 @@
  *
  * このクラスはエラーハンドリング処理でも使用している。
  * よって、このファイルで構文エラーが発生すると、EC-CUBE はエラーを捕捉できない。
- * @package Util
+ *
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class GC_Utils
@@ -36,13 +37,14 @@ class GC_Utils
      * ログファイルに変数の詳細を出力
      *
      * @param  mixed $obj
+     *
      * @return void
      */
     public static function gfDebugLog($obj)
     {
         if (USE_VERBOSE_LOG === true) {
             $msg = "DEBUG\n"
-                 . print_r($obj, true);
+                 .print_r($obj, true);
             GC_Utils_Ex::gfPrintLog($msg, DEBUG_LOG_REALFILE);
         }
     }
@@ -51,6 +53,7 @@ class GC_Utils
      * 呼び出し元関数名を返します
      *
      * @param  int    $forLogInfo ログ出力用に利用するかどうか(1:ログ出力用に利用する)
+     *
      * @return string 呼び出し元クラス、関数名、行数の文字列表現
      */
     public static function gfGetCallerInfo($forLogInfo = true)
@@ -66,7 +69,7 @@ class GC_Utils
                 $bklv = 4;
             }
         }
-        $str = $traces[$bklv]['class'] . '::' . $traces[$bklv]['function'] . '(' . $traces[$bklv - 1]['line'] . ') ';
+        $str = $traces[$bklv]['class'].'::'.$traces[$bklv]['function'].'('.$traces[$bklv - 1]['line'].') ';
 
         return $str;
     }
@@ -81,7 +84,7 @@ class GC_Utils
         if (is_null($arrBacktrace)) {
             $arrBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         }
-        $arrReturn = array();
+        $arrReturn = [];
         foreach (array_reverse($arrBacktrace) as $arrLine) {
             // 言語レベルの致命的エラー時。発生元の情報はトレースできない。(エラーハンドリング処理のみがトレースされる)
             // 実質的に何も返さない(空配列を返す)意図。
@@ -89,29 +92,29 @@ class GC_Utils
                 && ($arrLine['class'] === 'SC_Helper_HandleError' || $arrLine['class'] === 'SC_Helper_HandleError_Ex')
                 && ($arrLine['function'] === 'handle_error' || $arrLine['function'] === 'handle_warning')
             ) {
-                break 1;
+                break;
             }
 
             $arrReturn[] = $arrLine;
 
             // エラーハンドリング処理に引き渡した以降の情報は通常不要なので含めない。
             if (!isset($arrLine['class']) && $arrLine['function'] === 'trigger_error') {
-                break 1;
+                break;
             }
             if (($arrLine['class'] === 'SC_Helper_HandleError' || $arrLine['class'] === 'SC_Helper_HandleError_Ex')
                 && ($arrLine['function'] === 'handle_error' || $arrLine['function'] === 'handle_warning')
             ) {
-                break 1;
+                break;
             }
             if (($arrLine['class'] === 'SC_Utils' || $arrLine['class'] === 'SC_Utils_Ex')
                 && $arrLine['function'] === 'sfDispException'
             ) {
-                break 1;
+                break;
             }
             if (($arrLine['class'] === 'GC_Utils' || $arrLine['class'] === 'GC_Utils_Ex')
                 && ($arrLine['function'] === 'gfDebugLog' || $arrLine['function'] === 'gfPrintLog')
             ) {
-                break 1;
+                break;
             }
         }
 
@@ -127,11 +130,11 @@ class GC_Utils
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         // メッセージの前に、ログ出力元関数名とログ出力関数呼び出し部分の行数を付与
-        $mess = GC_Utils_Ex::gfGetCallerInfo(true) . $mess;
+        $mess = GC_Utils_Ex::gfGetCallerInfo(true).$mess;
 
         // ログレベル=Debugの場合は、[Debug]を先頭に付与する
         if ($log_level === 'Debug') {
-            $mess = '[Debug]' . $mess;
+            $mess = '[Debug]'.$mess;
         }
 
         return $mess;
@@ -175,6 +178,7 @@ class GC_Utils
      * ログの出力を行う
      *
      * エラー・警告は trigger_error() を経由して利用すること。(補足の出力は例外。)
+     *
      * @param string $msg
      * @param string $path
      * @param bool   $verbose 冗長な出力を行うか
@@ -192,11 +196,10 @@ class GC_Utils
         $msg = "$today [{$_SERVER['SCRIPT_NAME']}] $msg {$remote_addr}\n";
         if ($verbose) {
             if (GC_Utils_Ex::isFrontFunction()) {
-                $msg .= 'customer_id = ' . $_SESSION['customer']['customer_id'] . "\n";
+                $msg .= 'customer_id = '.$_SESSION['customer']['customer_id']."\n";
             }
             if (GC_Utils_Ex::isAdminFunction()) {
-
-                $msg .= 'login_id = ' . $_SESSION['login_id'] . '(' . $_SESSION['authority'] . ')' . '[' . substr(sha1(session_id()), 0, 8) . ']' . "\n";
+                $msg .= 'login_id = '.$_SESSION['login_id'].'('.$_SESSION['authority'].')'.'['.substr(sha1(session_id()), 0, 8).']'."\n";
             }
             $msg .= GC_Utils_Ex::toStringBacktrace(GC_Utils_Ex::getDebugBacktrace());
         }
@@ -212,30 +215,38 @@ class GC_Utils
      *
      * XXX この類のローテーションは通常 0 開始だが、本実装は 1 開始である。
      * この中でログ出力は行なわないこと。(無限ループの懸念あり)
-     * @param  integer $max_log  最大ファイル数
-     * @param  integer $max_size 最大サイズ
+     *
+     * @param  int $max_log  最大ファイル数
+     * @param  int $max_size 最大サイズ
      * @param  string  $path     ファイルパス
+     *
      * @return void
      */
     public static function gfLogRotation($max_log, $max_size, $path)
     {
         // ファイルが存在しない場合、終了
-        if (!file_exists($path)) return;
+        if (!file_exists($path)) {
+            return;
+        }
 
         // ファイルが最大サイズを超えていない場合、終了
-        if (filesize($path) <= $max_size) return;
+        if (filesize($path) <= $max_size) {
+            return;
+        }
 
         // Windows 版 PHP への対策として明示的に事前削除
         $path_max = "$path.$max_log";
         if (file_exists($path_max)) {
             $res = unlink($path_max);
             // 削除に失敗時した場合、ログローテーションは見送り
-            if (!$res) return;
+            if (!$res) {
+                return;
+            }
         }
 
         // アーカイブのインクリメント
         for ($i = $max_log; $i >= 2; $i--) {
-            $path_old = "$path." . ($i - 1);
+            $path_old = "$path.".($i - 1);
             $path_new = "$path.$i";
             if (file_exists($path_old)) {
                 rename($path_old, $path_new);
@@ -255,19 +266,19 @@ class GC_Utils
      * [注釈] -
      *----------------------------------------------------------------------*/
     /**
-     * @param integer $pwLength
+     * @param int $pwLength
      */
     public static function gfMakePassword($pwLength)
     {
         // 乱数表のシードを決定
-        srand((double) microtime() * 54234853);
+        srand((float) microtime() * 54234853);
 
         // パスワード文字列の配列を作成
         $character = 'abcdefghkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ2345679';
         $pw = preg_split('//', $character, 0, PREG_SPLIT_NO_EMPTY);
 
         $password = '';
-        for ($i = 0; $i<$pwLength; $i++) {
+        for ($i = 0; $i < $pwLength; $i++) {
             $password .= $pw[array_rand($pw, 1)];
         }
 
@@ -285,26 +296,28 @@ class GC_Utils
 
     public static function gfMailHeaderAddr($str)
     {
-        $addrs = explode(',', $str); //アドレスを配列に入れる
-        $mailaddrs = array();
+        $addrs = explode(',', $str); // アドレスを配列に入れる
+        $mailaddrs = [];
         foreach ($addrs as $addr) {
-            if (preg_match("/^(.+)<(.+)>$/", $addr, $matches)) {
-                //引数が「名前<メールアドレス>」の場合
+            if (preg_match('/^(.+)<(.+)>$/', $addr, $matches)) {
+                // 引数が「名前<メールアドレス>」の場合
                 $mailaddrs[] = mb_encode_mimeheader(trim($matches[1])).' <'.trim($matches[2]).'>';
             } else {
-                //メールアドレスのみの場合
-                $mailaddrs[] =  trim($addr);
+                // メールアドレスのみの場合
+                $mailaddrs[] = trim($addr);
             }
         }
 
-        return implode(', ', $mailaddrs); //複数アドレスはカンマ区切りにする
+        return implode(', ', $mailaddrs); // 複数アドレスはカンマ区切りにする
     }
 
     /**
      * バックトレースをテキスト形式で出力する
      *
      * 現状スタックトレースの形で出力している。
+     *
      * @param  array  $arrBacktrace バックトレース
+     *
      * @return string テキストで表現したバックトレース
      */
     public static function toStringBacktrace($arrBacktrace)
@@ -313,12 +326,12 @@ class GC_Utils
 
         foreach (array_reverse($arrBacktrace) as $backtrace) {
             if (strlen($backtrace['class']) >= 1) {
-                $func = $backtrace['class'] . $backtrace['type'] . $backtrace['function'];
+                $func = $backtrace['class'].$backtrace['type'].$backtrace['function'];
             } else {
                 $func = $backtrace['function'];
             }
 
-            $string .= $backtrace['file'] . '(' . $backtrace['line'] . '): ' . $func . "\n";
+            $string .= $backtrace['file'].'('.$backtrace['line'].'): '.$func."\n";
         }
 
         return $string;
@@ -328,15 +341,17 @@ class GC_Utils
      * エラー型から該当する定数名を取得する
      *
      * 該当する定数がない場合、$error_type を返す。
-     * @param  integer        $error_type エラー型
-     * @return string|integer エラー定数名
+     *
+     * @param  int        $error_type エラー型
+     *
+     * @return string|int エラー定数名
      */
     public static function getErrorTypeName($error_type)
     {
         $arrDefinedConstants = get_defined_constants(true);
 
         // PHP の歴史対応
-        $arrDefinedCoreConstants = array();
+        $arrDefinedCoreConstants = [];
         // PHP >= 5.3.1, PHP == 5.3.0 (not Windows)
         if (isset($arrDefinedConstants['Core'])) {
             $arrDefinedCoreConstants = $arrDefinedConstants['Core'];
@@ -370,9 +385,9 @@ class GC_Utils
             $url = 'http://';
         }
 
-        $url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $url .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         if (strlen($_SERVER['QUERY_STRING']) >= 1) {
-            $url .= '?' . $_SERVER['QUERY_STRING'];
+            $url .= '?'.$_SERVER['QUERY_STRING'];
         }
 
         return $url;
@@ -419,7 +434,7 @@ class GC_Utils
     {
         $ua = $_SERVER['HTTP_USER_AGENT'];
         if (!preg_match('/MSIE/', $ua) || preg_match('/MSIE 7/', $ua)) {
-            echo '<?xml version="1.0" encoding="' . CHAR_CODE . '"?>' . "\n";
+            echo '<?xml version="1.0" encoding="'.CHAR_CODE.'"?>'."\n";
         }
     }
 }

@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 支払方法設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Basis_Payment extends LC_Page_Admin_Ex
@@ -68,10 +67,10 @@ class LC_Page_Admin_Basis_Payment extends LC_Page_Admin_Ex
     public function action()
     {
         $objPayment = new SC_Helper_Payment_Ex();
-        $post = array();
+        $post = [];
         if (!empty($_POST)) {
             $objFormParam = new SC_FormParam_Ex();
-            $objFormParam->addParam('支払方法ID', 'payment_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+            $objFormParam->addParam('支払方法ID', 'payment_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
             $objFormParam->setParam($_POST);
             $objFormParam->convParam();
 
