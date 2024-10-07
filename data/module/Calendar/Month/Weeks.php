@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 //
 // +----------------------------------------------------------------------+
@@ -20,12 +21,12 @@
 //
 // $Id: Weeks.php,v 1.3 2005/10/22 10:28:49 quipo Exp $
 //
-/**
+/*
  * @package Calendar
  * @version $Id$
  */
 
-/**
+/*
  * Allows Calendar include path to be redefined
  * @ignore
  */
@@ -53,33 +54,31 @@ require_once CALENDAR_ROOT.'Month.php';
  *     echo $Week->thisWeek().'<br />';
  * }
  * </code>
- * @package Calendar
- * @access public
  */
 class Calendar_Month_Weeks extends Calendar_Month
 {
     /**
      * Instance of Calendar_Table_Helper
+     *
      * @var Calendar_Table_Helper
-     * @access private
      */
-    var $tableHelper;
+    public $tableHelper;
 
     /**
      * First day of the week
-     * @access private
+     *
      * @var string
      */
-    var $firstDay;
+    public $firstDay;
 
     /**
      * Constructs Calendar_Month_Weeks
+     *
      * @param int year e.g. 2003
      * @param int month e.g. 5
      * @param int (optional) first day of week (e.g. 0 for Sunday, 2 for Tuesday etc.)
-     * @access public
      */
-    public function __construct($y, $m, $firstDay=null)
+    public function __construct($y, $m, $firstDay = null)
     {
         parent::__construct($y, $m, $firstDay);
     }
@@ -87,25 +86,26 @@ class Calendar_Month_Weeks extends Calendar_Month
     /**
      * Builds Calendar_Week objects for the Month. Note that Calendar_Week
      * builds Calendar_Day object in tabular form (with Calendar_Day->empty)
+     *
      * @param array (optional) Calendar_Week objects representing selected dates
-     * @return boolean
-     * @access public
+     *
+     * @return bool
      */
-    function build($sDates=array())
+    public function build($sDates = [])
     {
         require_once CALENDAR_ROOT.'Table/Helper.php';
         $this->tableHelper = new Calendar_Table_Helper($this, $this->firstDay);
         require_once CALENDAR_ROOT.'Week.php';
         $numWeeks = $this->tableHelper->getNumWeeks();
-        for ($i=1, $d=1; $i<=$numWeeks; $i++,
-                 $d+=$this->cE->getDaysInWeek(
-                     $this->thisYear(),
-                     $this->thisMonth(),
-                     $this->thisDay()) ) {
+        for ($i = 1, $d = 1; $i <= $numWeeks; $i++,
+            $d += $this->cE->getDaysInWeek(
+                $this->thisYear(),
+                $this->thisMonth(),
+                $this->thisDay())) {
             $this->children[$i] = new Calendar_Week(
                 $this->year, $this->month, $d, $this->tableHelper->getFirstDay());
         }
-        //used to set empty days
+        // used to set empty days
         $this->children[1]->setFirst(true);
         $this->children[$numWeeks]->setLast(true);
 
@@ -113,21 +113,22 @@ class Calendar_Month_Weeks extends Calendar_Month
         if (count($sDates) > 0) {
             $this->setSelection($sDates);
         }
+
         return true;
     }
 
     /**
      * Called from build()
+     *
      * @param array
+     *
      * @return void
-     * @access private
      */
-    function setSelection($sDates)
+    public function setSelection($sDates)
     {
         foreach ($sDates as $sDate) {
             if ($this->year == $sDate->thisYear()
-                && $this->month == $sDate->thisMonth())
-            {
+                && $this->month == $sDate->thisMonth()) {
                 $key = $sDate->thisWeek('n_in_month');
                 if (isset($this->children[$key])) {
                     $this->children[$key]->setSelected();
@@ -136,4 +137,3 @@ class Calendar_Month_Weeks extends Calendar_Month
         }
     }
 }
-?>

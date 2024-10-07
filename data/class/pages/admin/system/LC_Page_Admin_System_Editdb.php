@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 高度なデータベース管理 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
@@ -40,8 +39,8 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
     {
         parent::init();
         $this->tpl_mainpage = 'system/editdb.tpl';
-        $this->tpl_subno    = 'editdb';
-        $this->tpl_mainno   = 'system';
+        $this->tpl_subno = 'editdb';
+        $this->tpl_mainno = 'system';
         $this->tpl_maintitle = 'システム設定';
         $this->tpl_subtitle = '高度なデータベース管理';
     }
@@ -80,7 +79,7 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
                 break;
         }
 
-        //インデックスの現在値を取得
+        // インデックスの現在値を取得
         $this->arrForm = $this->lfGetIndexList();
     }
 
@@ -89,11 +88,12 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
      *
      * @param  SC_FormParam_Ex $objFormParam
      * @param  array  $arrParams    $_POST値
+     *
      * @return void
      */
     public function initForm(&$objFormParam, &$arrParams)
     {
-        $objFormParam->addParam('モード', 'mode', INT_LEN, 'n', array('ALPHA_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('モード', 'mode', INT_LEN, 'n', ['ALPHA_CHECK', 'MAX_LENGTH_CHECK']);
         $objFormParam->addParam('テーブル名', 'table_name');
         $objFormParam->addParam('カラム名', 'column_name');
         $objFormParam->addParam('インデックス', 'indexflag');
@@ -119,8 +119,8 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
 
         // 変更対象の設定変更
         foreach ($arrTarget as $item) {
-            $index_name = $item['table_name'] . '_' . $item['column_name'] . '_key';
-            $arrField = array('fields' => array($item['column_name'] => array()));
+            $index_name = $item['table_name'].'_'.$item['column_name'].'_key';
+            $arrField = ['fields' => [$item['column_name'] => []]];
             if ($item['indexflag_new'] == '1') {
                 $objQuery->createIndex($item['table_name'], $index_name, $arrField);
             } else {
@@ -138,26 +138,26 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
     public function lfGetTargetData(&$objFormParam)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $arrIndexFlag    = $objFormParam->getValue('indexflag');
+        $arrIndexFlag = $objFormParam->getValue('indexflag');
         $arrIndexFlagNew = $objFormParam->getValue('indexflag_new');
-        $arrTableName    = $objFormParam->getValue('table_name');
-        $arrColumnName   = $objFormParam->getValue('column_name');
-        $arrTarget = array();
+        $arrTableName = $objFormParam->getValue('table_name');
+        $arrColumnName = $objFormParam->getValue('column_name');
+        $arrTarget = [];
         $message = '';
 
         // 変更されている対象を走査
         for ($i = 1; $i <= count($arrIndexFlag); $i++) {
-            //入力値チェック
-            $param = array('indexflag' => $arrIndexFlag[$i],
+            // 入力値チェック
+            $param = ['indexflag' => $arrIndexFlag[$i],
                             'indexflag_new' => $arrIndexFlagNew[$i],
                             'table_name' => $arrTableName[$i],
-                            'column_name' => $arrColumnName[$i]);
+                            'column_name' => $arrColumnName[$i], ];
             $objErr = new SC_CheckError_Ex($param);
-            $objErr->doFunc(array('インデックス(' . $i . ')', 'indexflag', INT_LEN), array('NUM_CHECK'));
-            $objErr->doFunc(array('インデックス変更後(' . $i . ')', 'indexflag_new', INT_LEN), array('NUM_CHECK'));
-            $objErr->doFunc(array('インデックス変更後(' . $i . ')', 'indexflag_new', INT_LEN), array('NUM_CHECK'));
-            $objErr->doFunc(array('テーブル名(' . $i . ')', 'table_name', STEXT_LEN), array('GRAPH_CHECK', 'EXIST_CHECK', 'MAX_LENGTH_CHECK'));
-            $objErr->doFunc(array('カラム名(' . $i . ')', 'column_name', STEXT_LEN), array('GRAPH_CHECK', 'EXIST_CHECK', 'MAX_LENGTH_CHECK'));
+            $objErr->doFunc(['インデックス('.$i.')', 'indexflag', INT_LEN], ['NUM_CHECK']);
+            $objErr->doFunc(['インデックス変更後('.$i.')', 'indexflag_new', INT_LEN], ['NUM_CHECK']);
+            $objErr->doFunc(['インデックス変更後('.$i.')', 'indexflag_new', INT_LEN], ['NUM_CHECK']);
+            $objErr->doFunc(['テーブル名('.$i.')', 'table_name', STEXT_LEN], ['GRAPH_CHECK', 'EXIST_CHECK', 'MAX_LENGTH_CHECK']);
+            $objErr->doFunc(['カラム名('.$i.')', 'column_name', STEXT_LEN], ['GRAPH_CHECK', 'EXIST_CHECK', 'MAX_LENGTH_CHECK']);
             $arrErr = $objErr->arrErr;
             if (count($arrErr) != 0) {
                 // 通常の送信ではエラーにならないはずです。
@@ -167,7 +167,7 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
             }
             if ($param['indexflag'] != $param['indexflag_new']) {
                 // 入力値がデータにある対象テーブルかのチェック
-                if ($objQuery->exists('dtb_index_list', 'table_name = ? and column_name = ?', array($param['table_name'], $param['column_name']))) {
+                if ($objQuery->exists('dtb_index_list', 'table_name = ? and column_name = ?', [$param['table_name'], $param['column_name']])) {
                     $arrTarget[] = $param;
                 }
             }
@@ -189,7 +189,7 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
         $arrIndexList = $objQuery->select('table_name , column_name , recommend_flg, recommend_comment', 'dtb_index_list');
 
         $table = '';
-        $arrIndexes = array();
+        $arrIndexes = [];
         foreach ($arrIndexList as $key => $arrIndex) {
             // テーブルに対するインデックス一覧を取得
             if ($table !== $arrIndex['table_name']) {
@@ -197,7 +197,7 @@ class LC_Page_Admin_System_Editdb extends LC_Page_Admin_Ex
                 $arrIndexes = $objQuery->listTableIndexes($table);
             }
             // インデックスが設定されているかを取得
-            $idx_name = $table . '_' . $arrIndex['column_name'] . '_key';
+            $idx_name = $table.'_'.$arrIndex['column_name'].'_key';
             if (is_array($arrIndexes) && array_search($idx_name, $arrIndexes) === false) {
                 $arrIndexList[$key]['indexflag'] = '';
             } else {

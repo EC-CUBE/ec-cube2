@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * CSS設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
@@ -90,8 +89,8 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
         $this->old_css_name = $objFormParam->getValue('old_css_name', $this->css_name);
         $this->device_type_id = $objFormParam->getValue('device_type_id', DEVICE_TYPE_PC);
 
-        $css_dir = $objLayout->getTemplatePath($this->device_type_id, true) . 'css/';
-        $css_path = $css_dir . $this->css_name . '.css';
+        $css_dir = $objLayout->getTemplatePath($this->device_type_id, true).'css/';
+        $css_path = $css_dir.$this->css_name.'.css';
 
         switch ($this->getMode()) {
             // データ更新処理
@@ -100,7 +99,7 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
                     $this->arrErr = array_merge($this->arrErr, $this->lfCheckError($objFormParam, $this->arrErr));
                     if (SC_Utils_Ex::isBlank($this->arrErr)) {
                         if ($this->doRegister($css_dir, $this->css_name, $this->old_css_name, $css_path,
-                                              $objFormParam->getValue('css_data'))) {
+                            $objFormParam->getValue('css_data'))) {
                             $this->tpl_onload = "alert('登録が完了しました。');";
                         }
                     }
@@ -109,10 +108,10 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
             case 'delete':
                 if (!$is_error) {
                     if ($this->doDelete($css_path)) {
-                        $arrPram = array(
+                        $arrPram = [
                             'device_type_id' => $this->device_type_id,
                             'msg' => 'on',
-                        );
+                        ];
 
                         SC_Response_Ex::reload($arrPram, true);
                     }
@@ -133,13 +132,13 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
             }
         } else {
             // 画面にエラー表示しないため, ログ出力
-            GC_Utils_Ex::gfPrintLog('Error: ' . print_r($this->arrErr, true));
+            GC_Utils_Ex::gfPrintLog('Error: '.print_r($this->arrErr, true));
         }
 
         // ファイルリストを取得
         $this->arrCSSList = $this->getCSSList($css_dir);
 
-        $this->tpl_subtitle = $this->arrDeviceType[$this->device_type_id] . '＞' . $this->tpl_subtitle;
+        $this->tpl_subtitle = $this->arrDeviceType[$this->device_type_id].'＞'.$this->tpl_subtitle;
         $this->arrForm = $objFormParam->getFormParamList();
     }
 
@@ -147,13 +146,14 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
      * パラメーター情報の初期化
      *
      * @param  SC_FormParam_Ex $objFormParam SC_FormParamインスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('端末種別ID', 'device_type_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('CSSファイル名', 'css_name', STEXT_LEN, 'a', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('旧CSSファイル名', 'old_css_name', STEXT_LEN, 'a', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('端末種別ID', 'device_type_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('CSSファイル名', 'css_name', STEXT_LEN, 'a', ['MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('旧CSSファイル名', 'old_css_name', STEXT_LEN, 'a', ['MAX_LENGTH_CHECK']);
         $objFormParam->addParam('CSSデータ', 'css_data');
     }
 
@@ -167,13 +167,14 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
      * @param  string  $old_css_name 旧CSSファイル名
      * @param  string  $css_path     CSSファイルの絶対パス
      * @param  string  $css_data     書き込みを行うデータ
-     * @return boolean 登録が成功した場合 true; 失敗した場合 false
+     *
+     * @return bool 登録が成功した場合 true; 失敗した場合 false
      */
     public function doRegister($css_dir, $css_name, $old_css_name, $css_path, $css_data)
     {
         if (!SC_Utils_Ex::isBlank($old_css_name)
             && $old_css_name != $css_name) {
-            if (!unlink($css_dir . $old_css_name . '.css')) {
+            if (!unlink($css_dir.$old_css_name.'.css')) {
                 $this->arrErr['err'] = '※ 旧ファイルの削除に失敗しました<br />';
 
                 return false;
@@ -193,7 +194,8 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
      * 削除を実行する.
      *
      * @param  string  $css_path CSSファイルの絶対パス
-     * @return boolean 削除が成功した場合 true; 失敗した場合 false
+     *
+     * @return bool 削除が成功した場合 true; 失敗した場合 false
      */
     public function doDelete($css_path)
     {
@@ -210,6 +212,7 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
      * CSSファイルのリストを取得.
      *
      * @param  string $css_dir CSSディレクトリ
+     *
      * @return array ファイルリスト
      */
     public function getCSSList($css_dir)
@@ -217,13 +220,13 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
         $objFileManager = new SC_Helper_FileManager_Ex();
 
         $arrFileList = $objFileManager->sfGetFileList($css_dir);
-        $arrCSSList = array();
+        $arrCSSList = [];
         foreach ($arrFileList as $val) {
             if (!$val['is_dir']) {
-                $arrCSSList[] = array(
+                $arrCSSList[] = [
                     'file_name' => $val['file_name'],
-                    'css_name'  => preg_replace('/(.+)\.(.+?)$/', '$1', $val['file_name']),
-                );
+                    'css_name' => preg_replace('/(.+)\.(.+?)$/', '$1', $val['file_name']),
+                ];
             }
         }
 
@@ -234,14 +237,15 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
      * エラーチェックを行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return array        エラーメッセージの配列
      */
     public function lfCheckError(&$objFormParam, &$arrErr)
     {
         $arrParams = $objFormParam->getHashArray();
         $objErr = new SC_CheckError_Ex($arrParams);
-        $objErr->arrErr =& $arrErr;
-        $objErr->doFunc(array('CSSファイル名', 'css_name', STEXT_LEN), array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'FILE_NAME_CHECK_BY_NOUPLOAD'));
+        $objErr->arrErr = &$arrErr;
+        $objErr->doFunc(['CSSファイル名', 'css_name', STEXT_LEN], ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'FILE_NAME_CHECK_BY_NOUPLOAD']);
 
         $css_name = $objFormParam->getValue('css_name');
         $old_css_name = $objFormParam->getValue('old_css_name');
@@ -270,18 +274,21 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
     /**
      * CSSディレクトリを取得する.
      *
-     * @param  integer $device_type_id 端末種別ID
+     * @param  int $device_type_id 端末種別ID
+     *
      * @return string  CSSディレクトリ
      */
     public function getCSSDir($device_type_id)
     {
-        return SC_Helper_PageLayout_Ex::getTemplatePath($device_type_id, true) . 'css/';
+        return SC_Helper_PageLayout_Ex::getTemplatePath($device_type_id, true).'css/';
     }
 
     /**
      * 文字列に[./]表記がないかをチェックします
+     *
      * @param  string  $str
-     * @return boolean
+     *
+     * @return bool
      */
     public function checkPath($str)
     {

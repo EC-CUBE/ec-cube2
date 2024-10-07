@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -26,53 +26,53 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Helper_Purchaseのテストの基底クラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_DB_TestBase extends Common_TestCase
 {
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    protected function setUp()
+    {
+        parent::setUp();
+    }
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
 
     /**
-    * DBにニュース情報を設定します。
-    */
+     * DBにニュース情報を設定します。
+     */
     protected function setUpNews()
     {
-        $news = array(
-            array(
+        $news = [
+            [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '1',
             'news_title' => 'ニュース情報01',
             'rank' => '1',
             'creator_id' => '1',
-            'del_flg' => '0'
-            ),
-            array(
+            'del_flg' => '0',
+            ],
+            [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '2',
             'news_title' => 'ニュース情報02',
             'rank' => '2',
             'creator_id' => '1',
-            'del_flg' => '0'
-            ),
-            array(
+            'del_flg' => '0',
+            ],
+            [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '3',
             'news_title' => 'ニュース情報03',
             'rank' => '3',
             'creator_id' => '1',
-            'del_flg' => '0'
-            )
-        );
+            'del_flg' => '0',
+            ],
+        ];
 
         $this->objQuery->delete('dtb_news');
         foreach ($news as $key => $item) {
@@ -81,11 +81,11 @@ class SC_Helper_DB_TestBase extends Common_TestCase
     }
 
     /**
-    * DBに基本情報を設定します。
-    */
+     * DBに基本情報を設定します。
+     */
     protected function setUpBasisData()
     {
-        $baseInfo = array(
+        $baseInfo = [
             'id' => '1',
             'company_name' => 'testshop',
             'company_kana' => 'テストショップ',
@@ -147,14 +147,15 @@ class SC_Helper_DB_TestBase extends Common_TestCase
             'latitude' => '30.0001',
             'longitude' => '45.0001',
             'downloadable_days' => '10',
-            'downloadable_days_unlimited' => '0'
-        );
+            'downloadable_days_unlimited' => '0',
+        ];
 
         $this->objQuery->delete('dtb_baseinfo');
         $this->objQuery->insert('dtb_baseinfo', $baseInfo);
     }
 
-    public function testDummyTest() {
+    public function testDummyTest()
+    {
         // Warning が出るため空のテストを作成
         $this->assertTrue(true);
     }

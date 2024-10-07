@@ -1,12 +1,13 @@
 <?php
-require_once CLASS_REALDIR . 'pages/upgrade/helper/LC_Upgrade_Helper_Log.php';
-require_once CLASS_REALDIR . 'pages/upgrade/helper/LC_Upgrade_Helper_Json.php';
+
+require_once CLASS_REALDIR.'pages/upgrade/helper/LC_Upgrade_Helper_Log.php';
+require_once CLASS_REALDIR.'pages/upgrade/helper/LC_Upgrade_Helper_Json.php';
 
 /**
  * オーナーズストアページクラスの基底クラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Upgrade_Base extends LC_Page_Ex
@@ -25,14 +26,15 @@ class LC_Page_Upgrade_Base extends LC_Page_Ex
     /**
      * 自動アップデートが有効かどうかを判定する.
      *
-     * @param  integer $product_id
-     * @return boolean
+     * @param  int $product_id
+     *
+     * @return bool
      */
     public function autoUpdateEnable($product_id)
     {
         $where = 'module_id = ?';
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $arrRet = $objQuery->select('auto_update_flg', 'dtb_module', $where, array($product_id));
+        $arrRet = $objQuery->select('auto_update_flg', 'dtb_module', $where, [$product_id]);
 
         if (isset($arrRet[0]['auto_update_flg'])
         && $arrRet[0]['auto_update_flg'] === '1') {
@@ -47,12 +49,13 @@ class LC_Page_Upgrade_Base extends LC_Page_Ex
      *
      * @param  string        $mode
      * @param  array         $arrParams 追加パラメーター.連想配列で渡す.
+     *
      * @return string|object レスポンスボディ|エラー時にはPEAR::Errorオブジェクトを返す.
      */
-    public function request($mode, $arrParams = array(), $arrCookies = array())
+    public function request($mode, $arrParams = [], $arrCookies = [])
     {
         $objReq = new HTTP_Request();
-        $objReq->setUrl(OSTORE_URL . 'upgrade/index.php');
+        $objReq->setUrl(OSTORE_URL.'upgrade/index.php');
         $objReq->setMethod('POST');
         $objReq->addPostData('mode', $mode);
         foreach ($arrParams as $key => $val) {
@@ -89,7 +92,7 @@ class LC_Page_Upgrade_Base extends LC_Page_Ex
      */
     public function createSeed()
     {
-        return sha1(uniqid(rand(), true) . time());
+        return sha1(uniqid(rand(), true).time());
     }
 
     public function getPublicKey()
@@ -105,7 +108,7 @@ class LC_Page_Upgrade_Base extends LC_Page_Ex
     /**
      * オーナーズストアからの POST のため, トークンチェックしない.
      *
-     * @param  boolean $is_admin 管理画面でエラー表示をする場合 true
+     * @param  bool $is_admin 管理画面でエラー表示をする場合 true
      */
     public function doValidToken($is_admin = false)
     {

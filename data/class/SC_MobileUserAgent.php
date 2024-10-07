@@ -26,6 +26,7 @@
  *
  * 対象とする携帯端末は $_SERVER から決定する。
  * 全てのメソッドはクラスメソッド。
+ *
  * @deprecated
  */
 class SC_MobileUserAgent
@@ -37,11 +38,13 @@ class SC_MobileUserAgent
      *
      * @return string|false 携帯端末のキャリアを表す文字列を返す。
      *                      携帯端末ではない場合は false を返す。
+     *
      * @deprecated
      */
     public static function getCarrier()
     {
-        trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
+        @trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
+
         return false;
     }
 
@@ -54,11 +57,13 @@ class SC_MobileUserAgent
      * + softbank ... 端末シリアル番号
      *
      * @deprecated
+     *
      * @return string|false 取得したIDを返す。取得できなかった場合は false を返す。
      */
     public static function getId()
     {
-        trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
+        @trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
+
         return false;
     }
 
@@ -70,7 +75,8 @@ class SC_MobileUserAgent
      */
     public static function getModel()
     {
-        trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
+        @trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
+
         return false;
     }
 
@@ -84,11 +90,12 @@ class SC_MobileUserAgent
      * - EzWeb で WAP2 以外の端末
      * - DoCoMo 501i, 502i, 209i, 210i, SH821i, N821i, P821i, P651ps, R691i, F671i, SH251i, SH251iS
      *
-     * @return boolean サポートしている場合は true、それ以外の場合は false を返す。
+     * @return bool サポートしている場合は true、それ以外の場合は false を返す。
      */
     public static function isSupported()
     {
-        trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
+        @trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
+
         return false;
     }
 
@@ -97,11 +104,12 @@ class SC_MobileUserAgent
      *
      * ※一部モジュールで使用。ただし、本メソッドは将来的に削除しますので新規ご利用は控えてください。
      *
-     * @return boolean サポートしている場合は true、それ以外の場合は false を返す。
+     * @return bool サポートしている場合は true、それ以外の場合は false を返す。
      */
     public function isMobile()
     {
-        trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
+        @trigger_error('Net_UserAgent_Mobile is deprecated', E_USER_DEPRECATED);
+
         return false;
     }
 }

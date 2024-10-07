@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,45 +27,40 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfGetCSVList()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetCSVListTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfGetCSVList配列が空の場合Falseが返る()
+    {
+        $this->expected = false;
+        $this->actual = SC_Utils::sfGetCSVList([]);
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfGetCSVList_配列が空の場合_falseが返る()
-  {
-    
-    $this->expected = FALSE;
-    $this->actual = SC_Utils::sfGetCSVList(array());
+    public function testSfGetCSVList配列に要素が存在する場合CSV形式に変換した文字列が返る()
+    {
+        $this->expected = '"1つ目の要素","カンマを,含む要素","3つ目の要素"'."\r\n";
+        $this->actual = SC_Utils::sfGetCSVList(
+            ['1つ目の要素', 'カンマを,含む要素', '3つ目の要素']
+        );
 
-    $this->verify();
-  }
+        $this->verify('CSVフォーマットの文字列');
+    }
 
-  public function testSfGetCSVList_配列に要素が存在する場合_CSV形式に変換した文字列が返る()
-  {
-    
-    $this->expected = '"1つ目の要素","カンマを,含む要素","3つ目の要素"' . "\r\n";
-    $this->actual = SC_Utils::sfGetCSVList(
-      array('1つ目の要素', 'カンマを,含む要素', '3つ目の要素')
-    );
-
-    $this->verify('CSVフォーマットの文字列');
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

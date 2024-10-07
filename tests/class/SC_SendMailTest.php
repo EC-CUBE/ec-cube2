@@ -129,14 +129,14 @@ class SC_SendMailTest extends Common_TestCase
 
         $this->objSendMail->backend = 'smtp';
         $this->expected = [
-            'To' => 'to@example.com'
+            'To' => 'to@example.com',
         ];
         $this->actual = $this->objSendMail->getRecip();
         $this->verify();
 
         $this->objSendMail->backend = 'sendmail';
         $this->expected = [
-            'To' => 'to@example.com'
+            'To' => 'to@example.com',
         ];
         $this->actual = $this->objSendMail->getRecip();
         $this->verify();
@@ -154,7 +154,7 @@ class SC_SendMailTest extends Common_TestCase
 
         $objSite = $objDb->sfGetBasisData();
         $this->expected = [
-            '-f '.$objSite['email04']
+            '-f '.$objSite['email04'],
         ];
         $this->actual = $this->objSendMail->getBackendParams('mail');
         $this->verify();
@@ -167,15 +167,8 @@ class SC_SendMailTest extends Common_TestCase
         $this->verify();
 
         $this->expected = [
-            'host' => '127.0.0.1',
-            'port' => '1025'
-        ];
-        $this->actual = $this->objSendMail->getBackendParams('smtp');
-        $this->verify();
-
-        $this->expected = [
-            'host' => '127.0.0.1',
-            'port' => '1025'
+            'host' => SMTP_HOST,
+            'port' => SMTP_PORT,
         ];
         $this->actual = $this->objSendMail->getBackendParams('smtp');
         $this->verify();

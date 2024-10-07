@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 携帯メールアドレス登録のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Entry_EmailMobile extends LC_Page_Ex
@@ -60,8 +59,8 @@ class LC_Page_Entry_EmailMobile extends LC_Page_Ex
      */
     public function action()
     {
-        $objCustomer    = new SC_Customer_Ex();
-        $objFormParam   = new SC_FormParam_Ex();
+        $objCustomer = new SC_Customer_Ex();
+        $objFormParam = new SC_FormParam_Ex();
 
         $this->lfInitParam($objFormParam);
         $objFormParam->setParam($_POST);
@@ -80,57 +79,56 @@ class LC_Page_Entry_EmailMobile extends LC_Page_Ex
         }
 
         $this->tpl_name = $objCustomer->getValue('name01');
-        $this->arrForm  = $objFormParam->getFormParamList();
+        $this->arrForm = $objFormParam->getFormParamList();
     }
 
     /**
      * lfInitParam
      *
-     * @access public
      * @param SC_FormParam_Ex $objFormParam
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
         $objFormParam->addParam('メールアドレス', 'email_mobile', null, 'a',
-                                array('NO_SPTAB', 'EXIST_CHECK', 'CHANGE_LOWER', 'EMAIL_CHAR_CHECK', 'EMAIL_CHECK', 'MOBILE_EMAIL_CHECK'));
+            ['NO_SPTAB', 'EXIST_CHECK', 'CHANGE_LOWER', 'EMAIL_CHAR_CHECK', 'EMAIL_CHECK', 'MOBILE_EMAIL_CHECK']);
     }
 
     /**
      * エラーチェックする
      *
      * @param SC_FormParam_Ex $objFormParam
-     * @access private
+     *
      * @return array エラー情報の配列
      */
     public function lfCheckError(&$objFormParam)
     {
         $objFormParam->convParam();
-        $objErr         = new SC_CheckError_Ex();
+        $objErr = new SC_CheckError_Ex();
         $objErr->arrErr = $objFormParam->checkError();
 
         // FIXME: lfInitParam() で設定すれば良いように感じる
-        $objErr->doFunc(array('メールアドレス', 'email_mobile'), array('CHECK_REGIST_CUSTOMER_EMAIL'));
+        $objErr->doFunc(['メールアドレス', 'email_mobile'], ['CHECK_REGIST_CUSTOMER_EMAIL']);
 
         return $objErr->arrErr;
     }
 
     /**
-     *
      * 携帯メールアドレスが登録されていないユーザーに携帯アドレスを登録する
      *
      * 登録完了後にsessionのemail_mobileを更新する
      *
-     * @access private
      * @param string $email_mobile
+     *
      * @return string
      */
     public function lfRegistEmailMobile($email_mobile, $customer_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->update('dtb_customer',
-                          array('email_mobile' => $email_mobile),
-                          'customer_id = ?', array($customer_id));
+            ['email_mobile' => $email_mobile],
+            'customer_id = ?', [$customer_id]);
 
         return $email_mobile;
     }

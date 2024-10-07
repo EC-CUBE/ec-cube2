@@ -24,8 +24,8 @@
 /**
  * バッチ処理用 の基底クラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_Batch
@@ -34,6 +34,7 @@ class SC_Batch
      * バッチ処理を実行する
      *
      * @param  mixed $argv コマンドライン引数
+     *
      * @return mixed バッチの実行結果
      */
     public function execute($argv = '')

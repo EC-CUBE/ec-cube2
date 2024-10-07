@@ -3,7 +3,7 @@
 class SC_Helper_DB_sfGetAddPointTest extends SC_Helper_DB_TestBase
 {
     /** @var int */
-    const POINT_RATE = 4;
+    public const POINT_RATE = 4;
 
     protected function setUp()
     {

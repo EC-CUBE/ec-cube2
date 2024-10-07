@@ -18,13 +18,15 @@ class LoadClassFileChangeTest extends Common_TestCase
         $plugins = ['AutoloadingPlugin'];
         foreach ($plugins as $plugin) {
             $dir = PLUGIN_UPLOAD_REALDIR.$plugin;
-            if (!file_exists($dir)) break;
+            if (!file_exists($dir)) {
+                break;
+            }
             $files = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS),
                 RecursiveIteratorIterator::CHILD_FIRST
             );
             foreach ($files as $file) {
-                /** @var SplFileInfo $file */
+                /* @var SplFileInfo $file */
                 $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getRealPath());
             }
             rmdir($dir);
@@ -34,6 +36,7 @@ class LoadClassFileChangeTest extends Common_TestCase
 
     /**
      * loadClassFileChange で拡張したクラスのテストケース.
+     *
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
@@ -72,7 +75,7 @@ class plugin_info {
     static \$HOOK_POINTS        = 'loadClassFileChange';
 }
 __EOS__;
-       $autoloadingPlugin = <<< __EOS__
+        $autoloadingPlugin = <<< __EOS__
 <?php
 class AutoloadingPlugin extends SC_Plugin_Base
 {
@@ -84,7 +87,7 @@ class AutoloadingPlugin extends SC_Plugin_Base
     }
 }
 __EOS__;
-       $Autoloading_SC_Product = <<< __EOS__
+        $Autoloading_SC_Product = <<< __EOS__
 <?php
 class Autoloading_SC_Product extends SC_Product
 {
@@ -99,7 +102,7 @@ __EOS__;
         $files = [
             'plugin_info' => $plugin_info,
             'AutoloadingPlugin' => $autoloadingPlugin,
-            'Autoloading_SC_Product' => $Autoloading_SC_Product
+            'Autoloading_SC_Product' => $Autoloading_SC_Product,
         ];
 
         $dir = PLUGIN_UPLOAD_REALDIR.'AutoloadingPlugin';
@@ -120,7 +123,7 @@ __EOS__;
             'compliant_version' => '2.17',
             'enable' => 1,
             'create_date' => 'CURRENT_TIMESTAMP',
-            'update_date' => 'CURRENT_TIMESTAMP'
+            'update_date' => 'CURRENT_TIMESTAMP',
         ];
         $this->objQuery->insert('dtb_plugin', $pluginValues);
 
@@ -130,7 +133,7 @@ __EOS__;
             'plugin_id' => $plugin_id,
             'hook_point' => 'loadClassFileChange',
             'callback' => 'loadClassFileChange',
-            'update_date' => 'CURRENT_TIMESTAMP'
+            'update_date' => 'CURRENT_TIMESTAMP',
         ];
         $this->objQuery->insert('dtb_plugin_hookpoint', $hookpointValues);
     }

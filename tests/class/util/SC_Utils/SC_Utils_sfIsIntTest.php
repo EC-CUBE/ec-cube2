@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,93 +27,91 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Helper_Purchase::sfIsInt()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfIsIntTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+    // ///////////////////////////////////////
+    public function testSfIsInt0バイト文字列の場合FALSEが返る()
+    {
+        $this->expected = false;
+        $this->actual = SC_Utils::sfIsInt('');
 
-  /////////////////////////////////////////
-  public function testSfIsInt_0バイト文字列の場合_FALSEが返る()
-  {
-    $this->expected = FALSE;
-    $this->actual = SC_Utils::sfIsInt('');
+        $this->verify('整数かどうか');
+    }
 
-    $this->verify('整数かどうか');
-  }
+    public function testSfIsIntIntの最大長より長い場合FALSEが返る()
+    {
+        $this->expected = false;
+        $this->actual = SC_Utils::sfIsInt('10000000000');
 
-  public function testSfIsInt_intの最大長より長い場合_FALSEが返る()
-  {
-    $this->expected = FALSE;
-    $this->actual = SC_Utils::sfIsInt('10000000000');
+        $this->verify('整数かどうか');
+    }
 
-    $this->verify('整数かどうか');
-  }
+    public function testSfIsIntIntの最大値ギリギリの場合TRUEが返る()
+    {
+        $this->expected = false;
+        $this->actual = SC_Utils::sfIsInt('2147483647');
 
-  public function testSfIsInt_intの最大値ギリギリの場合_TRUEが返る()
-  {
-    $this->expected = FALSE;
-    $this->actual = SC_Utils::sfIsInt('2147483647');
+        $this->verify('整数かどうか');
+    }
 
-    $this->verify('整数かどうか');
-  }
+    public function testSfIsIntIntの最大値を超える場合FALSEが返る()
+    {
+        $this->expected = false;
+        $this->actual = SC_Utils::sfIsInt('2147483648');
 
-  public function testSfIsInt_intの最大値を超える場合_FALSEが返る()
-  {
-    $this->expected = FALSE;
-    $this->actual = SC_Utils::sfIsInt('2147483648');
+        $this->verify('整数かどうか');
+    }
 
-    $this->verify('整数かどうか');
-  }
+    public function testSfIsInt数値でない場合FALSEが返る()
+    {
+        $this->expected = false;
+        $this->actual = SC_Utils::sfIsInt('HELLO123');
 
-  public function testSfIsInt_数値でない場合_FALSEが返る()
-  {
-    $this->expected = FALSE;
-    $this->actual = SC_Utils::sfIsInt('HELLO123');
+        $this->verify('整数かどうか');
+    }
 
-    $this->verify('整数かどうか');
-  }
+    public function testSfIsInt正の整数の場合TRUEが返る()
+    {
+        $this->expected = true;
+        $this->actual = SC_Utils::sfIsInt('123456789');
 
-  public function testSfIsInt_正の整数の場合_TRUEが返る()
-  {
-    $this->expected = TRUE;
-    $this->actual = SC_Utils::sfIsInt('123456789');
+        $this->verify('整数かどうか');
+    }
 
-    $this->verify('整数かどうか');
-  }
+    // TODO 「整数かどうか」という関数名なのでここはFALSEになるべきでは？
+    /**
+    public function testSfIsInt_正の小数の場合_FALSEが返る()
+    {
+      $this->expected = FALSE;
+      $this->actual = SC_Utils::sfIsInt('123.456');
 
-  // TODO 「整数かどうか」という関数名なのでここはFALSEになるべきでは？
-  /**
-  public function testSfIsInt_正の小数の場合_FALSEが返る()
-  {
-    $this->expected = FALSE;
-    $this->actual = SC_Utils::sfIsInt('123.456');
+      $this->verify('整数かどうか');
+    }
+     */
+    public function testSfIsInt負の整数の場合TRUEが返る()
+    {
+        $this->expected = true;
+        $this->actual = SC_Utils::sfIsInt('-12345678');
 
-    $this->verify('整数かどうか');
-  }
-  */
+        $this->verify('整数かどうか');
+    }
 
-  public function testSfIsInt_負の整数の場合_TRUEが返る()
-  {
-    $this->expected = TRUE;
-    $this->actual = SC_Utils::sfIsInt('-12345678');
-
-    $this->verify('整数かどうか');
-  }
-
-  // TODO 文字列長でチェックしているので負の場合は範囲が小さくなっている
-  /**
+    // TODO 文字列長でチェックしているので負の場合は範囲が小さくなっている
+  /*
   public function testSfIsInt_負の整数で桁数が最大の場合_TRUEが返る()
   {
     $this->expected = TRUE;
@@ -123,4 +121,3 @@ class SC_Utils_sfIsIntTest extends Common_TestCase
   }
   */
 }
-

@@ -23,7 +23,6 @@
 
 class SC_CheckError_NO_SPTABTest extends SC_CheckError_AbstractTestCase
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -35,9 +34,9 @@ class SC_CheckError_NO_SPTABTest extends SC_CheckError_AbstractTestCase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testNO_SPTAB_タブのみの入力()
+    public function testNOSPTABタブのみの入力()
     {
         $this->arrForm = [self::FORM_NAME => "\t"];
         $this->scenario();
@@ -46,25 +45,25 @@ class SC_CheckError_NO_SPTABTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNO_SPTAB_半角スペースのみの入力()
+    public function testNOSPTAB半角スペースのみの入力()
     {
-        $this->arrForm = [self::FORM_NAME => " "];
+        $this->arrForm = [self::FORM_NAME => ' '];
         $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
         $this->verify();
     }
 
-    public function testNO_SPTAB_全角スペースのみの入力()
+    public function testNOSPTAB全角スペースのみの入力()
     {
-        $this->arrForm = [self::FORM_NAME => "　"];
+        $this->arrForm = [self::FORM_NAME => '　'];
         $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
         $this->verify();
     }
 
-    public function testNO_SPTAB_改行のみの入力()
+    public function testNOSPTAB改行のみの入力()
     {
         $this->arrForm = [self::FORM_NAME => "\n"];
         $this->scenario();
@@ -73,7 +72,7 @@ class SC_CheckError_NO_SPTABTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNO_SPTAB_改行のみの入力2()
+    public function testNOSPTAB改行のみの入力2()
     {
         $this->arrForm = [self::FORM_NAME => "\r"];
         $this->scenario();
@@ -82,7 +81,7 @@ class SC_CheckError_NO_SPTABTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNO_SPTAB_スペース改行タブの混在()
+    public function testNOSPTABスペース改行タブの混在()
     {
         $this->arrForm = [self::FORM_NAME => " 　\t\n\r"];
         $this->scenario();
@@ -91,36 +90,36 @@ class SC_CheckError_NO_SPTABTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNO_SPTAB_文字の先頭にスペース()
+    public function testNOSPTAB文字の先頭にスペース()
     {
-        $this->arrForm = [self::FORM_NAME => " test"];
+        $this->arrForm = [self::FORM_NAME => ' test'];
         $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
         $this->verify();
     }
 
-    public function testNO_SPTAB_文字の間にスペース()
+    public function testNOSPTAB文字の間にスペース()
     {
-        $this->arrForm = [self::FORM_NAME => "te st"];
+        $this->arrForm = [self::FORM_NAME => 'te st'];
         $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
         $this->verify();
     }
 
-    public function testNO_SPTAB_文字の最後にスペース()
+    public function testNOSPTAB文字の最後にスペース()
     {
-        $this->arrForm = [self::FORM_NAME => "test "];
+        $this->arrForm = [self::FORM_NAME => 'test '];
         $this->scenario();
 
         $this->expected = '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。<br />';
         $this->verify();
     }
 
-    public function testNO_SPTAB_スペースを含まない()
+    public function testNOSPTABスペースを含まない()
     {
-        $this->arrForm = [self::FORM_NAME => "test"];
+        $this->arrForm = [self::FORM_NAME => 'test'];
         $this->scenario();
 
         $this->expected = '';

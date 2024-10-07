@@ -21,17 +21,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * Admin_Customer_SearchCustomer のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Customer_SearchCustomer extends LC_Page_Admin_Ex
 {
-
     /** @var array */
     public $arrCustomer;
 
@@ -94,6 +92,7 @@ class LC_Page_Admin_Customer_SearchCustomer extends LC_Page_Admin_Ex
      * パラメーター情報の初期化
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
@@ -105,6 +104,7 @@ class LC_Page_Admin_Customer_SearchCustomer extends LC_Page_Admin_Ex
      * エラーチェック
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
+     *
      * @return array エラー配列
      */
     public function lfCheckError(&$objFormParam)
@@ -116,6 +116,7 @@ class LC_Page_Admin_Customer_SearchCustomer extends LC_Page_Admin_Ex
      * 会員一覧を検索する処理
      *
      * @param  array  $arrParam 検索パラメーター連想配列
+     *
      * @return array( integer 全体件数, mixed 会員データ一覧配列, mixed SC_PageNaviオブジェクト)
      */
     public function lfDoSearch($arrParam)

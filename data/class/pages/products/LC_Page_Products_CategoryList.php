@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * カテゴリ一覧 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Products_CategoryList extends LC_Page_Ex
@@ -60,6 +59,7 @@ class LC_Page_Products_CategoryList extends LC_Page_Ex
 
     /**
      * Page のAction
+     *
      * @return void
      */
     public function action()
@@ -98,13 +98,14 @@ class LC_Page_Products_CategoryList extends LC_Page_Ex
      * ページオブジェクトに格納する。
      *
      * @param  string  $category_id カテゴリID
-     * @param  boolean $count_check 有効な商品がないカテゴリを除くかどうか
+     * @param  bool $count_check 有効な商品がないカテゴリを除くかどうか
+     *
      * @return array
      */
     public function lfGetCategories($category_id, $count_check = false)
     {
         $arrCategory = null;    // 選択されたカテゴリ
-        $arrChildren = array(); // 子カテゴリ
+        $arrChildren = []; // 子カテゴリ
 
         $arrAll = SC_Helper_DB_Ex::sfGetCatTree($category_id, $count_check);
         foreach ($arrAll as $category) {
@@ -142,7 +143,7 @@ class LC_Page_Products_CategoryList extends LC_Page_Ex
             array_unshift($arrChildren, $arrCategory);
         }
 
-        return array('arrChildren'=>$arrChildren, 'arrCategory'=>$arrCategory);
+        return ['arrChildren' => $arrChildren, 'arrCategory' => $arrCategory];
     }
 
     /**
@@ -153,7 +154,7 @@ class LC_Page_Products_CategoryList extends LC_Page_Ex
     public function lfInitParam($arrRequest)
     {
         $objFormParam = new SC_FormParam_Ex();
-        $objFormParam->addParam('カテゴリID', 'category_id', INT_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('カテゴリID', 'category_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
         // 値の取得
         $objFormParam->setParam($arrRequest);
         // 入力値の変換

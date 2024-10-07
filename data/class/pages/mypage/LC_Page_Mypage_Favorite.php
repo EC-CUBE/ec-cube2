@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * MyPage のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
@@ -72,18 +71,17 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
         switch ($this->getMode()) {
             case 'delete_favorite':
                 // お気に入り削除
-                $this->lfDeleteFavoriteProduct($customer_id, intval($_POST['product_id']));
+                $this->lfDeleteFavoriteProduct($customer_id, (int) $_POST['product_id']);
                 break;
 
             case 'getList':
                 // スマートフォン版のもっと見るボタン用
                 // ページ送り用
                 if (isset($_POST['pageno'])) {
-                    $this->tpl_pageno = intval($_POST['pageno']);
+                    $this->tpl_pageno = (int) $_POST['pageno'];
                 }
                 $this->arrFavorite = $this->lfGetFavoriteProduct($customer_id, $this);
                 SC_Product_Ex::setPriceTaxTo($this->arrFavorite);
-
 
                 // 一覧メイン画像の指定が無い商品のための処理
                 foreach ($this->arrFavorite as $key => $val) {
@@ -100,7 +98,7 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
 
         // ページ送り用
         if (isset($_POST['pageno'])) {
-            $this->tpl_pageno = intval($_POST['pageno']);
+            $this->tpl_pageno = (int) $_POST['pageno'];
         }
         $this->arrFavorite = $this->lfGetFavoriteProduct($customer_id, $this);
         // 1ページあたりの件数
@@ -112,48 +110,48 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
      *
      * @param mixed $customer_id
      * @param LC_Page_Mypage_Favorite $objPage
-     * @access private
+     *
      * @return array お気に入り商品一覧
      */
     public function lfGetFavoriteProduct($customer_id, &$objPage)
     {
-        $objQuery       = SC_Query_Ex::getSingletonInstance();
-        $objProduct     = new SC_Product_Ex();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
+        $objProduct = new SC_Product_Ex();
 
         $objQuery->setOrder('f.create_date DESC');
         $where = 'f.customer_id = ? and p.status = 1';
         if (NOSTOCK_HIDDEN) {
             $where .= ' AND EXISTS(SELECT * FROM dtb_products_class WHERE product_id = f.product_id AND del_flg = 0 AND (stock >= 1 OR stock_unlimited = 1))';
         }
-        $arrProductId  = $objQuery->getCol('f.product_id', 'dtb_customer_favorite_products f inner join dtb_products p using (product_id)', $where, array($customer_id));
+        $arrProductId = $objQuery->getCol('f.product_id', 'dtb_customer_favorite_products f inner join dtb_products p using (product_id)', $where, [$customer_id]);
 
-        $objQuery       = SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setWhere($this->lfMakeWhere('alldtl.', $arrProductId));
-        $linemax        = $objProduct->findProductCount($objQuery);
+        $linemax = $objProduct->findProductCount($objQuery);
 
         $objPage->tpl_linemax = $linemax;   // 何件が該当しました。表示用
 
         // ページ送りの取得
-        $objNavi        = new SC_PageNavi_Ex($objPage->tpl_pageno, $linemax, SEARCH_PMAX, 'eccube.movePage', NAVI_PMAX);
+        $objNavi = new SC_PageNavi_Ex($objPage->tpl_pageno, $linemax, SEARCH_PMAX, 'eccube.movePage', NAVI_PMAX);
         $this->tpl_strnavi = $objNavi->strnavi; // 表示文字列
-        $startno        = $objNavi->start_row;
+        $startno = $objNavi->start_row;
 
-        $objQuery       = SC_Query_Ex::getSingletonInstance();
-        //$objQuery->setLimitOffset(SEARCH_PMAX, $startno);
+        $objQuery = SC_Query_Ex::getSingletonInstance();
+        // $objQuery->setLimitOffset(SEARCH_PMAX, $startno);
         // 取得範囲の指定(開始行番号、行数のセット)
-        $arrProductId  = array_slice($arrProductId, $startno, SEARCH_PMAX);
+        $arrProductId = array_slice($arrProductId, $startno, SEARCH_PMAX);
 
         $where = $this->lfMakeWhere('', $arrProductId);
         $where .= ' AND del_flg = 0';
         $objQuery->setWhere($where, $arrProductId);
         $arrProducts = $objProduct->lists($objQuery);
 
-        //取得している並び順で並び替え
-        $arrProducts2 = array();
+        // 取得している並び順で並び替え
+        $arrProducts2 = [];
         foreach ($arrProducts as $item) {
             $arrProducts2[$item['product_id']] = $item;
         }
-        $arrProductsList = array();
+        $arrProductsList = [];
         foreach ($arrProductId as $product_id) {
             $arrProductsList[] = $arrProducts2[$product_id];
         }
@@ -174,7 +172,7 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
         // 取得した表示すべきIDだけを指定して情報を取得。
         $where = '';
         if (is_array($arrProductId) && !empty($arrProductId)) {
-            $where = $tablename . 'product_id IN (' . implode(',', $arrProductId) . ')';
+            $where = $tablename.'product_id IN ('.implode(',', $arrProductId).')';
         } else {
             // 一致させない
             $where = '0<>0';
@@ -186,16 +184,16 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
     // お気に入り商品削除
 
     /**
-     * @param integer $product_id
+     * @param int $product_id
      */
     public function lfDeleteFavoriteProduct($customer_id, $product_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $exists = $objQuery->exists('dtb_customer_favorite_products', 'customer_id = ? AND product_id = ?', array($customer_id, $product_id));
+        $exists = $objQuery->exists('dtb_customer_favorite_products', 'customer_id = ? AND product_id = ?', [$customer_id, $product_id]);
 
         if ($exists) {
-            $objQuery->delete('dtb_customer_favorite_products', 'customer_id = ? AND product_id = ?', array($customer_id, $product_id));
+            $objQuery->delete('dtb_customer_favorite_products', 'customer_id = ? AND product_id = ?', [$customer_id, $product_id]);
         }
     }
 }

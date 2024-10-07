@@ -1,4 +1,5 @@
 <?php
+
 class LC_Page_Admin_Home_Ex extends LC_Page_Admin_Home
 {
     public function init()
