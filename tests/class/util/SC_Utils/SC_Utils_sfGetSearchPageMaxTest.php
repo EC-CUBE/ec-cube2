@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,61 +27,54 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfGetSearchPageMax()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetSearchPageMaxTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfGetSearchPageMax正の整数が指定されている場合指定の値が返る()
+    {
+        $this->expected = 100;
+        $this->actual = SC_Utils::sfGetSearchPageMax(100);
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfGetSearchPageMax_正の整数が指定されている場合_指定の値が返る()
-  {
-    
-    $this->expected = 100;
-    $this->actual = SC_Utils::sfGetSearchPageMax(100);
+    public function testSfGetSearchPageMax正の小数が指定されている場合整数に変換される()
+    {
+        $this->expected = 99;
+        $this->actual = SC_Utils::sfGetSearchPageMax(99.5);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfGetSearchPageMax_正の小数が指定されている場合_整数に変換される()
-  {
-    
-    $this->expected = 99;
-    $this->actual = SC_Utils::sfGetSearchPageMax(99.5);
+    public function testSfGetSearchPageMax負の数が指定されている場合デフォルト値が返る()
+    {
+        $this->expected = SEARCH_PMAX;
+        $this->actual = SC_Utils::sfGetSearchPageMax(-50);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfGetSearchPageMax_負の数が指定されている場合_デフォルト値が返る()
-  {
-    
-    $this->expected = SEARCH_PMAX;
-    $this->actual = SC_Utils::sfGetSearchPageMax(-50);
+    public function testSfGetSearchPageMax指定がない場合デフォルト値が返る()
+    {
+        $this->expected = SEARCH_PMAX;
+        $this->actual = SC_Utils::sfGetSearchPageMax('');
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfGetSearchPageMax_指定がない場合_デフォルト値が返る()
-  {
-    
-    $this->expected = SEARCH_PMAX;
-    $this->actual = SC_Utils::sfGetSearchPageMax('');
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

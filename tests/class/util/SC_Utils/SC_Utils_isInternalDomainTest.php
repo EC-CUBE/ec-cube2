@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,52 +28,50 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * SC_Utils::sfIsInternalDomain()のテストクラス.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfIsInternalDomainTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testsfIsInternalDomainドメインが一致する場合Trueが返る()
+    {
+        $url = HTTP_URL.'index.php';
+        $this->expected = true;
+        $this->actual = SC_Utils::sfIsInternalDomain($url);
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->verify($url);
+    }
 
-  /////////////////////////////////////////
-  public function testsfIsInternalDomain_ドメインが一致する場合_trueが返る()
-  {
-    $url = HTTP_URL . 'index.php';
-    $this->expected = true;
-    $this->actual = SC_Utils::sfIsInternalDomain($url);
+    public function testsfIsInternalDomainアンカーを含むURLの場合Trueが返る()
+    {
+        $url = HTTP_URL.'index.php#hoge';
+        $this->expected = true;
+        $this->actual = SC_Utils::sfIsInternalDomain($url);
 
-    $this->verify($url);
-  }
+        $this->verify($url);
+    }
 
-  public function testsfIsInternalDomain_アンカーを含むURLの場合_trueが返る()
-  {
-    $url = HTTP_URL . 'index.php#hoge';
-    $this->expected = true;
-    $this->actual = SC_Utils::sfIsInternalDomain($url);
+    public function testsfIsInternalDomainドメインが一致しない場合Falseが返る()
+    {
+        // 一致しないようなURLにする
+        $url = 'http://unmatched.example.jp/html/index.php';
 
-    $this->verify($url);
-  }
+        $this->expected = false;
+        $this->actual = SC_Utils::sfIsInternalDomain($url);
 
-  public function testsfIsInternalDomain_ドメインが一致しない場合_falseが返る()
-  {
-    // 一致しないようなURLにする
-    $url = 'http://unmatched.example.jp/html/index.php';
+        $this->verify($url);
+    }
 
-    $this->expected = false;
-    $this->actual = SC_Utils::sfIsInternalDomain($url);
-
-    $this->verify($url);
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

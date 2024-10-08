@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * おすすめ商品管理 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
@@ -53,7 +52,7 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
         $this->tpl_subno = 'recommend';
         $this->tpl_maintitle = 'コンテンツ管理';
         $this->tpl_subtitle = 'おすすめ商品管理';
-        //最大登録数の表示
+        // 最大登録数の表示
         $this->tpl_disp_max = RECOMMEND_NUM;
     }
 
@@ -82,14 +81,14 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
         $arrPost = $objFormParam->getHashArray();
 
         $objRecommend = new SC_Helper_BestProducts_Ex();
-        $arrItems = array();
+        $arrItems = [];
         switch ($this->getMode()) {
-            case 'down': //商品の並び替えをする。
+            case 'down': // 商品の並び替えをする。
                 $objRecommend->rankDown($arrPost['best_id']);
                 $arrItems = $this->getRecommendProducts($objRecommend);
                 break;
 
-            case 'up': //商品の並び替えをする。
+            case 'up': // 商品の並び替えをする。
                 $objRecommend->rankUp($arrPost['best_id']);
                 $arrItems = $this->getRecommendProducts($objRecommend);
                 break;
@@ -105,7 +104,7 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
                 } else {
                     $arrItems = $this->getRecommendProducts($objRecommend);
                     $rank = $arrPost['rank'];
-                    $arrItems[$rank]['comment'] = $arrPost['comment'];;
+                    $arrItems[$rank]['comment'] = $arrPost['comment'];
                     if ($arrPost['best_id']) {
                     } else {
                         $arrItems = $this->setProducts($arrPost, $arrItems);
@@ -132,7 +131,7 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
                 break;
         }
 
-        $this->category_id = intval($arrPost['category_id']);
+        $this->category_id = (int) $arrPost['category_id'];
         $this->arrItems = $arrItems;
 
         // カテゴリ取得
@@ -142,21 +141,24 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
 
     /**
      * パラメーターの初期化を行う
+     *
      * @param SC_FormParam_Ex $objFormParam
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('おすすめ商品ID', 'best_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('商品ID', 'product_id', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('カテゴリID', 'category_id', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('ランク', 'rank', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('コメント', 'comment', LTEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('おすすめ商品ID', 'best_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('商品ID', 'product_id', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('カテゴリID', 'category_id', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('ランク', 'rank', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('コメント', 'comment', LTEXT_LEN, 'KVa', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     /**
      * 入力されたパラメーターのエラーチェックを行う。
+     *
      * @param  SC_FormParam_Ex $objFormParam
-     * @return Array  エラー内容
+     *
+     * @return array  エラー内容
      */
     public function lfCheckError(&$objFormParam)
     {
@@ -168,23 +170,25 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
 
     /**
      * 既に登録されている内容を取得する
+     *
      * @param  SC_Helper_BestProducts_Ex $objRecommend
-     * @return Array  $arrReturnProducts データベースに登録されているおすすめ商品の配列
+     *
+     * @return array  $arrReturnProducts データベースに登録されているおすすめ商品の配列
      */
     public function getRecommendProducts(SC_Helper_BestProducts_Ex &$objRecommend)
     {
         $arrList = $objRecommend->getList();
         // product_id の一覧を作成
-        $product_ids = array();
+        $product_ids = [];
         foreach ($arrList as $value) {
             $product_ids[] = $value['product_id'];
         }
 
-        $objProduct = new SC_Product_Ex;
+        $objProduct = new SC_Product_Ex();
         $objQuery = $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrProducts = $objProduct->getListByProductIds($objQuery, $product_ids);
 
-        $arrReturnProducts = array();
+        $arrReturnProducts = [];
         foreach ($arrList as $data) {
             $data['main_list_image'] = $arrProducts[$data['product_id']]['main_list_image'];
             $data['name'] = $arrProducts[$data['product_id']]['name'];
@@ -196,13 +200,14 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
 
     /**
      * おすすめ商品の新規登録を行う。
-     * @param Array   $arrPost      POSTの値を格納した配列
-     * @param Integer $member_id    登録した管理者を示すID
+     *
+     * @param array   $arrPost      POSTの値を格納した配列
+     * @param int $member_id    登録した管理者を示すID
      * @param SC_Helper_BestProducts_Ex  $objRecommend
      */
     public function insertRecommendProduct($arrPost, $member_id, SC_Helper_BestProducts_Ex &$objRecommend)
     {
-        $sqlval = array();
+        $sqlval = [];
         $sqlval['best_id'] = $arrPost['best_id'];
         $sqlval['product_id'] = $arrPost['product_id'];
         $sqlval['category_id'] = $arrPost['category_id'];
@@ -215,8 +220,10 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
 
     /**
      * データを削除する
-     * @param  Array  $arrPost      POSTの値を格納した配列
+     *
+     * @param  array  $arrPost      POSTの値を格納した配列
      * @param  SC_Helper_BestProducts_Ex $objRecommend
+     *
      * @return void
      */
     public function deleteProduct($arrPost, SC_Helper_BestProducts_Ex &$objRecommend)
@@ -232,26 +239,29 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
 
     /**
      * 商品情報を取得する
-     * @param  Integer $product_id 商品ID
-     * @return Array   $return 商品のデータを格納した配列
+     *
+     * @param  int $product_id 商品ID
+     *
+     * @return array   $return 商品のデータを格納した配列
      */
     public function getProduct($product_id)
     {
         $objProduct = new SC_Product_Ex();
         $arrProduct = $objProduct->getDetail($product_id);
-        $return = array(
+        $return = [
             'product_id' => $arrProduct['product_id'],
             'main_list_image' => $arrProduct['main_list_image'],
-            'name' => $arrProduct['name']
-        );
+            'name' => $arrProduct['name'],
+        ];
 
         return $return;
     }
 
     /**
      * 商品のデータを表示用に処理する
-     * @param Array $arrPost  POSTのデータを格納した配列
-     * @param Array $arrItems フロントに表示される商品の情報を格納した配列
+     *
+     * @param array $arrPost  POSTのデータを格納した配列
+     * @param array $arrItems フロントに表示される商品の情報を格納した配列
      */
     public function setProducts($arrPost, $arrItems)
     {

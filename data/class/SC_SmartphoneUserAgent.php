@@ -34,7 +34,7 @@ class SC_SmartphoneUserAgent
      * スマートフォンかどうかを判別する。
      * $_SESSION['pc_disp'] = true の場合はPC表示。
      *
-     * @return boolean
+     * @return bool
      */
     public static function isSmartphone()
     {
@@ -47,7 +47,7 @@ class SC_SmartphoneUserAgent
     /**
      * スマートフォンかどうかを判別する。
      *
-     * @return boolean
+     * @return bool
      */
     public static function isNonSmartphone()
     {

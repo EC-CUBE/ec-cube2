@@ -1,9 +1,9 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
+$HOME = realpath(__DIR__).'/../../../..';
 // テスト用に背景色を設定
 define('ERR_COLOR', 'blue');
-require_once($HOME . "/tests/class/Common_TestCase.php");
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -29,44 +29,39 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfGetEnabled()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetEnabledTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    // TODO 要確認 実際には使われていない?
+    public function testSfGetEnabledFalseを指定した場合無効化するための文字列が返る()
+    {
+        $this->expected = ' disabled="disabled"';
+        $this->actual = SC_Utils::sfGetEnabled(false);
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  // TODO 要確認 実際には使われていない?
-  public function testSfGetEnabled_falseを指定した場合_無効化するための文字列が返る()
-  {
-    
-    $this->expected = ' disabled="disabled"';
-    $this->actual = SC_Utils::sfGetEnabled(false);
+    public function testSfGetEnabledTrueを指定した場合0バイト文字列が返る()
+    {
+        $this->expected = '';
+        $this->actual = SC_Utils::sfGetEnabled(true);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfGetEnabled_trueを指定した場合_0バイト文字列が返る()
-  {
-    
-    $this->expected = '';
-    $this->actual = SC_Utils::sfGetEnabled(true);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

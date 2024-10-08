@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Session_setRegistFlagTest extends Common_TestCase
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -38,11 +37,11 @@ class SC_Session_setRegistFlagTest extends Common_TestCase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testSetRegistFlag_TRUEがセットされる()
+    public function testSetRegistFlagTRUEがセットされる()
     {
         $this->objSiteSession->setRegistFlag();
-        $this->assertTrue($_SESSION['site']['regist_success'],'登録成功フラグ');
+        $this->assertTrue($_SESSION['site']['regist_success'], '登録成功フラグ');
     }
 }

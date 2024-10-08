@@ -1,37 +1,35 @@
 <?php
+
 // XXX E_NOTICE は除外しない方が良いが大量に出るので...
-error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED &~E_STRICT);
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 ini_set('display_errors', 1);
-$HOME = realpath(dirname(__FILE__)) . "/../..";
+$HOME = realpath(__DIR__).'/../..';
 // TODO PHPUnit 4.8 で動作しないため一旦コメントアウト
 // require_once($HOME . "/tests/class/replace/SC_Display_Ex.php");
 // require_once($HOME . "/tests/class/replace/SC_Response_Ex.php");
 // require_once($HOME . "/tests/class/replace/SC_Utils_Ex.php");
-require_once($HOME . "/tests/class/test/util/Test_Utils.php");
-require_once($HOME . "/tests/class/test/util/User_Utils.php");
+require_once $HOME.'/tests/class/test/util/Test_Utils.php';
+require_once $HOME.'/tests/class/test/util/User_Utils.php';
 
-require_once($HOME . "/data/class/pages/LC_Page_Index.php");
+require_once $HOME.'/data/class/pages/LC_Page_Index.php';
 /**
  * 全テストケースの基底クラスです。
  * SC_Queryのテスト以外は基本的にこのクラスを継承して作成してください。
- *
  */
 class Common_TestCase extends PHPUnit_Framework_TestCase
 {
-    /** MailCatcher の URL. */
-    const MAILCATCHER_URL = 'http://127.0.0.1:1080';
-
     /**
      * MDB2 をグローバル変数のバックアップ対象から除外する。
      *
      * @var array
+     *
      * @see PHPUnit_Framework_TestCase::$backupGlobals
      * @see PHPUnit_Framework_TestCase::$backupGlobalsBlacklist
      */
-    protected $backupGlobalsBlacklist = array(
+    protected $backupGlobalsBlacklist = [
         '_MDB2_databases',
         '_MDB2_dsninfo_default',
-    );
+    ];
 
     /** @var SC_Query */
     protected $objQuery;
@@ -49,6 +47,9 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
         $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);
         $this->objQuery->begin();
         $this->objGenerator = new \Eccube2\Tests\Fixture\Generator($this->objQuery);
+        if (!defined('TEST_MAILCATCHER_URL')) {
+            $this->markTestSkipped('TEST_MAILCATCHER_URL is not defined.');
+        }
     }
 
     protected function tearDown()
@@ -74,17 +75,21 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     protected function checkMailCatcherStatus()
     {
         try {
-            $context = stream_context_create(array(
-                'http' => array('ignore_errors' => true)
-            ));
-            $response = file_get_contents(self::MAILCATCHER_URL.'/messages', false, $context);
+            $context = stream_context_create([
+                'http' => ['ignore_errors' => true],
+            ]);
+            $response = file_get_contents(TEST_MAILCATCHER_URL.'/messages', false, $context);
 
             $http_status = strpos($http_response_header[0], '200');
             if ($http_status === false) {
-                $this->markTestSkipped('MailCatcher is not available');
+                throw new Exception('Response code is not 200: $http_response_header[0] = '.var_export($http_response_header[0], true));
+            }
+
+            if ($response === false) {
+                throw new Exception('file_get_contents response is false.');
             }
         } catch (Exception $e) {
-            $this->markTestSkipped('MailCatcher is not available');
+            $this->markTestSkipped('MailCatcher is not available: '.$e->getMessage());
         }
     }
 
@@ -95,15 +100,14 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     {
         try {
             $context = stream_context_create(
-                array(
-                    'http' => array(
-                        'method'=> 'DELETE'
-                    )
-                )
+                [
+                    'http' => [
+                        'method' => 'DELETE',
+                    ],
+                ]
             );
 
-            file_get_contents(self::MAILCATCHER_URL.'/messages', false, $context);
-
+            file_get_contents(TEST_MAILCATCHER_URL.'/messages', false, $context);
         } catch (\Exception $e) {
             // quiet
         }
@@ -116,21 +120,23 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
      */
     protected function getMailCatcherMessages()
     {
-        return json_decode(file_get_contents(self::MAILCATCHER_URL. '/messages'), true);
+        return json_decode(file_get_contents(TEST_MAILCATCHER_URL.'/messages'), true);
     }
 
     /**
      * MailCatcher のメッセージを ID を指定して取得する.
      *
      * @param int $id メッセージの ID
+     *
      * @return array MailCatcher のメッセージ
      */
     protected function getMailCatcherMessage($message)
     {
-        $source = file_get_contents(self::MAILCATCHER_URL. '/messages/'.$message['id'].'.source');
+        $source = file_get_contents(TEST_MAILCATCHER_URL.'/messages/'.$message['id'].'.source');
 
         $message['source'] = quoted_printable_decode($source);
         $message['source'] = mb_convert_encoding($message['source'], 'UTF-8', 'JIS');
+
         return $message;
     }
 
@@ -143,22 +149,22 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     {
         $messages = $this->getMailCatcherMessages();
         if (empty($messages)) {
-            $this->fail("No messages received");
+            $this->fail('No messages received');
         }
 
         $last = array_shift($messages);
+
         return $this->getMailCatcherMessage($last);
     }
 
-
-    //////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////
     // 以下はテスト用のユーティリティを使うためのサンプルです。
     // 実際に動作させる場合にはコメントアウトを外して下さい。
 
-    /**
+    /*
      * actionExit()呼び出しを書き換えてexit()させない例です。
      */
-    /**
+    /*
     public function testExit()
     {
         $resp = new SC_Response_Ex();
@@ -170,10 +176,10 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     }
      */
 
-    /**
+    /*
      * 端末種別をテストケースから自由に設定する例です。
      */
-    /**
+    /*
     public function testDeviceType()
     {
         $this->expected = array(DEVICE_TYPE_MOBILE, DEVICE_TYPE_SMARTPHONE);
@@ -189,10 +195,10 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     }
      */
 
-    /**
+    /*
      * ログイン状態をテストケースから自由に切り替える例です。
      */
-    /**
+    /*
     public function testLoginState()
     {
         $this->expected = array(FALSE, TRUE);

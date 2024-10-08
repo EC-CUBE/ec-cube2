@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,52 +27,49 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfIsHTTPS()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfIsHTTPSTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfIsHTTPS環境変数にSSLを示す値が入っている場合Trueが返る()
+    {
+        $_SERVER['HTTPS'] = 'on';
+        $this->expected = true;
+        $this->actual = SC_Utils::sfIsHTTPS();
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfIsHTTPS_環境変数にSSLを示す値が入っている場合_trueが返る()
-  {
-    $_SERVER['HTTPS'] = 'on';
-    $this->expected = true;
-    $this->actual = SC_Utils::sfIsHTTPS();
+    public function testSfIsHTTPS環境変数に非SSLを示す値が入っている場合Falseが返る()
+    {
+        $_SERVER['HTTPS'] = 'off';
+        $this->expected = false;
+        $this->actual = SC_Utils::sfIsHTTPS();
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfIsHTTPS_環境変数に非SSLを示す値が入っている場合_falseが返る()
-  {
-    $_SERVER['HTTPS'] = 'off';
-    $this->expected = false;
-    $this->actual = SC_Utils::sfIsHTTPS();
+    public function testSfIsHTTPS環境変数に値が入っていない場合Falseが返る()
+    {
+        unset($_SERVER['HTTPS']);
+        $this->expected = false;
+        $this->actual = SC_Utils::sfIsHTTPS();
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfIsHTTPS_環境変数に値が入っていない場合_falseが返る()
-  {
-    unset($_SERVER['HTTPS']);
-    $this->expected = false;
-    $this->actual = SC_Utils::sfIsHTTPS();
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

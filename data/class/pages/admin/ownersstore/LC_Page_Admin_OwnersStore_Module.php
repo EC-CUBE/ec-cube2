@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * オーナーズストア：モジュール管理のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_OwnersStore_Module extends LC_Page_Admin_Ex
@@ -43,8 +42,8 @@ class LC_Page_Admin_OwnersStore_Module extends LC_Page_Admin_Ex
         parent::init();
 
         $this->tpl_mainpage = 'ownersstore/module.tpl';
-        $this->tpl_mainno   = 'ownersstore';
-        $this->tpl_subno    = 'module';
+        $this->tpl_mainno = 'ownersstore';
+        $this->tpl_subno = 'module';
         $this->tpl_maintitle = 'オーナーズストア';
         $this->tpl_subtitle = 'モジュール管理';
     }

@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,6 +28,7 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
  * SC_Helper_DB::sfMoveRank()のテストクラス.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
@@ -46,7 +47,7 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
     public function testSfMoveRank_一番下に移動する場合_RANK1を返す()
     {
         $this->setUpNews();
@@ -59,7 +60,7 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
         $this->helper->sfMoveRank($table, $keyIdColum, $keyId, $pos, $where);
         $col = 'rank';
         $getWhere = 'news_id = ?';
-        $arrWhereVal = array($keyId);
+        $arrWhereVal = [$keyId];
         $this->actual = $this->objQuery->get($col, $table, $getWhere, $arrWhereVal);
         $this->verify();
     }
@@ -76,11 +77,11 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
         $this->helper->sfMoveRank($table, $keyIdColum, $keyId, $pos, $where);
         $col = 'rank';
         $getWhere = 'news_id = ?';
-        $arrWhereVal = array($keyId);
+        $arrWhereVal = [$keyId];
         $this->actual = $this->objQuery->get($col, $table, $getWhere, $arrWhereVal);
         $this->verify();
     }
-    
+
     public function testSfMoveRank_同じ位置に移動する場合_RANKは変わらない()
     {
         $this->setUpNews();
@@ -93,11 +94,11 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
         $this->helper->sfMoveRank($table, $keyIdColum, $keyId, $pos, $where);
         $col = 'rank';
         $getWhere = 'news_id = ?';
-        $arrWhereVal = array($keyId);
+        $arrWhereVal = [$keyId];
         $this->actual = $this->objQuery->get($col, $table, $getWhere, $arrWhereVal);
         $this->verify();
     }
-    
+
     public function testSfMoveRank_マイナスの位置に移動する場合_RANKはMAX()
     {
         $this->setUpNews();
@@ -110,11 +111,11 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
         $this->helper->sfMoveRank($table, $keyIdColum, $keyId, $pos, $where);
         $col = 'rank';
         $getWhere = 'news_id = ?';
-        $arrWhereVal = array($keyId);
+        $arrWhereVal = [$keyId];
         $this->actual = $this->objQuery->get($col, $table, $getWhere, $arrWhereVal);
         $this->verify();
     }
-    
+
     public function testSfMoveRank_最大値以上の位置を与える場合_RANKは1となる()
     {
         $this->setUpNews();
@@ -127,7 +128,7 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
         $this->helper->sfMoveRank($table, $keyIdColum, $keyId, $pos, $where);
         $col = 'rank';
         $getWhere = 'news_id = ?';
-        $arrWhereVal = array($keyId);
+        $arrWhereVal = [$keyId];
         $this->actual = $this->objQuery->get($col, $table, $getWhere, $arrWhereVal);
         $this->verify();
     }
@@ -143,7 +144,7 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
         $this->helper->sfRankUp($table, $keyIdColum, $keyId, $where);
         $col = 'rank';
         $getWhere = 'news_id = ?';
-        $arrWhereVal = array($keyId);
+        $arrWhereVal = [$keyId];
         $this->actual = $this->objQuery->get($col, $table, $getWhere, $arrWhereVal);
         $this->verify();
     }
@@ -159,7 +160,7 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
         $this->helper->sfRankDown($table, $keyIdColum, $keyId, $where);
         $col = 'rank';
         $getWhere = 'news_id = ?';
-        $arrWhereVal = array($keyId);
+        $arrWhereVal = [$keyId];
         $this->actual = $this->objQuery->get($col, $table, $getWhere, $arrWhereVal);
         $this->verify();
     }
@@ -170,7 +171,7 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
             [3, 2, 1],
             [2, 2, 1],
             [1, 2, 2],
-            [0, 2, 2]
+            [0, 2, 2],
         ];
     }
 
@@ -184,4 +185,3 @@ class SC_Helper_DB_sfMoveRank extends SC_Helper_DB_TestBase
         $this->verify();
     }
 }
-

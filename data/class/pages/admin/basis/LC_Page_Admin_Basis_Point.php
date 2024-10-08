@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ポイント設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Basis_Point extends LC_Page_Admin_Ex
@@ -106,8 +105,8 @@ class LC_Page_Admin_Basis_Point extends LC_Page_Admin_Ex
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('ポイント付与率', 'point_rate', PERCENTAGE_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('会員登録時付与ポイント', 'welcome_point', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('ポイント付与率', 'point_rate', PERCENTAGE_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('会員登録時付与ポイント', 'welcome_point', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
     }
 
     /**

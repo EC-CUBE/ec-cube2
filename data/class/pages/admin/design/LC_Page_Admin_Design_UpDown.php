@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * テンプレートアップロード のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
@@ -40,12 +39,12 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
     {
         parent::init();
         $this->tpl_mainpage = 'design/up_down.tpl';
-        $this->tpl_subno    = 'up_down';
-        $this->tpl_mainno   = 'design';
+        $this->tpl_subno = 'up_down';
+        $this->tpl_mainno = 'design';
         $this->tpl_maintitle = 'デザイン管理';
         $this->tpl_subtitle = 'テンプレート追加';
-        $this->arrErr  = array();
-        $this->arrForm = array();
+        $this->arrErr = [];
+        $this->arrForm = [];
         ini_set('max_execution_time', 300);
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrDeviceType = $masterData->getMasterData('mtb_device_type');
@@ -95,8 +94,8 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
             default:
                 break;
         }
-        //サブタイトルの追加
-        $this->tpl_subtitle = $this->arrDeviceType[$this->device_type_id] . '＞' . $this->tpl_subtitle;
+        // サブタイトルの追加
+        $this->tpl_subtitle = $this->arrDeviceType[$this->device_type_id].'＞'.$this->tpl_subtitle;
         $this->arrForm = $objFormParam->getFormParamList();
     }
 
@@ -104,13 +103,14 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
      * SC_UploadFileクラスの初期化.
      *
      * @param  SC_FormParam $objForm SC_FormParamのインスタンス
+     *
      * @return SC_UploadFile_Ex SC_UploadFileのインスタンス
      */
     public function lfInitUploadFile($objForm)
     {
-        $pkg_dir = SMARTY_TEMPLATES_REALDIR . $objForm->getValue('template_code');
+        $pkg_dir = SMARTY_TEMPLATES_REALDIR.$objForm->getValue('template_code');
         $objUpFile = new SC_UploadFile_Ex(TEMPLATE_TEMP_REALDIR, $pkg_dir);
-        $objUpFile->addFile('テンプレートファイル', 'template_file', array(), TEMPLATE_SIZE, true, 0, 0, false);
+        $objUpFile->addFile('テンプレートファイル', 'template_file', [], TEMPLATE_SIZE, true, 0, 0, false);
 
         return $objUpFile;
     }
@@ -119,13 +119,14 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
      * SC_FormParamクラスの初期化.
      *
      * @param  SC_FormParam $objFormParam SC_FormParamのインスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('テンプレートコード', 'template_code', STEXT_LEN, 'a', array('EXIST_CHECK', 'SPTAB_CHECK','MAX_LENGTH_CHECK', 'ALNUM_CHECK'));
-        $objFormParam->addParam('テンプレート名', 'template_name', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('端末種別ID', 'device_type_id', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('テンプレートコード', 'template_code', STEXT_LEN, 'a', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'ALNUM_CHECK']);
+        $objFormParam->addParam('テンプレート名', 'template_name', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('端末種別ID', 'device_type_id', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     /**
@@ -133,6 +134,7 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
      *
      * @param  SC_FormParam $objFormParam SC_FormParamのインスタンス
      * @param  SC_UploadFile_Ex $objUpFile    SC_UploadFileのインスタンス
+     *
      * @return array  エラー情報を格納した連想配列, エラーが無ければ(多分)nullを返す
      */
     public function lfCheckError(&$objFormParam, &$objUpFile)
@@ -141,22 +143,22 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
         $template_code = $objFormParam->getValue('template_code');
 
         // 同名のフォルダが存在する場合はエラー
-        if (file_exists(USER_TEMPLATE_REALDIR . $template_code) && $template_code != "") {
+        if (file_exists(USER_TEMPLATE_REALDIR.$template_code) && $template_code != '') {
             $arrErr['template_code'] = '※ 同名のファイルがすでに存在します。<br/>';
         }
 
         // 登録不可の文字列チェック
-        $arrIgnoreCode = array('admin',
+        $arrIgnoreCode = ['admin',
                                MOBILE_DEFAULT_TEMPLATE_NAME,
                                SMARTPHONE_DEFAULT_TEMPLATE_NAME,
-                               DEFAULT_TEMPLATE_NAME);
+                               DEFAULT_TEMPLATE_NAME, ];
         if (in_array($template_code, $arrIgnoreCode)) {
             $arrErr['template_code'] = '※ このテンプレートコードは使用できません。<br/>';
         }
 
         // DBにすでに登録されていないかチェック
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $exists = $objQuery->exists('dtb_templates', 'template_code = ?', array($template_code));
+        $exists = $objQuery->exists('dtb_templates', 'template_code = ?', [$template_code]);
         if ($exists) {
             $arrErr['template_code'] = '※ すでに登録されているテンプレートコードです。<br/>';
         }
@@ -186,7 +188,8 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
      *
      * @param  SC_FormParam  $objFormParam SC_FormParamのインスタンス
      * @param  SC_UploadFile_Ex  $objUpFile    SC_UploadFileのインスタンス
-     * @return boolean 成功した場合 true; 失敗した場合 false
+     *
+     * @return bool 成功した場合 true; 失敗した場合 false
      */
     public function doUpload($objFormParam, $objUpFile)
     {
@@ -194,19 +197,19 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
         $template_name = $objFormParam->getValue('template_name');
         $device_type_id = $objFormParam->getValue('device_type_id');
 
-        $template_dir = SMARTY_TEMPLATES_REALDIR . $template_code;
-        $compile_dir  = DATA_REALDIR . 'Smarty/templates_c/' . $template_code;
+        $template_dir = SMARTY_TEMPLATES_REALDIR.$template_code;
+        $compile_dir = DATA_REALDIR.'Smarty/templates_c/'.$template_code;
 
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
-        $arrValues = array(
+        $arrValues = [
             'template_code' => $template_code,
             'device_type_id' => $device_type_id,
             'template_name' => $template_name,
             'create_date' => 'CURRENT_TIMESTAMP',
             'update_date' => 'CURRENT_TIMESTAMP',
-        );
+        ];
         $objQuery->insert('dtb_templates', $arrValues);
 
         // フォルダ作成
@@ -231,17 +234,17 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
         $objUpFile->moveTempFile();
 
         // 解凍
-        if (!SC_Helper_FileManager_Ex::unpackFile($template_dir . '/' . $_FILES['template_file']['name'])) {
+        if (!SC_Helper_FileManager_Ex::unpackFile($template_dir.'/'.$_FILES['template_file']['name'])) {
             $this->arrErr['err'] = '※ テンプレートファイルの解凍に失敗しました。<br/>';
             $objQuery->rollback();
 
             return false;
         }
         // ユーザデータの下のファイルをコピーする
-        $from_dir = SMARTY_TEMPLATES_REALDIR . $template_code . '/_packages/';
-        $to_dir = USER_REALDIR . 'packages/' . $template_code . '/';
+        $from_dir = SMARTY_TEMPLATES_REALDIR.$template_code.'/_packages/';
+        $to_dir = USER_REALDIR.'packages/'.$template_code.'/';
         if (!SC_Utils_Ex::recursiveMkdir($to_dir)) {
-            $this->arrErr['err'] = '※ ' . $to_dir . ' の作成に失敗しました。<br/>';
+            $this->arrErr['err'] = '※ '.$to_dir.' の作成に失敗しました。<br/>';
             $objQuery->rollback();
 
             return false;

@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Session_isPrepageTest extends Common_TestCase
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -38,38 +37,37 @@ class SC_Session_isPrepageTest extends Common_TestCase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testIsPrepage_sessionが空の場合_false()
+    public function testIsPrepageSessionが空の場合False()
     {
         $this->expected = false;
         $this->actual = $this->objSiteSession->isPrepage();
-        $this->verify("ページ判定");
+        $this->verify('ページ判定');
     }
-    
-    public function testIsPrepage_prepageとnowpageが違う場合_false()
+
+    public function testIsPrepagePrepageとnowpageが違う場合False()
     {
         $this->expected = false;
         $_SESSION['site']['pre_page'] = 'test.php';
         $this->actual = $this->objSiteSession->isPrepage();
-        $this->verify("ページ判定");
+        $this->verify('ページ判定');
     }
-    
-    public function testIsPrepage_prepageとnowpageが同じの場合_true()
+
+    public function testIsPrepagePrepageとnowpageが同じの場合True()
     {
         $this->expected = true;
         $_SESSION['site']['pre_page'] = $_SERVER['SCRIPT_NAME'];
         $this->actual = $this->objSiteSession->isPrepage();
-        $this->verify("ページ判定");
+        $this->verify('ページ判定');
     }
-    
-    public function testIsPrepage_pre_regist_successがtrueの場合_true()
+
+    public function testIsPrepagePreRegistSuccessがtrueの場合True()
     {
         $this->expected = true;
         $_SESSION['site']['pre_page'] = 'test.php';
         $_SESSION['site']['pre_regist_success'] = true;
         $this->actual = $this->objSiteSession->isPrepage();
-        $this->verify("ページ判定");
+        $this->verify('ページ判定');
     }
 }
-

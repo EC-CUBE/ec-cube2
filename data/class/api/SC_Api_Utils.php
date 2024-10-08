@@ -21,30 +21,30 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
+/*
  * API関係処理のユーティリティ
  *
  * @package Api
  * @author EC-CUBE CO.,LTD.
  * @version $Id$
  */
-define('API_UPLOAD_REALDIR', DATA_REALDIR . 'downloads/api/');
-define('API_CLASS_EX_REALDIR', CLASS_EX_REALDIR . 'api_extends/operations/');
-define('API_CLASS_REALDIR', CLASS_REALDIR . 'api/operations/');
+define('API_UPLOAD_REALDIR', DATA_REALDIR.'downloads/api/');
+define('API_CLASS_EX_REALDIR', CLASS_EX_REALDIR.'api_extends/operations/');
+define('API_CLASS_REALDIR', CLASS_REALDIR.'api/operations/');
 
 class SC_Api_Utils
 {
     /** API XML Namspase Header */
-    const API_XMLNS = 'http://www.ec-cube.net/ECCUBEApi/';
+    public const API_XMLNS = 'http://www.ec-cube.net/ECCUBEApi/';
 
     /** API XML lang */
-    const API_XML_LANG = 'ja';
+    public const API_XML_LANG = 'ja';
 
     /** API LOGFILE_NAME */
-    const API_LOGFILE = 'logs/api.log';
+    public const API_LOGFILE = 'logs/api.log';
 
     /** API_DEBUG_MODE */
-    const API_DEBUG_MODE = false;
+    public const API_DEBUG_MODE = false;
 
     /**
      * オペレーション名に対応した追加の設定情報を取得する
@@ -58,7 +58,7 @@ class SC_Api_Utils
         }
         if (!SC_Utils_Ex::isBlank($arrApiConfig['sub_data'])) {
             $arrData = @unserialize($arrApiConfig['sub_data']);
-            if ($arrData === FALSE) {
+            if ($arrData === false) {
                 return $arrApiConfig['sub_data'];
             } else {
                 if ($key_name != '') {
@@ -77,6 +77,7 @@ class SC_Api_Utils
      * Configが無い場合は、APIデフォルトを取得する
      *
      * @param  string $operation_name
+     *
      * @return array  設定配列
      */
     public static function getApiConfig($operation_name)
@@ -84,7 +85,7 @@ class SC_Api_Utils
         // 設定優先度 DB > plugin default > base
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'operation_name Like ? AND del_flg = 0 AND enable = 1';
-        $arrApiConfig = $objQuery->getRow('*', 'dtb_api_config', $where, array($operation_name));
+        $arrApiConfig = $objQuery->getRow('*', 'dtb_api_config', $where, [$operation_name]);
         if (SC_Utils_Ex::isBlank($arrApiConfig)) {
             $objApi = SC_Api_Utils_Ex::loadApiOperation($operation_name);
             if (is_object($objApi)) {
@@ -114,15 +115,15 @@ class SC_Api_Utils
      * @param text $operation_name
      @ @rturn void
      */
-    public static function printApiLog($msg, $start_time = '' , $operation_name = '')
+    public static function printApiLog($msg, $start_time = '', $operation_name = '')
     {
         if (!SC_Utils_Ex::isBlank($operation_name)) {
-            $msg = 'API_' . $operation_name . ':' . $msg;
+            $msg = 'API_'.$operation_name.':'.$msg;
         }
         if (!SC_Utils_Ex::isBlank($start_time)) {
-            $msg = '(RequestId:' . $start_time . ')' . $msg;
+            $msg = '(RequestId:'.$start_time.')'.$msg;
         }
-        GC_Utils_Ex::gfPrintLog($msg, DATA_REALDIR . self::API_LOGFILE, self::API_DEBUG_MODE);
+        GC_Utils_Ex::gfPrintLog($msg, DATA_REALDIR.self::API_LOGFILE, self::API_DEBUG_MODE);
     }
 
     /**
@@ -130,26 +131,27 @@ class SC_Api_Utils
      *
      * @param  string $operation_name オペレーション名
      * @param  array  $arrParam       リクエストパラメーター
+     *
      * @return object APIオペレーションクラスオブジェクト
      */
-    public static function loadApiOperation($operation_name, $arrParam = array())
+    public static function loadApiOperation($operation_name, $arrParam = [])
     {
         // API_UPLOADのほうが優先
         // API_UPLOAD > API_CLASS_EX > API_CLASS
-        if (file_exists(API_UPLOAD_REALDIR . $operation_name . '.php')) {
-            $api_operation_file =  API_UPLOAD_REALDIR . $operation_name . '.php';
-            $api_class_name = 'API_' . $operation_name;
-        } elseif (file_exists(API_CLASS_EX_REALDIR . $operation_name . '_Ex.php')) {
-            $api_operation_file =  API_CLASS_EX_REALDIR . $operation_name . '_Ex.php';
-            $api_class_name = 'API_' . $operation_name . '_Ex';
-        } elseif (file_exists(API_CLASS_REALDIR . $operation_name . '.php')) {
-            $api_operation_file =  API_CLASS_REALDIR . $operation_name . '.php';
-            $api_class_name = 'API_' . $operation_name;
+        if (file_exists(API_UPLOAD_REALDIR.$operation_name.'.php')) {
+            $api_operation_file = API_UPLOAD_REALDIR.$operation_name.'.php';
+            $api_class_name = 'API_'.$operation_name;
+        } elseif (file_exists(API_CLASS_EX_REALDIR.$operation_name.'_Ex.php')) {
+            $api_operation_file = API_CLASS_EX_REALDIR.$operation_name.'_Ex.php';
+            $api_class_name = 'API_'.$operation_name.'_Ex';
+        } elseif (file_exists(API_CLASS_REALDIR.$operation_name.'.php')) {
+            $api_operation_file = API_CLASS_REALDIR.$operation_name.'.php';
+            $api_class_name = 'API_'.$operation_name;
         } else {
             return false;
         }
         require_once $api_operation_file;
-        $objApiOperation = new $api_class_name ($arrParam);
+        $objApiOperation = new $api_class_name($arrParam);
 
         return $objApiOperation;
     }
@@ -161,13 +163,13 @@ class SC_Api_Utils
      */
     public function getApiDirFiles()
     {
-        $arrFiles = array();
+        $arrFiles = [];
         // Core API ディレクトリ
         if (is_dir(API_CLASS_EX_REALDIR)) {
             if ($dh = opendir(API_CLASS_EX_REALDIR)) {
                 while (($file_name = readdir($dh)) !== false) {
                     if ($file_name != '.' && $file_name != '..' && substr($file_name, -4) == '.php') {
-                        $arrFiles[] = API_CLASS_EX_REALDIR . $file_name;
+                        $arrFiles[] = API_CLASS_EX_REALDIR.$file_name;
                     }
                 }
                 closedir($dh);
@@ -179,7 +181,7 @@ class SC_Api_Utils
             if ($dh = opendir(API_UPLOAD_REALDIR)) {
                 while (($file_name = readdir($dh)) !== false) {
                     if ($file_name != '.' && $file_name != '..' && substr($file_name, -4) == '.php') {
-                        $arrFiles[] = API_UPLOAD_REALDIR . $file_name;
+                        $arrFiles[] = API_UPLOAD_REALDIR.$file_name;
                     }
                 }
                 closedir($dh);
@@ -194,12 +196,12 @@ class SC_Api_Utils
      */
     public static function sendResponseJson($response_outer_name, &$arrResponse)
     {
-        if (isset($arrResponse["callback"])) {
-            $callback = $arrResponse["callback"];
-            unset($arrResponse["callback"]);
+        if (isset($arrResponse['callback'])) {
+            $callback = $arrResponse['callback'];
+            unset($arrResponse['callback']);
             header('Content-Type: application/javascript; charset=UTF-8');
             $arrResponse['response_name'] = $response_outer_name;
-            echo $callback . "(" . SC_Utils_Ex::jsonEncode($arrResponse) . ")";
+            echo $callback.'('.SC_Utils_Ex::jsonEncode($arrResponse).')';
         } else {
             header('Content-Type: application/json; charset=UTF-8');
             $arrResponse['response_name'] = $response_outer_name;
@@ -224,7 +226,7 @@ class SC_Api_Utils
     {
         require_once 'XML/Serializer.php';
 
-        $options = array(
+        $options = [
             'mode' => 'simplexml',
             'indent' => "\t",
             'linebreak' => "\n",
@@ -232,11 +234,11 @@ class SC_Api_Utils
             'addDecl' => true,
             'encoding' => 'UTF-8',
             'rootName' => $response_outer_name,
-            'rootAttributes' => array('xmlns' => self::API_XMLNS . ECCUBE_VERSION,
-                                        'xml:lang' => self::API_XML_LANG),
+            'rootAttributes' => ['xmlns' => self::API_XMLNS.ECCUBE_VERSION,
+                                        'xml:lang' => self::API_XML_LANG, ],
             'defaultTagName' => 'Response',
-            'attributesArray' => '_attributes'
-        );
+            'attributesArray' => '_attributes',
+        ];
 
         $objSerializer = new XML_Serializer($options);
         $ret = $objSerializer->serialize($arrResponse);

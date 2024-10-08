@@ -8,8 +8,8 @@
 /**
  * セッション関連のヘルパークラス.
  *
- * @package Helper
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_Helper_Session
@@ -25,12 +25,12 @@ class SC_Helper_Session
     {
         $this->objDb = new SC_Helper_DB_Ex();
         if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_set_save_handler(array(&$this, 'sfSessOpen'),
-                                     array(&$this, 'sfSessClose'),
-                                     array(&$this, 'sfSessRead'),
-                                     array(&$this, 'sfSessWrite'),
-                                     array(&$this, 'sfSessDestroy'),
-                                     array(&$this, 'sfSessGc'));
+            session_set_save_handler([&$this, 'sfSessOpen'],
+                [&$this, 'sfSessClose'],
+                [&$this, 'sfSessRead'],
+                [&$this, 'sfSessWrite'],
+                [&$this, 'sfSessDestroy'],
+                [&$this, 'sfSessGc']);
         }
 
         // 通常よりも早い段階(オブジェクトが破棄される前)でセッションデータを書き込んでセッションを終了する
@@ -43,6 +43,7 @@ class SC_Helper_Session
      *
      * @param  string $save_path    セッションを保存するパス(使用しない)
      * @param  string $session_name セッション名(使用しない)
+     *
      * @return bool   セッションが正常に開始された場合 true
      */
     public function sfSessOpen($save_path, $session_name)
@@ -64,6 +65,7 @@ class SC_Helper_Session
      * セッションのデータをDBから読み込む.
      *
      * @param  string $id セッションID
+     *
      * @return string セッションデータの値
      */
     public function sfSessRead($id)
@@ -76,7 +78,7 @@ class SC_Helper_Session
             unset($_COOKIE['legacy-ECSESSID']);
         }
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $arrRet = $objQuery->select('sess_data', 'dtb_session', 'sess_id = ?', array($id));
+        $arrRet = $objQuery->select('sess_data', 'dtb_session', 'sess_id = ?', [$id]);
         if (empty($arrRet)) {
             return '';
         } else {
@@ -89,18 +91,19 @@ class SC_Helper_Session
      *
      * @param  string $id        セッションID
      * @param  string $sess_data セッションデータの値
+     *
      * @return bool   セッションの書き込みに成功した場合 true
      */
     public function sfSessWrite($id, $sess_data)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $exists = $objQuery->exists('dtb_session', 'sess_id = ?', array($id));
-        $sqlval = array();
+        $exists = $objQuery->exists('dtb_session', 'sess_id = ?', [$id]);
+        $sqlval = [];
         if ($exists) {
             // レコード更新
             $sqlval['sess_data'] = $sess_data;
             $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
-            $objQuery->update('dtb_session', $sqlval, 'sess_id = ?', array($id));
+            $objQuery->update('dtb_session', $sqlval, 'sess_id = ?', [$id]);
         } else {
             // セッションデータがある場合は、レコード作成
             if (strlen($sess_data) > 0) {
@@ -121,12 +124,13 @@ class SC_Helper_Session
      * セッションを破棄する.
      *
      * @param  string $id セッションID
+     *
      * @return bool   セッションを正常に破棄した場合 true
      */
     public function sfSessDestroy($id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $objQuery->delete('dtb_session', 'sess_id = ?', array($id));
+        $objQuery->delete('dtb_session', 'sess_id = ?', [$id]);
 
         return true;
     }
@@ -136,14 +140,14 @@ class SC_Helper_Session
      *
      * 引数 $maxlifetime の代りに 定数 MAX_LIFETIME を使用する.
      *
-     * @param integer $maxlifetime セッションの有効期限(使用しない)
+     * @param int $maxlifetime セッションの有効期限(使用しない)
      */
     public function sfSessGc($maxlifetime)
     {
         // MAX_LIFETIME以上更新されていないセッションを削除する。
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $limit = date("Y-m-d H:i:s",time() - MAX_LIFETIME);
-        $where = "update_date < '". $limit . "' ";
+        $limit = date('Y-m-d H:i:s', time() - MAX_LIFETIME);
+        $where = "update_date < '".$limit."' ";
         $objQuery->delete('dtb_session', $where);
 
         return true;
@@ -164,7 +168,6 @@ class SC_Helper_Session
      * 遷移先のページで, LC_Page::isValidToken() の返り値をチェックすることにより,
      * 画面遷移の妥当性が確認できる.
      *
-     * @access protected
      * @return string トランザクショントークンの文字列
      */
     public static function getToken()
@@ -179,7 +182,6 @@ class SC_Helper_Session
     /**
      * トランザクショントークン用の予測困難な文字列を生成して返す.
      *
-     * @access private
      * @return string トランザクショントークン用の文字列
      */
     public static function createToken()
@@ -200,10 +202,10 @@ class SC_Helper_Session
      * セッションが破棄されるまで, トークンを保持する.
      * 引数 $is_unset が true の場合は, 妥当性検証後に破棄される.
      *
-     * @access protected
-     * @param boolean $is_unset 妥当性検証後, トークンを unset する場合 true;
+     * @param bool $is_unset 妥当性検証後, トークンを unset する場合 true;
      *                          デフォルト値は false
-     * @return boolean トランザクショントークンが有効な場合 true
+     *
+     * @return bool トランザクショントークンが有効な場合 true
      */
     public static function isValidToken($is_unset = false)
     {
@@ -240,9 +242,9 @@ class SC_Helper_Session
      */
     public static function adminAuthorization()
     {
-        if (($script_path = realpath($_SERVER['SCRIPT_FILENAME'])) !== FALSE) {
+        if (($script_path = realpath($_SERVER['SCRIPT_FILENAME'])) !== false) {
             $arrScriptPath = explode('/', str_replace('\\', '/', $script_path));
-            $arrAdminPath = explode('/', str_replace('\\', '/', substr(HTML_REALDIR . ADMIN_DIR, 0, -1)));
+            $arrAdminPath = explode('/', str_replace('\\', '/', substr(HTML_REALDIR.ADMIN_DIR, 0, -1)));
             $arrDiff = array_diff_assoc($arrAdminPath, $arrScriptPath);
             if (in_array(substr(ADMIN_DIR, 0, -1), $arrDiff)) {
                 return;
@@ -250,7 +252,7 @@ class SC_Helper_Session
                 $masterData = new SC_DB_MasterData_Ex();
                 $arrExcludes = $masterData->getMasterData('mtb_auth_excludes');
                 foreach ($arrExcludes as $exclude) {
-                    $arrExcludesPath = explode('/', str_replace('\\', '/', HTML_REALDIR . ADMIN_DIR . $exclude));
+                    $arrExcludesPath = explode('/', str_replace('\\', '/', HTML_REALDIR.ADMIN_DIR.$exclude));
                     $arrDiff = array_diff_assoc($arrExcludesPath, $arrScriptPath);
                     if (count($arrDiff) === 0) {
                         return;

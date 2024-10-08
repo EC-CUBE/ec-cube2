@@ -54,9 +54,9 @@
 
                         <!--▼商品 -->
                         <div class="favoriteBox">
-                            <a rel="external" href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$product_id|u}-->"><img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrFavorite[cnt].main_list_image|sfNoImageMainList|h}-->" style="max-width: 80px;max-height: 80px;" class="photoL productImg"  /></a>
+                            <a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$product_id|u}-->"><img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrFavorite[cnt].main_list_image|sfNoImageMainList|h}-->" style="max-width: 80px;max-height: 80px;" class="photoL productImg"  /></a>
                             <div class="favoriteContents clearfix">
-                                <h4><a rel="external" href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$product_id|u}-->" class="productName"><!--{$arrFavorite[cnt].name}--></a></h4>
+                                <h4><a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$product_id|u}-->" class="productName"><!--{$arrFavorite[cnt].name}--></a></h4>
                                 <p><span class="mini productPrice"><!--{$smarty.const.SALE_PRICE_TITLE}-->：<!--{if $arrFavorite[cnt].price02_min_inctax == $arrFavorite[cnt].price02_max_inctax}-->
                                     <!--{$arrFavorite[cnt].price02_min_inctax|n2s}-->
                                     <!--{else}-->
@@ -70,7 +70,7 @@
 
                 <!--{if $stock_find_count > 0 && $customer_rank < 51}-->
                     <div class="product-btn">
-                        <a rel="external" href="javascript:void(document.form1.submit())" class="btn-cart">カートに入れる</a>
+                        <a href="javascript:void(document.form1.submit())" class="btn-cart">カートに入れる</a>
                     </div>
                 <!--{/if}-->
             </form>
@@ -78,7 +78,7 @@
 
         <div class="btn_area">
             <!--{if $tpl_linemax > $dispNumber}-->
-                <p><a rel="external" href="javascript: void(0);" class="btn_more" id="btn_more_product" onclick="getProducts(<!--{$dispNumber|h}-->); return false;">もっとみる(＋<!--{$dispNumber|h}-->件)</a></p>
+                <p><a href="javascript: void(0);" class="btn_more" id="btn_more_product" onclick="getProducts(<!--{$dispNumber|h}-->); return false;">もっとみる(＋<!--{$dispNumber|h}-->件)</a></p>
             <!--{/if}-->
         </div>
 
