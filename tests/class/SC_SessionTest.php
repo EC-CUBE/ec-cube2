@@ -14,7 +14,7 @@ class SC_SessionTest extends Common_TestCase
     protected $masterData;
 
     /** @var string */
-    const MASTER_NAME = 'mtb_permission';
+    public const MASTER_NAME = 'mtb_permission';
 
     protected function setUp()
     {
@@ -180,7 +180,6 @@ class SC_SessionTest extends Common_TestCase
         $this->actual = $this->objSession->IsSuccess($admin_dir);
         $this->verify();
     }
-
 
     public function testSetSession()
     {

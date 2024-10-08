@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 //
 // +----------------------------------------------------------------------+
@@ -20,12 +21,12 @@
 //
 // $Id: Weekday.php,v 1.3 2004/08/16 12:25:15 hfuecks Exp $
 //
-/**
+/*
  * @package Calendar
  * @version $Id$
  */
 
-/**
+/*
  * Allows Calendar include path to be redefined
  * @ignore
  */
@@ -50,99 +51,106 @@ require_once CALENDAR_ROOT.'Day.php';
  * $Weekday->setFirstDay(0); // Set first day of week to Sunday (default Mon)
  * echo $Weekday->thisWeekDay(); // Displays 5 - fifth day of week relative to Sun
  * </code>
- * @package Calendar
- * @access public
  */
 class Calendar_Decorator_Weekday extends Calendar_Decorator
 {
     /**
      * First day of week
+     *
      * @var int (default = 1 for Monday)
-     * @access private
      */
-    var $firstDay = 1;
+    public $firstDay = 1;
 
     /**
      * Constructs Calendar_Decorator_Weekday
+     *
      * @param object subclass of Calendar
-     * @access public
      */
-    function __construct(& $Calendar)
+    public function __construct(&$Calendar)
     {
         parent::__construct($Calendar);
     }
 
     /**
      * Sets the first day of the week (0 = Sunday, 1 = Monday (default) etc)
+     *
      * @param int first day of week
+     *
      * @return void
-     * @access public
      */
-    function setFirstDay($firstDay) {
-        $this->firstDay = (int)$firstDay;
+    public function setFirstDay($firstDay)
+    {
+        $this->firstDay = (int) $firstDay;
     }
 
     /**
      * Returns the previous weekday
+     *
      * @param string (default = 'int') return value format
+     *
      * @return int numeric day of week or timestamp
-     * @access public
      */
-    function prevWeekDay($format = 'int')
+    public function prevWeekDay($format = 'int')
     {
         $ts = $this->calendar->prevDay('timestamp');
-        $Day = new Calendar_Day(2000,1,1);
+        $Day = new Calendar_Day(2000, 1, 1);
         $Day->setTimeStamp($ts);
-        $day = $this->calendar->cE->getDayOfWeek($Day->thisYear(),$Day->thisMonth(),$Day->thisDay());
+        $day = $this->calendar->cE->getDayOfWeek($Day->thisYear(), $Day->thisMonth(), $Day->thisDay());
         $day = $this->adjustWeekScale($day);
+
         return $this->returnValue('Day', $format, $ts, $day);
     }
 
     /**
      * Returns the current weekday
+     *
      * @param string (default = 'int') return value format
+     *
      * @return int numeric day of week or timestamp
-     * @access public
      */
-    function thisWeekDay($format = 'int')
+    public function thisWeekDay($format = 'int')
     {
         $ts = $this->calendar->thisDay('timestamp');
-        $day = $this->calendar->cE->getDayOfWeek($this->calendar->year,$this->calendar->month,$this->calendar->day);
+        $day = $this->calendar->cE->getDayOfWeek($this->calendar->year, $this->calendar->month, $this->calendar->day);
         $day = $this->adjustWeekScale($day);
+
         return $this->returnValue('Day', $format, $ts, $day);
     }
 
     /**
      * Returns the next weekday
+     *
      * @param string (default = 'int') return value format
+     *
      * @return int numeric day of week or timestamp
-     * @access public
      */
-    function nextWeekDay($format = 'int')
+    public function nextWeekDay($format = 'int')
     {
         $ts = $this->calendar->nextDay('timestamp');
-        $Day = new Calendar_Day(2000,1,1);
+        $Day = new Calendar_Day(2000, 1, 1);
         $Day->setTimeStamp($ts);
-        $day = $this->calendar->cE->getDayOfWeek($Day->thisYear(),$Day->thisMonth(),$Day->thisDay());
+        $day = $this->calendar->cE->getDayOfWeek($Day->thisYear(), $Day->thisMonth(), $Day->thisDay());
         $day = $this->adjustWeekScale($day);
+
         return $this->returnValue('Day', $format, $ts, $day);
     }
 
     /**
      * Adjusts the day of the week relative to the first day of the week
+     *
      * @param int day of week calendar from Calendar_Engine
+     *
      * @return int day of week adjusted to first day
-     * @access private
      */
-    function adjustWeekScale($dayOfWeek) {
+    public function adjustWeekScale($dayOfWeek)
+    {
         $dayOfWeek = $dayOfWeek - $this->firstDay;
-        if ( $dayOfWeek >= 0 ) {
+        if ($dayOfWeek >= 0) {
             return $dayOfWeek;
         } else {
             return $this->calendar->cE->getDaysInWeek(
-                $this->calendar->year,$this->calendar->month,$this->calendar->day
-                ) + $dayOfWeek;
+                $this->calendar->year, $this->calendar->month, $this->calendar->day
+            ) + $dayOfWeek;
         }
     }
 }
-?>

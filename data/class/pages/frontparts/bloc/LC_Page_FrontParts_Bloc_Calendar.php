@@ -21,13 +21,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-defined('CALENDAR_ROOT') or define('CALENDAR_ROOT', DATA_REALDIR.'module/Calendar'.DIRECTORY_SEPARATOR);
+defined('CALENDAR_ROOT') || define('CALENDAR_ROOT', DATA_REALDIR.'module/Calendar'.DIRECTORY_SEPARATOR);
 
 /**
  * Calendar のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $ $
  */
 class LC_Page_FrontParts_Bloc_Calendar extends LC_Page_FrontParts_Bloc_Ex
@@ -70,13 +70,14 @@ class LC_Page_FrontParts_Bloc_Calendar extends LC_Page_FrontParts_Bloc_Ex
     /**
      * カレンダー情報取得.
      *
-     * @param  integer $disp_month 表示する月数
+     * @param  int $disp_month 表示する月数
+     *
      * @return array   カレンダー情報の配列を返す
      */
     public function lfGetCalendar($disp_month = 1)
     {
         $objDate = new SC_Date_Ex();
-        $arrCalendar = array();
+        $arrCalendar = [];
         $today = date('Y/m/d');
 
         for ($j = 0; $j <= $disp_month - 1; $j++) {
@@ -88,15 +89,15 @@ class LC_Page_FrontParts_Bloc_Calendar extends LC_Page_FrontParts_Bloc_Ex
             $objMonth->build();
             $i = 0;
             while ($objDay = $objMonth->fetch()) {
-                $arrCalendar[$j][$i]['in_month']    = $month == $objDay->month;
-                $arrCalendar[$j][$i]['first']       = $objDay->first;
-                $arrCalendar[$j][$i]['last']        = $objDay->last;
-                $arrCalendar[$j][$i]['empty']       = $objDay->empty;
-                $arrCalendar[$j][$i]['year']        = $year;
-                $arrCalendar[$j][$i]['month']       = $month;
-                $arrCalendar[$j][$i]['day']         = $objDay->day;
-                $arrCalendar[$j][$i]['holiday']     = $objDate->isHoliday($year, $month, $objDay->day);
-                $arrCalendar[$j][$i]['today']       = $today === sprintf('%04d/%02d/%02d', $year, $month, $objDay->day);
+                $arrCalendar[$j][$i]['in_month'] = $month == $objDay->month;
+                $arrCalendar[$j][$i]['first'] = $objDay->first;
+                $arrCalendar[$j][$i]['last'] = $objDay->last;
+                $arrCalendar[$j][$i]['empty'] = $objDay->empty;
+                $arrCalendar[$j][$i]['year'] = $year;
+                $arrCalendar[$j][$i]['month'] = $month;
+                $arrCalendar[$j][$i]['day'] = $objDay->day;
+                $arrCalendar[$j][$i]['holiday'] = $objDate->isHoliday($year, $month, $objDay->day);
+                $arrCalendar[$j][$i]['today'] = $today === sprintf('%04d/%02d/%02d', $year, $month, $objDay->day);
 
                 $i++;
             }

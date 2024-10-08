@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,44 +27,41 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::getHash2Array()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_getHash2ArrayTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testGetHash2Array必須キー指定がない場合値のみの配列が返る()
+    {
+        $input_array = ['apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ'];
+        $this->expected = ['りんご', 'バナナ', 'オレンジ'];
+        $this->actual = SC_Utils::getHash2Array($input_array);
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testGetHash2Array_必須キー指定がない場合_値のみの配列が返る()
-  {
-    $input_array = array('apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ');
-    $this->expected = array('りんご', 'バナナ', 'オレンジ');
-    $this->actual = SC_Utils::getHash2Array($input_array);
+    public function testGetHash2Array必須キー指定がある場合指定キーの値のみの配列が返る()
+    {
+        $input_array = ['apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ'];
+        $requires = ['banana', 'apple'];
+        $this->expected = ['りんご', 'バナナ'];
+        $this->actual = SC_Utils::getHash2Array($input_array, $requires);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testGetHash2Array_必須キー指定がある場合_指定キーの値のみの配列が返る()
-  {
-    $input_array = array('apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ');
-    $requires = array('banana', 'apple');
-    $this->expected = array('りんご', 'バナナ');
-    $this->actual = SC_Utils::getHash2Array($input_array, $requires);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

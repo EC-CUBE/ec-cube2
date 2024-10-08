@@ -9,7 +9,6 @@ class SC_ResponseTest extends Common_TestCase
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         $objPlugin->arrRegistedPluginActions['SC_ResponseTest_action_mode'][] = [['function' => function ($instance) use ($phpunit) {
             $phpunit->assertInstanceOf('SC_ResponseTest', $instance, 'backtrace から取得した呼び出し元のインスタンスが渡ってくるはず');
-
         }]];
 
         SC_Response_Wrapper::actionExit();
@@ -21,9 +20,7 @@ class SC_ResponseTest extends Common_TestCase
 
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         $objPlugin->arrRegistedPluginActions['SC_ResponseTest_action_mode'][] = [['function' => function ($instance) use ($phpunit) {
-
             $phpunit->assertInstanceOf('SC_ResponseTest', $instance, 'backtrace から取得した呼び出し元のインスタンスが渡ってくるはず');
-
         }]];
 
         SC_Response_Wrapper::sendRedirect(HTTP_URL);
@@ -42,5 +39,3 @@ class SC_Response_Wrapper extends SC_Response_Ex
         // quiet
     }
 }
-
-

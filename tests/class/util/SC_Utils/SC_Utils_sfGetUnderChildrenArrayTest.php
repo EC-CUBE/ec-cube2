@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,44 +27,41 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfGetUnderChildrenArray()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetUnderChildrenArrayTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfGetUnderChildrenArray与えられた親IDを持つ要素だけが抽出される()
+    {
+        $input_array = [
+      ['parent_id' => '1001', 'child_id' => '1001001'],
+      ['parent_id' => '1002', 'child_id' => '1002001'],
+      ['parent_id' => '1002', 'child_id' => '1002002'],
+      ['parent_id' => '1003', 'child_id' => '1003001'],
+      ['parent_id' => '1004', 'child_id' => '1004001'],
+    ];
+        $this->expected = ['1002001', '1002002'];
+        $this->actual = SC_Utils::sfGetUnderChildrenArray(
+            $input_array,
+            'parent_id',
+            'child_id',
+            '1002'
+        );
+        $this->verify();
+    }
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
-
-  /////////////////////////////////////////
-  public function testSfGetUnderChildrenArray__与えられた親IDを持つ要素だけが抽出される()
-  {
-    $input_array = array(
-      array('parent_id' => '1001', 'child_id' => '1001001'),
-      array('parent_id' => '1002', 'child_id' => '1002001'),
-      array('parent_id' => '1002', 'child_id' => '1002002'),
-      array('parent_id' => '1003', 'child_id' => '1003001'),
-      array('parent_id' => '1004', 'child_id' => '1004001')
-    );
-    $this->expected = array('1002001', '1002002');
-    $this->actual = SC_Utils::sfGetUnderChildrenArray(
-      $input_array, 
-      'parent_id',
-      'child_id', 
-      '1002'
-    );
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

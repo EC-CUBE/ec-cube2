@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Date_getZeroMonthTest extends Common_TestCase
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -38,25 +37,22 @@ class SC_Date_getZeroMonthTest extends Common_TestCase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testGetZeroMonth_要素の数が12の配列を返す()
+    public function testGetZeroMonth要素の数が12の配列を返す()
     {
         $this->expected = 12;
         $this->actual = count($this->objDate->getZeroMonth());
 
-        $this->verify("配列の長さ");
+        $this->verify('配列の長さ');
     }
 
-    public function testGetZeroMonth_0をつけた月の配列を返す()
+    public function testGetZeroMonth0をつけた月の配列を返す()
     {
-        $this->expected = array('01'=>'01','02'=>'02','03'=>'03'
-                                ,'04'=>'04','05'=>'05','06'=>'06'
-                                ,'07'=>'07','08'=>'08','09'=>'09'
-                                ,'10'=>'10','11'=>'11','12'=>'12'
-                                );
+        $this->expected = ['01' => '01', '02' => '02', '03' => '03', '04' => '04', '05' => '05', '06' => '06', '07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12',
+                                ];
         $this->actual = $this->objDate->getZeroMonth();
 
-        $this->verify("配列の最低値");
+        $this->verify('配列の最低値');
     }
 }

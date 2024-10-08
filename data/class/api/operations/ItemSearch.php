@@ -24,11 +24,10 @@
 /**
  * APIの基本クラス
  *
- * @package Api
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
-
 class API_ItemSearch extends SC_Api_Abstract_Ex
 {
     protected $operation_name = 'ItemSearch';
@@ -42,17 +41,17 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
     {
         $arrRequest = $this->doInitParam($arrParam);
         if (!$this->isParamError()) {
-            $masterData                 = new SC_DB_MasterData_Ex();
-            $arrSTATUS            = $masterData->getMasterData('mtb_status');
-            $arrSTATUS_IMAGE      = $masterData->getMasterData('mtb_status_image');
+            $masterData = new SC_DB_MasterData_Ex();
+            $arrSTATUS = $masterData->getMasterData('mtb_status');
+            $arrSTATUS_IMAGE = $masterData->getMasterData('mtb_status_image');
 
             $objProduct = new SC_Product_Ex();
-            $arrSearchData = array(
+            $arrSearchData = [
                 'category_id' => $arrRequest['BrowseNode'],
                 'maker_name' => $arrRequest['Manufacturer'],
                 'name' => $arrRequest['Keywords'],
                 'orderby' => $arrRequest['Sort'],
-            );
+            ];
 
             $arrSearchCondition = $this->getSearchCondition($arrSearchData);
             $disp_number = 10;
@@ -67,23 +66,23 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
             if (!SC_Utils_Ex::isBlank($arrProducts)) {
                 $arrProducts = $this->setStatusDataTo($arrProducts, $arrSTATUS, $arrSTATUS_IMAGE);
                 SC_Product_Ex::setPriceTaxTo($arrProducts);
-                foreach ($arrProducts as $key=>$val) {
+                foreach ($arrProducts as $key => $val) {
                     $arrProducts[$key]['main_list_image'] = SC_Utils_Ex::sfNoImageMainList($val['main_list_image']);
                 }
 
-                $arrData = array();
+                $arrData = [];
                 foreach ($arrProducts as $key => $val) {
-                    $arrData[] = array(
+                    $arrData[] = [
                         'product_id' => $val['product_id'],
-                        'DetailPageURL' => HTTP_URL . 'products/detail.php?product_id=' . $val['product_id'],
-                        'ItemAttributes' => $val
-                        );
+                        'DetailPageURL' => HTTP_URL.'products/detail.php?product_id='.$val['product_id'],
+                        'ItemAttributes' => $val,
+                        ];
                 }
                 $this->setResponse('Item', $arrData);
 
                 return true;
             } else {
-                $this->addError(array('ItemSearch.Error' => '※ 要求された情報は見つかりませんでした。'));
+                $this->addError(['ItemSearch.Error' => '※ 要求された情報は見つかりませんでした。']);
             }
         }
 
@@ -92,11 +91,11 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
 
     protected function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('カテゴリID', 'BrowseNode', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('キーワード', 'Keywords', STEXT_LEN, 'a', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('メーカー名', 'Manufacturer', STEXT_LEN, 'a', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('ページ番号', 'ItemPage', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('ソート', 'Sort', STEXT_LEN, 'a', array('GRAPH_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('カテゴリID', 'BrowseNode', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('キーワード', 'Keywords', STEXT_LEN, 'a', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('メーカー名', 'Manufacturer', STEXT_LEN, 'a', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('ページ番号', 'ItemPage', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('ソート', 'Sort', STEXT_LEN, 'a', ['GRAPH_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     public function getResponseGroupName()
@@ -107,9 +106,10 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
     /**
      * 商品一覧の取得
      *
-     * @param integer $disp_number
-     * @param integer $linemax
+     * @param int $disp_number
+     * @param int $linemax
      * @param SC_Product_Ex $objProduct
+     *
      * @return array
      * TODO: LC_Page_Products_List::lfGetProductsList() と共通化
      */
@@ -117,7 +117,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $arrOrderVal = array();
+        $arrOrderVal = [];
 
         // 表示順序
         switch ($searchCondition['orderby']) {
@@ -125,18 +125,18 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
             case 'price':
                 $objProduct->setProductsOrder('price02', 'dtb_products_class', 'ASC');
                 break;
-            // 販売価格が高い順
+                // 販売価格が高い順
             case '-price':
                 $objProduct->setProductsOrder('price02', 'dtb_products_class', 'DESC');
                 break;
 
-            // 新着順
+                // 新着順
             case 'releasedate':
             case 'date':
                 $objProduct->setProductsOrder('create_date', 'dtb_products', 'DESC');
                 break;
 
-            // 新着順
+                // 新着順
             case 'releasedate':
             case 'date':
                 $objProduct->setProductsOrder('create_date', 'dtb_products', 'ASC');
@@ -145,7 +145,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
             default:
                 if (strlen($searchCondition['where_category']) >= 1) {
                     $dtb_product_categories = '(SELECT * FROM dtb_product_categories WHERE '.$searchCondition['where_category'].')';
-                    $arrOrderVal           = $searchCondition['arrvalCategory'];
+                    $arrOrderVal = $searchCondition['arrvalCategory'];
                 } else {
                     $dtb_product_categories = 'dtb_product_categories';
                 }
@@ -183,13 +183,13 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
      */
     protected function getSearchCondition($arrSearchData)
     {
-        $searchCondition = array(
-            'where'             => '',
-            'arrval'            => array(),
-            'where_category'    => '',
-            'arrvalCategory'    => array(),
-            'orderby'           => ''
-        );
+        $searchCondition = [
+            'where' => '',
+            'arrval' => [],
+            'where_category' => '',
+            'arrvalCategory' => [],
+            'orderby' => '',
+        ];
 
         // カテゴリからのWHERE文字列取得
         if (!SC_Utils_Ex::isBlank($arrSearchData['category_id'])) {
@@ -200,7 +200,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
         $searchCondition['where'] = 'alldtl.del_flg = 0 AND alldtl.status = 1 ';
 
         if (strlen($searchCondition['where_category']) >= 1) {
-            $searchCondition['where'] .= ' AND EXISTS (SELECT * FROM dtb_product_categories WHERE ' . $searchCondition['where_category'] . ' AND product_id = alldtl.product_id)';
+            $searchCondition['where'] .= ' AND EXISTS (SELECT * FROM dtb_product_categories WHERE '.$searchCondition['where_category'].' AND product_id = alldtl.product_id)';
             $searchCondition['arrval'] = array_merge($searchCondition['arrval'], $searchCondition['arrvalCategory']);
         }
 
@@ -214,15 +214,15 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
         // 分割したキーワードを一つずつwhere文に追加
         foreach ($names as $val) {
             if (strlen($val) > 0) {
-                $searchCondition['where']    .= ' AND ( alldtl.name ILIKE ? OR alldtl.comment3 ILIKE ?) ';
-                $searchCondition['arrval'][]  = "%$val%";
-                $searchCondition['arrval'][]  = "%$val%";
+                $searchCondition['where'] .= ' AND ( alldtl.name ILIKE ? OR alldtl.comment3 ILIKE ?) ';
+                $searchCondition['arrval'][] = "%$val%";
+                $searchCondition['arrval'][] = "%$val%";
             }
         }
 
         // メーカーらのWHERE文字列取得
         if ($arrSearchData['maker_id']) {
-            $searchCondition['where']   .= ' AND alldtl.maker_id = ? ';
+            $searchCondition['where'] .= ' AND alldtl.maker_id = ? ';
             $searchCondition['arrval'][] = $arrSearchData['maker_id'];
         }
 
@@ -245,10 +245,11 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
     /**
      * 商品情報配列に商品ステータス情報を追加する
      *
-     * @param  Array $arrProducts    商品一覧情報
-     * @param  Array $arrStatus      商品ステータス配列
-     * @param  Array $arrStatusImage スタータス画像配列
-     * @return Array $arrProducts 商品一覧情報
+     * @param  array $arrProducts    商品一覧情報
+     * @param  array $arrStatus      商品ステータス配列
+     * @param  array $arrStatusImage スタータス画像配列
+     *
+     * @return array $arrProducts 商品一覧情報
      */
     protected function setStatusDataTo($arrProducts, $arrStatus, $arrStatusImage)
     {
@@ -256,11 +257,11 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
             for ($i = 0; $i < count($arrValues); $i++) {
                 $product_status_id = $arrValues[$i];
                 if (!empty($product_status_id)) {
-                    $arrProductStatus = array(
+                    $arrProductStatus = [
                         'status_cd' => $product_status_id,
                         'status_name' => $arrStatus[$product_status_id],
-                        'status_image' =>$arrStatusImage[$product_status_id],
-                    );
+                        'status_image' => $arrStatusImage[$product_status_id],
+                    ];
                     $arrProducts['productStatus'][$product_id][$i] = $arrProductStatus;
                 }
             }

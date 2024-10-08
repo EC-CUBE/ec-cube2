@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,119 +27,119 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /**
  * SC_Helper_Purchase::getShipmentItems()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBase
 {
-  /** @var array */
-  private $customer_ids = [];
-  /** @var array */
-  private $order_ids = [];
-  protected function setUp()
-  {
-    parent::setUp();
+    /** @var array */
+    private $customer_ids = [];
+    /** @var array */
+    private $order_ids = [];
 
-    $this->customer_ids = $this->setUpCustomer();
-    $this->order_ids = $this->setUpOrder($this->customer_ids, [1, 2]);
-  }
+    protected function setUp()
+    {
+        parent::setUp();
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+        $this->customer_ids = $this->setUpCustomer();
+        $this->order_ids = $this->setUpOrder($this->customer_ids, [1, 2]);
+    }
 
-  /////////////////////////////////////////
-  public function testGetShipmentItems_存在しない受注IDを指定した場合_結果が空になる()
-  {
-    $order_id = '100'; // 存在しないID
-    $shipping_id = '1';
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
 
-    $this->expected = array();
-    $this->actual = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id);
+    // ///////////////////////////////////////
+    public function testGetShipmentItems存在しない受注IDを指定した場合結果が空になる()
+    {
+        $order_id = '100'; // 存在しないID
+        $shipping_id = '1';
 
-    $this->verify('配送情報');
-  }
+        $this->expected = [];
+        $this->actual = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id);
 
-  public function testGetShipmentItems_存在しない配送先IDを指定した場合_結果が空になる()
-  {
-    $order_id = '1';
-    $shipping_id = '100'; // 存在しないID
+        $this->verify('配送情報');
+    }
 
-    $this->expected = array();
-    $this->actual = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id);
+    public function testGetShipmentItems存在しない配送先IDを指定した場合結果が空になる()
+    {
+        $order_id = '1';
+        $shipping_id = '100'; // 存在しないID
 
-    $this->verify('配送情報');
-  }
+        $this->expected = [];
+        $this->actual = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id);
 
-  public function testGetShipmentItems_存在する受注IDと配送先IDを指定した場合_結果が取得できる()
-  {
-    $order_id = $this->order_ids[0];
-    $shipping_id = '0';
+        $this->verify('配送情報');
+    }
 
-    $this->expected['count'] = 2;
-    $this->expected['second'] = array(
+    public function testGetShipmentItems存在する受注IDと配送先IDを指定した場合結果が取得できる()
+    {
+        $order_id = $this->order_ids[0];
+        $shipping_id = '0';
+
+        $this->expected['count'] = 2;
+        $this->expected['second'] = [
       'order_id' => (string) $order_id,
       'shipping_id' => '0',
       'product_class_id' => '2',
       'product_name' => 'アイスクリーム',
       'price' => '1008',
-      'productsClass' => array('product_class_id' => '2', 'product_id' => '1')
-    );
-    $this->expected['first'] = array(
+      'productsClass' => ['product_class_id' => '2', 'product_id' => '1'],
+    ];
+        $this->expected['first'] = [
       'order_id' => (string) $order_id,
       'shipping_id' => '0',
       'product_class_id' => '1',
       'product_name' => 'アイスクリーム',
       'price' => '1008',
-      'productsClass' => array('product_class_id' => '1', 'product_id' => '1')
-    );
+      'productsClass' => ['product_class_id' => '1', 'product_id' => '1'],
+    ];
 
-    $result = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id);
-    $this->actual['count'] = count($result);
+        $result = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id);
+        $this->actual['count'] = count($result);
 
-    $this->actual['first'] = Test_Utils::mapArray($result[0], array(
-      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass'));
-    $this->actual['first']['productsClass'] = Test_Utils::mapArray($this->actual['first']['productsClass'], array('product_class_id', 'product_id'));
-    $this->actual['second'] = Test_Utils::mapArray($result[1], array(
-      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass'));
-    $this->actual['second']['productsClass'] = Test_Utils::mapArray($this->actual['second']['productsClass'], array('product_class_id', 'product_id'));
-    $this->verify('配送情報');
-  }
+        $this->actual['first'] = Test_Utils::mapArray($result[0], [
+      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass', ]);
+        $this->actual['first']['productsClass'] = Test_Utils::mapArray($this->actual['first']['productsClass'], ['product_class_id', 'product_id']);
+        $this->actual['second'] = Test_Utils::mapArray($result[1], [
+      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass', ]);
+        $this->actual['second']['productsClass'] = Test_Utils::mapArray($this->actual['second']['productsClass'], ['product_class_id', 'product_id']);
+        $this->verify('配送情報');
+    }
 
-  public function testGetShipmentItems_詳細フラグをOFFにした場合_結果に詳細情報が含まれない()
-  {
-    $order_id = $this->order_ids[0];
-    $shipping_id = '0';
+    public function testGetShipmentItems詳細フラグをOFFにした場合結果に詳細情報が含まれない()
+    {
+        $order_id = $this->order_ids[0];
+        $shipping_id = '0';
 
-    $this->expected['count'] = 2;
-    $this->expected['second'] = array(
+        $this->expected['count'] = 2;
+        $this->expected['second'] = [
       'order_id' => (string) $order_id,
       'shipping_id' => '0',
       'product_class_id' => '2',
       'product_name' => 'アイスクリーム',
       'price' => '1008',
-      'productsClass' => null
-    );
-    $this->expected['first'] = array(
+      'productsClass' => null,
+    ];
+        $this->expected['first'] = [
       'order_id' => (string) $order_id,
       'shipping_id' => '0',
       'product_class_id' => '1',
       'product_name' => 'アイスクリーム',
       'price' => '1008',
-      'productsClass' => null
-    );
+      'productsClass' => null,
+    ];
 
-    $result = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id, false);
-    $this->actual['count'] = count($result);
-    $this->actual['first'] = Test_Utils::mapArray($result[0], array(
-      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass'));
-    $this->actual['second'] = Test_Utils::mapArray($result[1], array(
-      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass'));
-    $this->verify('配送情報');
-  }
+        $result = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id, false);
+        $this->actual['count'] = count($result);
+        $this->actual['first'] = Test_Utils::mapArray($result[0], [
+      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass', ]);
+        $this->actual['second'] = Test_Utils::mapArray($result[1], [
+      'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass', ]);
+        $this->verify('配送情報');
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

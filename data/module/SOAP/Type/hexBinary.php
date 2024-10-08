@@ -13,33 +13,33 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Dietrich Ayala <dietrich@ganx4.com> Original Author
  * @author     Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
  * @copyright  2003-2007 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
-class SOAP_Type_hexBinary {
-
-    function to_bin($value)
+class SOAP_Type_hexBinary
+{
+    public function to_bin($value)
     {
-        return pack('H' . strlen($value), $value);
+        return pack('H'.strlen($value), $value);
     }
 
-    function to_hex($value)
+    public function to_hex($value)
     {
         return bin2hex($value);
     }
 
-    function is_hexbin($value)
+    public function is_hexbin($value)
     {
         // First see if there are any invalid chars.
         if (!strlen($value) || preg_match('/[^A-Fa-f0-9]/', $value)) {
             return false;
         }
 
-        return strcasecmp($value, SOAP_Type_hexBinary::to_hex(SOAP_Type_hexBinary::to_bin($value))) == 0;
+        return strcasecmp($value, self::to_hex(self::to_bin($value))) == 0;
     }
-
 }

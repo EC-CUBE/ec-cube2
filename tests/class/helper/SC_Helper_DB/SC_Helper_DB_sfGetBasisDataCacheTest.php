@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,15 +28,15 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
  * SC_Helper_DB::sfGetBasisDataCache()のテストクラス.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
 {
-
     protected function setUp()
     {
         parent::setUp();
-        $this->cashFilePath = MASTER_DATA_REALDIR . 'dtb_baseinfo.serial';
+        $this->cashFilePath = MASTER_DATA_REALDIR.'dtb_baseinfo.serial';
     }
 
     protected function tearDown()
@@ -44,14 +44,14 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
     public function testSfGetBasisDataCache_キャッシュがなく生成もしない場合_空を返す()
     {
         $this->setUpBasisData();
         if (file_exists($this->cashFilePath)) {
             unlink($this->cashFilePath);
         }
-        $this->expected = array();
+        $this->expected = [];
         $this->actual = SC_Helper_DB_Ex::sfGetBasisDataCache();
         $this->verify();
     }
@@ -74,7 +74,7 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
             unlink($this->cashFilePath);
         }
         SC_Helper_DB_Ex::sfCreateBasisDataCache();
-        $this->expected = array(
+        $this->expected = [
             'id' => '1',
             'company_name' => 'testshop',
             'company_kana' => 'テストショップ',
@@ -141,7 +141,7 @@ class SC_Helper_DB_sfGetBasisDataCache extends SC_Helper_DB_TestBase
             'country_id' => null,
             'law_zipcode' => null,
             'law_country_id' => null,
-        );
+        ];
         $this->actual = SC_Helper_DB_Ex::sfGetBasisDataCache();
         unlink($this->cashFilePath);
         $this->verify();

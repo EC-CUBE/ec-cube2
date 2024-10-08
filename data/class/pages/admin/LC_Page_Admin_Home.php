@@ -22,12 +22,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 管理画面ホーム のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Home extends LC_Page_Admin_Ex
@@ -111,10 +110,10 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
         // 会員の累計ポイント
         $this->customer_point = $this->lfGetTotalCustomerPoint();
 
-        //昨日のレビュー書き込み数
+        // 昨日のレビュー書き込み数
         $this->review_yesterday_cnt = $this->lfGetReviewYesterday();
 
-        //レビュー書き込み非表示数
+        // レビュー書き込み非表示数
         $this->review_nondisp_cnt = $this->lfGetReviewNonDisp();
 
         // 品切れ商品
@@ -134,7 +133,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
      */
     public function lfGetPHPVersion()
     {
-        return 'PHP ' . phpversion();
+        return 'PHP '.PHP_VERSION;
     }
 
     /**
@@ -152,7 +151,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
     /**
      * 現在の会員数の取得
      *
-     * @return integer 会員数
+     * @return int 会員数
      */
     public function lfGetCustomerCnt()
     {
@@ -168,7 +167,8 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
      * 昨日の売上データの取得
      *
      * @param  string  $method 取得タイプ 件数:'COUNT' or 金額:'SUM'
-     * @return integer 結果数値
+     *
+     * @return int 結果数値
      */
     public function lfGetOrderYesterday($method)
     {
@@ -185,7 +185,8 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
      * 今月の売上データの取得
      *
      * @param  string  $method 取得タイプ 件数:'COUNT' or 金額:'SUM'
-     * @return integer 結果数値
+     *
+     * @return int 結果数値
      */
     public function lfGetOrderMonth($method)
     {
@@ -196,13 +197,13 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
         $sql = $dbFactory->getOrderMonthSql($method);
 
-        return $objQuery->getOne($sql, array($month));
+        return $objQuery->getOne($sql, [$month]);
     }
 
     /**
      * 会員の保持ポイント合計の取得
      *
-     * @return integer 会員の保持ポイント合計
+     * @return int 会員の保持ポイント合計
      */
     public function lfGetTotalCustomerPoint()
     {
@@ -218,7 +219,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
     /**
      * 昨日のレビュー書き込み数の取得
      *
-     * @return integer 昨日のレビュー書き込み数
+     * @return int 昨日のレビュー書き込み数
      */
     public function lfGetReviewYesterday()
     {
@@ -234,7 +235,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
     /**
      * レビュー書き込み非表示数の取得
      *
-     * @return integer レビュー書き込み非表示数
+     * @return int レビュー書き込み非表示数
      */
     public function lfGetReviewNonDisp()
     {
@@ -258,11 +259,11 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
         $cols = 'product_id, name';
         $table = 'dtb_products';
         $where = 'product_id IN ('
-               . 'SELECT product_id FROM dtb_products_class '
-               . 'WHERE del_flg = 0 AND stock_unlimited = ? AND stock <= 0)'
-               . ' AND del_flg = 0';
+               .'SELECT product_id FROM dtb_products_class '
+               .'WHERE del_flg = 0 AND stock_unlimited = ? AND stock <= 0)'
+               .' AND del_flg = 0';
 
-        return $objQuery->select($cols, $table, $where, array(UNLIMITED_FLG_LIMITED));
+        return $objQuery->select($cols, $table, $where, [UNLIMITED_FLG_LIMITED]);
     }
 
     /**
@@ -315,24 +316,28 @@ __EOS__;
     public function lfGetInfo()
     {
         // 更新情報の取得ON/OFF確認
-        if (!ECCUBE_INFO) return array();
+        if (!ECCUBE_INFO) {
+            return [];
+        }
 
         // パラメーター「UPDATE_HTTP」が空文字の場合、処理しない。
         // XXX これと別に on/off を持たせるべきか。
-        if (strlen(UPDATE_HTTP) == 0) return array();
+        if (strlen(UPDATE_HTTP) == 0) {
+            return [];
+        }
 
         $query = '';
         // サイト情報の送信可否設定
         // XXX インストール時に問い合わせて送信可否設定を行うように設定すべきか。
         // XXX (URLは強制送信すべきではないと思うが)バージョンは強制送信すべきか。
         if (UPDATE_SEND_SITE_INFO === true) {
-            $query = '?site_url=' . HTTP_URL . '&eccube_version=' . ECCUBE_VERSION;
+            $query = '?site_url='.HTTP_URL.'&eccube_version='.ECCUBE_VERSION;
         }
 
-        $url = UPDATE_HTTP . $query;
+        $url = UPDATE_HTTP.$query;
 
         // タイムアウト時間設定
-        $context = array('http' => array('timeout' => HTTP_REQUEST_TIMEOUT));
+        $context = ['http' => ['timeout' => HTTP_REQUEST_TIMEOUT]];
 
         $jsonStr = @file_get_contents($url, false, stream_context_create($context));
 
@@ -341,9 +346,9 @@ __EOS__;
         if (empty($arrTmpData)) {
             SC_Utils_Ex::sfErrorHeader('>> 更新情報の取得に失敗しました。');
 
-            return array();
+            return [];
         }
-        $arrInfo = array();
+        $arrInfo = [];
         foreach ($arrTmpData as $objData) {
             $arrInfo[] = get_object_vars($objData);
         }

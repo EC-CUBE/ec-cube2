@@ -24,11 +24,10 @@
 /**
  * APIの基本クラス
  *
- * @package Api
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
-
 class API_Default extends SC_Api_Abstract_Ex
 {
     protected $operation_name = 'Default';
@@ -40,14 +39,14 @@ class API_Default extends SC_Api_Abstract_Ex
 
     public function doAction($arrParam)
     {
-        $this->arrResponse = array('DefaultEmpty' => array());
+        $this->arrResponse = ['DefaultEmpty' => []];
 
         return true;
     }
 
     public function getRequestValidate()
     {
-        return array('DefaultResponse' => array());
+        return ['DefaultResponse' => []];
     }
 
     public function getResponseGroupName()

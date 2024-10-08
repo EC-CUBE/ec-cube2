@@ -11,7 +11,7 @@ class SC_CheckError_MAX_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'MAX_LENGTH_CHECK';
     }
 
-    public function testMAX_LENGTH_CHECK()
+    public function testMAXLENGTHCHECK()
     {
         $this->maxlength = 5;
         $this->arrForm = [self::FORM_NAME => 'aあaaaa'];
@@ -21,8 +21,7 @@ class SC_CheckError_MAX_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testMAX_LENGTH_CHECKWithNoError()
+    public function testMAXLENGTHCHECKWithNoError()
     {
         $this->maxlength = 5;
         $this->arrForm = [self::FORM_NAME => 'aaaあa'];
@@ -32,7 +31,7 @@ class SC_CheckError_MAX_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testMAX_LENGTH_CHECKWithEmpty()
+    public function testMAXLENGTHCHECKWithEmpty()
     {
         $this->maxlength = 5;
         $this->arrForm = [self::FORM_NAME => ''];
@@ -42,7 +41,7 @@ class SC_CheckError_MAX_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testMAX_LENGTH_CHECKWithNull()
+    public function testMAXLENGTHCHECKWithNull()
     {
         $this->maxlength = 5;
         $this->arrForm = [self::FORM_NAME => null];
@@ -62,4 +61,3 @@ class SC_CheckError_MAX_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->objErr->doFunc(['dummy', self::FORM_NAME, $this->maxlength], [$this->target_func]);
     }
 }
-

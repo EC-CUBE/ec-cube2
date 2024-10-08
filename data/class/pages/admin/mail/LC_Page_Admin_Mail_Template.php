@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * メールテンプレート設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Mail_Template extends LC_Page_Admin_Ex
@@ -74,7 +73,7 @@ class LC_Page_Admin_Mail_Template extends LC_Page_Admin_Ex
 
         switch ($this->getMode()) {
             case 'delete':
-                if (SC_Utils_Ex::sfIsInt($_GET['id'])===true) {
+                if (SC_Utils_Ex::sfIsInt($_GET['id']) === true) {
                     $this->lfDeleteMailTemplate($_GET['id']);
 
                     $this->objDisplay->reload(null, true);
@@ -88,15 +87,17 @@ class LC_Page_Admin_Mail_Template extends LC_Page_Admin_Ex
 
     /**
      * メールテンプレートの削除
-     * @param integer 削除したいテンプレートのID
+     *
+     * @param int 削除したいテンプレートのID
+     *
      * @return void
      */
     public function lfDeleteMailTemplate($template_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->update('dtb_mailmaga_template',
-                          array('del_flg' =>1),
-                          'template_id = ?',
-                          array($template_id));
+            ['del_flg' => 1],
+            'template_id = ?',
+            [$template_id]);
     }
 }

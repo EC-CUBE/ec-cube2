@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,34 +27,30 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfSetErrorStyle()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfSetErrorStyleTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfSetErrorStyle背景色変更用の文字列が返る()
+    {
+        $this->expected = 'style="background-color:#ffe8e8"';
+        $this->actual = SC_Utils::sfSetErrorStyle();
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfSetErrorStyle__背景色変更用の文字列が返る()
-  {
-    
-    $this->expected = 'style="background-color:#ffe8e8"';
-    $this->actual = SC_Utils::sfSetErrorStyle();
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

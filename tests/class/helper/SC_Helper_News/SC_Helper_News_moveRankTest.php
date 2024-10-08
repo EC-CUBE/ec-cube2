@@ -1,13 +1,10 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.php");
-/**
- *
- */
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.php';
+
 class SC_Helper_News_moveRankTest extends SC_Helper_News_TestBase
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -19,11 +16,11 @@ class SC_Helper_News_moveRankTest extends SC_Helper_News_TestBase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testMoveRankTest_ニュースIDと移動先ランクを指定した場合_対象のランクが移動する()
+    public function testMoveRankTestニュースIDと移動先ランクを指定した場合対象のランクが移動する()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        $objQuery = &SC_Query_Ex::getSingletonInstance();
         $this->setUpNews();
         $news_id = 1001;
         $rank = 1;
@@ -35,11 +32,10 @@ class SC_Helper_News_moveRankTest extends SC_Helper_News_TestBase
         $col = 'rank';
         $from = 'dtb_news';
         $where = 'news_id = ?';
-        $whereVal = array($news_id);
+        $whereVal = [$news_id];
         $res = $objQuery->get($col, $from, $where, $whereVal);
         $this->actual = $res;
 
         $this->verify();
     }
 }
-

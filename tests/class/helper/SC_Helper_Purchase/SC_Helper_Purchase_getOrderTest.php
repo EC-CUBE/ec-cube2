@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,82 +27,81 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /**
  * SC_Helper_Purchase::getOrder()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_getOrderTest extends SC_Helper_Purchase_TestBase
 {
-  /** @var array */
-  private $customer_ids = [];
-  /** @var array */
-  private $order_ids = [];
+    /** @var array */
+    private $customer_ids = [];
+    /** @var array */
+    private $order_ids = [];
 
-  protected function setUp()
-  {
-    parent::setUp();
-    $this->customer_ids = $this->setUpCustomer();
-    $this->order_ids = $this->setUpOrder($this->customer_ids);
-  }
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->customer_ids = $this->setUpCustomer();
+        $this->order_ids = $this->setUpOrder($this->customer_ids);
+    }
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
 
-  /////////////////////////////////////////
-  public function testGetOrder_存在しない受注IDを指定した場合_結果が空になる()
-  {
-    $order_id = '9999';
+    // ///////////////////////////////////////
+    public function testGetOrder存在しない受注IDを指定した場合結果が空になる()
+    {
+        $order_id = '9999';
 
-    $this->expected = null;
-    $this->actual = SC_Helper_Purchase::getOrder($order_id);
+        $this->expected = null;
+        $this->actual = SC_Helper_Purchase::getOrder($order_id);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testGetOrder_存在しない顧客IDを指定した場合_結果が空になる()
-  {
-    $order_id = $this->order_ids[0];
-    $customer_id = '9999';
+    public function testGetOrder存在しない顧客IDを指定した場合結果が空になる()
+    {
+        $order_id = $this->order_ids[0];
+        $customer_id = '9999';
 
-    $this->expected = null;
-    $this->actual  = SC_Helper_Purchase::getOrder($order_id, $customer_id);
+        $this->expected = null;
+        $this->actual = SC_Helper_Purchase::getOrder($order_id, $customer_id);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testGetOrder_顧客IDを指定しなかった場合_受注IDに対応する結果が取得できる()
-  {
-    $order_id = $this->order_ids[1];
+    public function testGetOrder顧客IDを指定しなかった場合受注IDに対応する結果が取得できる()
+    {
+        $order_id = $this->order_ids[1];
 
-    $this->expected = array(
+        $this->expected = [
       'order_id' => $order_id,
       'customer_id' => $this->customer_ids[1],
-      'order_name01' => '受注情報02'
-    );
-    $result = SC_Helper_Purchase::getOrder($order_id);
-    $this->actual = Test_Utils::mapArray($result, array('order_id', 'customer_id', 'order_name01'));
+      'order_name01' => '受注情報02',
+    ];
+        $result = SC_Helper_Purchase::getOrder($order_id);
+        $this->actual = Test_Utils::mapArray($result, ['order_id', 'customer_id', 'order_name01']);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testGetOrder_存在する顧客IDを指定した場合_対応する結果が取得できる()
-  {
-    $order_id = $this->order_ids[1];
-    $customer_id = $this->customer_ids[1];
+    public function testGetOrder存在する顧客IDを指定した場合対応する結果が取得できる()
+    {
+        $order_id = $this->order_ids[1];
+        $customer_id = $this->customer_ids[1];
 
-    $this->expected = array(
+        $this->expected = [
       'order_id' => $order_id,
       'customer_id' => $customer_id,
-      'order_name01' => '受注情報02'
-    );
-    $result = SC_Helper_Purchase::getOrder($order_id, $customer_id);
-    $this->actual = Test_Utils::mapArray($result, array('order_id', 'customer_id', 'order_name01'));
+      'order_name01' => '受注情報02',
+    ];
+        $result = SC_Helper_Purchase::getOrder($order_id, $customer_id);
+        $this->actual = Test_Utils::mapArray($result, ['order_id', 'customer_id', 'order_name01']);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

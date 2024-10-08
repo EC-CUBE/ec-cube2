@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 商品選択 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Products_ProductSelect extends LC_Page_Admin_Ex
@@ -92,6 +91,7 @@ class LC_Page_Admin_Products_ProductSelect extends LC_Page_Admin_Ex
      * パラメーター情報の初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
@@ -109,11 +109,13 @@ class LC_Page_Admin_Products_ProductSelect extends LC_Page_Admin_Ex
     public function lfGetProducts(&$objDb)
     {
         $where = 'del_flg = 0';
-        $arrWhereVal = array();
+        $arrWhereVal = [];
 
         /* 入力エラーなし */
-        foreach ($this->arrForm AS $key=>$val) {
-            if ($val == '') continue;
+        foreach ($this->arrForm as $key => $val) {
+            if ($val == '') {
+                continue;
+            }
 
             switch ($key) {
                 case 'search_name':
@@ -123,7 +125,7 @@ class LC_Page_Admin_Products_ProductSelect extends LC_Page_Admin_Ex
                 case 'search_category_id':
                     list($tmp_where, $arrTmp) = $objDb->sfGetCatWhere($val);
                     if ($tmp_where != '') {
-                        $where.= ' AND product_id IN (SELECT product_id FROM dtb_product_categories WHERE ' . $tmp_where . ')';
+                        $where .= ' AND product_id IN (SELECT product_id FROM dtb_product_categories WHERE '.$tmp_where.')';
                         $arrWhereVal = array_merge((array) $arrWhereVal, (array) $arrTmp);
                     }
                     break;

@@ -1,9 +1,9 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
+$HOME = realpath(__DIR__).'/../../../..';
 // テスト用にデフォルトの丸め方法を指定
 define('POINT_RULE', 1); // 四捨五入
-require_once($HOME . "/tests/class/Common_TestCase.php");
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -29,76 +29,73 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfPrePoint()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfPrePointTest extends Common_TestCase
 {
+    protected function setUp()
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown()
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfPrePoint四捨五入の設定の場合四捨五入された値が返る()
+    {
+        $rule = 1; // 四捨五入
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->expected = 10;
+        $this->actual = SC_Utils::sfPrePoint(100, 9.5, $rule);
 
-  /////////////////////////////////////////
-  public function testSfPrePoint_四捨五入の設定の場合_四捨五入された値が返る()
-  {
-    $rule = 1; // 四捨五入
+        $this->verify();
+    }
 
-    $this->expected = 10;
-    $this->actual = SC_Utils::sfPrePoint(100, 9.5, $rule);
+    public function testSfPrePoint切り捨ての設定の場合切り捨てされた値が返る()
+    {
+        $rule = 2; // 切り捨て
 
-    $this->verify();
-  }
+        $this->expected = 9;
+        $this->actual = SC_Utils::sfPrePoint(100, 9.5, $rule);
 
-  public function testSfPrePoint_切り捨ての設定の場合_切り捨てされた値が返る()
-  {
-    $rule = 2; // 切り捨て 
+        $this->verify();
+    }
 
-    $this->expected = 9;
-    $this->actual = SC_Utils::sfPrePoint(100, 9.5, $rule);
+    public function testSfPrePoint切り上げの設定の場合切り上げされた値が返る()
+    {
+        $rule = 3; // 切り上げ
 
-    $this->verify();
-  }
+        $this->expected = 10;
+        $this->actual = SC_Utils::sfPrePoint(100, 9.4, $rule);
 
-  public function testSfPrePoint_切り上げの設定の場合_切り上げされた値が返る()
-  {
-    $rule = 3; // 切り上げ
+        $this->verify();
+    }
 
-    $this->expected = 10;
-    $this->actual = SC_Utils::sfPrePoint(100, 9.4, $rule);
+    public function testSfPrePoint存在しない選択肢の場合切り上げされた値が返る()
+    {
+        $rule = 4; // 存在しない選択肢
 
-    $this->verify();
-  }
+        $this->expected = 10;
+        $this->actual = SC_Utils::sfPrePoint(100, 9.4, $rule);
 
-  public function testSfPrePoint_存在しない選択肢の場合_切り上げされた値が返る()
-  {
-    $rule = 4; // 存在しない選択肢
+        $this->verify();
+    }
 
-    $this->expected = 10;
-    $this->actual = SC_Utils::sfPrePoint(100, 9.4, $rule);
-
-    $this->verify();
-  }
-
-  public function testSfPrePoint_丸め方法の指定がない場合_定数で指定された値が使われる()
-  {
-    $this->expected = array(9, 9);
-    $this->actual = array(
+    public function testSfPrePoint丸め方法の指定がない場合定数で指定された値が使われる()
+    {
+        $this->expected = [9, 9];
+        $this->actual = [
       SC_Utils::sfPrePoint(100, 9.4),
-      SC_Utils::sfPrePoint(100, 9.5)
-    );
+      SC_Utils::sfPrePoint(100, 9.5),
+    ];
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

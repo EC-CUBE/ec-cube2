@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * お問い合わせ のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Contact extends LC_Page_Ex
@@ -125,47 +124,48 @@ class LC_Page_Contact extends LC_Page_Ex
             default:
                 break;
         }
-
     }
 
     /**
      * お問い合わせ入力時のパラメーター情報の初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('お名前(フリガナ・姓)', 'kana01', STEXT_LEN, 'KVCa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'KANA_CHECK'));
-        $objFormParam->addParam('お名前(フリガナ・名)', 'kana02', STEXT_LEN, 'KVCa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'KANA_CHECK'));
-        $objFormParam->addParam('郵便番号1', 'zip01', ZIP01_LEN, 'n', array('SPTAB_CHECK', 'NUM_CHECK', 'NUM_COUNT_CHECK'));
-        $objFormParam->addParam('郵便番号2', 'zip02', ZIP02_LEN, 'n', array('SPTAB_CHECK', 'NUM_CHECK', 'NUM_COUNT_CHECK'));
-        $objFormParam->addParam('都道府県', 'pref', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('住所1', 'addr01', MTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('住所2', 'addr02', MTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('お問い合わせ内容', 'contents', MLTEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('メールアドレス', 'email', null, 'KVa', array('EXIST_CHECK', 'EMAIL_CHECK', 'EMAIL_CHAR_CHECK'));
-        $objFormParam->addParam('メールアドレス(確認)', 'email02', null, 'KVa', array('EXIST_CHECK', 'EMAIL_CHECK', 'EMAIL_CHAR_CHECK'));
-        $objFormParam->addParam('お電話番号1', 'tel01', TEL_ITEM_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('お電話番号2', 'tel02', TEL_ITEM_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('お電話番号3', 'tel03', TEL_ITEM_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('お名前(フリガナ・姓)', 'kana01', STEXT_LEN, 'KVCa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'KANA_CHECK']);
+        $objFormParam->addParam('お名前(フリガナ・名)', 'kana02', STEXT_LEN, 'KVCa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'KANA_CHECK']);
+        $objFormParam->addParam('郵便番号1', 'zip01', ZIP01_LEN, 'n', ['SPTAB_CHECK', 'NUM_CHECK', 'NUM_COUNT_CHECK']);
+        $objFormParam->addParam('郵便番号2', 'zip02', ZIP02_LEN, 'n', ['SPTAB_CHECK', 'NUM_CHECK', 'NUM_COUNT_CHECK']);
+        $objFormParam->addParam('都道府県', 'pref', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('住所1', 'addr01', MTEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('住所2', 'addr02', MTEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('お問い合わせ内容', 'contents', MLTEXT_LEN, 'KVa', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('メールアドレス', 'email', null, 'KVa', ['EXIST_CHECK', 'EMAIL_CHECK', 'EMAIL_CHAR_CHECK']);
+        $objFormParam->addParam('メールアドレス(確認)', 'email02', null, 'KVa', ['EXIST_CHECK', 'EMAIL_CHECK', 'EMAIL_CHAR_CHECK']);
+        $objFormParam->addParam('お電話番号1', 'tel01', TEL_ITEM_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('お電話番号2', 'tel02', TEL_ITEM_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('お電話番号3', 'tel03', TEL_ITEM_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     /**
      * 入力内容のチェックを行なう.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return array        入力チェック結果の配列
      */
     public function lfCheckError(&$objFormParam)
     {
         // 入力データを渡す。
-        $arrForm =  $objFormParam->getHashArray();
+        $arrForm = $objFormParam->getHashArray();
         $objErr = new SC_CheckError_Ex($arrForm);
         $objErr->arrErr = $objFormParam->checkError();
-        $objErr->doFunc(array('メールアドレス', 'メールアドレス(確認)', 'email', 'email02'), array('EQUAL_CHECK'));
+        $objErr->doFunc(['メールアドレス', 'メールアドレス(確認)', 'email', 'email02'], ['EQUAL_CHECK']);
 
         return $objErr->arrErr;
     }
@@ -174,6 +174,7 @@ class LC_Page_Contact extends LC_Page_Ex
      * メールの送信を行う。
      *
      * @param LC_Page_Contact $objPage
+     *
      * @return void
      */
     public function lfSendMail(&$objPage)
@@ -185,7 +186,7 @@ class LC_Page_Contact extends LC_Page_Ex
         $helperMail->setPage($this);
         $helperMail->sfSendTemplateMail(
             $objPage->arrForm['email']['value'],            // to
-            $objPage->arrForm['name01']['value'] .' 様',    // to_name
+            $objPage->arrForm['name01']['value'].' 様',    // to_name
             5,                                              // template_id
             $objPage,                                       // objPage
             $CONF['email03'],                               // from_address

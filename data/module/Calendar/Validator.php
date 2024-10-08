@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 //
 // +----------------------------------------------------------------------+
@@ -19,12 +20,12 @@
 //
 // $Id: Validator.php,v 1.1 2004/05/24 22:25:42 quipo Exp $
 //
-/**
+/*
  * @package Calendar
  * @version $Id$
  */
 
-/**
+/*
  * Validation Error Messages
  */
 if (!defined('CALENDAR_VALUE_TOOSMALL')) {
@@ -37,120 +38,127 @@ if (!defined('CALENDAR_VALUE_TOOLARGE')) {
 /**
  * Used to validate any given Calendar date object. Instances of this class
  * can be obtained from any data object using the getValidator method
+ *
  * @see Calendar::getValidator()
- * @package Calendar
- * @access public
  */
 class Calendar_Validator
 {
     /**
      * Instance of the Calendar date object to validate
+     *
      * @var object
-     * @access private
      */
-    var $calendar;
+    public $calendar;
 
     /**
      * Instance of the Calendar_Engine
+     *
      * @var object
-     * @access private
      */
-    var $cE;
+    public $cE;
 
     /**
      * Array of errors for validation failures
+     *
      * @var array
-     * @access private
      */
-    var $errors = array();
+    public $errors = [];
 
     /**
      * Constructs Calendar_Validator
+     *
      * @param object subclass of Calendar
-     * @access public
      */
-    public function __construct(& $calendar)
+    public function __construct(&$calendar)
     {
-        $this->calendar = & $calendar;
-        $this->cE = & $calendar->getEngine();
+        $this->calendar = &$calendar;
+        $this->cE = &$calendar->getEngine();
     }
 
     /**
      * Calls all the other isValidXXX() methods in the validator
-     * @return boolean
-     * @access public
+     *
+     * @return bool
      */
-    function isValid()
+    public function isValid()
     {
-        $checks = array('isValidYear', 'isValidMonth', 'isValidDay',
-            'isValidHour', 'isValidMinute', 'isValidSecond');
+        $checks = ['isValidYear', 'isValidMonth', 'isValidDay',
+            'isValidHour', 'isValidMinute', 'isValidSecond', ];
         $valid = true;
         foreach ($checks as $check) {
             if (!$this->{$check}()) {
                 $valid = false;
             }
         }
+
         return $valid;
     }
 
     /**
      * Check whether this is a valid year
-     * @return boolean
-     * @access public
+     *
+     * @return bool
      */
-    function isValidYear()
+    public function isValidYear()
     {
         $y = $this->calendar->thisYear();
         $min = $this->cE->getMinYears();
         if ($min > $y) {
-           $this->errors[] = new Calendar_Validation_Error(
+            $this->errors[] = new Calendar_Validation_Error(
                 'Year', $y, CALENDAR_VALUE_TOOSMALL.$min);
+
             return false;
         }
         $max = $this->cE->getMaxYears();
         if ($y > $max) {
             $this->errors[] = new Calendar_Validation_Error(
                 'Year', $y, CALENDAR_VALUE_TOOLARGE.$max);
+
             return false;
         }
+
         return true;
     }
 
     /**
      * Check whether this is a valid month
-     * @return boolean
-     * @access public
+     *
+     * @return bool
      */
-    function isValidMonth()
+    public function isValidMonth()
     {
         $m = $this->calendar->thisMonth();
         $min = 1;
         if ($min > $m) {
             $this->errors[] = new Calendar_Validation_Error(
                 'Month', $m, CALENDAR_VALUE_TOOSMALL.$min);
+
             return false;
         }
         $max = $this->cE->getMonthsInYear($this->calendar->thisYear());
         if ($m > $max) {
             $this->errors[] = new Calendar_Validation_Error(
                 'Month', $m, CALENDAR_VALUE_TOOLARGE.$max);
+
             return false;
         }
+
         return true;
     }
 
     /**
      * Check whether this is a valid day
-     * @return boolean
-     * @access public
+     *
+     * @return bool
      */
-    function isValidDay()
+    public function isValidDay()
     {
         $d = $this->calendar->thisDay();
         $min = 1;
         if ($min > $d) {
             $this->errors[] = new Calendar_Validation_Error(
                 'Day', $d, CALENDAR_VALUE_TOOSMALL.$min);
+
             return false;
         }
         $max = $this->cE->getDaysInMonth(
@@ -158,86 +166,97 @@ class Calendar_Validator
         if ($d > $max) {
             $this->errors[] = new Calendar_Validation_Error(
                 'Day', $d, CALENDAR_VALUE_TOOLARGE.$max);
+
             return false;
         }
+
         return true;
     }
 
     /**
      * Check whether this is a valid hour
-     * @return boolean
-     * @access public
+     *
+     * @return bool
      */
-    function isValidHour()
+    public function isValidHour()
     {
         $h = $this->calendar->thisHour();
         $min = 0;
         if ($min > $h) {
             $this->errors[] = new Calendar_Validation_Error(
                 'Hour', $h, CALENDAR_VALUE_TOOSMALL.$min);
+
             return false;
         }
-        $max = ($this->cE->getHoursInDay($this->calendar->thisDay())-1);
+        $max = ($this->cE->getHoursInDay($this->calendar->thisDay()) - 1);
         if ($h > $max) {
             $this->errors[] = new Calendar_Validation_Error(
                 'Hour', $h, CALENDAR_VALUE_TOOLARGE.$max);
+
             return false;
         }
+
         return true;
     }
 
     /**
      * Check whether this is a valid minute
-     * @return boolean
-     * @access public
+     *
+     * @return bool
      */
-    function isValidMinute()
+    public function isValidMinute()
     {
         $i = $this->calendar->thisMinute();
         $min = 0;
         if ($min > $i) {
             $this->errors[] = new Calendar_Validation_Error(
                 'Minute', $i, CALENDAR_VALUE_TOOSMALL.$min);
+
             return false;
         }
-        $max = ($this->cE->getMinutesInHour($this->calendar->thisHour())-1);
+        $max = ($this->cE->getMinutesInHour($this->calendar->thisHour()) - 1);
         if ($i > $max) {
             $this->errors[] = new Calendar_Validation_Error(
                 'Minute', $i, CALENDAR_VALUE_TOOLARGE.$max);
+
             return false;
         }
+
         return true;
     }
 
     /**
      * Check whether this is a valid second
-     * @return boolean
-     * @access public
+     *
+     * @return bool
      */
-    function isValidSecond()
+    public function isValidSecond()
     {
         $s = $this->calendar->thisSecond();
         $min = 0;
         if ($min > $s) {
             $this->errors[] = new Calendar_Validation_Error(
                 'Second', $s, CALENDAR_VALUE_TOOSMALL.$min);
+
             return false;
         }
-        $max = ($this->cE->getSecondsInMinute($this->calendar->thisMinute())-1);
+        $max = ($this->cE->getSecondsInMinute($this->calendar->thisMinute()) - 1);
         if ($s > $max) {
             $this->errors[] = new Calendar_Validation_Error(
                 'Second', $s, CALENDAR_VALUE_TOOLARGE.$max);
+
             return false;
         }
+
         return true;
     }
 
     /**
      * Iterates over any validation errors
+     *
      * @return mixed either Calendar_Validation_Error or false
-     * @access public
      */
-    function fetch()
+    public function fetch()
     {
         $error = current($this->errors);
         next($this->errors);
@@ -245,6 +264,7 @@ class Calendar_Validator
             return $error['value'];
         } else {
             reset($this->errors);
+
             return false;
         }
     }
@@ -252,85 +272,83 @@ class Calendar_Validator
 
 /**
  * For Validation Error messages
+ *
  * @see Calendar::fetch()
- * @package Calendar
- * @access public
  */
 class Calendar_Validation_Error
 {
     /**
      * Date unit (e.g. month,hour,second) which failed test
+     *
      * @var string
-     * @access private
      */
-    var $unit;
+    public $unit;
 
     /**
      * Value of unit which failed test
+     *
      * @var int
-     * @access private
      */
-    var $value;
+    public $value;
 
     /**
      * Validation error message
+     *
      * @var string
-     * @access private
      */
-    var $message;
+    public $message;
 
     /**
      * Constructs Calendar_Validation_Error
+     *
      * @param string Date unit (e.g. month,hour,second)
      * @param int Value of unit which failed test
      * @param string Validation error message
-     * @access protected
      */
-    function __construct($unit,$value,$message)
+    public function __construct($unit, $value, $message)
     {
-        $this->unit    = $unit;
-        $this->value   = $value;
+        $this->unit = $unit;
+        $this->value = $value;
         $this->message = $message;
     }
 
     /**
      * Returns the Date unit
+     *
      * @return string
-     * @access public
      */
-    function getUnit()
+    public function getUnit()
     {
         return $this->unit;
     }
 
     /**
      * Returns the value of the unit
+     *
      * @return int
-     * @access public
      */
-    function getValue()
+    public function getValue()
     {
         return $this->value;
     }
 
     /**
      * Returns the validation error message
+     *
      * @return string
-     * @access public
      */
-    function getMessage()
+    public function getMessage()
     {
         return $this->message;
     }
 
     /**
      * Returns a string containing the unit, value and error message
+     *
      * @return string
-     * @access public
      */
-    function toString ()
+    public function toString()
     {
         return $this->unit.' = '.$this->value.' ['.$this->message.']';
     }
 }
-?>

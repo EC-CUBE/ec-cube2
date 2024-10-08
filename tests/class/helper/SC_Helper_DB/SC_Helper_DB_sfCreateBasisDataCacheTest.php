@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,16 +28,16 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
  * SC_Helper_DB::sfCreateBasisDataCache()のテストクラス.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_DB_sfCreateBasisDataCache extends SC_Helper_DB_TestBase
 {
-
     protected function setUp()
     {
         parent::setUp();
         $this->helper = new SC_Helper_DB_sfCreateBasisDataCacheMock();
-        $this->cashFilePath = MASTER_DATA_REALDIR . 'dtb_baseinfo.serial';
+        $this->cashFilePath = MASTER_DATA_REALDIR.'dtb_baseinfo.serial';
     }
 
     protected function tearDown()
@@ -45,16 +45,16 @@ class SC_Helper_DB_sfCreateBasisDataCache extends SC_Helper_DB_TestBase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
     public function testsfCreateBasisDataCache_ファイル操作に成功した場合_TRUEを返す()
     {
         if (file_exists($this->cashFilePath)) {
             unlink($this->cashFilePath);
         }
-        $arrData = array(
+        $arrData = [
             'id' => '1',
-            'company_name' => 'testshop'
-        );
+            'company_name' => 'testshop',
+        ];
         $this->expected = true;
         $this->actual = $this->helper->sfCreateBasisDataCache();
         unlink($this->cashFilePath);
@@ -66,10 +66,10 @@ class SC_Helper_DB_sfCreateBasisDataCacheMock extends SC_Helper_DB_Ex
 {
     public static function sfGetBasisData($force = false)
     {
-        $arrData = array(
+        $arrData = [
             'id' => '1',
-            'company_name' => 'testshop'
-        );
+            'company_name' => 'testshop',
+        ];
 
         return $arrData;
     }

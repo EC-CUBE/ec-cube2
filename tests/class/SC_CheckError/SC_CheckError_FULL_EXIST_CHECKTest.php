@@ -3,11 +3,11 @@
 class SC_CheckError_FULL_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
 {
     /** @var string */
-    const FORM_NAME1 = 'year';
+    public const FORM_NAME1 = 'year';
     /** @var string */
-    const FORM_NAME2 = 'month';
+    public const FORM_NAME2 = 'month';
     /** @var string */
-    const FORM_NAME3 = 'day';
+    public const FORM_NAME3 = 'day';
 
     protected function setUp()
     {
@@ -15,12 +15,12 @@ class SC_CheckError_FULL_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'FULL_EXIST_CHECK';
     }
 
-    public function testFULL_EXIST_CHECK()
+    public function testFULLEXISTCHECK()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 2019,
             self::FORM_NAME2 => '05',
-            self::FORM_NAME3 => 'a'
+            self::FORM_NAME3 => 'a',
         ];
         $this->expected = [];
 
@@ -28,43 +28,42 @@ class SC_CheckError_FULL_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testFULL_EXIST_CHECKWithEmpty()
+    public function testFULLEXISTCHECKWithEmpty()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '',
             self::FORM_NAME2 => '',
-            self::FORM_NAME3 => ''
+            self::FORM_NAME3 => '',
         ];
         $this->expected = [
-            self::FORM_NAME1 => '※ FULL_EXIST_CHECKが入力されていません。<br />'
+            self::FORM_NAME1 => '※ FULL_EXIST_CHECKが入力されていません。<br />',
         ];
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testFULL_EXIST_CHECKWithNull()
+    public function testFULLEXISTCHECKWithNull()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 'a',
             self::FORM_NAME2 => null,
-            self::FORM_NAME3 => null
+            self::FORM_NAME3 => null,
         ];
         $this->expected = [
-            self::FORM_NAME1 => '※ FULL_EXIST_CHECKが入力されていません。<br />'
+            self::FORM_NAME1 => '※ FULL_EXIST_CHECKが入力されていません。<br />',
         ];
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testFULL_EXIST_CHECKWithZero()
+    public function testFULLEXISTCHECKWithZero()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '0',
             self::FORM_NAME2 => '0',
-            self::FORM_NAME3 => '0'
+            self::FORM_NAME3 => '0',
         ];
         $this->expected = [];
 
@@ -72,24 +71,24 @@ class SC_CheckError_FULL_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFULL_EXIST_CHECKWithErrorExists()
+    public function testFULLEXISTCHECKWithErrorExists()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 'a',
             self::FORM_NAME2 => '',
-            self::FORM_NAME3 => ''
+            self::FORM_NAME3 => '',
         ];
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
         $this->objErr->doFunc(
             ['label', self::FORM_NAME1, self::FORM_NAME2, self::FORM_NAME3],
             [
                 'NUM_CHECK',
-                $this->target_func
+                $this->target_func,
             ]
         );
 
         $this->expected = [
-            self::FORM_NAME1 => '※ labelは数字で入力してください。<br />'
+            self::FORM_NAME1 => '※ labelは数字で入力してください。<br />',
         ];
 
         $this->verify('既存のエラーがある場合はエラーチェックしない');
@@ -114,4 +113,3 @@ class SC_CheckError_FULL_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->assertEquals($this->expected, $this->actual, $message);
     }
 }
-

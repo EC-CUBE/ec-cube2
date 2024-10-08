@@ -30,7 +30,7 @@
     </div>
     <div class="btn_area">
             <ul class="btn_btm">
-                <li><a class="btn_back" href="javascript:window.close();" rel="external">閉じる</a></li>
+                <li><a class="btn_back" href="javascript:window.close();">閉じる</a></li>
             </ul>
         </div>
 </div>
