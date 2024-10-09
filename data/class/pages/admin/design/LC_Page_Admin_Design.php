@@ -71,7 +71,7 @@ class LC_Page_Admin_Design extends LC_Page_Admin_Ex
     {
         $objLayout = new SC_Helper_PageLayout_Ex();
         $objFormParam = new SC_FormParam_Ex();
-        $this->lfInitParam($objFormParam, (int) ($_REQUEST['bloc_cnt']));
+        $this->lfInitParam($objFormParam, (int) $_REQUEST['bloc_cnt']);
         $objFormParam->setParam($_REQUEST);
 
         $this->device_type_id = $objFormParam->getValue('device_type_id', DEVICE_TYPE_PC);
@@ -282,7 +282,7 @@ class LC_Page_Admin_Design extends LC_Page_Admin_Ex
             }
 
             // 他のページに anywhere が存在する場合は INSERT しない
-            $arrParams['anywhere'] = (int) ($objFormParam->getValue('anywhere_'.$i));
+            $arrParams['anywhere'] = (int) $objFormParam->getValue('anywhere_'.$i);
             if ($arrParams['anywhere'] == 1) {
                 $exists = $objQuery->exists('dtb_blocposition', 'anywhere = 1 AND bloc_id = ? AND device_type_id = ?',
                     [$id, $device_type_id]);

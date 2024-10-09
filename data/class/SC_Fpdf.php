@@ -287,14 +287,14 @@ class SC_Fpdf extends SC_Helper_FPDI
         $arrOrder[$i][1] = '';
         $arrOrder[$i][2] = '送料';
         $arrOrder[$i][3] = number_format($this->arrDisp['deliv_fee']).$monetary_unit;
-        $arrTaxableTotal[(int) ($defaultTaxRule['tax_rate'])] += $this->arrDisp['deliv_fee'];
+        $arrTaxableTotal[(int) $defaultTaxRule['tax_rate']] += $this->arrDisp['deliv_fee'];
 
         $i++;
         $arrOrder[$i][0] = '';
         $arrOrder[$i][1] = '';
         $arrOrder[$i][2] = '手数料';
         $arrOrder[$i][3] = number_format($this->arrDisp['charge']).$monetary_unit;
-        $arrTaxableTotal[(int) ($defaultTaxRule['tax_rate'])] += $this->arrDisp['charge'];
+        $arrTaxableTotal[(int) $defaultTaxRule['tax_rate']] += $this->arrDisp['charge'];
 
         $i++;
         $arrOrder[$i][0] = '';

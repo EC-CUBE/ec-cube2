@@ -71,14 +71,14 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
         switch ($this->getMode()) {
             case 'delete_favorite':
                 // お気に入り削除
-                $this->lfDeleteFavoriteProduct($customer_id, (int) ($_POST['product_id']));
+                $this->lfDeleteFavoriteProduct($customer_id, (int) $_POST['product_id']);
                 break;
 
             case 'getList':
                 // スマートフォン版のもっと見るボタン用
                 // ページ送り用
                 if (isset($_POST['pageno'])) {
-                    $this->tpl_pageno = (int) ($_POST['pageno']);
+                    $this->tpl_pageno = (int) $_POST['pageno'];
                 }
                 $this->arrFavorite = $this->lfGetFavoriteProduct($customer_id, $this);
                 SC_Product_Ex::setPriceTaxTo($this->arrFavorite);
@@ -98,7 +98,7 @@ class LC_Page_Mypage_Favorite extends LC_Page_AbstractMypage_Ex
 
         // ページ送り用
         if (isset($_POST['pageno'])) {
-            $this->tpl_pageno = (int) ($_POST['pageno']);
+            $this->tpl_pageno = (int) $_POST['pageno'];
         }
         $this->arrFavorite = $this->lfGetFavoriteProduct($customer_id, $this);
         // 1ページあたりの件数

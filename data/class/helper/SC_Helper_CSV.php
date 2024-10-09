@@ -407,4 +407,5 @@
           return PSFS_PASS_ON;
       }
   }
+
   stream_filter_register('convert.eccube_lf2crlf', 'php_user_filter_lf2crlf');

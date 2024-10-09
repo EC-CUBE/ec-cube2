@@ -201,8 +201,8 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
         $filename = $objFormParam->getValue('filename');
         $arrParams['device_type_id'] = $objFormParam->getValue('device_type_id');
         $arrParams['page_id'] = $objFormParam->getValue('page_id');
-        $arrParams['header_chk'] = (int) ($objFormParam->getValue('header_chk')) === 1 ? 1 : 2;
-        $arrParams['footer_chk'] = (int) ($objFormParam->getValue('footer_chk')) === 1 ? 1 : 2;
+        $arrParams['header_chk'] = (int) $objFormParam->getValue('header_chk') === 1 ? 1 : 2;
+        $arrParams['footer_chk'] = (int) $objFormParam->getValue('footer_chk') === 1 ? 1 : 2;
         $arrParams['tpl_data'] = $objFormParam->getValue('tpl_data');
         $arrParams['page_name'] = $objFormParam->getValue('page_name');
         $arrParams['url'] = USER_DIR.$filename.'.php';

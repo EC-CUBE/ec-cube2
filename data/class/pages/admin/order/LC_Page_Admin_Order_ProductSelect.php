@@ -264,7 +264,7 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
     {
         foreach ($globalParams as $params) {
             if (isset($params['no']) && $params['no'] != '') {
-                return (int) ($params['no']);
+                return (int) $params['no'];
             }
         }
 
@@ -280,7 +280,7 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
     {
         foreach ($globalParams as $params) {
             if (isset($params['shipping_id']) && $params['shipping_id'] != '') {
-                return (int) ($params['shipping_id']);
+                return (int) $params['shipping_id'];
             }
         }
 

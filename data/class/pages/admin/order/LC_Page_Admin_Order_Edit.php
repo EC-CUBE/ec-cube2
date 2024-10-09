@@ -282,8 +282,8 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                     $birth_point = 0;
                     if ($customer_birth) {
                         $arrRet = preg_split('|[- :/]|', $customer_birth);
-                        $birth_date = (int) ($arrRet[1]);
-                        $now_date = (int) (date('m'));
+                        $birth_date = (int) $arrRet[1];
+                        $now_date = (int) date('m');
                         // 誕生日月であった場合
                         if ($birth_date == $now_date) {
                             $birth_point = BIRTH_MONTH_POINT;
@@ -639,9 +639,9 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $order_birth = substr($arrOrder['order_birth'], 0, 10);
             $arrOrderBirth = explode('-', $order_birth);
 
-            $arrOrder['order_birth_year'] = (int) ($arrOrderBirth[0]);
-            $arrOrder['order_birth_month'] = (int) ($arrOrderBirth[1]);
-            $arrOrder['order_birth_day'] = (int) ($arrOrderBirth[2]);
+            $arrOrder['order_birth_year'] = (int) $arrOrderBirth[0];
+            $arrOrder['order_birth_month'] = (int) $arrOrderBirth[1];
+            $arrOrder['order_birth_day'] = (int) $arrOrderBirth[2];
         }
 
         $objFormParam->setParam($arrOrder);
@@ -1008,9 +1008,9 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $order_birth = substr($objFormParam->getValue('order_birth'), 0, 10);
             $arrOrderBirth = explode('-', $order_birth);
 
-            $objFormParam->setValue('order_birth_year', (int) ($arrOrderBirth[0]));
-            $objFormParam->setValue('order_birth_month', (int) ($arrOrderBirth[1]));
-            $objFormParam->setValue('order_birth_day', (int) ($arrOrderBirth[2]));
+            $objFormParam->setValue('order_birth_year', (int) $arrOrderBirth[0]);
+            $objFormParam->setValue('order_birth_month', (int) $arrOrderBirth[1]);
+            $objFormParam->setValue('order_birth_day', (int) $arrOrderBirth[2]);
         }
 
         $objFormParam->setValue('customer_id', $customer_id);

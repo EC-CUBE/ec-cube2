@@ -1243,7 +1243,7 @@ class HTTP_Response
                 return PEAR::raiseError('Malformed response', HTTP_REQUEST_ERROR_RESPONSE);
             } else {
                 $this->_protocol = $s[1];
-                $this->_code = (int) ($s[2]);
+                $this->_code = (int) $s[2];
                 $this->_reason = empty($s[3]) ? null : $s[3];
             }
             while ('' !== ($header = $this->_sock->readLine())) {

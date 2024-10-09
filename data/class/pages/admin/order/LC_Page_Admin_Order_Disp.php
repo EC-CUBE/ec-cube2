@@ -324,9 +324,9 @@ class LC_Page_Admin_Order_Disp extends LC_Page_Admin_Order_Ex
         if (!SC_Utils_Ex::isBlank($arrOrder['order_birth'])) {
             $order_birth = substr($arrOrder['order_birth'], 0, 10);
             $arrOrderBirth = explode('-', $order_birth);
-            $arrOrder['order_birth_year'] = (int) ($arrOrderBirth[0]);
-            $arrOrder['order_birth_month'] = (int) ($arrOrderBirth[1]);
-            $arrOrder['order_birth_day'] = (int) ($arrOrderBirth[2]);
+            $arrOrder['order_birth_year'] = (int) $arrOrderBirth[0];
+            $arrOrder['order_birth_month'] = (int) $arrOrderBirth[1];
+            $arrOrder['order_birth_day'] = (int) $arrOrderBirth[2];
         }
 
         $objFormParam->setParam($arrOrder);

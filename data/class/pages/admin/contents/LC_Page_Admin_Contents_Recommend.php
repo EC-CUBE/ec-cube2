@@ -131,7 +131,7 @@ class LC_Page_Admin_Contents_Recommend extends LC_Page_Admin_Ex
                 break;
         }
 
-        $this->category_id = (int) ($arrPost['category_id']);
+        $this->category_id = (int) $arrPost['category_id'];
         $this->arrItems = $arrItems;
 
         // カテゴリ取得

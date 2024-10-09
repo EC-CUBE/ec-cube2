@@ -119,8 +119,8 @@ class LC_Page_Products_List extends LC_Page_Ex
 
         // 表示条件の取得
         $this->arrSearchData = [
-            'category_id' => $this->lfGetCategoryId((int) ($this->arrForm['category_id'])),
-            'maker_id' => (int) ($this->arrForm['maker_id']),
+            'category_id' => $this->lfGetCategoryId((int) $this->arrForm['category_id']),
+            'maker_id' => (int) $this->arrForm['maker_id'],
             'name' => $this->arrForm['name'],
         ];
         $this->orderby = $this->arrForm['orderby'];
@@ -561,7 +561,7 @@ class LC_Page_Products_List extends LC_Page_Ex
         }
 
         // カート処理
-        $target_product_id = (int) ($this->arrForm['product_id']);
+        $target_product_id = (int) $this->arrForm['product_id'];
         if ($target_product_id > 0) {
             // 商品IDの正当性チェック
             if (!SC_Utils_Ex::sfIsInt($this->arrForm['product_id'])

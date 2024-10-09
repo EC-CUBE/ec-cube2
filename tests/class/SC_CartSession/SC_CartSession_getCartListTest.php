@@ -100,9 +100,6 @@ class SC_CartSession_getCartListTest extends SC_CartSession_TestBase
         $this->verify('商品数');
     }
 
-    /**
-     * @test
-     */
     /* バグな気がする？
     public function getCartList_非表示商品を追加した場合はカートは空()
     {

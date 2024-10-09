@@ -146,8 +146,8 @@ class LC_Page_Shopping extends LC_Page_Ex
                     // スマートフォンの場合はログイン成功を返す
                     } elseif (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
                         echo SC_Utils_Ex::jsonEncode(['success' => $this->getNextLocation($this->cartKey, $this->tpl_uniqid,
-                                                         $objCustomer, $objPurchase,
-                                                         $objSiteSess)]);
+                            $objCustomer, $objPurchase,
+                            $objSiteSess)]);
                         SC_Response_Ex::actionExit();
                     }
 

@@ -71,7 +71,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
         $objFormParam->setParam($_POST);
         $objFormParam->convParam();
 
-        $rank = (int) ($_GET['rank']);
+        $rank = (int) $_GET['rank'];
 
         switch ($this->getMode()) {
             case 'search':

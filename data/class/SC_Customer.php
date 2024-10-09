@@ -316,8 +316,8 @@ class SC_Customer
     {
         if (isset($_SESSION['customer']['birth'])) {
             $arrRet = preg_split('|[- :/]|', $_SESSION['customer']['birth']);
-            $birth_month = (int) ($arrRet[1]);
-            $now_month = (int) (date('m'));
+            $birth_month = (int) $arrRet[1];
+            $now_month = (int) date('m');
 
             if ($birth_month == $now_month) {
                 return true;

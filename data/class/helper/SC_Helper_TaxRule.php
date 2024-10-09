@@ -94,7 +94,7 @@ class SC_Helper_TaxRule
         foreach ($arrTaxableTotal as $rate => $total) {
             $discount[$rate] = $taxable_total !== 0 ? round($discount_total * $total / $taxable_total, 0) : 0;
             $divide[$rate] = [
-                'discount' => (int) ($discount[$rate]),
+                'discount' => (int) $discount[$rate],
             ];
             $cf_discount += $divide[$rate]['discount'];
         }
@@ -116,7 +116,7 @@ class SC_Helper_TaxRule
             $reduced_total = $total - $discount[$rate];
             $tax = $reduced_total * ($rate / (100 + $rate));
             $result[$rate] = [
-                'discount' => (int) ($discount[$rate]),
+                'discount' => (int) $discount[$rate],
                 'total' => (int) $reduced_total,
                 'tax' => (int) (static::roundByCalcRule($tax, $defaultTaxRule)),
             ];

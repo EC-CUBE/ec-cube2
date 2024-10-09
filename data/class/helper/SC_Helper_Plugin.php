@@ -225,9 +225,9 @@ class SC_Helper_Plugin
      *
      * @param  string   $hook_point フックポイント名
      * @param  callable $function   コールバック関数名
-     * @param  int  $priority   同一フックポイント内での実行優先度
+     * @param  int|bool  $priority   同一フックポイント内での実行優先度
      *
-     * @return string   コールバック関数を一意に識別するID
+     * @return string|bool   コールバック関数を一意に識別するID
      */
     public function makeActionUniqueId($hook_point, $function, $priority)
     {
@@ -262,6 +262,8 @@ class SC_Helper_Plugin
         } elseif (is_string($function[0])) {
             return $function[0].$function[1];
         }
+
+        return false;
     }
 
     /**

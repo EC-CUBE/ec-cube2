@@ -96,7 +96,7 @@ class LC_Page_Admin_Order_Mail extends LC_Page_Admin_Order_Ex
         // メール本文の確認例は初めの1受注とする
         if (!SC_Utils_Ex::isBlank($this->order_id_array)) {
             $order_id_array = explode(',', $this->order_id_array);
-            $post['order_id'] = (int) ($order_id_array[0]);
+            $post['order_id'] = (int) $order_id_array[0];
             $this->order_id_count = count($order_id_array);
         }
 

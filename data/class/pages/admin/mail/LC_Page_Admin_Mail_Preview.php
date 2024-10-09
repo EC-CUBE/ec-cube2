@@ -73,14 +73,14 @@ class LC_Page_Admin_Mail_Preview extends LC_Page_Admin_Ex
                 }
                 break;
             case 'history':
-            if (SC_Utils_Ex::sfIsInt($_GET['send_id'])) {
-                $arrMail = $objMailHelper->sfGetSendHistory($_GET['send_id']);
-                $this->mail = $arrMail[0];
-            }
-            break;
+                if (SC_Utils_Ex::sfIsInt($_GET['send_id'])) {
+                    $arrMail = $objMailHelper->sfGetSendHistory($_GET['send_id']);
+                    $this->mail = $arrMail[0];
+                }
+                break;
             case 'presend':
-            $this->mail['body'] = $_POST['body'];
-            // no break
+                $this->mail['body'] = $_POST['body'];
+                // no break
             default:
                 break;
         }
