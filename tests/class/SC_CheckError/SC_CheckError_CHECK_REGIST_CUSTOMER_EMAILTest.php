@@ -9,7 +9,7 @@ class SC_CheckError_CHECK_REGIST_CUSTOMER_EMAILTest extends SC_CheckError_Abstra
     /** @var int */
     protected $customer_id;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'CHECK_REGIST_CUSTOMER_EMAIL';
@@ -25,7 +25,7 @@ class SC_CheckError_CHECK_REGIST_CUSTOMER_EMAILTest extends SC_CheckError_Abstra
         );
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->delete('dtb_customer', 'customer_id = ?', [$this->customer_id]);

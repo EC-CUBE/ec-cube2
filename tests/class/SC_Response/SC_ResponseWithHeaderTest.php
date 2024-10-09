@@ -6,7 +6,7 @@ class SC_ResponseWithHeaderTest extends Common_TestCase
     private static $server;
     public const FIXTURES_DIR = '../fixtures/server';
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $spec = [
             1 => ['file', '/dev/null', 'w'],
@@ -19,7 +19,7 @@ class SC_ResponseWithHeaderTest extends Common_TestCase
         sleep(1);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         if (is_resource(self::$server)) {
             proc_terminate(self::$server);

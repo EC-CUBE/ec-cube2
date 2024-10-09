@@ -14,13 +14,13 @@ require_once $HOME.'/tests/class/SC_CartSession/SC_CartSession_TestBase.php';
  */
 class SC_CartSession_getAllCartListTest extends SC_CartSession_TestBase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objCartSession = new SC_CartSession_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

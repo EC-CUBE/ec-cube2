@@ -62,7 +62,7 @@ class Modifier_ScriptEscapeTest extends PHPUnit_Framework_TestCase
     {
         $ret = smarty_modifier_script_escape($value);
         $pattern = '/#script escaped#/';
-        $this->assertRegExp($pattern, $ret);
+        $this->assertMatchesRegularExpression($pattern, $ret);
     }
 
     /**
@@ -72,6 +72,6 @@ class Modifier_ScriptEscapeTest extends PHPUnit_Framework_TestCase
     {
         $ret = smarty_modifier_script_escape($value);
         $pattern = '/#script escaped#/';
-        $this->assertNotRegExp($pattern, $ret);
+        $this->assertDoesNotMatchRegularExpression($pattern, $ret);
     }
 }

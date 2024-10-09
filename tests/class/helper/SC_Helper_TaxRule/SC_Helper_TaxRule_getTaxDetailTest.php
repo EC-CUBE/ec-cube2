@@ -6,12 +6,12 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
 {
     private $taxs = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

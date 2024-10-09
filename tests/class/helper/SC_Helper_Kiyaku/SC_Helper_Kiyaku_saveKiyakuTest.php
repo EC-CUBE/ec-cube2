@@ -5,13 +5,13 @@ require_once $HOME.'/tests/class/helper/SC_Helper_Kiyaku/SC_Helper_Kiyaku_TestBa
 
 class SC_Helper_Kiyaku_saveKiyakuTest extends SC_Helper_Kiyaku_TestBase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objKiyaku = new SC_Helper_Kiyaku_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

@@ -5,7 +5,7 @@ class SC_CheckError_URL_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var Faker\Generator */
     protected $faker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'URL_CHECK';

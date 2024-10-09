@@ -38,9 +38,9 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
      * @var array
      *
      * @see PHPUnit_Framework_TestCase::$backupGlobals
-     * @see PHPUnit_Framework_TestCase::$backupGlobalsBlacklist
+     * @see PHPUnit_Framework_TestCase::$backupGlobalsExcludeList
      */
-    protected $backupGlobalsBlacklist = [
+    protected $backupGlobalsExcludeList = [
         '_MDB2_databases',
         '_MDB2_dsninfo_default',
     ];
@@ -51,13 +51,13 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     protected $expected;
     protected $actual;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->objQuery = SC_Query_Ex::getSingletonInstance();
         $this->objQuery->begin();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // MySQL では CREATE TABLE がロールバックされないので DROP TABLE を行う
         $this->dropTestTable();

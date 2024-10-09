@@ -7,7 +7,7 @@ class SC_Helper_DB_sfGetChildrenArrayTest extends SC_Helper_DB_TestBase
     /** @var int[] */
     protected $category_ids;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objDb = new SC_Helper_DB_Ex();

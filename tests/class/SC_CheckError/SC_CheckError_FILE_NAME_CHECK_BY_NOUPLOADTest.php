@@ -23,7 +23,7 @@
 
 class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends SC_CheckError_AbstractTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         set_error_handler(function ($errno, $errstr, $errfile, $errline) {
@@ -32,7 +32,7 @@ class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends SC_CheckError_Abstra
         $this->target_func = 'FILE_NAME_CHECK_BY_NOUPLOAD';
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         restore_error_handler();
         parent::tearDown();

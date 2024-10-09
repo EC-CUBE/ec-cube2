@@ -5,7 +5,7 @@ class SC_CheckError_MAX_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $maxlength;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'MAX_LENGTH_CHECK';

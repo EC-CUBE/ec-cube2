@@ -19,12 +19,12 @@ class Calendar_Test extends Common_TestCase
         $this->UnitTestCase('Test of Month Weekdays');
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->cal = new Calendar_Month_Weekdays(2003, 10);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 

@@ -34,12 +34,12 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
  */
 class SC_Utils_isBlankTest extends Common_TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         // parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // parent::tearDown();
     }
@@ -66,31 +66,31 @@ class SC_Utils_isBlankTest extends Common_TestCase
     public function testIsBlank空の配列の場合Trueが返る()
     {
         $input = [];
-        $this->assertTrue(SC_Utils::isBlank($input), $input);
+        $this->assertTrue(SC_Utils::isBlank($input), 'Array');
     }
 
     public function testIsBlankネストした配列の場合Trueが返る()
     {
         $input = [[[]]];
-        $this->assertTrue(SC_Utils::isBlank($input), $input);
+        $this->assertTrue(SC_Utils::isBlank($input), 'Array');
     }
 
     public function testIsBlankGreedy指定なしでネストした配列の場合Falseが返る()
     {
         $input = [[[]]];
-        $this->assertFalse(SC_Utils::isBlank($input, false), $input);
+        $this->assertFalse(SC_Utils::isBlank($input, false), 'Array');
     }
 
     public function testIsBlank空でない配列の場合Falseが返る()
     {
         $input = [[['1']]];
-        $this->assertFalse(SC_Utils::isBlank($input), $input);
+        $this->assertFalse(SC_Utils::isBlank($input), 'Array');
     }
 
     public function testIsBlankGreedy指定なしで空でない配列の場合Falseが返る()
     {
         $input = [[['1']]];
-        $this->assertFalse(SC_Utils::isBlank($input, false), $input);
+        $this->assertFalse(SC_Utils::isBlank($input, false), 'Array');
     }
 
     public function testIsBlank全角スペースと空白の組み合わせの場合Trueが返る()
@@ -120,13 +120,13 @@ class SC_Utils_isBlankTest extends Common_TestCase
     public function testIsBlank数値のゼロを入力した場合Falseが返る()
     {
         $input = 0;
-        $this->assertFalse(SC_Utils::isBlank($input), $input);
+        $this->assertFalse(SC_Utils::isBlank($input), (string) $input);
     }
 
     public function testIsBlank値が空の配列を入力した場合Trueが返る()
     {
         $input = [''];
-        $this->assertTrue(SC_Utils::isBlank($input), $input);
+        $this->assertTrue(SC_Utils::isBlank($input), 'Array');
     }
 
     public function testIsBlank全てのホワイトスペースを並べた場合Trueが返る()

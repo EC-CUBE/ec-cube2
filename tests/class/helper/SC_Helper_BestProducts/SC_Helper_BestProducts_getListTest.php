@@ -31,12 +31,12 @@ require_once $HOME.'/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestPro
  */
 class SC_Helper_BestProducts_getListTest extends SC_Helper_BestProducts_TestBase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

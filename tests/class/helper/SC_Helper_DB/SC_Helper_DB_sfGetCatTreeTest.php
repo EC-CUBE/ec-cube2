@@ -5,7 +5,7 @@ class SC_Helper_DB_sfGetCatTreeTest extends SC_Helper_DB_TestBase
     /** @var int[] */
     protected $category_ids;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->category_ids = $this->objGenerator->createCategories();

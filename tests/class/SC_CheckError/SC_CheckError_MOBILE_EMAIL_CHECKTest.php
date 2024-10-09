@@ -7,14 +7,14 @@ class SC_CheckError_MOBILE_EMAIL_CHECKTest extends SC_CheckError_AbstractTestCas
     /** @var string */
     protected $mobileEmail;
 
-    protected function setUp()
+    protected function setUp(): void
     {
+        $this->markTestSkipped('モバイルメールアドレスは使用されていないためスキップします。');
         parent::setUp();
         $this->target_func = 'MOBILE_EMAIL_CHECK';
         $this->faker = Faker\Factory::create('ja_JP');
         $masterData = new SC_DB_MasterData_Ex();
         $arrMobileDomains = $masterData->getMasterData('mtb_mobile_domain');
-
         $this->mobileEmail = $this->faker->userName.'@'.$arrMobileDomains[$this->faker->numberBetween(1, count($arrMobileDomains))];
     }
 

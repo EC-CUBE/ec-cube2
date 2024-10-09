@@ -36,7 +36,7 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
     public $customer;
     public $customer_array;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->customer = new SC_Customer_Ex();
@@ -64,7 +64,7 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
         $this->customer_array = ['customer_id' => '1001', 'email' => 'test@example.com'];
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

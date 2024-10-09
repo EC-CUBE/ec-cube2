@@ -9,7 +9,7 @@ class SC_UploadFileTest extends Common_TestCase
     /** @var string */
     protected $tempDir;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->saveDir = sys_get_temp_dir().'/'.uniqid();
@@ -29,7 +29,7 @@ class SC_UploadFileTest extends Common_TestCase
         ];
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         foreach ([$this->saveDir, $this->tempDir] as $dir) {
             $files = new RecursiveIteratorIterator(
@@ -112,7 +112,7 @@ class SC_UploadFileTest extends Common_TestCase
         $this->actual = $this->objUpFile->makeTempFile('main_image');
         $this->verify('move_uploaded_file() が false になるため必ず失敗する');
 
-        $this->assertContains(date('mdHi').'_', $this->objUpFile->temp_file[0]);
+        $this->assertStringContainsString(date('mdHi').'_', $this->objUpFile->temp_file[0]);
     }
 
     public function testMakeTempFileWithNotRename()
@@ -136,7 +136,7 @@ class SC_UploadFileTest extends Common_TestCase
 
         $this->assertEquals([''], $this->objUpFile->temp_file);
         $this->assertEquals([''], $this->objUpFile->save_file);
-        $this->assertFileNotExists($this->tempDir.'/ice500.jpg');
+        $this->assertFileDoesNotExist($this->tempDir.'/ice500.jpg');
     }
 
     public function testGetTempFilePath()
@@ -144,7 +144,7 @@ class SC_UploadFileTest extends Common_TestCase
         $this->objUpFile->addFile('詳細-メイン画像', 'main_image', ['jpg'], IMAGE_SIZE, false, 0, 0, false);
         $this->objUpFile->makeTempFile('main_image', true); // rename
 
-        $this->assertContains(date('mdHi').'_', $this->objUpFile->getTempFilePath('main_image'));
+        $this->assertStringContainsString(date('mdHi').'_', $this->objUpFile->getTempFilePath('main_image'));
     }
 
     public function testMoveTempFile()
@@ -171,7 +171,7 @@ class SC_UploadFileTest extends Common_TestCase
         $this->objUpFile->setDBDownFile(['down_realfilename' => 'ice500.jpg']);
         $this->objUpFile->moveTempDownFile();
 
-        $this->assertFileNotExists($this->saveDir.'/ice500.jpg');
+        $this->assertFileDoesNotExist($this->saveDir.'/ice500.jpg');
     }
 
     public function testMoveTempDownloadFileWithFileExists()
@@ -188,7 +188,7 @@ class SC_UploadFileTest extends Common_TestCase
         $this->objUpFile->makeTempDownFile('down_file');
         $this->objUpFile->moveTempDownFile();
 
-        $this->assertFileNotExists($this->saveDir.'/ice500.jpg');
+        $this->assertFileDoesNotExist($this->saveDir.'/ice500.jpg');
     }
 
     public function testMoveTempFileWithFileExists()
@@ -198,7 +198,7 @@ class SC_UploadFileTest extends Common_TestCase
         $this->objUpFile->setDBFileList(['main_image' => 'ice500.jpg']); // file exists
         $this->objUpFile->moveTempFile();
 
-        $this->assertFileNotExists($this->saveDir.'/ice500.jpg');
+        $this->assertFileDoesNotExist($this->saveDir.'/ice500.jpg');
     }
 
     public function testSetHiddenFileList()
@@ -370,7 +370,7 @@ class SC_UploadFileTest extends Common_TestCase
 
         $this->assertEquals([''], $this->objUpFile->temp_file);
         $this->assertNotEquals([''], $this->objUpFile->save_file);
-        $this->assertFileNotExists($this->tempDir.'/ice500.jpg');
+        $this->assertFileDoesNotExist($this->tempDir.'/ice500.jpg');
     }
 
     public function testGetFormDownloadFileList()
@@ -385,7 +385,7 @@ class SC_UploadFileTest extends Common_TestCase
         $this->objUpFile->addFile('ダウンロードファイル', 'down_file', ['jpg'], IMAGE_SIZE, false, 0, 0, false);
         $this->objUpFile->makeTempDownFile('down_file');
 
-        $this->assertContains(date('mdHi').'_', $this->objUpFile->getFormDownFile());
+        $this->assertStringContainsString(date('mdHi').'_', $this->objUpFile->getFormDownFile());
     }
 
     public function testGetFormDownloadFileWithSaveFile()
@@ -420,6 +420,6 @@ class SC_UploadFileTest extends Common_TestCase
         // $this->objUpFile->setDBDownFile(['down_realfilename' => 'ice500.jpg']); // file exists
         $this->objUpFile->deleteDBDownFile(['down_realfilename' => 'ice500.jpg']);
 
-        $this->assertFileNotExists($this->saveDir.'/ice500.jpg');
+        $this->assertFileDoesNotExist($this->saveDir.'/ice500.jpg');
     }
 }

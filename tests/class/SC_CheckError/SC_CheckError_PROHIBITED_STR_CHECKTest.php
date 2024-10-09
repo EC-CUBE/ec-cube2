@@ -8,7 +8,7 @@ class SC_CheckError_PROHIBITED_STR_CHECKTest extends SC_CheckError_AbstractTestC
     /** @var array */
     protected $denyStrings;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'PROHIBITED_STR_CHECK';
