@@ -8,7 +8,7 @@ class SC_CheckError_KANABLANK_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'KANABLANK_CHECK';
     }
 
-    public function testKANABLANK_CHECK()
+    public function testKANABLANKCHECK()
     {
         $this->arrForm = [self::FORM_NAME => 'ア'];
         $this->expected = '';
@@ -17,8 +17,7 @@ class SC_CheckError_KANABLANK_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testKANABLANK_CHECKWithNumber()
+    public function testKANABLANKCHECKWithNumber()
     {
         $this->arrForm = [self::FORM_NAME => 5];
         $this->expected = '※ KANABLANK_CHECKはカタカナで入力してください。<br />';
@@ -27,7 +26,7 @@ class SC_CheckError_KANABLANK_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANABLANK_CHECKWithEmpty()
+    public function testKANABLANKCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -36,7 +35,7 @@ class SC_CheckError_KANABLANK_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANABLANK_CHECKWithNull()
+    public function testKANABLANKCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '';
@@ -45,7 +44,7 @@ class SC_CheckError_KANABLANK_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANABLANK_CHECKWithKanaOfHarf()
+    public function testKANABLANKCHECKWithKanaOfHarf()
     {
         $this->arrForm = [self::FORM_NAME => 'ｱ'];
         $this->expected = '※ KANABLANK_CHECKはカタカナで入力してください。<br />';
@@ -54,7 +53,7 @@ class SC_CheckError_KANABLANK_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify('半角カナはエラー');
     }
 
-    public function testKANABLANK_CHECKWithHiragana()
+    public function testKANABLANKCHECKWithHiragana()
     {
         $this->arrForm = [self::FORM_NAME => 'あ'];
         $this->expected = '※ KANABLANK_CHECKはカタカナで入力してください。<br />';
@@ -63,7 +62,7 @@ class SC_CheckError_KANABLANK_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANABLANK_CHECKWithKanaAndBlank()
+    public function testKANABLANKCHECKWithKanaAndBlank()
     {
         $this->arrForm = [self::FORM_NAME => 'アイ ウエオ'];
         $this->expected = '';
@@ -72,7 +71,7 @@ class SC_CheckError_KANABLANK_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANABLANK_CHECKWithKanaAndWideBlank()
+    public function testKANABLANKCHECKWithKanaAndWideBlank()
     {
         $this->arrForm = [self::FORM_NAME => 'アイ　ウエオ'];
         $this->expected = '';
@@ -81,7 +80,7 @@ class SC_CheckError_KANABLANK_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANABLANK_CHECKWithTabAndLinefield()
+    public function testKANABLANKCHECKWithTabAndLinefield()
     {
         $this->arrForm = [self::FORM_NAME => "アイ\tウ\nエ\r\nオ"];
         $this->expected = '';
@@ -90,4 +89,3 @@ class SC_CheckError_KANABLANK_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 }
-

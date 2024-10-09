@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,43 +27,38 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfDBDatetoTime()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfDBDatetoTimeTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfDbDatetoTime時刻にマイクロ秒が含まれている場合マイクロ秒を無視して変換できる()
+    {
+        $this->expected = mktime(10, 20, 30, 10, 31, 2012);
+        $this->actual = SC_Utils::sfDbDatetoTime('2012-10-31 10:20:30.000002');
 
-  protected function tearDown(): void
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfDbDatetoTime_時刻にマイクロ秒が含まれている場合_マイクロ秒を無視して変換できる()
-  {
-    
-    $this->expected = mktime(10, 20, 30, 10, 31, 2012);
-    $this->actual = SC_Utils::sfDbDatetoTime('2012-10-31 10:20:30.000002');
+    public function testSfDbDatetoTime時刻にマイクロ秒が含まれていない場合そのまま変換できる()
+    {
+        $this->expected = mktime(10, 20, 30, 10, 31, 2012);
+        $this->actual = SC_Utils::sfDbDatetoTime('2012-10-31 10:20:30');
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfDbDatetoTime_時刻にマイクロ秒が含まれていない場合_そのまま変換できる()
-  {
-    
-    $this->expected = mktime(10, 20, 30, 10, 31, 2012);
-    $this->actual = SC_Utils::sfDbDatetoTime('2012-10-31 10:20:30');
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

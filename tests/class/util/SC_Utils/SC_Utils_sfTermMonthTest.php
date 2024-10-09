@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,57 +27,54 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfTermMonth()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfTermMonthTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfTermMonth締め日が月末より早い場合設定した締め日の通りになる()
+    {
+        $this->expected = ['2012/9/16', '2012/10/15 23:59:59'];
+        $this->actual = SC_Utils::sfTermMonth(2012, 10, 15);
 
-  protected function tearDown(): void
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfTermMonth_締め日が月末より早い場合_設定した締め日の通りになる()
-  {
-    $this->expected = array('2012/9/16', '2012/10/15 23:59:59');
-    $this->actual = SC_Utils::sfTermMonth(2012, 10, 15);
+    public function testSfTermMonth該当月の末日が締め日より早い場合末日に合わせられる()
+    {
+        $this->expected = ['2012/9/1', '2012/9/30 23:59:59'];
+        $this->actual = SC_Utils::sfTermMonth(2012, 9, 31);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfTermMonth_該当月の末日が締め日より早い場合_末日に合わせられる()
-  {
-    $this->expected = array('2012/9/1', '2012/9/30 23:59:59');
-    $this->actual = SC_Utils::sfTermMonth(2012, 9, 31);
+    public function testSfTermMonth前月の末日が締め日より早い場合末日に合わせられる()
+    {
+        $this->expected = ['2012/10/1', '2012/10/31 23:59:59'];
+        $this->actual = SC_Utils::sfTermMonth(2012, 10, 31);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfTermMonth_前月の末日が締め日より早い場合_末日に合わせられる()
-  {
-    $this->expected = array('2012/10/1', '2012/10/31 23:59:59');
-    $this->actual = SC_Utils::sfTermMonth(2012, 10, 31);
+    public function testSfTermMonth年をまたぐ場合前月が前年十二月になる()
+    {
+        $this->expected = ['2012/12/16', '2013/1/15 23:59:59'];
+        $this->actual = SC_Utils::sfTermMonth(2013, 1, 15);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfTermMonth_年をまたぐ場合_前月が前年十二月になる()
-  {
-    $this->expected = array('2012/12/16', '2013/1/15 23:59:59');
-    $this->actual = SC_Utils::sfTermMonth(2013, 1, 15);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

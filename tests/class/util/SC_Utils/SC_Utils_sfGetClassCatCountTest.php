@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,111 +27,109 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfGetClassCatCount()のテストクラス.
  *
- *
  * @group mysql_prepare
+ *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetClassCatCountTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->setUpClassCat();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    parent::setUp();
-    $this->setUpClassCat();
-  }
-
-  protected function tearDown(): void
-  {
-    parent::tearDown();
-  }
-
-  /////////////////////////////////////////
-  public function testSfGetClassCatCount__規格分類の件数がIDごとに取得できる()
-  {
-    
-    $this->expected = array(
+    // ///////////////////////////////////////
+    public function testSfGetClassCatCount規格分類の件数がIDごとに取得できる()
+    {
+        $this->expected = [
       '1001' => '2',
-      '1002' => '1'
-    );
-    $this->actual = SC_Utils::sfGetClassCatCount();
+      '1002' => '1',
+    ];
+        $this->actual = SC_Utils::sfGetClassCatCount();
 
-    $this->verify('規格分類の件数');
-  }
+        $this->verify('規格分類の件数');
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 
-  protected function setUpClassCat()
-  {
-    $classes = array(
-      array(
+    protected function setUpClassCat()
+    {
+        $classes = [
+      [
         'class_id' => '1001',
         'name' => '味',
         'creator_id' => '1',
         'update_date' => 'CURRENT_TIMESTAMP',
-        'del_flg' => '0'
-      ),
-      array(
+        'del_flg' => '0',
+      ],
+      [
         'class_id' => '1002',
         'name' => '大きさ',
         'creator_id' => '1',
         'update_date' => 'CURRENT_TIMESTAMP',
-        'del_flg' => '0'
-      ),
+        'del_flg' => '0',
+      ],
       // 削除フラグが立っているので検索されない
-      array(
+      [
         'class_id' => '1003',
         'name' => '匂い',
         'creator_id' => '1',
         'update_date' => 'CURRENT_TIMESTAMP',
-        'del_flg' => '1'
-      )
-    );
-    $this->objQuery->delete('dtb_class');
-    foreach ($classes as $item) {
-      $this->objQuery->insert('dtb_class', $item);
-    }
+        'del_flg' => '1',
+      ],
+    ];
+        $this->objQuery->delete('dtb_class');
+        foreach ($classes as $item) {
+            $this->objQuery->insert('dtb_class', $item);
+        }
 
-    $class_categories = array(
-      array(
+        $class_categories = [
+      [
         'classcategory_id' => '1011',
         'class_id' => '1001',
         'creator_id' => '1',
-        'update_date' => 'CURRENT_TIMESTAMP'
-      ),
+        'update_date' => 'CURRENT_TIMESTAMP',
+      ],
       // 削除フラグが立っているので検索されない
-      array(
+      [
         'classcategory_id' => '1012',
         'class_id' => '1001',
         'creator_id' => '1',
         'update_date' => 'CURRENT_TIMESTAMP',
-        'del_flg' => '1'
-      ),
-      array(
+        'del_flg' => '1',
+      ],
+      [
         'classcategory_id' => '1013',
         'class_id' => '1001',
         'creator_id' => '1',
-        'update_date' => 'CURRENT_TIMESTAMP'
-      ),
-      array(
+        'update_date' => 'CURRENT_TIMESTAMP',
+      ],
+      [
         'classcategory_id' => '1021',
         'class_id' => '1002',
         'creator_id' => '1',
-        'update_date' => 'CURRENT_TIMESTAMP'
-      ),
+        'update_date' => 'CURRENT_TIMESTAMP',
+      ],
       // dtb_classでdel_flgが立っているので検索されない
-      array(
+      [
         'classcategory_id' => '1031',
         'class_id' => '1003',
         'creator_id' => '1',
-        'update_date' => 'CURRENT_TIMESTAMP'
-      )
-    );
-    // classcategory_id=0のものは削除しない
-    $this->objQuery->delete('dtb_classcategory', 'classcategory_id <> 0');
-    foreach ($class_categories as $item) {
-      $this->objQuery->insert('dtb_classcategory', $item);
+        'update_date' => 'CURRENT_TIMESTAMP',
+      ],
+    ];
+        // classcategory_id=0のものは削除しない
+        $this->objQuery->delete('dtb_classcategory', 'classcategory_id <> 0');
+        foreach ($class_categories as $item) {
+            $this->objQuery->insert('dtb_classcategory', $item);
+        }
     }
-  }
 }

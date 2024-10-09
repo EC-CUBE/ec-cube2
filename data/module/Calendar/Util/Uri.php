@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 //
 // +----------------------------------------------------------------------+
@@ -21,7 +22,6 @@
 // $Id: Uri.php,v 1.1 2004/08/16 09:03:55 hfuecks Exp $
 //
 /**
- * @package Calendar
  * @version $Id$
  */
 
@@ -37,133 +37,154 @@
  * echo $Uri->prev($Day,'month'); // Displays 2003/10
  * echo $Uri->prev($Day,'day'); // Displays 2003/10/22
  * </code>
- * @package Calendar
- * @access public
  */
 class Calendar_Util_Uri
 {
     /**
      * Uri fragments for year, month, day etc.
+     *
      * @var array
-     * @access private
      */
-    var $uris = array();
+    public $uris = [];
 
     /**
      * String to separate fragments with.
      * Set to just & for HTML.
      * For a scalar URL you might use / as the seperator
+     *
      * @var string (default XHTML &amp;)
-     * @access public
      */
-    var $separator = '&amp;';
+    public $separator = '&amp;';
 
     /**
      * To output a "scalar" string - variable names omitted.
      * Used for urls like index.php/2004/8/12
-     * @var boolean (default false)
-     * @access public
+     *
+     * @var bool (default false)
      */
-    var $scalar = false;
+    public $scalar = false;
 
     /**
      * Constructs Calendar_Decorator_Uri
      * The term "fragment" means <i>name</i> of a calendar GET variables in the URL
+     *
      * @param string URI fragment for year
      * @param string (optional) URI fragment for month
      * @param string (optional) URI fragment for day
      * @param string (optional) URI fragment for hour
      * @param string (optional) URI fragment for minute
      * @param string (optional) URI fragment for second
-     * @access public
      */
-    public function __construct($y, $m=null, $d=null, $h=null, $i=null, $s=null)
+    public function __construct($y, $m = null, $d = null, $h = null, $i = null, $s = null)
     {
         $this->setFragments($y, $m, $d, $h, $i, $s);
     }
 
     /**
      * Sets the URI fragment names
+     *
      * @param string URI fragment for year
      * @param string (optional) URI fragment for month
      * @param string (optional) URI fragment for day
      * @param string (optional) URI fragment for hour
      * @param string (optional) URI fragment for minute
      * @param string (optional) URI fragment for second
+     *
      * @return void
-     * @access public
      */
-    function setFragments($y, $m=null, $d=null, $h=null, $i=null, $s=null) {
-        if (!is_null($y)) $this->uris['Year']   = $y;
-        if (!is_null($m)) $this->uris['Month']  = $m;
-        if (!is_null($d)) $this->uris['Day']    = $d;
-        if (!is_null($h)) $this->uris['Hour']   = $h;
-        if (!is_null($i)) $this->uris['Minute'] = $i;
-        if (!is_null($s)) $this->uris['Second'] = $s;
+    public function setFragments($y, $m = null, $d = null, $h = null, $i = null, $s = null)
+    {
+        if (!is_null($y)) {
+            $this->uris['Year'] = $y;
+        }
+        if (!is_null($m)) {
+            $this->uris['Month'] = $m;
+        }
+        if (!is_null($d)) {
+            $this->uris['Day'] = $d;
+        }
+        if (!is_null($h)) {
+            $this->uris['Hour'] = $h;
+        }
+        if (!is_null($i)) {
+            $this->uris['Minute'] = $i;
+        }
+        if (!is_null($s)) {
+            $this->uris['Second'] = $s;
+        }
     }
 
     /**
      * Gets the URI string for the previous calendar unit
+     *
      * @param object subclassed from Calendar e.g. Calendar_Month
      * @param string calendar unit ( must be year, month, week, day, hour, minute or second)
+     *
      * @return string
-     * @access public
      */
-    function prev($Calendar, $unit)
+    public function prev($Calendar, $unit)
     {
         $method = 'prev'.$unit;
-        $stamp  = $Calendar->{$method}('timestamp');
+        $stamp = $Calendar->{$method}('timestamp');
+
         return $this->buildUriString($Calendar, $method, $stamp);
     }
 
     /**
      * Gets the URI string for the current calendar unit
+     *
      * @param object subclassed from Calendar e.g. Calendar_Month
      * @param string calendar unit ( must be year, month, week, day, hour, minute or second)
+     *
      * @return string
-     * @access public
      */
-    function this($Calendar, $unit)
+    public function this($Calendar, $unit)
     {
-       $method = 'this'.$unit;
-        $stamp  = $Calendar->{$method}('timestamp');
+        $method = 'this'.$unit;
+        $stamp = $Calendar->{$method}('timestamp');
+
         return $this->buildUriString($Calendar, $method, $stamp);
     }
 
     /**
      * Gets the URI string for the next calendar unit
+     *
      * @param object subclassed from Calendar e.g. Calendar_Month
      * @param string calendar unit ( must be year, month, week, day, hour, minute or second)
+     *
      * @return string
-     * @access public
      */
-    function next($Calendar, $unit)
+    public function next($Calendar, $unit)
     {
         $method = 'next'.$unit;
-        $stamp  = $Calendar->{$method}('timestamp');
+        $stamp = $Calendar->{$method}('timestamp');
+
         return $this->buildUriString($Calendar, $method, $stamp);
     }
 
     /**
      * Build the URI string
+     *
      * @param string method substring
      * @param int timestamp
+     *
      * @return string build uri string
-     * @access private
      */
-    function buildUriString($Calendar, $method, $stamp)
+    public function buildUriString($Calendar, $method, $stamp)
     {
         $uriString = '';
-        $cE = & $Calendar->getEngine();
+        $cE = &$Calendar->getEngine();
         $separator = '';
         foreach ($this->uris as $unit => $uri) {
             $call = 'stampTo'.$unit;
             $uriString .= $separator;
-            if (!$this->scalar) $uriString .= $uri.'=';
+            if (!$this->scalar) {
+                $uriString .= $uri.'=';
+            }
             $uriString .= $cE->{$call}($stamp);
             $separator = $this->separator;
         }
+
         return $uriString;
     }
 }
-?>

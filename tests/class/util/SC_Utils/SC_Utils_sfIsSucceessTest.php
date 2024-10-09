@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,81 +28,80 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * SC_Utils::sfIsSuccess()のテストクラス.
  * TODO exitするケースはテスト不可
  * TODO HTTPSのケースは未テスト(config.phpでhttpsのURLが指定されていないため)
+ *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfIsSuccessTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfIsSuccess認証に失敗している場合Falseが返る()
+    {
+        $objSess = new SC_Session_Mock();
+        $objSess->is_success = SUCCESS + 1;
 
-  protected function tearDown(): void
-  {
-    // parent::tearDown();
-  }
+        $this->expected = false;
+        $this->actual = SC_Utils::sfIsSuccess($objSess, false);
 
-  /////////////////////////////////////////
-  public function testSfIsSuccess_認証に失敗している場合_falseが返る()
-  {
-    $objSess = new SC_Session_Mock();
-    $objSess->is_success = SUCCESS + 1;
+        $this->verify('認証可否');
+    }
 
-    $this->expected = FALSE;
-    $this->actual = SC_Utils::sfIsSuccess($objSess, FALSE);
+    public function testSfIsSuccess認証成功でリファラがない場合Trueが返る()
+    {
+        $objSess = new SC_Session_Mock();
+        $objSess->is_success = SUCCESS;
 
-    $this->verify('認証可否');
-  }
+        $this->expected = true;
+        $this->actual = SC_Utils::sfIsSuccess($objSess);
 
-  public function testSfIsSuccess_認証成功でリファラがない場合_trueが返る()
-  {
-    $objSess = new SC_Session_Mock();
-    $objSess->is_success = SUCCESS;
+        $this->verify('認証可否');
+    }
 
-    $this->expected = TRUE;
-    $this->actual = SC_Utils::sfIsSuccess($objSess);
+    // TODO 正規のドメインであることは確認しているが、管理画面からというのはチェックしていないのでは？
+    public function testSfIsSuccess認証成功でリファラが正しい場合Trueが返る()
+    {
+        $objSess = new SC_Session_Mock();
+        $objSess->is_success = SUCCESS;
+        $_SERVER['HTTP_REFERER'] = HTTP_URL.'hoge/fuga';
 
-    $this->verify('認証可否');
-  }
+        $this->expected = true;
+        $this->actual = SC_Utils::sfIsSuccess($objSess, false);
 
-  // TODO 正規のドメインであることは確認しているが、管理画面からというのはチェックしていないのでは？
-  public function testSfIsSuccess_認証成功でリファラが正しい場合_trueが返る()
-  {
-    $objSess = new SC_Session_Mock();
-    $objSess->is_success = SUCCESS;
-    $_SERVER['HTTP_REFERER'] = HTTP_URL . 'hoge/fuga';
+        $this->verify('認証可否');
+    }
 
-    $this->expected = TRUE;
-    $this->actual = SC_Utils::sfIsSuccess($objSess, FALSE);
+    public function testSfIsSuccess認証成功でリファラが不正な場合Falseが返る()
+    {
+        $objSess = new SC_Session_Mock();
+        $objSess->is_success = SUCCESS;
+        $_SERVER['HTTP_REFERER'] = 'http://test.jp.local/hoge/fuga';
 
-    $this->verify('認証可否');
-  }
+        $this->expected = false;
+        $this->actual = SC_Utils::sfIsSuccess($objSess, false);
 
-  public function testSfIsSuccess_認証成功でリファラが不正な場合_falseが返る()
-  {
-    $objSess = new SC_Session_Mock();
-    $objSess->is_success = SUCCESS;
-    $_SERVER['HTTP_REFERER'] = 'http://test.jp.local/hoge/fuga';
+        $this->verify('認証可否');
+    }
 
-    $this->expected = FALSE;
-    $this->actual = SC_Utils::sfIsSuccess($objSess, FALSE);
-
-    $this->verify('認証可否');
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
 
 class SC_Session_Mock extends SC_Session
 {
+    public $is_success;
 
-  public $is_success;
-
-  function IsSuccess($admin_dir = ADMIN_DIR)
-  {
-    return $this->is_success;
-  }
+    public function IsSuccess($admin_dir = ADMIN_DIR)
+    {
+        return $this->is_success;
+    }
 }

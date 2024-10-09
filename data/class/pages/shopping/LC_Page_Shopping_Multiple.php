@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * お届け先の複数指定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Shopping_Multiple extends LC_Page_Ex
@@ -65,7 +64,7 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
      */
     public function action()
     {
-        //決済処理中ステータスのロールバック
+        // 決済処理中ステータスのロールバック
         $objPurchase = new SC_Helper_Purchase_Ex();
         $objPurchase->cancelPendingOrder(PENDING_ORDER_CANCEL_FLAG);
 
@@ -97,8 +96,8 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
                     // フォームの情報を一時保存しておく
                     $_SESSION['multiple_temp'] = $objFormParam->getHashArray();
                     $this->saveMultipleShippings($this->tpl_uniqid, $objFormParam,
-                                                 $objCustomer, $objPurchase,
-                                                 $objAddress);
+                        $objCustomer, $objPurchase,
+                        $objAddress);
                     $objSiteSess->setRegistFlag();
 
                     SC_Response_Ex::sendRedirect('payment.php');
@@ -121,11 +120,12 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
      * フォームを初期化する.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('商品規格ID', 'product_class_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('商品規格ID', 'product_class_id', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
         $objFormParam->addParam('商品名', 'name');
         $objFormParam->addParam('規格1', 'class_name1');
         $objFormParam->addParam('規格2', 'class_name2');
@@ -134,11 +134,11 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
         $objFormParam->addParam('メイン画像', 'main_image');
         $objFormParam->addParam('メイン一覧画像', 'main_list_image');
         $objFormParam->addParam(SALE_PRICE_TITLE, 'price');
-        $objFormParam->addParam(SALE_PRICE_TITLE . '(税込)', 'price_inctax');
-        $objFormParam->addParam('数量', 'quantity', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), 1);
-        $objFormParam->addParam('お届け先', 'shipping', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('カート番号', 'cart_no', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('行数', 'line_of_num', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam(SALE_PRICE_TITLE.'(税込)', 'price_inctax');
+        $objFormParam->addParam('数量', 'quantity', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'], 1);
+        $objFormParam->addParam('お届け先', 'shipping', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('カート番号', 'cart_no', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('行数', 'line_of_num', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
     }
 
     /**
@@ -146,12 +146,13 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
      *
      * @param  SC_FormParam   $objFormParam SC_FormParam インスタンス
      * @param  SC_CartSession $objCartSess  SC_CartSession インスタンス
+     *
      * @return void
      */
     public function setParamToSplitItems(&$objFormParam, &$objCartSess)
     {
-        $cartLists =& $objCartSess->getCartList($objCartSess->getKey());
-        $arrItems = array();
+        $cartLists = &$objCartSess->getCartList($objCartSess->getKey());
+        $arrItems = [];
         $index = 0;
         foreach (array_keys($cartLists) as $key) {
             $arrProductsClass = $cartLists[$key]['productsClass'];
@@ -179,6 +180,7 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
      * @param  SC_Customer        $objCustomer SC_Customer インスタンス
      * @param  SC_Helper_Purchase $objPurchase SC_Helper_Purchase インスタンス
      * @param SC_Helper_Address_Ex $objAddress
+     *
      * @return array              配送住所のプルダウン用連想配列
      */
     public function getDelivAddrs(&$objCustomer, &$objPurchase, &$objAddress)
@@ -186,40 +188,40 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
         $masterData = new SC_DB_MasterData_Ex();
         $arrPref = $masterData->getMasterData('mtb_pref');
 
-        $arrResults = array('' => '選択してください');
+        $arrResults = ['' => '選択してください'];
         // 会員ログイン時
         if ($objCustomer->isLoginSuccess(true)) {
-            $addr = array(
-                array(
-                    'other_deliv_id'    => NULL,
-                    'customer_id'       => $objCustomer->getValue('customer_id'),
-                    'name01'            => $objCustomer->getValue('name01'),
-                    'name02'            => $objCustomer->getValue('name02'),
-                    'kana01'            => $objCustomer->getValue('kana01'),
-                    'kana02'            => $objCustomer->getValue('kana02'),
-                    'zip01'             => $objCustomer->getValue('zip01'),
-                    'zip02'             => $objCustomer->getValue('zip02'),
-                    'pref'              => $objCustomer->getValue('pref'),
-                    'addr01'            => $objCustomer->getValue('addr01'),
-                    'addr02'            => $objCustomer->getValue('addr02'),
-                    'tel01'             => $objCustomer->getValue('tel01'),
-                    'tel02'             => $objCustomer->getValue('tel02'),
-                    'tel03'             => $objCustomer->getValue('tel03'),
-                )
-            );
+            $addr = [
+                [
+                    'other_deliv_id' => null,
+                    'customer_id' => $objCustomer->getValue('customer_id'),
+                    'name01' => $objCustomer->getValue('name01'),
+                    'name02' => $objCustomer->getValue('name02'),
+                    'kana01' => $objCustomer->getValue('kana01'),
+                    'kana02' => $objCustomer->getValue('kana02'),
+                    'zip01' => $objCustomer->getValue('zip01'),
+                    'zip02' => $objCustomer->getValue('zip02'),
+                    'pref' => $objCustomer->getValue('pref'),
+                    'addr01' => $objCustomer->getValue('addr01'),
+                    'addr02' => $objCustomer->getValue('addr02'),
+                    'tel01' => $objCustomer->getValue('tel01'),
+                    'tel02' => $objCustomer->getValue('tel02'),
+                    'tel03' => $objCustomer->getValue('tel03'),
+                ],
+            ];
             $arrAddrs = array_merge($addr, $objAddress->getList($objCustomer->getValue('customer_id')));
             foreach ($arrAddrs as $val) {
                 $other_deliv_id = SC_Utils_Ex::isBlank($val['other_deliv_id']) ? 0 : $val['other_deliv_id'];
-                $arrResults[$other_deliv_id] = $val['name01'] . $val['name02']
-                    . ' ' . $arrPref[$val['pref']] . $val['addr01'] . $val['addr02'];
+                $arrResults[$other_deliv_id] = $val['name01'].$val['name02']
+                    .' '.$arrPref[$val['pref']].$val['addr01'].$val['addr02'];
             }
         // 非会員
         } else {
             $arrShippings = $objPurchase->getShippingTemp();
             foreach ($arrShippings as $shipping_id => $val) {
-                $arrResults[$shipping_id] = $val['shipping_name01'] . $val['shipping_name02']
-                    . ' ' . $arrPref[$val['shipping_pref']]
-                    . $val['shipping_addr01'] . $val['shipping_addr02'];
+                $arrResults[$shipping_id] = $val['shipping_name01'].$val['shipping_name02']
+                    .' '.$arrPref[$val['shipping_pref']]
+                    .$val['shipping_addr01'].$val['shipping_addr02'];
             }
         }
 
@@ -230,6 +232,7 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
      * 入力チェックを行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return array        エラー情報の配列
      */
     public function lfCheckError(&$objFormParam)
@@ -248,7 +251,7 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
             foreach ($arrParams as $index => $arrParam) {
                 // 数量0で、お届け先を選択している場合
                 if ($arrParam['quantity'] == 0 && !SC_Utils_Ex::isBlank($arrParam['shipping'])) {
-                    $arrErr['shipping'][$index] = '※ 数量が0の場合、お届け先を入力できません。<br />';;
+                    $arrErr['shipping'][$index] = '※ 数量が0の場合、お届け先を入力できません。<br />';
                 }
                 // 数量の入力があり、お届け先を選択していない場合
                 if ($arrParam['quantity'] > 0 && SC_Utils_Ex::isBlank($arrParam['shipping'])) {
@@ -259,21 +262,21 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
 
         // 入力エラーが無い場合、カゴの中身との数量の整合を確認
         if (empty($arrErr)) {
-            $arrQuantity = array();
+            $arrQuantity = [];
             // 入力内容を集計
             foreach ($arrParams as $arrParam) {
                 $product_class_id = $arrParam['product_class_id'];
                 $arrQuantity[$product_class_id] += $arrParam['quantity'];
             }
             // カゴの中身と突き合わせ
-            $cartLists =& $objCartSess->getCartList($objCartSess->getKey());
+            $cartLists = &$objCartSess->getCartList($objCartSess->getKey());
             foreach ($cartLists as $arrCartRow) {
                 $product_class_id = $arrCartRow['id'];
                 // 差異がある場合、エラーを記録
                 if ($arrCartRow['quantity'] != $arrQuantity[$product_class_id]) {
                     foreach ($arrParams as $index => $arrParam) {
                         if ($arrParam['product_class_id'] == $product_class_id) {
-                            $arrErr['quantity'][$index] = '※ 数量合計を「' . $arrCartRow['quantity'] .'」にしてください。<br />';
+                            $arrErr['quantity'][$index] = '※ 数量合計を「'.$arrCartRow['quantity'].'」にしてください。<br />';
                         }
                     }
                 }
@@ -288,18 +291,19 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
      *
      * 会員ログインしている場合は, その他のお届け先から住所情報を取得する.
      *
-     * @param  integer            $uniqid       一時受注テーブルのユニークID
+     * @param  int            $uniqid       一時受注テーブルのユニークID
      * @param  SC_FormParam       $objFormParam SC_FormParam インスタンス
      * @param  SC_Customer        $objCustomer  SC_Customer インスタンス
      * @param  SC_Helper_Purchase $objPurchase  SC_Helper_Purchase インスタンス
      * @param SC_Helper_Address_Ex $objAddress
+     *
      * @return void
      */
     public function saveMultipleShippings($uniqid, &$objFormParam, &$objCustomer, &$objPurchase, &$objAddress)
     {
         $arrParams = $objFormParam->getSwapArray();
-        $arrValues = array();
-        $arrItemTemp = array();
+        $arrValues = [];
+        $arrItemTemp = [];
         foreach ($arrParams as $arrParam) {
             $other_deliv_id = $arrParam['shipping'];
 
@@ -308,16 +312,16 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
                     $otherDeliv = $objAddress->getAddress($other_deliv_id, $objCustomer->getValue('customer_id'));
 
                     if (!$otherDeliv) {
-                        SC_Utils_Ex::sfDispSiteError(FREE_ERROR_MSG, '', false, "入力値が不正です。<br />正しい値を入力してください。");
+                        SC_Utils_Ex::sfDispSiteError(FREE_ERROR_MSG, '', false, '入力値が不正です。<br />正しい値を入力してください。');
                         SC_Response_Ex::actionExit();
                     }
 
                     foreach ($otherDeliv as $key => $val) {
-                        $arrValues[$other_deliv_id]['shipping_' . $key] = $val;
+                        $arrValues[$other_deliv_id]['shipping_'.$key] = $val;
                     }
                 } else {
                     $objPurchase->copyFromCustomer($arrValues[0], $objCustomer,
-                                                   'shipping');
+                        'shipping');
                 }
             } else {
                 $arrValues = $objPurchase->getShippingTemp();
@@ -333,15 +337,17 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
 
         foreach ($arrItemTemp as $other_deliv_id => $arrProductClassIds) {
             foreach ($arrProductClassIds as $product_class_id => $quantity) {
-                if ($quantity == 0) continue;
+                if ($quantity == 0) {
+                    continue;
+                }
                 $objPurchase->setShipmentItemTemp($other_deliv_id,
-                                                  $product_class_id,
-                                                  $quantity);
+                    $product_class_id,
+                    $quantity);
             }
         }
 
-        //不必要な配送先を削除
-        foreach ($_SESSION['shipping'] as $id=>$arrShipping) {
+        // 不必要な配送先を削除
+        foreach ($_SESSION['shipping'] as $id => $arrShipping) {
             if (!isset($arrShipping['shipment_item'])) {
                 $objPurchase->unsetOneShippingTemp($id);
             }

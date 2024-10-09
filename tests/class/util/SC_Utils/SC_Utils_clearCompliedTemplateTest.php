@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,39 +27,36 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::clearCompliedTemplate()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_clearCompliedTemplateTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testコンパイル済みのファイルを配置するディレクトリが空になる()
+    {
+        SC_Utils::clearCompliedTemplate();
 
-  protected function tearDown(): void
-  {
-    // parent::tearDown();
-  }
+        $this->expected = [];
+        $this->actual = [];
+        Test_Utils::array_append($this->actual, COMPILE_REALDIR);
+        Test_Utils::array_append($this->actual, COMPILE_ADMIN_REALDIR);
+        Test_Utils::array_append($this->actual, SMARTPHONE_COMPILE_REALDIR);
+        Test_Utils::array_append($this->actual, MOBILE_COMPILE_REALDIR);
 
-  /////////////////////////////////////////
-  public function test__コンパイル済みのファイルを配置するディレクトリが空になる()
-  {
-    SC_Utils::clearCompliedTemplate();
+        $this->verify('コンパイル済みファイルの格納先の中身');
+    }
 
-    $this->expected = array();
-    $this->actual = array();
-    Test_Utils::array_append($this->actual, COMPILE_REALDIR);
-    Test_Utils::array_append($this->actual, COMPILE_ADMIN_REALDIR);
-    Test_Utils::array_append($this->actual, SMARTPHONE_COMPILE_REALDIR);
-    Test_Utils::array_append($this->actual, MOBILE_COMPILE_REALDIR);
-
-    $this->verify('コンパイル済みファイルの格納先の中身');
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

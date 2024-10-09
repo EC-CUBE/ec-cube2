@@ -16,7 +16,7 @@ class SC_CheckError_FILE_EXT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->validExtensions = ['jpg', 'JPEG'];
     }
 
-    public function testFILE_EXT_CHECK()
+    public function testFILEEXTCHECK()
     {
         $this->fileName = 'test.jpeg';
         $this->expected = '';
@@ -25,7 +25,7 @@ class SC_CheckError_FILE_EXT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_EXT_CHECKWithUpperCase()
+    public function testFILEEXTCHECKWithUpperCase()
     {
         $this->fileName = 'test.JPG';
         $this->expected = '';
@@ -34,7 +34,7 @@ class SC_CheckError_FILE_EXT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_EXT_CHECKWithEmpty()
+    public function testFILEEXTCHECKWithEmpty()
     {
         $this->fileName = '';
         $this->expected = '※ FILE_EXT_CHECKで許可されている形式は、jpg・JPEGです。<br />';
@@ -43,7 +43,7 @@ class SC_CheckError_FILE_EXT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_EXT_CHECKWithNull()
+    public function testFILEEXTCHECKWithNull()
     {
         $this->fileName = null;
         $this->expected = '※ FILE_EXT_CHECKで許可されている形式は、jpg・JPEGです。<br />';
@@ -52,7 +52,7 @@ class SC_CheckError_FILE_EXT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_EXT_CHECKWithError()
+    public function testFILEEXTCHECKWithError()
     {
         $this->fileName = 'test.png';
         $this->expected = '※ FILE_EXT_CHECKで許可されている形式は、jpg・JPEGです。<br />';
@@ -68,8 +68,8 @@ class SC_CheckError_FILE_EXT_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         $_FILES = [
             self::FORM_NAME => [
-                'name' => $this->fileName
-            ]
+                'name' => $this->fileName,
+            ],
         ];
         $this->arrForm = [];
         $this->objErr = new SC_CheckError_Ex($this->arrForm);

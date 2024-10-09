@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * メンバー削除 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_System_Delete extends LC_Page_Admin_Ex
@@ -63,7 +62,7 @@ class LC_Page_Admin_System_Delete extends LC_Page_Admin_Ex
             SC_Utils_Ex::sfDispError(INVALID_MOVE_ERRORR);
             SC_Response_Ex::actionExit();
         }
-        $objFormParam = new SC_FormParam_Ex;
+        $objFormParam = new SC_FormParam_Ex();
 
         // パラメーターの初期化
         $this->initParam($objFormParam, $_GET);
@@ -83,7 +82,7 @@ class LC_Page_Admin_System_Delete extends LC_Page_Admin_Ex
 
         // リダイレクト
         $url = $this->getLocation(ADMIN_SYSTEM_URLPATH)
-             . '?pageno=' . $objFormParam->getValue('pageno');
+             .'?pageno='.$objFormParam->getValue('pageno');
 
         SC_Response_Ex::sendRedirect($url);
     }
@@ -93,19 +92,21 @@ class LC_Page_Admin_System_Delete extends LC_Page_Admin_Ex
      *
      * @param  SC_FormParam_Ex $objFormParam
      * @param  array  $arrParams    $_GET値
+     *
      * @return void
      */
     public function initParam(&$objFormParam, &$arrParams)
     {
-        $objFormParam->addParam('pageno', 'pageno', INT_LEN, '', array('NUM_CHECK', 'MAX_LENGTH_CHECK', 'EXIST_CHECK'));
-        $objFormParam->addParam('id', 'id', INT_LEN, '', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('pageno', 'pageno', INT_LEN, '', ['NUM_CHECK', 'MAX_LENGTH_CHECK', 'EXIST_CHECK']);
+        $objFormParam->addParam('id', 'id', INT_LEN, '', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
         $objFormParam->setParam($arrParams);
     }
 
     /**
      * メンバー情報削除の為の制御.
      *
-     * @param  integer $id 削除対象のmember_id
+     * @param  int $id 削除対象のmember_id
+     *
      * @return void
      */
     public function deleteMember($id)
@@ -123,38 +124,40 @@ class LC_Page_Admin_System_Delete extends LC_Page_Admin_Ex
      * ランキングの振り直し.
      *
      * @param  SC_Query      $objQuery
-     * @param  integer     $id       削除対象のmember_id
+     * @param  int     $id       削除対象のmember_id
+     *
      * @return void|UPDATE の結果フラグ
      */
     public function renumberRank(&$objQuery, $id)
     {
         // ランクの取得
         $where1 = 'member_id = ?';
-        $rank = $objQuery->get('rank', 'dtb_member', $where1, array($id));
+        $rank = $objQuery->get('rank', 'dtb_member', $where1, [$id]);
 
         // Updateする値を作成する.
         $where2 = 'rank > ? AND del_flg <> 1';
 
         // UPDATEの実行 - 削除したレコードより上のランキングを下げてRANKの空きを埋める。
-        return $objQuery->update('dtb_member', array(), $where2, array($rank), array('rank' => 'rank-1'));
+        return $objQuery->update('dtb_member', [], $where2, [$rank], ['rank' => 'rank-1']);
     }
 
     /**
      * レコードの削除(削除フラグをONにする).
      *
      * @param  SC_Query      $objQuery
-     * @param  integer     $id       削除対象のmember_id
+     * @param  int     $id       削除対象のmember_id
+     *
      * @return void|UPDATE の結果フラグ
      */
     public function deleteRecode(&$objQuery, $id)
     {
         // Updateする値を作成する.
-        $sqlVal = array();
+        $sqlVal = [];
         $sqlVal['rank'] = 0;
         $sqlVal['del_flg'] = 1;
         $where = 'member_id = ?';
 
         // UPDATEの実行 - ランクを最下位にする、DELフラグON
-        return $objQuery->update('dtb_member', $sqlVal, $where, array($id));
+        return $objQuery->update('dtb_member', $sqlVal, $where, [$id]);
     }
 }

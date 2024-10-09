@@ -2,7 +2,7 @@
 
 class SC_CheckError_EQUAL_CHECKTest extends SC_CheckError_AbstractTestCase
 {
-    const FORM_NAME_REPEAT = 'form_repeat';
+    public const FORM_NAME_REPEAT = 'form_repeat';
 
     protected function setUp(): void
     {
@@ -10,28 +10,28 @@ class SC_CheckError_EQUAL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'EQUAL_CHECK';
     }
 
-    public function testEQUAL_CHECK()
+    public function testEQUALCHECK()
     {
         $this->arrForm = [self::FORM_NAME => 'a', self::FORM_NAME_REPEAT => 'b'];
-        $this->expected = "※label1とlabel2が一致しません。<br />";
+        $this->expected = '※label1とlabel2が一致しません。<br />';
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testEQUAL_CHECKWithNoError()
+    public function testEQUALCHECKWithNoError()
     {
         $this->arrForm = [self::FORM_NAME => 'a', self::FORM_NAME_REPEAT => 'a'];
-        $this->expected = "";
+        $this->expected = '';
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testEQUAL_CHECKWithEmpty()
+    public function testEQUALCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => '', self::FORM_NAME_REPEAT => ''];
-        $this->expected = "";
+        $this->expected = '';
 
         $this->scenario();
         $this->verify();

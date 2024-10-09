@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Session_unsetUniqIdTest extends Common_TestCase
 {
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -38,9 +37,9 @@ class SC_Session_unsetUniqIdTest extends Common_TestCase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testUnsetUniqId_uniqIDを解除する()
+    public function testUnsetUniqIdUniqIDを解除する()
     {
         $_SESSION['site']['uniqid'] = '1234567890';
         $this->objSiteSession->unsetUniqId();

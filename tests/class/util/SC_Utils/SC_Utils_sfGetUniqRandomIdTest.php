@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -30,45 +30,43 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * 文字数とランダム性のみをチェックする.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetUniqRandomIdTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testPrefix指定が無い場合21文字のランダムな文字列が生成される()
+    {
+        $output1 = SC_Utils::sfGetUniqRandomId();
+        $output2 = SC_Utils::sfGetUniqRandomId();
 
-  protected function tearDown(): void
-  {
-    // parent::tearDown();
-  }
+        $this->assertEquals(21, strlen($output1), '文字列1の長さ');
+        $this->assertEquals(21, strlen($output2), '文字列2の長さ');
+        $this->assertNotEquals($output1, $output2, '生成結果がランダムになる');
+    }
 
-  /////////////////////////////////////////
-  public function test_prefix指定が無い場合_21文字のランダムな文字列が生成される()
-  {
-    $output1 = SC_Utils::sfGetUniqRandomId();
-    $output2 = SC_Utils::sfGetUniqRandomId();
+    public function testPrefix指定がある場合Prefixのあとに21文字のランダムな文字列が生成される()
+    {
+        $output1 = SC_Utils::sfGetUniqRandomId('hello');
+        $output2 = SC_Utils::sfGetUniqRandomId('hello');
 
-    $this->assertEquals(21, strlen($output1), '文字列1の長さ');
-    $this->assertEquals(21, strlen($output2), '文字列2の長さ');
-    $this->assertNotEquals($output1, $output2, '生成結果がランダムになる');
-  }
+        $this->assertEquals(26, strlen($output1), '文字列1の長さ');
+        $this->assertEquals('hello', substr($output1, 0, 5), 'prefix1');
+        $this->assertEquals(26, strlen($output2), '文字列2の長さ');
+        $this->assertEquals('hello', substr($output2, 0, 5), 'prefix2');
+        $this->assertNotEquals($output1, $output2, '生成結果がランダムになる');
+    }
 
-  public function test_prefix指定がある場合_prefixのあとに21文字のランダムな文字列が生成される()
-  {
-    $output1 = SC_Utils::sfGetUniqRandomId('hello');
-    $output2 = SC_Utils::sfGetUniqRandomId('hello');
-
-    $this->assertEquals(26, strlen($output1), '文字列1の長さ');
-    $this->assertEquals('hello', substr($output1, 0, 5), 'prefix1');
-    $this->assertEquals(26, strlen($output2), '文字列2の長さ');
-    $this->assertEquals('hello', substr($output2, 0, 5), 'prefix2');
-    $this->assertNotEquals($output1, $output2, '生成結果がランダムになる');
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

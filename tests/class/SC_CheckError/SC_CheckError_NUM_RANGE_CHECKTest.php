@@ -14,7 +14,7 @@ class SC_CheckError_NUM_RANGE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'NUM_RANGE_CHECK';
     }
 
-    public function testNUM_RANGE_CHECK()
+    public function testNUMRANGECHECK()
     {
         $this->minlength = 3;
         $this->maxlength = 5;
@@ -25,7 +25,7 @@ class SC_CheckError_NUM_RANGE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_RANGE_CHECKWithMin()
+    public function testNUMRANGECHECKWithMin()
     {
         $this->minlength = 3;
         $this->maxlength = 5;
@@ -36,8 +36,7 @@ class SC_CheckError_NUM_RANGE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testNUM_RANGE_CHECKWithLess()
+    public function testNUMRANGECHECKWithLess()
     {
         $this->minlength = 3;
         $this->maxlength = 5;
@@ -48,7 +47,7 @@ class SC_CheckError_NUM_RANGE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_RANGE_CHECKWithGreater()
+    public function testNUMRANGECHECKWithGreater()
     {
         $this->minlength = 3;
         $this->maxlength = 5;
@@ -59,7 +58,7 @@ class SC_CheckError_NUM_RANGE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_RANGE_CHECKWithEmpty()
+    public function testNUMRANGECHECKWithEmpty()
     {
         $this->minlength = 3;
         $this->maxlength = 5;
@@ -70,7 +69,7 @@ class SC_CheckError_NUM_RANGE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_RANGE_CHECKWithNull()
+    public function testNUMRANGECHECKWithNull()
     {
         $this->minlength = 3;
         $this->maxlength = 5;
@@ -81,7 +80,7 @@ class SC_CheckError_NUM_RANGE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_RANGE_CHECKWithZero()
+    public function testNUMRANGECHECKWithZero()
     {
         $this->minlength = 3;
         $this->maxlength = 5;
@@ -92,7 +91,7 @@ class SC_CheckError_NUM_RANGE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_RANGE_CHECKWithString()
+    public function testNUMRANGECHECKWithString()
     {
         $this->minlength = 3;
         $this->maxlength = 5;
@@ -113,4 +112,3 @@ class SC_CheckError_NUM_RANGE_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->objErr->doFunc(['dummy', self::FORM_NAME, $this->minlength, $this->maxlength], [$this->target_func]);
     }
 }
-

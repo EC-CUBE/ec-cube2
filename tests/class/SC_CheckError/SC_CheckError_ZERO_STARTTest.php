@@ -8,7 +8,7 @@ class SC_CheckError_ZERO_STARTTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'ZERO_START';
     }
 
-    public function testZERO_START()
+    public function testZEROSTART()
     {
         $this->arrForm = [self::FORM_NAME => '0111'];
         $this->expected = "※ {$this->target_func}に0で始まる数値が入力されています。<br />";
@@ -17,10 +17,10 @@ class SC_CheckError_ZERO_STARTTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testZERO_STARTwithNotZeroStart()
+    public function testZEROSTARTwithNotZeroStart()
     {
         $this->arrForm = [self::FORM_NAME => 'a'];
-        $this->expected = "";
+        $this->expected = '';
 
         $this->scenario();
         $this->verify();

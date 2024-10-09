@@ -3,17 +3,17 @@
 class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
 {
     /** @var string */
-    const FORM_NAME1 = 'start';
+    public const FORM_NAME1 = 'start';
     /** @var string */
-    const FORM_NAME2 = 'end';
+    public const FORM_NAME2 = 'end';
     /** @var string */
-    const FORM_NAME3 = 'start_year';
+    public const FORM_NAME3 = 'start_year';
     /** @var string */
-    const FORM_NAME4 = 'start_month';
+    public const FORM_NAME4 = 'start_month';
     /** @var string */
-    const FORM_NAME5 = 'end_year';
+    public const FORM_NAME5 = 'end_year';
     /** @var string */
-    const FORM_NAME6 = 'end_month';
+    public const FORM_NAME6 = 'end_month';
 
     /** @var string */
     protected $start_year;
@@ -41,7 +41,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
         $this->end_month = $this->targetDateTime->format('m');
     }
 
-    public function testCHECK_SET_TERM3()
+    public function testCHECKSETTERM3()
     {
         $this->arrForm = [
             self::FORM_NAME3 => $this->start_year,
@@ -55,14 +55,13 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testCHECK_SET_TERM3WithEmpty()
+    public function testCHECKSETTERM3WithEmpty()
     {
         $this->arrForm = [
             self::FORM_NAME3 => $this->start_year,
             self::FORM_NAME4 => $this->start_month,
             self::FORM_NAME5 => $this->end_year,
-            self::FORM_NAME6 => ''
+            self::FORM_NAME6 => '',
         ];
         $this->expected = [self::FORM_NAME5 => '※ endを正しく指定してください。<br />'];
 
@@ -70,25 +69,25 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_SET_TERM3WithNull()
+    public function testCHECKSETTERM3WithNull()
     {
         $this->arrForm = [
             self::FORM_NAME3 => '2019',
             self::FORM_NAME4 => null,
             self::FORM_NAME5 => '2019',
-            self::FORM_NAME6 => null
+            self::FORM_NAME6 => null,
         ];
 
         $this->expected = [
             self::FORM_NAME3 => '※ startを正しく指定してください。<br />',
-            self::FORM_NAME5 => '※ endを正しく指定してください。<br />'
+            self::FORM_NAME5 => '※ endを正しく指定してください。<br />',
         ];
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testCHECK_SET_TERM3WithZero()
+    public function testCHECKSETTERM3WithZero()
     {
         $this->arrForm = [
             self::FORM_NAME3 => '0',
@@ -99,20 +98,20 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
 
         $this->expected = [
             self::FORM_NAME3 => '※ startを正しく指定してください。<br />',
-            self::FORM_NAME5 => '※ endを正しく指定してください。<br />'
+            self::FORM_NAME5 => '※ endを正しく指定してください。<br />',
         ];
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testCHECK_SET_TERM3WithInvalid()
+    public function testCHECKSETTERM3WithInvalid()
     {
         $this->arrForm = [
             self::FORM_NAME3 => '2000',
             self::FORM_NAME4 => '2',
             self::FORM_NAME5 => '2001',
-            self::FORM_NAME6 => '13'
+            self::FORM_NAME6 => '13',
         ];
 
         $this->expected = [self::FORM_NAME5 => '※ endを正しく指定してください。<br />'];
@@ -121,13 +120,13 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_SET_TERM3WithReverse()
+    public function testCHECKSETTERM3WithReverse()
     {
         $this->arrForm = [
             self::FORM_NAME3 => '2001',
             self::FORM_NAME4 => '2',
             self::FORM_NAME5 => '2000',
-            self::FORM_NAME6 => '2'
+            self::FORM_NAME6 => '2',
         ];
 
         $this->expected = [self::FORM_NAME3 => '※ startとendの期間指定が不正です。<br />'];
@@ -149,7 +148,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
                 self::FORM_NAME3,
                 self::FORM_NAME4,
                 self::FORM_NAME5,
-                self::FORM_NAME6
+                self::FORM_NAME6,
             ],
             [$this->target_func]
         );
@@ -160,7 +159,7 @@ class SC_CheckError_CHECK_SET_TERM3Test extends SC_CheckError_AbstractTestCase
                 self::FORM_NAME3,
                 self::FORM_NAME4,
                 self::FORM_NAME5,
-                self::FORM_NAME6
+                self::FORM_NAME6,
             ],
             [$this->target_func]
         );

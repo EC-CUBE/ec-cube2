@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ヘッダ, フッタ編集 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Design_Header extends LC_Page_Admin_Ex
@@ -113,23 +112,24 @@ class LC_Page_Admin_Design_Header extends LC_Page_Admin_Ex
             }
         } else {
             // 画面にエラー表示しないため, ログ出力
-            GC_Utils_Ex::gfPrintLog('Error: ' . print_r($this->arrErr, true));
+            GC_Utils_Ex::gfPrintLog('Error: '.print_r($this->arrErr, true));
         }
 
-        //サブタイトルの追加
-        $this->tpl_subtitle = $this->arrDeviceType[$this->device_type_id] . '＞' . $this->tpl_subtitle;
+        // サブタイトルの追加
+        $this->tpl_subtitle = $this->arrDeviceType[$this->device_type_id].'＞'.$this->tpl_subtitle;
     }
 
     /**
      * パラメーター情報の初期化
      *
      * @param  SC_FormParam_Ex $objFormParam SC_FormParamインスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('端末種別ID', 'device_type_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('division', 'division', STEXT_LEN, 'a', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('端末種別ID', 'device_type_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('division', 'division', STEXT_LEN, 'a', ['MAX_LENGTH_CHECK']);
         $objFormParam->addParam('ヘッダデータ', 'header');
         $objFormParam->addParam('フッタデータ', 'footer');
     }
@@ -138,14 +138,15 @@ class LC_Page_Admin_Design_Header extends LC_Page_Admin_Ex
      * エラーチェックを行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return array        エラーメッセージの配列
      */
     public function lfCheckError(&$objFormParam, &$arrErr)
     {
         $arrParams = $objFormParam->getHashArray();
         $objErr = new SC_CheckError_Ex($arrParams);
-        $objErr->arrErr =& $arrErr;
-        $objErr->doFunc(array('division', 'division', STEXT_LEN), array('EXIST_CHECK'));
+        $objErr->arrErr = &$arrErr;
+        $objErr->doFunc(['division', 'division', STEXT_LEN], ['EXIST_CHECK']);
 
         return $objErr->arrErr;
     }
@@ -156,7 +157,8 @@ class LC_Page_Admin_Design_Header extends LC_Page_Admin_Ex
      * ファイルの作成に失敗した場合は, エラーメッセージを出力する.
      *
      * @param  SC_FormParam    $objFormParam SC_FormParam インスタンス
-     * @return boolean 登録が成功した場合 true; 失敗した場合 false
+     *
+     * @return bool 登録が成功した場合 true; 失敗した場合 false
      */
     public function doRegister(&$objFormParam)
     {
@@ -176,13 +178,14 @@ class LC_Page_Admin_Design_Header extends LC_Page_Admin_Ex
     /**
      * テンプレートパスを取得する.
      *
-     * @param  integer        $device_type_id 端末種別ID
+     * @param  int        $device_type_id 端末種別ID
      * @param  string         $division       'header' or 'footer'
+     *
      * @return string|false 成功した場合, テンプレートのパス; 失敗した場合 false
      */
     public function getTemplatePath($device_type_id, $division)
     {
-        $tpl_path = SC_Helper_PageLayout_Ex::getTemplatePath($device_type_id) . '/' . $division . '.tpl';
+        $tpl_path = SC_Helper_PageLayout_Ex::getTemplatePath($device_type_id).'/'.$division.'.tpl';
         if (file_exists($tpl_path)) {
             return $tpl_path;
         } else {

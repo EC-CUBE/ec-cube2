@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,33 +27,30 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfMultiply()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfMultiplyTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfMultiply掛け算の結果が返る()
+    {
+        $this->expected = 520;
+        $this->actual = SC_Utils::sfMultiply(13, 40);
 
-  protected function tearDown(): void
-  {
-    parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfMultiply__掛け算の結果が返る()
-  {
-    $this->expected = 520;
-    $this->actual = SC_Utils::sfMultiply(13, 40);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

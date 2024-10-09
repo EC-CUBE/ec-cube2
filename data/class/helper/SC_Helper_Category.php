@@ -24,8 +24,8 @@
 /**
  * カテゴリーを管理するヘルパークラス.
  *
- * @package Helper
  * @author pineray
+ *
  * @version $Id$
  */
 class SC_Helper_Category
@@ -35,9 +35,9 @@ class SC_Helper_Category
     /**
      * コンストラクター
      *
-     * @param boolean $count_check 登録商品数をチェックする場合はtrue
+     * @param bool $count_check 登録商品数をチェックする場合はtrue
      */
-    public function __construct($count_check = FALSE)
+    public function __construct($count_check = false)
     {
         $this->count_check = $count_check;
     }
@@ -45,7 +45,8 @@ class SC_Helper_Category
     /**
      * カテゴリーの情報を取得.
      *
-     * @param  integer $category_id カテゴリーID
+     * @param  int $category_id カテゴリーID
+     *
      * @return array
      */
     public function get($category_id)
@@ -58,7 +59,7 @@ class SC_Helper_Category
         if ($this->count_check) {
             $where .= ' AND product_count > 0';
         }
-        $arrRet = $objQuery->getRow($col, $from, $where, array($category_id));
+        $arrRet = $objQuery->getRow($col, $from, $where, [$category_id]);
 
         return $arrRet;
     }
@@ -66,12 +67,13 @@ class SC_Helper_Category
     /**
      * カテゴリー一覧の取得.
      *
-     * @param  boolean $cid_to_key 配列のキーをカテゴリーIDにする場合はtrue
+     * @param  bool $cid_to_key 配列のキーをカテゴリーIDにする場合はtrue
+     *
      * @return array   カテゴリー一覧の配列
      */
-    public function getList($cid_to_key = FALSE)
+    public function getList($cid_to_key = false)
     {
-        static $arrCategory = array(), $cidIsKey = array();
+        static $arrCategory = [], $cidIsKey = [];
 
         if (!isset($arrCategory[$this->count_check])) {
             $objQuery = SC_Query_Ex::getSingletonInstance();
@@ -108,7 +110,7 @@ class SC_Helper_Category
      */
     public function getTree()
     {
-        static $arrTree = array();
+        static $arrTree = [];
         if (!isset($arrTree[$this->count_check])) {
             $arrList = $this->getList();
             $arrTree[$this->count_check] = SC_Utils_Ex::buildTree('category_id', 'parent_category_id', LEVEL_MAX, $arrList);
@@ -120,14 +122,15 @@ class SC_Helper_Category
     /**
      * 親カテゴリーIDの配列を取得.
      *
-     * @param  integer $category_id 起点のカテゴリーID
-     * @param  boolean $id_only     IDだけの配列を返す場合はtrue
+     * @param  int $category_id 起点のカテゴリーID
+     * @param  bool $id_only     IDだけの配列を返す場合はtrue
+     *
      * @return array
      */
-    public function getTreeTrail($category_id, $id_only = TRUE)
+    public function getTreeTrail($category_id, $id_only = true)
     {
-        $arrCategory = $this->getList(TRUE);
-        $arrTrailID = SC_Utils_Ex::getTreeTrail($category_id, 'category_id', 'parent_category_id', $arrCategory, TRUE, 0, $id_only);
+        $arrCategory = $this->getList(true);
+        $arrTrailID = SC_Utils_Ex::getTreeTrail($category_id, 'category_id', 'parent_category_id', $arrCategory, true, 0, $id_only);
 
         return $arrTrailID;
     }
@@ -136,15 +139,17 @@ class SC_Helper_Category
      * 指定カテゴリーの子孫カテゴリーを取得
      *
      * @param int $category_id カテゴリーID
+     *
      * @return array
      */
-    public function getTreeBranch($category_id) {
+    public function getTreeBranch($category_id)
+    {
         $arrTree = $this->getTree();
         $arrTrail = $this->getTreeTrail($category_id, true);
 
         // ルートから指定カテゴリーまでたどる.
         foreach ($arrTrail as $parent_id) {
-            $nextTree = array();
+            $nextTree = [];
             foreach ($arrTree as $branch) {
                 if ($branch['category_id'] == $parent_id && isset($branch['children'])) {
                     $nextTree = $branch['children'];
@@ -160,9 +165,11 @@ class SC_Helper_Category
      * カテゴリーの削除
      *
      * @param int $category_id カテゴリーID
+     *
      * @return void
      */
-    public function delete($category_id) {
+    public function delete($category_id)
+    {
         $objDb = new SC_Helper_DB_Ex();
         // ランク付きレコードの削除(※処理負荷を考慮してレコードごと削除する。)
         $objDb->sfDeleteRankRecord('dtb_category', 'category_id', $category_id, '', true);
@@ -173,9 +180,11 @@ class SC_Helper_Category
      *
      * @param int $category_id
      * @param bool $include_deleted
+     *
      * @return bool
      */
-    public function isValidCategoryId($category_id, $include_deleted = false) {
+    public function isValidCategoryId($category_id, $include_deleted = false)
+    {
         if ($include_deleted) {
             $where = '';
         } else {
@@ -184,10 +193,11 @@ class SC_Helper_Category
         if (
             SC_Utils_Ex::sfIsInt($category_id)
             && !SC_Utils_Ex::sfIsZeroFilling($category_id)
-            && SC_Helper_DB_Ex::sfIsRecord('dtb_category', 'category_id', array($category_id), $where)
+            && SC_Helper_DB_Ex::sfIsRecord('dtb_category', 'category_id', [$category_id], $where)
         ) {
             return true;
         }
+
         return false;
     }
 }

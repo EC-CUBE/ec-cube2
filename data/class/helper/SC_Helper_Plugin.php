@@ -24,32 +24,38 @@
 /**
  * プラグインのヘルパークラス.
  *
- * @package Helper
  * @version $Id$
  */
 class SC_Helper_Plugin
 {
     // プラグインのインスタンスの配列.
-    public $arrPluginInstances = array();
+    public $arrPluginInstances = [];
     // プラグインのアクションの配列.
-    public $arrRegistedPluginActions = array();
+    public $arrRegistedPluginActions = [];
     // プラグインのIDの配列.
-    public $arrPluginIds = array();
+    public $arrPluginIds = [];
     // HeadNaviブロックの配列
-    public $arrHeadNaviBlocsByPlugin = array();
+    public $arrHeadNaviBlocsByPlugin = [];
 
     /**
      * 有効なプラグインのロード. プラグインエンジンが有効になっていない場合は
      * プラグインエンジン自身のインストール処理を起動する
      *
      * @param bool $plugin_activate_flg プラグインを有効化する場合 true
+     *
      * @return void
      */
     public function load($plugin_activate_flg = true, $plugin_upload_realdir = PLUGIN_UPLOAD_REALDIR)
     {
-        if (!defined('CONFIG_REALFILE') || !file_exists(CONFIG_REALFILE)) return; // インストール前
-        if (GC_Utils_Ex::isInstallFunction()) return; // インストール中
-        if ($plugin_activate_flg === false) return;
+        if (!defined('CONFIG_REALFILE') || !file_exists(CONFIG_REALFILE)) {
+            return;
+        } // インストール前
+        if (GC_Utils_Ex::isInstallFunction()) {
+            return;
+        } // インストール中
+        if ($plugin_activate_flg === false) {
+            return;
+        }
         // 有効なプラグインを取得
         $arrPluginDataList = SC_Plugin_Util_Ex::getEnablePlugin();
         // pluginディレクトリを取得
@@ -57,15 +63,15 @@ class SC_Helper_Plugin
         foreach ($arrPluginDataList as $arrPluginData) {
             // プラグイン本体ファイル名が取得したプラグインディレクトリ一覧にある事を確認
             if (array_search($arrPluginData['plugin_code'], $arrPluginDirectory) !== false) {
-                $plugin_file_path = $plugin_upload_realdir . $arrPluginData['plugin_code'] . '/' . $arrPluginData['class_name'] . '.php';
+                $plugin_file_path = $plugin_upload_realdir.$arrPluginData['plugin_code'].'/'.$arrPluginData['class_name'].'.php';
                 // プラグイン本体ファイルが存在しない場合
                 if (!file_exists($plugin_file_path)) {
                     // エラー出力
                     $msg = 'プラグイン本体ファイルが存在しない。当該プラグインを無視して続行する。';
-                    $msg .= 'ファイル=' . var_export($plugin_file_path, true) . '; ';
+                    $msg .= 'ファイル='.var_export($plugin_file_path, true).'; ';
                     trigger_error($msg, E_USER_WARNING);
                     // 次のプラグインへ続行
-                    continue 1;
+                    continue;
                 }
                 // プラグイン本体ファイルをrequire.
                 require_once $plugin_file_path;
@@ -88,6 +94,7 @@ class SC_Helper_Plugin
      * SC_Helper_Plugin オブジェクトを返す（Singletonパターン）
      *
      * @param bool $plugin_activate_flg プラグインを有効化する場合 true
+     *
      * @return SC_Helper_Plugin SC_Helper_Pluginオブジェクト
      */
     public static function getSingletonInstance($plugin_activate_flg = PLUGIN_ACTIVATE_FLAG, $plugin_upload_realdir = PLUGIN_UPLOAD_REALDIR)
@@ -95,7 +102,7 @@ class SC_Helper_Plugin
         if (!isset($GLOBALS['_SC_Helper_Plugin_instance'])) {
             // プラグインのローダーがDB接続を必要とするため、
             // SC_Queryインスタンス生成後のみオブジェクトを生成する。
-            require_once CLASS_EX_REALDIR . 'SC_Query_Ex.php';
+            require_once CLASS_EX_REALDIR.'SC_Query_Ex.php';
             if (is_null(SC_Query_Ex::getPoolInstance())) {
                 return false;
             }
@@ -112,16 +119,17 @@ class SC_Helper_Plugin
      *
      * @param  string $hook_point フックポイント
      * @param  array  $arrArgs    コールバック関数へ渡す引数
+     *
      * @return void
      */
-    public function doAction($hook_point, $arrArgs = array())
+    public function doAction($hook_point, $arrArgs = [])
     {
         if (is_array($arrArgs) === false) {
-            array(&$arrArgs);
+            [&$arrArgs];
         }
-        $arrSaveArgs = array();
-        $arrClassName = array();
-        $arrClassPath = array();
+        $arrSaveArgs = [];
+        $arrClassName = [];
+        $arrClassPath = [];
         if ($hook_point == 'loadClassFileChange') {
             $arrSaveArgs = $arrArgs;
         }
@@ -135,7 +143,7 @@ class SC_Helper_Plugin
                         if ($hook_point == 'loadClassFileChange') {
                             $classname = $arrSaveArgs[0];
                             $classpath = $arrSaveArgs[1];
-                            $arrTempArgs = array(&$classname, &$classpath);
+                            $arrTempArgs = [&$classname, &$classpath];
 
                             call_user_func_array($func['function'], $arrTempArgs);
 
@@ -162,7 +170,7 @@ class SC_Helper_Plugin
     /**
      * スーパーフックポイントを登録します.
      *
-     * @param Object $objPlugin     プラグインのインスタンス
+     * @param object $objPlugin     プラグインのインスタンス
      * @param string $hook_point    スーパーフックポイント
      * @param string $function_name 実行する関数名
      * @param string $priority      実行順
@@ -172,14 +180,14 @@ class SC_Helper_Plugin
         // スーパープラグイン関数を定義しているかを検証.
         if (method_exists($objPlugin, $function_name) === true) {
             // アクションの登録
-            $this->addAction($hook_point, array($objPlugin, $function_name), $priority);
+            $this->addAction($hook_point, [$objPlugin, $function_name], $priority);
         }
     }
 
     /**
      * ローカルフックポイントを登録します.
      *
-     * @param Object $objPlugin プラグインのインスタンス
+     * @param object $objPlugin プラグインのインスタンス
      * @param string $priority  実行順
      */
     public function registerLocalHookPoint($objPlugin, $priority)
@@ -187,7 +195,7 @@ class SC_Helper_Plugin
         // ローカルプラグイン関数を定義しているかを検証.
         if (method_exists($objPlugin, 'register') === true) {
             // アクションの登録（プラグイン側に記述）
-            $objPluginHelper =& SC_Helper_Plugin::getSingletonInstance();
+            $objPluginHelper = &self::getSingletonInstance();
             $objPlugin->register($objPluginHelper, $priority);
         }
     }
@@ -196,9 +204,10 @@ class SC_Helper_Plugin
      * プラグイン コールバック関数を追加する
      *
      * @param  string   $hook_point フックポイント名
-     * @param  callback $function   コールバック関数名
-     * @param  integer   $priority   同一フックポイント内での実行優先度
-     * @return boolean  成功すればtrue
+     * @param  callable $function   コールバック関数名
+     * @param  int   $priority   同一フックポイント内での実行優先度
+     *
+     * @return bool  成功すればtrue
      */
     public function addAction($hook_point, $function, $priority = 0)
     {
@@ -206,7 +215,7 @@ class SC_Helper_Plugin
             // TODO エラー処理;　コール可能な形式ではありません
         }
         $idx = $this->makeActionUniqueId($hook_point, $function, $priority);
-        $this->arrRegistedPluginActions[$hook_point][$priority][$idx] = array('function' => $function);
+        $this->arrRegistedPluginActions[$hook_point][$priority][$idx] = ['function' => $function];
 
         return true;
     }
@@ -215,8 +224,9 @@ class SC_Helper_Plugin
      * コールバック関数を一意に識別するIDの生成
      *
      * @param  string   $hook_point フックポイント名
-     * @param  callback $function   コールバック関数名
-     * @param  integer  $priority   同一フックポイント内での実行優先度
+     * @param  callable $function   コールバック関数名
+     * @param  int  $priority   同一フックポイント内での実行優先度
+     *
      * @return string   コールバック関数を一意に識別するID
      */
     public function makeActionUniqueId($hook_point, $function, $priority)
@@ -228,18 +238,19 @@ class SC_Helper_Plugin
         }
 
         if (is_object($function)) {
-            $function = array($function, '');
+            $function = [$function, ''];
         } else {
             $function = (array) $function;
         }
 
         if (is_object($function[0])) {
             if (function_exists('spl_object_hash')) {
-                return spl_object_hash($function[0]) . $function[1];
+                return spl_object_hash($function[0]).$function[1];
             } else {
                 $obj_idx = get_class($function[0]).$function[1];
-                if ( false === $priority)
+                if (false === $priority) {
                     return false;
+                }
                 $obj_idx .= isset($this->arrRegistedPluginActions[$hook_point][$priority])
                          ? count((array) $this->arrRegistedPluginActions[$hook_point][$priority])
                          : $filter_id_count;
@@ -257,6 +268,7 @@ class SC_Helper_Plugin
      * ブロックの配列から有効でないpluginのブロックを除外して返します.
      *
      * @param  array $arrBlocs プラグインのインストールディレクトリ
+     *
      * @return array $arrBlocsサイトルートからメディアディレクトリへの相対パス
      */
     public function getEnableBlocs($arrBlocs)
@@ -267,7 +279,7 @@ class SC_Helper_Plugin
                 // 通常ブロック以外.
                 if ($value['plugin_id'] != '') {
                     //　ブロック配列から削除する
-                    unset ($arrBlocs[$key]);
+                    unset($arrBlocs[$key]);
                 }
             }
         }
@@ -275,10 +287,11 @@ class SC_Helper_Plugin
         return $arrBlocs;
     }
 
-   /**
+    /**
      * テンプレートのヘッダに追加するPHPのURLをセットする
      *
      * @param  string $url PHPファイルのURL
+     *
      * @return void
      */
     public function setHeadNavi($url)
@@ -290,15 +303,16 @@ class SC_Helper_Plugin
      * PHPのURLをテンプレートのヘッダに追加する
      *
      * @param  array|null $arrBlocs 配置情報を含めたブロックの配列
+     *
      * @return void
      */
     public function setHeadNaviBlocs(&$arrBlocs)
     {
         foreach ($this->arrHeadNaviBlocsByPlugin as $key => $value) {
-            $arrBlocs[] = array(
-                'target_id' =>$value,
-                'php_path' => $key
-            );
+            $arrBlocs[] = [
+                'target_id' => $value,
+                'php_path' => $key,
+            ];
         }
     }
 
@@ -307,23 +321,25 @@ class SC_Helper_Plugin
      *
      * @param  string  $hook_point          hook point
      * @param  SC_SiteView[]   $arrArgs             argument passing to callback function
-     * @param  boolean $plugin_activate_flg
+     * @param  bool $plugin_activate_flg
+     *
      * @return void
      */
-    public static function hook($hook_point, $arrArgs = array(), $plugin_activate_flg = PLUGIN_ACTIVATE_FLAG)
+    public static function hook($hook_point, $arrArgs = [], $plugin_activate_flg = PLUGIN_ACTIVATE_FLAG)
     {
         // エラー処理中は実行しない
         if (SC_Helper_HandleError_Ex::$under_error_handling) {
             return;
         }
 
-        $objPlugin = SC_Helper_Plugin::getSingletonInstance($plugin_activate_flg);
+        $objPlugin = self::getSingletonInstance($plugin_activate_flg);
 
         // 以前、エラー処理中に (オブジェクトではない) false に対し、doAction をコールする不具合があった。(#1971, #2551)
         // 現在、そういった状況は回避している認識だが、念のため同様の状況が発生した場合、ログを残し、実行しない。
         if (!is_object($objPlugin)) {
             // XXX 致命的エラーの処理中だと、この方法ではログが残らない模様。実質的に問題無いと考えている。
             trigger_error('プラグインの処理で意図しない状況が発生しました。', E_USER_WARNING);
+
             return;
         }
 

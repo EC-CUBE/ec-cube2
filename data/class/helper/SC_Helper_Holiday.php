@@ -24,8 +24,8 @@
 /**
  * 休日を管理するヘルパークラス.
  *
- * @package Helper
  * @author pineray
+ *
  * @version $Id$
  */
 class SC_Helper_Holiday
@@ -33,8 +33,9 @@ class SC_Helper_Holiday
     /**
      * 休日の情報を取得.
      *
-     * @param  integer $holiday_id  休日ID
-     * @param  boolean $has_deleted 削除された休日も含む場合 true; 初期値 false
+     * @param  int $holiday_id  休日ID
+     * @param  bool $has_deleted 削除された休日も含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function get($holiday_id, $has_deleted = false)
@@ -44,7 +45,7 @@ class SC_Helper_Holiday
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select('*', 'dtb_holiday', $where, array($holiday_id));
+        $arrRet = $objQuery->select('*', 'dtb_holiday', $where, [$holiday_id]);
 
         return $arrRet[0];
     }
@@ -52,7 +53,8 @@ class SC_Helper_Holiday
     /**
      * 休日一覧の取得.
      *
-     * @param  boolean $has_deleted 削除された休日も含む場合 true; 初期値 false
+     * @param  bool $has_deleted 削除された休日も含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function getList($has_deleted = false)
@@ -74,6 +76,7 @@ class SC_Helper_Holiday
      * 休日の登録.
      *
      * @param  array    $sqlval
+     *
      * @return multiple 登録成功:休日ID, 失敗:FALSE
      */
     public function save($sqlval)
@@ -94,16 +97,17 @@ class SC_Helper_Holiday
             unset($sqlval['creator_id']);
             unset($sqlval['create_date']);
             $where = 'holiday_id = ?';
-            $ret = $objQuery->update('dtb_holiday', $sqlval, $where, array($holiday_id));
+            $ret = $objQuery->update('dtb_holiday', $sqlval, $where, [$holiday_id]);
         }
 
-        return ($ret) ? $sqlval['holiday_id'] : FALSE;
+        return ($ret) ? $sqlval['holiday_id'] : false;
     }
 
     /**
      * 休日の削除.
      *
-     * @param  integer $holiday_id 休日ID
+     * @param  int $holiday_id 休日ID
+     *
      * @return void
      */
     public function delete($holiday_id)
@@ -116,7 +120,8 @@ class SC_Helper_Holiday
     /**
      * 休日の表示順をひとつ上げる.
      *
-     * @param  integer $holiday_id 休日ID
+     * @param  int $holiday_id 休日ID
+     *
      * @return void
      */
     public function rankUp($holiday_id)
@@ -128,7 +133,8 @@ class SC_Helper_Holiday
     /**
      * 休日の表示順をひとつ下げる.
      *
-     * @param  integer $holiday_id 休日ID
+     * @param  int $holiday_id 休日ID
+     *
      * @return void
      */
     public function rankDown($holiday_id)
@@ -140,16 +146,17 @@ class SC_Helper_Holiday
     /**
      * 同じ日付の休日が存在するか確認.
      *
-     * @param  integer $month
-     * @param  integer $day
-     * @param  integer $holiday_id
-     * @return boolean 同日付の休日が存在:true
+     * @param  int $month
+     * @param  int $day
+     * @param  int $holiday_id
+     *
+     * @return bool 同日付の休日が存在:true
      */
-    public function isDateExist($month, $day, $holiday_id = NULL)
+    public function isDateExist($month, $day, $holiday_id = null)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'del_flg = 0 AND month = ? AND day = ?';
-        $arrVal = array($month, $day);
+        $arrVal = [$month, $day];
         if (!SC_Utils_Ex::isBlank($holiday_id)) {
             $where .= ' AND holiday_id <> ?';
             $arrVal[] = $holiday_id;

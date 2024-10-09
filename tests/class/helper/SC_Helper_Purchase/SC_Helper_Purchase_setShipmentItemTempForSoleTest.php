@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,72 +27,69 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /**
  * SC_Helper_Purchase::setShipmentItemTempForSole()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_setShipmentItemTempForSoleTest extends SC_Helper_Purchase_TestBase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        $_SESSION['testResult'] = null;
+    }
 
-  protected function setUp(): void
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSetShipmentItemTempForSoleいったん配送情報がクリアされたあと改めて指定のものが設定される()
+    {
+        $helper = new SC_Helper_Purchase_setShipmentItemTempForSoleMock();
+        $cartSession = new SC_CartSession_setShipmentItemTempForSoleMock();
+        $shipping_id = '1001';
 
-  protected function tearDown(): void
-  {
-    parent::tearDown();
-    $_SESSION['testResult'] = null;
-  }
+        $helper->setShipmentItemTempForSole($cartSession, $shipping_id);
 
-  /////////////////////////////////////////
-  public function testSetShipmentItemTempForSole__いったん配送情報がクリアされたあと改めて指定のものが設定される()
-  {
-    $helper = new SC_Helper_Purchase_setShipmentItemTempForSoleMock();
-    $cartSession = new SC_CartSession_setShipmentItemTempForSoleMock();
-    $shipping_id = '1001';
+        $this->expected = [
+      'clearShipmentItemTemp' => true,
+      'shipmentItemTemp' => [
+        ['shipping_id' => '1001', 'id' => '1', 'quantity' => '10'],
+        ['shipping_id' => '1001', 'id' => '2', 'quantity' => '5'],
+      ],
+    ];
+        $this->actual = $_SESSION['testResult'];
 
-    $helper->setShipmentItemTempForSole($cartSession, $shipping_id);
+        $this->verify();
+    }
 
-    $this->expected = array(
-      'clearShipmentItemTemp' => TRUE,
-      'shipmentItemTemp' => array(
-        array('shipping_id'=>'1001', 'id'=>'1', 'quantity'=>'10'),
-        array('shipping_id'=>'1001', 'id'=>'2', 'quantity'=>'5')
-      )
-    );
-    $this->actual = $_SESSION['testResult'];
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
 
 class SC_Helper_Purchase_setShipmentItemTempForSoleMock extends SC_Helper_Purchase
 {
-  function clearShipmentItemTemp($shipping_id = null)
-  {
-    $_SESSION['testResult']['clearShipmentItemTemp'] = TRUE;
-  }
+    public function clearShipmentItemTemp($shipping_id = null)
+    {
+        $_SESSION['testResult']['clearShipmentItemTemp'] = true;
+    }
 
-  function setShipmentItemTemp($shipping_id, $id, $quantity)
-  {
-    $_SESSION['testResult']['shipmentItemTemp'][] = 
-      array('shipping_id' => $shipping_id, 'id' => $id, 'quantity' => $quantity);
-  }
+    public function setShipmentItemTemp($shipping_id, $id, $quantity)
+    {
+        $_SESSION['testResult']['shipmentItemTemp'][] =
+      ['shipping_id' => $shipping_id, 'id' => $id, 'quantity' => $quantity];
+    }
 }
 
 class SC_CartSession_setShipmentItemTempForSoleMock extends SC_CartSession
 {
-  function getCartList($key, $pref_id = 0, $country_id = 0)
-  {
-    return array(
-      array('id'=>'1', 'quantity'=>'10'),
-      array('id'=>'2', 'quantity'=>'5'),
-      array('id'=>'3', 'quantity'=>'0')
-    );
-  }
+    public function getCartList($key, $pref_id = 0, $country_id = 0)
+    {
+        return [
+      ['id' => '1', 'quantity' => '10'],
+      ['id' => '2', 'quantity' => '5'],
+      ['id' => '3', 'quantity' => '0'],
+    ];
+    }
 }
-

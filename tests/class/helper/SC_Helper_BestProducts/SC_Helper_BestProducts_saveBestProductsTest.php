@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -43,11 +43,11 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
     }
 
     // best_idを指定して更新される。
-    public function testSaveBestProducts_ベストIDがある場合_更新される(){
-
-        $sqlVal = array(
+    public function testSaveBestProductsベストIDがある場合更新される()
+    {
+        $sqlVal = [
             'best_id' => '1001',
-            'product_id'=>'3',
+            'product_id' => '3',
             'category_id' => '1',
             'rank' => '2',
             'title' => 'タイトルですよ1001',
@@ -55,101 +55,100 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
             'creator_id' => '2',
             'create_date' => '2000-01-01 00:00:00',
             'update_date' => '2000-01-01 00:00:00',
-            'del_flg' => '0'
-        );
+            'del_flg' => '0',
+        ];
 
         $result = SC_Helper_BestProducts_Ex::saveBestProducts($sqlVal);
 
-        $this->expected = array(
-            'product_id'=>'3',
+        $this->expected = [
+            'product_id' => '3',
             'category_id' => '1',
             'rank' => '2',
             'title' => 'タイトルですよ1001',
             'comment' => 'コメントですよ1001',
-            'creator_id' => '1', //変わらない
+            'creator_id' => '1', // 変わらない
             'create_date' => '2000-01-01 00:00:00',
-            'del_flg' => '0'
-        );
+            'del_flg' => '0',
+        ];
 
         $this->actual = SC_Helper_BestProducts_Ex::getBestProducts('1001');
 
         $arrRet = SC_Helper_BestProducts_Ex::getBestProducts('1001');
 
         $this->actual = Test_Utils::mapArray($arrRet,
-            array('product_id',
+            ['product_id',
                 'category_id',
                 'rank',
                 'title',
                 'comment',
                 'creator_id',
                 'create_date',
-                'del_flg'
-            )
+                'del_flg',
+            ]
         );
 
         $this->verify();
     }
 
     // best_idがnullでデータインサートされる。
-    public function testSaveBestProducts_ベストIDがない場合_インサートされる(){
-
-        if(DB_TYPE != 'pgsql') { //postgresqlだとどうしてもDBエラーになるのでとりいそぎ回避
-            $sqlVal = array(
-                'product_id'=>'4',
+    public function testSaveBestProductsベストIDがない場合インサートされる()
+    {
+        if (DB_TYPE != 'pgsql') { // postgresqlだとどうしてもDBエラーになるのでとりいそぎ回避
+            $sqlVal = [
+                'product_id' => '4',
                 'category_id' => '2',
                 'rank' => '4',
                 'title' => 'タイトルですよ1004',
                 'comment' => 'コメントですよ1004',
                 'creator_id' => '3',
-                'del_flg' => '0'
-            );
+                'del_flg' => '0',
+            ];
 
             $best_id = SC_Helper_BestProducts_Ex::saveBestProducts($sqlVal);
 
-            $this->expected = array(
-                'product_id'=>'4',
+            $this->expected = [
+                'product_id' => '4',
                 'category_id' => '2',
                 'rank' => '4',
                 'title' => 'タイトルですよ1004',
                 'comment' => 'コメントですよ1004',
                 'creator_id' => '3',
-                'del_flg' => '0'
-            );
+                'del_flg' => '0',
+            ];
 
             $arrRet = SC_Helper_BestProducts_Ex::getBestProducts($best_id);
 
             $this->actual = Test_Utils::mapArray($arrRet,
-                array('product_id',
+                ['product_id',
                     'category_id',
                     'rank',
                     'title',
                     'comment',
                     'creator_id',
-                    'del_flg'
-                )
+                    'del_flg',
+                ]
             );
 
             $this->verify();
         }
-
     }
 
     // best_idがnull、かつrankがnullの場合、想定されたランクが登録される
-    public function testSaveBestProducts_インサート処理でrankがsetされてない場合_採番された値がセットされる(){
-
-        if(DB_TYPE != 'pgsql') { //postgresqlだとどうしてもDBエラーになるのでとりいそぎ回避
-            $sqlVal = array(
-                'product_id'=>'5',
+    public function testSaveBestProductsインサート処理でrankがsetされてない場合採番された値がセットされる()
+    {
+        if (DB_TYPE != 'pgsql') { // postgresqlだとどうしてもDBエラーになるのでとりいそぎ回避
+            $sqlVal = [
+                'product_id' => '5',
                 'category_id' => '2',
                 'title' => 'タイトルですよ5',
                 'comment' => 'コメントですよ5',
                 'creator_id' => '3',
-                'del_flg' => '0'
-            );
+                'del_flg' => '0',
+            ];
 
             $best_id = SC_Helper_BestProducts_Ex::saveBestProducts($sqlVal);
 
-            $this->expected = "4"; //ランク
+            $this->expected = '4'; // ランク
 
             $arrRet = SC_Helper_BestProducts_Ex::getBestProducts($best_id);
 
@@ -159,4 +158,3 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
         }
     }
 }
-

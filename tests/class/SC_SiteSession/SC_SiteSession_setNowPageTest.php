@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Session_setNowPageTest extends Common_TestCase
 {
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -38,14 +37,13 @@ class SC_Session_setNowPageTest extends Common_TestCase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testSetNowPage_now_pageにパスを設定する()
+    public function testSetNowPageNowPageにパスを設定する()
     {
         $this->expected = 'test.php';
         $this->objSiteSession->setNowPage('test.php');
         $this->actual = $_SESSION['site']['now_page'];
-        $this->verify("ベージセット");
+        $this->verify('ベージセット');
     }
 }
-

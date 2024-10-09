@@ -45,8 +45,9 @@ class SC_PageNavi
     public $max_page;      // 最終のページ番号
     public $start_row;     // 開始レコード
     public $strnavi;       // ページ送り文字列
-    public $arrPagenavi = array(); // ページ
+    public $arrPagenavi = []; // ページ
     public $all_row;
+
     /**
      * コンストラクタ
      *
@@ -56,8 +57,8 @@ class SC_PageNavi
     {
         $this->arrPagenavi['mode'] = 'search';
 
-        //現在ページ($now_page)が正しい数値でない場合
-        if (!preg_match("/^[[:digit:]]+$/", $now_page) || $now_page < 1 || strlen($now_page) == 0) {
+        // 現在ページ($now_page)が正しい数値でない場合
+        if (!preg_match('/^[[:digit:]]+$/', $now_page) || $now_page < 1 || strlen($now_page) == 0) {
             $this->now_page = 1;
         } else {
             $this->now_page = htmlspecialchars($now_page, ENT_QUOTES, CHAR_CODE);
@@ -65,15 +66,15 @@ class SC_PageNavi
         $this->arrPagenavi['now_page'] = $this->now_page;
 
         // 最終ページの計算
-        $this->max_page = ceil($all_row/$page_row);
+        $this->max_page = ceil($all_row / $page_row);
 
         // 最終ページよりも現在ページが大きい場合は、最初に戻す。
         if ($this->max_page < $this->now_page) {
             $this->now_page = 1;
         }
 
-        $this->start_row    = ($this->now_page - 1) * $page_row;
-        $this->all_row      = $all_row;
+        $this->start_row = ($this->now_page - 1) * $page_row;
+        $this->all_row = $all_row;
 
         // 開始行が不正な場合
         if (!($this->start_row < $all_row && $this->start_row >= 0)) {
@@ -81,7 +82,7 @@ class SC_PageNavi
         }
 
         if ($all_row > 1) {
-            //「前へ」「次へ」の設定
+            // 「前へ」「次へ」の設定
             $before = '';
             $next = '';
             if ($this->now_page > 1) {
@@ -124,7 +125,7 @@ class SC_PageNavi
                 $disp_min = $this->now_page - $navi_max + 1;
             }
 
-            $this->arrPagenavi['arrPageno'] = array();
+            $this->arrPagenavi['arrPageno'] = [];
             $page_number = '';
             for ($i = $disp_min; $i <= $disp_max; $i++) {
                 if ($i == $this->now_page) {
@@ -141,9 +142,9 @@ class SC_PageNavi
             }
 
             if ($before && $next) {
-                $this->strnavi = $before .(($display_number) ? $page_number : ' | ') .$next;
+                $this->strnavi = $before.(($display_number) ? $page_number : ' | ').$next;
             } elseif ($before || $next) {
-                $this->strnavi = $before .(($display_number) ? $page_number : '') .$next;
+                $this->strnavi = $before.(($display_number) ? $page_number : '').$next;
             }
         } else {
             $this->arrPagenavi['arrPageno'][0] = 1;

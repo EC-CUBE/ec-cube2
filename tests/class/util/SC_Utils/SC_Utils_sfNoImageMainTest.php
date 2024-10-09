@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,49 +27,46 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfNoImageMain()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfNoImageMainTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfNoImageMainファイル名が空の場合デフォルトのファイル名が返る()
+    {
+        $this->expected = 'noimage_main.png';
+        $this->actual = SC_Utils::sfNoImageMain('');
 
-  protected function tearDown(): void
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfNoImageMain_ファイル名が空の場合_デフォルトのファイル名が返る()
-  {
-    $this->expected = 'noimage_main.png';
-    $this->actual = SC_Utils::sfNoImageMain('');
+    public function testSfNoImageMainディレクトリが指定されている場合そのディレクトリ以下でデフォルトのファイル名が返る()
+    {
+        $this->expected = 'aaa/bbb/noimage_main.png';
+        $this->actual = SC_Utils::sfNoImageMain('aaa/bbb/');
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfNoImageMain_ディレクトリが指定されている場合_そのディレクトリ以下でデフォルトのファイル名が返る()
-  {
-    $this->expected = 'aaa/bbb/noimage_main.png';
-    $this->actual = SC_Utils::sfNoImageMain('aaa/bbb/');
+    public function testSfNoImageMainファイル名が指定されている場合指定されたファイル名が返る()
+    {
+        $this->expected = 'aaa/bbb/ccc.png';
+        $this->actual = SC_Utils::sfNoImageMain('aaa/bbb/ccc.png');
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfNoImageMain_ファイル名が指定されている場合_指定されたファイル名が返る()
-  {
-    $this->expected = 'aaa/bbb/ccc.png';
-    $this->actual = SC_Utils::sfNoImageMain('aaa/bbb/ccc.png');
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Maker/SC_Helper_Maker_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Maker/SC_Helper_Maker_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -31,8 +31,7 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Maker/SC_Helper_Maker_TestBa
  */
 class SC_Helper_Maker_getMakerTest extends SC_Helper_Maker_TestBase
 {
-
-    var $objHelperMaker;
+    public $objHelperMaker;
 
     protected function setUp(): void
     {
@@ -48,81 +47,79 @@ class SC_Helper_Maker_getMakerTest extends SC_Helper_Maker_TestBase
 
     /** maker_idが存在しない場合、空を返す。
      */
-    public function testGetMaker_おすすめidが存在しない場合_空を返す()
+    public function testGetMakerおすすめidが存在しない場合空を返す()
     {
         $this->expected = null;
 
-        $this->actual = $this->objHelperMaker->getMaker("9999");
+        $this->actual = $this->objHelperMaker->getMaker('9999');
 
         $this->verify();
     }
 
     // maker_idが存在する場合、対応した結果を取得できる。
-    public function testGetMaker_メーカーIDが存在する場合_対応した結果を取得できる(){
-
-
-        $this->expected = array(
+    public function testGetMakerメーカーIDが存在する場合対応した結果を取得できる()
+    {
+        $this->expected = [
             'maker_id' => '1001',
             'name' => 'ソニン',
             'rank' => '1',
             'creator_id' => '1',
             'create_date' => '2000-01-01 00:00:00',
             'update_date' => '2000-01-01 00:00:00',
-            'del_flg' => '0'
-        );
+            'del_flg' => '0',
+        ];
 
-        $result = $this->objHelperMaker->getMaker("1001");
+        $result = $this->objHelperMaker->getMaker('1001');
 
         $this->actual = Test_Utils::mapArray($result,
-            array('maker_id',
+            ['maker_id',
                 'name',
                 'rank',
                 'creator_id',
                 'create_date',
                 'update_date',
-                'del_flg'
-            ));
+                'del_flg',
+            ]);
 
         $this->verify();
     }
 
-    public function testGetMaker_おすすめIDがあり_かつ削除済みの場合_空が返る(){
-
+    public function testGetMakerおすすめIDがありかつ削除済みの場合空が返る()
+    {
         $this->expected = null;
 
-        $result = $this->objHelperMaker->getMaker("1002");
+        $result = $this->objHelperMaker->getMaker('1002');
 
         $this->verify();
     }
 
     // best_idが存在するが、del_flg=1の場合、かつ。$has_deleted=trueを指定
-    public function testGetMaker_削除済みでかつhas_deletedがtrueの場合_対応した結果が返る(){
-
+    public function testGetMaker削除済みでかつhasDeletedがtrueの場合対応した結果が返る()
+    {
         $best_id = '1002';
 
-        $this->expected = array(
+        $this->expected = [
             'maker_id' => '1002',
             'name' => 'パソナニック',
             'rank' => '2',
             'creator_id' => '2',
             'create_date' => '2000-01-01 00:00:00',
             'update_date' => '2000-01-01 00:00:00',
-            'del_flg' => '1'
-        );
+            'del_flg' => '1',
+        ];
 
-        $result = $this->objHelperMaker->getMaker("1002",true);
+        $result = $this->objHelperMaker->getMaker('1002', true);
 
         $this->actual = Test_Utils::mapArray($result,
-            array('maker_id',
+            ['maker_id',
                 'name',
                 'rank',
                 'creator_id',
                 'create_date',
                 'update_date',
-                'del_flg'
-            ));
+                'del_flg',
+            ]);
 
         $this->verify();
     }
 }
-

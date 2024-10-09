@@ -23,14 +23,13 @@
 
 class SC_CheckError_EXIST_CHECK_REVERSETest extends SC_CheckError_AbstractTestCase
 {
-
     protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'EXIST_CHECK_REVERSE';
     }
 
-    public function testEXIST_CHECK_REVERSE_formが空()
+    public function testEXISTCHECKREVERSEFormが空()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = "※ {$this->target_func}が入力されていません。<br />";
@@ -39,7 +38,7 @@ class SC_CheckError_EXIST_CHECK_REVERSETest extends SC_CheckError_AbstractTestCa
         $this->verify();
     }
 
-    public function testEXIST_CHECK_REVERSE_formがNULL()
+    public function testEXISTCHECKREVERSEFormがNULL()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '※ EXIST_CHECK_REVERSEが入力されていません。<br />';
@@ -48,7 +47,7 @@ class SC_CheckError_EXIST_CHECK_REVERSETest extends SC_CheckError_AbstractTestCa
         $this->verify();
     }
 
-    public function testEXIST_CHECK_REVERSE_formがint0()
+    public function testEXISTCHECKREVERSEFormがint0()
     {
         $this->arrForm = [self::FORM_NAME => 0];
         $this->expected = '';
@@ -57,7 +56,7 @@ class SC_CheckError_EXIST_CHECK_REVERSETest extends SC_CheckError_AbstractTestCa
         $this->verify();
     }
 
-    public function testEXIST_CHECK_REVERSE_formがstring0()
+    public function testEXISTCHECKREVERSEFormがstring0()
     {
         $this->arrForm = [self::FORM_NAME => '0'];
         $this->expected = '';

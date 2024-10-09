@@ -35,7 +35,6 @@ class SC_Helper_DB_sfGetIDValueListTest extends SC_Helper_DB_TestBase
         $delete_tables = ['dtb_maker'];
         foreach ($delete_tables as $table) {
             $this->objQuery->delete($table);
-
         }
 
         for ($i = 0; $i < 5; $i++) {
@@ -46,7 +45,7 @@ class SC_Helper_DB_sfGetIDValueListTest extends SC_Helper_DB_TestBase
                 'creator_id' => 2,
                 'create_date' => 'CURRENT_TIMESTAMP',
                 'update_date' => 'CURRENT_TIMESTAMP',
-                'del_flg' => '0'
+                'del_flg' => '0',
             ];
             $this->objQuery->insert('dtb_maker', $maker);
             $this->makers[$maker['maker_id']] = $maker['name'];

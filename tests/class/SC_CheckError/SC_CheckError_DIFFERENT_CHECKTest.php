@@ -2,7 +2,7 @@
 
 class SC_CheckError_DIFFERENT_CHECKTest extends SC_CheckError_AbstractTestCase
 {
-    const FORM_NAME_REPEAT = 'form_repeat';
+    public const FORM_NAME_REPEAT = 'form_repeat';
 
     protected function setUp(): void
     {
@@ -10,28 +10,28 @@ class SC_CheckError_DIFFERENT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'DIFFERENT_CHECK';
     }
 
-    public function testDIFFERENT_CHECK()
+    public function testDIFFERENTCHECK()
     {
         $this->arrForm = [self::FORM_NAME => 'a', self::FORM_NAME_REPEAT => 'a'];
-        $this->expected = "※ label1とlabel2は、同じ値を使用できません。<br />";
+        $this->expected = '※ label1とlabel2は、同じ値を使用できません。<br />';
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testDIFFERENT_CHECKWithNoError()
+    public function testDIFFERENTCHECKWithNoError()
     {
         $this->arrForm = [self::FORM_NAME => 'a', self::FORM_NAME_REPEAT => 'b'];
-        $this->expected = "";
+        $this->expected = '';
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testDIFFERENT_CHECKWithNotType()
+    public function testDIFFERENTCHECKWithNotType()
     {
         $this->arrForm = [self::FORM_NAME => 1, self::FORM_NAME_REPEAT => '1'];
-        $this->expected = "※ label1とlabel2は、同じ値を使用できません。<br />";
+        $this->expected = '※ label1とlabel2は、同じ値を使用できません。<br />';
 
         $this->scenario();
         $this->verify();

@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,37 +27,35 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /**
  * SC_Helper_Purchase::unsetShippingTemp()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_unsetShippingTempTest extends SC_Helper_Purchase_TestBase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-  protected function setUp(): void
-  {
-    parent::setUp();
+        // 空にするだけなので適当な値を設定
+        $_SESSION['shipping'] = 'temp01';
+        $_SESSION['multiple_temp'] = 'temp02';
+    }
 
-    // 空にするだけなので適当な値を設定
-    $_SESSION['shipping'] = 'temp01';
-    $_SESSION['multiple_temp'] = 'temp02';
-  }
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function tearDown(): void
-  {
-    parent::tearDown();
-  }
+    // ///////////////////////////////////////
+    public function testUnsetShippingTemp配送情報が全て破棄される()
+    {
+        SC_Helper_Purchase::unsetShippingTemp(true);
 
-  /////////////////////////////////////////
-  public function testUnsetShippingTemp__配送情報が全て破棄される()
-  {
-    SC_Helper_Purchase::unsetShippingTemp(TRUE);
+        $this->expected = ['shipping' => true, 'multiple_temp' => true];
+        $this->actual['shipping'] = empty($_SESSION['shipping']);
+        $this->actual['multiple_temp'] = empty($_SESSION['multiple_temp']);
 
-    $this->expected = array('shipping'=>TRUE, 'multiple_temp'=>TRUE);
-    $this->actual['shipping'] = empty($_SESSION['shipping']);
-    $this->actual['multiple_temp'] = empty($_SESSION['multiple_temp']);
-
-    $this->verify('セッション情報が空かどうか');
-  }
+        $this->verify('セッション情報が空かどうか');
+    }
 }
-

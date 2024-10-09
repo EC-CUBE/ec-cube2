@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,18 +27,17 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::recursiveMkDir()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_recursiveMkdirTest extends Common_TestCase
 {
-
-    static $TMP_DIR;
+    public static $TMP_DIR;
 
     protected function setUp(): void
     {
-        self::$TMP_DIR = realpath(dirname(__FILE__)) . "/../../../tmp";
+        self::$TMP_DIR = realpath(__DIR__).'/../../../tmp';
         SC_Helper_FileManager::deleteFile(self::$TMP_DIR);
         mkdir(self::$TMP_DIR, 0777, true);
         // parent::setUp();
@@ -49,10 +48,10 @@ class SC_Utils_recursiveMkdirTest extends Common_TestCase
         // parent::tearDown();
     }
 
-    /////////////////////////////////////////
-    public function testRecursiveMkdir_パーミッションを指定した場合_指定のパーミッションでディレクトリが作られる()
+    // ///////////////////////////////////////
+    public function testRecursiveMkdirパーミッションを指定した場合指定のパーミッションでディレクトリが作られる()
     {
-        $path = realpath(dirname(__FILE__)) . "/../../../tmp/dir1/dir2/dir3/";
+        $path = realpath(__DIR__).'/../../../tmp/dir1/dir2/dir3/';
         $mode = 0755;
 
         $result = SC_Utils::recursiveMkdir($path, $mode);
@@ -66,12 +65,11 @@ class SC_Utils_recursiveMkdirTest extends Common_TestCase
             $this->actual = substr(sprintf('%o', fileperms($path)), -4);
             $this->verify('作成したディレクトリのパーミッション');
         }
-
     }
 
-    public function testRecursiveMkdir_パーミッションを指定しない場合_0777でディレクトリが作られる()
+    public function testRecursiveMkdirパーミッションを指定しない場合0777でディレクトリが作られる()
     {
-        $path = realpath(dirname(__FILE__)) . "/../../../tmp/dir1/dir2/dir3/";
+        $path = realpath(__DIR__).'/../../../tmp/dir1/dir2/dir3/';
 
         $result = SC_Utils::recursiveMkdir($path);
         if (DIRECTORY_SEPARATOR == '\\') {
@@ -84,9 +82,7 @@ class SC_Utils_recursiveMkdirTest extends Common_TestCase
             $this->actual = substr(sprintf('%o', fileperms($path)), -4);
             $this->verify('作成したディレクトリのパーミッション');
         }
-
     }
 
-    //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

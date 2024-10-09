@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * オーナーズストア：認証キー設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
@@ -50,8 +49,8 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
         parent::init();
 
         $this->tpl_mainpage = 'ownersstore/settings.tpl';
-        $this->tpl_mainno   = 'ownersstore';
-        $this->tpl_subno    = 'settings';
+        $this->tpl_mainno = 'ownersstore';
+        $this->tpl_subno = 'settings';
         $this->tpl_maintitle = 'オーナーズストア';
         $this->tpl_subtitle = '認証キー設定';
         $this->httpCacheControl('nocache');
@@ -80,7 +79,7 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
             case 'register':
                 $this->execRegisterMode();
                 break;
-            // 初回表示
+                // 初回表示
             default:
                 $this->execDefaultMode();
         }
@@ -91,6 +90,7 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
      * 入力内容をDBへ登録する.
      *
      * @param void
+     *
      * @return void
      */
     public function execRegisterMode()
@@ -102,7 +102,7 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
 
         // エラー時の処理
         if (!empty($arrErr)) {
-            $this->arrErr  = $arrErr;
+            $this->arrErr = $arrErr;
             $this->arrForm = $this->objForm->getHashArray();
 
             return;
@@ -122,6 +122,7 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
      * SC_FormParamを初期化しメンバ変数にセットする.
      *
      * @param void
+     *
      * @return void
      */
     public function initRegisterMode()
@@ -132,7 +133,7 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
         }
 
         $objForm = new SC_FormParam_Ex();
-        $objForm->addParam('認証キー', 'public_key', LTEXT_LEN, '', array('EXIST_CHECK', 'ALNUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objForm->addParam('認証キー', 'public_key', LTEXT_LEN, '', ['EXIST_CHECK', 'ALNUM_CHECK', 'MAX_LENGTH_CHECK']);
         $objForm->setParam($_POST);
 
         $this->objForm = $objForm;
@@ -142,6 +143,7 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
      * registerアクションのパラメーターを検証する.
      *
      * @param void
+     *
      * @return array エラー情報を格納した連想配列
      */
     public function validateRegistermode()
@@ -154,6 +156,7 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
      * DBから登録内容を取得し表示する.
      *
      * @param void
+     *
      * @return void
      */
     public function execDefaultMode()
@@ -165,6 +168,7 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
      * DBへ入力内容を登録する.
      *
      * @param  array $arrSettingsData ｵｰﾅｰｽﾞｽﾄｱ設定の連想配列
+     *
      * @return void
      */
     public function registerOwnersStoreSettings($arrSettingsData)
@@ -184,17 +188,21 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
      * DBから登録内容を取得する.
      *
      * @param void
+     *
      * @return array
      */
     public function getOwnersStoreSettings()
     {
-        $table   = 'dtb_ownersstore_settings';
+        $table = 'dtb_ownersstore_settings';
         $colmuns = '*';
 
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->select($colmuns, $table);
 
-        if (isset($arrRet[0])) return $arrRet[0];
-        return array();
+        if (isset($arrRet[0])) {
+            return $arrRet[0];
+        }
+
+        return [];
     }
 }

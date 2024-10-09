@@ -1,13 +1,10 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/SC_Product/SC_Product_TestBase.php");
-/**
- *
- */
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/SC_Product/SC_Product_TestBase.php';
+
 class SC_Product_reduceStockTest extends SC_Product_TestBase
 {
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -20,9 +17,9 @@ class SC_Product_reduceStockTest extends SC_Product_TestBase
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testReduceStock_減少数０はFalse()
+    public function testReduceStock減少数0はFalse()
     {
         $productClassId = '1001';
         $quantity = '0';
@@ -31,8 +28,8 @@ class SC_Product_reduceStockTest extends SC_Product_TestBase
 
         $this->verify('減少数０');
     }
-    
-    public function testReduceStock_減少数1はTrue()
+
+    public function testReduceStock減少数1はTrue()
     {
         $productClassId = '1001';
         $quantity = '1';
@@ -41,8 +38,8 @@ class SC_Product_reduceStockTest extends SC_Product_TestBase
 
         $this->verify('減少数1');
     }
-    
-    public function testReduceStock_在庫数をマイナスにする数はFalse()
+
+    public function testReduceStock在庫数をマイナスにする数はFalse()
     {
         $productClassId = '1001';
         $quantity = '100';
@@ -51,9 +48,8 @@ class SC_Product_reduceStockTest extends SC_Product_TestBase
 
         $this->verify('在庫数マイナス');
     }
-    
-        
-    public function testReduceStock_在庫数無限の場合はTrue()
+
+    public function testReduceStock在庫数無限の場合はTrue()
     {
         $productClassId = '1002';
         $quantity = '100';

@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 商品並べ替え のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
@@ -104,7 +103,7 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
         $this->arrTree = $objCategory->getTree();
         $this->arrParentID = $objCategory->getTreeTrail($this->arrForm['parent_category_id']);
         $this->arrProductsList = $this->lfGetProduct($this->arrForm['parent_category_id']);
-        $arrBread = $objCategory->getTreeTrail($this->arrForm['parent_category_id'], FALSE);
+        $arrBread = $objCategory->getTreeTrail($this->arrForm['parent_category_id'], false);
         $this->tpl_bread_crumbs = SC_Utils_Ex::jsonEncode(array_reverse($arrBread));
     }
 
@@ -116,11 +115,11 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
         $col = 'alldtl.product_id, name, main_list_image, product_code_min, product_code_max, status';
         $objProduct = new SC_Product_Ex();
         $table = $objProduct->alldtlSQL();
-        $table.= ' LEFT JOIN dtb_product_categories AS T5 ON alldtl.product_id = T5.product_id';
+        $table .= ' LEFT JOIN dtb_product_categories AS T5 ON alldtl.product_id = T5.product_id';
         $where = 'del_flg = 0 AND category_id = ?';
 
         // 行数の取得
-        $linemax = $objQuery->count($table, $where, array($category_id));
+        $linemax = $objQuery->count($table, $where, [$category_id]);
         // 該当件数表示用
         $this->tpl_linemax = $linemax;
 
@@ -136,7 +135,7 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
 
         $objQuery->setOrder('rank DESC, alldtl.product_id DESC');
 
-        $arrRet = $objQuery->select($col, $table, $where, array($category_id));
+        $arrRet = $objQuery->select($col, $table, $where, [$category_id]);
 
         return $arrRet;
     }
@@ -165,7 +164,7 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
             WHERE dtb_product_categories.category_id = ?
 __EOS__;
 
-        $arrRet = $objQuery->query($sql, array($parent_category_id));
+        $arrRet = $objQuery->query($sql, [$parent_category_id]);
 
         return $arrRet;
     }
@@ -175,7 +174,7 @@ __EOS__;
      */
     public function lfRankUp(&$objDb, $parent_category_id, $product_id)
     {
-        $where = 'category_id = ' . SC_Utils_Ex::sfQuoteSmart($parent_category_id);
+        $where = 'category_id = '.SC_Utils_Ex::sfQuoteSmart($parent_category_id);
         $objDb->sfRankUp('dtb_product_categories', 'product_id', $product_id, $where);
     }
 
@@ -184,7 +183,7 @@ __EOS__;
      */
     public function lfRankDown(&$objDb, $parent_category_id, $product_id)
     {
-        $where = 'category_id = ' . SC_Utils_Ex::sfQuoteSmart($parent_category_id);
+        $where = 'category_id = '.SC_Utils_Ex::sfQuoteSmart($parent_category_id);
         $objDb->sfRankDown('dtb_product_categories', 'product_id', $product_id, $where);
     }
 
@@ -196,7 +195,7 @@ __EOS__;
         $key = 'pos-'.$product_id;
         $input_pos = mb_convert_kana($_POST[$key], 'n');
         if (SC_Utils_Ex::sfIsInt($input_pos)) {
-            $where = 'category_id = ' . SC_Utils_Ex::sfQuoteSmart($parent_category_id);
+            $where = 'category_id = '.SC_Utils_Ex::sfQuoteSmart($parent_category_id);
             $objDb->sfMoveRank('dtb_product_categories', 'product_id', $product_id, $input_pos, $where);
         }
     }

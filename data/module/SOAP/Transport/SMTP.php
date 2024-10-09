@@ -19,14 +19,14 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Shane Caraveo <Shane@Caraveo.com>
  * @author     Jan Schneider <jan@horde.org>
  * @copyright  2003-2006 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
-
 require_once 'SOAP/Transport.php';
 require_once 'Mail/smtp.php';
 
@@ -38,27 +38,23 @@ require_once 'Mail/smtp.php';
  *
  * @todo use PEAR smtp and Mime classes
  *
- * @access public
- * @package SOAP
  * @author Shane Caraveo <shane@php.net>
  * @author Jan Schneider <jan@horde.org>
  */
 class SOAP_Transport_SMTP extends SOAP_Transport
 {
-    var $credentials = '';
-    var $timeout = 4; // connect timeout
-    var $host = '127.0.0.1';
-    var $port = 25;
-    var $auth = null;
+    public $credentials = '';
+    public $timeout = 4; // connect timeout
+    public $host = '127.0.0.1';
+    public $port = 25;
+    public $auth = null;
 
     /**
      * SOAP_Transport_SMTP Constructor
      *
      * @param string $url  mailto: address.
-     *
-     * @access public
      */
-    function SOAP_Transport_SMTP($url, $encoding = 'US-ASCII')
+    public function __construct($url, $encoding = 'US-ASCII')
     {
         parent::SOAP_Base('SMTP');
         $this->encoding = $encoding;
@@ -69,14 +65,12 @@ class SOAP_Transport_SMTP extends SOAP_Transport
     /**
      * Sends and receives SOAP data.
      *
-     * @access public
-     *
      * @param string  Outgoing SOAP data.
      * @param array   Options.
      *
      * @return string|SOAP_Fault
      */
-    function send($msg, $options = array())
+    public function send($msg, $options = [])
     {
         $this->fault = null;
         $this->incoming_payload = '';
@@ -88,24 +82,35 @@ class SOAP_Transport_SMTP extends SOAP_Transport
             return $this->_raiseSoapFault('No From: address to send message with');
         }
 
-        if (isset($options['host'])) $this->host = $options['host'];
-        if (isset($options['port'])) $this->port = $options['port'];
-        if (isset($options['auth'])) $this->auth = $options['auth'];
-        if (isset($options['username'])) $this->username = $options['username'];
-        if (isset($options['password'])) $this->password = $options['password'];
+        if (isset($options['host'])) {
+            $this->host = $options['host'];
+        }
+        if (isset($options['port'])) {
+            $this->port = $options['port'];
+        }
+        if (isset($options['auth'])) {
+            $this->auth = $options['auth'];
+        }
+        if (isset($options['username'])) {
+            $this->username = $options['username'];
+        }
+        if (isset($options['password'])) {
+            $this->password = $options['password'];
+        }
 
-        $headers = array();
+        $headers = [];
         $headers['From'] = $options['from'];
         $headers['X-Mailer'] = $this->_userAgent;
         $headers['MIME-Version'] = '1.0';
-        $headers['Message-ID'] = md5(time()) . '.soap@' . $this->host;
+        $headers['Message-ID'] = md5(time()).'.soap@'.$this->host;
         $headers['To'] = $this->urlparts['path'];
         if (isset($options['soapaction'])) {
             $headers['Soapaction'] = "\"{$options['soapaction']}\"";
         }
 
-        if (isset($options['headers']))
+        if (isset($options['headers'])) {
             $headers = array_merge($headers, $options['headers']);
+        }
 
         // If the content type is already set, we assume that MIME encoding is
         // already done.
@@ -119,7 +124,7 @@ class SOAP_Transport_SMTP extends SOAP_Transport
                 if (strcasecmp($options['transfer-encoding'], 'quoted-printable') == 0) {
                     $headers['Content-Transfer-Encoding'] = $options['transfer-encoding'];
                     $out = $msg;
-                } elseif (strcasecmp($options['transfer-encoding'],'base64') == 0) {
+                } elseif (strcasecmp($options['transfer-encoding'], 'base64') == 0) {
                     $headers['Content-Transfer-Encoding'] = 'base64';
                     $out = chunk_split(base64_encode($msg), 76, "\n");
                 } else {
@@ -137,15 +142,15 @@ class SOAP_Transport_SMTP extends SOAP_Transport
         foreach ($headers as $key => $value) {
             $header_text .= "$key: $value\n";
         }
-        $this->outgoing_payload = $header_text . "\r\n" . $this->outgoing_payload;
+        $this->outgoing_payload = $header_text."\r\n".$this->outgoing_payload;
 
-        $mailer_params = array(
+        $mailer_params = [
             'host' => $this->host,
             'port' => $this->port,
             'username' => $this->username,
             'password' => $this->password,
-            'auth' => $this->auth
-        );
+            'auth' => $this->auth,
+        ];
         $mailer = new Mail_smtp($mailer_params);
         $result = $mailer->send($this->urlparts['path'], $headers, $out);
         if (!PEAR::isError($result)) {
@@ -156,11 +161,11 @@ class SOAP_Transport_SMTP extends SOAP_Transport
             $val = new SOAP_Value('Fault', 'Struct', $sval);
         }
 
-        $methodValue = new SOAP_Value('Response', 'Struct', array($val));
+        $methodValue = new SOAP_Value('Response', 'Struct', [$val]);
 
         $this->incoming_payload = $this->makeEnvelope($methodValue,
-                                                      $this->headers,
-                                                      $this->encoding);
+            $this->headers,
+            $this->encoding);
 
         return $this->incoming_payload;
     }
@@ -170,10 +175,8 @@ class SOAP_Transport_SMTP extends SOAP_Transport
      *
      * @param string $username  Username.
      * @param string $password  Response data, minus HTTP headers.
-     *
-     * @access public
      */
-    function setCredentials($username, $password)
+    public function setCredentials($username, $password)
     {
         $this->username = $username;
         $this->password = $password;
@@ -182,25 +185,27 @@ class SOAP_Transport_SMTP extends SOAP_Transport
     /**
      * Validates url data passed to constructor.
      *
-     * @return boolean
-     * @access private
+     * @return bool
      */
-    function _validateUrl()
+    public function _validateUrl()
     {
         if (!is_array($this->urlparts)) {
             $this->_raiseSoapFault("Unable to parse URL $this->url");
+
             return false;
         }
         if (!isset($this->urlparts['scheme']) ||
             strcasecmp($this->urlparts['scheme'], 'mailto') != 0) {
-                $this->_raiseSoapFault("Unable to parse URL $this->url");
-                return false;
+            $this->_raiseSoapFault("Unable to parse URL $this->url");
+
+            return false;
         }
         if (!isset($this->urlparts['path'])) {
             $this->_raiseSoapFault("Unable to parse URL $this->url");
+
             return false;
         }
+
         return true;
     }
-
 }

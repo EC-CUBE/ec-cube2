@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -29,32 +29,30 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * 環境によるfunctionの変更まではカバーできないため、簡単な出力のみテスト.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_jsonEncodeTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testJsonEncodeJSON形式にエンコードされた文字列が返る()
+    {
+        $input = ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5];
+        $this->expected = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
+        $this->actual = SC_Utils::jsonEncode($input);
 
-  protected function tearDown(): void
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testJsonEncode__JSON形式にエンコードされた文字列が返る()
-  {
-    $input = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
-    $this->expected = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
-    $this->actual = SC_Utils::jsonEncode($input);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

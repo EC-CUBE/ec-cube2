@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,40 +27,37 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfTrimURL()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfTrimURLTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfTrimURLURLがスラッシュで終わる場合スラッシュが取り除かれる()
+    {
+        $input = 'http://www.example.co.jp/';
+        $this->expected = 'http://www.example.co.jp';
+        $this->actual = SC_Utils::sfTrimURL($input);
+        $this->verify();
+    }
 
-  protected function tearDown(): void
-  {
-    parent::tearDown();
-  }
-
-  /////////////////////////////////////////
-  public function testSfTrimURL_URLがスラッシュで終わる場合_スラッシュが取り除かれる()
-  {
-    $input = 'http://www.example.co.jp/';
-    $this->expected = 'http://www.example.co.jp';
-    $this->actual = SC_Utils::sfTrimURL($input);
-    $this->verify();
-  }
-
-  public function testSfTrimURL_URL末尾にスラッシュがない場合_文字列に変化がない()
-  {
-    $input = 'http://www.example.co.jp';
-    $this->expected = $input;
-    $this->actual = SC_Utils::sfTrimURL($input);
-    $this->verify();
-  }
-  //////////////////////////////////////////
+    public function testSfTrimURLURL末尾にスラッシュがない場合文字列に変化がない()
+    {
+        $input = 'http://www.example.co.jp';
+        $this->expected = $input;
+        $this->actual = SC_Utils::sfTrimURL($input);
+        $this->verify();
+    }
+    // ////////////////////////////////////////
 }
-

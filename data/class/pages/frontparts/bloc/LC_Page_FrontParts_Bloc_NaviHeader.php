@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ナビ(ヘッダブロック) のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_FrontParts_Bloc_NaviHeader extends LC_Page_FrontParts_Bloc_Login_Ex
@@ -43,7 +42,7 @@ class LC_Page_FrontParts_Bloc_NaviHeader extends LC_Page_FrontParts_Bloc_Login_E
     {
         parent::init();
         $masterData = new SC_DB_MasterData_Ex();
-        $this->arrProductType = $masterData->getMasterData('mtb_product_type'); //商品種類を取得
+        $this->arrProductType = $masterData->getMasterData('mtb_product_type'); // 商品種類を取得
     }
 
     /**
@@ -66,7 +65,7 @@ class LC_Page_FrontParts_Bloc_NaviHeader extends LC_Page_FrontParts_Bloc_Login_E
     {
         parent::action();
 
-        //ヘッダーナビのカート情報を取得
+        // ヘッダーナビのカート情報を取得
         $objCart = new SC_CartSession_Ex();
         $cartKeys = $objCart->getKeys();
         $arrInfo = SC_Helper_DB_Ex::sfGetBasisData();
@@ -78,20 +77,21 @@ class LC_Page_FrontParts_Bloc_NaviHeader extends LC_Page_FrontParts_Bloc_Login_E
      * カートの情報を取得する
      *
      * @param  SC_CartSession $objCart  カートセッション管理クラス
-     * @param  Array          $arrInfo  基本情報配列
-     * @param  Array          $cartKeys 商品種類配列
+     * @param  array          $arrInfo  基本情報配列
+     * @param  array          $cartKeys 商品種類配列
+     *
      * @return array          $arrCartList カートデータ配列
      */
     public function lfGetCartData($objCart, $arrInfo, $cartKeys)
     {
-        $cartList = array();
+        $cartList = [];
         foreach ($cartKeys as $key) {
             // カート集計処理
-            $cartList[$key]['productTypeName'] = $this->arrProductType[$key]; //商品種類名
-            $cartList[$key]['totalInctax'] = $objCart->getAllProductsTotal($key); //合計金額
+            $cartList[$key]['productTypeName'] = $this->arrProductType[$key]; // 商品種類名
+            $cartList[$key]['totalInctax'] = $objCart->getAllProductsTotal($key); // 合計金額
             $cartList[$key]['delivFree'] = $arrInfo['free_rule'] - $cartList[$key]['totalInctax']; // 送料無料までの金額を計算
-            $cartList[$key]['totalTax'] = $objCart->getAllProductsTax($key); //消費税合計
-            $cartList[$key]['quantity'] = $objCart->getTotalQuantity($key); //商品数量合計
+            $cartList[$key]['totalTax'] = $objCart->getAllProductsTax($key); // 消費税合計
+            $cartList[$key]['quantity'] = $objCart->getTotalQuantity($key); // 商品数量合計
             $cartList[$key]['productTypeId'] = $key; // 商品種別ID
         }
 

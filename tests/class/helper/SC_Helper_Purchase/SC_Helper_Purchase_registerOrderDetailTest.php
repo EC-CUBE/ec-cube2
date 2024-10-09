@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,92 +28,94 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  * SC_Helper_Purchase::registerOrderDetail()のテストクラス.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_registerOrderDetailTest extends SC_Helper_Purchase_TestBase
 {
-  /** @var array */
-  private $customer_ids = [];
-  /** @var array */
-  private $order_ids = [];
-  protected function setUp(): void
-  {
-    parent::setUp();
-    $this->customer_ids = $this->setUpCustomer();
-    $this->order_ids = $this->setUpOrder($this->customer_ids);
-  }
+    /** @var array */
+    private $customer_ids = [];
+    /** @var array */
+    private $order_ids = [];
 
-  protected function tearDown(): void
-  {
-    parent::tearDown();
-  }
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->customer_ids = $this->setUpCustomer();
+        $this->order_ids = $this->setUpOrder($this->customer_ids);
+    }
 
-  /////////////////////////////////////////
-  public function testRegisterOrderDetail_該当の受注が存在する場合_削除後に新しい情報が登録される()
-  {
-    $params = array(
-      array(
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
+
+    // ///////////////////////////////////////
+    public function testRegisterOrderDetail該当の受注が存在する場合削除後に新しい情報が登録される()
+    {
+        $params = [
+      [
         'order_id' => $this->order_ids[0],
         'hoge' => '999', // DBに存在しないカラム
         'product_id' => '9001',
         'product_class_id' => '9001',
-        'product_name' => '製品名9001'
-      )
-    );
-    SC_Helper_Purchase::registerOrderDetail($this->order_ids[0], $params);
+        'product_name' => '製品名9001',
+      ],
+    ];
+        SC_Helper_Purchase::registerOrderDetail($this->order_ids[0], $params);
 
-    $this->expected['count'] = '1';
-    $this->expected['content'] = array(
+        $this->expected['count'] = '1';
+        $this->expected['content'] = [
       'order_id' => $this->order_ids[0],
       'product_id' => '9001',
       'product_class_id' => '9001',
       'product_name' => '製品名9001',
-      'product_code' => null // 古いデータにはあるが、deleteされたので消えている
-    );
+      'product_code' => null, // 古いデータにはあるが、deleteされたので消えている
+    ];
 
-    $this->actual['count'] = $this->objQuery->count('dtb_order_detail', 'order_id = ?', [$this->order_ids[0]]);
-    $this->actual['content'] = $this->objQuery->getRow(
-      'order_id, product_id, product_class_id, product_name, product_code',
-      'dtb_order_detail',
-      'order_id = ?',
-      [$this->order_ids[0]]
-    );
+        $this->actual['count'] = $this->objQuery->count('dtb_order_detail', 'order_id = ?', [$this->order_ids[0]]);
+        $this->actual['content'] = $this->objQuery->getRow(
+            'order_id, product_id, product_class_id, product_name, product_code',
+            'dtb_order_detail',
+            'order_id = ?',
+            [$this->order_ids[0]]
+        );
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testRegisterOrderDetail_該当の受注が存在しない場合_新しい情報が追加登録される()
-  {
-    $params = array(
-      array(
+    public function testRegisterOrderDetail該当の受注が存在しない場合新しい情報が追加登録される()
+    {
+        $params = [
+      [
         'order_id' => '1003',
         'hoge' => '999', // DBに存在しないカラム
         'product_id' => '9003',
         'product_class_id' => '9003',
-        'product_name' => '製品名9003'
-      )
-    );
-    SC_Helper_Purchase::registerOrderDetail('1003', $params);
+        'product_name' => '製品名9003',
+      ],
+    ];
+        SC_Helper_Purchase::registerOrderDetail('1003', $params);
 
-    $this->expected['count'] = '1';
-    $this->expected['content'] = array(
+        $this->expected['count'] = '1';
+        $this->expected['content'] = [
       'order_id' => '1003',
       'product_id' => '9003',
       'product_class_id' => '9003',
       'product_name' => '製品名9003',
-      'product_code' => null
-    );
+      'product_code' => null,
+    ];
 
-    $this->actual['count'] = $this->objQuery->count('dtb_order_detail', 'order_id = ?', [1003]);
-    $result = $this->objQuery->select(
-      'order_id, product_id, product_class_id, product_name, product_code',
-      'dtb_order_detail',
-      'order_id = ?',
-      array('1003')
-    );
-    $this->actual['content'] = $result[0];
+        $this->actual['count'] = $this->objQuery->count('dtb_order_detail', 'order_id = ?', [1003]);
+        $result = $this->objQuery->select(
+            'order_id, product_id, product_class_id, product_name, product_code',
+            'dtb_order_detail',
+            'order_id = ?',
+            ['1003']
+        );
+        $this->actual['content'] = $result[0];
 
-    $this->verify();
-  }
-  //////////////////////////////////////////
+        $this->verify();
+    }
+    // ////////////////////////////////////////
 }

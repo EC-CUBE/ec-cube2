@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,61 +27,58 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::getRealURL()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_getRealURLTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    // TODO ポート番号のためのコロンが必ず入ってしまうのはOK?
+    public function testGetRealURL親ディレクトリへの参照を含む場合正しくパースできる()
+    {
+        $input = 'http://www.example.jp/aaa/../index.php';
+        $this->expected = 'http://www.example.jp:/index.php';
+        $this->actual = SC_Utils::getRealURL($input);
 
-  protected function tearDown(): void
-  {
-    parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  // TODO ポート番号のためのコロンが必ず入ってしまうのはOK?
-  public function testGetRealURL_親ディレクトリへの参照を含む場合_正しくパースできる()
-  {
-    $input = 'http://www.example.jp/aaa/../index.php';
-    $this->expected = 'http://www.example.jp:/index.php';
-    $this->actual = SC_Utils::getRealURL($input);
+    public function testGetRealURL親ディレクトリへの参照を複数回含む場合正しくパースできる()
+    {
+        $input = 'http://www.example.jp/aaa/bbb/../../ccc/ddd/../index.php';
+        $this->expected = 'http://www.example.jp:/ccc/index.php';
+        $this->actual = SC_Utils::getRealURL($input);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testGetRealURL_親ディレクトリへの参照を複数回含む場合_正しくパースできる()
-  {
-    $input = 'http://www.example.jp/aaa/bbb/../../ccc/ddd/../index.php';
-    $this->expected = 'http://www.example.jp:/ccc/index.php';
-    $this->actual = SC_Utils::getRealURL($input);
+    public function testGetRealURLカレントディレクトリへの参照を含む場合正しくパースできる()
+    {
+        $input = 'http://www.example.jp/aaa/./index.php';
+        $this->expected = 'http://www.example.jp:/aaa/index.php';
+        $this->actual = SC_Utils::getRealURL($input);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testGetRealURL_カレントディレクトリへの参照を含む場合_正しくパースできる()
-  {
-    $input = 'http://www.example.jp/aaa/./index.php';
-    $this->expected = 'http://www.example.jp:/aaa/index.php';
-    $this->actual = SC_Utils::getRealURL($input);
+    public function testGetRealURLHttpsの場合正しくパースできる()
+    {
+        $input = 'https://www.example.jp/aaa/./index.php';
+        $this->expected = 'https://www.example.jp:/aaa/index.php';
+        $this->actual = SC_Utils::getRealURL($input);
 
-    $this->verify();
-  }
-
-  public function testGetRealURL_httpsの場合_正しくパースできる()
-  {
-    $input = 'https://www.example.jp/aaa/./index.php';
-    $this->expected = 'https://www.example.jp:/aaa/index.php';
-    $this->actual = SC_Utils::getRealURL($input);
-
-    $this->verify();
-  }
-  //////////////////////////////////////////
+        $this->verify();
+    }
+    // ////////////////////////////////////////
 }
-

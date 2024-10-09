@@ -21,7 +21,7 @@ class SC_CheckError_DIR_CHECKTest extends SC_CheckError_AbstractTestCase
         parent::tearDown();
     }
 
-    public function testDIR_CHECK()
+    public function testDIRCHECK()
     {
         $this->expected = '';
 
@@ -29,7 +29,7 @@ class SC_CheckError_DIR_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testDIR_CHECKWithNotfound()
+    public function testDIRCHECKWithNotfound()
     {
         $this->dirName = sys_get_temp_dir().'/dir';
         $this->expected = '※ 指定したDIR_CHECKは存在しません。<br />';
@@ -38,7 +38,7 @@ class SC_CheckError_DIR_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testDIR_CHECKWithEmpty()
+    public function testDIRCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -47,7 +47,7 @@ class SC_CheckError_DIR_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testDIR_CHECKWithNull()
+    public function testDIRCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';

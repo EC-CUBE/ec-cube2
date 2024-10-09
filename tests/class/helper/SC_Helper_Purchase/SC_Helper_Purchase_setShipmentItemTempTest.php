@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -29,72 +29,72 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  * 【注意】dtb_baseinfoはインストール時に入るデータをそのまま使用
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_setShipmentItemTempTest extends SC_Helper_Purchase_TestBase
 {
-  /** @var int */
-  private $product_id;
-  /** @var array */
-  private $productsClass;
-  private $helper;
+    /** @var int */
+    private $product_id;
+    /** @var array */
+    private $productsClass;
+    private $helper;
 
-  protected function setUp(): void
-  {
-    parent::setUp();
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-    $this->product_id = $this->objGenerator->createProduct(null);
-    $this->objQuery->setOrder('product_class_id');
-    $this->productsClass = $this->objQuery->getRow('*', 'dtb_products_class', 'product_id = ?', [$this->product_id]);
+        $this->product_id = $this->objGenerator->createProduct(null);
+        $this->objQuery->setOrder('product_class_id');
+        $this->productsClass = $this->objQuery->getRow('*', 'dtb_products_class', 'product_id = ?', [$this->product_id]);
 
-    $_SESSION['shipping']['1001']['shipment_item'] = array(
-      '1001' => array('productsClass' => array('price02' => 9000))
-    );
-    $this->helper = new SC_Helper_Purchase_Ex();
-  }
+        $_SESSION['shipping']['1001']['shipment_item'] = [
+      '1001' => ['productsClass' => ['price02' => 9000]],
+    ];
+        $this->helper = new SC_Helper_Purchase_Ex();
+    }
 
-  protected function tearDown(): void
-  {
-    parent::tearDown();
-  }
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  /////////////////////////////////////////
-  public function testSetShipmentItemTemp_製品情報が既に存在する場合_存在する情報が価格に反映される()
-  {
-    $this->helper->setShipmentItemTemp('1001', '1001', 10);
+    // ///////////////////////////////////////
+    public function testSetShipmentItemTemp製品情報が既に存在する場合存在する情報が価格に反映される()
+    {
+        $this->helper->setShipmentItemTemp('1001', '1001', 10);
 
-    $this->expected = array(
+        $this->expected = [
       'shipping_id' => '1001',
       'product_class_id' => '1001',
       'quantity' => 10,
       'price' => 9000,
       'total_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax(90000),
-      'productsClass' => array('price02' => 9000)
-    );
-    $this->actual = $_SESSION['shipping']['1001']['shipment_item']['1001'];
+      'productsClass' => ['price02' => 9000],
+    ];
+        $this->actual = $_SESSION['shipping']['1001']['shipment_item']['1001'];
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSetShipmentItemTemp_製品情報が存在しない場合_DBから取得した値が反映される()
-  {
-    $quantity = 10;
-    $this->helper->setShipmentItemTemp('1001', $this->productsClass['product_class_id'], $quantity);
+    public function testSetShipmentItemTemp製品情報が存在しない場合DBから取得した値が反映される()
+    {
+        $quantity = 10;
+        $this->helper->setShipmentItemTemp('1001', $this->productsClass['product_class_id'], $quantity);
 
-    $this->expected = array(
+        $this->expected = [
       'shipping_id' => '1001',
       'product_class_id' => $this->productsClass['product_class_id'],
       'quantity' => $quantity,
       'price' => $this->productsClass['price02'],
       'total_inctax' => SC_Helper_TaxRule_Ex::sfCalcIncTax($this->productsClass['price02']) * $quantity,
-    );
-    $result = $_SESSION['shipping']['1001']['shipment_item'][$this->productsClass['product_class_id']];
-    unset($result['productsClass']);
-    $this->actual = $result;
+    ];
+        $result = $_SESSION['shipping']['1001']['shipment_item'][$this->productsClass['product_class_id']];
+        unset($result['productsClass']);
+        $this->actual = $result;
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

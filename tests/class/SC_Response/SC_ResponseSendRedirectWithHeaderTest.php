@@ -4,13 +4,13 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
 {
     /** @var resource|bool */
     private static $server;
-    const FIXTURES_DIR = '../fixtures/server';
+    public const FIXTURES_DIR = '../fixtures/server';
 
     public static function setUpBeforeClass(): void
     {
         $spec = [
             1 => ['file', '/dev/null', 'w'],
-            2 => ['file', '/dev/null', 'w']
+            2 => ['file', '/dev/null', 'w'],
         ];
 
         if (!self::$server = @proc_open('exec php -S 127.0.0.1:8085', $spec, $pipes, __DIR__.'/'.self::FIXTURES_DIR)) {
@@ -31,6 +31,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
      * @param array $arrPostData
      * @param array $arrTestHeader エスケープせず HTTP ヘッダーに埋め込むので注意。
      * @param array|null $arrPostData
+     *
      * @return void
      */
     private function request($arrQuery = [], $arrTestHeader = [], $arrPostData = null)
@@ -62,6 +63,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
 
     /**
      * @param array $arrQuerystring
+     *
      * @return string
      */
     private function getExpectedContents($arrQuerystring = [])
@@ -70,7 +72,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
         $netUrl->querystring = $arrQuerystring;
         $url = $netUrl->getUrl();
 
-        $contents = file_get_contents(__DIR__ . '/' . self::FIXTURES_DIR . '/sc_response_sendRedirect.expected');
+        $contents = file_get_contents(__DIR__.'/'.self::FIXTURES_DIR.'/sc_response_sendRedirect.expected');
         $contents = str_replace('{url}', $url, $contents);
 
         return $contents;
@@ -79,7 +81,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
     /**
      * 以下は、sendRedirect で transactionid が付加されないパターン。
      */
-    public function testSendRedirect_Admin_GRG_transactionidなし_遷移先にmode()
+    public function testSendRedirectAdminGRGTransactionidなし遷移先にmode()
     {
         $arrQuery = [
         ];
@@ -96,7 +98,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function testSendRedirect_Admin_PRG_リクエストにtransactionid_modeなし()
+    public function testSendRedirectAdminPRGリクエストにtransactionidModeなし()
     {
         $arrQuery = [
             TRANSACTION_ID_NAME => 'on_reqest_query',
@@ -104,7 +106,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
         $arrTestHeader = [
             'function' => 'admin',
         ];
-        $arrPostData    = [
+        $arrPostData = [
             'foo' => 'bar',
             TRANSACTION_ID_NAME => 'on_reqest_post',
         ];
@@ -115,7 +117,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function testSendRedirect_Front_GRG_リクエストにtransactionid_遷移先にmode()
+    public function testSendRedirectFrontGRGリクエストにtransactionid遷移先にmode()
     {
         $arrQuery = [
             TRANSACTION_ID_NAME => 'on_reqest_query',
@@ -133,7 +135,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function testSendRedirect_Front_PRG_リクエストにtransactionid_遷移先にmode()
+    public function testSendRedirectFrontPRGリクエストにtransactionid遷移先にmode()
     {
         $arrQuery = [
             TRANSACTION_ID_NAME => 'on_reqest_query',
@@ -142,7 +144,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
             'function' => 'front',
             'dst_mode' => 'hoge',
         ];
-        $arrPostData    = [
+        $arrPostData = [
             'foo' => 'bar',
             TRANSACTION_ID_NAME => 'on_reqest_post',
         ];
@@ -158,7 +160,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
     /**
      * 以下は、sendRedirect で リクエストの transactionid がリダイレクト先に引き継がれるパターン。
      */
-    public function testSendRedirect_Admin_GRG_リクエストにtransactionid_遷移先にmode()
+    public function testSendRedirectAdminGRGリクエストにtransactionid遷移先にmode()
     {
         $arrQuery = [
             TRANSACTION_ID_NAME => 'on_reqest_query',
@@ -177,7 +179,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function testSendRedirect_Admin_PRG_リクエストにtransactionid_遷移先にmode()
+    public function testSendRedirectAdminPRGリクエストにtransactionid遷移先にmode()
     {
         $arrQuery = [
             TRANSACTION_ID_NAME => 'on_reqest_query',
@@ -186,7 +188,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
             'function' => 'admin',
             'dst_mode' => 'hoge',
         ];
-        $arrPostData    = [
+        $arrPostData = [
             'foo' => 'bar',
             TRANSACTION_ID_NAME => 'on_reqest_post',
         ];
@@ -200,7 +202,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function testSendRedirect_Admin_GRG_リクエストにtransactionid_modeなし_クエリ継承()
+    public function testSendRedirectAdminGRGリクエストにtransactionidModeなしクエリ継承()
     {
         $arrQuery = [
             TRANSACTION_ID_NAME => 'on_reqest_query',
@@ -218,7 +220,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function testSendRedirect_Admin_PRG_リクエストにtransactionid_modeなし_クエリ継承()
+    public function testSendRedirectAdminPRGリクエストにtransactionidModeなしクエリ継承()
     {
         $arrQuery = [
             TRANSACTION_ID_NAME => 'on_reqest_query',
@@ -227,7 +229,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
             'function' => 'admin',
             'inherit_query_string' => '1',
         ];
-        $arrPostData    = [
+        $arrPostData = [
             'foo' => 'bar',
             TRANSACTION_ID_NAME => 'on_reqest_post',
         ];
@@ -245,7 +247,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
      *
      * 通常無さそうなケースだが、仕様として持っている動作。リダイレクトのタイミングで transactionid を更新する用途を想定。
      */
-    public function testSendRedirect_Admin_GRG_ロジック・リクエストにtransactionid_遷移先にmode()
+    public function testSendRedirectAdminGRGロジック・リクエストにtransactionid遷移先にmode()
     {
         $arrQuery = [
             TRANSACTION_ID_NAME => 'on_reqest_query',
@@ -265,7 +267,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function testSendRedirect_Admin_PRG_ロジック・リクエストにtransactionid_遷移先にmode()
+    public function testSendRedirectAdminPRGロジック・リクエストにtransactionid遷移先にmode()
     {
         $arrQuery = [
             TRANSACTION_ID_NAME => 'on_reqest_query',
@@ -275,7 +277,7 @@ class SC_ResponseSendRedirectWithHeaderTest extends Common_TestCase
             'dst_mode' => 'hoge',
             'logic_transaction_id' => 'on_logic',
         ];
-        $arrPostData    = [
+        $arrPostData = [
             'foo' => 'bar',
             TRANSACTION_ID_NAME => 'on_reqest_post',
         ];

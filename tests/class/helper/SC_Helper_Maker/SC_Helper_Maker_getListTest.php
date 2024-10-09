@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Maker/SC_Helper_Maker_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Maker/SC_Helper_Maker_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -31,8 +31,7 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Maker/SC_Helper_Maker_TestBa
  */
 class SC_Helper_Maker_getListTest extends SC_Helper_Maker_TestBase
 {
-
-    var $objHelperMaker;
+    public $objHelperMaker;
 
     protected function setUp(): void
     {
@@ -48,61 +47,59 @@ class SC_Helper_Maker_getListTest extends SC_Helper_Maker_TestBase
 
     /**　rankが存在しない場合、空を返す。
      */
-    public function testGetList_存在しない場合空を返す()
+    public function testGetList存在しない場合空を返す()
     {
-
         $this->deleteAllMaker();
 
-        $this->expected = array();
+        $this->expected = [];
         $this->actual = $this->objHelperMaker->getList();
 
         $this->verify();
     }
 
-    public function testGetList_データがある場合_想定した結果が返る(){
-
-        $this->expected = array(
-            array(
+    public function testGetListデータがある場合想定した結果が返る()
+    {
+        $this->expected = [
+            [
                 'maker_id' => '1004',
-                'name' => 'MEC'
-            ),
-            array(
+                'name' => 'MEC',
+            ],
+            [
                 'maker_id' => '1003',
-                'name' => 'シャンプー'
-            ),
-            array(
+                'name' => 'シャンプー',
+            ],
+            [
                 'maker_id' => '1001',
-                'name' => 'ソニン'
-            )
-        );
+                'name' => 'ソニン',
+            ],
+        ];
 
         $this->actual = $this->objHelperMaker->getList();
         $this->verify();
     }
 
-    public function testGetList_一覧取得has_deleteをtrueにした場合削除済みデータも取得(){
-
-        $this->expected = array(
-            array(
+    public function testGetList一覧取得hasDeleteをtrueにした場合削除済みデータも取得()
+    {
+        $this->expected = [
+            [
                 'maker_id' => '1004',
-                'name' => 'MEC'
-            ),
-            array(
+                'name' => 'MEC',
+            ],
+            [
                 'maker_id' => '1003',
-                'name' => 'シャンプー'
-            ),
-            array(
+                'name' => 'シャンプー',
+            ],
+            [
                 'maker_id' => '1002',
-                'name' => 'パソナニック'
-            ),
-            array(
+                'name' => 'パソナニック',
+            ],
+            [
                 'maker_id' => '1001',
-                'name' => 'ソニン'
-            )
-        );
+                'name' => 'ソニン',
+            ],
+        ];
 
         $this->actual = $this->objHelperMaker->getList(true);
         $this->verify();
     }
 }
-

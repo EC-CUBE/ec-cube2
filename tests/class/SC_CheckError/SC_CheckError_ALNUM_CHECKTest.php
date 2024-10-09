@@ -8,7 +8,7 @@ class SC_CheckError_ALNUM_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'ALNUM_CHECK';
     }
 
-    public function testALNUM_CHECK()
+    public function testALNUMCHECK()
     {
         /** @var Faker\Generator $faker */
         $faker = Faker\Factory::create('ja_JP');
@@ -26,7 +26,7 @@ class SC_CheckError_ALNUM_CHECKTest extends SC_CheckError_AbstractTestCase
      * フォームからの入力で数値型(int)が入力されることは無いが
      * 入力があるとエラーになってしまう
      */
-    public function testALNUM_CHECKWithNumber()
+    public function testALNUMCHECKWithNumber()
     {
         $this->markTestIncomplete('数値型はサポートされていません');
         $this->arrForm = [self::FORM_NAME => 5];
@@ -36,7 +36,7 @@ class SC_CheckError_ALNUM_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testALNUM_CHECKWithEmpty()
+    public function testALNUMCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -45,7 +45,7 @@ class SC_CheckError_ALNUM_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testALNUM_CHECKWithNull()
+    public function testALNUMCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '';
@@ -54,7 +54,7 @@ class SC_CheckError_ALNUM_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testALNUM_CHECKWithSpecial()
+    public function testALNUMCHECKWithSpecial()
     {
         $this->arrForm = [self::FORM_NAME => 'a1.'];
         $this->expected = '※ ALNUM_CHECKは英数字で入力してください。<br />';
@@ -63,4 +63,3 @@ class SC_CheckError_ALNUM_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 }
-

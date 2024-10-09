@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,41 +27,38 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfGetChecked()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetCheckedTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfGetChecked引数が一致する場合チェック済みの文字列が返る()
+    {
+        $this->expected = 'checked="checked"';
+        $this->actual = SC_Utils::sfGetChecked('1', '1');
 
-  protected function tearDown(): void
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfGetChecked_引数が一致する場合_チェック済みの文字列が返る()
-  {
-    $this->expected = 'checked="checked"';
-    $this->actual = SC_Utils::sfGetChecked('1', '1');
+    public function testSfGetChecked引数が一致しない場合0バイト文字列が返る()
+    {
+        $this->expected = '';
+        $this->actual = SC_Utils::sfGetChecked('2', '1');
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfGetChecked_引数が一致しない場合_0バイト文字列が返る()
-  {
-    $this->expected = '';
-    $this->actual = SC_Utils::sfGetChecked('2', '1');
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

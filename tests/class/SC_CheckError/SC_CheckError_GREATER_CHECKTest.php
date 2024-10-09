@@ -2,7 +2,7 @@
 
 class SC_CheckError_GREATER_CHECKTest extends SC_CheckError_AbstractTestCase
 {
-    const FORM_NAME_REPEAT = 'form_repeat';
+    public const FORM_NAME_REPEAT = 'form_repeat';
 
     protected function setUp(): void
     {
@@ -10,28 +10,28 @@ class SC_CheckError_GREATER_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'GREATER_CHECK';
     }
 
-    public function testGREATER_CHECK()
+    public function testGREATERCHECK()
     {
         $this->arrForm = [self::FORM_NAME => 3, self::FORM_NAME_REPEAT => 2];
-        $this->expected = "※ label1はlabel2より大きい値を入力できません。<br />";
+        $this->expected = '※ label1はlabel2より大きい値を入力できません。<br />';
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testGREATER_CHECKWithEqual()
+    public function testGREATERCHECKWithEqual()
     {
         $this->arrForm = [self::FORM_NAME => 1, self::FORM_NAME_REPEAT => 1];
-        $this->expected = "";
+        $this->expected = '';
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testGREATER_CHECKWithLess()
+    public function testGREATERCHECKWithLess()
     {
         $this->arrForm = [self::FORM_NAME => 2, self::FORM_NAME_REPEAT => 3];
-        $this->expected = "";
+        $this->expected = '';
 
         $this->scenario();
         $this->verify();
@@ -40,29 +40,29 @@ class SC_CheckError_GREATER_CHECKTest extends SC_CheckError_AbstractTestCase
     /**
      * 0 を含むチェックは未実装
      */
-    public function testGREATER_CHECKWithZero()
+    public function testGREATERCHECKWithZero()
     {
         $this->markTestIncomplete('Not implement to zero check');
         $this->arrForm = [self::FORM_NAME => 1, self::FORM_NAME_REPEAT => 0];
-        $this->expected = "";
+        $this->expected = '';
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testGREATER_CHECKWithNotType()
+    public function testGREATERCHECKWithNotType()
     {
         $this->arrForm = [self::FORM_NAME => 3, self::FORM_NAME_REPEAT => '2'];
-        $this->expected = "※ label1はlabel2より大きい値を入力できません。<br />";
+        $this->expected = '※ label1はlabel2より大きい値を入力できません。<br />';
 
         $this->scenario();
         $this->verify();
     }
 
-    public function testGREATER_CHECKWithString()
+    public function testGREATERCHECKWithString()
     {
         $this->arrForm = [self::FORM_NAME => 'a', self::FORM_NAME_REPEAT => 'b'];
-        $this->expected = "";
+        $this->expected = '';
 
         $this->scenario();
         $this->verify();

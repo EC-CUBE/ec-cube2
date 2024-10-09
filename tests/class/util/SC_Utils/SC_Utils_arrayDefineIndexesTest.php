@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,53 +27,50 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::arrayDefineIndexes()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_arrayDefineIndexesTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp(): void
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testArrayDefineIndexesチェック対象のキーが全て存在する場合配列に変化がない()
+    {
+        $input_array = ['apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ'];
+        $defineIndexes = ['banana', 'orange'];
 
-  protected function tearDown(): void
-  {
-    parent::tearDown();
-  }
+        $this->expected = $input_array;
+        $this->actual = SC_Utils::arrayDefineIndexes($input_array, $defineIndexes);
 
-  /////////////////////////////////////////
-  public function testArrayDefineIndexes_チェック対象のキーが全て存在する場合_配列に変化がない()
-  {
-    $input_array = array('apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ');
-    $defineIndexes = array('banana', 'orange');
+        $this->verify();
+    }
 
-    $this->expected = $input_array;
-    $this->actual = SC_Utils::arrayDefineIndexes($input_array, $defineIndexes);
+    public function testArrayDefineIndexesチェック対象のキーが一部存在しない場合配列に追加される()
+    {
+        $input_array = ['apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ'];
+        $defineIndexes = ['tomato', 'banana', 'kiwi'];
 
-    $this->verify();
-  }
-
-  public function testArrayDefineIndexes_チェック対象のキーが一部存在しない場合_配列に追加される()
-  {
-    $input_array = array('apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ');
-    $defineIndexes = array('tomato', 'banana', 'kiwi');
-
-    $this->expected = array(
+        $this->expected = [
       'apple' => 'りんご',
       'banana' => 'バナナ',
       'orange' => 'オレンジ',
       'tomato' => '',
-      'kiwi' => ''
-    );
-    $this->actual = SC_Utils::arrayDefineIndexes($input_array, $defineIndexes);
+      'kiwi' => '',
+    ];
+        $this->actual = SC_Utils::arrayDefineIndexes($input_array, $defineIndexes);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

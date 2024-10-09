@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -29,136 +29,135 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * TODO : 最後にスラッシュがないとうまくいかないのは良いのか？
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_copyDirectoryTest extends Common_TestCase
 {
+    public static $TMP_DIR;
 
-  static $TMP_DIR;
+    protected function setUp(): void
+    {
+        // parent::setUp();
+        self::$TMP_DIR = realpath(__DIR__).'/../../../tmp';
+        SC_Helper_FileManager::deleteFile(self::$TMP_DIR);
+        mkdir(self::$TMP_DIR, 0700, true);
+    }
 
-  protected function setUp(): void
-  {
-    // parent::setUp();
-    self::$TMP_DIR = realpath(dirname(__FILE__)) . "/../../../tmp";
-    SC_Helper_FileManager::deleteFile(self::$TMP_DIR);
-    mkdir(self::$TMP_DIR, 0700, true);
-  }
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function tearDown(): void
-  {
-    // parent::tearDown();
-  }
+    // ///////////////////////////////////////
+    public function testCopyDirectory存在するパスの場合指定したパス以下が再帰的にコピーされる()
+    {
+        /*
+         * tests/tmp/src
+         *             /dir10
+         *             /dir20/dir21
+         *                   /file22.txt
+         */
+        mkdir(self::$TMP_DIR.'/src', 0700, true);
+        mkdir(self::$TMP_DIR.'/src/dir10', 0700, true);
+        mkdir(self::$TMP_DIR.'/src/dir20', 0700, true);
+        mkdir(self::$TMP_DIR.'/src/dir20/dir21', 0700, true);
+        $fp = fopen(self::$TMP_DIR.'/src/dir20/file22.txt', 'w');
+        fwrite($fp, 'ec-cube test');
+        fclose($fp);
+        mkdir(self::$TMP_DIR.'/dst');
 
-  /////////////////////////////////////////
-  public function testCopyDirectory_存在するパスの場合_指定したパス以下が再帰的にコピーされる()
-  {
-    /**
-     * tests/tmp/src
-     *             /dir10
-     *             /dir20/dir21
-     *                   /file22.txt
-     */
-    mkdir(self::$TMP_DIR . "/src", 0700, true);
-    mkdir(self::$TMP_DIR . "/src/dir10", 0700, true);
-    mkdir(self::$TMP_DIR . "/src/dir20", 0700, true);
-    mkdir(self::$TMP_DIR . "/src/dir20/dir21", 0700, true);
-    $fp = fopen(self::$TMP_DIR . "/src/dir20/file22.txt", "w");
-    fwrite($fp, "ec-cube test");
-    fclose($fp);
-    mkdir(self::$TMP_DIR . "/dst");
+        SC_Utils::copyDirectory(self::$TMP_DIR.'/src/', self::$TMP_DIR.'/dst/');
 
-    SC_Utils::copyDirectory(self::$TMP_DIR . "/src/", self::$TMP_DIR . "/dst/");
+        $this->expected = ['dir10', 'dir20', 'dir21', 'file22.txt'];
+        $this->actual = [];
+        Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR.'/dst'), 'file_name'));
+        Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR.'/dst/dir20'), 'file_name'));
 
-    $this->expected = array("dir10", "dir20", "dir21", "file22.txt");
-    $this->actual = array();
-    Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR . "/dst"), "file_name"));
-    Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR . "/dst/dir20"), "file_name"));
-    
-    $this->verify('コピーされたファイル一覧');
-  }
+        $this->verify('コピーされたファイル一覧');
+    }
 
-  public function testCopyDirectory_存在しないパスの場合_何も起こらない()
-  {
-    /**
-     * tests/tmp/src
-     *             /dir10
-     *             /dir20/dir21
-     *                   /file22.txt
-     */
-    // mkdir(self::$TMP_DIR . "/src", 0700, true);
-    mkdir(self::$TMP_DIR . "/dst");
+    public function testCopyDirectory存在しないパスの場合何も起こらない()
+    {
+        /*
+         * tests/tmp/src
+         *             /dir10
+         *             /dir20/dir21
+         *                   /file22.txt
+         */
+        // mkdir(self::$TMP_DIR . "/src", 0700, true);
+        mkdir(self::$TMP_DIR.'/dst');
 
-    SC_Utils::copyDirectory(self::$TMP_DIR . "/src/", self::$TMP_DIR . "/dst/");
+        SC_Utils::copyDirectory(self::$TMP_DIR.'/src/', self::$TMP_DIR.'/dst/');
 
-    $this->expected = array();
-    $this->actual = array();
-    
-    $this->verify('コピーされたファイル一覧');
-  }
+        $this->expected = [];
+        $this->actual = [];
 
-  public function testCopyDirectory_コピー先のディレクトリが元々存在する場合_上書きされる()
-  {
-    /**
-     * tests/tmp/src
-     *             /dir10
-     *             /dir20/dir21
-     *                   /file22.txt
-     */
-    mkdir(self::$TMP_DIR . "/src", 0700, true);
-    mkdir(self::$TMP_DIR . "/src/dir10", 0700, true);
-    mkdir(self::$TMP_DIR . "/src/dir20", 0700, true);
-    mkdir(self::$TMP_DIR . "/src/dir20/dir21", 0700, true);
-    $fp = fopen(self::$TMP_DIR . "/src/dir20/file22.txt", "w");
-    fwrite($fp, "ec-cube test");
-    fclose($fp);
-    mkdir(self::$TMP_DIR . "/dst");
-    mkdir(self::$TMP_DIR . "/dst/dir20/dir23", 0700, true);
+        $this->verify('コピーされたファイル一覧');
+    }
 
-    SC_Utils::copyDirectory(self::$TMP_DIR . "/src/", self::$TMP_DIR . "/dst/");
+    public function testCopyDirectoryコピー先のディレクトリが元々存在する場合上書きされる()
+    {
+        /*
+         * tests/tmp/src
+         *             /dir10
+         *             /dir20/dir21
+         *                   /file22.txt
+         */
+        mkdir(self::$TMP_DIR.'/src', 0700, true);
+        mkdir(self::$TMP_DIR.'/src/dir10', 0700, true);
+        mkdir(self::$TMP_DIR.'/src/dir20', 0700, true);
+        mkdir(self::$TMP_DIR.'/src/dir20/dir21', 0700, true);
+        $fp = fopen(self::$TMP_DIR.'/src/dir20/file22.txt', 'w');
+        fwrite($fp, 'ec-cube test');
+        fclose($fp);
+        mkdir(self::$TMP_DIR.'/dst');
+        mkdir(self::$TMP_DIR.'/dst/dir20/dir23', 0700, true);
 
-    $this->expected = array("dir10", "dir20", "dir21", "dir23", "file22.txt");
-    $this->actual = array();
-    Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR . "/dst"), "file_name"));
-    Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR . "/dst/dir20"), "file_name"));
-    
-    $this->verify('コピー先のファイル一覧');
-  }
+        SC_Utils::copyDirectory(self::$TMP_DIR.'/src/', self::$TMP_DIR.'/dst/');
 
-  public function testCopyDirectory_コピー先のファイルが元々存在する場合_上書きされる()
-  {
-    /**
-     * tests/tmp/src
-     *             /dir10
-     *             /dir20/dir21
-     *                   /file22.txt
-     */
-    mkdir(self::$TMP_DIR . "/src", 0700, true);
-    mkdir(self::$TMP_DIR . "/src/dir10", 0700, true);
-    mkdir(self::$TMP_DIR . "/src/dir20", 0700, true);
-    mkdir(self::$TMP_DIR . "/src/dir20/dir21", 0700, true);
-    $fp = fopen(self::$TMP_DIR . "/src/dir20/file22.txt", "w");
-    fwrite($fp, "ec-cube test");
-    fclose($fp);
-    mkdir(self::$TMP_DIR . "/dst");
-    mkdir(self::$TMP_DIR . "/dst/dir20");
-    $fp_dist = fopen(self::$TMP_DIR . "/dst/dir20/file22.txt", "w");
-    fwrite($fp_dist, "hello");
-    fclose($fp_dist);
+        $this->expected = ['dir10', 'dir20', 'dir21', 'dir23', 'file22.txt'];
+        $this->actual = [];
+        Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR.'/dst'), 'file_name'));
+        Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR.'/dst/dir20'), 'file_name'));
 
-    SC_Utils::copyDirectory(self::$TMP_DIR . "/src/", self::$TMP_DIR . "/dst/");
+        $this->verify('コピー先のファイル一覧');
+    }
 
-    $this->expected = array("dir10", "dir20", "dir21", "file22.txt", "ec-cube test");
-    $this->actual = array();
-    Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR . "/dst"), "file_name"));
-    Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR . "/dst/dir20"), "file_name"));
-    $fp_final = fopen(self::$TMP_DIR . "/dst/dir20/file22.txt", "r");
-    $read_result = fread($fp_final, 100);
-    fclose($fp_final);
-    $this->actual[] = $read_result;
+    public function testCopyDirectoryコピー先のファイルが元々存在する場合上書きされる()
+    {
+        /*
+         * tests/tmp/src
+         *             /dir10
+         *             /dir20/dir21
+         *                   /file22.txt
+         */
+        mkdir(self::$TMP_DIR.'/src', 0700, true);
+        mkdir(self::$TMP_DIR.'/src/dir10', 0700, true);
+        mkdir(self::$TMP_DIR.'/src/dir20', 0700, true);
+        mkdir(self::$TMP_DIR.'/src/dir20/dir21', 0700, true);
+        $fp = fopen(self::$TMP_DIR.'/src/dir20/file22.txt', 'w');
+        fwrite($fp, 'ec-cube test');
+        fclose($fp);
+        mkdir(self::$TMP_DIR.'/dst');
+        mkdir(self::$TMP_DIR.'/dst/dir20');
+        $fp_dist = fopen(self::$TMP_DIR.'/dst/dir20/file22.txt', 'w');
+        fwrite($fp_dist, 'hello');
+        fclose($fp_dist);
 
-    $this->verify('コピー先のファイル一覧');
-  }
+        SC_Utils::copyDirectory(self::$TMP_DIR.'/src/', self::$TMP_DIR.'/dst/');
 
-  //////////////////////////////////////////
+        $this->expected = ['dir10', 'dir20', 'dir21', 'file22.txt', 'ec-cube test'];
+        $this->actual = [];
+        Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR.'/dst'), 'file_name'));
+        Test_Utils::array_append($this->actual, Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList(self::$TMP_DIR.'/dst/dir20'), 'file_name'));
+        $fp_final = fopen(self::$TMP_DIR.'/dst/dir20/file22.txt', 'r');
+        $read_result = fread($fp_final, 100);
+        fclose($fp_final);
+        $this->actual[] = $read_result;
+
+        $this->verify('コピー先のファイル一覧');
+    }
+
+    // ////////////////////////////////////////
 }
-

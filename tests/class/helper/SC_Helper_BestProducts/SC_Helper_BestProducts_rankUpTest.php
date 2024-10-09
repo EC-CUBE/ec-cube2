@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -25,7 +25,6 @@ require_once($HOME . "/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestP
  */
 
 /**
- *
  * @author hiroshi kakuta
  */
 class SC_Helper_BestProducts_rankUpTest extends SC_Helper_BestProducts_TestBase
@@ -41,13 +40,13 @@ class SC_Helper_BestProducts_rankUpTest extends SC_Helper_BestProducts_TestBase
         parent::tearDown();
     }
 
-    public function testRankUp_指定されたデータがランクアップされる()
+    public function testRankUp指定されたデータがランクアップされる()
     {
         $objRecommend = new SC_Helper_BestProducts_Ex();
 
-        $objRecommend->rankUp("1003");
+        $objRecommend->rankUp('1003');
 
-        $this->expected = "2";
+        $this->expected = '2';
 
         $arrRet = $objRecommend->getBestProducts('1003');
 
@@ -56,4 +55,3 @@ class SC_Helper_BestProducts_rankUpTest extends SC_Helper_BestProducts_TestBase
         $this->verify();
     }
 }
-

@@ -1,10 +1,8 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../../";
-require_once($HOME . "/tests/class/Common_TestCase.php");
-/**
- *
- */
+$HOME = realpath(__DIR__).'/../../../../';
+require_once $HOME.'/tests/class/Common_TestCase.php';
+
 class SC_Helper_Kiyaku_TestBase extends Common_TestCase
 {
     protected function setUp(): void
@@ -22,10 +20,10 @@ class SC_Helper_Kiyaku_TestBase extends Common_TestCase
      */
     protected function setUpKiyaku()
     {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
-        
-        $kiyaku = array(
-            array(
+        $objQuery = &SC_Query_Ex::getSingletonInstance();
+
+        $kiyaku = [
+            [
                 'kiyaku_id' => '1000',
                 'kiyaku_title' => 'test1',
                 'kiyaku_text' => 'test_text',
@@ -33,9 +31,9 @@ class SC_Helper_Kiyaku_TestBase extends Common_TestCase
                 'creator_id' => '0',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-                  ),
-            array(
+                'del_flg' => '0',
+                  ],
+            [
                 'kiyaku_id' => '1001',
                 'kiyaku_title' => 'test2',
                 'kiyaku_text' => 'test_text2',
@@ -43,9 +41,9 @@ class SC_Helper_Kiyaku_TestBase extends Common_TestCase
                 'creator_id' => '0',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-                  ),
-            array(
+                'del_flg' => '0',
+                  ],
+            [
                 'kiyaku_id' => '1002',
                 'kiyaku_title' => 'test3',
                 'kiyaku_text' => 'test_text',
@@ -53,9 +51,9 @@ class SC_Helper_Kiyaku_TestBase extends Common_TestCase
                 'creator_id' => '0',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '1'
-                  )
-                                );
+                'del_flg' => '1',
+                  ],
+                                ];
 
         $this->objQuery->delete('dtb_kiyaku');
         foreach ($kiyaku as $key => $item) {

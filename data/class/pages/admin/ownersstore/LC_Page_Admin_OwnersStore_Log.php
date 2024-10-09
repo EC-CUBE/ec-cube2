@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * オーナーズストア：インストールログ のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_OwnersStore_Log extends LC_Page_Admin_Ex
@@ -46,8 +45,8 @@ class LC_Page_Admin_OwnersStore_Log extends LC_Page_Admin_Ex
         parent::init();
 
         $this->tpl_mainpage = 'ownersstore/log.tpl';
-        $this->tpl_mainno   = 'ownersstore';
-        $this->tpl_subno    = 'log';
+        $this->tpl_mainno = 'ownersstore';
+        $this->tpl_subno = 'log';
         $this->tpl_maintitle = 'オーナーズストア';
         $this->tpl_subtitle = 'ログ管理';
     }
@@ -90,7 +89,7 @@ class LC_Page_Admin_OwnersStore_Log extends LC_Page_Admin_Ex
 
     public function getLogs()
     {
-        $sql =<<<END
+        $sql = <<<END
 SELECT
     *
 FROM
@@ -112,7 +111,7 @@ END;
     public function initParam()
     {
         $objForm = new SC_FormParam_Ex();
-        $objForm->addParam('log_id', 'log_id', INT_LEN, '', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objForm->addParam('log_id', 'log_id', INT_LEN, '', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
         $objForm->setParam($_GET);
 
         return $objForm;
@@ -120,7 +119,7 @@ END;
 
     public function getLogDetail($log_id)
     {
-            $sql =<<<END
+        $sql = <<<END
 SELECT
     *
 FROM
@@ -135,8 +134,8 @@ WHERE
     log_id = ?
 END;
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $arrRet = $objQuery->getAll($sql, array($log_id));
+        $arrRet = $objQuery->getAll($sql, [$log_id]);
 
-        return isset($arrRet[0]) ? $arrRet[0] : array();
+        return isset($arrRet[0]) ? $arrRet[0] : [];
     }
 }
