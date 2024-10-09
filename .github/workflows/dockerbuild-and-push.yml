@@ -95,7 +95,7 @@ jobs:
         run: |
           sudo chown -R 1001:1000 zap
           sudo chmod -R g+w zap
-          docker-compose up -d
+          docker compose up -d
 
       - run: sleep 1
       - run: |
