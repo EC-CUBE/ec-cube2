@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * お届け先編集 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Mypage_Delivery extends LC_Page_AbstractMypage_Ex
@@ -44,9 +43,9 @@ class LC_Page_Mypage_Delivery extends LC_Page_AbstractMypage_Ex
         parent::init();
         $this->tpl_subtitle = 'お届け先追加･変更';
         $this->tpl_mypageno = 'delivery';
-        $masterData         = new SC_DB_MasterData_Ex();
-        $this->arrPref      = $masterData->getMasterData('mtb_pref');
-        $this->arrCountry   = $masterData->getMasterData('mtb_country');
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrPref = $masterData->getMasterData('mtb_pref');
+        $this->arrCountry = $masterData->getMasterData('mtb_country');
         $this->httpCacheControl('nocache');
     }
 
@@ -67,10 +66,10 @@ class LC_Page_Mypage_Delivery extends LC_Page_AbstractMypage_Ex
      */
     public function action()
     {
-        $objCustomer    = new SC_Customer_Ex();
-        $customer_id    = $objCustomer->getValue('customer_id');
-        $objAddress     = new SC_Helper_Address_Ex();
-        $objFormParam   = new SC_FormParam_Ex();
+        $objCustomer = new SC_Customer_Ex();
+        $customer_id = $objCustomer->getValue('customer_id');
+        $objAddress = new SC_Helper_Address_Ex();
+        $objFormParam = new SC_FormParam_Ex();
 
         $this->lfInitParam($objFormParam);
         $objFormParam->setParam($_POST);
@@ -90,12 +89,12 @@ class LC_Page_Mypage_Delivery extends LC_Page_AbstractMypage_Ex
                 }
                 break;
 
-            // スマートフォン版のもっと見るボタン用
+                // スマートフォン版のもっと見るボタン用
             case 'getList':
                 $arrData = $objFormParam->getHashArray();
-                //別のお届け先情報
-                $arrOtherDeliv = $objAddress->getList($customer_id, (($arrData['pageno'] - 1) * SEARCH_PMAX));
-                //県名をセット
+                // 別のお届け先情報
+                $arrOtherDeliv = $objAddress->getList($customer_id, ($arrData['pageno'] - 1) * SEARCH_PMAX);
+                // 県名をセット
                 $arrOtherDeliv = $this->setPref($arrOtherDeliv, $this->arrPref);
                 $arrOtherDeliv['delivCount'] = count($arrOtherDeliv);
                 $this->arrOtherDeliv = $arrOtherDeliv;
@@ -104,15 +103,15 @@ class LC_Page_Mypage_Delivery extends LC_Page_AbstractMypage_Ex
                 SC_Response_Ex::actionExit();
                 break;
 
-            // お届け先の表示
+                // お届け先の表示
             default:
                 break;
         }
 
-        //別のお届け先情報
+        // 別のお届け先情報
         $this->arrOtherDeliv = $objAddress->getList($customer_id);
 
-        //お届け先登録数
+        // お届け先登録数
         $this->tpl_linemax = count($this->arrOtherDeliv);
 
         // 1ページあたりの件数
@@ -123,12 +122,13 @@ class LC_Page_Mypage_Delivery extends LC_Page_AbstractMypage_Ex
      * フォームパラメータの初期化
      *
      * @param SC_FormParam_Ex $objFormParam
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('お届け先ID', 'other_deliv_id', INT_LEN, '', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('現在ページ', 'pageno', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'), '', false);
+        $objFormParam->addParam('お届け先ID', 'other_deliv_id', INT_LEN, '', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('現在ページ', 'pageno', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK'], '', false);
     }
 
     /**

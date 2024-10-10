@@ -13,20 +13,18 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Jan Schneider <jan@horde.org>
  * @copyright  2008 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
-
 require_once 'SOAP/Transport.php';
 
 /**
  * Test transport for SOAP.
  *
- * @access  public
- * @package SOAP
  * @author  Jan Schneider <jan@horde.org>
  */
 class SOAP_Transport_TEST extends SOAP_Transport
@@ -39,16 +37,16 @@ class SOAP_Transport_TEST extends SOAP_Transport
      *
      * @return string|SOAP_Fault
      */
-    function send($msg, $options = array())
+    public function send($msg, $options = [])
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $this->outgoing_payload = $msg;
         ob_start();
-        $server = clone($options['server']);
+        $server = clone $options['server'];
         $server->service($msg);
         $this->incoming_payload = ob_get_contents();
         ob_end_clean();
+
         return $this->incoming_payload;
     }
-
 }

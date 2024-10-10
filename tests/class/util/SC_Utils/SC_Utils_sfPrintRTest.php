@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,47 +27,40 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfPrintR()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfPrintRTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    // TODO 環境により出力形式が異なるため、テスト不可(デバッグ用なので、テストしなくてもよさそう)
+    /**
+    public function testSfPrintR__指定したオブジェクトの情報が出力される()
+    {
+      $output = '<div style="font-size: 12px;color: #00FF00;">' . "\n"
+        . '<strong>**デバッグ中**</strong><br />' . "\n"
+        . '</pre>' . "\n"
+        . '<strong>**デバッグ中**</strong></div>' . "\n";
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
-
-  /////////////////////////////////////////
-  // TODO 環境により出力形式が異なるため、テスト不可(デバッグ用なので、テストしなくてもよさそう)
-  /**
-  public function testSfPrintR__指定したオブジェクトの情報が出力される()
-  {
-    $output = '<div style="font-size: 12px;color: #00FF00;">' . "\n"
-      . '<strong>**デバッグ中**</strong><br />' . "\n"
-      . '<pre>' . "\n"
-      . 'array(1) {' . "\n"
-      . '  ["test"]=>' . "\n"
-      . '  string(4) "TEST"' . "\n"
-      . '}' . "\n"
-      . '</pre>' . "\n"
-      . '<strong>**デバッグ中**</strong></div>' . "\n";
-
-    $this->expectOutputString($output);
-    SC_Utils::sfPrintR(array('test'=>'TEST'));
-  }
-  */
-  //////////////////////////////////////////
-    public function testDummyTest() {
+      $this->expectOutputString($output);
+      SC_Utils::sfPrintR(array('test'=>'TEST'));
+    }
+     */
+    // ////////////////////////////////////////
+    public function testDummyTest()
+    {
         // Warning が出るため空のテストを作成
         $this->assertTrue(true);
     }
 }
-

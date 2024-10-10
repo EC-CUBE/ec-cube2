@@ -21,63 +21,60 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Date_getDayTest extends Common_TestCase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objDate = new SC_Date_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testGetDay_要素の数が31の配列を返す()
+    public function testGetDay要素の数が31の配列を返す()
     {
         $this->expected = 31;
         $this->actual = count($this->objDate->getDay());
 
-        $this->verify("配列の長さ");
+        $this->verify('配列の長さ');
     }
 
-    public function testGetDay_要素の最低値が1の配列を返す()
+    public function testGetDay要素の最低値が1の配列を返す()
     {
         $this->expected = 1;
         $this->actual = min($this->objDate->getDay());
 
-        $this->verify("配列の最低値");
+        $this->verify('配列の最低値');
     }
 
-    public function testGetDay_要素の最大値が31の配列を返す()
+    public function testGetDay要素の最大値が31の配列を返す()
     {
         $this->expected = 31;
         $this->actual = max($this->objDate->getDay());
 
-        $this->verify("配列の最大値");
+        $this->verify('配列の最大値');
     }
 
-    public function testGetDay_TRUEを与えた場合要素の数が32の配列を返す()
+    public function testGetDayTRUEを与えた場合要素の数が32の配列を返す()
     {
         $this->expected = 32;
         $this->actual = count($this->objDate->getDay(true));
 
-        $this->verify("デフォルトを設定した配列の長さ");
+        $this->verify('デフォルトを設定した配列の長さ');
     }
 
-    public function testGetDay_TRUEを与えた場合ーー含まれるの配列を返す()
+    public function testGetDayTRUEを与えた場合ーー含まれるの配列を返す()
     {
         $result = in_array('--', $this->objDate->getDay(true));
 
-        $this->assertTrue($result, "デフォルトの値");
+        $this->assertTrue($result, 'デフォルトの値');
     }
- 
 }
-

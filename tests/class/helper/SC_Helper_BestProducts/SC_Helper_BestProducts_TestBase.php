@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -26,19 +26,18 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Helper_BestProductsのテストの基底クラス.
  *
- *
  * @author hiroshi kakuta
+ *
  * @version $Id$
  */
 class SC_Helper_BestProducts_TestBase extends Common_TestCase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
@@ -48,10 +47,10 @@ class SC_Helper_BestProducts_TestBase extends Common_TestCase
      */
     protected function setUpBestProducts()
     {
-        $products = array(
-            array(
+        $products = [
+            [
                 'best_id' => '1001',
-                'product_id'=>'2',
+                'product_id' => '2',
                 'category_id' => '0',
                 'rank' => '1',
                 'title' => 'タイトルですよ',
@@ -59,11 +58,11 @@ class SC_Helper_BestProducts_TestBase extends Common_TestCase
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-            ),
-            array(
+                'del_flg' => '0',
+            ],
+            [
                 'best_id' => '1002',
-                'product_id'=>'1',
+                'product_id' => '1',
                 'category_id' => '0',
                 'rank' => '2',
                 'title' => 'タイトルですよ',
@@ -71,11 +70,11 @@ class SC_Helper_BestProducts_TestBase extends Common_TestCase
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '1'
-            ),
-            array(
+                'del_flg' => '1',
+            ],
+            [
                 'best_id' => '1003',
-                'product_id'=>'3',
+                'product_id' => '3',
                 'category_id' => '1',
                 'rank' => '3',
                 'title' => 'タイトルですよ3',
@@ -83,19 +82,19 @@ class SC_Helper_BestProducts_TestBase extends Common_TestCase
                 'creator_id' => '3',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-            )
-        );
+                'del_flg' => '0',
+            ],
+        ];
 
         $this->objQuery->delete('dtb_best_products');
-        foreach ($products as  $item) {
+        foreach ($products as $item) {
             $this->objQuery->insert('dtb_best_products', $item);
         }
     }
 
-    //dtb_best_productsを全て削除する
-    protected function deleteAllBestProducts(){
+    // dtb_best_productsを全て削除する
+    protected function deleteAllBestProducts()
+    {
         $this->objQuery->delete('dtb_best_products');
     }
 }
-

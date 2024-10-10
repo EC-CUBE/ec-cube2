@@ -24,11 +24,12 @@
     "require-dev": {
         "doctrine/instantiator": "~1.5.0",
         "fakerphp/faker": "^1.23",
+        "friendsofphp/php-cs-fixer": "^3.9",
         "nanasess/ec-cube2-class-extends-stubs": "^1.0",
         "nanasess/eccube2-fixture-generator": "^2.0",
-        "php5friends/phpunit48": ">=4.8.41",
         "phpdocumentor/reflection-docblock": "~5.4.0",
         "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^9.6",
         "symfony/yaml": "^5.4 || ^6.4"
     },
     "require": {

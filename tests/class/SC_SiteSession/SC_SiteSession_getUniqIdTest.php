@@ -21,26 +21,25 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Session_getUniqIdTest extends Common_TestCase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objSiteSession = new SC_SiteSession_Mock();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testGetUniqId_設定済みのユニークなID取得する()
+    public function testGetUniqId設定済みのユニークなID取得する()
     {
         $_SESSION['site']['uniqid'] = '0987654321';
         $this->expected = '0987654321';
@@ -48,7 +47,7 @@ class SC_Session_getUniqIdTest extends Common_TestCase
         $this->verify('ユニークID');
     }
 
-    public function testGetUniqId_新たにユニークなID取得する()
+    public function testGetUniqId新たにユニークなID取得する()
     {
         $_SESSION['site']['uniqid'] = '';
         $this->expected = '1234567890';

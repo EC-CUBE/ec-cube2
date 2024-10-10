@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 会員規約設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Basis_Kiyaku extends LC_Page_Admin_Ex
@@ -96,7 +95,7 @@ class LC_Page_Admin_Basis_Kiyaku extends LC_Page_Admin_Ex
                     $arrParam = $objFormParam->getHashArray();
                     // 登録実行
                     $res_kiyaku_id = $this->doRegist($kiyaku_id, $arrParam, $objKiyaku);
-                    if ($res_kiyaku_id !== FALSE) {
+                    if ($res_kiyaku_id !== false) {
                         // 完了メッセージ
                         $kiyaku_id = $res_kiyaku_id;
                         $this->tpl_onload = "alert('登録が完了しました。');";
@@ -106,12 +105,12 @@ class LC_Page_Admin_Basis_Kiyaku extends LC_Page_Admin_Ex
                 // 編集中の規約IDを渡す
                 $this->tpl_kiyaku_id = $kiyaku_id;
                 break;
-            // 削除
+                // 削除
             case 'delete':
                 $objKiyaku->deleteKiyaku($kiyaku_id);
                 break;
 
-            // 編集前処理
+                // 編集前処理
             case 'pre_edit':
                 // 編集項目を取得する。
                 $arrKiyakuData = $objKiyaku->getKiyaku($kiyaku_id);
@@ -148,9 +147,10 @@ class LC_Page_Admin_Basis_Kiyaku extends LC_Page_Admin_Ex
     /**
      * 登録処理を実行.
      *
-     * @param  integer  $kiyaku_id
+     * @param  int  $kiyaku_id
      * @param  array    $sqlval
      * @param  SC_Helper_Kiyaku_Ex   $objKiyaku
+     *
      * @return multiple
      */
     public function doRegist($kiyaku_id, $sqlval, SC_Helper_Kiyaku_Ex &$objKiyaku)
@@ -170,15 +170,15 @@ class LC_Page_Admin_Basis_Kiyaku extends LC_Page_Admin_Ex
         switch ($mode) {
             case 'confirm':
             case 'pre_edit':
-                $objFormParam->addParam('規約タイトル', 'kiyaku_title', SMTEXT_LEN, 'KVa', array('EXIST_CHECK','SPTAB_CHECK','MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('規約内容', 'kiyaku_text', MLTEXT_LEN, 'KVa', array('EXIST_CHECK','SPTAB_CHECK','MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('規約ID', 'kiyaku_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('規約タイトル', 'kiyaku_title', SMTEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('規約内容', 'kiyaku_text', MLTEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('規約ID', 'kiyaku_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
                 break;
             case 'delete':
             case 'down':
             case 'up':
             default:
-                $objFormParam->addParam('規約ID', 'kiyaku_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('規約ID', 'kiyaku_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
                 break;
         }
     }
@@ -188,6 +188,7 @@ class LC_Page_Admin_Basis_Kiyaku extends LC_Page_Admin_Ex
      *
      * @param  SC_Helper_Kiyaku_Ex $objKiyaku
      * @param SC_FormParam_Ex $objFormParam
+     *
      * @return array
      */
     public function lfCheckError($objFormParam, SC_Helper_Kiyaku_Ex &$objKiyaku)

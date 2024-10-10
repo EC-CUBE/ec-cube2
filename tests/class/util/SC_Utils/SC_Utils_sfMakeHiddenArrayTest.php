@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -29,50 +29,48 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * ※ソースコード上で使われている箇所がなく詳細仕様が不明なので、ソースコードに合わせて作成
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfMakeHiddenArrayest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
-
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
-
-  /////////////////////////////////////////
-  public function testSfMakeHiddenArray__多段配列が1次元配列に変換される()
-  {
-    $input_array = array(
+    // ///////////////////////////////////////
+    public function testSfMakeHiddenArray多段配列が1次元配列に変換される()
+    {
+        $input_array = [
       'vegetable' => '野菜',
-      'fruit' => array(
+      'fruit' => [
         'apple' => 'りんご',
-        'banana' => 'バナナ'
-      ),    
-      'drink' => array(
-         'alcohol' => array(
-           'beer' => 'ビール'
-         ),
-         'water' => '水'
-      ),
-      'rice' => '米'
-    );
-    $this->expected = array(
+        'banana' => 'バナナ',
+      ],
+      'drink' => [
+         'alcohol' => [
+           'beer' => 'ビール',
+         ],
+         'water' => '水',
+      ],
+      'rice' => '米',
+    ];
+        $this->expected = [
       'vegetable' => '野菜',
       'fruit[apple]' => 'りんご',
       'fruit[banana]' => 'バナナ',
       'drink[alcohol][beer]' => 'ビール',
       'drink[water]' => '水',
-      'rice' => '米'
-    );
-    $this->actual = SC_Utils::sfMakeHiddenArray($input_array);
-    $this->verify();
-  }
-  //////////////////////////////////////////
+      'rice' => '米',
+    ];
+        $this->actual = SC_Utils::sfMakeHiddenArray($input_array);
+        $this->verify();
+    }
+    // ////////////////////////////////////////
 }
-

@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 購入履歴 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
@@ -52,16 +51,16 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
     public function init()
     {
         parent::init();
-        $this->tpl_mypageno     = 'index';
-        $this->tpl_subtitle     = '購入履歴詳細';
+        $this->tpl_mypageno = 'index';
+        $this->tpl_subtitle = '購入履歴詳細';
         $this->httpCacheControl('nocache');
 
-        $masterData             = new SC_DB_MasterData_Ex();
-        $this->arrMAILTEMPLATE  = $masterData->getMasterData('mtb_mail_template');
-        $this->arrPref          = $masterData->getMasterData('mtb_pref');
-        $this->arrCountry       = $masterData->getMasterData('mtb_country');
-        $this->arrWDAY          = $masterData->getMasterData('mtb_wday');
-        $this->arrProductType   = $masterData->getMasterData('mtb_product_type');
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrMAILTEMPLATE = $masterData->getMasterData('mtb_mail_template');
+        $this->arrPref = $masterData->getMasterData('mtb_pref');
+        $this->arrCountry = $masterData->getMasterData('mtb_country');
+        $this->arrWDAY = $masterData->getMasterData('mtb_wday');
+        $this->arrProductType = $masterData->getMasterData('mtb_product_type');
         $this->arrCustomerOrderStatus = $masterData->getMasterData('mtb_customer_order_status');
     }
 
@@ -82,56 +81,56 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
      */
     public function action()
     {
-        //決済処理中ステータスのロールバック
+        // 決済処理中ステータスのロールバック
         $objPurchase = new SC_Helper_Purchase_Ex();
         $objPurchase->cancelPendingOrder(PENDING_ORDER_CANCEL_FLAG);
 
-        $objCustomer    = new SC_Customer_Ex();
-        $objProduct  = new SC_Product_Ex();
+        $objCustomer = new SC_Customer_Ex();
+        $objProduct = new SC_Product_Ex();
 
         if (!SC_Utils_Ex::sfIsInt($_GET['order_id'])) {
             SC_Utils_Ex::sfDispSiteError(CUSTOMER_ERROR);
         }
 
-        $order_id               = $_GET['order_id'];
-        $this->is_price_change  = false;
+        $order_id = $_GET['order_id'];
+        $this->is_price_change = false;
 
-        //受注データの取得
+        // 受注データの取得
         $this->tpl_arrOrderData = $objPurchase->getOrder($order_id, $objCustomer->getValue('customer_id'));
 
         if (empty($this->tpl_arrOrderData)) {
             SC_Utils_Ex::sfDispSiteError(CUSTOMER_ERROR);
         }
 
-        $this->arrShipping      = $this->lfGetShippingDate($objPurchase, $order_id, $this->arrWDAY);
+        $this->arrShipping = $this->lfGetShippingDate($objPurchase, $order_id, $this->arrWDAY);
 
-        $this->isMultiple       = count($this->arrShipping) > 1;
+        $this->isMultiple = count($this->arrShipping) > 1;
         // 支払い方法の取得
-        $this->arrPayment       = SC_Helper_Payment_Ex::getIDValueList();
+        $this->arrPayment = SC_Helper_Payment_Ex::getIDValueList();
         // 受注商品明細の取得
         $this->tpl_arrOrderDetail = $objPurchase->getOrderDetail($order_id);
         foreach ($this->tpl_arrOrderDetail as $product_index => $arrOrderProductDetail) {
-            $arrTempProductDetail = array();
-            if (SC_Helper_DB_Ex::sfDataExists('dtb_products_class', 'product_class_id = ?', array($arrOrderProductDetail['product_class_id']))) {
-                //必要なのは商品の販売金額のみなので、遅い場合は、別途SQL作成した方が良い
+            $arrTempProductDetail = [];
+            if (SC_Helper_DB_Ex::sfDataExists('dtb_products_class', 'product_class_id = ?', [$arrOrderProductDetail['product_class_id']])) {
+                // 必要なのは商品の販売金額のみなので、遅い場合は、別途SQL作成した方が良い
                 $arrTempProductDetail = $objProduct->getProductsClass($arrOrderProductDetail['product_class_id']);
             }
             // 税計算
-            $this->tpl_arrOrderDetail[$product_index]['price_inctax'] = $this->tpl_arrOrderDetail[$product_index]['price']  +
+            $this->tpl_arrOrderDetail[$product_index]['price_inctax'] = $this->tpl_arrOrderDetail[$product_index]['price'] +
                 SC_Helper_TaxRule_Ex::calcTax(
                     $this->tpl_arrOrderDetail[$product_index]['price'],
                     $this->tpl_arrOrderDetail[$product_index]['tax_rate'],
                     $this->tpl_arrOrderDetail[$product_index]['tax_rule']
-                    );
+                );
             $arrTempProductDetail['price02_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax(
-                    $arrTempProductDetail['price02'],
-                    $arrTempProductDetail['product_id'],
-                    $arrTempProductDetail['product_class_id']
-                    );
+                $arrTempProductDetail['price02'],
+                $arrTempProductDetail['product_id'],
+                $arrTempProductDetail['product_class_id']
+            );
             if ($this->tpl_arrOrderDetail[$product_index]['price_inctax'] != $arrTempProductDetail['price02_inctax']) {
                 $this->is_price_change = true;
             }
-            $this->tpl_arrOrderDetail[$product_index]['product_price_inctax'] = ($arrTempProductDetail['price02_inctax']) ? $arrTempProductDetail['price02_inctax'] : 0 ;
+            $this->tpl_arrOrderDetail[$product_index]['product_price_inctax'] = ($arrTempProductDetail['price02_inctax']) ? $arrTempProductDetail['price02_inctax'] : 0;
         }
 
         $this->tpl_arrOrderDetail = $this->setMainListImage($this->tpl_arrOrderDetail);
@@ -145,17 +144,18 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
     /**
      * 受注メール送信履歴の取得
      *
-     * @param  integer $order_id 注文番号
+     * @param  int $order_id 注文番号
+     *
      * @return array   受注メール送信履歴の内容
      */
     public function lfGetMailHistory($order_id)
     {
-        $objQuery   = SC_Query_Ex::getSingletonInstance();
-        $col        = 'send_date, subject, template_id, send_id';
-        $where      = 'order_id = ?';
+        $objQuery = SC_Query_Ex::getSingletonInstance();
+        $col = 'send_date, subject, template_id, send_id';
+        $where = 'order_id = ?';
         $objQuery->setOrder('send_date DESC');
 
-        return $objQuery->select($col, 'dtb_mail_history', $where, array($order_id));
+        return $objQuery->select($col, 'dtb_mail_history', $where, [$order_id]);
     }
 
     /**
@@ -164,6 +164,7 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
      * @param SC_Helper_Purchase_Ex $objPurchase object SC_Helper_Purchaseクラス
      * @param $order_id integer 注文番号
      * @param $arrWDAY array 曜日データの配列
+     *
      * @return array お届け先情報
      */
     public function lfGetShippingDate(&$objPurchase, $order_id, $arrWDAY)
@@ -187,6 +188,7 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
      * 購入履歴商品に画像をセット
      *
      * @param $arrOrderDetail 購入履歴の配列
+     *
      * @return array 画像をセットした購入履歴の配列
      */
     public function setMainListImage($arrOrderDetails)
@@ -194,7 +196,7 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
         $i = 0;
         foreach ($arrOrderDetails as $arrOrderDetail) {
             $objQuery = SC_Query_Ex::getSingletonInstance();
-            $arrProduct = $objQuery->select('main_list_image', 'dtb_products', 'product_id = ?', array($arrOrderDetail['product_id']));
+            $arrProduct = $objQuery->select('main_list_image', 'dtb_products', 'product_id = ?', [$arrOrderDetail['product_id']]);
             $arrOrderDetails[$i]['main_list_image'] = $arrProduct[0]['main_list_image'];
             $i++;
         }
@@ -206,6 +208,7 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
      * 購入履歴商品にMIMETYPE、ファイル名をセット
      *
      * @param $arrOrderDetail 購入履歴の配列
+     *
      * @return array MIMETYPE、ファイル名をセットした購入履歴の配列
      */
     public function lfSetMimetype($arrOrderDetails)
@@ -214,7 +217,7 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
         $i = 0;
         foreach ($arrOrderDetails as $arrOrderDetail) {
             $objQuery = SC_Query_Ex::getSingletonInstance();
-            $arrProduct = $objQuery->select('down_realfilename,down_filename', 'dtb_products_class', 'product_id = ? AND product_class_id = ?', array($arrOrderDetail['product_id'],$arrOrderDetail['product_class_id']));
+            $arrProduct = $objQuery->select('down_realfilename,down_filename', 'dtb_products_class', 'product_id = ? AND product_class_id = ?', [$arrOrderDetail['product_id'], $arrOrderDetail['product_class_id']]);
             $arrOrderDetails[$i]['mime_type'] = $objHelperMobile->getMimeType($arrProduct[0]['down_realfilename']);
             $arrOrderDetails[$i]['down_filename'] = $arrProduct[0]['down_filename'];
             $i++;

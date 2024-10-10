@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ファイル表示 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Contents_FileView extends LC_Page_Admin_Ex
@@ -84,18 +83,20 @@ class LC_Page_Admin_Contents_FileView extends LC_Page_Admin_Ex
      * 初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParamインスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('ファイル名', 'file', MTEXT_LEN, 'a', array('EXIST_CHECK'));
+        $objFormParam->addParam('ファイル名', 'file', MTEXT_LEN, 'a', ['EXIST_CHECK']);
     }
 
     /**
      * 表示するファイルにエラーチェックを行う
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
-     * @return boolean       $file_check_flg エラーチェックの結果
+     *
+     * @return bool       $file_check_flg エラーチェックの結果
      */
     public function checkErrorDispFile($objFormParam)
     {
@@ -106,6 +107,7 @@ class LC_Page_Admin_Contents_FileView extends LC_Page_Admin_Ex
         if ($path_exists) {
             $file_check_flg = true;
         }
+
         return $file_check_flg;
     }
 
@@ -119,14 +121,14 @@ class LC_Page_Admin_Contents_FileView extends LC_Page_Admin_Ex
         $file = $objFormParam->getValue('file');
 
         // ソースとして表示するファイルを定義(直接実行しないファイル)
-        $arrViewFile = array(
+        $arrViewFile = [
             'html',
             'htm',
             'tpl',
             'php',
             'css',
             'js',
-        );
+        ];
 
         $extension = pathinfo($file, PATHINFO_EXTENSION);
 
@@ -134,9 +136,9 @@ class LC_Page_Admin_Contents_FileView extends LC_Page_Admin_Ex
             $objFileManager = new SC_Helper_FileManager_Ex();
             // ファイルを読み込んで表示
             header("Content-type: text/plain\n\n");
-            echo $objFileManager->sfReadFile(USER_REALDIR . $file);
+            echo $objFileManager->sfReadFile(USER_REALDIR.$file);
         } else {
-            SC_Response_Ex::sendRedirect(USER_URL . $file);
+            SC_Response_Ex::sendRedirect(USER_URL.$file);
         }
     }
 }

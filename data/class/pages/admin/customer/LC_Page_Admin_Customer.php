@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 会員管理 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
@@ -64,11 +63,11 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
         $objDate = new SC_Date_Ex();
         // 登録・更新日検索用
         $objDate->setStartYear(RELEASE_YEAR);
-        $objDate->setEndYear(DATE('Y'));
+        $objDate->setEndYear(date('Y'));
         $this->arrRegistYear = $objDate->getYear();
         // 生年月日検索用
         $objDate->setStartYear(BIRTH_YEAR);
-        $objDate->setEndYear(DATE('Y'));
+        $objDate->setEndYear(date('Y'));
         $this->arrBirthYear = $objDate->getYear();
         // 月日の設定
         $this->arrMonth = $objDate->getMonth();
@@ -133,32 +132,32 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
                 $this->arrPagenavi = $this->objNavi->arrPagenavi;
                 break;
             case 'csv':
-
                 $this->lfDoCSV($objFormParam->getHashArray());
                 SC_Response_Ex::actionExit();
                 break;
             default:
                 break;
         }
-
     }
 
     /**
      * パラメーター情報の初期化
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
         SC_Helper_Customer_Ex::sfSetSearchParam($objFormParam);
-        $objFormParam->addParam('編集対象会員ID', 'edit_customer_id', INT_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('編集対象会員ID', 'edit_customer_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     /**
      * エラーチェック
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
+     *
      * @return array エラー配列
      */
     public function lfCheckError(&$objFormParam)
@@ -169,8 +168,9 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
     /**
      * 会員を削除する処理
      *
-     * @param  integer $customer_id 会員ID
-     * @return boolean true:成功 false:失敗
+     * @param  int $customer_id 会員ID
+     *
+     * @return bool true:成功 false:失敗
      */
     public function lfDoDeleteCustomer($customer_id)
     {
@@ -180,22 +180,24 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
     /**
      * 会員に登録メールを再送する処理
      *
-     * @param  integer $customer_id 会員ID
-     * @return boolean true:成功 false:失敗
+     * @param  int $customer_id 会員ID
+     *
+     * @return bool true:成功 false:失敗
      */
     public function lfDoResendMail($customer_id)
     {
         $arrData = SC_Helper_Customer_Ex::sfGetCustomerDataFromId($customer_id);
-        if (SC_Utils_Ex::isBlank($arrData) or $arrData['del_flg'] == 1) {
-            //対象となるデータが見つからない、または削除済み
+        if (SC_Utils_Ex::isBlank($arrData) || $arrData['del_flg'] == 1) {
+            // 対象となるデータが見つからない、または削除済み
             return false;
         }
-        //仮登録メール再送
-        $resend_flg = true;
-        // 登録メール再送
+
+        // 仮登録メール送信
         $objHelperMail = new SC_Helper_Mail_Ex();
         $objHelperMail->setPage($this);
+        $resend_flg = true;
         $objHelperMail->sfSendRegistMail($arrData['secret_key'], $customer_id, null, $resend_flg);
+
         return true;
     }
 
@@ -203,6 +205,7 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
      * 会員一覧を検索する処理
      *
      * @param  array  $arrParam 検索パラメーター連想配列
+     *
      * @return array( integer 全体件数, mixed 会員データ一覧配列, mixed SC_PageNaviオブジェクト)
      */
     public function lfDoSearch($arrParam)
@@ -214,7 +217,8 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
      * 会員一覧CSVを検索してダウンロードする処理
      *
      * @param  array   $arrParam 検索パラメーター連想配列
-     * @return boolean|string true:成功 false:失敗
+     *
+     * @return bool|string true:成功 false:失敗
      */
     public function lfDoCSV($arrParam)
     {

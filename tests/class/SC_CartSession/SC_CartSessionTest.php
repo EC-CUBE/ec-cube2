@@ -7,13 +7,13 @@ class SC_CartSessionTest extends Common_TestCase
      */
     protected $objCartSession;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objCartSession = new SC_CartSession_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         $objDb = new SC_Helper_DB_Ex();
@@ -57,7 +57,7 @@ class SC_CartSessionTest extends Common_TestCase
         $this->assertEquals(
             [
                 PRODUCT_TYPE_NORMAL,
-                PRODUCT_TYPE_DOWNLOAD
+                PRODUCT_TYPE_DOWNLOAD,
             ],
             $product_type_ids,
             '商品種別は通常商品とダウンロード商品'
@@ -216,7 +216,7 @@ class SC_CartSessionTest extends Common_TestCase
 
         $this->objCartSession->addProduct($arrProductClass['product_class_id'], 1);
 
-        $this->expected = "※「" . $arrProductClass['product_name'] . "」はまだ配送の準備ができておりません。恐れ入りますがお問い合わせページよりお問い合わせください。\n";
+        $this->expected = '※「'.$arrProductClass['product_name']."」はまだ配送の準備ができておりません。恐れ入りますがお問い合わせページよりお問い合わせください。\n";
         $this->actual = $this->objCartSession->checkProducts(PRODUCT_TYPE_NORMAL);
         $this->verify();
     }
@@ -237,7 +237,7 @@ class SC_CartSessionTest extends Common_TestCase
         $this->objCartSession->addProduct($arrProductClass['product_class_id'], 2);
         $this->assertEquals(2, $this->objCartSession->getTotalQuantity(PRODUCT_TYPE_NORMAL));
 
-        $this->expected = "※「" . $arrProductClass['product_name'] . "」は販売制限(または在庫が不足)しております。一度に数量1を超える購入はできません。\n";
+        $this->expected = '※「'.$arrProductClass['product_name']."」は販売制限(または在庫が不足)しております。一度に数量1を超える購入はできません。\n";
         $this->actual = $this->objCartSession->checkProducts(PRODUCT_TYPE_NORMAL);
         $this->verify();
 
@@ -266,7 +266,7 @@ class SC_CartSessionTest extends Common_TestCase
         $this->objCartSession->addProduct($arrProductClass['product_class_id'], 2);
         $this->assertEquals(2, $this->objCartSession->getTotalQuantity(PRODUCT_TYPE_NORMAL));
 
-        $this->expected = "※「" . $arrProductClass['product_name'] . "」は売り切れました。\n";
+        $this->expected = '※「'.$arrProductClass['product_name']."」は売り切れました。\n";
         $this->actual = $this->objCartSession->checkProducts(PRODUCT_TYPE_NORMAL);
         $this->verify();
 

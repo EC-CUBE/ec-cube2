@@ -1,4 +1,5 @@
 <?php
+
 class SC_Helper_FileManagerTest extends Common_TestCase
 {
     public function testConvertToAbsolutePath()

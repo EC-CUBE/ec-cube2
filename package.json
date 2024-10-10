@@ -20,7 +20,7 @@
     "webpack": "^5.92.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.7",
+    "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.45.3",
@@ -35,10 +35,8 @@
     "eslint": "^8.57.0",
     "eslint-config-jquery": "^3.0.2",
     "eslint-plugin-import": "^2.29.1",
-    "tar": "^7.1.0",
-    "typescript": "^5.4.5",
-    "tar": "^7.4.0",
-    "typescript": "^5.4.5",
+    "tar": "^7.4.3",
+    "typescript": "^5.5.4",
     "webpack-cli": "^4.10.0",
     "zaproxy": "^1.0.1"
   },
@@ -48,5 +46,6 @@
     "test:e2e": "playwright test --grep-invert '(@attack|@extends)'",
     "test:e2e-extends": "playwright test --grep @extends",
     "test:attack": "playwright test --grep-invert @extends"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

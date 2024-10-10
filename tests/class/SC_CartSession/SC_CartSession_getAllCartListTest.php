@@ -1,37 +1,33 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/SC_CartSession/SC_CartSession_TestBase.php");
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/SC_CartSession/SC_CartSession_TestBase.php';
 
 /**
  * SC_CartSession_getAllCartList
  *
- * @package
  * @version $id$
+ *
  * @copyright
  * @author Nobuhiko Kimoto <info@nob-log.info>
  * @license
  */
 class SC_CartSession_getAllCartListTest extends SC_CartSession_TestBase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objCartSession = new SC_CartSession_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    /**
-     * @test
-     */
-    public function getAllCartList_商品を追加していなければ空の配列を返す()
+    public function testGetAllCartList商品を追加していなければ空の配列を返す()
     {
         $this->setUpProductClass();
         $this->expected = 0;
@@ -40,10 +36,7 @@ class SC_CartSession_getAllCartListTest extends SC_CartSession_TestBase
         $this->verify('商品数');
     }
 
-    /**
-     * @test
-     */
-    public function getAllCartList_商品を1つ追加した場合1つの配列を返す()
+    public function testGetAllCartList商品を1つ追加した場合1つの配列を返す()
     {
         $this->setUpProductClass();
         $this->expected = 1;
@@ -57,10 +50,7 @@ class SC_CartSession_getAllCartListTest extends SC_CartSession_TestBase
         return $cartList;
     }
 
-    /**
-     * @test
-     */
-    public function getAllCartList_違う商品種別の商品を追加した場合用品種別分の配列を返す()
+    public function testGetAllCartList違う商品種別の商品を追加した場合用品種別分の配列を返す()
     {
         $this->setUpProductClass();
         $this->expected = 2;
@@ -75,10 +65,7 @@ class SC_CartSession_getAllCartListTest extends SC_CartSession_TestBase
         return $cartList;
     }
 
-    /**
-     * @test
-     */
-    public function getAllCartList_複数回呼んでも同じ内容が返される()
+    public function testGetAllCartList複数回呼んでも同じ内容が返される()
     {
         $this->setUpProductClass();
         $this->objCartSession->addProduct('1001', 1);
@@ -91,5 +78,4 @@ class SC_CartSession_getAllCartListTest extends SC_CartSession_TestBase
 
         return $cartList;
     }
-
 }

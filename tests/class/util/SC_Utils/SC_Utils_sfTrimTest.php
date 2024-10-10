@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,40 +27,38 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Helper_Purchase::sfTrim()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfTrimTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+    // ///////////////////////////////////////
+    public function testSfTrim文頭と途中にホワイトスペースがある場合文頭だけが除去できる()
+    {
+        $this->expected = 'あ　い うえ'.chr(0x0D).'お';
+        // 0x0A=CR, 0x0d=LF
+        $this->actual = SC_Utils::sfTrim(chr(0x0A).chr(0x0D).' 　あ　い うえ'.chr(0x0D).'お');
 
-  /////////////////////////////////////////
-  public function testSfTrim_文頭と途中にホワイトスペースがある場合_文頭だけが除去できる()
-  {
-    $this->expected = 'あ　い うえ' . chr(0x0D) . 'お';
-    // 0x0A=CR, 0x0d=LF
-    $this->actual = SC_Utils::sfTrim(chr(0x0A) . chr(0x0D) . ' 　あ　い うえ' . chr(0x0D) . 'お');
+        $this->verify('トリム結果');
+    }
 
-    $this->verify('トリム結果');
-  }
-  
-  public function testSfTrim_途中と文末にホワイトスペースがある場合_文末だけが除去できる()
-  {
-    $this->expected = 'あ　い うえ' . chr(0x0D) . 'お';
-    // 0x0A=CR, 0x0d=LF
-    $this->actual = SC_Utils::sfTrim('あ　い うえ' .chr(0x0D) . 'お 　' . chr(0x0A) . chr(0x0D));
+    public function testSfTrim途中と文末にホワイトスペースがある場合文末だけが除去できる()
+    {
+        $this->expected = 'あ　い うえ'.chr(0x0D).'お';
+        // 0x0A=CR, 0x0d=LF
+        $this->actual = SC_Utils::sfTrim('あ　い うえ'.chr(0x0D).'お 　'.chr(0x0A).chr(0x0D));
 
-    $this->verify('トリム結果');
-  }
+        $this->verify('トリム結果');
+    }
 }
-

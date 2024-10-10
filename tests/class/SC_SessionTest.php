@@ -14,9 +14,9 @@ class SC_SessionTest extends Common_TestCase
     protected $masterData;
 
     /** @var string */
-    const MASTER_NAME = 'mtb_permission';
+    public const MASTER_NAME = 'mtb_permission';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $_SESSION['cert'] = CERT_STRING;
@@ -30,7 +30,7 @@ class SC_SessionTest extends Common_TestCase
         $this->masterData->createCache(self::MASTER_NAME);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->masterData->createCache(self::MASTER_NAME);
     }
@@ -180,7 +180,6 @@ class SC_SessionTest extends Common_TestCase
         $this->actual = $this->objSession->IsSuccess($admin_dir);
         $this->verify();
     }
-
 
     public function testSetSession()
     {

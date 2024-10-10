@@ -49,12 +49,12 @@ class SC_Session
         if (isset($_SESSION['cert'])) {
             $this->sid = substr(sha1(session_id()), 0, 8);
             $this->cert = $_SESSION['cert'];
-            $this->login_id  = $_SESSION['login_id'];
+            $this->login_id = $_SESSION['login_id'];
             // 管理者:0, 店舗オーナー:1, 閲覧:2, 販売担当:3 (XXX 現状 0, 1 を暫定実装。2, 3 は未実装。)
             $this->authority = $_SESSION['authority'];
             $this->member_id = $_SESSION['member_id'];
             if (isset($_SESSION['uniq_id'])) {
-                $this->uniqid    = $_SESSION['uniq_id'];
+                $this->uniqid = $_SESSION['uniq_id'];
             }
 
             // ログに記録する
@@ -64,6 +64,7 @@ class SC_Session
             GC_Utils_Ex::gfPrintLog('access error.');
         }
     }
+
     /* 認証成功の判定 */
     public function IsSuccess($admin_dir = ADMIN_DIR)
     {
@@ -94,6 +95,7 @@ class SC_Session
                     }
                 }
             }
+
             return SUCCESS;
         }
 
@@ -168,6 +170,7 @@ class SC_Session
         if (session_status() === PHP_SESSION_ACTIVE) {
             return session_regenerate_id(true);
         }
+
         return false;
     }
 }

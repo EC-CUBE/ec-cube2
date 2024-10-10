@@ -12,16 +12,16 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Dietrich Ayala <dietrich@ganx4.com> Original Author
  * @author     Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
  * @author     Chuck Hagenbuch <chuck@horde.org>   Maintenance
  * @author     Jan Schneider <jan@horde.org>       Maintenance
  * @copyright  2003-2007 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
-
 require_once 'SOAP/Base.php';
 
 /**
@@ -32,8 +32,6 @@ require_once 'SOAP/Base.php';
  * Originally based on SOAPx4 by Dietrich Ayala
  * http://dietrich.ganx4.com/soapx4
  *
- * @access  public
- * @package SOAP
  * @author  Shane Caraveo <shane@php.net> Conversion to PEAR and updates
  * @author  Dietrich Ayala <dietrich@ganx4.com> Original Author
  */
@@ -44,72 +42,74 @@ class SOAP_Value
      *
      * @var mixed
      */
-    var $value = null;
+    public $value = null;
 
     /**
      * QName instance representing the value name.
      *
      * @var QName
      */
-    var $nqn;
+    public $nqn;
 
     /**
      * The value name, without namespace information.
      *
      * @var string
      */
-    var $name = '';
+    public $name = '';
 
     /**
      * The namespace of the value name.
      *
      * @var string
      */
-    var $namespace = '';
+    public $namespace = '';
 
     /**
      * QName instance representing the value type.
      *
      * @var QName
      */
-    var $tqn;
+    public $tqn;
 
     /**
      * The value type, without namespace information.
      *
      * @var string
      */
-    var $type = '';
+    public $type = '';
 
     /**
      * The namespace of the value type.
      *
      * @var string
      */
-    var $type_namespace = '';
+    public $type_namespace = '';
 
     /**
      * The type of the array elements, if this value is an array.
      *
      * @var string
      */
-    var $arrayType = '';
+    public $arrayType = '';
 
     /**
      * A hash of additional attributes.
      *
      * @see SOAP_Value()
+     *
      * @var array
      */
-    var $attributes = array();
+    public $attributes = [];
 
     /**
      * List of encoding and serialization options.
      *
      * @see SOAP_Value()
+     *
      * @var array
      */
-    var $options = array();
+    public $options = [];
 
     /**
      * Constructor.
@@ -132,8 +132,8 @@ class SOAP_Value
      *                           - 'no_type_prefix': supress adding of the
      *                             namespace prefix
      */
-    function SOAP_Value($name = '', $type = false, $value = null,
-                        $attributes = array(), $options = array())
+    public function __construct($name = '', $type = false, $value = null,
+        $attributes = [], $options = [])
     {
         $this->nqn = new QName($name);
         $this->name = $this->nqn->name;
@@ -154,16 +154,15 @@ class SOAP_Value
      *
      * @return string  XML representation of $this.
      */
-    function serialize(&$serializer)
+    public function serialize(&$serializer)
     {
         return $serializer->_serializeValue($this->value,
-                                            $this->nqn,
-                                            $this->tqn,
-                                            $this->options,
-                                            $this->attributes,
-                                            $this->arrayType);
+            $this->nqn,
+            $this->tqn,
+            $this->options,
+            $this->attributes,
+            $this->arrayType);
     }
-
 }
 
 /**
@@ -174,8 +173,6 @@ class SOAP_Value
  * Originally based on SOAPx4 by Dietrich Ayala
  * http://dietrich.ganx4.com/soapx4
  *
- * @access  public
- * @package SOAP
  * @author  Shane Caraveo <shane@php.net> Conversion to PEAR and updates
  * @author  Dietrich Ayala <dietrich@ganx4.com> Original Author
  */
@@ -188,35 +185,32 @@ class SOAP_Header extends SOAP_Value
      * @param mixed $type              SOAP value {namespace}type. Determined
      *                                 automatically if not set.
      * @param mixed $value             Value to set
-     * @param integer $mustunderstand  Zero or one.
+     * @param int $mustunderstand  Zero or one.
      * @param mixed $attributes        Attributes.
      */
-    function SOAP_Header($name = '', $type, $value, $mustunderstand = 0,
-                         $attributes = array())
+    public function __construct($name = '', $type, $value, $mustunderstand = 0,
+        $attributes = [])
     {
         if (!is_array($attributes)) {
             $actor = $attributes;
-            $attributes = array();
+            $attributes = [];
         }
 
-        parent::SOAP_Value($name, $type, $value, $attributes);
+        parent::__construct($name, $type, $value, $attributes);
 
         if (isset($actor)) {
             $this->attributes[SOAP_BASE::SOAPENVPrefix().':actor'] = $actor;
         } elseif (!isset($this->attributes[SOAP_BASE::SOAPENVPrefix().':actor'])) {
             $this->attributes[SOAP_BASE::SOAPENVPrefix().':actor'] = 'http://schemas.xmlsoap.org/soap/actor/next';
         }
-        $this->attributes[SOAP_BASE::SOAPENVPrefix().':mustUnderstand'] = (int)$mustunderstand;
+        $this->attributes[SOAP_BASE::SOAPENVPrefix().':mustUnderstand'] = (int) $mustunderstand;
     }
-
 }
 
 /**
  * This class handles MIME attachements per W3C's Note on Soap Attachements at
  * http://www.w3.org/TR/SOAP-attachments
  *
- * @access  public
- * @package SOAP
  * @author  Shane Caraveo <shane@php.net> Conversion to PEAR and updates
  */
 class SOAP_Attachment extends SOAP_Value
@@ -231,56 +225,54 @@ class SOAP_Attachment extends SOAP_Value
      * @param string $file      The attachment data.
      * @param array $attributes Attributes.
      */
-    function SOAP_Attachment($name = '', $type = 'application/octet-stream',
-                             $filename, $file = null, $attributes = null)
+    public function __construct($name = '', $type = 'application/octet-stream',
+        $filename, $file = null, $attributes = null)
     {
-        parent::SOAP_Value($name, null, null);
+        parent::__construct($name, null, null);
 
         $filedata = $file === null ? $this->_file2str($filename) : $file;
         $filename = basename($filename);
         if (PEAR::isError($filedata)) {
             $this->options['attachment'] = $filedata;
+
             return;
         }
 
         $cid = md5(uniqid(time()));
 
         $this->attributes = $attributes;
-        $this->attributes['href'] = 'cid:' . $cid;
+        $this->attributes['href'] = 'cid:'.$cid;
 
-        $this->options['attachment'] = array('body' => $filedata,
+        $this->options['attachment'] = ['body' => $filedata,
                                              'disposition' => $filename,
                                              'content_type' => $type,
                                              'encoding' => 'base64',
-                                             'cid' => $cid);
+                                             'cid' => $cid, ];
     }
 
     /**
      * Returns the contents of the given file name as string.
      *
-     * @access private
-     *
      * @param string $file_name  The file location.
      *
      * @return string  The file data or a PEAR_Error.
      */
-    function _file2str($file_name)
+    public function _file2str($file_name)
     {
         if (!is_readable($file_name)) {
-            return PEAR::raiseError('File is not readable: ' . $file_name);
+            return PEAR::raiseError('File is not readable: '.$file_name);
         }
 
         if (function_exists('file_get_contents')) {
             return file_get_contents($file_name);
         }
 
-        if (!$fd = fopen($file_name, 'rb')) {
-            return PEAR::raiseError('Could not open ' . $file_name);
+        if (!$fd = fopen($file_name, 'r')) {
+            return PEAR::raiseError('Could not open '.$file_name);
         }
         $cont = fread($fd, filesize($file_name));
         fclose($fd);
 
         return $cont;
     }
-
 }

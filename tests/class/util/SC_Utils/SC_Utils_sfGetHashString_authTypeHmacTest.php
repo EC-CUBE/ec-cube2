@@ -1,9 +1,9 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
+$HOME = realpath(__DIR__).'/../../../..';
 // このテスト専用の定数の設定
 define('AUTH_TYPE', 'HMAC');
-require_once($HOME . "/tests/class/Common_TestCase.php");
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -31,39 +31,37 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * 暗号化結果の詳細までは見られないため、変換がされていることだけを確かめます。
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetHashString_authTypeHmacTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfGetHashString暗号化ありの設定になっている場合文字列が変換される()
+    {
+        $input = 'hello, world';
+        $salt = 'sample';
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+        $output = SC_Utils::sfGetHashString($input, $salt);
 
-  /////////////////////////////////////////
-  public function testSfGetHashString_暗号化ありの設定になっている場合_文字列が変換される()
-  {
-    $input = 'hello, world';
-    $salt = 'sample';
+        $this->assertNotEquals('入力前後の文字列', $input, $output);
+    }
 
-    $output = SC_Utils::sfGetHashString($input, $salt);
+    public function testSfGetHashString暗号化ありの設定になっていてsaltがない場合文字列が変換される()
+    {
+        $input = 'hello, world';
+        $output = SC_Utils::sfGetHashString($input, '');
 
-    $this->assertNotEquals('入力前後の文字列', $input, $output);
-  }
-
-  public function testSfGetHashString_暗号化ありの設定になっていてsaltがない場合_文字列が変換される()
-  {
-    $input = 'hello, world';
-    $output = SC_Utils::sfGetHashString($input, '');
-
-    $this->assertNotEquals('入力前後の文字列', $input, $output);
-  }
+        $this->assertNotEquals('入力前後の文字列', $input, $output);
+    }
 }
-

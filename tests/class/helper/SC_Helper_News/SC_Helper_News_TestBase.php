@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -26,19 +26,18 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Helper_Purchaseのテストの基底クラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_News_TestBase extends Common_TestCase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
@@ -48,40 +47,40 @@ class SC_Helper_News_TestBase extends Common_TestCase
      */
     protected function setUpNews()
     {
-        $news = array(
-          array(
+        $news = [
+          [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '1001',
             'news_title' => 'ニュース情報01',
             'rank' => '1',
             'creator_id' => '1',
-            'del_flg' => '0'
-            ),
-          array(
+            'del_flg' => '0',
+            ],
+          [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '1002',
             'news_title' => 'ニュース情報02',
             'rank' => '2',
             'creator_id' => '1',
-            'del_flg' => '0'
-            ),
-          array(
+            'del_flg' => '0',
+            ],
+          [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '1003',
             'news_title' => 'ニュース情報03',
             'rank' => '3',
             'creator_id' => '1',
-            'del_flg' => '1'
-            ),
-          array(
+            'del_flg' => '1',
+            ],
+          [
             'update_date' => '2000-01-01 00:00:00',
             'news_id' => '1004',
             'news_title' => 'ニュース情報04',
             'rank' => '4',
             'creator_id' => '1',
-            'del_flg' => '0'
-            )
-        );
+            'del_flg' => '0',
+            ],
+        ];
 
         $this->objQuery->delete('dtb_news');
         foreach ($news as $key => $item) {
@@ -89,4 +88,3 @@ class SC_Helper_News_TestBase extends Common_TestCase
         }
     }
 }
-
