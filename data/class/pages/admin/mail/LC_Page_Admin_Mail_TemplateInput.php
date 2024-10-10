@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * テンプレート設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Mail_TemplateInput extends LC_Page_Admin_Ex
@@ -72,7 +71,7 @@ class LC_Page_Admin_Mail_TemplateInput extends LC_Page_Admin_Ex
         switch ($this->getMode()) {
             case 'edit':
                 // 編集
-                if (SC_Utils_Ex::sfIsInt($_GET['template_id'])===true) {
+                if (SC_Utils_Ex::sfIsInt($_GET['template_id']) === true) {
                     $arrMail = $objMailHelper->sfGetMailmagaTemplate($_GET['template_id']);
                     $this->arrForm = $arrMail[0];
                 }
@@ -91,7 +90,7 @@ class LC_Page_Admin_Mail_TemplateInput extends LC_Page_Admin_Ex
                     $this->lfRegistData($objFormParam, $objFormParam->getValue('template_id'));
 
                     // 自分を再読込して、完了画面へ遷移
-                    $this->objDisplay->reload(array('mode' => 'complete'));
+                    $this->objDisplay->reload(['mode' => 'complete']);
                 } else {
                     $this->arrForm['template_id'] = $objFormParam->getValue('template_id');
                 }
@@ -103,14 +102,14 @@ class LC_Page_Admin_Mail_TemplateInput extends LC_Page_Admin_Ex
             default:
                 break;
         }
-
     }
 
     /**
      * メルマガテンプレートデータの登録・更新を行う
      *
      * @param SC_FormParam $objFormParam SC_FormParam インスタンス
-     * @param integer template_id 更新時は指定
+     * @param int template_id 更新時は指定
+     *
      * @return void
      */
     public function lfRegistData(&$objFormParam, $template_id = null)
@@ -124,9 +123,9 @@ class LC_Page_Admin_Mail_TemplateInput extends LC_Page_Admin_Ex
         if (SC_Utils_Ex::sfIsInt($template_id)) {
             // 更新時
             $objQuery->update('dtb_mailmaga_template',
-                              $sqlval,
-                              'template_id = ?',
-                              array($template_id));
+                $sqlval,
+                'template_id = ?',
+                [$template_id]);
         } else {
             // 新規登録時
             $sqlval['create_date'] = 'CURRENT_TIMESTAMP';
@@ -139,13 +138,14 @@ class LC_Page_Admin_Mail_TemplateInput extends LC_Page_Admin_Ex
      * お問い合わせ入力時のパラメーター情報の初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('メール形式', 'mail_method', INT_LEN, 'n', array('EXIST_CHECK','ALNUM_CHECK'));
-        $objFormParam->addParam('Subject', 'subject', STEXT_LEN, 'KVa', array('EXIST_CHECK','SPTAB_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('本文', 'body', LLTEXT_LEN, 'KVCa', array('EXIST_CHECK','SPTAB_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('テンプレートID', 'template_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'), '', false);
+        $objFormParam->addParam('メール形式', 'mail_method', INT_LEN, 'n', ['EXIST_CHECK', 'ALNUM_CHECK']);
+        $objFormParam->addParam('Subject', 'subject', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('本文', 'body', LLTEXT_LEN, 'KVCa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('テンプレートID', 'template_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK'], '', false);
     }
 }

@@ -52,7 +52,7 @@ class SC_SendMail
      */
     public function __construct()
     {
-        $this->arrRecip = array();
+        $this->arrRecip = [];
         $this->to = '';
         $this->subject = '';
         $this->body = '';
@@ -65,8 +65,8 @@ class SC_SendMail
         $this->port = SMTP_PORT;
 
         // PEAR::Mailを使ってメール送信オブジェクト作成
-        $this->objMail =& Mail::factory($this->backend,
-                                        $this->getBackendParams($this->backend));
+        $this->objMail = &Mail::factory($this->backend,
+            $this->getBackendParams($this->backend));
         if (PEAR::isError($this->objMail)) {
             // XXX 環境によっては文字エンコードに差異がないか些か心配
             trigger_error($this->objMail->getMessage(), E_USER_ERROR);
@@ -146,7 +146,7 @@ class SC_SendMail
     public function setSubject($subject)
     {
         $this->subject = mb_encode_mimeheader($subject, 'ISO-2022-JP-MS', 'B', "\n");
-        $this->subject = str_replace(array("\r\n", "\r"), "\n", $this->subject);
+        $this->subject = str_replace(["\r\n", "\r"], "\n", $this->subject);
     }
 
     // 本文の設定
@@ -154,7 +154,7 @@ class SC_SendMail
     {
         // iso-2022-jpだと特殊文字が？で送信されるのでISO-2022-JP-MSを使用する
         $this->body = mb_convert_encoding($body, 'ISO-2022-JP-MS', CHAR_CODE);
-        $this->body = str_replace(array("\r\n", "\r"), "\n", $this->body);
+        $this->body = str_replace(["\r\n", "\r"], "\n", $this->body);
     }
 
     /**
@@ -166,12 +166,12 @@ class SC_SendMail
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         $this->host = $host;
-        $arrHost = array(
+        $arrHost = [
                 'host' => $this->host,
-                'port' => $this->port
-        );
+                'port' => $this->port,
+        ];
         // PEAR::Mailを使ってメール送信オブジェクト作成
-        $this->objMail =& Mail::factory('smtp', $arrHost);
+        $this->objMail = &Mail::factory('smtp', $arrHost);
     }
 
     /**
@@ -183,12 +183,12 @@ class SC_SendMail
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         $this->port = $port;
-        $arrHost = array(
+        $arrHost = [
                 'host' => $this->host,
-                'port' => $this->port
-        );
+                'port' => $this->port,
+        ];
         // PEAR::Mailを使ってメール送信オブジェクト作成
-        $this->objMail =& Mail::factory('smtp', $arrHost);
+        $this->objMail = &Mail::factory('smtp', $arrHost);
     }
 
     // 名前<メールアドレス>の形式を生成
@@ -198,25 +198,25 @@ class SC_SendMail
      */
     public function getNameAddress($name, $mail_address)
     {
-            if ($name != '') {
-                // 制御文字を変換する。
-                $_name = $name;
-                $_name = mb_encode_mimeheader($_name, 'ISO-2022-JP-MS', 'B', "\n");
-                $_name = str_replace('"', '\"', $_name);
-                $name_address = sprintf('"%s" <%s>', $_name, $mail_address);
-            } else {
-                $name_address = $mail_address;
-            }
+        if ($name != '') {
+            // 制御文字を変換する。
+            $_name = $name;
+            $_name = mb_encode_mimeheader($_name, 'ISO-2022-JP-MS', 'B', "\n");
+            $_name = str_replace('"', '\"', $_name);
+            $name_address = sprintf('"%s" <%s>', $_name, $mail_address);
+        } else {
+            $name_address = $mail_address;
+        }
 
-            return $name_address;
+        return $name_address;
     }
 
-    public function setItem($to, $subject, $body, $fromaddress, $from_name, $reply_to='', $return_path='', $errors_to='', $bcc='', $cc ='')
+    public function setItem($to, $subject, $body, $fromaddress, $from_name, $reply_to = '', $return_path = '', $errors_to = '', $bcc = '', $cc = '')
     {
         $this->setBase($to, $subject, $body, $fromaddress, $from_name, $reply_to, $return_path, $errors_to, $bcc, $cc);
     }
 
-    public function setItemHtml($to, $subject, $body, $fromaddress, $from_name, $reply_to='', $return_path='', $errors_to='', $bcc='', $cc ='')
+    public function setItemHtml($to, $subject, $body, $fromaddress, $from_name, $reply_to = '', $return_path = '', $errors_to = '', $bcc = '', $cc = '')
     {
         $this->setBase($to, $subject, $body, $fromaddress, $from_name, $reply_to, $return_path, $errors_to, $bcc, $cc);
     }
@@ -233,7 +233,7 @@ class SC_SendMail
          $cc            -> カーボンコピー
          $bcc           -> ブラインドカーボンコピー
     */
-    public function setBase($to, $subject, $body, $fromaddress, $from_name, $reply_to='', $return_path='', $errors_to='', $bcc='', $cc ='')
+    public function setBase($to, $subject, $body, $fromaddress, $from_name, $reply_to = '', $return_path = '', $errors_to = '', $bcc = '', $cc = '')
     {
         // 宛先設定
         $this->setTo($to);
@@ -264,7 +264,7 @@ class SC_SendMail
     public function getBaseHeader()
     {
         // 送信するメールの内容と送信先
-        $arrHeader = array();
+        $arrHeader = [];
         $arrHeader['MIME-Version'] = '1.0';
         $arrHeader['To'] = $this->to;
         $arrHeader['Subject'] = $this->subject;
@@ -327,7 +327,7 @@ class SC_SendMail
      *
      * 設定された情報を利用して, メールを送信する.
      *
-     * @return boolean
+     * @return bool
      */
     public function sendMail($isHtml = false)
     {
@@ -338,7 +338,7 @@ class SC_SendMail
         if (PEAR::isError($result)) {
             // XXX Windows 環境では SJIS でメッセージを受け取るようなので変換する。
             $msg = mb_convert_encoding($result->getMessage(), CHAR_CODE, 'auto');
-            $msg = 'メール送信に失敗しました。[' . $msg . ']';
+            $msg = 'メール送信に失敗しました。['.$msg.']';
             trigger_error($msg, E_USER_WARNING);
             GC_Utils_Ex::gfPrintLog($result->getMessage());
             GC_Utils_Ex::gfDebugLog($header);
@@ -352,7 +352,7 @@ class SC_SendMail
     /**
      * HTMLメール送信を実行する.
      *
-     * @return boolean
+     * @return bool
      */
     public function sendHtmlMail()
     {
@@ -363,32 +363,33 @@ class SC_SendMail
      * メーラーバックエンドに応じたパラメーターを返す.
      *
      * @param  string $backend Pear::Mail のバックエンド
+     *
      * @return array  メーラーバックエンドに応じたパラメーターの配列
      */
     public function getBackendParams($backend)
     {
         switch ($backend) {
             case 'mail':
-                $arrParams = array();
+                $arrParams = [];
                 $objDb = new SC_Helper_DB_Ex();
                 $objSite = $objDb->sfGetBasisData();
                 if (!empty($objSite['email04']) && strpos($objSite['email04'], '@') > 0) {
-                    $arrParams[] = "-f ".$objSite['email04'];
+                    $arrParams[] = '-f '.$objSite['email04'];
                 }
                 break;
 
             case 'sendmail':
-                $arrParams = array(
+                $arrParams = [
                     'sendmail_path' => '/usr/bin/sendmail',
                     'sendmail_args' => '-i',
-                );
+                ];
                 break;
 
             case 'smtp':
-                $arrParams = array(
+                $arrParams = [
                     'host' => $this->host,
                     'port' => $this->port,
-                );
+                ];
                 if (defined('SMTP_USER')
                     && defined('SMTP_PASSWORD')
                     && !SC_Utils_Ex::isBlank(SMTP_USER)
@@ -400,7 +401,7 @@ class SC_SendMail
                 break;
 
             default:
-                trigger_error('不明なバックエンド。[$backend = ' . var_export($backend, true) . ']', E_USER_ERROR);
+                trigger_error('不明なバックエンド。[$backend = '.var_export($backend, true).']', E_USER_ERROR);
                 exit;
         }
 

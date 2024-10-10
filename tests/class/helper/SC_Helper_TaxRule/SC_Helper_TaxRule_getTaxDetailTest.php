@@ -1,15 +1,17 @@
 <?php
+
 require __DIR__.'/SC_Helper_TaxRule_TestBase.php';
 
 class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
 {
     private $taxs = [];
-    protected function setUp()
+
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
@@ -43,13 +45,13 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
                 8 => [
                     'discount' => 596,
                     'total' => 65160,
-                    'tax' => 4827
+                    'tax' => 4827,
                 ],
                 10 => [
                     'discount' => 6563,
                     'total' => 717868,
-                    'tax' => 65261
-                ]
+                    'tax' => 65261,
+                ],
             ],
             $actual
         );
@@ -90,13 +92,13 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
                 8 => [
                     'discount' => 0,
                     'total' => 0,
-                    'tax' => 0
+                    'tax' => 0,
                 ],
                 10 => [
                     'discount' => 0,
                     'total' => 0,
-                    'tax' => 0
-                ]
+                    'tax' => 0,
+                ],
             ],
             $actual
         );
@@ -143,13 +145,13 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
                 8 => [
                     'discount' => 596,
                     'total' => 65160,
-                    'tax' => 4826
+                    'tax' => 4826,
                 ],
                 10 => [
                     'discount' => 6563,
                     'total' => 717868,
-                    'tax' => 65260
-                ]
+                    'tax' => 65260,
+                ],
             ],
             $actual
         );
@@ -192,13 +194,13 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
                 8 => [
                     'discount' => 596,
                     'total' => 65160,
-                    'tax' => 4827
+                    'tax' => 4827,
                 ],
                 10 => [
                     'discount' => 6563,
                     'total' => 717868,
-                    'tax' => 65261
-                ]
+                    'tax' => 65261,
+                ],
             ],
             $actual
         );
@@ -238,13 +240,13 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
                 8 => [
                     'discount' => 76,
                     'total' => 7322,
-                    'tax' => 542
+                    'tax' => 542,
                 ],
                 10 => [
                     'discount' => 16,
                     'total' => 1579,
-                    'tax' => 144
-                ]
+                    'tax' => 144,
+                ],
             ],
             $actual
         );
@@ -294,13 +296,13 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
                 8 => [
                     'discount' => 76,
                     'total' => 7322,
-                    'tax' => 542
+                    'tax' => 542,
                 ],
                 10 => [
                     'discount' => 16,
                     'total' => 1579,
-                    'tax' => 143
-                ]
+                    'tax' => 143,
+                ],
             ],
             $actual
         );
@@ -344,13 +346,13 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
                 8 => [
                     'discount' => 76,
                     'total' => 7322,
-                    'tax' => 543
+                    'tax' => 543,
                 ],
                 10 => [
                     'discount' => 16,
                     'total' => 1579,
-                    'tax' => 144
-                ]
+                    'tax' => 144,
+                ],
             ],
             $actual
         );

@@ -65,7 +65,7 @@
                     <!--{if $arrInfo.free_rule > 0}-->
                         <div class="bubbleBox">
                             <div class="bubble_announce clearfix">
-                                <p><a rel="external" href="<!--{$tpl_prev_url|h}-->">
+                                <p><a href="<!--{$tpl_prev_url|h}-->">
                                     <!--{if !$arrData[$key].is_deliv_free}-->
                                         あと「<span class="price"><!--{$tpl_deliv_free[$key]|n2s}-->円</span>」で<span class="price">送料無料！！</span>
                                     <!--{else}-->
@@ -157,7 +157,7 @@
             <p class="empty"><em>※ 現在カート内に商品はございません。</em></p>
         <!--{/if}-->
 
-        <p><a rel="external" href="<!--{$smarty.const.TOP_URL}-->" class="btn_sub">お買い物を続ける</a></p>
+        <p><a href="<!--{$smarty.const.TOP_URL}-->" class="btn_sub">お買い物を続ける</a></p>
 
     </div><!-- /.form_area -->
 

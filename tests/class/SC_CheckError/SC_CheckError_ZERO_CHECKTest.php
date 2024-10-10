@@ -2,13 +2,13 @@
 
 class SC_CheckError_ZERO_CHECKTest extends SC_CheckError_AbstractTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'ZERO_CHECK';
     }
 
-    public function testZERO_CHECK()
+    public function testZEROCHECK()
     {
         $this->arrForm = [self::FORM_NAME => '0'];
         $this->expected = '※ ZERO_CHECKは1以上を入力してください。<br />';
@@ -17,7 +17,7 @@ class SC_CheckError_ZERO_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testZERO_CHECKWithNumber()
+    public function testZEROCHECKWithNumber()
     {
         $this->arrForm = [self::FORM_NAME => 0];
         $this->expected = '※ ZERO_CHECKは1以上を入力してください。<br />';
@@ -26,7 +26,7 @@ class SC_CheckError_ZERO_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testZERO_CHECKWithEmpty()
+    public function testZEROCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -35,7 +35,7 @@ class SC_CheckError_ZERO_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testZERO_CHECKWithNull()
+    public function testZEROCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '';
@@ -44,7 +44,7 @@ class SC_CheckError_ZERO_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testZERO_CHECKWithSentence()
+    public function testZEROCHECKWithSentence()
     {
         /** @var Faker\Generator $faker */
         $faker = Faker\Factory::create('ja_JP');
@@ -56,7 +56,7 @@ class SC_CheckError_ZERO_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testZERO_CHECKWithWide()
+    public function testZEROCHECKWithWide()
     {
         /** @var Faker\Generator $faker */
         $faker = Faker\Factory::create('ja_JP');
@@ -77,4 +77,3 @@ class SC_CheckError_ZERO_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->objErr->doFunc([$this->target_func, self::FORM_NAME], [$this->target_func]);
     }
 }
-

@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,29 +27,27 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /**
  * SC_Helper_Purchase::copyFromOrder()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_copyFromOrderTest extends SC_Helper_Purchase_TestBase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
-
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
-
-  /////////////////////////////////////////
-  public function testCopyFromOrder_全てデフォルト設定にした場合_デフォルトの接頭辞・キーでコピーされる()
-  {
-     $dest = array();
-     $src = array(
+    // ///////////////////////////////////////
+    public function testCopyFromOrder全てデフォルト設定にした場合デフォルトの接頭辞・キーでコピーされる()
+    {
+        $dest = [];
+        $src = [
        'order_name01' => '姓',
        'order_name02' => '名',
        'order_kana01' => 'セイ',
@@ -65,10 +63,10 @@ class SC_Helper_Purchase_copyFromOrderTest extends SC_Helper_Purchase_TestBase
        'order_tel03' => '5678',
        'order_fax01' => '02',
        'order_fax02' => '2345',
-       'order_fax03' => '6789'
-     );
+       'order_fax03' => '6789',
+     ];
 
-     $this->expected = array(
+        $this->expected = [
        'shipping_name01' => '姓',
        'shipping_name02' => '名',
        'shipping_kana01' => 'セイ',
@@ -84,34 +82,33 @@ class SC_Helper_Purchase_copyFromOrderTest extends SC_Helper_Purchase_TestBase
        'shipping_tel03' => '5678',
        'shipping_fax01' => '02',
        'shipping_fax02' => '2345',
-       'shipping_fax03' => '6789'
-     );
-     $helper = new SC_Helper_Purchase_Ex();
-     $helper->copyFromOrder($dest, $src);
-     $this->actual = $dest;
+       'shipping_fax03' => '6789',
+     ];
+        $helper = new SC_Helper_Purchase_Ex();
+        $helper->copyFromOrder($dest, $src);
+        $this->actual = $dest;
 
-     $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testCopyFromOrder_接頭辞・キーを設定した場合_指定の値でコピーされる()
-  {
-     $dest = array();
-     $src = array(
+    public function testCopyFromOrder接頭辞・キーを設定した場合指定の値でコピーされる()
+    {
+        $dest = [];
+        $src = [
        'input_name01' => '姓',
        'input_name02' => '名',
-       'input_zip01' => '012' // キーに含まれないもの
-     );
+       'input_zip01' => '012', // キーに含まれないもの
+     ];
 
-     $this->expected = array(
+        $this->expected = [
        'output_name01' => '姓',
-       'output_name02' => '名'
-     );
-     $helper = new SC_Helper_Purchase_Ex();
-     $helper->copyFromOrder($dest, $src, 'output', 'input', array('name01', 'name02'));
-     $this->actual = $dest;
+       'output_name02' => '名',
+     ];
+        $helper = new SC_Helper_Purchase_Ex();
+        $helper->copyFromOrder($dest, $src, 'output', 'input', ['name01', 'name02']);
+        $this->actual = $dest;
 
-     $this->verify();
-  }
-  //////////////////////////////////////////
+        $this->verify();
+    }
+    // ////////////////////////////////////////
 }
-

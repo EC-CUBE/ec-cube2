@@ -36,7 +36,7 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-configure gd ${GD_OPTIONS} && docker-php-ext-install ${EXT_INSTALL_ARGS}
+RUN docker-php-ext-configure gd ${GD_OPTIONS} && docker-php-ext-install -j$(nproc) ${EXT_INSTALL_ARGS}
 RUN if [[ ${APCU} ]]; then  pecl install ${APCU} && docker-php-ext-enable apcu; fi
 
 # composer

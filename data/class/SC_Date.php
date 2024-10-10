@@ -29,14 +29,18 @@ class SC_Date
     public $day;
     public $end_year;
 
-    public static $arrHoliday = NULL;
-    public static $arrRegularHoliday = NULL;
+    public static $arrHoliday = null;
+    public static $arrRegularHoliday = null;
 
     // コンストラクタ
-    public function __construct($start_year='', $end_year='')
+    public function __construct($start_year = '', $end_year = '')
     {
-        if ($start_year)  $this->setStartYear($start_year);
-        if ($end_year)    $this->setEndYear($end_year);
+        if ($start_year) {
+            $this->setStartYear($start_year);
+        }
+        if ($end_year) {
+            $this->setEndYear($end_year);
+        }
     }
 
     public function setStartYear($year)
@@ -75,6 +79,7 @@ class SC_Date
     /**
      * 年プルダウン用の配列を返す
      * FIXME $default_year に一致いる行が無かった場合、先頭か末尾に付加すべきと思われる。
+     *
      * @param string      $year         XMLファイル名
      * @param bool|string $default_year
      *     false  「選択なし」は含めない。
@@ -84,15 +89,21 @@ class SC_Date
      */
     public function getYear($year = '', $default_year = false, $default_key = '----')
     {
-        if ($year) $this->setStartYear($year);
+        if ($year) {
+            $this->setStartYear($year);
+        }
 
         $year = $this->start_year;
-        if (! $year) $year = DATE('Y');
+        if (!$year) {
+            $year = date('Y');
+        }
 
         $end_year = $this->end_year;
-        if (! $end_year) $end_year = (DATE('Y') + 3);
+        if (!$end_year) {
+            $end_year = (date('Y') + 3);
+        }
 
-        $year_array = array();
+        $year_array = [];
 
         if ($default_year === true) {
             $year_array[$default_key] = '----';
@@ -110,15 +121,21 @@ class SC_Date
 
     public function getZeroYear($year = '')
     {
-        if ($year) $this->setStartYear($year);
+        if ($year) {
+            $this->setStartYear($year);
+        }
 
         $year = $this->start_year;
-        if (! $year) $year = DATE('Y');
+        if (!$year) {
+            $year = date('Y');
+        }
 
         $end_year = $this->end_year;
-        if (! $end_year) $end_year = (DATE('Y') + 3);
+        if (!$end_year) {
+            $end_year = (date('Y') + 3);
+        }
 
-        $year_array = array();
+        $year_array = [];
 
         for ($i = $year; $i <= $end_year; $i++) {
             $key = substr($i, -2);
@@ -130,8 +147,8 @@ class SC_Date
 
     public function getZeroMonth()
     {
-        $month_array = array();
-        for ($i=1; $i <= 12; $i++) {
+        $month_array = [];
+        for ($i = 1; $i <= 12; $i++) {
             $val = sprintf('%02d', $i);
             $month_array[$val] = $val;
         }
@@ -141,12 +158,14 @@ class SC_Date
 
     public function getMonth($default = false)
     {
-        $month_array = array();
+        $month_array = [];
 
-        if ($default) $month_array[''] = '--';
+        if ($default) {
+            $month_array[''] = '--';
+        }
 
-        for ($i=0; $i < 12; $i++) {
-            $month_array[$i + 1 ] = $i + 1;
+        for ($i = 0; $i < 12; $i++) {
+            $month_array[$i + 1] = $i + 1;
         }
 
         return $month_array;
@@ -154,12 +173,14 @@ class SC_Date
 
     public function getDay($default = false)
     {
-        $day_array = array();
+        $day_array = [];
 
-        if ($default) $day_array[''] = '--';
+        if ($default) {
+            $day_array[''] = '--';
+        }
 
-        for ($i=0; $i < 31; $i++) {
-            $day_array[ $i + 1 ] = $i + 1;
+        for ($i = 0; $i < 31; $i++) {
+            $day_array[$i + 1] = $i + 1;
         }
 
         return $day_array;
@@ -167,8 +188,8 @@ class SC_Date
 
     public function getHour()
     {
-        $hour_array = array();
-        for ($i=0; $i<=23; $i++) {
+        $hour_array = [];
+        for ($i = 0; $i <= 23; $i++) {
             $hour_array[$i] = $i;
         }
 
@@ -177,8 +198,8 @@ class SC_Date
 
     public function getMinutes()
     {
-        $minutes_array = array();
-        for ($i=0; $i<=59; $i++) {
+        $minutes_array = [];
+        for ($i = 0; $i <= 59; $i++) {
             $minutes_array[$i] = $i;
         }
 
@@ -187,7 +208,7 @@ class SC_Date
 
     public function getMinutesInterval()
     {
-        $minutes_array = array('00'=>'00', '30'=>'30');
+        $minutes_array = ['00' => '00', '30' => '30'];
 
         return $minutes_array;
     }
@@ -195,15 +216,20 @@ class SC_Date
     /**
      * 休日の判定.
      *
-     * @param  integer $year
-     * @param  integer $month
-     * @param  integer $day
-     * @return boolean 休日の場合はtrue
+     * @param  int $year
+     * @param  int $month
+     * @param  int $day
+     *
+     * @return bool 休日の場合はtrue
      */
     public function isHoliday($year, $month, $day)
     {
-        if (is_null(SC_Date_Ex::$arrHoliday)) $this->setArrHoliday();
-        if (is_null(SC_Date_Ex::$arrRegularHoliday)) $this->setRegularHoliday();
+        if (is_null(SC_Date_Ex::$arrHoliday)) {
+            $this->setArrHoliday();
+        }
+        if (is_null(SC_Date_Ex::$arrRegularHoliday)) {
+            $this->setRegularHoliday();
+        }
 
         if (!empty(SC_Date_Ex::$arrHoliday[$month])) {
             if (in_array($day, SC_Date_Ex::$arrHoliday[$month])) {
@@ -229,8 +255,8 @@ class SC_Date
     {
         $objHoliday = new SC_Helper_Holiday_Ex();
         $holiday = $objHoliday->getList();
-        $arrHoliday = array();
-        foreach ($holiday AS $val) {
+        $arrHoliday = [];
+        foreach ($holiday as $val) {
             $arrHoliday[$val['month']][] = $val['day'];
         }
         SC_Date_Ex::$arrHoliday = $arrHoliday;

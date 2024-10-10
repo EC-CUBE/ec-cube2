@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,47 +27,45 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /**
  * SC_Helper_Purchase::isUsePoint()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_isUsePointTest extends SC_Helper_Purchase_TestBase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+    // ///////////////////////////////////////
+    public function testIsUsePointステータスがnullの場合FALSEが返る()
+    {
+        $this->expected = false;
+        $this->actual = SC_Helper_Purchase::isUsePoint(null);
 
-  /////////////////////////////////////////
-  public function testIsUsePoint_ステータスがnullの場合_FALSEが返る()
-  {
-    $this->expected = FALSE;
-    $this->actual = SC_Helper_Purchase::isUsePoint(null);
+        $this->verify('ポイントを使用するかどうか');
+    }
 
-    $this->verify('ポイントを使用するかどうか');
-  }
+    public function testIsUsePointステータスがキャンセルの場合FALSEが返る()
+    {
+        $this->expected = false;
+        $this->actual = SC_Helper_Purchase::isUsePoint(ORDER_CANCEL);
 
-  public function testIsUsePoint_ステータスがキャンセルの場合_FALSEが返る()
-  {
-    $this->expected = FALSE;
-    $this->actual = SC_Helper_Purchase::isUsePoint(ORDER_CANCEL);
+        $this->verify('ポイントを使用するかどうか');
+    }
 
-    $this->verify('ポイントを使用するかどうか');
-  }
+    // TODO 要確認：本当にキャンセルのとき以外は全てTRUEで良いのか、現在の使われ方の都合か
+    public function testIsUsePointステータスがキャンセル以外の場合TRUEが返る()
+    {
+        $this->expected = true;
+        $this->actual = SC_Helper_Purchase::isUsePoint(ORDER_NEW);
 
-  // TODO 要確認：本当にキャンセルのとき以外は全てTRUEで良いのか、現在の使われ方の都合か
-  public function testIsUsePoint_ステータスがキャンセル以外の場合_TRUEが返る()
-  {
-    $this->expected = TRUE;
-    $this->actual = SC_Helper_Purchase::isUsePoint(ORDER_NEW);
-
-    $this->verify('ポイント加算するかどうか');
-  }
+        $this->verify('ポイント加算するかどうか');
+    }
 }
-

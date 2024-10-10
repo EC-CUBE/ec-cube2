@@ -9,14 +9,14 @@ class SC_CheckError_FIND_FILETest extends SC_CheckError_AbstractTestCase
     /** @var string */
     protected $targetDir;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'FIND_FILE';
         $this->targetDir = IMAGE_SAVE_REALDIR;
     }
 
-    public function testFIND_FILE()
+    public function testFINDFILE()
     {
         $this->fileName = 'ice130.jpg';
         $this->expected = '';
@@ -25,7 +25,7 @@ class SC_CheckError_FIND_FILETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFIND_FILEWithNotfound()
+    public function testFINDFILEWithNotfound()
     {
         $this->fileName = 'test.JPG';
         $this->expected = '※ '.$this->targetDir.'test.JPGが見つかりません。<br />';
@@ -34,7 +34,7 @@ class SC_CheckError_FIND_FILETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFIND_FILEWithEmpty()
+    public function testFINDFILEWithEmpty()
     {
         $this->fileName = '';
         $this->expected = '';
@@ -43,7 +43,7 @@ class SC_CheckError_FIND_FILETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFIND_FILEWithNull()
+    public function testFINDFILEWithNull()
     {
         $this->fileName = null;
         $this->expected = '';
@@ -52,7 +52,7 @@ class SC_CheckError_FIND_FILETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFIND_FILEWithDefaultTargetDir()
+    public function testFINDFILEWithDefaultTargetDir()
     {
         $this->targetDir = '';
         $this->fileName = 'ice130.jpg';

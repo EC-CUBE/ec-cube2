@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ブロック の基底クラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_FrontParts_Bloc extends LC_Page_Ex
@@ -65,6 +64,7 @@ class LC_Page_FrontParts_Bloc extends LC_Page_Ex
      * ブロックファイルに応じて tpl_mainpage を設定する
      *
      * @param  string $bloc_file ブロックファイル名
+     *
      * @return void
      */
     public function setTplMainpage($bloc_file)
@@ -72,7 +72,7 @@ class LC_Page_FrontParts_Bloc extends LC_Page_Ex
         if (SC_Utils_Ex::isAbsoluteRealPath($bloc_file)) {
             $this->tpl_mainpage = $bloc_file;
         } else {
-            $this->tpl_mainpage = SC_Helper_PageLayout_Ex::getTemplatePath($this->objDisplay->detectDevice()) . BLOC_DIR . $bloc_file;
+            $this->tpl_mainpage = SC_Helper_PageLayout_Ex::getTemplatePath($this->objDisplay->detectDevice()).BLOC_DIR.$bloc_file;
         }
 
         $this->setTemplate($this->tpl_mainpage);

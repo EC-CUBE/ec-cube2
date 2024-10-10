@@ -9,9 +9,7 @@ class SC_ResponseWithoutModeTest extends Common_TestCase
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         $_POST['mode'] = 'post';
         $objPlugin->arrRegistedPluginActions['SC_ResponseWithoutModeTest_action_post'][] = [['function' => function ($instance) use ($phpunit) {
-
             $phpunit->assertInstanceOf('SC_ResponseWithoutModeTest', $instance, 'backtrace から取得した呼び出し元のインスタンスが渡ってくるはず');
-
         }]];
 
         SC_Response_Wrapper2::sendRedirect(HTTP_URL);
@@ -24,9 +22,7 @@ class SC_ResponseWithoutModeTest extends Common_TestCase
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         $_GET['mode'] = 'get';
         $objPlugin->arrRegistedPluginActions['SC_ResponseWithoutModeTest_action_get'][] = [['function' => function ($instance) use ($phpunit) {
-
             $phpunit->assertInstanceOf('SC_ResponseWithoutModeTest', $instance, 'backtrace から取得した呼び出し元のインスタンスが渡ってくるはず');
-
         }]];
 
         SC_Response_Wrapper2::sendRedirect(HTTP_URL);

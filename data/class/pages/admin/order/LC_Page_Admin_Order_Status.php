@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 対応状況管理 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex
@@ -83,7 +82,7 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex
 
         $this->arrForm = $objFormParam->getHashArray();
 
-        //支払方法の取得
+        // 支払方法の取得
         $this->arrPayment = SC_Helper_Payment_Ex::getIDValueList();
 
         switch ($this->getMode()) {
@@ -93,7 +92,7 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex
                     case 'delete':
                         $this->lfDelete($objFormParam->getValue('move'));
                         break;
-                    // 更新
+                        // 更新
                     default:
                         $this->lfStatusMove($objFormParam->getValue('change_status'), $objFormParam->getValue('move'));
                         break;
@@ -108,32 +107,34 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex
         // 対応状況
         $status = $objFormParam->getValue('status');
         if (strlen($status) === 0) {
-                //デフォルトで新規受付一覧表示
-                $status = ORDER_NEW;
+            // デフォルトで新規受付一覧表示
+            $status = ORDER_NEW;
         }
         $this->SelectedStatus = $status;
-        //検索結果の表示
+        // 検索結果の表示
         $this->lfStatusDisp($status, $objFormParam->getValue('search_pageno'));
     }
 
     /**
      *  パラメーター情報の初期化
+     *
      *  @param SC_FormParam
      * @param SC_FormParam_Ex $objFormParam
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('注文番号', 'order_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('変更前対応状況', 'status', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('ページ番号', 'search_pageno', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('注文番号', 'order_id', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('変更前対応状況', 'status', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('ページ番号', 'search_pageno', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
         if ($this->getMode() == 'update') {
-            $objFormParam->addParam('変更後対応状況', 'change_status', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-            $objFormParam->addParam('移動注文番号', 'move', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
+            $objFormParam->addParam('変更後対応状況', 'change_status', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
+            $objFormParam->addParam('移動注文番号', 'move', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
         }
     }
 
     /**
      *  入力内容のチェック
+     *
      *  @param SC_FormParam
      */
     public function lfCheckError(&$objFormParam)
@@ -147,14 +148,14 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex
     }
 
     // 対応状況一覧の表示
-    public function lfStatusDisp($status,$pageno)
+    public function lfStatusDisp($status, $pageno)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $select ='*';
+        $select = '*';
         $from = 'dtb_order';
         $where = 'del_flg = 0 AND status = ?';
-        $arrWhereVal = array($status);
+        $arrWhereVal = [$status];
         $order = 'order_id DESC';
 
         $linemax = $objQuery->count($from, $where, $arrWhereVal);
@@ -173,10 +174,10 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex
         // 取得範囲の指定(開始行番号、行数のセット)
         $objQuery->setLimitOffset($page_max, $startno);
 
-        //表示順序
+        // 表示順序
         $objQuery->setOrder($order);
 
-        //検索結果の取得
+        // 検索結果の取得
         $this->arrStatus = $objQuery->select($select, $from, $where, $arrWhereVal);
     }
 
@@ -202,7 +203,7 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex
 
         $objQuery->commit();
 
-        $this->tpl_onload = "window.alert('選択項目を" . $arrORDERSTATUS[$statusId] . "へ移動しました。');";
+        $this->tpl_onload = "window.alert('選択項目を".$arrORDERSTATUS[$statusId]."へ移動しました。');";
 
         return true;
     }

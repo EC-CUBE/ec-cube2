@@ -53,11 +53,12 @@ class SC_SelectSql
      * SQL文生成
      *
      * @param string $mode
+     *
      * @return string
      */
     public function getSql($mode = '')
     {
-        $this->sql = $this->select .' '. $this->where .' '. $this->group .' ';
+        $this->sql = $this->select.' '.$this->where.' '.$this->group.' ';
 
         if ($mode == 2) {
             $this->sql .= $this->order;
@@ -71,7 +72,7 @@ class SC_SelectSql
      */
     public static function addSearchStr($val)
     {
-        $return = '%' .$val. '%';
+        $return = '%'.$val.'%';
 
         return $return;
     }
@@ -82,26 +83,27 @@ class SC_SelectSql
      * @param int $from
      * @param int $to
      * @param string $column
+     *
      * @return array
      */
     public function selectRange($from, $to, $column)
     {
         // ある単位のみ検索($from = $to)
         if ($from == $to) {
-            $this->setWhere($column .' = ?');
-            $return = array($from);
+            $this->setWhere($column.' = ?');
+            $return = [$from];
         //　~$toまで検索
         } elseif (strlen($from) == 0 && strlen($to) > 0) {
-            $this->setWhere($column .' <= ? ');
-            $return = array($to);
+            $this->setWhere($column.' <= ? ');
+            $return = [$to];
         //　~$from以上を検索
         } elseif (strlen($from) > 0 && strlen($to) == 0) {
-            $this->setWhere($column .' >= ? ');
-            $return = array($from);
+            $this->setWhere($column.' >= ? ');
+            $return = [$from];
         //　$from~$toの検索
         } else {
-            $this->setWhere($column .' BETWEEN ? AND ?');
-            $return = array($from, $to);
+            $this->setWhere($column.' BETWEEN ? AND ?');
+            $return = [$from, $to];
         }
 
         return $return;
@@ -117,26 +119,27 @@ class SC_SelectSql
      * @param int $to_month
      * @param int $to_day
      * @param string $column
+     *
      * @return array
      */
     public function selectTermRange($from_year, $from_month, $from_day, $to_year, $to_month, $to_day, $column)
     {
-        $return = array();
+        $return = [];
 
         // 開始期間の構築
-        $date1 = $from_year . '/' . $from_month . '/' . $from_day;
+        $date1 = $from_year.'/'.$from_month.'/'.$from_day;
 
         // 終了期間の構築
         // @see http://svn.ec-cube.net/open_trac/ticket/328
         // FIXME とりあえずintvalで対策...
-        $date2 = mktime(0, 0, 0, intval($to_month), intval($to_day), intval($to_year));
+        $date2 = mktime(0, 0, 0, (int) $to_month, (int) $to_day, (int) $to_year);
         $date2 = $date2 + 86400;
         // SQL文のdate関数に与えるフォーマットは、yyyy/mm/ddで指定する。
         $date2 = date('Y/m/d', $date2);
 
         // 開始期間だけ指定の場合
         if (($from_year != '') && ($from_month != '') && ($from_day != '') && ($to_year == '') && ($to_month == '') && ($to_day == '')) {
-            $this->setWhere($column .' >= ?');
+            $this->setWhere($column.' >= ?');
             $return[] = $date1;
         }
 
@@ -144,14 +147,14 @@ class SC_SelectSql
         if (($from_year != '') && ($from_month != '') && ($from_day != '')
             && ($to_year != '') && ($to_month != '') && ($to_day != '')
         ) {
-            $this->setWhere($column . ' >= ? AND ' . $column . ' < date(?)');
+            $this->setWhere($column.' >= ? AND '.$column.' < date(?)');
             $return[] = $date1;
             $return[] = $date2;
         }
 
         // 終了期間だけ指定の場合
         if (($from_year == '') && ($from_month == '') && ($from_day == '') && ($to_year != '') && ($to_month != '') && ($to_day != '')) {
-            $this->setWhere($column . ' < date(?)');
+            $this->setWhere($column.' < date(?)');
             $return[] = $date2;
         }
 
@@ -162,22 +165,24 @@ class SC_SelectSql
      * checkboxなどで同一カラム内で単一、もしくは複数選択肢が有る場合
      *
      * 例: AND ( sex = xxx OR sex = xxx OR sex = xxx) AND ...
+     *
      * @param array $arr
      * @param string $ItemStr
+     *
      * @return array
      */
     public function setItemTerm($arr, $ItemStr)
     {
-        $return = array();
+        $return = [];
         $item = '';
         foreach ($arr as $data) {
             if (count($arr) > 1) {
                 if (!is_null($data)) {
-                    $item .= $ItemStr . ' = ? OR ';
+                    $item .= $ItemStr.' = ? OR ';
                 }
             } else {
                 if (!is_null($data)) {
-                    $item = $ItemStr . ' = ?';
+                    $item = $ItemStr.' = ?';
                 }
             }
             $return[] = $data;
@@ -185,7 +190,7 @@ class SC_SelectSql
 
         if (count($arr) > 1) {
             // FIXME 多分この rtrim の使い方は不適切(偶然動作しそうだが)
-            $item = '(' . rtrim($item, ' OR ') . ')';
+            $item = '('.rtrim($item, ' OR ').')';
         }
         $this->setWhere($item);
 
@@ -197,11 +202,12 @@ class SC_SelectSql
      *
      * @param array $arr
      * @param string $ItemStr
+     *
      * @return array
      */
     public function setItemTermWithNull($arr, $ItemStr)
     {
-        $return = array();
+        $return = [];
         $item = " {$ItemStr} IS NULL ";
 
         if ($arr) {
@@ -221,20 +227,23 @@ class SC_SelectSql
 
     /**
      * NULLもしくは''で検索する場合
+     *
      * @deprecated 本体で使用していないため非推奨
      */
     public function setItemTermWithNullAndSpace($arr, $ItemStr)
     {
-        $return = array();
+        $return = [];
         $count = count($arr);
         $item = " {$ItemStr} IS NULL OR {$ItemStr} = '' ";
         $i = 1;
         if ($arr) {
             foreach ($arr as $data) {
-                if ($i == $count) break;
+                if ($i == $count) {
+                    break;
+                }
                 $item .= " OR {$ItemStr} = ?";
                 $return[] = $data;
-                $i ++;
+                $i++;
             }
         }
         $item = "({$item}) ";
@@ -246,7 +255,7 @@ class SC_SelectSql
     /**
      * 複数のカラムでORで優先検索する場合　例：　AND ( item_flag1 = xxx OR item_flag2 = xxx OR item_flag3 = xxx) AND ...
      *
-     * 配列の構造例　
+     * 配列の構造例
      * if ($_POST['show_site1']) $arrShowsite_1 = array('column' => 'show_site1',
      * 'value'  => $_POST['show_site1']);
      *
@@ -259,16 +268,16 @@ class SC_SelectSql
 
         for ($i = 0; $i < $count; $i++) {
             if (isset($arrWhere[$i]['value'])) {
-                $statement .= $arrWhere[$i]['column'] .' = ' . SC_Utils_Ex::sfQuoteSmart($arrWhere[$i]['value']) .' OR ';
+                $statement .= $arrWhere[$i]['column'].' = '.SC_Utils_Ex::sfQuoteSmart($arrWhere[$i]['value']).' OR ';
             }
         }
 
-        $statement = '(' . rtrim($statement, ' OR ') . ')';
+        $statement = '('.rtrim($statement, ' OR ').')';
 
         if ($this->where) {
-            $this->where .= ' AND ' . $statement;
+            $this->where .= ' AND '.$statement;
         } else {
-            $this->where = 'WHERE ' . $statement;
+            $this->where = 'WHERE '.$statement;
         }
     }
 
@@ -276,7 +285,9 @@ class SC_SelectSql
      * WHERE を取得する。
      *
      * ヘンテコセッター互換仕様。
+     *
      * @param $with_where boolean 必要に応じて WHERE を前置するか
+     *
      * @return string WHERE
      */
     public function getWhere($with_where = false)
@@ -297,9 +308,9 @@ class SC_SelectSql
     {
         if ($where != '') {
             if ($this->where) {
-                $this->where .= ' AND ' . $where;
+                $this->where .= ' AND '.$where;
             } else {
-                $this->where = 'WHERE ' . $where;
+                $this->where = 'WHERE '.$where;
             }
         }
     }
@@ -309,7 +320,7 @@ class SC_SelectSql
      */
     public function setOrder($order)
     {
-        $this->order =  'ORDER BY ' . $order;
+        $this->order = 'ORDER BY '.$order;
     }
 
     /**
@@ -317,7 +328,7 @@ class SC_SelectSql
      */
     public function setGroup($group)
     {
-        $this->group =  'GROUP BY ' . $group;
+        $this->group = 'GROUP BY '.$group;
     }
 
     /**
