@@ -5,13 +5,13 @@ require_once $HOME.'/tests/class/helper/SC_Helper_Address/SC_Helper_Address_Test
 
 class SC_Helper_Address_getAddressTest extends SC_Helper_Address_TestBase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objAddress = new SC_Helper_Address_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

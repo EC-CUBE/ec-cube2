@@ -2,11 +2,15 @@
 
 class SC_FpdfTest extends Common_TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function test正しいMediaBox情報が出力される()
     {
         $order_id = $this->objGenerator->createOrder(0, []);

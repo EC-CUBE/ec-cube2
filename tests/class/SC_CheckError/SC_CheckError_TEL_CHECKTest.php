@@ -14,7 +14,7 @@ class SC_CheckError_TEL_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $tel_length = 12;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'TEL_CHECK';

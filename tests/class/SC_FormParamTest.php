@@ -7,7 +7,7 @@ class SC_FormParamTest extends Common_TestCase
      */
     protected $objFormParam;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objFormParam = new SC_FormParam_Ex();

@@ -31,14 +31,14 @@ class SC_Helper_Maker_saveMakerTest extends SC_Helper_Maker_TestBase
 {
     public $objHelperMaker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpMaker();
         $this->objHelperMaker = new SC_Helper_Maker_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
@@ -69,35 +69,36 @@ class SC_Helper_Maker_saveMakerTest extends SC_Helper_Maker_TestBase
     public function testSaveMakerメーカーIDがない場合インサートされる()
     {
         // public function testSaveMaker_insert(){
-
-        if (DB_TYPE != 'pgsql') { // postgresqlだとどうしてもDBエラーになるのでとりいそぎ回避
-            $sqlVal = [
-                'name' => 'フジスリー',
-                'creator_id' => '1',
-                'del_flg' => '0',
-            ];
-
-            $maker_id = $this->objHelperMaker->saveMaker($sqlVal);
-
-            $this->expected = [
-                'name' => 'フジスリー',
-                'rank' => '5',
-                'creator_id' => '1',
-                'del_flg' => '0',
-            ];
-
-            $arrRet = $this->objHelperMaker->getMaker($maker_id);
-
-            $this->actual = Test_Utils::mapArray($arrRet,
-                [
-                    'name',
-                    'rank',
-                    'creator_id',
-                    'del_flg',
-                ]
-            );
-
-            $this->verify();
+        if (DB_TYPE == 'pgsql') {
+            $this->markTestSkipped('postgresqlだとどうしてもDBエラーになるのでスキップ');
         }
+
+        $sqlVal = [
+            'name' => 'フジスリー',
+            'creator_id' => '1',
+            'del_flg' => '0',
+        ];
+
+        $maker_id = $this->objHelperMaker->saveMaker($sqlVal);
+
+        $this->expected = [
+            'name' => 'フジスリー',
+            'rank' => '5',
+            'creator_id' => '1',
+            'del_flg' => '0',
+        ];
+
+        $arrRet = $this->objHelperMaker->getMaker($maker_id);
+
+        $this->actual = Test_Utils::mapArray($arrRet,
+            [
+                'name',
+                'rank',
+                'creator_id',
+                'del_flg',
+            ]
+        );
+
+        $this->verify();
     }
 }

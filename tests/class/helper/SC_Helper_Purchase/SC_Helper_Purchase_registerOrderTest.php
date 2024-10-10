@@ -39,7 +39,7 @@ class SC_Helper_Purchase_registerOrderTest extends SC_Helper_Purchase_TestBase
     private $order_ids = [];
     private $helper;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->customer_ids = $this->setUpCustomer();
@@ -47,7 +47,7 @@ class SC_Helper_Purchase_registerOrderTest extends SC_Helper_Purchase_TestBase
         $this->helper = new SC_Helper_Purchase_registerOrderMock();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
@@ -142,50 +142,51 @@ class SC_Helper_Purchase_registerOrderTest extends SC_Helper_Purchase_TestBase
 
     public function testRegisterOrder受注IDが未指定の場合新たにIDが発行される()
     {
-        if (DB_TYPE != 'pgsql') { // postgresqlだとどうしてもDBエラーになるのでとりいそぎ回避
-            $order_id = '';
-            $arrParams = [ // 顧客IDも未指定
-                'status' => '2',
-                'add_point' => 100,
-                'use_point' => 200,
-                'order_name01' => '受注情報03',
-            ];
+        if (DB_TYPE == 'pgsql') {
+            $this->markTestSkipped('postgresqlだとどうしてもDBエラーになるのでスキップ');
+        }
+        $order_id = '';
+        $arrParams = [ // 顧客IDも未指定
+            'status' => '2',
+            'add_point' => 100,
+            'use_point' => 200,
+            'order_name01' => '受注情報03',
+        ];
 
-            // SEQの値を取得
-            $new_order_id = $this->helper->getNextOrderID() + 1;
+        // SEQの値を取得
+        $new_order_id = $this->helper->getNextOrderID() + 1;
 
-            $this->helper->registerOrder($order_id, $arrParams);
+        $this->helper->registerOrder($order_id, $arrParams);
 
-            $this->expected = [
-                'sfUpdateOrderStatus' => [
+        $this->expected = [
+            'sfUpdateOrderStatus' => [
                 'order_id' => $new_order_id,
                 'status' => '2',
                 'add_point' => 100,
                 'use_point' => 200,
-                ],
-                'sfUpdateOrderNameCol' => $new_order_id,
-                'count' => '3',
-                'content' => [
+            ],
+            'sfUpdateOrderNameCol' => $new_order_id,
+            'count' => '3',
+            'content' => [
                 'order_id' => $new_order_id,
                 'customer_id' => '0',
                 'status' => null,         // ここではsfUpdateOrderStatusをモックにしているので更新されない
                 'add_point' => '100',
                 'use_point' => '200',
                 'order_name01' => '受注情報03',
-                ],
-            ];
-            $this->actual = $_SESSION['testResult'];
-            $this->actual['count'] = $this->objQuery->count('dtb_order');
-            $result = $this->objQuery->select(
-                'order_id, customer_id, status, order_name01, add_point, use_point',
-                'dtb_order',
-                'order_id = ?',
-                [$new_order_id]
-            );
-            $this->actual['content'] = $result[0];
+            ],
+        ];
+        $this->actual = $_SESSION['testResult'];
+        $this->actual['count'] = $this->objQuery->count('dtb_order');
+        $result = $this->objQuery->select(
+            'order_id, customer_id, status, order_name01, add_point, use_point',
+            'dtb_order',
+            'order_id = ?',
+            [$new_order_id]
+        );
+        $this->actual['content'] = $result[0];
 
-            $this->verify();
-        }
+        $this->verify();
     }
 
     // ////////////////////////////////////////

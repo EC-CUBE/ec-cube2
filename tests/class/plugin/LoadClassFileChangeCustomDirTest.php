@@ -5,7 +5,7 @@
  */
 class LoadClassFileChangeCustomDirTest extends Common_TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         // ATTENTION プラグインをロードする前にオートローディングが実行されると、 loadClassFileChange が無効になってしまうため parent::setUp() は実行しない
         $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);

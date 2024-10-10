@@ -25,7 +25,7 @@ class SC_CheckError_createParamTest extends SC_CheckError_AbstractTestCase
 {
     protected $old_reporting_level;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->old_reporting_level = error_reporting();
@@ -35,7 +35,7 @@ class SC_CheckError_createParamTest extends SC_CheckError_AbstractTestCase
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         error_reporting($this->old_reporting_level);

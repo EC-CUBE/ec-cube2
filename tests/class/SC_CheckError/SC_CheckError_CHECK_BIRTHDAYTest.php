@@ -17,7 +17,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
     /** @var \DateTime */
     protected $targetDateTime;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         /** @var Faker\Generator $faker */
         $faker = Faker\Factory::create('ja_JP');
@@ -105,7 +105,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         ];
         $this->scenario();
         $this->actual = $this->objErr->arrErr[self::FORM_NAME1];
-        $this->assertContains('以下で入力', $this->actual);
+        $this->assertStringContainsString('以下で入力', $this->actual);
     }
 
     public function testCHECKBIRTHDAYWithMinYear()
@@ -117,7 +117,7 @@ class SC_CheckError_CHECK_BIRTHDAYTest extends SC_CheckError_AbstractTestCase
         ];
         $this->scenario();
         $this->actual = $this->objErr->arrErr[self::FORM_NAME1];
-        $this->assertContains('以上で入力', $this->actual);
+        $this->assertStringContainsString('以上で入力', $this->actual);
     }
 
     /**

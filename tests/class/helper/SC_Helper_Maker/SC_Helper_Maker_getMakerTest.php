@@ -33,14 +33,14 @@ class SC_Helper_Maker_getMakerTest extends SC_Helper_Maker_TestBase
 {
     public $objHelperMaker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpMaker();
         $this->objHelperMaker = new SC_Helper_Maker_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

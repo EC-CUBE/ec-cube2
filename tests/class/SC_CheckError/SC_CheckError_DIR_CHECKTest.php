@@ -5,7 +5,7 @@ class SC_CheckError_DIR_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var string */
     protected $dirName;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'DIR_CHECK';
@@ -13,7 +13,7 @@ class SC_CheckError_DIR_CHECKTest extends SC_CheckError_AbstractTestCase
         mkdir($this->dirName);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if (is_dir($this->dirName)) {
             rmdir($this->dirName);

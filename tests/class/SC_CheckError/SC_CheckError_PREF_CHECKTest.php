@@ -7,7 +7,7 @@ class SC_CheckError_PREF_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $pref_id;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'PREF_CHECK';

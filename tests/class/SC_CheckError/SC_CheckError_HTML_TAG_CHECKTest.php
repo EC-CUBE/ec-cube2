@@ -26,7 +26,7 @@ class SC_CheckError_HTML_TAG_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var array */
     protected $arrAllowedTag;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $masterData = new SC_DB_MasterData_Ex();

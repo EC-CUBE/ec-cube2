@@ -38,7 +38,7 @@ class SC_Helper_Purchase_cleanupSessionTest extends SC_Helper_Purchase_TestBase
     /** @var int */
     private $product_class_id2;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $product_id1 = $this->objGenerator->createProduct(null, 3, PRODUCT_TYPE_NORMAL);
@@ -47,7 +47,7 @@ class SC_Helper_Purchase_cleanupSessionTest extends SC_Helper_Purchase_TestBase
         $this->product_class_id2 = $this->objQuery->get('product_class_id', 'dtb_products_class', 'product_id = ? AND del_flg = 0', [$product_id2]);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

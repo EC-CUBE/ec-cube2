@@ -7,7 +7,7 @@ class SC_DisplayTest extends Common_TestCase
      */
     protected $objDisplay;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -70,7 +70,7 @@ class SC_DisplayTest extends Common_TestCase
         $this->assertTrue($this->objDisplay->response->containsHeader('test'));
 
         $expected = ECCUBE_VERSION;
-        $this->assertContains($expected, $this->objDisplay->response->body);
+        $this->assertStringContainsString($expected, $this->objDisplay->response->body);
         $this->objDisplay->response->setHeader(['Content-Type' => 'text/html']);
         $this->objDisplay->response->headerForDownload('test.csv');
         $this->objDisplay->response->setStatusCode(200);

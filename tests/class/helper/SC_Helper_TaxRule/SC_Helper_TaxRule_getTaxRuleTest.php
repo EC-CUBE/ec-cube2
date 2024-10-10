@@ -7,14 +7,14 @@ require_once $HOME.'/tests/class/helper/SC_Helper_TaxRule/SC_Helper_TaxRule_Test
 
 class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objTaxRule = new SC_Helper_TaxRule_Ex();
         $this->setUpTax();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

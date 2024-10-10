@@ -5,7 +5,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var string */
     protected $evaluation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'EVAL_CHECK';

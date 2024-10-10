@@ -4,10 +4,7 @@
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 ini_set('display_errors', 1);
 $HOME = realpath(__DIR__).'/../..';
-// TODO PHPUnit 4.8 で動作しないため一旦コメントアウト
-// require_once($HOME . "/tests/class/replace/SC_Display_Ex.php");
-// require_once($HOME . "/tests/class/replace/SC_Response_Ex.php");
-// require_once($HOME . "/tests/class/replace/SC_Utils_Ex.php");
+
 require_once $HOME.'/tests/class/test/util/Test_Utils.php';
 require_once $HOME.'/tests/class/test/util/User_Utils.php';
 
@@ -16,7 +13,7 @@ require_once $HOME.'/data/class/pages/LC_Page_Index.php';
  * 全テストケースの基底クラスです。
  * SC_Queryのテスト以外は基本的にこのクラスを継承して作成してください。
  */
-class Common_TestCase extends PHPUnit_Framework_TestCase
+class Common_TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * MDB2 をグローバル変数のバックアップ対象から除外する。
@@ -24,9 +21,9 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
      * @var array
      *
      * @see PHPUnit_Framework_TestCase::$backupGlobals
-     * @see PHPUnit_Framework_TestCase::$backupGlobalsBlacklist
+     * @see PHPUnit_Framework_TestCase::$backupGlobalsExcludeList
      */
-    protected $backupGlobalsBlacklist = [
+    protected $backupGlobalsExcludeList = [
         '_MDB2_databases',
         '_MDB2_dsninfo_default',
     ];
@@ -42,7 +39,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
     /** 実際の値 */
     protected $actual;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);
         $this->objQuery->begin();
@@ -52,7 +49,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
         }
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->objQuery->rollback();
         $this->objQuery = null;
@@ -64,7 +61,7 @@ class Common_TestCase extends PHPUnit_Framework_TestCase
      */
     protected function verify($message = null)
     {
-        $this->assertEquals($this->expected, $this->actual, $message);
+        $this->assertEquals($this->expected, $this->actual, $message ?? '');
     }
 
     /**

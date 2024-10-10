@@ -2,7 +2,7 @@
 
 class SC_CheckError_KANA_CHECKTest extends SC_CheckError_AbstractTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'KANA_CHECK';

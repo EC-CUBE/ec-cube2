@@ -35,7 +35,7 @@ class SC_Utils_sfCopyDirTest extends Common_TestCase
 {
     public static $TMP_DIR;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // parent::setUp();
         self::$TMP_DIR = realpath(__DIR__).'/../../../tmp';
@@ -43,7 +43,7 @@ class SC_Utils_sfCopyDirTest extends Common_TestCase
         mkdir(self::$TMP_DIR, 0777, true);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // parent::tearDown();
     }

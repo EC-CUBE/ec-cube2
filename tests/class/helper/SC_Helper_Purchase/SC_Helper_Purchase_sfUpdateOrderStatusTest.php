@@ -39,7 +39,7 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
     private $order_ids = [];
     private $helper;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->customer_ids = $this->setUpCustomer();
@@ -47,7 +47,7 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         $this->helper = new SC_Helper_Purchase_sfUpdateOrderStatusMock();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

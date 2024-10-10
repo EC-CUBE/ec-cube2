@@ -37,7 +37,7 @@ class SC_Utils_sfArrKeyValueTest extends Common_TestCase
     public $keyname;
     public $valuename;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // parent::setUp();
 
@@ -51,7 +51,7 @@ class SC_Utils_sfArrKeyValueTest extends Common_TestCase
         $this->valuename = 'testvalue';
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // parent::tearDown();
     }

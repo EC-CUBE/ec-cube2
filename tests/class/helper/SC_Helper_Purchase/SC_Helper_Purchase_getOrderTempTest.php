@@ -40,7 +40,7 @@ class SC_Helper_Purchase_getOrderTempTest extends SC_Helper_Purchase_TestBase
     /** @var array */
     private $order_temp_ids = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->customer_ids = $this->setUpCustomer();
@@ -48,7 +48,7 @@ class SC_Helper_Purchase_getOrderTempTest extends SC_Helper_Purchase_TestBase
         $this->order_temp_ids = $this->setUpOrderTemp($this->order_ids);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

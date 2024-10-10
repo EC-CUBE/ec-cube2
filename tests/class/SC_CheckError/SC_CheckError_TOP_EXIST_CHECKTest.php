@@ -9,7 +9,7 @@ class SC_CheckError_TOP_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var string */
     public const FORM_NAME3 = 'day';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'TOP_EXIST_CHECK';
