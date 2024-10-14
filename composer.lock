@@ -72,16 +72,16 @@
         },
         {
             "name": "nanasess/mdb2",
-            "version": "2.5.0",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nanasess/MDB2.git",
-                "reference": "4f079c71ca0422d8c1ccafa66e4aaaf4ef5dc725"
+                "reference": "7bec1c13bf4c2c1cabf42d1d7fadcc344c0fb24a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/MDB2/zipball/4f079c71ca0422d8c1ccafa66e4aaaf4ef5dc725",
-                "reference": "4f079c71ca0422d8c1ccafa66e4aaaf4ef5dc725",
+                "url": "https://api.github.com/repos/nanasess/MDB2/zipball/7bec1c13bf4c2c1cabf42d1d7fadcc344c0fb24a",
+                "reference": "7bec1c13bf4c2c1cabf42d1d7fadcc344c0fb24a",
                 "shasum": ""
             },
             "require": {
@@ -117,9 +117,9 @@
                 "orm"
             ],
             "support": {
-                "source": "https://github.com/nanasess/MDB2/tree/2.5.0"
+                "source": "https://github.com/nanasess/MDB2/tree/2.5.1"
             },
-            "time": "2022-04-11T06:56:18+00:00"
+            "time": "2024-10-08T03:05:24+00:00"
         },
         {
             "name": "nanasess/php8-compat",
