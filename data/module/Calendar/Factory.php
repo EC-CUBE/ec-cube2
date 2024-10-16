@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 //
 // +----------------------------------------------------------------------+
@@ -20,12 +21,12 @@
 //
 // $Id: Factory.php,v 1.3 2005/10/22 10:08:47 quipo Exp $
 //
-/**
+/*
  * @package Calendar
  * @version $Id$
  */
 
-/**
+/*
  * Allows Calendar include path to be redefined
  * @ignore
  */
@@ -52,13 +53,12 @@ require_once CALENDAR_ROOT.'Calendar.php';
  * It defaults to building Calendar_Month objects.<br>
  * Use the constract CALENDAR_FIRST_DAY_OF_WEEK to control the first day of the week
  * for Month or Week objects (e.g. 0 = Sunday, 6 = Saturday)
- * @package Calendar
- * @access protected
  */
 class Calendar_Factory
 {
     /**
      * Creates a calendar object given the type and units
+     *
      * @param string class of calendar object to create
      * @param int year
      * @param int month
@@ -66,17 +66,18 @@ class Calendar_Factory
      * @param int hour
      * @param int minute
      * @param int second
+     *
      * @return object subclass of Calendar
-     * @access public
      * @static
      */
-    static function create($type, $y = 2000, $m = 1, $d = 1, $h = 0, $i = 0, $s = 0)
+    public static function create($type, $y = 2000, $m = 1, $d = 1, $h = 0, $i = 0, $s = 0)
     {
         $firstDay = defined('CALENDAR_FIRST_DAY_OF_WEEK') ? CALENDAR_FIRST_DAY_OF_WEEK : 1;
         switch ($type) {
             case 'Day':
                 require_once CALENDAR_ROOT.'Day.php';
-                return new Calendar_Day($y,$m,$d);
+
+                return new Calendar_Day($y, $m, $d);
             case 'Month':
                 // Set default state for which month type to build
                 if (!defined('CALENDAR_MONTH_STATE')) {
@@ -97,49 +98,58 @@ class Calendar_Factory
                         $class = 'Calendar_Month';
                         break;
                 }
+
                 return new $class($y, $m, $firstDay);
             case 'Week':
                 require_once CALENDAR_ROOT.'Week.php';
+
                 return new Calendar_Week($y, $m, $d, $firstDay);
             case 'Hour':
                 require_once CALENDAR_ROOT.'Hour.php';
+
                 return new Calendar_Hour($y, $m, $d, $h);
             case 'Minute':
                 require_once CALENDAR_ROOT.'Minute.php';
+
                 return new Calendar_Minute($y, $m, $d, $h, $i);
             case 'Second':
                 require_once CALENDAR_ROOT.'Second.php';
-                return new Calendar_Second($y,$m,$d,$h,$i,$s);
+
+                return new Calendar_Second($y, $m, $d, $h, $i, $s);
             case 'Year':
                 require_once CALENDAR_ROOT.'Year.php';
+
                 return new Calendar_Year($y);
             default:
                 require_once 'PEAR.php';
                 PEAR::raiseError(
                     'Calendar_Factory::create() unrecognised type: '.$type, null, PEAR_ERROR_TRIGGER,
                     E_USER_NOTICE, 'Calendar_Factory::create()');
+
                 return false;
         }
     }
+
     /**
      * Creates an instance of a calendar object, given a type and timestamp
+     *
      * @param string type of object to create
      * @param mixed timestamp (depending on Calendar engine being used)
+     *
      * @return object subclass of Calendar
-     * @access public
      * @static
      */
-    static function & createByTimestamp($type, $stamp)
+    public static function &createByTimestamp($type, $stamp)
     {
-        $cE = & Calendar_Engine_Factory::getEngine();
+        $cE = &Calendar_Engine_Factory::getEngine();
         $y = $cE->stampToYear($stamp);
         $m = $cE->stampToMonth($stamp);
         $d = $cE->stampToDay($stamp);
         $h = $cE->stampToHour($stamp);
         $i = $cE->stampToMinute($stamp);
         $s = $cE->stampToSecond($stamp);
-        $cal = Calendar_Factory::create($type, $y, $m, $d, $h, $i, $s);
+        $cal = self::create($type, $y, $m, $d, $h, $i, $s);
+
         return $cal;
     }
 }
-?>

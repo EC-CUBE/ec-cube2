@@ -25,6 +25,7 @@
  * HttpResponse を扱うクラス.
  *
  * @author Ryuichi Tokugami
+ *
  * @version $Id$
  */
 class SC_Response
@@ -32,15 +33,15 @@ class SC_Response
     /**
      * コンテンツタイプ
      * Enter description here ...
+     *
      * @var unknown_type
      */
     public $contentType;
     public $body;
     public $statusCode;
-    public $header = array();
+    public $header = [];
 
     /**
-     *
      * Enter description here ...
      */
     public $encoding;
@@ -104,10 +105,10 @@ class SC_Response
                 if (array_key_exists('object', $backtrace)
                     && is_object($backtrace['object'])) {
                     $parent_class_name = get_parent_class($backtrace['object']);
-                    $objPlugin->doAction($parent_class_name . '_action_' . $backtrace['object']->getMode(), array($backtrace['object']));
+                    $objPlugin->doAction($parent_class_name.'_action_'.$backtrace['object']->getMode(), [$backtrace['object']]);
                     $class_name = get_class($backtrace['object']);
                     if ($class_name != $parent_class_name) {
-                        $objPlugin->doAction($class_name . '_action_' . $backtrace['object']->getMode(), array($backtrace['object']));
+                        $objPlugin->doAction($class_name.'_action_'.$backtrace['object']->getMode(), [$backtrace['object']]);
                     }
                     break;
                 }
@@ -125,14 +126,16 @@ class SC_Response
      * 1. 引数 $inheritQueryString が true の場合、$_SERVER['QUERY_STRING']
      * 2. $location に含まれる クエリ
      * 3. 引数 $arrQueryString
+     *
      * @param  string    $location           「url-path」「現在のURLからのパス」「URL」のいずれか。「../」の解釈は行なわない。
      * @param  array     $arrQueryString     URL に付加するクエリ
      * @param  bool      $inheritQueryString 現在のリクエストのクエリを継承するか
      * @param  bool|null $useSsl             true:HTTPSを強制, false:HTTPを強制, null:継承
+     *
      * @return void
      * @static
      */
-    public static function sendRedirect($location, $arrQueryString = array(), $inheritQueryString = false, $useSsl = null)
+    public static function sendRedirect($location, $arrQueryString = [], $inheritQueryString = false, $useSsl = null)
     {
         // ローカルフックポイント処理
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
@@ -143,11 +146,11 @@ class SC_Response
             foreach ($arrBacktrace as $backtrace) {
                 if (array_key_exists('object', $backtrace) && is_object($backtrace['object']) && method_exists($backtrace['object'], 'getMode')) {
                     $parent_class_name = get_parent_class($backtrace['object']);
-                    $objPlugin->doAction($parent_class_name . '_action_' . $backtrace['object']->getMode(), array($backtrace['object']));
+                    $objPlugin->doAction($parent_class_name.'_action_'.$backtrace['object']->getMode(), [$backtrace['object']]);
 
                     $class_name = get_class($backtrace['object']);
                     if ($class_name != $parent_class_name) {
-                        $objPlugin->doAction($class_name . '_action_' . $backtrace['object']->getMode(), array($backtrace['object']));
+                        $objPlugin->doAction($class_name.'_action_'.$backtrace['object']->getMode(), [$backtrace['object']]);
                     }
 
                     break;
@@ -155,16 +158,16 @@ class SC_Response
                     $pattern = '/^[a-zA-Z0-9_]+$/';
                     $mode = null;
                     if (isset($_GET['mode']) && preg_match($pattern, $_GET['mode'])) {
-                        $mode =  $_GET['mode'];
+                        $mode = $_GET['mode'];
                     } elseif (isset($_POST['mode']) && preg_match($pattern, $_POST['mode'])) {
                         $mode = $_POST['mode'];
                     }
                     $parent_class_name = get_parent_class($backtrace['object']);
-                    $objPlugin->doAction($parent_class_name . '_action_' . $mode, array($backtrace['object']));
+                    $objPlugin->doAction($parent_class_name.'_action_'.$mode, [$backtrace['object']]);
 
                     $class_name = get_class($backtrace['object']);
                     if ($class_name != $parent_class_name) {
-                        $objPlugin->doAction($class_name . '_action_' . $mode, array($backtrace['object']));
+                        $objPlugin->doAction($class_name.'_action_'.$mode, [$backtrace['object']]);
                     }
 
                     break;
@@ -183,12 +186,12 @@ class SC_Response
             $url = $location;
             if (is_bool($useSsl)) {
                 if ($useSsl) {
-                    $pattern = '/^' . preg_quote(HTTP_URL, '/') . '(.*)/';
-                    $replacement = HTTPS_URL . '\1';
+                    $pattern = '/^'.preg_quote(HTTP_URL, '/').'(.*)/';
+                    $replacement = HTTPS_URL.'\1';
                     $url = preg_replace($pattern, $replacement, $url);
                 } else {
-                    $pattern = '/^' . preg_quote(HTTPS_URL, '/') . '(.*)/';
-                    $replacement = HTTP_URL . '\1';
+                    $pattern = '/^'.preg_quote(HTTPS_URL, '/').'(.*)/';
+                    $replacement = HTTP_URL.'\1';
                     $url = preg_replace($pattern, $replacement, $url);
                 }
             }
@@ -198,12 +201,12 @@ class SC_Response
                 $useSsl = SC_Utils_Ex::sfIsHTTPS();
             }
             $netUrl = new Net_URL($useSsl ? HTTPS_URL : HTTP_URL);
-            $netUrl->path = dirname($_SERVER['SCRIPT_NAME']) . '/' . $location;
+            $netUrl->path = dirname($_SERVER['SCRIPT_NAME']).'/'.$location;
             $url = $netUrl->getUrl();
         }
 
         if (!SC_Utils_Ex::isInternalUrl($url)) {
-            trigger_error('アプリケーション外へのリダイレクトは扱わない: ' . var_export($url, true), E_USER_ERROR);
+            trigger_error('アプリケーション外へのリダイレクトは扱わない: '.var_export($url, true), E_USER_ERROR);
         }
 
         $netUrl = new Net_URL($url);
@@ -226,7 +229,7 @@ class SC_Response
             $netUrl->addQueryString(session_name(), session_id());
         }
 
-        /**
+        /*
          * transactionid を受け取ったリクエストに関して、値を継承してリダイレクトする。
          * @see https://github.com/EC-CUBE/ec-cube2/issues/922
          */
@@ -252,26 +255,28 @@ class SC_Response
      * /html/ からのパスを指定してリダイレクトする
      *
      * FIXME メソッド名を分かりやすくしたい。現状だと、引数が「url-path より後」とも「url-path」とも読み取れる。(前者が意図したいところ)
+     *
      * @param  string $location /html/ からのパス。先頭に / を含むかは任意。「../」の解釈は行なわない。
+     *
      * @return void
      * @static
      */
-    public static function sendRedirectFromUrlPath($location, $arrQueryString = array(), $inheritQueryString = false, $useSsl = null)
+    public static function sendRedirectFromUrlPath($location, $arrQueryString = [], $inheritQueryString = false, $useSsl = null)
     {
-        $location = ROOT_URLPATH . ltrim($location, '/');
+        $location = ROOT_URLPATH.ltrim($location, '/');
         SC_Response_Ex::sendRedirect($location, $arrQueryString, $inheritQueryString, $useSsl);
     }
 
     /**
      * @static
      */
-    public static function reload($arrQueryString = array(), $removeQueryString = false)
+    public static function reload($arrQueryString = [], $removeQueryString = false)
     {
         // 現在の URL を取得
         $netUrl = new Net_URL($_SERVER['REQUEST_URI']);
 
         if ($removeQueryString) {
-            $netUrl->querystring = array();
+            $netUrl->querystring = [];
         }
 
         SC_Response_Ex::sendRedirect($netUrl->getURL(), $arrQueryString);
@@ -290,15 +295,21 @@ class SC_Response
     /**
      * HTTPステータスコードを送出する。
      *
-     * @param  integer $statusCode HTTPステータスコード
+     * @param  int $statusCode HTTPステータスコード
+     *
      * @return void
+     *
      * @author Seasoft (新規作成)
+     *
      * @see Moony_Action::status() (オリジナル)
-     * @link http://moony.googlecode.com/ (オリジナル)
+     * @see http://moony.googlecode.com/ (オリジナル)
+     *
      * @author YAMAOKA Hiroyuki (オリジナル)
      * @copyright 2005-2008 YAMAOKA Hiroyuki (オリジナル)
      * @license http://opensource.org/licenses/bsd-license.php New BSD License (オリジナル)
-     * @link http://ja.wikipedia.org/wiki/HTTP%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89 (邦訳)
+     *
+     * @see http://ja.wikipedia.org/wiki/HTTP%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89 (邦訳)
+     *
      * @license http://www.gnu.org/licenses/fdl.html GFDL (邦訳)
      * @static
      */
@@ -306,7 +317,7 @@ class SC_Response
     {
         $protocol = $_SERVER['SERVER_PROTOCOL'];
         $httpVersion = (strpos($protocol, '1.1') !== false) ? '1.1' : '1.0';
-        $messages = array(
+        $messages = [
             // Informational 1xx                        // 【情報】
             100 => 'Continue',                          // 継続
             101 => 'Switching Protocols',               // プロトコル切替え
@@ -353,8 +364,8 @@ class SC_Response
             503 => 'Service Unavailable',               // サービス利用不可
             504 => 'Gateway Timeout',                   // ゲートウェイタイムアウト
             505 => 'HTTP Version Not Supported',        // サポートしていないHTTPバージョン
-            509 => 'Bandwidth Limit Exceeded'           // 帯域幅制限超過
-        );
+            509 => 'Bandwidth Limit Exceeded',           // 帯域幅制限超過
+        ];
         if (isset($messages[$statusCode])) {
             if ($httpVersion !== '1.1') {
                 // HTTP/1.0
@@ -369,9 +380,11 @@ class SC_Response
      * ダウンロード用の HTTP ヘッダを出力する
      *
      * @param string $file_name
+     *
      * @return void
      */
-    public static function headerForDownload($file_name) {
+    public static function headerForDownload($file_name)
+    {
         header("Content-disposition: attachment; filename={$file_name}");
         header("Content-type: application/octet-stream; name={$file_name}");
         header('Cache-Control: ');
@@ -381,7 +394,8 @@ class SC_Response
     /**
      * exit をスキップする場合はオーバーライドすること.
      */
-    protected static function exitWrapper() {
+    protected static function exitWrapper()
+    {
         exit;
     }
 }

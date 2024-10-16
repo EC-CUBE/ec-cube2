@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ご注文完了 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Shopping_Complete extends LC_Page_Ex
@@ -71,7 +70,7 @@ class LC_Page_Shopping_Complete extends LC_Page_Ex
     /**
      * 決済モジュールから遷移する場合があるため, トークンチェックしない.
      *
-     * @param  boolean $is_admin 管理画面でエラー表示をする場合 true
+     * @param  bool $is_admin 管理画面でエラー表示をする場合 true
      */
     public function doValidToken($is_admin = false)
     {

@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * パスワード発行 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Forgot extends LC_Page_Ex
@@ -132,7 +131,6 @@ class LC_Page_Forgot extends LC_Page_Ex
         if ($this->device_type == DEVICE_TYPE_PC) {
             $this->setTemplate($this->tpl_mainpage);
         }
-
     }
 
     /**
@@ -140,16 +138,17 @@ class LC_Page_Forgot extends LC_Page_Ex
      *
      * @param  array  $arrForm     フォーム入力値
      * @param  array  $arrReminder リマインダー質問リスト
+     *
      * @return string エラー文字列 問題が無ければNULL
      */
     public function lfCheckForgotMail(&$arrForm, &$arrReminder)
     {
-        $errmsg = NULL;
+        $errmsg = null;
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = '(email = ? OR email_mobile = ?) AND name01 = ? AND name02 = ? AND del_flg = 0';
-        $arrVal = array($arrForm['email'], $arrForm['email'], $arrForm['name01'], $arrForm['name02']);
+        $arrVal = [$arrForm['email'], $arrForm['email'], $arrForm['name01'], $arrForm['name02']];
         $result = $objQuery->select('reminder, status', 'dtb_customer', $where, $arrVal);
-        if (isset($result[0]['reminder']) and isset($arrReminder[$result[0]['reminder']])) {
+        if (isset($result[0]['reminder']) && isset($arrReminder[$result[0]['reminder']])) {
             // 会員状態の確認
             if ($result[0]['status'] == '2') {
                 // 正会員
@@ -170,16 +169,17 @@ class LC_Page_Forgot extends LC_Page_Ex
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
      * @param  array $device_type  デバイスタイプ
+     *
      * @return void
      */
     public function lfInitMailCheckParam(&$objFormParam, $device_type)
     {
-        $objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
         if ($device_type === DEVICE_TYPE_MOBILE) {
-            $objFormParam->addParam('メールアドレス', 'email', null, 'a', array('EXIST_CHECK', 'EMAIL_CHECK', 'NO_SPTAB', 'EMAIL_CHAR_CHECK', 'MOBILE_EMAIL_CHECK'));
+            $objFormParam->addParam('メールアドレス', 'email', null, 'a', ['EXIST_CHECK', 'EMAIL_CHECK', 'NO_SPTAB', 'EMAIL_CHAR_CHECK', 'MOBILE_EMAIL_CHECK']);
         } else {
-            $objFormParam->addParam('メールアドレス', 'email', null, 'a', array('NO_SPTAB', 'EXIST_CHECK', 'EMAIL_CHECK', 'SPTAB_CHECK', 'EMAIL_CHAR_CHECK'));
+            $objFormParam->addParam('メールアドレス', 'email', null, 'a', ['NO_SPTAB', 'EXIST_CHECK', 'EMAIL_CHECK', 'SPTAB_CHECK', 'EMAIL_CHAR_CHECK']);
         }
 
         return;
@@ -190,6 +190,7 @@ class LC_Page_Forgot extends LC_Page_Ex
      *
      * @param  array  $arrForm     フォーム入力値
      * @param  array  $arrReminder リマインダー質問リスト
+     *
      * @return string エラー文字列 問題が無ければNULL
      */
     public function lfCheckForgotSecret(&$arrForm, &$arrReminder)
@@ -199,13 +200,13 @@ class LC_Page_Forgot extends LC_Page_Ex
         $cols = 'customer_id, reminder, reminder_answer, salt';
         $table = 'dtb_customer';
         $where = '(email = ? OR email_mobile = ?)'
-                    . ' AND name01 = ? AND name02 = ?'
-                    . ' AND status = 2 AND del_flg = 0';
-        $arrVal = array($arrForm['email'], $arrForm['email'],
-                            $arrForm['name01'], $arrForm['name02']);
+                    .' AND name01 = ? AND name02 = ?'
+                    .' AND status = 2 AND del_flg = 0';
+        $arrVal = [$arrForm['email'], $arrForm['email'],
+                            $arrForm['name01'], $arrForm['name02'], ];
         $result = $objQuery->select($cols, $table, $where, $arrVal);
-        if (isset($result[0]['reminder']) and isset($arrReminder[$result[0]['reminder']])
-                and $result[0]['reminder'] == $arrForm['reminder']) {
+        if (isset($result[0]['reminder']) && isset($arrReminder[$result[0]['reminder']])
+                && $result[0]['reminder'] == $arrForm['reminder']) {
             $is_authorized = false;
             if (empty($result[0]['salt'])) {
                 // 旧バージョン(2.11未満)からの移行を考慮
@@ -213,7 +214,7 @@ class LC_Page_Forgot extends LC_Page_Ex
                     $is_authorized = true;
                 }
             } elseif (SC_Utils_Ex::sfIsMatchHashPassword($arrForm['reminder_answer'],
-                    $result[0]['reminder_answer'], $result[0]['salt'])) {
+                $result[0]['reminder_answer'], $result[0]['salt'])) {
                 $is_authorized = true;
             }
 
@@ -227,7 +228,7 @@ class LC_Page_Forgot extends LC_Page_Ex
                     $CONF = $objDb->sfGetBasisData();
                     $this->lfSendMail($CONF, $arrForm['email'], $arrForm['name01'], $new_password);
                 }
-                $sqlval = array();
+                $sqlval = [];
                 $sqlval['password'] = $new_password;
                 SC_Helper_Customer_Ex::sfEditCustomerData($sqlval, $result[0]['customer_id']);
                 $arrForm['new_password'] = $new_password;
@@ -236,9 +237,9 @@ class LC_Page_Forgot extends LC_Page_Ex
                 $errmsg = '秘密の質問が一致しませんでした。';
             }
         } else {
-            //不正なアクセス リマインダー値が前画面と異なる。
+            // 不正なアクセス リマインダー値が前画面と異なる。
             // 新リファクタリング基準ではここで遷移は不許可なのでエラー表示
-            //SC_Utils_Ex::sfDispSiteError(PAGE_ERROR, '', true);
+            // SC_Utils_Ex::sfDispSiteError(PAGE_ERROR, '', true);
             $errmsg = '秘密の質問が一致しませんでした。';
         }
 
@@ -250,6 +251,7 @@ class LC_Page_Forgot extends LC_Page_Ex
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
      * @param  array $device_type  デバイスタイプ
+     *
      * @return void
      */
     public function lfInitSecretCheckParam(&$objFormParam, $device_type)
@@ -257,8 +259,8 @@ class LC_Page_Forgot extends LC_Page_Ex
         // メールチェックと同等のチェックを再度行う
         $this->lfInitMailCheckParam($objFormParam, $device_type);
         // 秘密の質問チェックの追加
-        $objFormParam->addParam('パスワード確認用の質問', 'reminder', STEXT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('パスワード確認用の質問の答え', 'reminder_answer', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('パスワード確認用の質問', 'reminder', STEXT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('パスワード確認用の質問の答え', 'reminder_answer', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
 
         return;
     }
@@ -270,6 +272,7 @@ class LC_Page_Forgot extends LC_Page_Ex
      * @param  string $email         送信先メールアドレス
      * @param  string $customer_name 送信先氏名
      * @param  string $new_password  変更後の新パスワード
+     *
      * @return void
      *
      * FIXME: メールテンプレート編集の方に足すのが望ましい
@@ -289,16 +292,16 @@ class LC_Page_Forgot extends LC_Page_Ex
         // メール送信オブジェクトによる送信処理
         $objMail = new SC_SendMail_Ex();
         $objMail->setItem(
-            '', //宛先
+            '', // 宛先
             $objHelperMail->sfMakeSubject('パスワードを変更いたしました。'),
-            $toCustomerMail, //本文
-            $CONF['email03'], //配送元アドレス
+            $toCustomerMail, // 本文
+            $CONF['email03'], // 配送元アドレス
             $CONF['shop_name'], // 配送元名
             $CONF['email03'], // reply to
-            $CONF['email04'], //return_path
+            $CONF['email04'], // return_path
             $CONF['email04'] // errors_to
-            );
-        $objMail->setTo($email, $customer_name . ' 様');
+        );
+        $objMail->setTo($email, $customer_name.' 様');
         $objMail->sendMail();
 
         return;

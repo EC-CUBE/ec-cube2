@@ -12,11 +12,12 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
  * @copyright  2003-2005 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
 
 /** SOAP_Server */
@@ -34,17 +35,15 @@ require_once 'Mail/mimeDecode.php';
  * message; the message, complete with headers, must be passed in as a
  * parameter to the service function call.
  *
- * @access   public
- * @package  SOAP
  * @author   Shane Caraveo <shane@php.net>
  */
-class SOAP_Server_Email extends SOAP_Server {
+class SOAP_Server_Email extends SOAP_Server
+{
+    public $headers = [];
 
-    var $headers = array();
-
-    function SOAP_Server_Email($send_response = true)
+    public function __construct($send_response = true)
     {
-        parent::SOAP_Server();
+        parent::__construct();
         $this->send_response = $send_response;
     }
 
@@ -53,13 +52,11 @@ class SOAP_Server_Email extends SOAP_Server {
      *
      * TODO: use PEAR email classes
      *
-     * @return boolean
-     * @access private
+     * @return bool
      */
-    function _parseEmail(&$data)
+    public function _parseEmail(&$data)
     {
         if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $data, $match)) {
-
             if (preg_match_all('/^(.*?):\s+(.*)$/m', $match[1], $matches)) {
                 $hc = count($matches[0]);
                 for ($i = 0; $i < $hc; $i++) {
@@ -68,11 +65,12 @@ class SOAP_Server_Email extends SOAP_Server {
             }
 
             if (!stristr($this->headers['content-type'], 'text/xml')) {
-                    $this->_raiseSoapFault('Invalid Content Type', '', '', 'Client');
-                    return false;
+                $this->_raiseSoapFault('Invalid Content Type', '', '', 'Client');
+
+                return false;
             }
 
-            if (strcasecmp($this->headers['content-transfer-encoding'], 'base64')==0) {
+            if (strcasecmp($this->headers['content-transfer-encoding'], 'base64') == 0) {
                 /* Unfold lines. */
                 $enctext = preg_replace("/[\r|\n]/", '', $match[2]);
                 $data = base64_decode($enctext);
@@ -89,9 +87,9 @@ class SOAP_Server_Email extends SOAP_Server {
         return false;
     }
 
-    function client(&$data)
+    public function client(&$data)
     {
-        $attachments = array();
+        $attachments = [];
 
         /* If neither matches, we'll just try it anyway. */
         if (stristr($data, 'Content-Type: application/dime')) {
@@ -122,12 +120,12 @@ class SOAP_Server_Email extends SOAP_Server {
         return $client->parseResponse($data, $this->xml_encoding, $this->attachments);
     }
 
-    function service(&$data, $endpoint = '', $send_response = true,
-                     $dump = false)
+    public function service(&$data, $endpoint = '', $send_response = true,
+        $dump = false)
     {
         $this->endpoint = $endpoint;
-        $attachments = array();
-        $headers = array();
+        $attachments = [];
+        $headers = [];
 
         /* If neither matches, we'll just try it anyway. */
         if (stristr($data, 'Content-Type: application/dime')) {
@@ -154,7 +152,7 @@ class SOAP_Server_Email extends SOAP_Server {
         if ($this->soapfault) {
             $response = $this->soapfault->message();
         } else {
-            $soap_msg = $this->parseRequest($data,$attachments);
+            $soap_msg = $this->parseRequest($data, $attachments);
 
             /* Handle Mime or DIME encoding. */
             /* TODO: DIME Encoding should move to the transport, do it here
@@ -184,14 +182,14 @@ class SOAP_Server_Email extends SOAP_Server {
 
         if ($this->send_response) {
             if ($dump) {
-                print $response;
+                echo $response;
             } else {
                 $from = array_key_exists('reply-to', $this->headers) ? $this->headers['reply-to'] : $this->headers['from'];
 
-                $soap_transport =& SOAP_Transport::getTransport('mailto:' . $from, $this->response_encoding);
+                $soap_transport = &SOAP_Transport::getTransport('mailto:'.$from, $this->response_encoding);
                 $from = $this->endpoint ? $this->endpoint : $this->headers['to'];
                 $headers['In-Reply-To'] = $this->headers['message-id'];
-                $options = array('from' => $from, 'subject' => $this->headers['subject'], 'headers' => $headers);
+                $options = ['from' => $from, 'subject' => $this->headers['subject'], 'headers' => $headers];
                 $soap_transport->send($response, $options);
             }
         }

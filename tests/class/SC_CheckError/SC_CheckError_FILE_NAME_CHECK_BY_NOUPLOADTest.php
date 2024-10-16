@@ -23,45 +23,46 @@
 
 class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends SC_CheckError_AbstractTestCase
 {
-
-    public function setUp() {
+    protected function setUp(): void
+    {
         parent::setUp();
-        set_error_handler(function($errno, $errstr, $errfile, $errline) {
-            throw new RuntimeException($errstr . " on line " . $errline . " in file " . $errfile);
+        set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+            throw new RuntimeException($errstr.' on line '.$errline.' in file '.$errfile);
         });
         $this->target_func = 'FILE_NAME_CHECK_BY_NOUPLOAD';
     }
 
-    public function tearDown() {
+    protected function tearDown(): void
+    {
         restore_error_handler();
         parent::tearDown();
     }
 
     public function validValueProvider()
     {
-        return array(
-            array('a'),
-            array('012'),
-            array('abc012'),
-            array('a.txt'),
-            array('a-b.zip'),
-            array('a-b_c.tar.gz'),
-        );
+        return [
+            ['a'],
+            ['012'],
+            ['abc012'],
+            ['a.txt'],
+            ['a-b.zip'],
+            ['a-b_c.tar.gz'],
+        ];
     }
 
     public function invalidValueProvider()
     {
-        return array(
-            array("line1\nline2"),
-            array("a\x00b"),
-            array('a/b'),
-            array('a b'),
-            array('日本語'),
-            array('日 本 語'),
-        );
+        return [
+            ["line1\nline2"],
+            ["a\x00b"],
+            ['a/b'],
+            ['a b'],
+            ['日本語'],
+            ['日 本 語'],
+        ];
     }
 
-    public function testFILE_NAME_CHECK_BY_NOUPLOAD_空文字列の場合_エラーをセットしない()
+    public function testFILENAMECHECKBYNOUPLOAD空文字列の場合エラーをセットしない()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->scenario();
@@ -72,7 +73,7 @@ class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends SC_CheckError_Abstra
     /**
      * @dataProvider validValueProvider
      */
-    public function testFILE_NAME_CHECK_BY_NOUPLOAD_使用できない文字が含まれていない場合_エラーをセットしない($value)
+    public function testFILENAMECHECKBYNOUPLOAD使用できない文字が含まれていない場合エラーをセットしない($value)
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->scenario();
@@ -83,7 +84,7 @@ class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends SC_CheckError_Abstra
     /**
      * @dataProvider invalidValueProvider
      */
-    public function testFILE_NAME_CHECK_BY_NOUPLOAD_使用できない文字が含まれている場合_エラーをセットする($value)
+    public function testFILENAMECHECKBYNOUPLOAD使用できない文字が含まれている場合エラーをセットする($value)
     {
         $this->arrForm = [self::FORM_NAME => $value];
         $this->scenario();
@@ -92,14 +93,14 @@ class SC_CheckError_FILE_NAME_CHECK_BY_NOUPLOADTest extends SC_CheckError_Abstra
     }
 
     /**
-     * @depends testFILE_NAME_CHECK_BY_NOUPLOAD_使用できない文字が含まれている場合_エラーをセットする
+     * @depends testFILENAMECHECKBYNOUPLOAD使用できない文字が含まれている場合エラーをセットする
      */
-    public function testFILE_NAME_CHECK_BY_NOUPLOAD_他のエラーが既にセットされている場合_エラーを上書きしない()
+    public function testFILENAMECHECKBYNOUPLOAD他のエラーが既にセットされている場合エラーを上書きしない()
     {
         $this->arrForm = [self::FORM_NAME => 'a/b'];
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
         $this->objErr->arrErr[self::FORM_NAME] = $other_error = 'Unknown error.';
-        $this->objErr->doFunc(array('label', self::FORM_NAME) ,array('FILE_NAME_CHECK_BY_NOUPLOAD'));
+        $this->objErr->doFunc(['label', self::FORM_NAME], ['FILE_NAME_CHECK_BY_NOUPLOAD']);
 
         $this->expected = $other_error;
         $this->actual = $this->objErr->arrErr[self::FORM_NAME];

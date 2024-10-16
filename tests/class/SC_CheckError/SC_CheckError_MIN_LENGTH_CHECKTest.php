@@ -5,13 +5,13 @@ class SC_CheckError_MIN_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $minlength;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'MIN_LENGTH_CHECK';
     }
 
-    public function testMIN_LENGTH_CHECK()
+    public function testMINLENGTHCHECK()
     {
         $this->minlength = 5;
         $this->arrForm = [self::FORM_NAME => 'aあaa'];
@@ -21,8 +21,7 @@ class SC_CheckError_MIN_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testMIN_LENGTH_CHECKWithNoError()
+    public function testMINLENGTHCHECKWithNoError()
     {
         $this->minlength = 5;
         $this->arrForm = [self::FORM_NAME => 'aaaあaa'];
@@ -32,7 +31,7 @@ class SC_CheckError_MIN_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testMIN_LENGTH_CHECKWithEmpty()
+    public function testMINLENGTHCHECKWithEmpty()
     {
         $this->minlength = 5;
         $this->arrForm = [self::FORM_NAME => ''];
@@ -42,7 +41,7 @@ class SC_CheckError_MIN_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testMIN_LENGTH_CHECKWithNull()
+    public function testMINLENGTHCHECKWithNull()
     {
         $this->minlength = 5;
         $this->arrForm = [self::FORM_NAME => null];
@@ -62,4 +61,3 @@ class SC_CheckError_MIN_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->objErr->doFunc(['dummy', self::FORM_NAME, $this->minlength], [$this->target_func]);
     }
 }
-

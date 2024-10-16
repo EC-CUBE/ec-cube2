@@ -1,16 +1,14 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../../";
-require_once($HOME . "/tests/class/Common_TestCase.php");
-/**
- *
- */
+$HOME = realpath(__DIR__).'/../../../../';
+require_once $HOME.'/tests/class/Common_TestCase.php';
+
 class SC_Helper_Mail_TestBase extends Common_TestCase
 {
     /** @var int */
     protected $customer_id;
 
-    /** @var Faker\Generator $faker */
+    /** @var Faker\Generator */
     protected $faker;
 
     /** @var string */
@@ -25,8 +23,7 @@ class SC_Helper_Mail_TestBase extends Common_TestCase
     /** @var SC_Helper_Mail_Ex */
     protected $objHelperMail;
 
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->checkMailCatcherStatus();
@@ -35,7 +32,7 @@ class SC_Helper_Mail_TestBase extends Common_TestCase
         $this->faker = Faker\Factory::create('ja_JP');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }

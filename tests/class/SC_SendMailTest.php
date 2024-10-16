@@ -7,7 +7,7 @@ class SC_SendMailTest extends Common_TestCase
      */
     protected $objSendMail;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->checkMailCatcherStatus();
@@ -32,11 +32,11 @@ class SC_SendMailTest extends Common_TestCase
 
         $message = $this->getLastMailCatcherMessage();
         $this->assertEquals('件名', $message['subject']);
-        $this->assertContains('本文', $message['source']);
+        $this->assertStringContainsString('本文', $message['source']);
 
-        $this->assertContains('text/plain', $message['source']);
+        $this->assertStringContainsString('text/plain', $message['source']);
 
-        $this->assertContains('Return-Path: error-to@example.com', $message['source']);
+        $this->assertStringContainsString('Return-Path: error-to@example.com', $message['source']);
     }
 
     public function testSendHtmlMail()
@@ -52,9 +52,9 @@ class SC_SendMailTest extends Common_TestCase
 
         $message = $this->getLastMailCatcherMessage();
         $this->assertEquals('件名', $message['subject']);
-        $this->assertContains('<p>本文</p>', $message['source']);
+        $this->assertStringContainsString('<p>本文</p>', $message['source']);
 
-        $this->assertContains('text/html', $message['source']);
+        $this->assertStringContainsString('text/html', $message['source']);
     }
 
     public function testSetReturnPathToSendMail()
@@ -72,10 +72,10 @@ class SC_SendMailTest extends Common_TestCase
 
         $message = $this->getLastMailCatcherMessage();
         $this->assertEquals('件名', $message['subject']);
-        $this->assertContains('本文', $message['source']);
-        $this->assertContains('text/plain', $message['source']);
+        $this->assertStringContainsString('本文', $message['source']);
+        $this->assertStringContainsString('text/plain', $message['source']);
 
-        $this->assertContains('Return-Path: return-path@example.com', $message['source']);
+        $this->assertStringContainsString('Return-Path: return-path@example.com', $message['source']);
     }
 
     public function testUnsetErrorToSendMail()
@@ -91,11 +91,11 @@ class SC_SendMailTest extends Common_TestCase
 
         $message = $this->getLastMailCatcherMessage();
         $this->assertEquals('件名', $message['subject']);
-        $this->assertContains('本文', $message['source']);
+        $this->assertStringContainsString('本文', $message['source']);
 
-        $this->assertContains('text/plain', $message['source']);
+        $this->assertStringContainsString('text/plain', $message['source']);
 
-        $this->assertContains('Return-Path: return-path@example.com', $message['source']);
+        $this->assertStringContainsString('Return-Path: return-path@example.com', $message['source']);
     }
 
     public function testUnsetReturnPathToSendMail()
@@ -111,11 +111,11 @@ class SC_SendMailTest extends Common_TestCase
 
         $message = $this->getLastMailCatcherMessage();
         $this->assertEquals('件名', $message['subject']);
-        $this->assertContains('本文', $message['source']);
+        $this->assertStringContainsString('本文', $message['source']);
 
-        $this->assertContains('text/plain', $message['source']);
+        $this->assertStringContainsString('text/plain', $message['source']);
 
-        $this->assertContains('Return-Path: from@example.com', $message['source']);
+        $this->assertStringContainsString('Return-Path: from@example.com', $message['source']);
     }
 
     public function testGetRecip()
@@ -129,14 +129,14 @@ class SC_SendMailTest extends Common_TestCase
 
         $this->objSendMail->backend = 'smtp';
         $this->expected = [
-            'To' => 'to@example.com'
+            'To' => 'to@example.com',
         ];
         $this->actual = $this->objSendMail->getRecip();
         $this->verify();
 
         $this->objSendMail->backend = 'sendmail';
         $this->expected = [
-            'To' => 'to@example.com'
+            'To' => 'to@example.com',
         ];
         $this->actual = $this->objSendMail->getRecip();
         $this->verify();
@@ -154,7 +154,7 @@ class SC_SendMailTest extends Common_TestCase
 
         $objSite = $objDb->sfGetBasisData();
         $this->expected = [
-            '-f '.$objSite['email04']
+            '-f '.$objSite['email04'],
         ];
         $this->actual = $this->objSendMail->getBackendParams('mail');
         $this->verify();

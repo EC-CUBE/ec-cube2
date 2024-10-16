@@ -22,12 +22,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 複数配送設定 のページクラス.
  *
- * @package Page
  * @author Kentaro Ohkouchi
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Order_Multiple extends LC_Page_Admin_Ex

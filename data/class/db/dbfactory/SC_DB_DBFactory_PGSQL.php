@@ -28,8 +28,8 @@
  * 必ず SC_DB_DBFactory クラスを経由してインスタンス化する.
  * また, SC_DB_DBFactory クラスの関数を必ずオーバーライドしている必要がある.
  *
- * @package DB
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_DB_DBFactory_PGSQL extends SC_DB_DBFactory
@@ -38,6 +38,7 @@ class SC_DB_DBFactory_PGSQL extends SC_DB_DBFactory
      * DBのバージョンを取得する.
      *
      * @param  string $dsn データソース名
+     *
      * @return string データベースのバージョン
      */
     public function sfGetDBVersion($dsn = '')
@@ -46,7 +47,7 @@ class SC_DB_DBFactory_PGSQL extends SC_DB_DBFactory
         $val = $objQuery->getOne('select version()');
         $arrLine = explode(' ', $val);
 
-        return $arrLine[0] . ' ' . str_replace(',', '', $arrLine[1]);
+        return $arrLine[0].' '.str_replace(',', '', $arrLine[1]);
     }
 
     /**
@@ -54,8 +55,8 @@ class SC_DB_DBFactory_PGSQL extends SC_DB_DBFactory
      *
      * DB_TYPE が PostgreSQL の場合は何もしない
      *
-     * @access private
      * @param  string $sql SQL 文
+     *
      * @return string MySQL 用に置換した SQL 文
      */
     public function sfChangeMySQL($sql)
@@ -67,29 +68,31 @@ class SC_DB_DBFactory_PGSQL extends SC_DB_DBFactory
      * 昨日の売上高・売上件数を算出する SQL を返す.
      *
      * @param  string $method SUM または COUNT
+     *
      * @return string 昨日の売上高・売上件数を算出する SQL
      */
     public function getOrderYesterdaySql($method)
     {
         return 'SELECT '.$method.'(total) FROM dtb_order '
-               . 'WHERE del_flg = 0 '
-               . "AND to_char(create_date,'YYYY/MM/DD') = to_char(CURRENT_TIMESTAMP - interval '1 days','YYYY/MM/DD') "
-               . 'AND status <> ' . ORDER_CANCEL;
+               .'WHERE del_flg = 0 '
+               ."AND to_char(create_date,'YYYY/MM/DD') = to_char(CURRENT_TIMESTAMP - interval '1 days','YYYY/MM/DD') "
+               .'AND status <> '.ORDER_CANCEL;
     }
 
     /**
      * 当月の売上高・売上件数を算出する SQL を返す.
      *
      * @param  string $method SUM または COUNT
+     *
      * @return string 当月の売上高・売上件数を算出する SQL
      */
     public function getOrderMonthSql($method)
     {
         return 'SELECT '.$method.'(total) FROM dtb_order '
-               . 'WHERE del_flg = 0 '
-               . "AND to_char(create_date,'YYYY/MM') = ? "
-               . "AND to_char(create_date,'YYYY/MM/DD') <> to_char(CURRENT_TIMESTAMP,'YYYY/MM/DD') "
-               . 'AND status <> ' . ORDER_CANCEL;
+               .'WHERE del_flg = 0 '
+               ."AND to_char(create_date,'YYYY/MM') = ? "
+               ."AND to_char(create_date,'YYYY/MM/DD') <> to_char(CURRENT_TIMESTAMP,'YYYY/MM/DD') "
+               .'AND status <> '.ORDER_CANCEL;
     }
 
     /**
@@ -100,12 +103,12 @@ class SC_DB_DBFactory_PGSQL extends SC_DB_DBFactory
     public function getReviewYesterdaySql()
     {
         return 'SELECT COUNT(*) FROM dtb_review AS A '
-               . 'LEFT JOIN dtb_products AS B '
-               . 'ON A.product_id = B.product_id '
-               . 'WHERE A.del_flg=0 '
-               . 'AND B.del_flg = 0 '
-               . "AND to_char(A.create_date, 'YYYY/MM/DD') = to_char(CURRENT_TIMESTAMP - interval '1 days','YYYY/MM/DD') "
-               . "AND to_char(A.create_date,'YYYY/MM/DD') != to_char(CURRENT_TIMESTAMP,'YYYY/MM/DD')";
+               .'LEFT JOIN dtb_products AS B '
+               .'ON A.product_id = B.product_id '
+               .'WHERE A.del_flg=0 '
+               .'AND B.del_flg = 0 '
+               ."AND to_char(A.create_date, 'YYYY/MM/DD') = to_char(CURRENT_TIMESTAMP - interval '1 days','YYYY/MM/DD') "
+               ."AND to_char(A.create_date,'YYYY/MM/DD') != to_char(CURRENT_TIMESTAMP,'YYYY/MM/DD')";
     }
 
     /**
@@ -122,12 +125,13 @@ class SC_DB_DBFactory_PGSQL extends SC_DB_DBFactory
      * ダウンロード販売の検索条件の SQL を返す.
      *
      * @param  string $dtb_order_alias
+     *
      * @return string 検索条件の SQL
      */
     public function getDownloadableDaysWhereSql($dtb_order_alias = 'dtb_order')
     {
         $baseinfo = SC_Helper_DB_Ex::sfGetBasisData();
-        //downloadable_daysにNULLが入っている場合(無期限ダウンロード可能時)もあるので、NULLの場合は0日に補正
+        // downloadable_daysにNULLが入っている場合(無期限ダウンロード可能時)もあるので、NULLの場合は0日に補正
         $downloadable_days = $baseinfo['downloadable_days'];
         // FIXME 怪しい比較「== null」
         if ($downloadable_days == null || $downloadable_days == '') {
@@ -151,6 +155,7 @@ __EOS__;
      * 売上集計の期間別集計のSQLを返す
      *
      * @param  mixed  $type
+     *
      * @return string 検索条件のSQL
      */
     public function getOrderTotalDaysWhereSql($type)
@@ -199,6 +204,7 @@ __EOS__;
      * 文字列連結を行う.
      *
      * @param  string[]  $columns 連結を行うカラム名
+     *
      * @return string 連結後の SQL 文
      */
     public function concatColumn($columns)
@@ -208,7 +214,7 @@ __EOS__;
         $total = count($columns);
         foreach ($columns as $column) {
             $sql .= $column;
-            if ($i < $total -1) {
+            if ($i < $total - 1) {
                 $sql .= ' || ';
             }
             $i++;
@@ -223,25 +229,27 @@ __EOS__;
      * 引数に部分一致するテーブル名を配列で返す.
      *
      * @deprecated SC_Query::listTables() を使用してください
+     *
      * @param  string $expression 検索文字列
+     *
      * @return array  テーブル名の配列
      */
     public function findTableNames($expression = '')
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $sql = '   SELECT c.relname AS name, '
-            .  '     CASE c.relkind '
-            .  "     WHEN 'r' THEN 'table' "
-            .  "     WHEN 'v' THEN 'view' END AS type "
-            .  '     FROM pg_catalog.pg_class c '
-            .  'LEFT JOIN pg_catalog.pg_namespace n '
-            .  '       ON n.oid = c.relnamespace '
-            .  "    WHERE c.relkind IN ('r','v') "
-            .  "      AND n.nspname NOT IN ('pg_catalog', 'pg_toast') "
-            .  '      AND pg_catalog.pg_table_is_visible(c.oid) '
-            .  '      AND c.relname LIKE ?'
-            .  ' ORDER BY 1,2;';
-        $arrColList = $objQuery->getAll($sql, array('%' . $expression . '%'));
+            .'     CASE c.relkind '
+            ."     WHEN 'r' THEN 'table' "
+            ."     WHEN 'v' THEN 'view' END AS type "
+            .'     FROM pg_catalog.pg_class c '
+            .'LEFT JOIN pg_catalog.pg_namespace n '
+            .'       ON n.oid = c.relnamespace '
+            ."    WHERE c.relkind IN ('r','v') "
+            ."      AND n.nspname NOT IN ('pg_catalog', 'pg_toast') "
+            .'      AND pg_catalog.pg_table_is_visible(c.oid) '
+            .'      AND c.relname LIKE ?'
+            .' ORDER BY 1,2;';
+        $arrColList = $objQuery->getAll($sql, ['%'.$expression.'%']);
         $arrColList = SC_Utils_Ex::sfSwapArray($arrColList, false);
 
         return $arrColList[0];
@@ -255,7 +263,7 @@ __EOS__;
     public function getCharSet()
     {
         // 未実装
-        return array();
+        return [];
     }
 
     /**
@@ -272,6 +280,7 @@ __EOS__;
      * テーブル一覧を取得する
      *
      * MDB2_Driver_Manager_pgsql#listTables の不具合回避を目的として独自実装している。
+     *
      * @return array テーブル名の配列
      */
     public function listTables(SC_Query &$objQuery)

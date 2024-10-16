@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -25,27 +25,26 @@ require_once($HOME . "/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestP
  */
 
 /**
- *
  * @author hiroshi kakuta
  */
 class SC_Helper_BestProducts_deleteByProductIDsTest extends SC_Helper_BestProducts_TestBase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpBestProducts();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
-    public function testDeleteByProductIDs_データが削除される(){
-
+    public function testDeleteByProductIDsデータが削除される()
+    {
         $objHelperBestProducts = new SC_Helper_BestProducts_Ex();
 
-        $objHelperBestProducts->deleteByProductIDs(array("2"));
+        $objHelperBestProducts->deleteByProductIDs(['2']);
 
         $this->expected = null;
 
@@ -55,10 +54,10 @@ class SC_Helper_BestProducts_deleteByProductIDsTest extends SC_Helper_BestProduc
     }
 
     // データが削除されていることを確認
-    public function testDeleteByProductIDs_複数データが削除される(){
-
+    public function testDeleteByProductIDs複数データが削除される()
+    {
         $objHelperBestProducts = new SC_Helper_BestProducts_Ex();
-        $objHelperBestProducts->deleteByProductIDs(array("2","3"));
+        $objHelperBestProducts->deleteByProductIDs(['2', '3']);
 
         $this->expected = null;
 
@@ -71,4 +70,3 @@ class SC_Helper_BestProducts_deleteByProductIDsTest extends SC_Helper_BestProduc
         $this->verify();
     }
 }
-

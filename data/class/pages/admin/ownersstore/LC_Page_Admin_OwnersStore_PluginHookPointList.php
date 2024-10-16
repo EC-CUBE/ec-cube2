@@ -26,8 +26,8 @@
 /**
  * オーナーズストア：プラグイン管理 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_OwnersStore_PluginHookPointList extends LC_Page_Admin_Ex
@@ -51,12 +51,12 @@ class LC_Page_Admin_OwnersStore_PluginHookPointList extends LC_Page_Admin_Ex
     {
         parent::init();
         $this->tpl_mainpage = 'ownersstore/plugin_hookpoint_list.tpl';
-        $this->tpl_subno    = 'index';
-        $this->tpl_mainno   = 'ownersstore';
+        $this->tpl_subno = 'index';
+        $this->tpl_mainno = 'ownersstore';
         $this->tpl_maintitle = 'オーナーズストア';
         $this->tpl_subtitle = 'プラグインフックポイント管理';
 
-        $this->arrUse = array();
+        $this->arrUse = [];
         $this->arrUse[1] = 'ON';
         $this->arrUse[0] = 'OFF';
     }
@@ -106,8 +106,8 @@ class LC_Page_Admin_OwnersStore_PluginHookPointList extends LC_Page_Admin_Ex
         $arrRet = SC_Plugin_Util_Ex::getPluginHookPointList();
         // 競合チェック
         $this->arrConflict = SC_Plugin_Util_Ex::checkConflictPlugin();
-        $arrHookPoint = array();
-        foreach ($arrRet AS $key => $val) {
+        $arrHookPoint = [];
+        foreach ($arrRet as $key => $val) {
             $arrHookPoint[$val['hook_point']][$val['plugin_id']] = $val;
         }
         $this->arrHookPoint = $arrHookPoint;
@@ -117,13 +117,13 @@ class LC_Page_Admin_OwnersStore_PluginHookPointList extends LC_Page_Admin_Ex
      * パラメーター初期化.
      *
      * @param  SC_FormParam_Ex $objFormParam
+     *
      * @return void
      */
     public function initParam(&$objFormParam)
     {
-        $objFormParam->addParam('モード', 'mode', STEXT_LEN, '', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('ON/OFFフラグ', 'plugin_hookpoint_use', INT_LEN, '', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('プラグインフックポイントID', 'plugin_hookpoint_id', INT_LEN, '', array('NUM_CHECK', 'EXIST_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('モード', 'mode', STEXT_LEN, '', ['MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('ON/OFFフラグ', 'plugin_hookpoint_use', INT_LEN, '', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('プラグインフックポイントID', 'plugin_hookpoint_id', INT_LEN, '', ['NUM_CHECK', 'EXIST_CHECK', 'MAX_LENGTH_CHECK']);
     }
-
 }

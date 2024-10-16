@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -29,30 +29,28 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * テスト用にOSの環境変数を定義することができないため、テストコード内で分岐します.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_Test extends Common_TestCase
 {
-
-
-    protected function setUp()
+    protected function setUp(): void
     {
         // parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // parent::tearDown();
     }
 
-    /////////////////////////////////////////
-    public function testIsAbsoluteRealPath_絶対パスの場合_trueが返る()
+    // ///////////////////////////////////////
+    public function testIsAbsoluteRealPath絶対パスの場合Trueが返る()
     {
-
-        if (strpos(PHP_OS, 'WIN') !== false ) {
+        if (strpos(PHP_OS, 'WIN') !== false) {
             $input = 'C:/Program Files/username/hoge/hoge.txt';
             $this->markTestSkipped(
-              'Appveyorが落ちるので暫定スキップしています'
+                'Appveyorが落ちるので暫定スキップしています'
             );
         } else {
             $input = '/etc/php.ini';
@@ -63,10 +61,9 @@ class SC_Utils_Test extends Common_TestCase
         $this->verify();
     }
 
-    public function testIsAbsoluteRealPath_相対パスの場合_trueが返る()
+    public function testIsAbsoluteRealPath相対パスの場合Trueが返る()
     {
-
-        if (strpos(PHP_OS, 'WIN') !== false ) {
+        if (strpos(PHP_OS, 'WIN') !== false) {
             $input = './system32/hoge/hoge.txt';
         } else {
             $input = '../etc/php.ini';
@@ -92,5 +89,5 @@ class SC_Utils_Test extends Common_TestCase
     }
      */
 
-    //////////////////////////////////////////
+    // ////////////////////////////////////////
 }

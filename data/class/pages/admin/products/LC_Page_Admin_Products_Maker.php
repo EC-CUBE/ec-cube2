@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * メーカー登録 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Products_Maker extends LC_Page_Admin_Ex
@@ -79,7 +78,7 @@ class LC_Page_Admin_Products_Maker extends LC_Page_Admin_Ex
         // POST値の入力文字変換
         $objFormParam->convParam();
 
-        //maker_idを変数にセット
+        // maker_idを変数にセット
         $maker_id = $objFormParam->getValue('maker_id');
 
         // モードによる処理切り替え
@@ -99,7 +98,7 @@ class LC_Page_Admin_Products_Maker extends LC_Page_Admin_Ex
                     $arrParam = $objFormParam->getHashArray();
                     // 登録実行
                     $res_maker_id = $this->doRegist($maker_id, $arrParam, $objMaker);
-                    if ($res_maker_id !== FALSE) {
+                    if ($res_maker_id !== false) {
                         // 完了メッセージ
                         $this->tpl_onload = "alert('登録が完了しました。');";
                         SC_Response_Ex::reload();
@@ -109,7 +108,7 @@ class LC_Page_Admin_Products_Maker extends LC_Page_Admin_Ex
                 }
                 break;
 
-            // 編集前処理
+                // 編集前処理
             case 'pre_edit':
                 $maker = $objMaker->getMaker($maker_id);
                 $objFormParam->setParam($maker);
@@ -118,7 +117,7 @@ class LC_Page_Admin_Products_Maker extends LC_Page_Admin_Ex
                 $this->tpl_maker_id = $maker_id;
                 break;
 
-            // メーカー順変更
+                // メーカー順変更
             case 'up':
                 $objMaker->rankUp($maker_id);
 
@@ -133,7 +132,7 @@ class LC_Page_Admin_Products_Maker extends LC_Page_Admin_Ex
                 SC_Response_Ex::reload();
                 break;
 
-            // 削除
+                // 削除
             case 'delete':
                 $objMaker->delete($maker_id);
 
@@ -155,20 +154,22 @@ class LC_Page_Admin_Products_Maker extends LC_Page_Admin_Ex
      * パラメーター情報の初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('メーカーID', 'maker_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('メーカー名', 'name', SMTEXT_LEN, 'KVa', array('EXIST_CHECK','SPTAB_CHECK','MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('メーカーID', 'maker_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('メーカー名', 'name', SMTEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     /**
      * 登録処理を実行.
      *
-     * @param  integer  $maker_id
+     * @param  int  $maker_id
      * @param  array    $sqlval
      * @param  SC_Helper_Maker_Ex   $objMaker
+     *
      * @return multiple
      */
     public function doRegist($maker_id, $sqlval, SC_Helper_Maker_Ex $objMaker)
@@ -183,6 +184,7 @@ class LC_Page_Admin_Products_Maker extends LC_Page_Admin_Ex
      * 入力エラーチェック.
      *
      * @param SC_FormParam $objFormParam
+     *
      * @return array $objErr->arrErr エラー内容
      */
     public function lfCheckError(&$objFormParam, SC_Helper_Maker_Ex &$objMaker)
@@ -205,10 +207,10 @@ class LC_Page_Admin_Products_Maker extends LC_Page_Admin_Ex
 
             // 編集中のレコード以外に同じ名称が存在する場合
             if (
-                    !SC_Utils_Ex::isBlank($arrMaker)
-                    && $arrMaker['maker_id'] != $arrForm['maker_id']
-                    && $arrMaker['name'] == $arrForm['name']
-                ) {
+                !SC_Utils_Ex::isBlank($arrMaker)
+                && $arrMaker['maker_id'] != $arrForm['maker_id']
+                && $arrMaker['name'] == $arrForm['name']
+            ) {
                 $arrErr['name'] = '※ 既に同じ内容の登録が存在します。<br />';
             }
         }

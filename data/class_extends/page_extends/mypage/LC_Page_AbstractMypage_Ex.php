@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_REALDIR . 'pages/mypage/LC_Page_AbstractMypage.php';
+require_once CLASS_REALDIR.'pages/mypage/LC_Page_AbstractMypage.php';
 
 /*
  * 決済モジュールやプラグイン、 user_data 以下の PHP で require されているため削除しないでください
@@ -32,8 +32,8 @@ require_once CLASS_REALDIR . 'pages/mypage/LC_Page_AbstractMypage.php';
  *
  * LC_Page_AbstractMypage をカスタマイズする場合はこのクラスを編集する.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_AbstractMypage_Ex extends LC_Page_AbstractMypage
@@ -43,7 +43,7 @@ class LC_Page_AbstractMypage_Ex extends LC_Page_AbstractMypage
      *
      * @return void
      */
-    function init()
+    public function init()
     {
         parent::init();
     }
@@ -53,7 +53,7 @@ class LC_Page_AbstractMypage_Ex extends LC_Page_AbstractMypage
      *
      * @return void
      */
-    function process()
+    public function process()
     {
         parent::process();
     }

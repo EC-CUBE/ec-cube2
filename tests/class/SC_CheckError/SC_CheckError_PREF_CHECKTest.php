@@ -7,7 +7,7 @@ class SC_CheckError_PREF_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $pref_id;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'PREF_CHECK';
@@ -17,7 +17,7 @@ class SC_CheckError_PREF_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->pref_id = $this->faker->numberBetween(1, count($arrPref));
     }
 
-    public function testPREF_CHECK()
+    public function testPREFCHECK()
     {
         $this->arrForm = [self::FORM_NAME => $this->pref_id];
         $this->expected = '';
@@ -26,8 +26,7 @@ class SC_CheckError_PREF_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testPREF_CHECKWithInvalid()
+    public function testPREFCHECKWithInvalid()
     {
         $this->arrForm = [self::FORM_NAME => 0];
         $this->expected = '※ PREF_CHECKが不正な値です。<br />';
@@ -36,7 +35,7 @@ class SC_CheckError_PREF_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testPREF_CHECKWithOver()
+    public function testPREFCHECKWithOver()
     {
         $this->arrForm = [self::FORM_NAME => 48];
         $this->expected = '※ PREF_CHECKが不正な値です。<br />';
@@ -45,7 +44,7 @@ class SC_CheckError_PREF_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testPREF_CHECKWithEmpty()
+    public function testPREFCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '※ PREF_CHECKが不正な値です。<br />';
@@ -54,7 +53,7 @@ class SC_CheckError_PREF_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testPREF_CHECKWithNull()
+    public function testPREFCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '※ PREF_CHECKが不正な値です。<br />';

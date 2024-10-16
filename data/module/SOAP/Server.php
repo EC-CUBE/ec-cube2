@@ -12,16 +12,16 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Dietrich Ayala <dietrich@ganx4.com> Original Author
  * @author     Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
  * @author     Chuck Hagenbuch <chuck@horde.org>   Maintenance
  * @author     Jan Schneider <jan@horde.org>       Maintenance
  * @copyright  2003-2005 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
-
 require_once 'SOAP/Base.php';
 require_once 'SOAP/Fault.php';
 require_once 'SOAP/Parser.php';
@@ -34,66 +34,61 @@ require_once 'SOAP/WSDL.php';
  * Originaly based on SOAPx4 by Dietrich Ayala
  * http://dietrich.ganx4.com/soapx4
  *
- * @access   public
- * @package  SOAP
  * @author   Shane Caraveo <shane@php.net> Conversion to PEAR and updates
  * @author   Dietrich Ayala <dietrich@ganx4.com> Original Author
  */
 class SOAP_Server extends SOAP_Base
 {
     /**
-     *
      * @var array
      */
-    var $dispatch_map = array(); // create empty dispatch map
-    var $dispatch_objects = array();
-    var $soapobject = null;
-    var $call_methodname = null;
-    var $callHandler = null;
-    var $callValidation = true;
+    public $dispatch_map = []; // create empty dispatch map
+    public $dispatch_objects = [];
+    public $soapobject = null;
+    public $call_methodname = null;
+    public $callHandler = null;
+    public $callValidation = true;
 
     /**
      * A list of headers that are going to be sent back to the client.
      *
      * @var array
      */
-    var $headers = array();
+    public $headers = [];
 
     /**
-     *
      * @var string
      */
-    var $request = '';
+    public $request = '';
 
     /**
-     *
      * @var string  XML-Encoding
      */
-    var $xml_encoding = SOAP_DEFAULT_ENCODING;
-    var $response_encoding = 'UTF-8';
+    public $xml_encoding = SOAP_DEFAULT_ENCODING;
+    public $response_encoding = 'UTF-8';
 
-    var $result = 'successful'; // for logging interop results to db
+    public $result = 'successful'; // for logging interop results to db
 
-    var $endpoint = ''; // the uri to ME!
+    public $endpoint = ''; // the uri to ME!
 
-    var $service = ''; //soapaction header
-    var $method_namespace = null;
+    public $service = ''; // soapaction header
+    public $method_namespace = null;
 
     /**
      * Options.
      *
      * @var array
      */
-    var $_options = array('use' => 'encoded',
+    public $_options = ['use' => 'encoded',
                           'style' => 'rpc',
                           'parameters' => 0,
                           'http_status_success' => '200 OK',
-                          'http_status_fault' => '500 SOAP Fault');
+                          'http_status_fault' => '500 SOAP Fault', ];
 
-    function SOAP_Server($options = null)
+    public function __construct($options = null)
     {
         ini_set('track_errors', 1);
-        parent::SOAP_Base('Server');
+        parent::__construct('Server');
 
         if (is_array($options)) {
             if (isset($options['use'])) {
@@ -122,7 +117,7 @@ class SOAP_Server extends SOAP_Base
      *
      * @see http://www.php.net/set_error_handler
      */
-    function _errorHandler($errno, $errmsg, $filename, $linenum)
+    public function _errorHandler($errno, $errmsg, $filename, $linenum)
     {
         /* The error handler should ignore '0' errors, eg. hidden by @ - see
          * the set_error_handler manual page. (thanks to Alan Knowles). */
@@ -137,7 +132,7 @@ class SOAP_Server extends SOAP_Base
         exit;
     }
 
-    function _getContentEncoding($content_type)
+    public function _getContentEncoding($content_type)
     {
         /* Get the character encoding of the incoming request treat incoming
          * data as UTF-8 if no encoding set. */
@@ -153,30 +148,29 @@ class SOAP_Server extends SOAP_Base
         return true;
     }
 
-
     /**
      * Parses the request and posts or returns the response.
      *
      * @param string $data      The SOAP request data.
      * @param string $endpoint  The service endpoint. Determined automatically
      *                          if left empty.
-     * @param boolean $test
-     * @param boolean $return   Whether to return the SOAP response data
+     * @param bool $test
+     * @param bool $return   Whether to return the SOAP response data
      *                          instead of sending it to the client.
      */
-    function service($data, $endpoint = '', $test = false, $return = false)
+    public function service($data, $endpoint = '', $test = false, $return = false)
     {
         $response = null;
-        $attachments = array();
+        $attachments = [];
         $useEncoding = 'DIME';
 
         /* Figure out our endpoint. */
         $this->endpoint = $endpoint;
         if (!$test && !$this->endpoint) {
             /* We'll try to build our endpoint. */
-            $this->endpoint = 'http://' . $_SERVER['SERVER_NAME'];
+            $this->endpoint = 'http://'.$_SERVER['SERVER_NAME'];
             if (isset($_SERVER['SERVER_PORT'])) {
-                $this->endpoint .= ':' . $_SERVER['SERVER_PORT'];
+                $this->endpoint .= ':'.$_SERVER['SERVER_PORT'];
             }
             $this->endpoint .= $_SERVER['SCRIPT_NAME'];
         }
@@ -189,9 +183,9 @@ class SOAP_Server extends SOAP_Base
                 $useEncoding = 'DIME';
             } elseif (stristr($_SERVER['CONTENT_TYPE'], 'multipart/related')) {
                 /* This is a mime message, let's decode it. */
-                $data = 'Content-Type: ' .
-                    stripslashes($_SERVER['CONTENT_TYPE']) .
-                    "\r\n\r\n" . $data;
+                $data = 'Content-Type: '.
+                    stripslashes($_SERVER['CONTENT_TYPE']).
+                    "\r\n\r\n".$data;
                 $this->_decodeMimeMessage($data, $this->headers, $attachments);
                 $useEncoding = 'Mime';
             }
@@ -216,7 +210,7 @@ class SOAP_Server extends SOAP_Base
             /* This is not possibly a valid SOAP request, try to return a WSDL
              * file. */
             $got = isset($this->headers['content-type']) ? $this->headers['content-type'] : 'Nothing!';
-            $this->_raiseSoapFault('Invalid SOAP request, must be POST with content-type: text/xml, got: ' . $got, '', '', 'Server');
+            $this->_raiseSoapFault('Invalid SOAP request, must be POST with content-type: text/xml, got: '.$got, '', '', 'Server');
         }
 
         if (!$this->fault) {
@@ -253,6 +247,7 @@ class SOAP_Server extends SOAP_Base
             if ($this->fault) {
                 $response = $this->fault->message();
             }
+
             return $response;
         }
 
@@ -268,61 +263,62 @@ class SOAP_Server extends SOAP_Base
      *
      * @param string $response  The response body.
      */
-    function _sendResponse($response = '')
+    public function _sendResponse($response = '')
     {
         /* Make distinction between the different SAPIs, running PHP as CGI or
          * as a module. */
-        if (stristr(php_sapi_name(), 'cgi') === 0) {
+        if (stristr(PHP_SAPI, 'cgi') === 0) {
             $hdrs_type = 'Status:';
         } else {
             $hdrs_type = 'HTTP/1.1';
         }
 
         if ($this->fault) {
-            $hdrs = $hdrs_type . ' ' . $this->_options['http_status_fault'] . "\r\n";
+            $hdrs = $hdrs_type.' '.$this->_options['http_status_fault']."\r\n";
             $response = $this->fault->message($this->response_encoding);
         } else {
-            $hdrs = $hdrs_type . ' ' . $this->_options['http_status_success'] . "\r\n";
+            $hdrs = $hdrs_type.' '.$this->_options['http_status_success']."\r\n";
         }
         header($hdrs);
 
         $this->headers['Server'] = SOAP_LIBRARY_NAME;
         if (!isset($this->headers['Content-Type'])) {
-            $this->headers['Content-Type'] = 'text/xml; charset=' .
+            $this->headers['Content-Type'] = 'text/xml; charset='.
                 $this->response_encoding;
         }
         $this->headers['Content-Length'] = strlen($response);
 
         foreach ($this->headers as $k => $v) {
-            $v = str_replace(array("\r", "\n"), '', $v);
+            $v = str_replace(["\r", "\n"], '', $v);
             header("$k: $v");
             $hdrs .= "$k: $v\r\n";
         }
 
-        $this->response = $hdrs . "\r\n" . $response;
-        print $response;
+        $this->response = $hdrs."\r\n".$response;
+        echo $response;
     }
 
-    function &callMethod($methodname, &$args)
+    public function &callMethod($methodname, &$args)
     {
         if ($this->callHandler) {
-            $ret = @call_user_func_array($this->callHandler, array($methodname, $args));
+            $ret = @call_user_func_array($this->callHandler, [$methodname, $args]);
+
             return $ret;
         }
 
-        set_error_handler(array($this, '_errorHandler'));
+        set_error_handler([$this, '_errorHandler']);
 
         if ($args) {
             /* Call method with parameters. */
             if (isset($this->soapobject) && is_object($this->soapobject)) {
-                $ret = call_user_func_array(array(&$this->soapobject, $methodname), $args);
+                $ret = call_user_func_array([&$this->soapobject, $methodname], $args);
             } else {
                 $ret = call_user_func_array($methodname, $args);
             }
         } else {
             /* Call method withour parameters. */
             if (is_object($this->soapobject)) {
-                $ret = call_user_func(array(&$this->soapobject, $methodname));
+                $ret = call_user_func([&$this->soapobject, $methodname]);
             } else {
                 $ret = call_user_func($methodname);
             }
@@ -344,11 +340,11 @@ class SOAP_Server extends SOAP_Base
      *
      * @return array  List of SOAP_Value objects.
      */
-    function buildResult(&$method_response, &$return_type,
-                         $return_name = 'return', $namespace = '')
+    public function buildResult(&$method_response, &$return_type,
+        $return_name = 'return', $namespace = '')
     {
         if (is_a($method_response, 'SOAP_Value')) {
-            $return_val = array($method_response);
+            $return_val = [$method_response];
         } else {
             if (is_array($return_type) && is_array($method_response)) {
                 $i = 0;
@@ -358,7 +354,7 @@ class SOAP_Server extends SOAP_Base
                         $key = 'item';
                     }
                     if (is_a($method_response[$i], 'SOAP_Value')) {
-                        $return_val[] =& $method_response[$i++];
+                        $return_val[] = &$method_response[$i++];
                     } else {
                         $qn = new QName($key, $namespace);
                         $return_val[] = new SOAP_Value($qn->fqn(), $type, $method_response[$i++]);
@@ -374,13 +370,14 @@ class SOAP_Server extends SOAP_Base
                     $return_type = $values[0];
                 }
                 $qn = new QName($return_name, $namespace);
-                $return_val = array(new SOAP_Value($qn->fqn(), $return_type, $method_response));
+                $return_val = [new SOAP_Value($qn->fqn(), $return_type, $method_response)];
             }
         }
+
         return $return_val;
     }
 
-    function parseRequest($data = '', $attachments = null)
+    public function parseRequest($data = '', $attachments = null)
     {
         /* Parse response, get SOAP_Parser object. */
         $parser = new SOAP_Parser($data, $this->xml_encoding, $attachments);
@@ -388,21 +385,24 @@ class SOAP_Server extends SOAP_Base
         if ($parser->fault) {
             /* Fault occurred during message parsing. */
             $this->fault = $parser->fault;
+
             return null;
         }
         if (!count($parser->root_struct_name)) {
             /* No method specified. */
             $this->_raiseSoapFault('No method specified in request.');
+
             return null;
         }
 
         /* Handle message headers. */
         $request_headers = $parser->getHeaders();
-        $header_results = array();
+        $header_results = [];
 
         if ($request_headers) {
             if (!is_a($request_headers, 'SOAP_Value')) {
-                $this->_raiseSoapFault('Parser did not return SOAP_Value object: ' . $request_headers, '', '', 'Server');
+                $this->_raiseSoapFault('Parser did not return SOAP_Value object: '.$request_headers, '', '', 'Server');
+
                 return null;
             }
             if ($request_headers->value) {
@@ -417,7 +417,8 @@ class SOAP_Server extends SOAP_Base
                         $header_val->actor == $this->endpoint;
 
                     if (!$f_exists && $header_val->mustunderstand && $myactor) {
-                        $this->_raiseSoapFault('I don\'t understand header ' . $header_val->name, '', '', 'MustUnderstand');
+                        $this->_raiseSoapFault('I don\'t understand header '.$header_val->name, '', '', 'MustUnderstand');
+
                         return null;
                     }
 
@@ -427,11 +428,12 @@ class SOAP_Server extends SOAP_Base
                     if ($isok) {
                         /* Call our header now! */
                         $header_method = $header_val->name;
-                        $header_data = array($this->_decode($header_val));
+                        $header_data = [$this->_decode($header_val)];
                         /* If there are parameters to pass. */
-                        $hr =& $this->callMethod($header_method, $header_data);
+                        $hr = &$this->callMethod($header_method, $header_data);
                         if (PEAR::isError($hr)) {
                             $this->_raiseSoapFault($hr);
+
                             return null;
                         }
                         $results = $this->buildResult($hr, $this->return_type, $header_method, $header_val->namespace);
@@ -451,17 +453,20 @@ class SOAP_Server extends SOAP_Base
         if ($this->_wsdl) {
             $this->_setSchemaVersion($this->_wsdl->xsd);
             $dataHandler = $this->_wsdl->getDataHandler($this->methodname, $this->method_namespace);
-            if ($dataHandler)
+            if ($dataHandler) {
                 $this->call_methodname = $this->methodname = $dataHandler;
+            }
 
             $this->_portName = $this->_wsdl->getPortName($this->methodname);
             if (PEAR::isError($this->_portName)) {
                 $this->_raiseSoapFault($this->_portName);
+
                 return null;
             }
             $opData = $this->_wsdl->getOperationData($this->_portName, $this->methodname);
             if (PEAR::isError($opData)) {
                 $this->_raiseSoapFault($opData);
+
                 return null;
             }
             $this->_options['style'] = $opData['style'];
@@ -472,7 +477,8 @@ class SOAP_Server extends SOAP_Base
         /* Does method exist? */
         if (!$this->methodname ||
             !$this->validateMethod($this->methodname, $this->method_namespace)) {
-            $this->_raiseSoapFault('method "' . $this->method_namespace . $this->methodname . '" not defined in service', '', '', 'Server');
+            $this->_raiseSoapFault('method "'.$this->method_namespace.$this->methodname.'" not defined in service', '', '', 'Server');
+
             return null;
         }
 
@@ -480,7 +486,8 @@ class SOAP_Server extends SOAP_Base
             return null;
         }
         if (!is_a($request_val, 'SOAP_Value')) {
-            $this->_raiseSoapFault('Parser did not return SOAP_Value object: ' . $request_val, '', '', 'Server');
+            $this->_raiseSoapFault('Parser did not return SOAP_Value object: '.$request_val, '', '', 'Server');
+
             return null;
         }
 
@@ -496,11 +503,13 @@ class SOAP_Server extends SOAP_Base
         $request_data = $this->__decodeRequest($request_val);
         if (PEAR::isError($request_data)) {
             $this->_raiseSoapFault($request_data);
+
             return null;
         }
-        $method_response =& $this->callMethod($this->call_methodname, $request_data);
+        $method_response = &$this->callMethod($this->call_methodname, $request_data);
         if (PEAR::isError($method_response)) {
             $this->_raiseSoapFault($method_response);
+
             return null;
         }
 
@@ -514,27 +523,31 @@ class SOAP_Server extends SOAP_Base
                 $return_val = $this->buildResult($method_response, $this->return_type);
             }
 
-            $qn = new QName($this->methodname . 'Response', $this->method_namespace);
+            $qn = new QName($this->methodname.'Response', $this->method_namespace);
             $methodValue = new SOAP_Value($qn->fqn(), 'Struct', $return_val);
         } else {
-            $methodValue =& $method_response;
+            $methodValue = &$method_response;
         }
+
         return $this->makeEnvelope($methodValue, $header_results, $this->response_encoding);
     }
 
-    function &__decodeRequest($request, $shift = false)
+    public function &__decodeRequest($request, $shift = false)
     {
         if (!$request) {
             $decoded = null;
+
             return $decoded;
         }
 
         /* Check for valid response. */
         if (PEAR::isError($request)) {
             $fault = &$this->_raiseSoapFault($request);
+
             return $fault;
-        } else if (!is_a($request, 'SOAP_Value')) {
+        } elseif (!is_a($request, 'SOAP_Value')) {
             $fault = &$this->_raiseSoapFault('Invalid data in server::__decodeRequest');
+
             return $fault;
         }
 
@@ -543,13 +556,14 @@ class SOAP_Server extends SOAP_Base
         /* Fault? */
         if (PEAR::isError($requestArray)) {
             $fault = &$this->_raiseSoapFault($requestArray);
+
             return $fault;
         }
         if (is_object($requestArray) &&
             get_class($requestArray) == 'stdClass') {
             $requestArray = get_object_vars($requestArray);
         } elseif ($this->_options['style'] == 'document') {
-            $requestArray = array($requestArray);
+            $requestArray = [$requestArray];
         }
         if (is_array($requestArray)) {
             if (isset($requestArray['faultcode']) ||
@@ -570,19 +584,23 @@ class SOAP_Server extends SOAP_Base
                     }
                 }
                 $fault = &$this->_raiseSoapFault($faultstring, $faultdetail, $faultactor, $faultcode);
+
                 return $fault;
             }
             /* Return array of return values. */
             if ($shift && count($requestArray) == 1) {
                 $decoded = array_shift($requestArray);
+
                 return $decoded;
             }
+
             return $requestArray;
         }
+
         return $requestArray;
     }
 
-    function verifyMethod($request)
+    public function verifyMethod($request)
     {
         if (!$this->callValidation) {
             return true;
@@ -608,7 +626,8 @@ class SOAP_Server extends SOAP_Base
             }
         }
         if (!$map) {
-            $this->_raiseSoapFault('SOAP request specified an unhandled method "' . $this->methodname . '"', '', '', 'Client');
+            $this->_raiseSoapFault('SOAP request specified an unhandled method "'.$this->methodname.'"', '', '', 'Client');
+
             return false;
         }
 
@@ -645,21 +664,24 @@ class SOAP_Server extends SOAP_Base
                         if (strcasecmp($sig_t[$i], $p[$i]) != 0 &&
                             isset($this->_typemap[SOAP_XML_SCHEMA_VERSION][$sig_t[$i]]) &&
                             strcasecmp($this->_typemap[SOAP_XML_SCHEMA_VERSION][$sig_t[$i]], $this->_typemap[SOAP_XML_SCHEMA_VERSION][$p[$i]]) != 0) {
-
                             $param = $params[$i];
-                            $this->_raiseSoapFault("SOAP request contained mismatching parameters of name $param->name had type [{$p[$i]}], which did not match signature's type: [{$sig_t[$i]}], matched? " . (strcasecmp($sig_t[$i], $p[$i])), '', '', 'Client');
+                            $this->_raiseSoapFault("SOAP request contained mismatching parameters of name $param->name had type [{$p[$i]}], which did not match signature's type: [{$sig_t[$i]}], matched? ".strcasecmp($sig_t[$i], $p[$i]), '', '', 'Client');
+
                             return false;
                         }
                     }
+
                     return true;
                 } else {
                     /* Wrong number of params. */
-                    $this->_raiseSoapFault('SOAP request contained incorrect number of parameters. method "' . $this->methodname . '" required ' . count($map['in']) . ' and request provided ' . count($params), '', '', 'Client');
+                    $this->_raiseSoapFault('SOAP request contained incorrect number of parameters. method "'.$this->methodname.'" required '.count($map['in']).' and request provided '.count($params), '', '', 'Client');
+
                     return false;
                 }
             } else {
                 /* No params. */
-                $this->_raiseSoapFault('SOAP request contained incorrect number of parameters. method "' . $this->methodname . '" requires ' . count($map['in']) . ' parameters, and request provided none.', '', '', 'Client');
+                $this->_raiseSoapFault('SOAP request contained incorrect number of parameters. method "'.$this->methodname.'" requires '.count($map['in']).' parameters, and request provided none.', '', '', 'Client');
+
                 return false;
             }
         }
@@ -668,7 +690,7 @@ class SOAP_Server extends SOAP_Base
         return true;
     }
 
-    function validateMethod($methodname, $namespace = null)
+    public function validateMethod($methodname, $namespace = null)
     {
         unset($this->soapobject);
 
@@ -686,8 +708,10 @@ class SOAP_Server extends SOAP_Base
             (!$namespace ||
              !array_key_exists('namespace', $this->dispatch_map[$methodname]) ||
              $namespace == $this->dispatch_map[$methodname]['namespace'])) {
-            if (array_key_exists('namespace', $this->dispatch_map[$methodname]))
+            if (array_key_exists('namespace', $this->dispatch_map[$methodname])) {
                 $this->method_namespace = $this->dispatch_map[$methodname]['namespace'];
+            }
+
             return true;
         }
 
@@ -695,18 +719,20 @@ class SOAP_Server extends SOAP_Base
         if (isset($this->dispatch_objects[$namespace])) {
             $c = count($this->dispatch_objects[$namespace]);
             for ($i = 0; $i < $c; $i++) {
-                $obj =& $this->dispatch_objects[$namespace][$i];
+                $obj = &$this->dispatch_objects[$namespace][$i];
                 /* If we have a dispatch map, and the function is not in the
                  * dispatch map, then it is not callable! */
                 if (method_exists($obj, '__dispatch')) {
                     if ($obj->__dispatch($methodname)) {
                         $this->method_namespace = $namespace;
-                        $this->soapobject =& $obj;
+                        $this->soapobject = &$obj;
+
                         return true;
                     }
                 } elseif (method_exists($obj, $methodname)) {
                     $this->method_namespace = $namespace;
-                    $this->soapobject =& $obj;
+                    $this->soapobject = &$obj;
+
                     return true;
                 }
             }
@@ -715,8 +741,8 @@ class SOAP_Server extends SOAP_Base
         return false;
     }
 
-    function addObjectMap(&$obj, $namespace = null, $service_name = 'Default',
-                          $service_desc = '')
+    public function addObjectMap(&$obj, $namespace = null, $service_name = 'Default',
+        $service_desc = '')
     {
         if (!$namespace) {
             if (isset($obj->namespace)) {
@@ -724,13 +750,14 @@ class SOAP_Server extends SOAP_Base
                 $namespace = $obj->namespace;
             } else {
                 $this->_raiseSoapFault('No namespace provided for class!', '', '', 'Server');
+
                 return false;
             }
         }
         if (!isset($this->dispatch_objects[$namespace])) {
-            $this->dispatch_objects[$namespace] = array();
+            $this->dispatch_objects[$namespace] = [];
         }
-        $this->dispatch_objects[$namespace][] =& $obj;
+        $this->dispatch_objects[$namespace][] = &$obj;
 
         // Create internal WSDL structures for object
 
@@ -767,10 +794,11 @@ class SOAP_Server extends SOAP_Base
     /**
      * Adds a method to the dispatch map.
      */
-    function addToMap($methodname, $in, $out, $namespace = null, $alias = null)
+    public function addToMap($methodname, $in, $out, $namespace = null, $alias = null)
     {
         if (!$this->callHandler && !function_exists($methodname)) {
             $this->_raiseSoapFault('Error mapping function', '', '', 'Server');
+
             return false;
         }
 
@@ -784,7 +812,7 @@ class SOAP_Server extends SOAP_Base
         return true;
     }
 
-    function setCallHandler($callHandler, $validation = true)
+    public function setCallHandler($callHandler, $validation = true)
     {
         $this->callHandler = $callHandler;
         $this->callValidation = $validation;
@@ -793,16 +821,17 @@ class SOAP_Server extends SOAP_Base
     /**
      * @deprecated use bindWSDL from now on
      */
-    function bind($wsdl_url)
+    public function bind($wsdl_url)
     {
         $this->bindWSDL($wsdl_url);
     }
 
     /**
      * @param  string a url to a WSDL resource
+     *
      * @return void
      */
-    function bindWSDL($wsdl_url)
+    public function bindWSDL($wsdl_url)
     {
         /* Instantiate WSDL class. */
         $this->_wsdl = new SOAP_WSDL($wsdl_url);
@@ -814,11 +843,11 @@ class SOAP_Server extends SOAP_Base
     /**
      * @return void
      */
-    function addObjectWSDL($wsdl_obj, $targetNamespace, $service_name,
-                           $service_desc = '')
+    public function addObjectWSDL($wsdl_obj, $targetNamespace, $service_name,
+        $service_desc = '')
     {
         if (!isset($this->_wsdl)) {
-            $this->_wsdl = new SOAP_WSDL;
+            $this->_wsdl = new SOAP_WSDL();
         }
 
         $this->_wsdl->parseObject($wsdl_obj, $targetNamespace, $service_name, $service_desc);
@@ -827,5 +856,4 @@ class SOAP_Server extends SOAP_Base
             $this->_raiseSoapFault($this->_wsdl->fault);
         }
     }
-
 }

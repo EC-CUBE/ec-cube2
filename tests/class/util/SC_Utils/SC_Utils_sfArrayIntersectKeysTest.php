@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,47 +27,44 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfArrayIntersectKeys()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfArrayIntersectKeysTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfArrayIntersectKeys指定キーに含まれるものがない場合空の配列が返る()
+    {
+        $input_array = ['apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ'];
+        $key_array = ['kiwi', 'tomato'];
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+        $this->expected = [];
+        $this->actual = SC_Utils::sfArrayIntersectKeys($input_array, $key_array);
 
-  /////////////////////////////////////////
-  public function testSfArrayIntersectKeys_指定キーに含まれるものがない場合_空の配列が返る()
-  {
-    $input_array = array('apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ');
-    $key_array = array('kiwi', 'tomato');
+        $this->verify();
+    }
 
-    $this->expected = array();
-    $this->actual = SC_Utils::sfArrayIntersectKeys($input_array, $key_array);
+    public function testSfArrayIntersctKeys指定キーに含まれるものがある場合含まれるものだけが返る()
+    {
+        $input_array = ['apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ'];
+        $key_array = ['orange', 'apple'];
 
-    $this->verify();
-  }
+        $this->expected = ['apple' => 'りんご', 'orange' => 'オレンジ'];
+        $this->actual = SC_Utils::sfArrayIntersectKeys($input_array, $key_array);
 
-  public function testSfArrayIntersctKeys_指定キーに含まれるものがある場合_含まれるものだけが返る()
-  {
-    $input_array = array('apple' => 'りんご', 'banana' => 'バナナ', 'orange' => 'オレンジ');
-    $key_array = array('orange', 'apple');
+        $this->verify();
+    }
 
-    $this->expected = array('apple' => 'りんご', 'orange' => 'オレンジ');
-    $this->actual = SC_Utils::sfArrayIntersectKeys($input_array, $key_array);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

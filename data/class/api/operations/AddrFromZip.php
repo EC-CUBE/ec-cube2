@@ -24,11 +24,10 @@
 /**
  * APIの基本クラス
  *
- * @package Api
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
-
 class API_AddrFromZip extends SC_Api_Abstract_Ex
 {
     protected $operation_name = 'AddrFromZip';
@@ -42,15 +41,15 @@ class API_AddrFromZip extends SC_Api_Abstract_Ex
     {
         $arrRequest = $this->doInitParam($arrParam);
         if (!$this->isParamError()) {
-            $zipcode = $arrRequest['zip1'] . $arrRequest['zip2'];
+            $zipcode = $arrRequest['zip1'].$arrRequest['zip2'];
             $arrAddrList = SC_Utils_Ex::sfGetAddress($zipcode);
             if (!SC_Utils_Ex::isBlank($arrAddrList)) {
-                $this->setResponse('Address', array(
+                $this->setResponse('Address', [
                             'State' => $arrAddrList[0]['state'],
                             'City' => $arrAddrList[0]['city'],
                             'Town' => $arrAddrList[0]['town'],
-                        )
-                    );
+                        ]
+                );
 
                 return true;
             }
@@ -61,8 +60,8 @@ class API_AddrFromZip extends SC_Api_Abstract_Ex
 
     protected function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('郵便番号1', 'zip1', ZIP01_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('郵便番号2', 'zip2', ZIP02_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('郵便番号1', 'zip1', ZIP01_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('郵便番号2', 'zip2', ZIP02_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     public function getResponseGroupName()

@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 新着情報 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_FrontParts_Bloc_News extends LC_Page_FrontParts_Bloc_Ex
@@ -100,20 +99,20 @@ class LC_Page_FrontParts_Bloc_News extends LC_Page_FrontParts_Bloc_Ex
                 $this->newsCount = $objNews->getCount();
                 break;
         }
-
     }
 
     /**
      * 新着情報パラメーター初期化
      *
      * @param  SC_FormParam_Ex $objFormParam フォームパラメータークラス
+     *
      * @return void
      */
     public function lfInitNewsParam(&$objFormParam)
     {
-        $objFormParam->addParam('現在ページ', 'pageno', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'), '', false);
-        $objFormParam->addParam('表示件数', 'disp_number', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'), '', false);
-        $objFormParam->addParam('新着ID', 'news_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'), '', false);
+        $objFormParam->addParam('現在ページ', 'pageno', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK'], '', false);
+        $objFormParam->addParam('表示件数', 'disp_number', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK'], '', false);
+        $objFormParam->addParam('新着ID', 'news_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK'], '', false);
     }
 
     /**
@@ -128,7 +127,7 @@ class LC_Page_FrontParts_Bloc_News extends LC_Page_FrontParts_Bloc_Ex
         // モバイルサイトのセッション保持 (#797)
         if (SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE) {
             foreach ($arrNewsList as $key => $value) {
-                $arrRow =& $arrNewsList[$key];
+                $arrRow = &$arrNewsList[$key];
                 if (SC_Utils_Ex::isAppInnerUrl($arrRow['news_url'])) {
                     $netUrl = new Net_URL($arrRow['news_url']);
                     $netUrl->addQueryString(session_name(), session_id());
@@ -146,7 +145,8 @@ class LC_Page_FrontParts_Bloc_News extends LC_Page_FrontParts_Bloc_Ex
      *
      * @param  array  $arrData フォーム入力値
      * @param  SC_Helper_News_Ex $objNews
-     * @return String $json 新着情報のJSONを返す
+     *
+     * @return string $json 新着情報のJSONを返す
      */
     public function lfGetNewsForJson($arrData, SC_Helper_News_Ex $objNews)
     {
@@ -154,11 +154,11 @@ class LC_Page_FrontParts_Bloc_News extends LC_Page_FrontParts_Bloc_Ex
         $pageNo = $arrData['pageno'];
         $arrNewsList = $this->lfGetNews($dispNumber, $pageNo, $objNews);
 
-        //新着情報の最大ページ数をセット
+        // 新着情報の最大ページ数をセット
         $newsCount = $objNews->getCount();
         $arrNewsList['news_page_count'] = ceil($newsCount / 3);
 
-        $json =  SC_Utils_Ex::jsonEncode($arrNewsList);    //JSON形式
+        $json = SC_Utils_Ex::jsonEncode($arrNewsList);    // JSON形式
 
         return $json;
     }
@@ -168,12 +168,13 @@ class LC_Page_FrontParts_Bloc_News extends LC_Page_FrontParts_Bloc_Ex
      * (news_idを指定)
      *
      * @param  array  $arrData フォーム入力値
-     * @return String $json 新着情報1件分のJSONを返す
+     *
+     * @return string $json 新着情報1件分のJSONを返す
      */
     public function lfGetNewsDetailForJson($arrData)
     {
         $arrNewsList = SC_Helper_News_Ex::getNews($arrData['news_id']);
-        $json =  SC_Utils_Ex::jsonEncode($arrNewsList);    //JSON形式
+        $json = SC_Utils_Ex::jsonEncode($arrNewsList);    // JSON形式
 
         return $json;
     }
@@ -182,15 +183,16 @@ class LC_Page_FrontParts_Bloc_News extends LC_Page_FrontParts_Bloc_Ex
      * エラーメッセージを整形し, JSON 形式で返す.
      *
      * @param  array  $arrErr エラーメッセージの配列
+     *
      * @return string JSON 形式のエラーメッセージ
      */
     public function lfGetErrors($arrErr)
     {
         $messages = '';
         foreach ($arrErr as $val) {
-            $messages .= $val . "\n";
+            $messages .= $val."\n";
         }
 
-        return SC_Utils_Ex::jsonEncode(array('error' => $messages));
+        return SC_Utils_Ex::jsonEncode(['error' => $messages]);
     }
 }

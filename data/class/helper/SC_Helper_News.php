@@ -24,8 +24,8 @@
 /**
  * ニュースを管理するヘルパークラス.
  *
- * @package Helper
  * @author pineray
+ *
  * @version $Id$
  */
 class SC_Helper_News
@@ -33,8 +33,9 @@ class SC_Helper_News
     /**
      * ニュースの情報を取得.
      *
-     * @param  integer $news_id     ニュースID
-     * @param  boolean $has_deleted 削除されたニュースも含む場合 true; 初期値 false
+     * @param  int $news_id     ニュースID
+     * @param  bool $has_deleted 削除されたニュースも含む場合 true; 初期値 false
+     *
      * @return array
      */
     public static function getNews($news_id, $has_deleted = false)
@@ -45,7 +46,7 @@ class SC_Helper_News
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select($col, 'dtb_news', $where, array($news_id));
+        $arrRet = $objQuery->select($col, 'dtb_news', $where, [$news_id]);
 
         return $arrRet[0];
     }
@@ -53,9 +54,10 @@ class SC_Helper_News
     /**
      * ニュース一覧の取得.
      *
-     * @param  integer $dispNumber  表示件数
-     * @param  integer $pageNumber  ページ番号
-     * @param  boolean $has_deleted 削除されたニュースも含む場合 true; 初期値 false
+     * @param  int $dispNumber  表示件数
+     * @param  int $pageNumber  ページ番号
+     * @param  bool $has_deleted 削除されたニュースも含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function getList($dispNumber = 0, $pageNumber = 0, $has_deleted = false)
@@ -70,7 +72,7 @@ class SC_Helper_News
         $objQuery->setOrder('rank DESC');
         if ($dispNumber > 0) {
             if ($pageNumber > 0) {
-                $objQuery->setLimitOffset($dispNumber, (($pageNumber - 1) * $dispNumber));
+                $objQuery->setLimitOffset($dispNumber, ($pageNumber - 1) * $dispNumber);
             } else {
                 $objQuery->setLimit($dispNumber);
             }
@@ -84,6 +86,7 @@ class SC_Helper_News
      * ニュースの登録.
      *
      * @param  array    $sqlval
+     *
      * @return multiple 登録成功:ニュースID, 失敗:FALSE
      */
     public function saveNews($sqlval)
@@ -104,16 +107,17 @@ class SC_Helper_News
             unset($sqlval['creator_id']);
             unset($sqlval['create_date']);
             $where = 'news_id = ?';
-            $ret = $objQuery->update('dtb_news', $sqlval, $where, array($news_id));
+            $ret = $objQuery->update('dtb_news', $sqlval, $where, [$news_id]);
         }
 
-        return ($ret) ? $sqlval['news_id'] : FALSE;
+        return ($ret) ? $sqlval['news_id'] : false;
     }
 
     /**
      * ニュースの削除.
      *
-     * @param  integer $news_id ニュースID
+     * @param  int $news_id ニュースID
+     *
      * @return void
      */
     public function deleteNews($news_id)
@@ -126,7 +130,8 @@ class SC_Helper_News
     /**
      * ニュースの表示順をひとつ上げる.
      *
-     * @param  integer $news_id ニュースID
+     * @param  int $news_id ニュースID
+     *
      * @return void
      */
     public function rankUp($news_id)
@@ -138,7 +143,8 @@ class SC_Helper_News
     /**
      * ニュースの表示順をひとつ下げる.
      *
-     * @param  integer $news_id ニュースID
+     * @param  int $news_id ニュースID
+     *
      * @return void
      */
     public function rankDown($news_id)
@@ -150,8 +156,9 @@ class SC_Helper_News
     /**
      * ニュースの表示順を指定する.
      *
-     * @param  integer $news_id ニュースID
-     * @param  integer $rank    移動先の表示順
+     * @param  int $news_id ニュースID
+     * @param  int $rank    移動先の表示順
+     *
      * @return void
      */
     public function moveRank($news_id, $rank)
@@ -163,8 +170,9 @@ class SC_Helper_News
     /**
      * ニュース記事数を計算.
      *
-     * @param  boolean $has_deleted 削除されたニュースも含む場合 true; 初期値 false
-     * @return integer ニュース記事数
+     * @param  bool $has_deleted 削除されたニュースも含む場合 true; 初期値 false
+     *
+     * @return int ニュース記事数
      */
     public function getCount($has_deleted = false)
     {

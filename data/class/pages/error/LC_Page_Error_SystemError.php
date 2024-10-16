@@ -25,8 +25,8 @@
  * システムエラー表示のページクラス
  * システムエラーや例外が発生した場合の表示ページ
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Error_SystemError extends LC_Page_Error
@@ -38,7 +38,7 @@ class LC_Page_Error_SystemError extends LC_Page_Error
     public $backtrace;
 
     /** デバッグ用のメッセージ配列 */
-    public $arrDebugMsg = array();
+    public $arrDebugMsg = [];
     /** @var bool */
     public $adminPage;
 
@@ -84,7 +84,6 @@ class LC_Page_Error_SystemError extends LC_Page_Error
             echo '<div>▲▲▲ デバッグ情報ここまで ▲▲▲</div>';
             echo '</div>';
         }
-
     }
 
     /**
@@ -110,7 +109,7 @@ class LC_Page_Error_SystemError extends LC_Page_Error
     /**
      * トランザクショントークンに関して処理しないようにオーバーライド
      *
-     * @param  boolean $is_admin 管理画面でエラー表示をする場合 true
+     * @param  bool $is_admin 管理画面でエラー表示をする場合 true
      */
     public function doValidToken($is_admin = false)
     {
@@ -137,16 +136,16 @@ class LC_Page_Error_SystemError extends LC_Page_Error
 
         // デバッグ用のメッセージが指定されている場合
         if (!empty($this->arrDebugMsg)) {
-            $errmsg .= implode("\n\n", $this->arrDebugMsg) . "\n";
+            $errmsg .= implode("\n\n", $this->arrDebugMsg)."\n";
         }
 
         // PEAR エラーを伴う場合
         if (!is_null($this->pearResult)) {
-            $errmsg .= $this->pearResult->message . "\n\n";
-            $errmsg .= $this->pearResult->userinfo . "\n\n";
+            $errmsg .= $this->pearResult->message."\n\n";
+            $errmsg .= $this->pearResult->userinfo."\n\n";
             $errmsg .= GC_Utils_Ex::toStringBacktrace($this->pearResult->backtrace);
         // (上に該当せず)バックトレーススタックが指定されている場合
-        } else if (is_array($this->backtrace)) {
+        } elseif (is_array($this->backtrace)) {
             $errmsg .= GC_Utils_Ex::toStringBacktrace($this->backtrace);
         } else {
             $arrBacktrace = GC_Utils_Ex::getDebugBacktrace();
@@ -164,11 +163,11 @@ class LC_Page_Error_SystemError extends LC_Page_Error
     public function lfGetErrMsgHead()
     {
         $errmsg = '';
-        $errmsg .= GC_Utils_Ex::getUrl() . "\n";
+        $errmsg .= GC_Utils_Ex::getUrl()."\n";
         $errmsg .= "\n";
-        $errmsg .= 'SERVER_ADDR: ' . $_SERVER['SERVER_ADDR'] . "\n";
-        $errmsg .= 'REMOTE_ADDR: ' . $_SERVER['REMOTE_ADDR'] . "\n";
-        $errmsg .= 'USER_AGENT: ' . $_SERVER['HTTP_USER_AGENT'] . "\n";
+        $errmsg .= 'SERVER_ADDR: '.$_SERVER['SERVER_ADDR']."\n";
+        $errmsg .= 'REMOTE_ADDR: '.$_SERVER['REMOTE_ADDR']."\n";
+        $errmsg .= 'USER_AGENT: '.$_SERVER['HTTP_USER_AGENT']."\n";
 
         return $errmsg;
     }
@@ -177,6 +176,7 @@ class LC_Page_Error_SystemError extends LC_Page_Error
      * デバッグ用のメッセージを追加
      *
      * @param string $debugMsg
+     *
      * @return void
      */
     public function addDebugMsg($debugMsg)

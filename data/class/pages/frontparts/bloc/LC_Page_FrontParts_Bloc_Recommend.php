@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * Recommend のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_FrontParts_Bloc_Recommend extends LC_Page_FrontParts_Bloc_Ex
@@ -62,7 +61,7 @@ class LC_Page_FrontParts_Bloc_Recommend extends LC_Page_FrontParts_Bloc_Ex
      */
     public function action()
     {
-        //おすすめ商品表示
+        // おすすめ商品表示
         $this->arrBestProducts = $this->lfGetRanking();
     }
 
@@ -78,13 +77,13 @@ class LC_Page_FrontParts_Bloc_Recommend extends LC_Page_FrontParts_Bloc_Ex
         // おすすめ商品取得
         $arrRecommends = $objRecommend->getList(RECOMMEND_NUM);
 
-        $response = array();
+        $response = [];
         if (count($arrRecommends) > 0) {
             // 商品一覧を取得
             $objQuery = SC_Query_Ex::getSingletonInstance();
             $objProduct = new SC_Product_Ex();
             // where条件生成&セット
-            $arrProductId = array();
+            $arrProductId = [];
             foreach ($arrRecommends as $key => $val) {
                 $arrProductId[] = $val['product_id'];
             }

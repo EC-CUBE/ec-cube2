@@ -21,57 +21,55 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Date_AccessorTest extends Common_TestCase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->objDate = new SC_Date_Ex('2010','2014');
+        $this->objDate = new SC_Date_Ex('2010', '2014');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testGetStartYear_startYearの値を取得する()
+    public function testGetStartYearStartYearの値を取得する()
     {
         $this->expected = '2010';
         $this->actual = $this->objDate->getStartYear();
 
-        $this->verify("StartYear");
+        $this->verify('StartYear');
     }
 
-    public function testGetEndYear_endYearの値を取得する()
+    public function testGetEndYearEndYearの値を取得する()
     {
         $this->expected = '2014';
         $this->actual = $this->objDate->getEndYear();
 
-        $this->verify("EndYear");
+        $this->verify('EndYear');
     }
 
-    public function testsetMonth_monthの値を設定する()
+    public function testsetMonthMonthの値を設定する()
     {
         $this->expected = '9';
         $this->objDate->setMonth('9');
         $this->actual = $this->objDate->month;
 
-        $this->verify("Month");
+        $this->verify('Month');
     }
-    
-    public function testsetDay_dayの値を設定する()
+
+    public function testsetDayDayの値を設定する()
     {
         $this->expected = '28';
         $this->objDate->setDay('28');
         $this->actual = $this->objDate->day;
 
-        $this->verify("Day");
+        $this->verify('Day');
     }
 }
-

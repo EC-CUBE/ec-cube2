@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,68 +27,65 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfArrCombine()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfArrCombineTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfArrCombine入力の配列が空の場合結果も空になる()
+    {
+        $keys = [];
+        $values = [];
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->expected = [];
+        $this->actual = SC_Utils::sfArrCombine($keys, $values);
 
-  /////////////////////////////////////////
-  public function testSfArrCombine_入力の配列が空の場合_結果も空になる()
-  {
-    $keys = array();
-    $values = array();
+        $this->verify();
+    }
 
-    $this->expected = array();
-    $this->actual = SC_Utils::sfArrCombine($keys, $values);
+    // TODO 要確認　キーの方が短い場合はエラーで良いのでは？
+    public function testSfArrCombine入力のキー配列の方が短い場合余った値の配列の要素は無視される()
+    {
+        $keys = ['apple', 'banana'];
+        $values = ['りんご', 'バナナ', 'オレンジ', '梨'];
 
-    $this->verify();
-  }
-
-  // TODO 要確認　キーの方が短い場合はエラーで良いのでは？
-  public function testSfArrCombine_入力のキー配列の方が短い場合_余った値の配列の要素は無視される()
-  {
-    $keys = array('apple', 'banana');
-    $values = array('りんご', 'バナナ', 'オレンジ', '梨');
-
-    $this->expected = array(
+        $this->expected = [
       'apple' => 'りんご',
       'banana' => 'バナナ',
-      null => '梨'
-    );
-    $this->actual = SC_Utils::sfArrCombine($keys, $values);
+      null => '梨',
+    ];
+        $this->actual = SC_Utils::sfArrCombine($keys, $values);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfArrCombine_入力のキー配列の方が長い場合_余ったキーの配列の要素は空になる()
-  {
-    $keys = array('apple', 'banana', 'orange', 'pear');
-    $values = array('りんご', 'バナナ');
+    public function testSfArrCombine入力のキー配列の方が長い場合余ったキーの配列の要素は空になる()
+    {
+        $keys = ['apple', 'banana', 'orange', 'pear'];
+        $values = ['りんご', 'バナナ'];
 
-    $this->expected = array(
+        $this->expected = [
       'apple' => 'りんご',
       'banana' => 'バナナ',
       'orange' => null,
-      'pear' => null
-    );
-    $this->actual = SC_Utils::sfArrCombine($keys, $values);
+      'pear' => null,
+    ];
+        $this->actual = SC_Utils::sfArrCombine($keys, $values);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-
