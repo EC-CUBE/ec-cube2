@@ -403,6 +403,9 @@ class SC_Helper_Purchase
 
         if (empty($arrItems['productsClass'])) {
             $product = &$objProduct->getDetailAndProductsClass($product_class_id);
+            // セッション変数のデータ量を抑制するため、一部の商品情報を切り捨てる
+            $objCartSession = new SC_CartSession_Ex();
+            $objCartSession->adjustSessionProductsClass($product);
             $arrItems['productsClass'] = $product;
         }
         $arrItems['price'] = $arrItems['productsClass']['price02'];
