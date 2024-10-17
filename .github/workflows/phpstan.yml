@@ -39,7 +39,11 @@ jobs:
         echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
         if [ $EVENT_NAME = "pull_request" ]; then
-          echo "TAG=8.3-apache-${BASE_REF}" >> $GITHUB_ENV
+          if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
+            echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
+          else
+            echo "TAG=8.3-apache-${BASE_REF}" >> $GITHUB_ENV
+          fi
         else
           echo "TAG=8.3-apache-${REF_NAME}" >> $GITHUB_ENV
         fi

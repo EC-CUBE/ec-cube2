@@ -22,8 +22,7 @@ runs:
       run: |
         echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}-php" >> ${GITHUB_ENV}
 
-    - if: ${{ inputs.php-version >= 7.4 }}
-      shell: 'bash'
+    - shell: 'bash'
       run: |
         echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
         echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
