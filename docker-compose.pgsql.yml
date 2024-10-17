@@ -34,7 +34,7 @@ services:
       PASSWORD_HASH_ALGOS: sha256
 
   postgres:
-    image: postgres:16
+    image: postgres:latest
     environment:
       - TZ=Asia/Tokyo
       - POSTGRES_DB=eccube_db
