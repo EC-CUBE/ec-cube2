@@ -17,13 +17,13 @@
     "slick-carousel": "^1.8.1",
     "style-loader": "^3.3.4",
     "url-loader": "^4.1.1",
-    "webpack": "^5.93.0"
+    "webpack": "^5.95.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@faker-js/faker": "^8.4.1",
-    "@playwright/test": "^1.45.3",
+    "@playwright/test": "^1.48.0",
     "@types/date-fns": "^2.6.0",
     "@types/faker": "^6.6.9",
     "@types/tar": "^6.1.11",
@@ -36,7 +36,7 @@
     "eslint-config-jquery": "^3.0.2",
     "eslint-plugin-import": "^2.29.1",
     "tar": "^7.4.3",
-    "typescript": "^5.5.4",
+    "typescript": "^5.6.3",
     "webpack-cli": "^4.10.0",
     "zaproxy": "^1.0.1"
   },
