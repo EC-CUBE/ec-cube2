@@ -38,6 +38,3 @@ parameters:
     -
       message: "#^Variable \\$SJIS_widths might not be defined\\.$#"
       path: data/class/helper/SC_Helper_FPDI.php
-    -
-      message: "#^Inner named functions are not supported by PHPStan\\.#"
-      path: data/class/SC_Initial.php
