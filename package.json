@@ -46,7 +46,8 @@
     "lint:typescript": "eslint --fix --ext .ts e2e-tests",
     "test:e2e": "playwright test --grep-invert '(@attack|@extends)'",
     "test:e2e-extends": "playwright test --grep @extends",
-    "test:attack": "playwright test --grep-invert @extends"
+    "test:attack": "playwright test --grep-invert @extends",
+    "dev": "npx webpack --mode development --watch"
   },
   "packageManager": "yarn@1.22.22"
 }
