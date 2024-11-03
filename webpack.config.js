@@ -2,6 +2,8 @@
 var path = require('path');
 var webpack = require("webpack");
 
+const TerserPlugin = require("terser-webpack-plugin");
+
 module.exports = {
     mode: 'production',
     entry: {
@@ -43,14 +45,15 @@ module.exports = {
                     }
                 ],
                 exclude: /node_modules/
-            }
-        ]
+            },
+            {
+                test: require.resolve("jquery"),
+                loader: "expose-loader",
+                options: {
+                    exposes: ["$", "jQuery"],
+                },
+            },
+        ],
     },
-    plugins: [
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery",
-            "window.jQuery": "jquery"
-        })
-    ]
+    plugins: [new TerserPlugin()],
 };
