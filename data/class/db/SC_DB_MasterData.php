@@ -108,9 +108,11 @@ class SC_DB_MasterData
         }
         $i = 0;
         foreach ($masterData as $key => $val) {
-            $sqlVal = [$columns[0] => (string) $key,
-                            $columns[1] => (string) $val,
-                            $columns[2] => (string) $i, ];
+            $sqlVal = [
+                $columns[0] => (string) $key,
+                $columns[1] => (string) $val,
+                $columns[2] => (string) $i,
+            ];
             $this->objQuery->insert($name, $sqlVal);
             $i++;
         }
