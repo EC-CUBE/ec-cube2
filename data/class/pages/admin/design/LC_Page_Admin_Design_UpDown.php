@@ -148,10 +148,12 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
         }
 
         // 登録不可の文字列チェック
-        $arrIgnoreCode = ['admin',
-                               MOBILE_DEFAULT_TEMPLATE_NAME,
-                               SMARTPHONE_DEFAULT_TEMPLATE_NAME,
-                               DEFAULT_TEMPLATE_NAME, ];
+        $arrIgnoreCode = [
+            'admin',
+            MOBILE_DEFAULT_TEMPLATE_NAME,
+            SMARTPHONE_DEFAULT_TEMPLATE_NAME,
+            DEFAULT_TEMPLATE_NAME,
+        ];
         if (in_array($template_code, $arrIgnoreCode)) {
             $arrErr['template_code'] = '※ このテンプレートコードは使用できません。<br/>';
         }
