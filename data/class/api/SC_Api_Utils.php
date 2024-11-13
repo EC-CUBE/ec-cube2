@@ -234,8 +234,10 @@ class SC_Api_Utils
             'addDecl' => true,
             'encoding' => 'UTF-8',
             'rootName' => $response_outer_name,
-            'rootAttributes' => ['xmlns' => self::API_XMLNS.ECCUBE_VERSION,
-                                        'xml:lang' => self::API_XML_LANG, ],
+            'rootAttributes' => [
+                'xmlns' => self::API_XMLNS.ECCUBE_VERSION,
+                'xml:lang' => self::API_XML_LANG,
+            ],
             'defaultTagName' => 'Response',
             'attributesArray' => '_attributes',
         ];

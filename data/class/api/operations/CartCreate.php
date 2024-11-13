@@ -40,7 +40,8 @@ class API_CartCreate extends SC_Api_Abstract_Ex
     public function doAction($arrParam)
     {
         $this->arrResponse = [
-            'Version' => ECCUBE_VERSION, ];
+            'Version' => ECCUBE_VERSION,
+        ];
 
         return true;
     }
