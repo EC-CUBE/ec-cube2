@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
 /**
  * Scriptタグをエスケープする
  *
@@ -50,5 +51,10 @@ function smarty_modifier_script_escape($value)
         $value = preg_replace($pattern, $convert, $value);
     }
 
-    return $value;
+    // 念のために HTMLPurifier でサニタイズ
+    $config = HTMLPurifier_Config::createDefault();
+    $config->set('Cache.SerializerPath', __DIR__ . '/../cache');
+    $purify = new HTMLPurifier($config);
+
+    return $purify->purify($value ?? '');
 }
