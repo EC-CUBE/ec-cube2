@@ -44,7 +44,7 @@ class Modifier_ScriptEscapeTest extends PHPUnit_Framework_TestCase
     public function scriptNoEscapeProvider()
     {
         return [
-            ['<p>test</p>', '<p>test</p>'],
+            ['<p id="test" class="test">test</p>', '<p id="test" class="test">test</p>'],
             ['<input type="button">', ''], // 許可タグではないのでHTMLPurifier によって完全に削除される
             ['<p>onclick</p>', '<p>onclick</p>'],
             ['<div>test</div>', '<div>test</div>'],

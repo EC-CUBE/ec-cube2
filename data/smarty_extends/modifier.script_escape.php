@@ -54,6 +54,7 @@ function smarty_modifier_script_escape($value)
     // 念のために HTMLPurifier でサニタイズ
     $config = HTMLPurifier_Config::createDefault();
     $config->set('Cache.SerializerPath', __DIR__ . '/../cache');
+    $config->set('Attr.EnableID', true); // id 属性はサニタイズしない
     $purify = new HTMLPurifier($config);
 
     return $purify->purify($value ?? '');
