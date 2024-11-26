@@ -16,6 +16,9 @@ body {
 img.picture {
     border: 1px solid #ccc;
 }
+img {
+    max-width: 100%;
+}
 
 
 /* ==============================================
@@ -44,6 +47,22 @@ img.picture {
 
 /* メイン部
 ----------------------------------------------- */
+@media screen and (min-width: 768px) {
+#main_column_frame {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    flex-direction: row;
+}
+#main_column_frame .colnum_order:nth-child(1) { order: 2; }
+#main_column_frame .colnum_order:nth-child(2) { order: 1; }
+#main_column_frame .colnum_order:nth-child(3) { order: 3; }
+}
+  
 #main_column {
     padding: 10px 0 0;
 }
@@ -62,20 +81,17 @@ img.picture {
 /* 2カラム時 (メイン部が左) */
 #main_column.colnum2.left {
     padding-left: 1.5%;
-    float: left;
 }
 
 /* 2カラム時 (メイン部が右) */
 #main_column.colnum2.right {
     padding-right: 1.5%;
-    float: right;
 }
 
 /* 3カラム時 */
 #main_column.colnum3 {
     padding-left: 0.5%;
     width: 59%;
-    float: left;
 }
 
 /* サイドカラム
@@ -84,11 +100,9 @@ img.picture {
     padding: 10px 0 0;
 }
 #leftcolumn {
-    float: left;
     width: 20%;
 }
 #rightcolumn {
-    float: right;
     width: 20%;
 }
 
@@ -300,10 +314,16 @@ div#undercolumn_login .login_area h4 {
 #header {
     margin: auto;
     width: 980px;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
 }
 #header_utility {
-    float: right;
-    width: 580px;
+    width: 60%;
 }
 #errorHeader {
     color: #F00;
@@ -319,8 +339,7 @@ div#undercolumn_login .login_area h4 {
 ----------------------------------------------- */
 #logo_area {
     padding-left: 10px;
-    float: left;
-    width: 390px;
+    width: 40%px;
     text-align: left;
 }
 #site_description {
@@ -330,17 +349,22 @@ div#undercolumn_login .login_area h4 {
 
 /* ヘッダーナビ
 ----------------------------------------------- */
-div#header_navi {
-    float: right;
-    width: 409px;
+#header_navi ul {
+    width: 100%;
     height: 38px;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
 }
-div#header_navi ul li {
+#header_navi ul li {
     display: block;
-    float: left;
 }
-div#header_navi ul li.mypage,
-div#header_navi ul li.entry {
+#header_navi ul li.mypage,
+#header_navi ul li.entry {
     margin-top: 6px;
 }
 
@@ -362,12 +386,13 @@ div#header_navi ul li.entry {
 }
 #pagetop {
     width: 210px;
-    float: right;
     text-align: right;
+    position: fixed;
+    bottom: 40px;
+    right: 12px;
 }
 #copyright {
     width: 740px;
-    float: left;
     text-align: left;
     font-size: 97%;
 }
@@ -379,14 +404,26 @@ div#header_navi ul li.entry {
 /* ボタン
 ----------------------------------------------- */
 .btn_area {
-    margin-top: 10px;
-    width: 100%;
-    text-align: center;
+    margin: 10px auto;
+    width: 80%;
+}
+.btn_area ul {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
 }
 
 .btn_area li {
     padding-right: 10px;
-    display: inline;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 

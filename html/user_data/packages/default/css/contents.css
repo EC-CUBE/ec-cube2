@@ -60,11 +60,19 @@ div#mycontents_area {
 div#mynavi_area .mynavi_list {
     margin-bottom: 20px;
     width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;        
 }
 div#mynavi_area .mynavi_list li {
     margin: 0 15px 5px 0;
     padding-left: 15px;
-    float: left;
     background: url('../img/icon/ico_arrow_01.gif') no-repeat left ;
     font-size: 120%;
 }
@@ -102,12 +110,10 @@ div#mycontents_area div.mycondition_area {
     background: #f9f9f9;
 }
 div#mycontents_area div.mycondition_area p {
-    float: left;
 }
 div#mycontents_area div.mycondition_area .btn {
     width: 160px;
     margin-top: 15px;
-    float: right;
 }
 .add_address {
     margin-bottom: 20px;
@@ -203,13 +209,13 @@ div#undercolumn_error .message_area .error {
 }
 .pagenumber_area .navi {
     width: 100%;
-    text-align: left;
+    text-align: center;
+    margin: 16px auto;
 }
 .pagenumber_area .navi li {
     display: inline;
 }
 .pagenumber_area .change {
-    float: right;
     text-align: right;
     white-space: nowrap;
 }
@@ -221,27 +227,30 @@ div.list_area {
     padding: 0 0 30px 0;
     width: 100%;
     overflow: auto;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
 }
 
 div.listphoto {
-    float: left;
 }
 
 /* メインカラム用 1カラム時*/
 #main_column.colnum1 div.listrightbloc {
-    float: right;
     width: 74%;
 }
 
 /* メインカラム用 2カラム時*/
 #main_column.colnum2 div.listrightbloc {
-    float: right;
     width: 80%;
 }
 
 /* メインカラム用 3カラム時*/
 #main_column.colnum3 div.listrightbloc {
-    float: right;
     width: 74%;
 }
 
@@ -252,10 +261,16 @@ div.listphoto {
 div.listrightbloc ul.status_icon {
     margin-bottom: 10px;
     width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
 }
 div.listrightbloc ul.status_icon li {
     margin-right: 5px;
-    float: left;
 }
 
 /* 商品名 */
@@ -312,20 +327,33 @@ div.listrightbloc dd p.attention {
 /* カゴに入れる */
 div.listrightbloc .cartin {
     margin: 0;
-    float :right;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
 }
 div.listrightbloc .cartin .quantity {
     padding: 3px 10px 0 0;
     width: 150px;
-    float :left;
     text-align: right;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    width: 40%;
+    padding: 0 4% 0 0;
 }
 div.listrightbloc .cartin .quantity .box {
     width: 70px;
 }
 div.listrightbloc .cartin_btn {
     width: 160px;
-    float :left;
 }
 
 
@@ -348,22 +376,45 @@ div.listrightbloc .cartin_btn {
 
 /* レイアウト
 ----------------------------------------------- */
+#detailarea {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+}
+#main_column h3 {
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+#main_column div.subtext {
+    -webkit-flex-grow: 2;
+    flex-grow: 2;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+#main_column div.subphotoimg {
+    -webkit-flex-grow: 2;
+    flex-grow: 2;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
 /* 1カラム用 */
 #main_column.colnum1 div#detailphotobloc {
     width: 37%;
-    float: left;
 }
 #main_column.colnum1 #detailrightbloc {
     width: 63%;
-    float: right;
 }
 #main_column.colnum1 div.subtext {
     margin-bottom: 20px;
-    float: left;
     width: 69%;
 }
 #main_column.colnum1 div.subphotoimg {
-    float: right;
     width: 25%;
     text-align: right;
 }
@@ -373,46 +424,41 @@ div.listrightbloc .cartin_btn {
 
 /* 2カラム用 */
 #main_column.colnum2 div#detailphotobloc {
-    float: left;
     width: 37%;
 }
 #main_column.colnum2 #detailrightbloc {
-    float: right;
     width: 63%;
+}
+#main_column.colnum2 h3 {
+    width: 100%;
 }
 #main_column.colnum2 div.subtext {
     margin-bottom: 20px;
-    float: left;
     width: 73%;
 }
 #main_column.colnum2 p.subtext {
     margin-bottom: 20px;
 }
 #main_column.colnum2 div.subphotoimg {
-    float: right;
     width: 25%;
     text-align: right;
 }
 
 /* 3カラム用 */
 #main_column.colnum3 div#detailphotobloc {
-    float: left;
     width: 49%;
 }
 #main_column.colnum3 #detailrightbloc {
-    float: right;
     width: 50%;
 }
 #main_column.colnum3 div.subtext {
     margin-bottom: 20px;
-    float: left;
     width: 63%;
 }
 #main_column.colnum3 p.subtext {
     margin-bottom: 20px;
 }
 #main_column.colnum3 div.subphotoimg {
-    float: right;
     width: 35%;
     text-align: right;
 }
@@ -447,11 +493,17 @@ div.listrightbloc .cartin_btn {
 #detailrightbloc ul.status_icon {
     margin-bottom: 10px;
     width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
 }
 #detailrightbloc ul.status_icon li {
     margin-right: 5px;
     margin-bottom: 3px;
-    float: left;
 }
 
 /* 通常価格 */
@@ -488,7 +540,6 @@ div.listrightbloc .cartin_btn {
 }
 #detailrightbloc ul li {
     vertical-align: top;
-    float: left;
 }
 
 /* メーカー */
@@ -513,6 +564,26 @@ div.listrightbloc .cartin_btn {
     padding: 10px;
     background-color: #ecf5ff;
     border: 1px solid #cef0f4;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+#detailrightbloc .cart_area .quantity {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    padding-top: 4px;
+    width: 50%;
 }
 #detailrightbloc .quantity dt,
 #detailrightbloc .quantity dd {
@@ -520,13 +591,26 @@ div.listrightbloc .cartin_btn {
 }
 #detailrightbloc .cartin {
     text-align: center;
+    width: 50%;
 }
 #detailrightbloc .cartin_btn {
-    text-align: center;
+    text-align: right;
 }
 #detailrightbloc .favorite_btn {
-    text-align: center;
+    text-align: right;
     margin-top: 10px;
+    width: 100%;
+}
+.sub_area {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 
 
@@ -553,11 +637,9 @@ div#customervoice_area .review_bloc {
 div#customervoice_area .review_bloc p {
     padding-top: 3px;
     margin-right: 10px;
-    float: left;
 }
 
 div#customervoice_area .review_bloc .review_btn {
-    float: right;
     width: 160px;
 }
 
@@ -687,11 +769,17 @@ div#undercolumn_shopping .point_area .point_announce li {
 #address_area {
     margin-bottom: 10px;
     width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
 }
 
 #address_area .information {
     width: 65%;
-    float: left;
 }
 
 #undercolumn_shopping .information {
@@ -701,7 +789,6 @@ div#undercolumn_shopping .point_area .point_announce li {
 #address_area .add_multiple {
     padding: 15px 10px;
     border: 1px solid #ffcc62;
-    float: right;
     width: 30%;
     color: #555;
     background: #fffaf0;
@@ -729,3 +816,235 @@ p.condition_area {
     width: 566px;
 }
 
+
+
+/* ==============================================
+▼スマートフォン
+=============================================== */
+@media screen and (max-width: 768px) {
+#container {
+    margin: 0 auto;
+    padding: 0 0 30px;
+    width: 100%;
+    background: #fff;
+    text-align: left;
+}
+
+#main_column_frame {
+    padding: 0 4%;
+}
+
+/* 1カラム時 */
+#main_column.colnum1 {
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* 2カラム時 (共通) */
+#main_column.colnum2 {
+    width: 100%;
+}
+
+/* 2カラム時 (メイン部が左) */
+#main_column.colnum2.left {
+    padding-left: 0;
+}
+
+/* 2カラム時 (メイン部が右) */
+#main_column.colnum2.right {
+    padding-right: 0;
+}
+
+/* 3カラム時 */
+#main_column.colnum3 {
+    padding-left: 0;
+    width: 100%;
+}
+
+
+.box40 {
+    width: 18%;
+}
+.box60 {
+    width: 24%;
+}
+.box100,
+.box120 {
+    width: 32%;
+}
+.box140,
+.box145,
+.box150,
+.box240,
+.box300,
+.box320,
+.box350,
+.box380 {
+    width: 96%;
+}
+input,
+textarea,
+select,
+button {
+    max-width: 100%;
+}
+#footer_wrap,
+#footer,
+#copyright,
+#rightcolumn,
+#leftcolumn {
+    width: 100%;
+    padding-top: 0;
+}
+#headerInternalColumn {
+    width: 100%;
+    padding-top: 0;
+    height: auto;
+    max-height: 35px;
+}
+
+#container .side_column .block_outer {
+    padding: 0;
+    margin: 8px auto;
+}
+
+#header {
+    display: block;
+    width: 100%;
+}
+#header_utility {
+    width: 100%;
+}
+#logo_area {
+    width: 100%;
+    padding-left: 0;
+}
+#header_navi ul {
+    width: 100%;
+}
+#main_column #recommend_area .product_item,
+#whobought_area .product_item {
+    width: 100%;
+}
+#calender_area .block_body {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+#calender_area table {
+    width: 48%;
+    -webkit-flex-grow: 1;
+   flex-grow: 1;
+   -webkit-box-sizing: border-box;
+   box-sizing: border-box;
+   margin: 0 1%;
+}
+#main_column.colnum2 div.listrightbloc {
+    width: 72%;
+}
+div.listphoto {
+    width: 24%;
+    margin-right: 4%;
+}
+div.listrightbloc .detail_btn {
+    text-align: right;
+}
+div.listrightbloc .cartin {
+    width: 100%;
+}
+div.listrightbloc .cartin .quantity .box {
+    width: 40%;
+}
+div.listrightbloc .cartin_btn {
+    width: 60%;
+}
+
+#main_column.colnum1 div.subtext,
+#main_column.colnum2 div.subtext,
+#main_column.colnum3 div.subtext,
+#main_column.colnum1 div.subphotoimg,
+#main_column.colnum2 div.subphotoimg,
+#main_column.colnum3 div.subphotoimg {
+    width: 100%;
+}
+#detailarea,
+.sub_area {
+    display: block;
+}
+#main_column div.subphotoimg img,
+#undercolumn_cart .form_area tbody td img,
+#main_column div#detailphotobloc img {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
+#main_column.colnum1 div#detailphotobloc,
+#main_column.colnum2 div#detailphotobloc,
+#main_column.colnum3 div#detailphotobloc {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 16px;
+}
+#main_column.colnum1 #detailrightbloc,
+#main_column.colnum2 #detailrightbloc,
+#main_column.colnum3 #detailrightbloc {
+    width: 100%;
+}
+#detailrightbloc .cart_area .quantity dt {
+    width: 40%;
+    text-align: right;
+}
+#detailrightbloc .cart_area .quantity .box60 {
+    width: 60%;
+}
+div#customervoice_area .review_bloc .review_btn {
+    margin: 8px auto;
+}
+#detailrightbloc .favorite_btn {
+    margin: 8px auto 0;
+}
+
+div#mynavi_area .mynavi_list li {
+    width: 40%;
+    margin-right: 0;
+}
+
+#undercolumn_cart .form_area tbody th:nth-child(2),
+#undercolumn_cart .form_area tbody td:nth-child(2) {
+    padding: 4px 0;
+    width: 16%;
+}
+#undercolumn_cart .form_area tbody th:nth-child(3),
+#undercolumn_cart .form_area tbody td:nth-child(3) {
+    width: 20%;
+}
+#undercolumn_cart .form_area tbody th:nth-child(4),
+#undercolumn_cart .form_area tbody td:nth-child(4) {
+    width: 16%;
+}
+#undercolumn_cart .form_area tbody th:nth-child(5),
+#undercolumn_cart .form_area tbody td:nth-child(5) {
+    width: 20%;
+}
+#undercolumn_cart .form_area tbody th:nth-child(6),
+#undercolumn_cart .form_area tbody td:nth-child(6) {
+    width: 16%;
+}
+#undercolumn_cart .form_area tbody td .box3 {
+    width: 20%;
+}
+#address_area .add_multiple {
+    width: 84%;
+    padding: 12px 8%;
+}
+#address_area {
+    display: block;
+}
+}

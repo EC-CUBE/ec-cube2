@@ -119,7 +119,7 @@ class SC_Display
                 $this->setView(new SC_MobileView_Ex());
                 break;
             case DEVICE_TYPE_SMARTPHONE:
-                $this->setView(new SC_SmartphoneView_Ex());
+                $this->setView(new SC_SiteView_Ex());
                 break;
             case DEVICE_TYPE_PC:
                 $this->setView(new SC_SiteView_Ex());
@@ -155,7 +155,7 @@ class SC_Display
             //$nu = new Net_UserAgent_Mobile();
             $su = new SC_SmartphoneUserAgent_Ex();
             if ($su->isSmartphone()) {
-                SC_Display_Ex::$device = DEVICE_TYPE_SMARTPHONE;
+                SC_Display_Ex::$device = DEVICE_TYPE_PC;
             } else {
                 SC_Display_Ex::$device = DEVICE_TYPE_PC;
             }
