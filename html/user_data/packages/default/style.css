@@ -150,7 +150,7 @@ img {
 
 /* メイン部
 ----------------------------------------------- */
-@media screen and (min-width: 768px) {
+@media (width > 768px), not screen {
     #main_column_frame {
         display: flex;
         display: -webkit-flex;
@@ -2293,7 +2293,7 @@ ul.button_like li {
 /* ==============================================
 ▼スマートフォン
 =============================================== */
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
     #container {
         margin: 0 auto;
         padding: 0 0 30px;
