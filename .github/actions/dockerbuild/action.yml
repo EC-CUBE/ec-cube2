@@ -1,0 +1,74 @@
+name: 'Docker build action'
+description: 'Builds a Docker image for PHP'
+inputs:
+  php-version:
+    description: 'PHP version to build'
+    default: '7.4'
+    required: true
+  registry:
+    description: 'Docker registry to push to'
+    default: 'ghcr.io'
+    required: true
+  cache-to:
+    description: 'Add the Docker build layer to the cache'
+    default: ~
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: downcase REPO
+      shell: 'bash'
+      run: |
+        echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}-php" >> ${GITHUB_ENV}
+
+    - shell: 'bash'
+      run: |
+        echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
+        echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
+        echo "APCU=apcu" >>  ${GITHUB_ENV}
+        echo "FORCE_YES=" >>  ${GITHUB_ENV}
+        echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
+        echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
+
+    ## Used when creating multi-platform images
+    # - name: Set up QEMU
+    #   uses: docker/setup-qemu-action@v2
+    # - name: Set up Docker Buildx
+    #   uses: docker/setup-buildx-action@v2
+
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ inputs.registry }}/${{ env.IMAGE_NAME }}
+        tags: |
+          # set latest tag for default branch
+          type=raw,value=${{ inputs.php-version }}-apache,prefix=,enable={{is_default_branch}}
+          type=ref,event=branch,prefix=${{ inputs.php-version }}-apache-
+          type=ref,event=tag,prefix=${{ inputs.php-version }}-apache-
+          type=ref,event=pr,prefix=${{ inputs.php-version }}-apache-pr-
+          type=match,prefix=${{ inputs.php-version }}-apache-,pattern=eccube-(.*),group=1
+          type=match,prefix=${{ inputs.php-version }}-apache-,pattern=eccube2-weekly-(.*),group=1
+          type=semver,pattern={{raw}}
+          type=sha,format=short
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Build and export to Docker
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        load: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha,timeout=1m,scope=php-${{ inputs.php-version }}
+        cache-to: ${{ inputs.cache-to }}
+        build-args: |
+          PHP_VERSION_TAG=${{ inputs.php-version }}
+          GD_OPTIONS=${{ env.GD_OPTIONS }}
+          EXT_INSTALL_ARGS=${{ env.EXT_INSTALL_ARGS }}
+          APCU=${{ env.APCU }}
+          FORCE_YES=${{ env.FORCE_YES }}
+          APT_REPO=${{ env.APT_REPO }}
+          APT_SECURITY_REPO=${{ env.APT_SECURITY_REPO }}

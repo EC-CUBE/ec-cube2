@@ -7,7 +7,7 @@ class SC_Helper_DB_sfGetParentsArrayTest extends SC_Helper_DB_TestBase
     /** @var int[] */
     protected $category_ids;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objDb = new SC_Helper_DB_Ex();
@@ -28,7 +28,6 @@ class SC_Helper_DB_sfGetParentsArrayTest extends SC_Helper_DB_TestBase
         $delete_tables = ['dtb_category', 'dtb_product_categories', 'dtb_category_total_count', 'dtb_category_count'];
         foreach ($delete_tables as $table) {
             $this->objQuery->delete($table);
-
         }
 
         $this->category_ids = $this->objGenerator->createCategories();

@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 退会手続き のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
@@ -68,8 +67,8 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
                 // トークンを設定
                 $this->refusal_transactionid = $this->getRefusalToken();
 
-                $this->tpl_mainpage     = 'mypage/refusal_confirm.tpl';
-                $this->tpl_subtitle     = '退会手続き(確認ページ)';
+                $this->tpl_mainpage = 'mypage/refusal_confirm.tpl';
+                $this->tpl_subtitle = '退会手続き(確認ページ)';
                 break;
 
             case 'complete':
@@ -94,7 +93,6 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
                 }
                 break;
         }
-
     }
 
     /**
@@ -102,17 +100,20 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
      *
      * @return string
      */
-    function getRefusalToken() {
+    public function getRefusalToken()
+    {
         if (empty($_SESSION['refusal_transactionid'])) {
             $_SESSION['refusal_transactionid'] = SC_Helper_Session_Ex::createToken();
         }
+
         return $_SESSION['refusal_transactionid'];
     }
 
     /**
      * トランザクショントークンのチェックを行う
      */
-    function isValidRefusalToken() {
+    public function isValidRefusalToken()
+    {
         if (empty($_POST['refusal_transactionid'])) {
             $ret = false;
         } else {
@@ -125,15 +126,15 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
     /**
      * トランザクショントークを破棄する
      */
-    function destroyRefusalToken() {
+    public function destroyRefusalToken()
+    {
         unset($_SESSION['refusal_transactionid']);
     }
 
     /**
      * 会員情報を削除する
      *
-     * @access private
-     * @return boolean
+     * @return bool
      */
     public function lfDeleteCustomer($customer_id)
     {
@@ -143,14 +144,14 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
     /**
      * 退会手続き完了メール送信する
      *
-     * @access private
-     * @param integer $customer_id 会員ID
+     * @param int $customer_id 会員ID
+     *
      * @return void
      */
     public function lfSendRefusalMail($customer_id)
     {
         // 会員データの取得
-        $arrCustomerData = array();
+        $arrCustomerData = [];
         if (SC_Utils_Ex::sfIsInt($customer_id)) {
             $arrCustomerData = SC_Helper_Customer_Ex::sfGetCustomerDataFromId($customer_id);
         }
@@ -166,10 +167,10 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
         $objMailText->assign('name01', $arrCustomerData['name01']);
         $objMailText->assign('name02', $arrCustomerData['name02']);
 
-        $objHelperMail  = new SC_Helper_Mail_Ex();
+        $objHelperMail = new SC_Helper_Mail_Ex();
         $objHelperMail->setPage($this);
 
-        $subject        = $objHelperMail->sfMakeSubject('退会手続きのご完了', $objMailText);
+        $subject = $objHelperMail->sfMakeSubject('退会手続きのご完了', $objMailText);
         $toCustomerMail = $objMailText->fetch('mail_templates/customer_refusal_mail.tpl');
 
         $objMail = new SC_SendMail_Ex();
@@ -184,9 +185,8 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
             $CONF['email04'],       // Errors_to
             $CONF['email01']        // Bcc
         );
-        $objMail->setTo($arrCustomerData['email'], $arrCustomerData['name01'] . $arrCustomerData['name02'] .' 様');
+        $objMail->setTo($arrCustomerData['email'], $arrCustomerData['name01'].$arrCustomerData['name02'].' 様');
 
         $objMail->sendMail();
     }
-
 }

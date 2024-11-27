@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_REALDIR . 'SC_ClassAutoloader.php';
+require_once CLASS_REALDIR.'SC_ClassAutoloader.php';
 
 /*
  * app_initial.php の spl_autoload_register を登録する前に必要なクラスですので、削除しないでください

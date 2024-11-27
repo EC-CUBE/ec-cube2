@@ -1,4 +1,5 @@
 <?php
+
 class SC_Helper_DB_registerBasisDataTest extends SC_Helper_DB_TestBase
 {
     /** @var array */
@@ -10,13 +11,14 @@ class SC_Helper_DB_registerBasisDataTest extends SC_Helper_DB_TestBase
     /** @var Faker\Generator */
     protected $faker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->faker = Faker\Factory::create('ja_JP');
         $this->objDb = new SC_Helper_DB_Ex();
         $this->BaseInfo = $this->objDb->sfGetBasisData(true);
     }
+
     public function testRegisterBasisData()
     {
         $this->BaseInfo['company_name'] = $this->faker->company;

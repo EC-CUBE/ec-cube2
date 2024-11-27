@@ -1,0 +1,2634 @@
+@charset "utf-8";
+
+/************************************************
+ ブラウザリセット
+************************************************ */
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+table,
+caption,
+th,
+td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    empty-cells: show;
+    text-align: left;
+    font-weight: normal;
+}
+
+a img,
+iframe {
+    border: none;
+}
+
+ol,
+ul,
+li {
+    list-style: none;
+}
+
+input,
+textarea,
+select,
+button {
+    font-size: 100%;
+    font-family: inherit;
+}
+
+/************************************************
+ 共通設定
+************************************************ */
+
+body {
+    color: #666;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #f5f5f5;
+    font-size: 72.5%;
+    line-height: 150%;
+    letter-spacing: 0.1em;
+}
+
+/* 写真 */
+
+img {
+    &.picture {
+        border: 1px solid #ccc;
+    }
+
+    max-width: 100%;
+}
+
+/* ==============================================
+ フレーム
+=============================================== */
+/* 全体を包括 */
+
+.frame_outer {
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+}
+
+/* コンテンツ */
+
+#container {
+    margin: 0 auto;
+    padding: 0 0 30px;
+    width: 980px;
+    background: #fff;
+    text-align: left;
+}
+
+/* ==============================================
+ カラム指定
+=============================================== */
+
+/* メイン部
+----------------------------------------------- */
+@media screen and (min-width: 768px) {
+    #main_column_frame {
+        display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        flex-direction: row;
+
+        .colnum_order {
+            &:nth-child(1) {
+                order: 2;
+            }
+
+            &:nth-child(2) {
+                order: 1;
+            }
+
+            &:nth-child(3) {
+                order: 3;
+            }
+        }
+    }
+}
+
+#main_column {
+    padding: 10px 0 0;
+
+    /* 1カラム時 */
+    &.colnum1 {
+        margin: 0 auto;
+        width: 80%;
+    }
+
+    /* 2カラム時 (共通) */
+    &.colnum2 {
+        width: 78%;
+
+        /* 2カラム時 (メイン部が左) */
+        &.left {
+            padding-left: 1.5%;
+        }
+
+        /* 2カラム時 (メイン部が右) */
+        &.right {
+            padding-right: 1.5%;
+        }
+    }
+
+    /* 3カラム時 */
+    &.colnum3 {
+        padding-left: 0.5%;
+        width: 59%;
+    }
+}
+
+/* サイドカラム
+----------------------------------------------- */
+.side_column {
+    padding: 10px 0 0;
+
+    &#leftcolumn {
+        width: 20%;
+    }
+    
+    &#rightcolumn {
+        width: 20%;
+    }
+}
+
+/* 他
+----------------------------------------------- */
+/* ヘッダーとフッターの上下 */
+
+#topcolumn,
+#bottomcolumn,
+#footerbottomcolumn {
+    margin: 0px;
+    background: #fff;
+    text-align: left;
+    clear: both;
+}
+
+/* 下層コンテンツ */
+
+#undercolumn {
+    width: 100%;
+    margin: 0 0 30px 0;
+}
+
+/* ==============================================
+ ユーティリティ
+=============================================== */
+/* フロート回り込み解除
+----------------------------------------------- */
+.clearfix {
+    &:after {
+        display: block;
+        clear: both;
+        height: 0px;
+        line-height: 0px;
+        visibility: hidden;
+        content: ".";
+    }
+}
+
+.clear {
+    clear: both;
+}
+
+/* リンク指定
+----------------------------------------------- */
+a {
+
+    &:link,
+    &:visited {
+        color: #39c;
+        text-decoration: none;
+    }
+
+    &:link:hover,
+    &[href]:hover {
+        color: #f60;
+        text-decoration: underline;
+    }
+}
+
+/* フォント
+----------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-size: 100%;
+    line-height: 150%;
+}
+
+.sale_price {
+    color: #f00;
+}
+
+.normal_price {
+    font-size: 90%;
+}
+
+.point {
+    color: #f00;
+    font-weight: bold;
+}
+
+.user_name {
+    font-weight: bold;
+}
+
+.recommend_level {
+    color: #ecbd00;
+}
+
+.attention {
+    color: #f00;
+}
+
+.attentionSt {
+    color: #f00;
+    font-weight: bold;
+}
+
+.st {
+    font-weight: bold;
+}
+
+.mini {
+    font-size: 90%;
+}
+
+/* 行揃え
+----------------------------------------------- */
+.alignC {
+    text-align: center;
+}
+
+.alignR {
+    text-align: right;
+}
+
+.alignL {
+    text-align: left;
+}
+
+.pricetd em {
+    font-weight: bold;
+}
+
+/* フォーム
+----------------------------------------------- */
+select {
+    border: solid 1px #ccc;
+}
+
+input {
+
+    &[type='text'],
+    &[type='password'] {
+        border: solid 1px #ccc;
+        padding: 2px;
+    }
+}
+
+.box40 {
+    width: 40px;
+}
+
+.box60 {
+    width: 60px;
+}
+
+.box100 {
+    width: 100px;
+}
+
+.box120 {
+    width: 120px;
+}
+
+.box140 {
+    width: 140px;
+}
+
+.box145 {
+    width: 145px;
+}
+
+.box150 {
+    width: 150px;
+}
+
+.box240 {
+    width: 240px;
+}
+
+.box300 {
+    width: 300px;
+}
+
+.box320 {
+    width: 320px;
+}
+
+.box350 {
+    width: 350px;
+}
+
+.box380 {
+    width: 380px;
+}
+
+/* フォームが縦に重なり合う場合に併用する余白 */
+/* FIXME 簡素な単語は、単独で、込み入った指定に使用しない */
+.top {
+    margin-bottom: 5px;
+}
+
+/* タイトル
+----------------------------------------------- */
+h2.title {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-top: solid 1px #ebeced;
+    color: #f60;
+    background: url("img/background/bg_tit_sub_01.jpg") repeat-x left bottom;
+    background-color: #fef3d8;
+    font-size: 170%;
+}
+
+#main_column .sub_area h3,
+#undercolumn_login .login_area h3,
+#undercolumn_shopping h3,
+#mypagecolumn h3,
+#undercolumn_cart h3 {
+    margin: 0 0 10px 0;
+    padding: 5px 0 10px;
+    color: #f60;
+    background: url("img/background/line_01.gif") repeat-x left bottom;
+    font-size: 120%;
+}
+
+#undercolumn_login .login_area h4 {
+    padding-left: 15px;
+    background: url("img/icon/ico_arrow_05.gif") no-repeat left;
+}
+
+/* ==============================================
+ ヘッダー
+=============================================== */
+/* レイアウト
+----------------------------------------------- */
+#header_wrap {
+    border-top: solid 3px #f90;
+    min-height: 82px;
+    background: url("img/common/bg_header.gif") repeat-x bottom #fffaf0;
+}
+
+#header {
+    margin: auto;
+    width: 980px;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+}
+
+#header_utility {
+    width: 60%;
+}
+
+#errorHeader {
+    color: #F00;
+    font-weight: bold;
+    font-size: 12px;
+    background-color: #FEB;
+    text-align: center;
+    padding: 5px;
+}
+
+/* ロゴ
+----------------------------------------------- */
+#logo_area {
+    padding-left: 10px;
+    width: 390px;
+    text-align: left;
+}
+
+#site_description {
+    font-size: 90%;
+}
+
+/* ヘッダーナビ
+----------------------------------------------- */
+#header_navi {
+    ul {
+        width: 100%;
+        height: 38px;
+        display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: flex-end;
+        -webkit-justify-content: flex-end;
+
+        li {
+            display: block;
+
+            &.mypage,
+            &.entry {
+                margin-top: 6px;
+            }
+        }
+    }
+}
+
+/* ==============================================
+ フッター
+=============================================== */
+
+#footer_wrap {
+    margin: 0 auto;
+    width: 980px;
+    height: 80px;
+    background: #fff;
+}
+
+#footer {
+    margin: auto;
+    padding-top: 10px;
+    border-top: solid 1px #ccc;
+    width: 950px;
+}
+
+#pagetop {
+    width: 210px;
+    text-align: right;
+    position: fixed;
+    bottom: 40px;
+    right: 12px;
+}
+
+#copyright {
+    width: 740px;
+    text-align: left;
+    font-size: 97%;
+}
+
+/* ==============================================
+ パーツ
+=============================================== */
+/* ボタン
+----------------------------------------------- */
+.btn_area {
+    margin: 10px auto;
+    width: 80%;
+
+    ul {
+        display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: flex-end;
+        -webkit-justify-content: flex-end;
+    }
+
+    li {
+        padding-right: 10px;
+        -webkit-flex-grow: 1;
+        flex-grow: 1;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        text-align: center;
+    }
+}
+
+/* 完了メッセージ
+----------------------------------------------- */
+#complete_area {
+    margin-bottom: 20px;
+
+    .message {
+        margin-bottom: 20px;
+        line-height: 150%;
+        font-weight: bold;
+        font-size: 120%;
+    }
+
+    .shop_information {
+        margin-top: 40px;
+        padding: 20px 0 0 0;
+        border-top: solid 1px #ccc;
+    
+        .name {
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 140%;
+        }
+    }
+}
+
+/************************************************
+ 各ページコンテンツ用
+************************************************ */
+/* ==============================================
+▼TOP
+=============================================== */
+/* メインイメージ
+----------------------------------------------- */
+#main_image {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* ==============================================
+▼下層
+=============================================== */
+/* ==============================================
+▼ガイド
+=============================================== */
+/* ◎◎について
+----------------------------------------------- */
+#undercolumn_aboutus {
+}
+
+/* 特定商取引法
+----------------------------------------------- */
+#undercolumn_order {
+}
+
+/* お問い合わせ
+----------------------------------------------- */
+#undercolumn_contact {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.zipimg img {
+    vertical-align: middle;
+}
+
+/* ==============================================
+▼MYページ
+=============================================== */
+/* 共通設定
+----------------------------------------------- */
+#mypagecolumn {
+    width: 100%;
+}
+
+#mynavi_area {
+    width: 100%;
+}
+
+#mycontents_area {
+    width: 100%;
+}
+
+#mynavi_area {
+    .mynavi_list {
+        margin-bottom: 20px;
+        width: 100%;
+        display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+
+        li {
+            margin: 0 15px 5px 0;
+            padding-left: 15px;
+            background: url("img/icon/ico_arrow_01.gif") no-repeat left;
+            font-size: 120%;
+        }
+    }
+
+    div.point_announce {
+        margin-bottom: 30px;
+        padding: 10px;
+        border: solid 1px #ffcc62;
+        background-color: #fffaf0;
+
+        p {
+            padding-left: 20px;
+            background: url("img/icon/ico_point.gif") no-repeat left;
+        }
+    }
+}
+
+#mycontents_area p.inforamtion {
+    margin-bottom: 20px;
+}
+
+#mypagecolumn h4 {
+    margin: 10px auto;
+    border-bottom: 1px solid #999;
+    text-align: left;
+    font-size: 120%;
+}
+
+/* 購入履歴一覧/詳細
+----------------------------------------------- */
+#mycontents_area div.mycondition_area {
+    margin: 0 auto 20px 0;
+    padding: 10px;
+    border: solid 1px #ccc;
+    width: 97%;
+    background: #f9f9f9;
+
+    .btn {
+        width: 160px;
+        margin-top: 15px;
+    }
+}
+
+.add_address {
+    margin-bottom: 20px;
+}
+
+/* 会員登録内容変更/退会
+----------------------------------------------- */
+#mycontents_area .message_area {
+    margin: 30px auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    text-align: center;
+
+    p {
+        margin-bottom: 20px;
+    }
+}
+
+/* ==============================================
+▼会員登録
+=============================================== */
+#undercolumn_entry {
+    width: 100%;
+
+    .kiyaku_text {
+        margin: 20px auto;
+        padding: 10px;
+        border: solid 1px #ccc;
+        width: 94%;
+        background: #fff;
+    }
+
+    .message {
+        margin-bottom: 20px;
+        line-height: 150%;
+        font-weight: bold;
+        font-size: 120%;
+    }
+}
+
+/* ==============================================
+▼ログイン
+=============================================== */
+#undercolumn_login {
+    margin: 0 auto;
+    width: 100%;
+
+    .login_area {
+        margin-bottom: 30px;
+
+        .inputbox {
+            margin: 15px auto 15px auto;
+            padding: 15px 20px 10px 20px;
+            background: #f0f0f0;
+
+            .btn_area {
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+/* ==============================================
+▼エラー
+=============================================== */
+#undercolumn_error {
+    .message_area {
+        width: 80%;
+        margin: 30px auto;
+        padding: 30px;
+        border: 1px solid #ccc;
+        text-align: center;
+
+        .error {
+            padding: 120px 0;
+        }
+    }
+}
+
+/* ==============================================
+▼商品一覧
+=============================================== */
+/* ページ送り
+----------------------------------------------- */
+.pagenumber_area {
+    padding-bottom: 10px;
+    background: url("img/background/line_dot_01.gif") repeat-x bottom;
+}
+
+.pagecond_area {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.pagenumber_area {
+    margin: 20px 0;
+}
+
+.pagecond_area {
+    border: 1px solid #ccc;
+}
+
+.pagenumber_area {
+    .navi {
+        width: 100%;
+        text-align: center;
+        margin: 16px auto;
+
+        li {
+            display: inline;
+        }
+    }
+
+    .change {
+        text-align: right;
+        white-space: nowrap;
+    }
+}
+
+/* レイアウト
+----------------------------------------------- */
+div.list_area {
+    padding: 0 0 30px 0;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+}
+
+div.listphoto {
+    float: left;
+}
+
+/* メインカラム用 */
+#main_column {
+    /* 1カラム時 */
+    &.colnum1 .listrightbloc {
+        width: 74%;
+    }
+
+    /* 2カラム時*/
+    &.colnum2 .listrightbloc {
+        width: 80%;
+    }
+
+    /* 3カラム時*/
+    &.colnum3 .listrightbloc {
+        width: 74%;
+    }
+}
+
+/* 商品情報 各種設定
+----------------------------------------------- */
+.listrightbloc {
+    /* 商品ステータス */
+    ul.status_icon {
+        margin-bottom: 10px;
+        width: 100%;
+        display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: flex-start;
+        -webkit-justify-content: flex-start;
+
+        li {
+            margin-right: 5px;
+        }
+    }
+
+    /* 商品名 */
+    h3 {
+        font-weight: bold;
+        font-size: 120%;
+    }
+
+    /* コメント */
+    .listcomment {
+        margin: 0 0 10px 0;
+        text-align: left;
+    }
+
+    /* 商品詳細を見る */
+    .detail_btn {
+        margin-bottom: 20px;
+    }
+
+    /* 価格 */
+    .pricebox {
+        margin: 0 0 10px 0;
+    }
+
+    /* 買い物カゴ */
+    .cart_area {
+        padding: 10px;
+        border: 1px solid #cef0f4;
+        background-color: #ecf5ff;
+        width: 94%;
+    }
+
+    /* 規格 */
+    .classlist {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        background: url("img/background/line_dot_02.gif") repeat-x bottom;
+    }
+
+    dl {
+        width: 100%;
+    }
+
+    dt {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    dd {
+        padding-bottom: 10px;
+        display: inline-block;
+
+        p.attention {
+            margin-top: 5px;
+        }
+    }
+
+    /* カゴに入れる */
+    .cartin {
+        margin: 0;
+        display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+
+        .quantity {
+            padding: 3px 10px 0 0;
+            width: 150px;
+            text-align: right;
+            display: flex;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: flex-start;
+            -webkit-justify-content: flex-start;
+            width: 40%;
+            padding: 0 4% 0 0;
+
+            .box {
+                width: 70px;
+            }
+        }
+    }
+
+    .cartin_btn {
+        width: 160px;
+    }
+}
+
+/* ==============================================
+▼商品詳細
+=============================================== */
+/* レイアウト
+
+    tplファイルのマークアップが同じ項目
+        * 1カラム時
+        * 2カラム時
+        * 3カラム時
+
+----------------------------------------------- */
+#detailarea,
+.sub_area {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* レイアウト
+----------------------------------------------- */
+#detailarea {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+}
+
+#main_column {
+    h3 {
+        -webkit-flex-grow: 1;
+        flex-grow: 1;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    /* FIXME: .subtext を要素 (p または div) で分けている。もっと分かりやすくする。 */
+    div {
+        &.subtext,
+        &.subphotoimg {
+            -webkit-flex-grow: 2;
+            flex-grow: 2;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    }
+
+    /* 1カラム用 */
+    &.colnum1 {
+        #detailphotobloc {
+            width: 37%;
+        }
+
+        #detailrightbloc {
+            width: 63%;
+        }
+
+        div {
+            &.subtext {
+                margin-bottom: 20px;
+                width: 69%;
+            }
+
+            &.subphotoimg {
+                width: 25%;
+                text-align: right;
+            }
+        }
+
+        p.subtext {
+            margin-bottom: 20px;
+        }
+    }
+
+    /* 2カラム用 */
+    &.colnum2 {
+        #detailphotobloc {
+            width: 37%;
+        }
+
+        #detailrightbloc {
+            width: 63%;
+        }
+
+        h3 {
+            width: 100%;
+        }
+
+        div.subtext {
+            margin-bottom: 20px;
+            width: 73%;
+        }
+
+        p.subtext {
+            margin-bottom: 20px;
+        }
+
+        div.subphotoimg {
+            width: 25%;
+            text-align: right;
+        }
+    }
+
+    /* 3カラム用 */
+    &.colnum3 {
+        #detailphotobloc {
+            width: 49%;
+        }
+
+        #detailrightbloc {
+            width: 50%;
+        }
+
+        div.subtext {
+            margin-bottom: 20px;
+            width: 63%;
+        }
+
+        p.subtext {
+            margin-bottom: 20px;
+        }
+
+        div.subphotoimg {
+            width: 35%;
+            text-align: right;
+        }
+    }
+}
+
+/* 商品情報 各種設定
+----------------------------------------------- */
+#detailrightbloc {
+    h2 {
+        margin: 0 0 10px 0;
+        padding: 0 0 15px 0;
+        color: #666;
+        background: url("img/background/line_dot_01.gif") repeat-x bottom;
+        font-weight: bold;
+        font-size: 160%;
+    }
+
+    .point,
+    .relative_cat {
+        margin: 0 0 10px 0;
+        padding: 0 0 10px 0;
+        background: url("img/background/line_dot_01.gif") repeat-x bottom;
+    }
+
+    .main_comment {
+        margin-bottom: 20px;
+    }
+
+    /* 商品コード */
+    .product_code {
+
+        dt,
+        dd {
+            display: inline;
+        }
+    }
+
+    /* 商品ステータス */
+    ul.status_icon {
+        margin-bottom: 10px;
+        width: 100%;
+        display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: flex-start;
+        -webkit-justify-content: flex-start;
+
+        li {
+            margin-right: 5px;
+            margin-bottom: 3px;
+        }
+    }
+
+    /* 通常価格 */
+    .normal_price {
+
+        dt,
+        dd {
+            display: inline;
+        }
+    }
+
+    /* 販売価格 */
+    .sale_price {
+
+        dt,
+        dd {
+            display: inline;
+        }
+    }
+
+    /* ポイント */
+    .point {
+
+        dt,
+        dd {
+            display: inline;
+        }
+    }
+
+    /* 規格 */
+    div.classlist {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        width: 100%;
+        background: url("img/background/line_dot_02.gif") repeat-x bottom;
+    }
+
+    .classlist {
+        margin-bottom: 5px;
+    }
+
+    ul {
+        margin-bottom: 10px;
+        width: 100%;
+
+        li {
+            vertical-align: top;
+        }
+    }
+
+    /* メーカー */
+    .maker {
+
+        dt,
+        dd {
+            display: inline;
+        }
+    }
+
+    /* メーカーURL */
+    .comment1 {
+
+        dt,
+        dd {
+            display: inline;
+        }
+    }
+
+    /* 関連カテゴリ */
+    .relative_cat dd {
+        margin-left: 1em;
+    }
+
+    /* 買い物カゴ */
+    .cart_area {
+        padding: 10px;
+        background-color: #ecf5ff;
+        border: 1px solid #cef0f4;
+        display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+
+        .quantity {
+            display: flex;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: flex-start;
+            -webkit-justify-content: flex-start;
+            padding-top: 4px;
+            width: 50%;
+        }
+    }
+
+    .quantity {
+
+        dt,
+        dd {
+            display: inline;
+        }
+    }
+
+    .cartin {
+        text-align: center;
+        width: 50%;
+    }
+
+    .cartin_btn {
+        text-align: right;
+    }
+
+    .favorite_btn {
+        text-align: right;
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+.LC_Page_Products_Detail {
+    .sub_area {
+        display: flex;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+}
+
+/* お客様の声
+----------------------------------------------- */
+#customervoice_area {
+    clear: both;
+    padding: 35px 0 0 0;
+
+    h2 {
+        margin-bottom: 20px;
+        padding: 6px 0 8px 10px;
+        border-top: solid 1px #f90;
+        background: url("img/background/bg_tit_sub_01.jpg") repeat-x left bottom;
+    }
+
+    .review_bloc {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #f6f6f6;
+
+        p {
+            padding-top: 3px;
+            margin-right: 10px;
+        }
+
+        .review_btn {
+            margin: 0 0 0 auto;
+            width: 160px;
+        }
+    }
+
+    ul li {
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        background: url("img/background/line_dot_01.gif") repeat-x bottom;
+    }
+
+    .voicetitle {
+        margin-bottom: 5px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .voicedate {
+        margin-bottom: 10px;
+    }
+}
+
+/* 関連商品（商品部分はbloc.cssのおすすめ商品と共通）
+----------------------------------------------- */
+#whobought_area {
+        clear: both;
+        padding: 35px 0 0 0;
+
+        h2 {
+            border-top: solid 1px #f90;
+            background: url("img/background/bg_tit_sub_01.jpg") repeat-x left bottom;
+            padding: 5px 0 8px 10px;
+            font-size: 14px;
+        }
+    }
+
+
+/* ***********************************************
+▼カートの中
+/*********************************************** */
+/* 現在のカゴの中
+----------------------------------------------- */
+#undercolumn_cart {
+    .point_announce {
+        padding: 20px;
+        margin-bottom: 20px;
+        border: solid 1px #ffcc62;
+        background: #fffaf0;
+        font-size: 120%;
+        text-align: center;
+        line-height: 140%;
+    }
+
+    .totalmoney_area {
+        margin-bottom: 20px;
+    }
+
+    p {
+        margin: 10px 5px;
+    }
+}
+
+#undercolumn {
+    ul#quantity_level li {
+        padding: 3px;
+        display: inline;
+    }
+
+    .empty {
+        text-align: left;
+    }
+}
+
+div.form_area {
+    margin-bottom: 30px;
+}
+
+/* お客様情報入力
+----------------------------------------------- */
+.flow_area {
+    margin: 0 0 20px 0;
+}
+
+#undercolumn_customer th em {
+    color: #000;
+    font-weight: bold;
+}
+
+/* お支払い方法・お届け時間等の指定
+----------------------------------------------- */
+#undercolumn_shopping {
+    .pay_area {
+        margin: 0 auto 30px;
+        width: 100%;
+    }
+
+    .pay_area02 {
+        margin: 40px auto 30px auto;
+
+        .txtarea {
+            margin: 5px 0 0 0;
+            padding: 2px;
+            border: 1px solid #ccc;
+            width: 99%;
+            height: 150px;
+        }
+
+        .select-msg {
+            margin-bottom: 10px;
+        }
+    }
+
+    .point_area {
+        margin: 40px auto 0 auto;
+
+        .point_announce {
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .point_announce li {
+            margin-bottom: 5px;
+        }
+    }
+}
+
+/* お届け先の指定
+----------------------------------------------- */
+#address_area {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+
+    .information {
+        width: 65%;
+    }
+}
+
+#undercolumn_shopping .information {
+    margin-bottom: 15px;
+}
+
+#address_area {
+    .add_multiple {
+        padding: 15px 10px;
+        border: 1px solid #ffcc62;
+        width: 30%;
+        color: #555;
+        background: #fffaf0;
+        text-align: center;
+        font-weight: bold;
+
+        p {
+            margin-bottom: 10px;
+        }
+    }
+
+    p.addbtn {
+        font-weight: bold;
+        font-size: 10px;
+    }
+}
+
+/* ==============================================
+▼検索結果
+=============================================== */
+
+p.condition_area {
+    margin: 0 auto;
+    padding: 5px;
+    border: solid 1px #333;
+    width: 566px;
+}
+
+/************************************************
+ tables
+************************************************ */
+/* デフォルトテーブル
+----------------------------------------------- */
+table {
+    margin: 15px auto 20px auto;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+
+    th {
+        padding: 8px;
+        border-right: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        color: #333;
+        background-color: #f0f0f0;
+        font-weight: normal;
+    }
+
+    td {
+        padding: 8px;
+        border-right: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+    }
+}
+
+/* 見出し
+----------------------------------------------- */
+#undercolumn_shopping table {
+    th[scope=col] {
+        text-align: center;
+    }
+
+    &.delivname th {
+        width: 155px;
+    }
+}
+
+/* MYページ */
+
+#mycontents_area table {
+    th {
+        text-align: left;
+
+        &.alignR {
+            text-align: right;
+        }
+
+        &.alignL {
+            text-align: left;
+        }
+
+        &.alignC {
+            text-align: center;
+        }
+
+        &.resulttd {
+            text-align: right;
+        }
+    }
+
+    caption {
+        padding: 8px;
+        border-top: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        color: #000;
+        background-color: #f0f0f0;
+        text-align: left;
+        font-weight: bold;
+    }
+}
+
+/* その他
+----------------------------------------------- */
+table select {
+    margin-bottom: 7px;
+    border: solid 1px #ccc;
+}
+
+/************************************************
+ ブロック用
+************************************************ */
+/*** 目次 ***
+
+▼ブロック共通
+リスト
+タイトル
+ヘッダー上、フッター下のブロックエリア
+
+▼各機能ブロックの指定
+-新着情報
+-現在のカゴの中
+-カテゴリ
+-ガイドリンク
+-ログイン（サイド用）
+-検索
+-カレンダー
+-おすすめ商品
+    * 商品詳細のオススメ商品   [whobought_area]
+*/
+
+/* ==============================================
+ブロック共通
+    * #container から指定することで、ヘッダー・フッターには適用していない。
+/* ============================================= */
+
+.side_column {
+    overflow-x: hidden;
+
+    /* IE6 表示乱れ防止 */
+
+    .block_body {
+        border: solid 1px #ccc;
+        border-top: none;
+    }
+}
+
+#main_column .block_body {
+    border: solid 1px #ccc;
+    border-top: none;
+}
+
+.side_column .block_body .box {
+    border: solid 1px #ccc;
+    width: 145px;
+}
+
+/* 外枠
+----------------------------------------------- */
+#container {
+    .block_outer {
+        /* #container の背景色を欠けさせないため敢えて padding */
+        padding: 0 15px 10px;
+    }
+
+    #main_column .block_outer {
+        padding: 0 0 20px;
+    }
+
+    .side_column .block_outer {
+        padding: 0 7% 10px;
+    }
+}
+
+/* リスト
+----------------------------------------------- */
+/* ログイン 検索条件 */
+.block_outer .block_body dl.formlist {
+    margin-bottom: 8px;
+
+    dd {
+        margin-bottom: 5px;
+    }
+
+    dt {
+        margin-bottom: 3px;
+        padding-left: 15px;
+        background: url("img/icon/ico_arrow_03.gif") no-repeat left;
+        font-size: 90%;
+    }
+
+    span {
+        vertical-align: top;
+    }
+}
+
+
+/* タイトル
+----------------------------------------------- */
+h2 {
+    /* タイトルの背景 白 */
+
+    #login_area &,
+    #search_area &,
+    #calender_area &,
+    #cart_area &,
+    #cart & {
+        padding: 5px 0 8px 10px;
+        border-style: solid;
+        border-color: #f90 #ccc #ccc;
+        border-width: 1px 1px 0;
+        background: url("img/background/bg_tit_bloc_01.jpg") repeat-x left bottom;
+        font-size: 14px;
+    }
+
+    #category_area & {
+        border-top: solid 1px #f90;
+        background: url("img/background/bg_tit_bloc_01.jpg") repeat-x left bottom;
+        padding: 5px 0 8px 10px;
+        font-size: 14px;
+    }
+
+    /* タイトルの背景 オレンジ */
+
+    #recommend_area &,
+    #news_area & {
+        padding: 5px 0 8px 10px;
+        border-style: solid;
+        border-color: #f90 #ccc #ccc;
+        border-width: 1px 1px 0;
+        background: url("img/background/bg_btn_bloc_02.jpg") repeat-x left bottom #fef3d8;
+    }
+}
+
+/* ***********************************************
+▼各機能ブロックの指定
+/*********************************************** */
+
+/* ===============================================
+▼新着情報
+=============================================== */
+#news_area {
+    .news_contents {
+        padding: 10px;
+        max-height: 260px;
+        height: auto !important;
+
+        /* hack? */
+        height: 260px;
+
+        /* hack? */
+        overflow: auto;
+        overflow-y: scroll;
+    }
+
+    dl.newslist {
+        background: url("img/background/line_dot_01.gif") repeat-x bottom;
+
+        &:last-child {
+            background: none;
+        }
+
+        dt {
+            margin-bottom: 5px;
+        }
+
+        dd {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+    }
+}
+
+/* ===============================================
+▼現在のカゴの中
+=============================================== */
+
+#cart_area {
+    .information {
+        padding: 10px;
+    }
+
+    .postage {
+        margin-top: 10px;
+        padding-top: 10px;
+        background: url("img/background/line_dot_01.gif") repeat-x top;
+
+        .point_announce {
+            padding: 2px 0 2px 20px;
+            background: url("img/icon/ico_price.gif") no-repeat left top;
+        }
+    }
+
+    .btn {
+        padding: 10px 0;
+        background: url("img/background/line_dot_01.gif") repeat-x top #f7f7e6;
+        text-align: center;
+    }
+}
+
+/* ===============================================
+▼カテゴリ
+=============================================== */
+
+#container #category_area .block_body {
+    background-color: #fffaf0;
+}
+
+#category_area li {
+    padding-left: 5px;
+
+    &.level1 {
+        border-bottom: solid 1px #ccc;
+
+        p {
+            padding-left: 20px;
+            margin: 7px 3px;
+            background: url("img/icon/ico_arrow_01.gif") 2px 3px no-repeat;
+        }
+
+        li p {
+            background: url("img/icon/ico_level.gif") 7px 7px no-repeat;
+        }
+    }
+
+    a {
+        display: block;
+        padding: 0;
+    }
+}
+
+a.onlink {
+    &:link {
+        color: #f00;
+        text-decoration: underline;
+    }
+
+    &:visited,
+    &:hover {
+        color: #f00;
+    }
+}
+
+/* ===============================================
+▼ガイドリンク
+=============================================== */
+
+#guide_area {
+    border: none;
+
+    li {
+        margin-bottom: 5px;
+        letter-spacing: -0.05em;
+    }
+}
+
+ul.button_like li {
+    margin: 0;
+    padding: 0 0 1px 0;
+    background: url("img/background/bg_btn_list.jpg") bottom repeat-x;
+
+    a {
+        margin: 0;
+        padding: 10px 15px 10px 10px;
+        border: 1px solid;
+        border-bottom: none;
+        border-color: #ccc;
+        display: block;
+        background: url("img/icon/ico_arrow_02.gif") no-repeat right;
+        text-decoration: none;
+        outline: none;
+    }
+}
+
+/* ===============================================
+▼ログイン（サイド用）
+※ヘッダー用はbloc_alpha.css内に記述
+=============================================== */
+
+#container {
+    #login_area .block_body {
+        padding: 10px;
+
+        p {
+            margin-bottom: 5px;
+        }
+
+        .btn {
+            text-align: center;
+        }
+    }
+
+    .login_area dl.formlist {
+        margin-bottom: 8px;
+        width: 450px;
+
+        dt {
+            margin-bottom: 3px;
+            padding-left: 15px;
+            color: #333;
+            background: url("img/icon/ico_arrow_03.gif") no-repeat left;
+            width: 120px;
+            float: left;
+            font-size: 90%;
+        }
+
+        dd {
+            margin-bottom: 5px;
+            float: right;
+            width: 300px;
+            vertical-align: bottom;
+            text-align: left;
+        }
+    }
+
+    #login_area .block_body .mini {
+        margin-top: 5px;
+        letter-spacing: -0.01em;
+    }
+
+    /* ===============================================
+    ▼検索
+    =============================================== */
+
+    #search_area .block_body {
+        padding: 10px;
+
+        .btn {
+            text-align: center;
+        }
+    }
+}
+
+/* ===============================================
+▼カレンダー
+=============================================== */
+
+#calender_area {
+    background-color: transparent;
+    border: none;
+
+    .block_body {
+        padding: 10px 0;
+        background-color: #f1f9fc;
+    }
+
+    table {
+        background: #fff;
+        border: none;
+        width: 150px;
+        margin: 0 auto 5px;
+        font-size: 90%;
+
+        td {
+            padding: 1px 3px;
+            border-top: 1px solid #ccc;
+            border-right: none;
+            text-align: center;
+        }
+    }
+
+    th {
+        padding: 1px 3px;
+        background: #fff;
+        border: none;
+        text-align: center;
+    }
+
+    table .month {
+        margin-bottom: 5px;
+        padding-left: 12px;
+        background: url("img/icon/ico_arrow_04.gif") no-repeat left;
+        font-size: 120%;
+    }
+
+    .off {
+        color: #f00;
+    }
+
+    .today {
+        background-color: #FFF99D;
+        font-weight: bold;
+    }
+
+    .information {
+        margin-left: 10px;
+        font-size: 90%;
+    }
+}
+
+/* ===============================================
+▼おすすめ商品
+=============================================== */
+/*
+   tplファイルのマークアップが同じ項目
+   メインカラム用
+   サイドカラム用           [side_column]
+   商品詳細のオススメ商品   [whobought_area]
+=============================================== */
+/* 共通
+----------------------------------------------- */
+#recommend_area .block_body,
+#whobought_area .product_item {
+    padding: 10px 0 10px;
+    border: none;
+    background: url("img/background/line_dot_01.gif") repeat-x bottom;
+}
+
+#recommend_area .block_body p,
+#whobought_area .product_item p {
+    margin: 0 0 5px 0;
+}
+
+#recommend_area .block_body img,
+#whobought_area .product_item img {
+    margin: 0 5px 0 0;
+}
+
+#recommend_area .block_body h3,
+#whobought_area .product_item h3 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+/* サイドカラム用 */
+
+.side_column #recommend_area .product_item {
+    margin-bottom: 10px;
+}
+
+/* 画像
+----------------------------------------------- */
+/* メインカラム用 */
+
+#main_column #recommend_area .block_body .productImage,
+#whobought_area .product_item .productImage {
+    margin-bottom: 10px;
+    float: left;
+    width: 90px;
+}
+
+/* サイドカラム用 */
+
+.side_column #recommend_area .block_body .productImage {
+    float: none;
+    text-align: center;
+    width: auto;
+}
+
+/* 左右の振り分け
+----------------------------------------------- */
+#main_column #recommend_area .product_item,
+#whobought_area .product_item {
+    float: left;
+    width: 47.5%;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+/* 商品説明テキスト
+----------------------------------------------- */
+/* メインカラム */
+
+#main_column {
+
+    /* 1カラム時 */
+    &.colnum1 #recommend_area .block_body .productContents {
+        float: right;
+        width: 74%;
+    }
+
+    /* 2カラム時*/
+    &.colnum2 {
+        #recommend_area .block_body .productContents,
+        #whobought_area .productContents {
+            float: right;
+            width: 74%;
+        }
+    }
+
+    /* 3カラム時*/
+    &.colnum3 {
+        #recommend_area .block_body .productContents,
+        #whobought_area .productContents {
+            float: right;
+            width: 67%;
+        }
+    }
+}
+
+/* サイドカラム用 */
+.side_column #recommend_area .block_body .productContents {
+    clear: both;
+}
+
+/************************************************
+ インヘッダーブロック
+************************************************ */
+
+#headerInternalColumn {
+    margin-top: 5px;
+    float: right;
+    width: 520px;
+    height: 35px;
+}
+
+/* ログイン（ヘッダー用）
+----------------------------------------------- */
+#header_login_area {
+    padding: 0 10px;
+    border: solid 1px #ffc979;
+    height: 30px;
+    background: #fef3d3;
+    letter-spacing: -0.075em;
+
+    ul.formlist {
+        margin-top: 5px;
+
+        li {
+            float: left;
+
+            &.mail {
+                padding-left: 28px;
+                width: 155px;
+                background: url("img/common/ico_arrow_login.gif") no-repeat left;
+                font-size: 90%;
+            }
+
+            &.password {
+                padding-right: 5px;
+            }
+
+            &.login_memory {
+                padding-right: 5px;
+                font-size: 90%;
+            }
+
+            &.forgot {
+                margin-top: 3px;
+                padding-right: 5px;
+                font-size: 90%;
+            }
+
+            &.btn {
+                padding-right: 5px;
+                width: 53px;
+            }
+        }
+    }
+
+    p.btn {
+        height: 20px;
+        padding: 5px 0;
+        vertical-align: middle;
+
+        input[type=image] {
+            vertical-align: middle;
+        }
+    }
+}
+
+/* ***********************************************
+追加ブロック
+************************************************ */
+/* 共通
+----------------------------------------------- */
+#container .block_outer #banner_area .block_body {
+    border: none;
+}
+
+/* 【メイン】バナーエリア_02
+----------------------------------------------- */
+#main_column .block_outer #banner_area .block_body ul {
+    width: 100%;
+
+    li {
+        float: left;
+
+        &.sub_01 {
+            padding-right: 8px;
+        }
+    }
+}
+
+/* 【サイド】バナーエリア_01
+----------------------------------------------- */
+/* 【サイド】バナーエリア_02
+----------------------------------------------- */
+#leftcolumn .block_outer #banner_area .block_body ul li,
+#rightcolumn .block_outer #banner_area .block_body ul li {
+    margin-bottom: 8px;
+}
+
+/************************************************
+ ポップアップウィンドウ
+************************************************ */
+/* 共通
+----------------------------------------------- */
+#windowcolumn {
+    border-top: solid 3px #f90;
+    width: 560px;
+    height: 100%;
+    margin: 15px 15px 0 15px;
+    background: #fff;
+
+    h2 {
+        margin-bottom: 10px;
+        padding: 8px;
+        border-top: solid 1px #ebeced;
+        color: #f60;
+        background: url("img/background/bg_tit_sub_01.jpg") repeat-x left bottom;
+        background-color: #fef3d8;
+        font-size: 170%;
+    }
+}
+
+#window_area {
+    margin: 15px auto 0 auto;
+    padding-bottom: 20px;
+    width: 540px;
+    min-height: 300px;
+    height: auto !important;
+
+    p.information {
+        margin-bottom: 20px;
+    }
+
+    .message {
+        margin-bottom: 20px;
+        color: #f60;
+        line-height: 150%;
+        font-weight: bold;
+        font-size: 140%;
+    }
+
+    table {
+        width: 540px;
+    }
+
+    /* お客様の声の書き込み、新しいお届け先の追加・変更
+    ----------------------------------------------- */
+    #forgot {
+        margin: 0 auto;
+        padding: 20px;
+        width: 440px;
+        border: 1px solid #ccc;
+        text-align: left;
+
+        .mailaddres {
+            margin-bottom: 10px;
+        }
+
+        p {
+            text-align: center;
+        }
+    }
+}
+
+
+/* 商品詳細拡大写真、カート拡大写真
+----------------------------------------------- */
+#bigimage,
+#cartimage {
+    margin-top: 15px;
+    background-color: #fff;
+    text-align: center;
+}
+
+#bigimage img,
+#cartimage img {
+    padding: 10px;
+    background-color: #fff;
+}
+
+/* 郵便番号検索
+----------------------------------------------- */
+#zipsearchcolumn {
+    margin: 15px auto 0 auto;
+    border-top: 5px solid #ffa85c;
+    border-bottom: 5px solid #ffa85c;
+    width: 460px;
+    background-color: #fff;
+
+    h2 {
+        margin: 0 0 15px 0;
+        width: 460px;
+    }
+}
+
+#zipsearch_area {
+    margin: 15px auto 0 auto;
+    width: 460px;
+}
+
+#zipsearchcolumn .btn {
+    margin: 15px 0 30px 0;
+    text-align: center;
+}
+
+#zipsearch_area #completebox p {
+    padding: 60px 5px;
+    text-align: center;
+}
+
+/* ==============================================
+▼スマートフォン
+=============================================== */
+@media screen and (max-width: 768px) {
+    #container {
+        margin: 0 auto;
+        padding: 0 0 30px;
+        width: 100%;
+        background: #fff;
+        text-align: left;
+
+        .side_column {
+            .block_outer {
+                padding: 0;
+                margin: 8px auto;
+            }
+        }
+    }
+
+    #main_column_frame {
+        padding: 0 4%;
+    }
+
+    #main_column {
+        /* 1カラム時 */
+        &.colnum1 {
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* 2カラム時 */
+        &.colnum2 {
+            width: 100%;
+
+            /* メイン部が左 */
+            &.left {
+                padding-left: 0;
+            }
+
+            /* メイン部が右 */
+            &.right {
+                padding-right: 0;
+            }
+        }
+
+        /* 3カラム時 */
+        &.colnum3 {
+            padding-left: 0;
+            width: 100%;
+        }
+    }
+
+    .box40 {
+        width: 18%;
+    }
+
+    .box60 {
+        width: 24%;
+    }
+
+    .box100,
+    .box120 {
+        width: 32%;
+    }
+
+    .box140,
+    .box145,
+    .box150,
+    .box240,
+    .box300,
+    .box320,
+    .box350,
+    .box380 {
+        width: 96%;
+    }
+
+    input,
+    textarea,
+    select,
+    button {
+        max-width: 100%;
+    }
+
+    .side_column {
+        padding-top: 0;
+
+        &#leftcolumn {
+            width: 100%;
+        }
+        
+        &#rightcolumn {
+            width: 100%;
+        }
+    }
+
+    #footer_wrap,
+    #footer,
+    #copyright {
+        width: 100%;
+        padding-top: 0;
+    }
+
+    #headerInternalColumn {
+        width: 100%;
+        padding-top: 0;
+        height: auto;
+        max-height: 35px;
+    }
+
+    #header {
+        display: block;
+        width: 100%;
+    }
+
+    #header_utility {
+        width: 100%;
+    }
+
+    #logo_area {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    #header_navi ul,
+    #main_column #recommend_area .product_item,
+    #whobought_area .product_item {
+        width: 100%;
+    }
+
+    #calender_area {
+        .block_body {
+            display: flex;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            -webkit-justify-content: space-between;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+        table {
+            width: 48%;
+            -webkit-flex-grow: 1;
+            flex-grow: 1;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0 1%;
+        }
+    }
+
+    #main_column.colnum2 .listrightbloc {
+        width: 72%;
+    }
+
+    .listphoto {
+        width: 24%;
+        margin-right: 4%;
+    }
+
+    .listrightbloc {
+        .detail_btn {
+            text-align: right;
+        }
+
+        .cartin {
+            width: 100%;
+
+            .quantity .box {
+                width: 40%;
+            }
+        }
+
+        .cartin_btn {
+            width: 60%;
+        }
+    }
+
+    #main_column {
+
+        &.colnum1 div.subtext,
+        &.colnum2 div.subtext,
+        &.colnum3 div.subtext,
+        &.colnum1 div.subphotoimg,
+        &.colnum2 div.subphotoimg,
+        &.colnum3 div.subphotoimg {
+            width: 100%;
+        }
+    }
+
+    #detailarea,
+    .sub_area {
+        display: block;
+    }
+
+    #main_column div.subphotoimg img,
+    #undercolumn_cart .form_area tbody td img {
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+    }
+
+    #main_column {
+        #detailphotobloc img {
+            width: auto !important;
+            height: auto !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+        }
+
+        &.colnum1 #detailphotobloc,
+        &.colnum2 #detailphotobloc,
+        &.colnum3 #detailphotobloc {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        &.colnum1 #detailrightbloc,
+        &.colnum2 #detailrightbloc,
+        &.colnum3 #detailrightbloc {
+            width: 100%;
+        }
+    }
+
+    #detailrightbloc .cart_area .quantity {
+        dt {
+            width: 40%;
+            text-align: right;
+        }
+
+        .box60 {
+            width: 60%;
+        }
+    }
+
+    #customervoice_area .review_bloc .review_btn {
+        margin: 8px auto;
+    }
+
+    #detailrightbloc .favorite_btn {
+        margin: 8px auto 0;
+    }
+
+    #mynavi_area .mynavi_list li {
+        width: 40%;
+        margin-right: 0;
+    }
+
+    #undercolumn_cart .form_area tbody {
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            padding: 4px 0;
+            width: 16%;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 20%;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 16%;
+        }
+
+        th:nth-child(5),
+        td:nth-child(5) {
+            width: 20%;
+        }
+
+        th:nth-child(6) {
+            width: 16%;
+        }
+
+        td {
+            &:nth-child(6) {
+                width: 16%;
+            }
+
+            .box3 {
+                width: 20%;
+            }
+        }
+    }
+
+    #address_area {
+        .add_multiple {
+            width: 84%;
+            padding: 12px 8%;
+        }
+
+        display: block;
+    }
+
+    #window_area {
+        width: 100%;
+        margin: 0;
+
+        table {
+            width: 100%;
+            margin: 0;
+        }
+    }
+
+    #windowcolumn {
+        width: 100%;
+        margin: 0;
+    }
+
+    #window_area {
+
+        #forgot,
+        p,
+        table {
+            width: 92%;
+            margin: 0 auto 16px;
+        }
+
+        #forgot {
+            padding: 20px 0;
+        }
+    }
+
+    #completebox .box300,
+    #window_area #forgot .box300 {
+        width: 60%;
+    }
+}
+
+/************************************************
+ 印刷用
+************************************************ */
+
+@media print {
+    body {
+        zoom: 75%;
+    }
+}

@@ -55,12 +55,12 @@
     <section class="pagenumberarea clearfix">
         <ul>
             <!--{if $orderby != 'price'}-->
-                <li><a href="javascript:fnChangeOrderby('price');" rel="external">価格順</a></li>
+                <li><a href="javascript:fnChangeOrderby('price');">価格順</a></li>
             <!--{else}-->
                 <li class="on_number">価格順</li>
             <!--{/if}-->
             <!--{if $orderby != "date"}-->
-                <li><a href="javascript:fnChangeOrderby('date');" rel="external">新着順</a></li>
+                <li><a href="javascript:fnChangeOrderby('date');">新着順</a></li>
             <!--{else}-->
                 <li class="on_number">新着順</li>
             <!--{/if}-->
@@ -88,7 +88,7 @@
                     <!--▲商品ステータス-->
                 </div>
                 <!--★商品名★-->
-                <h3><a rel="external" href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrProduct.product_id|u}-->" name="product<!--{$arrProduct.product_id}-->" class="productName"><!--{$arrProduct.name|h}--></a></h3>
+                <h3><a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrProduct.product_id|u}-->" name="product<!--{$arrProduct.product_id}-->" class="productName"><!--{$arrProduct.name|h}--></a></h3>
 
                 <!--★商品価格★-->
                 <p>
@@ -117,7 +117,7 @@
 
     <!--{if is_array($arrProducts) && count($arrProducts) < $tpl_linemax}-->
         <div class="btn_area">
-            <p><a rel="external" href="javascript: void(0);" class="btn_more" id="btn_more_product" onClick="getProducts(<!--{$disp_number|h}-->); return false;">もっとみる(＋<!--{$disp_number|h}-->件)</a></p>
+            <p><a href="javascript: void(0);" class="btn_more" id="btn_more_product" onClick="getProducts(<!--{$disp_number|h}-->); return false;">もっとみる(＋<!--{$disp_number|h}-->件)</a></p>
         </div>
     <!--{/if}-->
 </section>

@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_REALDIR . 'pages/LC_Page.php';
+require_once CLASS_REALDIR.'pages/LC_Page.php';
 
 /*
  * 決済モジュールやプラグイン、 user_data 以下の PHP で require されているため削除しないでください

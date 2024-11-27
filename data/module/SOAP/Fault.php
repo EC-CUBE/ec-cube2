@@ -13,14 +13,15 @@
  * mail you a copy immediately.
  *
  * @category   Web Services
- * @package    SOAP
+ *
  * @author     Dietrich Ayala <dietrich@ganx4.com> Original Author
  * @author     Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
  * @author     Chuck Hagenbuch <chuck@horde.org>   Maintenance
  * @author     Jan Schneider <jan@horde.org>       Maintenance
  * @copyright  2003-2006 The PHP Group
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @link       http://pear.php.net/package/SOAP
+ *
+ * @see       http://pear.php.net/package/SOAP
  */
 
 /** PEAR_Error */
@@ -40,8 +41,6 @@ require_once 'PEAR.php';
  * $backtrace = true;
  * </code>
  *
- * @package  SOAP
- * @access   public
  * @author   Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
  * @author   Dietrich Ayala <dietrich@ganx4.com> Original Author
  */
@@ -57,11 +56,11 @@ class SOAP_Fault extends PEAR_Error
      * @param array $mode          @see PEAR_Error
      * @param array $options       @see PEAR_Error
      */
-    function SOAP_Fault($faultstring = 'unknown error', $faultcode = 'Client',
-                        $faultactor = null, $detail = null, $mode = null,
-                        $options = null)
+    public function __construct($faultstring = 'unknown error', $faultcode = 'Client',
+        $faultactor = null, $detail = null, $mode = null,
+        $options = null)
     {
-        parent::PEAR_Error($faultstring, $faultcode, $mode, $options, $detail);
+        parent::__construct($faultstring, $faultcode, $mode, $options, $detail);
         if ($faultactor) {
             $this->error_message_prefix = $faultactor;
         }
@@ -72,11 +71,11 @@ class SOAP_Fault extends PEAR_Error
      *
      * @return string
      */
-    function message($encoding = SOAP_DEFAULT_ENCODING)
+    public function message($encoding = SOAP_DEFAULT_ENCODING)
     {
         $msg = new SOAP_Base();
-        $params = array();
-        $params[] = new SOAP_Value('faultcode', 'QName', SOAP_BASE::SOAPENVPrefix().':' . $this->code);
+        $params = [];
+        $params[] = new SOAP_Value('faultcode', 'QName', SOAP_BASE::SOAPENVPrefix().':'.$this->code);
         $params[] = new SOAP_Value('faultstring', 'string', $this->message);
         $params[] = new SOAP_Value('faultactor', 'anyURI', $this->error_message_prefix);
         if (PEAR::getStaticProperty('SOAP_Fault', 'backtrace') &&
@@ -86,8 +85,9 @@ class SOAP_Fault extends PEAR_Error
             $params[] = new SOAP_Value('detail', 'string', $this->userinfo);
         }
 
-        $methodValue = new SOAP_Value('{' . SOAP_ENVELOP . '}Fault', 'Struct', $params);
+        $methodValue = new SOAP_Value('{'.SOAP_ENVELOP.'}Fault', 'Struct', $params);
         $headers = null;
+
         return $msg->makeEnvelope($methodValue, $headers, $encoding);
     }
 
@@ -96,13 +96,14 @@ class SOAP_Fault extends PEAR_Error
      *
      * @return array
      */
-    function getFault()
+    public function getFault()
     {
         $fault = new stdClass();
         $fault->faultcode = $this->code;
         $fault->faultstring = $this->message;
         $fault->faultactor = $this->error_message_prefix;
         $fault->detail = $this->userinfo;
+
         return $fault;
     }
 
@@ -111,7 +112,7 @@ class SOAP_Fault extends PEAR_Error
      *
      * @return string
      */
-    function getActor()
+    public function getActor()
     {
         return $this->error_message_prefix;
     }
@@ -121,9 +122,8 @@ class SOAP_Fault extends PEAR_Error
      *
      * @return string
      */
-    function getDetail()
+    public function getDetail()
     {
         return $this->userinfo;
     }
-
 }

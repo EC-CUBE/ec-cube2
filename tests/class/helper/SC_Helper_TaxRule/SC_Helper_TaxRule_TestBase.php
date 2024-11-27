@@ -1,6 +1,7 @@
 <?php
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -26,22 +27,22 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * SC_Helper_Taxのテストの基底クラス.
  *
  * @author Nobuhiko Kimoto
+ *
  * @version $Id$
  */
-class SC_Helper_TaxRule_TestBase extends Common_TestCase
+abstract class SC_Helper_TaxRule_TestBase extends Common_TestCase
 {
-
     /**
      * @var SC_Helper_TaxRule_Ex
      */
     protected $objTaxRule;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
@@ -51,8 +52,8 @@ class SC_Helper_TaxRule_TestBase extends Common_TestCase
      */
     protected function setUpTax()
     {
-        $taxs = array(
-            array(
+        $taxs = [
+            [
                 'tax_rule_id' => 1000,
                 'apply_date' => '2014-01-01 00:00:00',
                 'tax_rate' => '5',
@@ -62,8 +63,8 @@ class SC_Helper_TaxRule_TestBase extends Common_TestCase
                 'member_id' => 1,
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'tax_rule_id' => 1001,
                 'apply_date' => '2000-01-01 00:00:00',
                 'tax_rate' => '6',
@@ -73,8 +74,8 @@ class SC_Helper_TaxRule_TestBase extends Common_TestCase
                 'member_id' => 1,
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'tax_rule_id' => 1002,
                 'apply_date' => '2099-02-01 00:00:00',
                 'tax_rate' => '7',
@@ -84,8 +85,8 @@ class SC_Helper_TaxRule_TestBase extends Common_TestCase
                 'member_id' => 1,
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'tax_rule_id' => 1003,
                 'apply_date' => '2014-02-02 00:00:00',
                 'tax_rate' => '8',
@@ -95,8 +96,8 @@ class SC_Helper_TaxRule_TestBase extends Common_TestCase
                 'member_id' => 1,
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'tax_rule_id' => 1004,
                 'apply_date' => '2014-02-03 00:00:00',
                 'tax_rate' => '9',
@@ -106,8 +107,8 @@ class SC_Helper_TaxRule_TestBase extends Common_TestCase
                 'member_id' => 1,
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-            ),
-        );
+            ],
+        ];
 
         $this->objQuery->delete('dtb_tax_rule');
         foreach ($taxs as $key => $item) {

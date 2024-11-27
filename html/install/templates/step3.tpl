@@ -38,6 +38,7 @@
 //-->
 </script>
 
+<!--{strip}-->
 <form name="form1" id="form1" method="post" action="?">
     <input type="hidden" name="mode" value="<!--{$tpl_mode}-->" />
     <input type="hidden" name="step" value="0" />
@@ -67,19 +68,18 @@
                 <span class="attention top"><!--{$arrErr.all}--></span>
                 <!--{if $arrErr.all != ""}-->
                     <ul class="btn-area">
-                        <li><a class="btn-normal" href="javascript:;" onclick="eccube.setModeAndSubmit('drop'); return false;">既存データを全て削除する</a></li>
+                        <li><a class="btn" href="javascript:;" onclick="eccube.setModeAndSubmit('drop'); return false;">既存データを全て削除する</a></li>
                     </ul>
                 <!--{/if}-->
             <!--{/if}-->
         </div>
     </div>
 
-    <div class="btn-area-top"></div>
     <div class="btn-area">
         <ul>
-            <li><a class="btn-action" href="javascript:;" onclick="document.form1['mode'].value='return_step2';document.form1.submit();return false;"><span class="btn-prev">前へ戻る</span></a></li>
-            <li><a class="btn-action" href="javascript:;" onclick="document.body.style.cursor='wait';"><span class="btn-next">次へ進む</span></a></li>
+            <li><a class="btn prev" href="javascript:;" onclick="document.form1['mode'].value='return_step2';document.form1.submit();return false;">前へ戻る</a></li>
+            <li><a class="btn next" href="javascript:;" onclick="document.body.style.cursor='wait';">次へ進む</a></li>
         </ul>
     </div>
-    <div class="btn-area-bottom"></div>
 </form>
+<!--{/strip}-->

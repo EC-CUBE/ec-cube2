@@ -1,39 +1,35 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Address/SC_Helper_Address_TestBase.php");
-/**
- *
- */
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Address/SC_Helper_Address_TestBase.php';
+
 class SC_Helper_Address_registAddressTest extends SC_Helper_Address_TestBase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objAddress = new SC_Helper_Address_Ex();
     }
 
-    protected function tearUp()
+    protected function tearDown(): void
     {
-        parent::tearUp();
+        parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-//顧客idがない場合は直にExitしてしまうので未実行
-/*
-    public function testregistAddressTest_顧客idが無い場合_システムエラーを返す()
-    {
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
-        $this->setUpAddress();
-        //$this->expected = "1";
-        $this->objAddress->registAddress(null);
-        $this->actual = '';
-        $this->verify('アドレス追加');
-    }
-*/
-
+    // 顧客idがない場合は直にExitしてしまうので未実行
+    /*
+        public function testregistAddressTest_顧客idが無い場合_システムエラーを返す()
+        {
+            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $this->setUpAddress();
+            //$this->expected = "1";
+            $this->objAddress->registAddress(null);
+            $this->actual = '';
+            $this->verify('アドレス追加');
+        }
+    */
 
     /* MySQL でもエラーになるのでとりいそぎ回避
     public function testregistAddressTest_会員の登録配送先を追加する()
@@ -74,12 +70,11 @@ class SC_Helper_Address_registAddressTest extends SC_Helper_Address_TestBase
     }
     */
 
-
-    public function testregistAddressTest_会員の登録配送先を更新する()
+    public function testregistAddressTest会員の登録配送先を更新する()
     {
         $this->setUpAddress();
         $arrSql =
-            array(
+            [
                 'other_deliv_id' => '1000',
                 'customer_id' => '1',
                 'name01' => 'テスト',
@@ -87,7 +82,7 @@ class SC_Helper_Address_registAddressTest extends SC_Helper_Address_TestBase
                 'kana01' => 'テスト',
                 'kana02' => 'コウシン',
                 'zip01' => '222',
-                'zip02'=> '2222',
+                'zip02' => '2222',
                 'pref' => '4',
                 'addr01' => 'テスト1',
                 'addr02' => 'テスト1',
@@ -99,18 +94,18 @@ class SC_Helper_Address_registAddressTest extends SC_Helper_Address_TestBase
                 'fax03' => '1114',
                 'country_id' => null,
                 'company_name' => null,
-                'zipcode' => null
-            );
-        $objQuery =& SC_Query_Ex::getSingletonInstance();
+                'zipcode' => null,
+            ];
+        $objQuery = &SC_Query_Ex::getSingletonInstance();
         $this->objAddress->registAddress($arrSql);
 
         $this->expected = $arrSql;
         $col = '*';
         $from = 'dtb_other_deliv';
         $where = 'other_deliv_id = ?';
-        $arrWhere = array($arrSql['other_deliv_id']);
+        $arrWhere = [$arrSql['other_deliv_id']];
         $this->actual = $objQuery->getRow($col, $from, $where, $arrWhere);
-        
+
         $this->verify('登録配送先更新');
     }
 }

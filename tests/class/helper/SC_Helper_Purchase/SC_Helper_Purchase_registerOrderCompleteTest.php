@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -29,60 +29,59 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
  * TODO 在庫の減少処理はエラー表示⇒exit呼び出しとなるためテスト不可.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
-
 class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_TestBase
 {
-  /** @var array */
-  private $customer_ids = [];
-  /** @var array */
-  private $order_ids = [];
-  /** @var array */
-  private $order_temp_ids = [];
-  private $helper;
+    /** @var array */
+    private $customer_ids = [];
+    /** @var array */
+    private $order_ids = [];
+    /** @var array */
+    private $order_temp_ids = [];
+    private $helper;
 
-  protected function setUp()
-  {
-    parent::setUp();
-    $this->customer_ids = $this->setUpCustomer();
-    $this->order_ids = $this->setUpOrder($this->customer_ids);
-    $this->order_temp_ids = $this->setUpOrderTemp($this->order_ids);
-    $this->helper = new SC_Helper_Purchase_registerOrderCompleteMock();
-  }
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->customer_ids = $this->setUpCustomer();
+        $this->order_ids = $this->setUpOrder($this->customer_ids);
+        $this->order_temp_ids = $this->setUpOrderTemp($this->order_ids);
+        $this->helper = new SC_Helper_Purchase_registerOrderCompleteMock();
+    }
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  /////////////////////////////////////////
-  public function testRegisterOrderComplete_不要な変数が含まれている場合_登録前に除外される()
-  {
-
-    // 引数の準備
-    $orderParams = array(
+    // ///////////////////////////////////////
+    public function testRegisterOrderComplete不要な変数が含まれている場合登録前に除外される()
+    {
+        // 引数の準備
+        $orderParams = [
       'order_id' => $this->order_ids[0],
       'status' => ORDER_PAY_WAIT,
       'mail_maga_flg' => '1',
       'order_tax_rate' => '5',
-      'order_tax_rule' => '1'
-    );
-    $cartSession = new SC_CartSession_registerOrderCompleteMock();
-    $_SESSION['site']['uniqid'] = $this->order_temp_ids[0];
+      'order_tax_rule' => '1',
+    ];
+        $cartSession = new SC_CartSession_registerOrderCompleteMock();
+        $_SESSION['site']['uniqid'] = $this->order_temp_ids[0];
 
-    $this->helper->registerOrderComplete($orderParams, $cartSession, '1');
+        $this->helper->registerOrderComplete($orderParams, $cartSession, '1');
 
-    $this->expected = array(
-      'registerOrder' => array(
+        $this->expected = [
+      'registerOrder' => [
         'order_id' => $this->order_ids[0],
         'status' => ORDER_PAY_WAIT,
-        'mailmaga_flg' => null
-      ),
-      'registerOrderDetail' => array(
+        'mailmaga_flg' => null,
+      ],
+      'registerOrderDetail' => [
         'order_id' => $this->order_ids[0],
-        'params' => array(
-          array(
+        'params' => [
+          [
             'order_id' => $this->order_ids[0],
             'product_id' => '1002',
             'product_class_id' => '1002',
@@ -95,92 +94,91 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
             'quantity' => '10',
             'tax_rate' => null,
             'tax_rule' => null,
-            'tax_adjust' => null
-          )
-        )
-      ),
-      'del_flg' => '1'
-    );
+            'tax_adjust' => null,
+          ],
+        ],
+      ],
+      'del_flg' => '1',
+    ];
 
-    $this->actual = $_SESSION['testResult'];
-    $this->actual['del_flg'] = $this->objQuery->get('del_flg', 'dtb_order_temp', 'order_temp_id = ?', $this->order_temp_ids[0]);
-    $this->verify();
-  }
+        $this->actual = $_SESSION['testResult'];
+        $this->actual['del_flg'] = $this->objQuery->get('del_flg', 'dtb_order_temp', 'order_temp_id = ?', $this->order_temp_ids[0]);
+        $this->verify();
+    }
 
-  public function testRegisterOrderComplete_ステータスの指定がない場合_新規受付扱いとなる()
-  {
-    // 引数の準備
-    $orderParams = array(
+    public function testRegisterOrderCompleteステータスの指定がない場合新規受付扱いとなる()
+    {
+        // 引数の準備
+        $orderParams = [
       'order_id' => '1001',
     //  'status' => ORDER_PAY_WAIT,
       'order_tax_rate' => '5',
-      'order_tax_rule' => '1'
-    );
-    $cartSession = new SC_CartSession_registerOrderCompleteMock();
-    $_SESSION['site']['uniqid'] = '1001';
+      'order_tax_rule' => '1',
+    ];
+        $cartSession = new SC_CartSession_registerOrderCompleteMock();
+        $_SESSION['site']['uniqid'] = '1001';
 
-    $this->helper->registerOrderComplete($orderParams, $cartSession, '1');
+        $this->helper->registerOrderComplete($orderParams, $cartSession, '1');
 
-    // 上の条件と重複する部分は確認を省略
-    $this->expected = array(
-      'registerOrder' => array(
+        // 上の条件と重複する部分は確認を省略
+        $this->expected = [
+      'registerOrder' => [
         'order_id' => '1001',
         'status' => ORDER_NEW,
-        'mailmaga_flg' => null
-      )
-    );
+        'mailmaga_flg' => null,
+      ],
+    ];
 
-    $this->actual['registerOrder'] = $_SESSION['testResult']['registerOrder'];
-    $this->verify();
-  }
+        $this->actual['registerOrder'] = $_SESSION['testResult']['registerOrder'];
+        $this->verify();
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
 
 class SC_Helper_Purchase_registerOrderCompleteMock extends SC_Helper_Purchase
 {
-
-  public static function registerOrder($order_id, $params)
-  {
-    $_SESSION['testResult']['registerOrder'] = array(
+    public static function registerOrder($order_id, $params)
+    {
+        $_SESSION['testResult']['registerOrder'] = [
       'order_id' => $order_id,
       'status' => $params['status'],
-      'mailmaga_flg' => $params['mailmaga_flg']
-    );
-  }
+      'mailmaga_flg' => $params['mailmaga_flg'],
+    ];
+    }
 
-  public static function registerOrderDetail($order_id, $params)
-  {
-    $_SESSION['testResult']['registerOrderDetail'] = array(
+    public static function registerOrderDetail($order_id, $params)
+    {
+        $_SESSION['testResult']['registerOrderDetail'] = [
       'order_id' => $order_id,
-      'params' => $params
-    );
-  }
+      'params' => $params,
+    ];
+    }
 
-  function setUniqId()
-  {}
+    public function setUniqId()
+    {
+    }
 }
 
 class SC_CartSession_registerOrderCompleteMock extends SC_CartSession
 {
-
-  // カートの内容を取得
-  function getCartList($cartKey, $pref_id = 0, $country_id = 0)
-  {
-    return array(
-      array(
-        'productsClass' => array(
+    // カートの内容を取得
+    public function getCartList($cartKey, $pref_id = 0, $country_id = 0)
+    {
+        return [
+      [
+        'productsClass' => [
           'product_id' => '1002',
           'product_class_id' => '1002',
           'name' => '製品02',
           'product_code' => 'cd1002',
           'classcategory_name1' => 'cat01',
-          'classcategory_name2' => 'cat02'
-        ),
+          'classcategory_name2' => 'cat02',
+        ],
         'point_rate' => '5',
         'price' => '1000',
-        'quantity' => '10'
-      )
-    );
-  }
+        'quantity' => '10',
+      ],
+    ];
+    }
 }

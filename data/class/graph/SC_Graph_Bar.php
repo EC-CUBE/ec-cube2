@@ -27,7 +27,8 @@ class SC_Graph_Bar extends SC_Graph_Line_Ex
     // コンストラクタ
     public function __construct(
         $bgw = BG_WIDTH, $bgh = BG_HEIGHT, $left = LINE_LEFT, $top = LINE_TOP,
-        $area_width = LINE_AREA_WIDTH, $area_height = LINE_AREA_HEIGHT) {
+        $area_width = LINE_AREA_WIDTH, $area_height = LINE_AREA_HEIGHT)
+    {
         parent::__construct($bgw, $bgh, $left, $top, $area_width, $area_height);
     }
 
@@ -54,7 +55,7 @@ class SC_Graph_Bar extends SC_Graph_Line_Ex
     // 棒グラフの描画
 
     /**
-     * @param integer $line_no
+     * @param int $line_no
      */
     public function drawBar($line_no)
     {
@@ -62,11 +63,11 @@ class SC_Graph_Bar extends SC_Graph_Line_Ex
         // データ数を数える
         $count = count($arrPointList);
         // 半目盛りの幅を求める
-        $half_scale = intval($this->area_width / ($count + 1) / 2);
+        $half_scale = (int) ($this->area_width / ($count + 1) / 2);
         // 目盛りの幅を求める
-        $scale_width = intval($this->area_width / ($count + 1));
+        $scale_width = (int) ($this->area_width / ($count + 1));
         // 棒グラフのサイズを求める
-        $bar_width = intval(($scale_width - (BAR_PAD * 2)) / $this->line_max);
+        $bar_width = (int) (($scale_width - (BAR_PAD * 2)) / $this->line_max);
         // 色数の取得
         $c_max = count($this->arrColor);
         for ($i = 0; $i < $count; $i++) {
@@ -79,7 +80,7 @@ class SC_Graph_Bar extends SC_Graph_Line_Ex
             if ($this->shade_on) {
                 imagefilledrectangle($this->image, $left + 2, $top + 2, $right + 2, $bottom, $this->shade_color);
             }
-            //imagefilledrectangle($this->image, $left, $top, $right, $bottom, $this->arrColor[($i % $c_max)]);
+            // imagefilledrectangle($this->image, $left, $top, $right, $bottom, $this->arrColor[($i % $c_max)]);
             imagefilledrectangle($this->image, $left, $top, $right, $bottom, $this->arrColor[$line_no]);
             imagerectangle($this->image, $left, $top, $right, $bottom, $this->flame_color);
         }
@@ -88,7 +89,7 @@ class SC_Graph_Bar extends SC_Graph_Line_Ex
     // ラベルを描画する
 
     /**
-     * @param integer $line_no
+     * @param int $line_no
      */
     public function drawLabel($line_no)
     {

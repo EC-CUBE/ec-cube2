@@ -103,7 +103,7 @@
             <!--{assign var=detail_image_size value=200}-->
             <!--{assign var=main_image_factor value=$arrFile[$key].width/$detail_image_size}-->
             <!--{if $arrProduct.main_large_image|strlen >= 1}-->
-                <a rel="external" class="expansion" href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct.main_large_image|h}-->" target="_blank">
+                <a class="expansion" href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct.main_large_image|h}-->" target="_blank">
                     <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct.main_image|h}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile.main_image.width/$main_image_factor}-->" height="<!--{$arrFile.main_image.height/$main_image_factor}-->" /></a>
             <!--{else}-->
                 <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct.main_image|h}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile.main_image.width/$main_image_factor}-->" height="<!--{$arrFile.main_image.height/$main_image_factor}-->" />
@@ -117,7 +117,7 @@
             <!--{if $arrFile[$key].filepath != ""}-->
                 <li id="mainImage<!--{$smarty.section.cnt.index+1}-->">
                 <!--{if $arrProduct[$lkey] != ""}-->
-                    <a rel="external" class="expansion" href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct[$lkey]|h}-->" target="_blank">
+                    <a class="expansion" href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct[$lkey]|h}-->" target="_blank">
                     <img src="<!--{$arrFile[$key].filepath|h}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$key].width/$sub_image_factor}-->" height="<!--{$arrFile[$key].height/$sub_image_factor}-->" /></a>
                 <!--{else}-->
                     <img src="<!--{$arrFile[$key].filepath|h}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$key].width/$sub_image_factor}-->" height="<!--{$arrFile[$key].height/$sub_image_factor}-->" />
@@ -167,7 +167,7 @@
                     <p class="relative_cat"><span class="mini">関連カテゴリ：</span>
                         <!--{section name=r loop=$arrRelativeCat}-->
                             <!--{section name=s loop=$arrRelativeCat[r]}-->
-                                <a rel="external" href="<!--{$smarty.const.ROOT_URLPATH}-->products/list.php?category_id=<!--{$arrRelativeCat[r][s].category_id}-->"><!--{$arrRelativeCat[r][s].category_name}--></a>
+                                <a href="<!--{$smarty.const.ROOT_URLPATH}-->products/list.php?category_id=<!--{$arrRelativeCat[r][s].category_id}-->"><!--{$arrRelativeCat[r][s].category_name}--></a>
                                 <!--{if !$smarty.section.s.last}--><!--{$smarty.const.SEPA_CATNAVI}--><!--{/if}-->
                             <!--{/section}--><br />
                         <!--{/section}-->
@@ -229,7 +229,7 @@
                     <!--{if $arrProduct.comment1|strlen >= 1}-->
                         <p class="sale_price">
                             <span class="mini">メーカーURL：</span><span>
-                                <a rel="external" href="<!--{$arrProduct.comment1|h}-->" target="_blank">
+                                <a href="<!--{$arrProduct.comment1|h}-->" target="_blank">
                                     <!--{$arrProduct.comment1|h}--></a>
                             </span>
                         </p>
@@ -294,7 +294,7 @@
 
                         <!--★カートに入れる★-->
                         <div id="cartbtn_default">
-                            <a rel="external" href="javascript:void(document.form1.submit());" class="btn cartbtn_default">カートに入れる</a>
+                            <a href="javascript:void(document.form1.submit());" class="btn cartbtn_default">カートに入れる</a>
                         </div>
                         <div class="attention" id="cartbtn_dynamic"></div>
                     </div>
@@ -308,7 +308,7 @@
                 <!--{if $tpl_login}-->
                     <!--{if !$is_favorite}-->
                         <div class="btn_favorite">
-                            <p><a rel="external" href="javascript:void(0);" onclick="eccube.addFavoriteSphone(<!--{$arrProduct.product_id|h}-->); return false;" class="btn_sub">お気に入りに追加</a></p>
+                            <p><a href="javascript:void(0);" onclick="eccube.addFavoriteSphone(<!--{$arrProduct.product_id|h}-->); return false;" class="btn_sub">お気に入りに追加</a></p>
                         </div>
                     <!--{else}-->
                         <div class="btn_favorite">
@@ -346,7 +346,7 @@
                         <!--{if $arrProduct[$key]|strlen >= 1}-->
                             <p class="subphotoimg">
                                 <!--{if $arrProduct[$lkey]|strlen >= 1}-->
-                                    <a rel="external" class="expansion" href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct[$lkey]|h}-->" target="_blank">
+                                    <a class="expansion" href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct[$lkey]|h}-->" target="_blank">
                                         <img src="<!--{$arrFile[$key].filepath}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$key].width/$sub_image_factor}-->" height="<!--{$arrFile[$key].height/$sub_image_factor}-->" />
                                     </a>
                                 <!--{else}-->
@@ -411,7 +411,7 @@
                             <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrRecommend[cnt].main_list_image|sfNoImageMainList|h}-->" style="max-width: 65px;max-height: 65px;" alt="!--{$arrRecommend[cnt].name|h}-->" />
                             <!--{assign var=price02_min value="`$arrRecommend[cnt].price02_min_inctax`"}-->
                             <!--{assign var=price02_max value="`$arrRecommend[cnt].price02_max_inctax`"}-->
-                            <h3><a rel="external" href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrRecommend[cnt].product_id|u}-->"><!--{$arrRecommend[cnt].name|h}--></a></h3>
+                            <h3><a href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$arrRecommend[cnt].product_id|u}-->"><!--{$arrRecommend[cnt].name|h}--></a></h3>
                             <p class="sale_price"><span class="price">
                                 <!--{if $price02_min == $price02_max}-->
                                     <!--{$price02_min|n2s}-->

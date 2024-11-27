@@ -1,10 +1,7 @@
 <?php
 /**
  * Smarty plugin
- * @package Smarty
- * @subpackage plugins
  */
-
 
 /**
  * Smarty {from_to} function plugin
@@ -24,18 +21,18 @@
  * {html_radios from="-1" to="2"} → -1 ～ 2
  * {html_radios from="B" to="a" separator="～<br />"}  → B～<br />a
  * </pre>
+ *
  * @author     Seasoft 塚田将久
+ *
  * @param array
  * @param Smarty
+ *
  * @return string
+ *
  * @uses smarty_function_escape_special_chars()
  */
 function smarty_function_from_to($params, &$smarty)
 {
-    if (!is_callable('smarty_function_escape_special_chars')) {
-        require_once(SMARTY_PLUGINS_DIR . 'shared.escape_special_chars.php');
-    }
-
     $from = null;
     $to = null;
     $separator = ' ～ ';
@@ -58,12 +55,12 @@ function smarty_function_from_to($params, &$smarty)
 
     if ($escape) {
         $from = smarty_function_escape_special_chars($from);
-        $to   = smarty_function_escape_special_chars($to);
+        $to = smarty_function_escape_special_chars($to);
     }
 
     if ($from === $to) {
         return $from;
     } else {
-        return $from . $separator . $to;
+        return $from.$separator.$to;
     }
 }

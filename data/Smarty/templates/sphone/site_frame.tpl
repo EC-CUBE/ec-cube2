@@ -69,7 +69,7 @@
         <link rel="apple-touch-icon" href="<!--{$TPL_URLPATH}-->img/common/apple-touch-icon.png" />
 
         <script type="text/javascript">//<![CDATA[
-            <!--{$tpl_javascript}-->
+            <!--{$tpl_javascript nofilter}-->
             $(function(){
                 <!--{$tpl_onload}-->
             });

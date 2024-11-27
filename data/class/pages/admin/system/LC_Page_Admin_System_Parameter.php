@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * パラメーター設定 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_System_Parameter extends LC_Page_Admin_Ex
@@ -104,7 +103,7 @@ class LC_Page_Admin_System_Parameter extends LC_Page_Admin_Ex
 
         // コメント, 値の配列を生成
         $this->arrComments = SC_Utils_Ex::getHash2Array($masterData->getDBMasterData('mtb_constants',
-                                                        array('id', 'remarks', 'rank')));
+            ['id', 'remarks', 'rank']));
     }
 
     /**
@@ -112,38 +111,37 @@ class LC_Page_Admin_System_Parameter extends LC_Page_Admin_Ex
      *
      * 画面の設定値で mtb_constants テーブルの値とキャッシュを更新する.
      *
-     * @access private
      * @return void
      */
     public function update(&$arrKeys, &$arrForm)
     {
-        $data = array();
+        $data = [];
         $masterData = new SC_DB_MasterData_Ex();
         foreach ($arrKeys as $key) {
             $data[$key] = $arrForm[$key];
         }
 
         // DBのデータを更新
-        $masterData->updateMasterData('mtb_constants', array(), $data);
+        $masterData->updateMasterData('mtb_constants', [], $data);
 
         // キャッシュを生成
-        $masterData->createCache('mtb_constants', array(), true, array('id', 'remarks'));
+        $masterData->createCache('mtb_constants', [], true, ['id', 'remarks']);
     }
 
     /**
      * エラーチェックを行う.
      *
-     * @access private
      * @param  array $arrForm $_POST 値
+     *
      * @return array
      */
     public function errorCheck(&$arrKeys, &$arrForm)
     {
         $objErr = new SC_CheckError_Ex($arrForm);
         for ($i = 0; $i < count($arrKeys); $i++) {
-            $objErr->doFunc(array($arrKeys[$i],
-                                  $arrForm[$arrKeys[$i]]),
-                            array('EXIST_CHECK_REVERSE', 'EVAL_CHECK'));
+            $objErr->doFunc([$arrKeys[$i],
+                                  $arrForm[$arrKeys[$i]], ],
+                ['EXIST_CHECK_REVERSE', 'EVAL_CHECK']);
         }
 
         return $objErr->arrErr;
@@ -152,13 +150,13 @@ class LC_Page_Admin_System_Parameter extends LC_Page_Admin_Ex
     /**
      * パラメーターのキーを配列で返す.
      *
-     * @access private
      * @param SC_DB_MasterData_Ex $masterData
+     *
      * @return array パラメーターのキーの配列
      */
     public function getParamKeys(&$masterData)
     {
-        $keys = array();
+        $keys = [];
         $i = 0;
         foreach ($masterData->getDBMasterData('mtb_constants') as $key => $val) {
             $keys[$i] = $key;

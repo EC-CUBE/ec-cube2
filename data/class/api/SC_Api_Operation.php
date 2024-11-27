@@ -26,44 +26,44 @@
  * 権限チェックと設定チェックを行い、APIオペレーション本体を呼び出す。
  * 結果データの生成
  *
- * @package Api
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
-
 class SC_Api_Operation
 {
     /** API_DEBUG_MODE */
-    const API_DEBUG_MODE = false;
+    public const API_DEBUG_MODE = false;
 
     /** 認証タイプ */
-    const API_AUTH_TYPE_REFERER = '1';          // リファラー
-    const API_AUTH_TYPE_SESSION_TOKEN = '2';    // CSRF TOKEN
-    const API_AUTH_TYPE_API_SIGNATURE = '3';    // API 署名認証 推奨
-    const API_AUTH_TYPE_CUSTOMER = '4';         // 会員認証
-    const API_AUTH_TYPE_MEMBER = '5';           // 管理者認証
-    const API_AUTH_TYPE_CUSTOMER_LOGIN_SESSION = '6';   // 顧客ログインセッションが有効
-    const API_AUTH_TYPE_MEMBER_LOGIN_SESSION = '7';     // 管理者ログインセッションが有効
-    const API_AUTH_TYPE_IP = '8';               // IP認証
-    const API_AUTH_TYPE_HOST = '9';             // ホスト認証
-    const API_AUTH_TYPE_SSL = '10';             // SSL強制
-    const API_AUTH_TYPE_OPEN = '99';            // 完全オープン
+    public const API_AUTH_TYPE_REFERER = '1';          // リファラー
+    public const API_AUTH_TYPE_SESSION_TOKEN = '2';    // CSRF TOKEN
+    public const API_AUTH_TYPE_API_SIGNATURE = '3';    // API 署名認証 推奨
+    public const API_AUTH_TYPE_CUSTOMER = '4';         // 会員認証
+    public const API_AUTH_TYPE_MEMBER = '5';           // 管理者認証
+    public const API_AUTH_TYPE_CUSTOMER_LOGIN_SESSION = '6';   // 顧客ログインセッションが有効
+    public const API_AUTH_TYPE_MEMBER_LOGIN_SESSION = '7';     // 管理者ログインセッションが有効
+    public const API_AUTH_TYPE_IP = '8';               // IP認証
+    public const API_AUTH_TYPE_HOST = '9';             // ホスト認証
+    public const API_AUTH_TYPE_SSL = '10';             // SSL強制
+    public const API_AUTH_TYPE_OPEN = '99';            // 完全オープン
 
     /**
      * 有効な管理者ID/PASSかどうかチェックする
      *
      * @param  string  $member_id       ログインID文字列
      * @param  string  $member_password ログインパスワード文字列
-     * @return boolean ログイン情報が有効な場合 true
+     *
+     * @return bool ログイン情報が有効な場合 true
      */
     protected static function checkMemberAccount($member_id, $member_password)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        //パスワード、saltの取得
+        // パスワード、saltの取得
         $cols = 'password, salt';
         $table = 'dtb_member';
         $where = 'login_id = ? AND del_flg <> 1 AND work = 1';
-        $arrData = $objQuery->getRow($cols, $table, $where, array($member_id));
+        $arrData = $objQuery->getRow($cols, $table, $where, [$member_id]);
         if (SC_Utils_Ex::isBlank($arrData)) {
             return false;
         }
@@ -80,7 +80,8 @@ class SC_Api_Operation
      *
      * @param  string  $login_email ログインメールアドレス
      * @param  string  $login_password    ログインパスワード
-     * @return boolean ログインに成功した場合 true; 失敗した場合 false
+     *
+     * @return bool ログインに成功した場合 true; 失敗した場合 false
      */
     protected static function checkCustomerAccount($login_email, $login_password)
     {
@@ -95,17 +96,17 @@ class SC_Api_Operation
     /**
      * リファラーチェックを実行する.
      *
-     * @return boolean チェックに成功した場合 true; 失敗した場合 false
+     * @return bool チェックに成功した場合 true; 失敗した場合 false
      */
     protected static function checkReferer()
     {
         $ret = false;
         if (!SC_Utils_Ex::isBlank($_SERVER['HTTP_REFERER'])) {
-            $domain  = SC_Utils_Ex::sfIsHTTPS() ? HTTPS_URL : HTTP_URL;
+            $domain = SC_Utils_Ex::sfIsHTTPS() ? HTTPS_URL : HTTP_URL;
             $pattern = sprintf('|^%s.*|', $domain);
             $referer = $_SERVER['HTTP_REFERER'];
             if (preg_match($pattern, $referer)) {
-               $ret = true;
+                $ret = true;
             }
         }
 
@@ -118,7 +119,8 @@ class SC_Api_Operation
      *
      * @param  string 実行処理名
      * @param array リクエストパラメータ
-     * @return boolean 署名認証に成功した場合 true; 失敗した場合 false
+     *
+     * @return bool 署名認証に成功した場合 true; 失敗した場合 false
      */
     protected static function checkApiSignature($operation_name, $arrParam, $arrApiConfig)
     {
@@ -128,12 +130,12 @@ class SC_Api_Operation
         if (SC_Utils_Ex::isBlank($arrParam['Timestamp'])) {
             return false;
         }
-/*
-        $allow_account_id = SC_Api_Operation_Ex::getOperationSubConfig($operation_name, 'allow_account_id', $arrApiConfig);
-        if (!SC_Utils_Ex::isBlank($allow_account_id) and) {
-            $arrAllowAccountIds = explode('|', $allow_account_id);
-        }
-*/
+        /*
+                $allow_account_id = SC_Api_Operation_Ex::getOperationSubConfig($operation_name, 'allow_account_id', $arrApiConfig);
+                if (!SC_Utils_Ex::isBlank($allow_account_id) and) {
+                    $arrAllowAccountIds = explode('|', $allow_account_id);
+                }
+        */
 
         $access_key = $arrParam['AccessKeyId'];
         $secret_key = SC_Api_Operation_Ex::getApiSecretKey($access_key);
@@ -152,15 +154,15 @@ class SC_Api_Operation
                 case 'Signature':
                     break;
                 default:
-                    $check_str .= '&' . SC_Utils_Ex::encodeRFC3986($key) . '=' . SC_Utils_Ex::encodeRFC3986($val);
+                    $check_str .= '&'.SC_Utils_Ex::encodeRFC3986($key).'='.SC_Utils_Ex::encodeRFC3986($val);
                     break;
             }
         }
         $check_str = substr($check_str, 1);
-        $check_str = strtoupper($_SERVER['REQUEST_METHOD']) . "\n"
-                     . strtolower($_SERVER['SERVER_NAME']) . "\n"
-                     . $_SERVER['PHP_SELF'] . "\n"
-                     . $check_str;
+        $check_str = strtoupper($_SERVER['REQUEST_METHOD'])."\n"
+                     .strtolower($_SERVER['SERVER_NAME'])."\n"
+                     .$_SERVER['PHP_SELF']."\n"
+                     .$check_str;
         $signature = base64_encode(hash_hmac('sha256', $check_str, $secret_key, true));
         if ($signature === $arrParam['Signature']) {
             return true;
@@ -173,7 +175,8 @@ class SC_Api_Operation
      * IPチェックを実行する.
      *
      * @param  string 実行処理名
-     * @return boolean チェックに成功した場合 true; 失敗した場合 false
+     *
+     * @return bool チェックに成功した場合 true; 失敗した場合 false
      */
     protected static function checkIp($operation_name)
     {
@@ -181,7 +184,7 @@ class SC_Api_Operation
         $allow_hosts = SC_Api_Utils_Ex::getOperationSubConfig($operation_name, 'allow_hosts');
         $arrAllowHost = explode("\n", $allow_hosts);
         if (is_array($arrAllowHost) && count($arrAllowHost) > 0) {
-            if (array_search($_SERVER['REMOTE_ADDR'], $arrAllowHost) !== FALSE) {
+            if (array_search($_SERVER['REMOTE_ADDR'], $arrAllowHost) !== false) {
                 $ret = true;
             }
         }
@@ -201,12 +204,13 @@ class SC_Api_Operation
      * ApiAccessKeyに対応した秘密鍵を取得する。
      *
      * @param  string $access_key
+     *
      * @return string 秘密鍵文字列
      */
     protected static function getApiSecretKey($access_key)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $secret_key = $objQuery->get('api_secret_key', 'dtb_api_account', 'api_access_key = ? and enable = 1 and del_flg = 0', array($access_key));
+        $secret_key = $objQuery->get('api_secret_key', 'dtb_api_account', 'api_access_key = ? and enable = 1 and del_flg = 0', [$access_key]);
 
         return $secret_key;
     }
@@ -216,7 +220,8 @@ class SC_Api_Operation
      *
      * @param string オペレーション名
      * @param array リクエストパラメータ
-     * @return boolean 権限がある場合 true; 無い場合 false
+     *
+     * @return bool 権限がある場合 true; 無い場合 false
      */
     protected static function checkOperationAuth($operation_name, &$arrParam, &$arrApiConfig)
     {
@@ -282,21 +287,23 @@ class SC_Api_Operation
      *
      * @param object SC_FormParam
      * @param SC_FormParam_Ex $objFormParam
+     *
      * @return void
      */
     protected static function setApiBaseParam(&$objFormParam)
     {
-        $objFormParam->addParam('Operation', 'Operation', STEXT_LEN, 'an', array('EXIST_CHECK', 'GRAPH_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('Service', 'Service', STEXT_LEN, 'an', array('EXIST_CHECK', 'GRAPH_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('Style', 'Style', STEXT_LEN, 'an', array('GRAPH_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('Validate', 'Validate', STEXT_LEN, 'an', array('GRAPH_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('Version', 'Version', STEXT_LEN, 'an', array('GRAPH_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('Operation', 'Operation', STEXT_LEN, 'an', ['EXIST_CHECK', 'GRAPH_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('Service', 'Service', STEXT_LEN, 'an', ['EXIST_CHECK', 'GRAPH_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('Style', 'Style', STEXT_LEN, 'an', ['GRAPH_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('Validate', 'Validate', STEXT_LEN, 'an', ['GRAPH_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('Version', 'Version', STEXT_LEN, 'an', ['GRAPH_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     /**
      * API実行
      *
      * @param  array        $arrPost リクエストパラメーター
+     *
      * @return array(string レスポンス名, array レスポンス配列)
      */
     public static function doApiAction($arrPost)
@@ -310,11 +317,11 @@ class SC_Api_Operation
         $objFormParam->convParam();
 
         $arrErr = SC_Api_Operation_Ex::checkParam($objFormParam);
-        $arrOperationRequestValid = array();
+        $arrOperationRequestValid = [];
         $operation_name = '';
         $response_group_name = '';
         $objApiOperation = null;
-        $arrResponseBody = array();
+        $arrResponseBody = [];
         // API機能が有効であるかをチェック.
         if (API_ENABLE_FLAG == false) {
             $arrErr['ECCUBE.Function.Disable'] = 'API機能が無効です。';
@@ -345,7 +352,7 @@ class SC_Api_Operation
                     // オペレーション結果処理
                     if ($operation_result) {
                         $arrOperationRequestValid = $objApiOperation->getRequestValidate();
-                        $arrResponseBody =  $objApiOperation->getResponseArray();
+                        $arrResponseBody = $objApiOperation->getResponseArray();
                         $response_group_name = $objApiOperation->getResponseGroupName();
                     } else {
                         $arrErr = $objApiOperation->getErrorArray();
@@ -360,41 +367,41 @@ class SC_Api_Operation
 
         if (count($arrErr) == 0) {
             // 実行成功
-            $arrResponseValidSection = array('Request' => array(
+            $arrResponseValidSection = ['Request' => [
                                                             'IsValid' => 'True',
-                                                            $operation_name . 'Request' => $arrOperationRequestValid
-                                                            )
-                                            );
-            $response_outer = $operation_name . 'Response';
+                                                            $operation_name.'Request' => $arrOperationRequestValid,
+                                                            ],
+                                            ];
+            $response_outer = $operation_name.'Response';
             SC_Api_Utils_Ex::printApiLog('Operation SUCCESS', $start_time, $response_outer);
         } else {
             // 実行失敗
-            $arrResponseErrorSection = array();
+            $arrResponseErrorSection = [];
             foreach ($arrErr as $error_code => $error_msg) {
-                $arrResponseErrorSection[] = array('Code' => $error_code, 'Message' => $error_msg);
+                $arrResponseErrorSection[] = ['Code' => $error_code, 'Message' => $error_msg];
             }
-            $arrResponseValidSection = array('Request' => array(
+            $arrResponseValidSection = ['Request' => [
                                                             'IsValid' => 'False',
-                                                            'Errors' => array('Error' => $arrResponseErrorSection)
-                                                            )
-                                            );
+                                                            'Errors' => ['Error' => $arrResponseErrorSection],
+                                                            ],
+                                            ];
             if (is_object($objApiOperation)) {
-                $response_outer = $operation_name . 'Response';
+                $response_outer = $operation_name.'Response';
             } else {
                 $response_outer = 'ECCUBEApiCommonResponse';
             }
             SC_Api_Utils_Ex::printApiLog('Operation FAILED', $start_time, $response_outer);
         }
 
-        $arrResponse = array();
+        $arrResponse = [];
         $arrResponse['OperationRequest'] = SC_Api_Operation_Ex::getOperationRequestEcho($arrPost, $start_time);
-        $arrResponse[$response_group_name] = array(); // Items
+        $arrResponse[$response_group_name] = []; // Items
         $arrResponse[$response_group_name] = $arrResponseValidSection;
         if (is_array($arrResponseBody)) {
             $arrResponse[$response_group_name] = array_merge((array) $arrResponse[$response_group_name], (array) $arrResponseBody);
         }
 
-        return array($response_outer, $arrResponse);
+        return [$response_outer, $arrResponse];
     }
 
     /**
@@ -402,18 +409,25 @@ class SC_Api_Operation
      *
      * @param  array $arrParam   リクエストパラメーター
      * @param  float $start_time 実行時間計測用開始時間
+     *
      * @return array エコー情報配列 (XML用の _attributes 指定入り）
      */
     protected static function getOperationRequestEcho($arrParam, $start_time)
     {
-        $arrRet = array(
-                'HTTPHeaders' => array('Header' => array('_attributes' => array('Name' => 'UserAgent',
-                                                                                'Value' => htmlspecialchars($_SERVER['HTTP_USER_AGENT'])))),
-                'RequestId' => $start_time,
-                'Arguments' => array(),
-                );
+        $arrRet = [
+            'HTTPHeaders' => [
+                'Header' => [
+                    '_attributes' => [
+                        'Name' => 'UserAgent',
+                        'Value' => htmlspecialchars($_SERVER['HTTP_USER_AGENT']),
+                    ],
+                ],
+            ],
+            'RequestId' => $start_time,
+            'Arguments' => [],
+        ];
         foreach ($arrParam as $key => $val) {
-            $arrRet['Arguments'][] = array('_attributes' => array('Name' => htmlentities($key, ENT_NOQUOTES, 'UTF-8'), 'Value' => htmlentities($val, ENT_NOQUOTES, 'UTF-8')));
+            $arrRet['Arguments'][] = ['_attributes' => ['Name' => htmlentities($key, ENT_NOQUOTES, 'UTF-8'), 'Value' => htmlentities($val, ENT_NOQUOTES, 'UTF-8')]];
         }
         $arrRet['RequestProcessingTime'] = microtime(true) - $start_time;
 
@@ -430,6 +444,7 @@ class SC_Api_Operation
     {
         if (API_ENABLE_FLAG == false) {
             http_response_code(403);
+
             return;
         }
         switch ($type) {
@@ -450,6 +465,7 @@ class SC_Api_Operation
      * APIのリクエスト基本パラメーターのチェック
      *
      * @param SC_FormParam_Ex $objFormParam
+     *
      * @return array $arrErr
      */
     protected static function checkParam($objFormParam)
@@ -470,6 +486,7 @@ class SC_Api_Operation
         if (!preg_match("/^[a-zA-Z0-9\-\_\.]+$/", $objFormParam->getValue('Version')) && !SC_Utils::isBlank($objFormParam->getValue('Version'))) {
             $arrErr['ECCUBE.Version.ParamError'] = 'Versionの値が不正です。';
         }
+
         return $arrErr;
     }
 }

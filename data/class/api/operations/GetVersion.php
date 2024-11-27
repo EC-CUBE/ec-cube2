@@ -24,11 +24,10 @@
 /**
  * APIの基本クラス
  *
- * @package Api
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
-
 class API_GetVersion extends SC_Api_Abstract_Ex
 {
     protected $operation_name = 'GetVersion';
@@ -40,8 +39,9 @@ class API_GetVersion extends SC_Api_Abstract_Ex
 
     public function doAction($arrParam)
     {
-        $this->arrResponse = array(
-            'Version' => ECCUBE_VERSION);
+        $this->arrResponse = [
+            'Version' => ECCUBE_VERSION,
+        ];
 
         return true;
     }

@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,92 +27,91 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /**
  * SC_Helper_Purchase::sfUpdateOrderNameCol()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_sfUpdateOrderNameColTest extends SC_Helper_Purchase_TestBase
 {
-  var $helper;
-  /** @var array */
-  private $customer_ids = [];
-  /** @var array */
-  private $order_ids = [];
-  /** @var array */
-  private $order_temp_ids = [];
+    public $helper;
+    /** @var array */
+    private $customer_ids = [];
+    /** @var array */
+    private $order_ids = [];
+    /** @var array */
+    private $order_temp_ids = [];
 
-  protected function setUp()
-  {
-    parent::setUp();
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-    $this->customer_ids = $this->setUpCustomer();
-    $this->order_ids = $this->setUpOrder($this->customer_ids);
-    $this->order_temp_ids = $this->setUpOrderTemp($this->order_ids);
+        $this->customer_ids = $this->setUpCustomer();
+        $this->order_ids = $this->setUpOrder($this->customer_ids);
+        $this->order_temp_ids = $this->setUpOrderTemp($this->order_ids);
 
-    $this->helper = new SC_Helper_Purchase_Ex();
-  }
+        $this->helper = new SC_Helper_Purchase_Ex();
+    }
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  /////////////////////////////////////////
-  public function testSfUpdateOrderNameCol_TEMPフラグがOFFの場合_受注テーブルと発送テーブルが更新される()
-  {
-    $order_id = $this->order_ids[1];
-    $this->helper->saveOrderTemp($this->order_temp_ids[1], ['payment_method' => '支払方法0002']);
-    $arrOrder = $this->objQuery->getRow('*', 'dtb_order', 'order_id = ?', [$order_id]);
-    $arrShipping = $this->objQuery->getRow('*', 'dtb_shipping', 'order_id = ? AND shipping_id = 0', [$order_id]);
-    $arrDelivTime = $this->objQuery->getRow('*', 'dtb_delivtime', 'deliv_id = ? AND time_id = ?', [$arrOrder['deliv_id'], $arrShipping['time_id']]);
-    $arrPayment = $this->objQuery->getRow('*', 'dtb_payment', 'payment_id = ?', [$arrOrder['payment_id']]);
+    // ///////////////////////////////////////
+    public function testSfUpdateOrderNameColTEMPフラグがOFFの場合受注テーブルと発送テーブルが更新される()
+    {
+        $order_id = $this->order_ids[1];
+        $this->helper->saveOrderTemp($this->order_temp_ids[1], ['payment_method' => '支払方法0002']);
+        $arrOrder = $this->objQuery->getRow('*', 'dtb_order', 'order_id = ?', [$order_id]);
+        $arrShipping = $this->objQuery->getRow('*', 'dtb_shipping', 'order_id = ? AND shipping_id = 0', [$order_id]);
+        $arrDelivTime = $this->objQuery->getRow('*', 'dtb_delivtime', 'deliv_id = ? AND time_id = ?', [$arrOrder['deliv_id'], $arrShipping['time_id']]);
+        $arrPayment = $this->objQuery->getRow('*', 'dtb_payment', 'payment_id = ?', [$arrOrder['payment_id']]);
 
-    $this->helper->sfUpdateOrderNameCol($order_id);
+        $this->helper->sfUpdateOrderNameCol($order_id);
 
-    $this->expected['shipping'] = array(array('shipping_time' => $arrDelivTime['deliv_time']));
-    $this->expected['order'] = array(array('payment_method' => $arrPayment['payment_method']));
-    $this->expected['order_temp'] = array(array('payment_method' => '支払方法0002')); // 変更されていない
+        $this->expected['shipping'] = [['shipping_time' => $arrDelivTime['deliv_time']]];
+        $this->expected['order'] = [['payment_method' => $arrPayment['payment_method']]];
+        $this->expected['order_temp'] = [['payment_method' => '支払方法0002']]; // 変更されていない
 
-    $this->actual['shipping'] = $this->objQuery->select(
-      'shipping_time', 'dtb_shipping', 'order_id = ?', array($order_id)
-    );
+        $this->actual['shipping'] = $this->objQuery->select(
+            'shipping_time', 'dtb_shipping', 'order_id = ?', [$order_id]
+        );
 
-    $this->actual['order'] = $this->objQuery->select(
-      'payment_method', 'dtb_order', 'order_id = ?', array($order_id)
-    );
-    $this->actual['order_temp'] = $this->objQuery->select(
-      'payment_method', 'dtb_order_temp', 'order_id = ?', array($order_id)
-    );
-    $this->verify();
-  }
+        $this->actual['order'] = $this->objQuery->select(
+            'payment_method', 'dtb_order', 'order_id = ?', [$order_id]
+        );
+        $this->actual['order_temp'] = $this->objQuery->select(
+            'payment_method', 'dtb_order_temp', 'order_id = ?', [$order_id]
+        );
+        $this->verify();
+    }
 
-  public function testSfUpdateOrderNameCol_TEMPフラグがONの場合_一時テーブルが更新される()
-  {
-    $order_id = $this->order_ids[1];
-    $this->helper->saveOrderTemp($this->order_temp_ids[1], ['payment_method' => '支払方法0002']);
-    $arrOrder = $this->objQuery->getRow('*', 'dtb_order', 'order_id = ?', [$order_id]);
-    $arrShipping = $this->objQuery->getRow('*', 'dtb_shipping', 'order_id = ? AND shipping_id = 0', [$order_id]);
-    $arrDelivTime = $this->objQuery->getRow('*', 'dtb_delivtime', 'deliv_id = ? AND time_id = ?', [$arrOrder['deliv_id'], $arrShipping['time_id']]);
-    $arrPayment = $this->objQuery->getRow('*', 'dtb_payment', 'payment_id = ?', [$arrOrder['payment_id']]);
+    public function testSfUpdateOrderNameColTEMPフラグがONの場合一時テーブルが更新される()
+    {
+        $order_id = $this->order_ids[1];
+        $this->helper->saveOrderTemp($this->order_temp_ids[1], ['payment_method' => '支払方法0002']);
+        $arrOrder = $this->objQuery->getRow('*', 'dtb_order', 'order_id = ?', [$order_id]);
+        $arrShipping = $this->objQuery->getRow('*', 'dtb_shipping', 'order_id = ? AND shipping_id = 0', [$order_id]);
+        $arrDelivTime = $this->objQuery->getRow('*', 'dtb_delivtime', 'deliv_id = ? AND time_id = ?', [$arrOrder['deliv_id'], $arrShipping['time_id']]);
+        $arrPayment = $this->objQuery->getRow('*', 'dtb_payment', 'payment_id = ?', [$arrOrder['payment_id']]);
 
-    $this->helper->sfUpdateOrderNameCol($this->order_temp_ids[1], true);
+        $this->helper->sfUpdateOrderNameCol($this->order_temp_ids[1], true);
 
-    $this->expected['shipping'] = array(array('shipping_time' => $arrDelivTime['deliv_time']));
-    $this->expected['order'] = array(array('payment_method' => $arrPayment['payment_method']));
-    $this->expected['order_temp'] = array(array('payment_method' => $arrPayment['payment_method'])); // 変更されている
+        $this->expected['shipping'] = [['shipping_time' => $arrDelivTime['deliv_time']]];
+        $this->expected['order'] = [['payment_method' => $arrPayment['payment_method']]];
+        $this->expected['order_temp'] = [['payment_method' => $arrPayment['payment_method']]]; // 変更されている
 
-    $this->actual['shipping'] = $this->objQuery->select(
-      'shipping_time', 'dtb_shipping', 'order_id = ?', array($order_id)
-    );
-    $this->actual['order'] = $this->objQuery->select(
-      'payment_method', 'dtb_order', 'order_id = ?', array($order_id)
-    );
-    $this->actual['order_temp'] = $this->objQuery->select(
-      'payment_method', 'dtb_order_temp', 'order_temp_id = ?', array($this->order_temp_ids[1])
-    );
-    $this->verify();
-  }
+        $this->actual['shipping'] = $this->objQuery->select(
+            'shipping_time', 'dtb_shipping', 'order_id = ?', [$order_id]
+        );
+        $this->actual['order'] = $this->objQuery->select(
+            'payment_method', 'dtb_order', 'order_id = ?', [$order_id]
+        );
+        $this->actual['order_temp'] = $this->objQuery->select(
+            'payment_method', 'dtb_order_temp', 'order_temp_id = ?', [$this->order_temp_ids[1]]
+        );
+        $this->verify();
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

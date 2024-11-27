@@ -2,13 +2,13 @@
 
 class SC_CheckError_KANA_CHECKTest extends SC_CheckError_AbstractTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'KANA_CHECK';
     }
 
-    public function testKANA_CHECK()
+    public function testKANACHECK()
     {
         $this->arrForm = [self::FORM_NAME => 'ア'];
         $this->expected = '';
@@ -17,8 +17,7 @@ class SC_CheckError_KANA_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testKANA_CHECKWithNumber()
+    public function testKANACHECKWithNumber()
     {
         $this->arrForm = [self::FORM_NAME => 5];
         $this->expected = '※ KANA_CHECKはカタカナで入力してください。<br />';
@@ -27,7 +26,7 @@ class SC_CheckError_KANA_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANA_CHECKWithEmpty()
+    public function testKANACHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -36,7 +35,7 @@ class SC_CheckError_KANA_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANA_CHECKWithNull()
+    public function testKANACHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '';
@@ -45,7 +44,7 @@ class SC_CheckError_KANA_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANA_CHECKWithKanaOfHarf()
+    public function testKANACHECKWithKanaOfHarf()
     {
         $this->arrForm = [self::FORM_NAME => 'ｱ'];
         $this->expected = '';
@@ -54,7 +53,7 @@ class SC_CheckError_KANA_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANA_CHECKWithHiragana()
+    public function testKANACHECKWithHiragana()
     {
         $this->arrForm = [self::FORM_NAME => 'あ'];
         $this->expected = '※ KANA_CHECKはカタカナで入力してください。<br />';
@@ -63,7 +62,7 @@ class SC_CheckError_KANA_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANA_CHECKWithKanaAndBlank()
+    public function testKANACHECKWithKanaAndBlank()
     {
         $this->arrForm = [self::FORM_NAME => 'アイ ウエオ'];
         $this->expected = '※ KANA_CHECKはカタカナで入力してください。<br />';
@@ -72,7 +71,7 @@ class SC_CheckError_KANA_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testKANA_CHECKWithKanaAndWideBlank()
+    public function testKANACHECKWithKanaAndWideBlank()
     {
         $this->arrForm = [self::FORM_NAME => 'アイ　ウエオ'];
         $this->expected = '※ KANA_CHECKはカタカナで入力してください。<br />';
@@ -81,4 +80,3 @@ class SC_CheckError_KANA_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 }
-

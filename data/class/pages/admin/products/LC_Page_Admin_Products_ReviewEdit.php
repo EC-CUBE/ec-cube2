@@ -21,13 +21,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_REALDIR . 'pages/admin/products/LC_Page_Admin_Products_Review.php';
+require_once CLASS_REALDIR.'pages/admin/products/LC_Page_Admin_Products_Review.php';
 
 /**
  * レビュー編集 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Products_ReviewEdit extends LC_Page_Admin_Products_Review
@@ -101,47 +101,48 @@ class LC_Page_Admin_Products_ReviewEdit extends LC_Page_Admin_Products_Review
                 $this->arrForm = $this->lfGetReviewData($this->arrForm['review_id']);
                 break;
         }
-
     }
 
     /**
      * パラメーター情報の初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
         // 検索条件のパラメーターを初期化
         parent::lfInitParam($objFormParam);
-        $objFormParam->addParam('レビューID', 'review_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('商品名', 'name', '', '', array(), '', false);
-        $objFormParam->addParam('投稿日', 'create_date', '', '', array(), '', false);
+        $objFormParam->addParam('レビューID', 'review_id', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('商品名', 'name', '', '', [], '', false);
+        $objFormParam->addParam('投稿日', 'create_date', '', '', [], '', false);
 
         // 登録情報
-        $objFormParam->addParam('レビュー表示', 'status', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('投稿者名', 'reviewer_name', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('投稿者URL', 'reviewer_url', URL_LEN, 'KVCa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('性別', 'sex', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('おすすめレベル', 'recommend_level', INT_LEN, 'n', array('SELECT_CHECK'));
-        $objFormParam->addParam('タイトル', 'title', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('コメント', 'comment', LTEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('レビュー表示', 'status', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('投稿者名', 'reviewer_name', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('投稿者URL', 'reviewer_url', URL_LEN, 'KVCa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('性別', 'sex', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('おすすめレベル', 'recommend_level', INT_LEN, 'n', ['SELECT_CHECK']);
+        $objFormParam->addParam('タイトル', 'title', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('コメント', 'comment', LTEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
     }
 
     /**
      * レビュー情報のDB取得
      *
-     * @param  integer $review_id レビューID
+     * @param  int $review_id レビューID
+     *
      * @return array   レビュー情報
      */
     public function lfGetReviewData($review_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $select='review_id, A.product_id, reviewer_name, sex, recommend_level, ';
-        $select.='reviewer_url, title, comment, A.status, A.create_date, A.update_date, name';
+        $select = 'review_id, A.product_id, reviewer_name, sex, recommend_level, ';
+        $select .= 'reviewer_url, title, comment, A.status, A.create_date, A.update_date, name';
         $from = 'dtb_review AS A LEFT JOIN dtb_products AS B ON A.product_id = B.product_id ';
         $where = 'A.del_flg = 0 AND B.del_flg = 0 AND review_id = ? ';
-        $arrReview = $objQuery->select($select, $from, $where, array($review_id));
+        $arrReview = $objQuery->select($select, $from, $where, [$review_id]);
         if (empty($arrReview)) {
             SC_Utils_Ex::sfDispError('');
         }
@@ -152,8 +153,9 @@ class LC_Page_Admin_Products_ReviewEdit extends LC_Page_Admin_Products_Review
     /**
      * レビュー情報の更新
      *
-     * @param  integer      $review_id    レビューID
+     * @param  int      $review_id    レビューID
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfRegistReviewData($review_id, &$objFormParam)
@@ -161,6 +163,6 @@ class LC_Page_Admin_Products_ReviewEdit extends LC_Page_Admin_Products_Review
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrValues = $objFormParam->getDbArray();
         $arrValues['update_date'] = 'CURRENT_TIMESTAMP';
-        $objQuery->update('dtb_review', $arrValues, 'review_id = ?', array($review_id));
+        $objQuery->update('dtb_review', $arrValues, 'review_id = ?', [$review_id]);
     }
 }

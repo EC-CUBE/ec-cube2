@@ -66,7 +66,7 @@
                                         <!--{/if}-->
                                     <!--{/if}-->
                                 </p>
-                                <a href="<!--{$smarty.const.ROOT_URLPATH}-->mypage/history.php?order_id=<!--{$arrOrder[cnt].order_id}-->" rel="external"></a>
+                                <a href="<!--{$smarty.const.ROOT_URLPATH}-->mypage/history.php?order_id=<!--{$arrOrder[cnt].order_id}-->"></a>
                             </div>
                             <!--▲商品 -->
                         <!--{/section}-->
@@ -74,7 +74,7 @@
                 </div><!-- /.form_area-->
                 <div class="btn_area">
                     <!--{if $objNavi->all_row > $dispNumber}-->
-                        <p><a href="javascript: void(0);" class="btn_more" id="btn_more_history" onClick="getHistory(<!--{$dispNumber|h}-->); return false;" rel="external">もっとみる(＋<!--{$dispNumber|h}-->件)</a></p>
+                        <p><a href="javascript: void(0);" class="btn_more" id="btn_more_history" onClick="getHistory(<!--{$dispNumber|h}-->); return false;">もっとみる(＋<!--{$dispNumber|h}-->件)</a></p>
                     <!--{/if}-->
                 </div>
             <!--{else}-->

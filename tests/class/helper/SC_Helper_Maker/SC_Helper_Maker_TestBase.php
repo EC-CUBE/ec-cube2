@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -26,19 +26,18 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Helper_Makerのテストの基底クラス.
  *
- *
  * @author hiroshi kakuta
+ *
  * @version $Id$
  */
 class SC_Helper_Maker_TestBase extends Common_TestCase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
@@ -48,53 +47,53 @@ class SC_Helper_Maker_TestBase extends Common_TestCase
      */
     protected function setUpMaker()
     {
-        $makers = array(
-            array(
+        $makers = [
+            [
                 'maker_id' => '1001',
                 'name' => 'ソニン',
                 'rank' => '1',
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-            ),
-            array(
+                'del_flg' => '0',
+            ],
+            [
                 'maker_id' => '1002',
                 'name' => 'パソナニック',
                 'rank' => '2',
                 'creator_id' => '2',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '1'
-            ),
-            array(
+                'del_flg' => '1',
+            ],
+            [
                 'maker_id' => '1003',
                 'name' => 'シャンプー',
                 'rank' => '3',
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-            ),
-            array(
+                'del_flg' => '0',
+            ],
+            [
                 'maker_id' => '1004',
                 'name' => 'MEC',
                 'rank' => '4',
                 'creator_id' => '1',
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
-                'del_flg' => '0'
-            )
-        );
+                'del_flg' => '0',
+            ],
+        ];
 
         $this->objQuery->delete('dtb_maker');
-        foreach ($makers as  $item) {
+        foreach ($makers as $item) {
             $this->objQuery->insert('dtb_maker', $item);
         }
     }
 
-    protected function deleteAllMaker(){
+    protected function deleteAllMaker()
+    {
         $this->objQuery->delete('dtb_maker');
     }
 }
-

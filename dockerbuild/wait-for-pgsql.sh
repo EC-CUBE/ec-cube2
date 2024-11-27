@@ -2,7 +2,7 @@
 set -e
 
 export PGPASSWORD=$DB_PASSWORD
-until psql -h "${DB_SERVER}" -U "${DB_USER}" -d "template1" -c '\l'; do
+until psql -h "${DB_SERVER}" -U "${DB_USER}" -d "template1" -c 'SELECT 1'; do
   >&2 echo "Postgres is unavailable - sleeping"
   printf "."
   sleep 1

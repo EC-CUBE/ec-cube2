@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,71 +27,72 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfDispDBDate()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfDispDBDateTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfDispDBDate年が指定されていない場合0バイト文字列が返る()
+    {
+        $dbdate = '-01-23 01:12:24';
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+        $this->expected = '';
+        $this->actual = SC_Utils::sfDispDBDate($dbdate);
 
-  /////////////////////////////////////////
-  public function testSfDispDBDate_年が指定されていない場合_0バイト文字列が返る()
-  {
-    $dbdate = '-01-23 01:12:24';
-    
-    $this->expected = '';
-    $this->actual = SC_Utils::sfDispDBDate($dbdate);
+        $this->verify();
+    }
 
-    $this->verify();
-  }
-  public function testSfDispDBDate_月が指定されていない場合_0バイト文字列が返る()
-  {
-    $dbdate = '2012--23 01:12:24';
-    
-    $this->expected = '';
-    $this->actual = SC_Utils::sfDispDBDate($dbdate);
+    public function testSfDispDBDate月が指定されていない場合0バイト文字列が返る()
+    {
+        $dbdate = '2012--23 01:12:24';
 
-    $this->verify();
-  }
-  public function testSfDispDBDate_日が指定されていない場合_0バイト文字列が返る()
-  {
-    $dbdate = '2012-01- 01:12:24';
-    
-    $this->expected = '';
-    $this->actual = SC_Utils::sfDispDBDate($dbdate);
+        $this->expected = '';
+        $this->actual = SC_Utils::sfDispDBDate($dbdate);
 
-    $this->verify();
-  }
-  public function testSfDispDBDate_年月日全て存在する場合_フォーマット済み文字列が返る()
-  {
-    $dbdate = '2012-1-23 1:12:24';
-    
-    $this->expected = '2012/01/23 01:12';
-    $this->actual = SC_Utils::sfDispDBDate($dbdate);
+        $this->verify();
+    }
 
-    $this->verify();
-  }
-  public function testSfDispDBDate_時刻表示フラグがOFFの場合_時刻なしのフォーマット済み文字列が返る()
-  {
-    $dbdate = '2012-1-23 1:12:24';
-    
-    $this->expected = '2012/01/23';
-    $this->actual = SC_Utils::sfDispDBDate($dbdate, false);
+    public function testSfDispDBDate日が指定されていない場合0バイト文字列が返る()
+    {
+        $dbdate = '2012-01- 01:12:24';
 
-    $this->verify();
-  }
+        $this->expected = '';
+        $this->actual = SC_Utils::sfDispDBDate($dbdate);
 
-  //////////////////////////////////////////
+        $this->verify();
+    }
+
+    public function testSfDispDBDate年月日全て存在する場合フォーマット済み文字列が返る()
+    {
+        $dbdate = '2012-1-23 1:12:24';
+
+        $this->expected = '2012/01/23 01:12';
+        $this->actual = SC_Utils::sfDispDBDate($dbdate);
+
+        $this->verify();
+    }
+
+    public function testSfDispDBDate時刻表示フラグがOFFの場合時刻なしのフォーマット済み文字列が返る()
+    {
+        $dbdate = '2012-1-23 1:12:24';
+
+        $this->expected = '2012/01/23';
+        $this->actual = SC_Utils::sfDispDBDate($dbdate, false);
+
+        $this->verify();
+    }
+
+    // ////////////////////////////////////////
 }
-

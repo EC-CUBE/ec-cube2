@@ -26,13 +26,16 @@
  *
  * 依存するクラスに構文エラーがあると、捕捉できない。よって、依存は最小に留めること。
  * 現状 GC_Utils_Ex(GC_Utils) に依存しているため、その中で構文エラーは捕捉できない。
- * @package Helper
+ *
  * @version $Id$
  */
 class SC_Helper_HandleError
 {
     /** エラー処理中か */
-    static $under_error_handling = false;
+    public static $under_error_handling = false;
+
+    /** display_errors の初期値 */
+    public static $default_display_errors;
 
     /**
      * 処理の読み込みを行う
@@ -51,21 +54,16 @@ class SC_Helper_HandleError
         // 開発時は -1 (全て) を推奨
         error_reporting(E_ALL & ~E_NOTICE & ~E_USER_NOTICE);
 
+        static::$default_display_errors = ini_get('display_errors');
+
         if (!(defined('SAFE') && SAFE === true) && !(defined('INSTALL_FUNCTION') && INSTALL_FUNCTION === true)) {
             // E_USER_ERROR または警告を捕捉した場合のエラーハンドラ
-            set_error_handler(array(__CLASS__, 'handle_warning'), E_USER_ERROR | E_WARNING | E_USER_WARNING | E_CORE_WARNING | E_COMPILE_WARNING);
+            set_error_handler([__CLASS__, 'handle_warning'], E_USER_ERROR | E_WARNING | E_USER_WARNING | E_CORE_WARNING | E_COMPILE_WARNING);
 
-            // 実質的に PHP 5.2 以降かで処理が分かれる
-            if (function_exists('error_get_last')) {
-                // E_USER_ERROR 以外のエラーを捕捉した場合の処理用
-                register_shutdown_function(array(__CLASS__, 'handle_error'));
-                // 以降の処理では画面へのエラー表示は行なわない
-                ini_set('display_errors', 0);
-            } else {
-                // エラー捕捉用の出力バッファリング
-                ob_start(array(__CLASS__, '_fatal_error_handler'));
-                ini_set('display_errors', 1);
-            }
+            // E_USER_ERROR 以外のエラーを捕捉した場合の処理用
+            register_shutdown_function([__CLASS__, 'handle_error']);
+            // 以降の処理では画面へのエラー表示は行なわない
+            ini_set('display_errors', 0);
         }
     }
 
@@ -78,11 +76,12 @@ class SC_Helper_HandleError
      * E_WARNING, E_USER_WARNING が発生した場合、ログを記録して、true を返す。
      * (エラー画面・エラー文言は表示させない。)
      *
-     * @param  integer      $errno   エラーコード
+     * @param  int      $errno   エラーコード
      * @param  string       $errstr  エラーメッセージ
      * @param  string       $errfile エラーが発生したファイル名
-     * @param  integer      $errline エラーが発生した行番号
-     * @return void|boolean E_USER_ERROR が発生した場合は, エラーページへリダイレクト;
+     * @param  int      $errline エラーが発生した行番号
+     *
+     * @return void|bool E_USER_ERROR が発生した場合は, エラーページへリダイレクト;
      *                      E_WARNING, E_USER_WARNING が発生した場合、true を返す
      */
     public static function handle_warning($errno, $errstr, $errfile, $errline)
@@ -92,10 +91,22 @@ class SC_Helper_HandleError
             return;
         }
 
+        // パラメーターが読み込まれるまでは、PHP 標準のエラー処理とする。
+        // - phpunit の実行中に Warning が出力されることでテストが失敗するテストケースがあっため、除外している。
+        if (!defined('ERROR_LOG_REALFILE') && !(defined('TEST_FUNCTION') && TEST_FUNCTION === true)) {
+            return false;
+        }
+
         $error_type_name = GC_Utils_Ex::getErrorTypeName($errno);
 
         switch ($errno) {
             case E_USER_ERROR:
+                // パラメーターが読み込まれるまでは、エラー例外をスローする。(上の分岐があるため phpunit の実行中に限定される。)
+                if (!defined('ERROR_LOG_REALFILE')) {
+                    ini_set('display_errors', static::$default_display_errors);
+                    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+                }
+
                 $message = "Fatal error($error_type_name): $errstr on [$errfile($errline)]";
                 GC_Utils_Ex::gfPrintLog($message, ERROR_LOG_REALFILE, true);
 
@@ -107,8 +118,10 @@ class SC_Helper_HandleError
             case E_USER_WARNING:
             case E_CORE_WARNING:
             case E_COMPILE_WARNING:
-                $message = "Warning($error_type_name): $errstr on [$errfile($errline)]";
-                GC_Utils_Ex::gfPrintLog($message, ERROR_LOG_REALFILE);
+                if (defined('ERROR_LOG_REALFILE')) {
+                    $message = "Warning($error_type_name): $errstr on [$errfile($errline)]";
+                    GC_Utils_Ex::gfPrintLog($message, ERROR_LOG_REALFILE);
+                }
 
                 return true;
 
@@ -127,16 +140,19 @@ class SC_Helper_HandleError
      * エラーページへリダイレクトする.
      *
      * @param  string      $buffer 出力バッファリングの内容
+     *
      * @return string|void エラーが捕捉された場合は, エラーページへリダイレクトする;
      *                     エラーが捕捉されない場合は, 出力バッファリングの内容を返す
+     *
+     * @deprecated 2.18 EC-CUBE 本体では使用していない。
      */
-    static function &_fatal_error_handler(&$buffer)
+    public static function &_fatal_error_handler(&$buffer)
     {
         if (preg_match('/<b>(Fatal error)<\/b>: +(.+) in <b>(.+)<\/b> on line <b>(\d+)<\/b><br \/>/i', $buffer, $matches)) {
             $message = "$matches[1]: $matches[2] on [$matches[3]($matches[4])]";
             GC_Utils_Ex::gfPrintLog($message, ERROR_LOG_REALFILE, true);
             if (DEBUG_MODE !== true) {
-                $url = HTTP_URL . 'error.php';
+                $url = HTTP_URL.'error.php';
                 if (defined('ADMIN_FUNCTION') && ADMIN_FUNCTION === true) {
                     $url .= '?admin';
                 }
@@ -179,6 +195,12 @@ class SC_Helper_HandleError
             return;
         }
 
+        // パラメーターが読み込まれるまでは、エラー例外をスローする。
+        if (!defined('ERROR_LOG_REALFILE')) {
+            ini_set('display_errors', static::$default_display_errors);
+            throw new ErrorException($arrError['message'], 0, $arrError['type'], $arrError['file'], $arrError['line']);
+        }
+
         $error_type_name = GC_Utils_Ex::getErrorTypeName($arrError['type']);
         $errstr = "Fatal error($error_type_name): {$arrError['message']} on [{$arrError['file']}({$arrError['line']})]";
 
@@ -192,6 +214,7 @@ class SC_Helper_HandleError
      * エラー画面を表示する
      *
      * @param  string|null $errstr エラーメッセージ
+     *
      * @return void
      */
     public static function displaySystemError($errstr = null)

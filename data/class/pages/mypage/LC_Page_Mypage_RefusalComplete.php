@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 退会手続 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Mypage_RefusalComplete extends LC_Page_Ex
@@ -42,16 +41,16 @@ class LC_Page_Mypage_RefusalComplete extends LC_Page_Ex
     public function init()
     {
         parent::init();
-        $this->tpl_title    = 'MYページ';
+        $this->tpl_title = 'MYページ';
 
         if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_MOBILE) {
             $this->tpl_title .= '/退会手続き(完了ページ)';
         } else {
             $this->tpl_subtitle = '退会手続き(完了ページ)';
         }
-        $this->tpl_navi     = SC_Helper_PageLayout::getTemplatePath(SC_Display_Ex::detectDevice()) . 'mypage/navi.tpl';
+        $this->tpl_navi = SC_Helper_PageLayout::getTemplatePath(SC_Display_Ex::detectDevice()).'mypage/navi.tpl';
         $this->tpl_mypageno = 'refusal';
-        $this->point_disp   = false;
+        $this->point_disp = false;
     }
 
     /**

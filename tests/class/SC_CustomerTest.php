@@ -5,7 +5,7 @@ class SC_CustomerTest extends Common_TestCase
     /** @var int */
     protected $customer_id;
 
-    /** @var Faker\Generator $faker */
+    /** @var Faker\Generator */
     protected $faker;
 
     /** @var string */
@@ -17,7 +17,7 @@ class SC_CustomerTest extends Common_TestCase
     /** @var SC_Customer_Ex */
     protected $objCustomer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->faker = Faker\Factory::create('ja_JP');

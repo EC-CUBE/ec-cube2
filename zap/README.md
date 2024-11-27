@@ -9,35 +9,35 @@
 
 **Attention!** 意図しない外部サイトへの攻撃を防ぐため、 OWASP ZAP は必ず **プロテクトモード** で使用してください
 
-1. docker-compose を使用して EC-CUBE をインストールします
+1. docker compose を使用して EC-CUBE をインストールします
     ```shell
     # MySQL を使用する例
     export COMPOSE_FILE=docker-compose.yml:docker-compose.mysql.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml
-    docker-compose up -d
+    docker compose up -d
     # PostgreSQL を使用する例
     export COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml
-    docker-compose up -d
+    docker compose up -d
 1. テスト用のデータを生成します    ```
     ```shell
     # MySQL を使用する例
     ## ec-cube2/cli をインストールしておく
-    docker-compose exec ec-cube composer install
-    docker-compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" --ignore-platform-req=php -W
-    docker-compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
+    docker compose exec ec-cube composer install
+    docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" --ignore-platform-req=php -W
+    docker compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
     ## ダミーデータを生成
-    docker-compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+    docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
     ## メールアドレスを zap_user@example.com に変更
-    docker-compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
+    docker compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
 
     # PostgreSQL を使用する例
     ## ec-cube2/cli をインストールしておく
-    docker-compose exec ec-cube composer install
-    docker-compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" --ignore-platform-req=php -W
-    docker-compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
+    docker compose exec ec-cube composer install
+    docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" --ignore-platform-req=php -W
+    docker compose exec -T ec-cube composer update 'symfony/*' --ignore-platform-req=php -W
     ## ダミーデータを生成
-    docker-compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+    docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
     ## メールアドレスを zap_user@example.com に変更
-    docker-compose exec postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
+    docker compose exec postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
     ```
 1. OWASP ZAP を起動します。Firefox 以外のブラウザで `http://localhost:8081/zap/` へアクセスすると、OWASP ZAP の管理画面が表示されます
 1. Firefox を起動し、設定→ネットワーク設定→接続設定からプロキシーの設定をします
@@ -53,11 +53,11 @@
 1. コンテキストをインポートします。
     ```shell
     ## 管理画面用
-    docker-compose exec zap zap-cli -p 8090 context import /zap/wrk/admin.context
+    docker compose exec zap zap-cli -p 8090 context import /zap/wrk/admin.context
     ## フロント(ログイン用)
-    docker-compose exec zap zap-cli -p 8090 context import /zap/wrk/front_login.context
+    docker compose exec zap zap-cli -p 8090 context import /zap/wrk/front_login.context
     ## フロント(ゲスト用)
-    docker-compose exec zap zap-cli -p 8090 context import /zap/wrk/front_guest.context
+    docker compose exec zap zap-cli -p 8090 context import /zap/wrk/front_guest.context
     ```
    **Note:** *複数のコンテキストを同時にインポートすると、セッションが競合してログインできなくなる場合があるため注意*
    {: .notice--warning}

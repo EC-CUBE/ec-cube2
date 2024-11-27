@@ -21,6 +21,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+use Detection\MobileDetect;
+
 /**
  * スマートフォンの情報を扱うクラス.
  *
@@ -32,11 +34,11 @@ class SC_SmartphoneUserAgent
      * スマートフォンかどうかを判別する。
      * $_SESSION['pc_disp'] = true の場合はPC表示。
      *
-     * @return boolean
+     * @return bool
      */
     public static function isSmartphone()
     {
-        $detect = new Mobile_Detect;
+        $detect = new MobileDetect();
         // SPでかつPC表示OFFの場合
         // TabletはPC扱い
         return ($detect->isMobile() && !$detect->isTablet()) && !SC_SmartphoneUserAgent_Ex::getSmartphonePcFlag();
@@ -45,7 +47,7 @@ class SC_SmartphoneUserAgent
     /**
      * スマートフォンかどうかを判別する。
      *
-     * @return boolean
+     * @return bool
      */
     public static function isNonSmartphone()
     {

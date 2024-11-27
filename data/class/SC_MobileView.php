@@ -26,17 +26,12 @@
  */
 class SC_MobileView extends SC_SiteView_Ex
 {
-    public function __construct($setPrevURL = true)
-    {
-        parent::__construct($setPrevURL);
-    }
-
     public function init()
     {
         parent::init();
 
-        $this->_smarty->template_dir = realpath(MOBILE_TEMPLATE_REALDIR);
-        $this->_smarty->compile_dir = realpath(MOBILE_COMPILE_REALDIR);
+        $this->_smarty->setTemplateDir(realpath(MOBILE_TEMPLATE_REALDIR));
+        $this->_smarty->setCompileDir(realpath(MOBILE_COMPILE_REALDIR));
         $this->assignTemplatePath(DEVICE_TYPE_MOBILE);
     }
 }

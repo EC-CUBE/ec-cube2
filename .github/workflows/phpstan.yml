@@ -1,62 +1,53 @@
 name: PHPStan
-on:
-  push:
-    branches:
-      - '*'
-    tags:
-      - '*'
-    paths:
-      - '**'
-      - '!*.md'
-  pull_request:
-    paths:
-      - '**'
-      - '!*.md'
+run-name: PHPStan
 
+on:
+  workflow_call:
+    inputs:
+      ref_name:
+        required: false
+        type: string
+      base_ref:
+        required: false
+        type: string
+      event_name:
+        required: true
+        type: string
+      owner:
+        required: true
+        type: string
 jobs:
   phpstan:
     name: PHPStan
-
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
     - name: "Checkout"
-      uses: actions/checkout@v3
-    - name: Setup PHP
-      uses: nanasess/setup-php@master
+      uses: actions/checkout@v4
+
+    - name: Build docker image
+      uses: ./.github/actions/dockerbuild
       with:
-        php-version: '8.1'
-    - name: composer install
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 暫定対応
-      run: |
-        sudo composer selfupdate
-        composer config github-oauth.github.com ${GITHUB_TOKEN}
-        composer install --dev --no-interaction -o --apcu-autoloader
-        composer require --dev --ignore-platform-req=php phpstan/phpstan
+        php-version: '8.3'
 
-    - name: Setup to EC-CUBE
+    - name: Setup environment
       env:
-        DB: pgsql
-        USER: postgres
-        DBUSER: postgres
-        DBPASS: password
-        DBNAME: eccube_db
-        DBPORT: 5432
-        HTTP_URL: http://localhost:8085/
-        HTTPS_URL: http://localhost:8085/
+        REF_NAME: ${{ inputs.ref_name }}
+        BASE_REF: ${{ inputs.base_ref }}
+        EVENT_NAME: ${{ inputs.event_name }}
+        OWNER: ${{ inputs.owner }}
       run: |
-        ./eccube_install.sh ${DB}
-
-    - name: PHPStan
-      run: data/vendor/bin/phpstan analyze data/ --error-format=github
+        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml" >> $GITHUB_ENV
+        echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
+        if [ $EVENT_NAME = "pull_request" ]; then
+          if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
+            echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
+          else
+            echo "TAG=8.3-apache-${BASE_REF}" >> $GITHUB_ENV
+          fi
+        else
+          echo "TAG=8.3-apache-${REF_NAME}" >> $GITHUB_ENV
+        fi
+    - run: |
+        docker compose up -d --wait
+        docker compose exec -T ec-cube composer install
+    - run: docker compose exec -T ec-cube php data/vendor/bin/phpstan --memory-limit=512M --no-progress analyze data/ --error-format=github

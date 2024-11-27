@@ -3,11 +3,11 @@
 class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
 {
     /** @var string */
-    const FORM_NAME1 = 'year';
+    public const FORM_NAME1 = 'year';
     /** @var string */
-    const FORM_NAME2 = 'month';
+    public const FORM_NAME2 = 'month';
     /** @var string */
-    const FORM_NAME3 = 'day';
+    public const FORM_NAME3 = 'day';
     /** @var string */
     protected $year;
     /** @var string */
@@ -17,7 +17,7 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
     /** @var \DateTime */
     protected $targetDateTime;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         /** @var Faker\Generator $faker */
         $faker = Faker\Factory::create('ja_JP');
@@ -29,12 +29,12 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->day = $this->targetDateTime->format('d');
     }
 
-    public function testCHECK_DATE()
+    public function testCHECKDATE()
     {
         $this->arrForm = [
             self::FORM_NAME1 => $this->year,
             self::FORM_NAME2 => $this->month,
-            self::FORM_NAME3 => $this->day
+            self::FORM_NAME3 => $this->day,
         ];
         $this->expected = [];
 
@@ -42,13 +42,12 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testCHECK_DATEWithEmpty()
+    public function testCHECKDATEWithEmpty()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '2019',
             self::FORM_NAME2 => '',
-            self::FORM_NAME3 => ''
+            self::FORM_NAME3 => '',
         ];
         $this->expected = [self::FORM_NAME1 => '※ CHECK_DATEは全ての項目を入力して下さい。<br />'];
 
@@ -56,12 +55,12 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_DATEWithNull()
+    public function testCHECKDATEWithNull()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '2019',
             self::FORM_NAME2 => null,
-            self::FORM_NAME3 => null
+            self::FORM_NAME3 => null,
         ];
         $this->expected = [self::FORM_NAME1 => '※ CHECK_DATEは全ての項目を入力して下さい。<br />'];
 
@@ -69,12 +68,12 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_DATEWithZero()
+    public function testCHECKDATEWithZero()
     {
         $this->arrForm = [
             self::FORM_NAME1 => '0',
             self::FORM_NAME2 => '0',
-            self::FORM_NAME3 => '0'
+            self::FORM_NAME3 => '0',
         ];
         $this->expected = [];
 
@@ -82,12 +81,12 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testCHECK_DATEWithInvalid()
+    public function testCHECKDATEWithInvalid()
     {
         $this->arrForm = [
             self::FORM_NAME1 => 2001,
             self::FORM_NAME2 => '2',
-            self::FORM_NAME3 => '29'
+            self::FORM_NAME3 => '29',
         ];
         $this->expected = [self::FORM_NAME1 => '※ CHECK_DATEが正しくありません。<br />'];
 
@@ -115,4 +114,3 @@ class SC_CheckError_CHECK_DATETest extends SC_CheckError_AbstractTestCase
         $this->assertEquals($this->expected, $this->actual, $message);
     }
 }
-

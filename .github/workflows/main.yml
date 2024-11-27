@@ -1,4 +1,5 @@
 name: CI/CD for EC-CUBE
+
 on:
   push:
     branches:
@@ -13,221 +14,37 @@ on:
       - '**'
       - '!*.md'
 jobs:
-  run-on-linux:
-    name: Run on Linux
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        operating-system: [ ubuntu-20.04 ]
-        php: [ '5.4', '5.5', '5.6', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3' ]
-        db: [ mysql, pgsql ]
-        include:
-          - db: mysql
-            dbport: '3306'
-            dbuser: 'root'
-            dbpass: 'password'
-            dbname: 'eccube_db'
-          - db: pgsql
-            dbport: '5432'
-            dbuser: 'postgres'
-            dbpass: 'password'
-            dbname: 'eccube_db'
-
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: password
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: postgres
-          POSTGRES_HOST_AUTH_METHOD: md5
-          POSTGRES_INITDB_ARGS: --auth-host=md5
-        ports:
-          - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      mailcatcher:
-        image: schickling/mailcatcher
-        ports:
-          - 1080:1080
-          - 1025:1025
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Get Composer Cache Directory
-      id: composer-cache
-      run: |
-        echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - uses: actions/cache@v3
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
-
-    # see https://github.com/composer/composer/issues/10340
-    - run: sudo composer selfupdate --2.2
-      if: matrix.php < 7.2
-
-    - name: composer install
-      run: composer install --no-interaction -o
-
-    - name: Setup PHP
-      uses: nanasess/setup-php@master
-      with:
-        php-version: ${{ matrix.php }}
-
-    - name: Setup PHP5.6
-      if: matrix.php == '5.6'
-      run: sudo apt-fast install -y php5.6-fpm
-    - name: php-fpm
-      env:
-        PHP_VERSION: ${{ matrix.php }}
-      run: |
-        if [ -f /lib/systemd/system/php${PHP_VERSION}-fpm.service ]
-        then
-          sudo systemctl enable php${PHP_VERSION}-fpm
-        fi
-    - name: Install symfony/cli
-      # server:ca:install でエラーは出るが利用可能
-      continue-on-error: true
-      run: |
-        sudo apt-fast -y install libnss3-tools
-        wget https://get.symfony.com/cli/installer -O - | bash
-        sudo mv ~/.symfony/bin/symfony /usr/local/bin/symfony
-        symfony local:php:list
-        symfony server:ca:install
-
-    - name: Create ADMIN_DIR
-      run: |
-        sudo apt-fast install -y sharutils
-        echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
-
-    - name: Setup to EC-CUBE
-      env:
-        DB: ${{ matrix.db }}
-        USER: ${{ matrix.dbuser }}
-        DBUSER: ${{ matrix.dbuser }}
-        DBPASS: ${{ matrix.dbpass }}
-        DBNAME: ${{ matrix.dbname }}
-        DBPORT: ${{ matrix.dbport }}
-        HTTP_URL: https://127.0.0.1:8085/
-        HTTPS_URL: https://127.0.0.1:8085/
-      run: |
-        sudo apt-fast install -y mysql-client postgresql-client
-        ./eccube_install.sh ${DB}
-
-    - name: setup-chromedriver
-      uses: nanasess/setup-chromedriver@master
-
-    - run: sleep 1
-    - name: Run to PHPUnit
-      run: data/vendor/bin/phpunit --exclude-group classloader,mysql_prepare
-    - name: Run to PHPUnit classloader
-      run: data/vendor/bin/phpunit --group classloader
-    - name: Run to PHPUnit mysql_prepare
-      # XXX 連続してテストを実行すると、何故か MySQL の prepare statement に失敗するため個別に実行する
-      run: data/vendor/bin/phpunit --group mysql_prepare
-    - name: Run to PHPUnit SessionFactory
-      run: data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
-
-    - name: Upload logs
-      if: failure()
-      uses: actions/upload-artifact@v3
-      with:
-        name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
-        path: data/logs
-
-  run-on-windows:
-    name: Run on Windows
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        operating-system: [ windows-2022 ]
-        php: [ 5.5, 5.6, 7.1, 7.2, 7.3, 7.4 ]
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Get Composer Cache Directory
-      id: composer-cache
-      run: |
-        echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - uses: actions/cache@v3
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**\composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
-
-    - run: echo "extension=gd" >> C:/tools/php/php.ini
-      shell: bash
-
-    # see https://github.com/composer/composer/issues/10340
-    - run: composer selfupdate --2.2
-      if: matrix.php < 7.2
-
-    - name: composer install
-      run: composer install --no-interaction -o
-
-    - name: Start PostgreSQL on Windows
-      # see https://www.cybertec-postgresql.com/en/postgresql-github-actions-continuous-integration/
-      run: |
-        echo $env:PGBIN >> $Env:GITHUB_PATH
-        $pgService = Get-Service -Name postgresql*
-        Set-Service -InputObject $pgService -Status running -StartupType automatic
-        Start-Process -FilePath "$env:PGBIN\pg_isready" -Wait -PassThru
-        $env:PGPASSWORD = 'root'
-        (Get-Content $env:PGDATA\postgresql.conf) | foreach { $_ -replace "#password_encryption = scram-sha-256","password_encryption = md5" } | Set-Content $env:PGDATA\postgresql.conf
-        (Get-Content $env:PGDATA\pg_hba.conf) | foreach { $_ -replace "scram-sha-256","md5" } | Set-Content $env:PGDATA\pg_hba.conf
-        Restart-Service -InputObject $pgService -Force
-        Start-Process -FilePath "$env:PGBIN\pg_isready" -Wait -PassThru
-        & $env:PGBIN\createuser -U postgres -d -R eccube_db_user
-        & $env:PGBIN\psql -U postgres -c "ALTER role eccube_db_user with password 'root';" postgres
-        & $env:PGBIN\createdb --owner=eccube_db_user eccube_db
-
-    - name: Setup PHP
-      uses: nanasess/setup-php@master
-      with:
-        php-version: ${{ matrix.php }}
-
-    - name: Setup to EC-CUBE
-      env:
-        DB: pgsql
-        DBUSER: eccube_db_user
-        DBPASS: root
-        DBNAME: eccube_db
-        DBPORT: 5432
-        DBSERVER: 127.0.0.1
-        HTTP_URL: http://127.0.0.1:8085/
-        HTTPS_URL: http://127.0.0.1:8085/
-      run: |
-        echo $PATH
-        bash eccube_install.sh pgsql
-      shell: bash
-    - run: sleep 1
-      shell: bash
-    - name: Run to PHPUnit
-      run: data/vendor/bin/phpunit --exclude-group classloader
-    - name: Run to PHPUnit classloader
-      run: data/vendor/bin/phpunit --group classloader
-    - name: Run to PHPUnit SessionFactory
-      run: |
-        sed 's|http://|https://|g' -i.bak data/config/config.php
-        data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
-    - name: Upload logs
-      if: failure()
-      uses: actions/upload-artifact@v3
-      with:
-        name: windows-php${{ matrix.php }}-${{ matrix.db }}-logs
-        path: data\logs
+  dockerbuild:
+    with:
+      event_name: ${{ github.event_name }}
+    uses: ./.github/workflows/dockerbuild.yml
+  phpstan:
+    with:
+      ref_name: ${{ github.ref_name }}
+      base_ref: ${{ github.base_ref }}
+      event_name: ${{ github.event_name }}
+      owner: ${{ github.repository_owner }}
+    needs: [ dockerbuild ]
+    uses: ./.github/workflows/phpstan.yml
+  unit-tests:
+    with:
+      ref_name: ${{ github.ref_name }}
+      base_ref: ${{ github.base_ref }}
+      event_name: ${{ github.event_name }}
+      owner: ${{ github.repository_owner }}
+    needs: [ dockerbuild ]
+    uses: ./.github/workflows/unit-tests.yml
+  e2e-tests:
+    with:
+      ref_name: ${{ github.ref_name }}
+      base_ref: ${{ github.base_ref }}
+      event_name: ${{ github.event_name }}
+      owner: ${{ github.repository_owner }}
+    needs: [ dockerbuild ]
+    uses: ./.github/workflows/e2e-tests.yml
+  success:
+    needs:
+      - phpstan
+      - unit-tests
+      - e2e-tests
+    uses: ./.github/workflows/success.yml

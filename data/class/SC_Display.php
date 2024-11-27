@@ -25,6 +25,7 @@
  * Http コンテンツ出力を制御するクラス.
  *
  * @author Ryuichi Tokugami
+ *
  * @version $Id$
  */
 class SC_Display
@@ -48,17 +49,16 @@ class SC_Display
      * const('ADMIN',99);
      */
 
-    public function __construct($hasPrevURL = true)
+    public function __construct()
     {
         $this->response = new SC_Response_Ex();
-        if ($hasPrevURL) {
-            $this->setPrevURL();
-        }
     }
 
+    /**
+     * @deprecated 2.18.0 本体では利用していない。
+     */
     public function setPrevURL()
     {
-        // TODO SC_SiteSession で実装した方が良さげ
         $objCartSess = new SC_CartSession_Ex();
         $objCartSess->setPrevURL($_SERVER['REQUEST_URI']);
     }
@@ -84,9 +84,10 @@ class SC_Display
      * リロードを行う.
      *
      * SC_Response::reload() のラッパーです.
+     *
      * @deprecated SC_Response::reload() を使用してください
      */
-    public function reload($queryString = array(), $removeQueryString = false)
+    public function reload($queryString = [], $removeQueryString = false)
     {
         SC_Response_Ex::reload($queryString, $removeQueryString);
     }
@@ -146,13 +147,15 @@ class SC_Display
      * SC_Display::PC = PC = 10
      *
      * @static
+     *
      * @param          $reset boolean
-     * @return integer 端末種別ID
+     *
+     * @return int 端末種別ID
      */
-    public static function detectDevice($reset = FALSE)
+    public static function detectDevice($reset = false)
     {
         if (is_null(SC_Display_Ex::$device) || $reset) {
-            //$nu = new Net_UserAgent_Mobile();
+            // $nu = new Net_UserAgent_Mobile();
             $su = new SC_SmartphoneUserAgent_Ex();
             if ($su->isSmartphone()) {
                 SC_Display_Ex::$device = DEVICE_TYPE_PC;
@@ -164,7 +167,7 @@ class SC_Display
         return SC_Display_Ex::$device;
     }
 
-    public function assign($val1,$val2)
+    public function assign($val1, $val2)
     {
         $this->view->assign($val1, $val2);
     }
