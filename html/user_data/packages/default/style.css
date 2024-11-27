@@ -153,12 +153,7 @@ img {
 @media (width > 768px), not screen {
     #main_column_frame {
         display: flex;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
         justify-content: space-between;
-        -webkit-justify-content: space-between;
         flex-direction: row;
 
         .colnum_order {
@@ -459,12 +454,7 @@ h2.title {
     margin: auto;
     width: 980px;
     display: flex;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
     justify-content: space-between;
-    -webkit-justify-content: space-between;
 }
 
 #header_utility {
@@ -499,12 +489,7 @@ h2.title {
         width: 100%;
         height: 38px;
         display: flex;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
         justify-content: flex-end;
-        -webkit-justify-content: flex-end;
 
         li {
             display: block;
@@ -560,19 +545,12 @@ h2.title {
 
     ul {
         display: flex;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
         justify-content: flex-end;
-        -webkit-justify-content: flex-end;
     }
 
     li {
         padding-right: 10px;
-        -webkit-flex-grow: 1;
         flex-grow: 1;
-        -webkit-box-sizing: border-box;
         box-sizing: border-box;
         text-align: center;
     }
@@ -665,13 +643,7 @@ h2.title {
         margin-bottom: 20px;
         width: 100%;
         display: flex;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
         justify-content: space-between;
-        -webkit-justify-content: space-between;
-        -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
 
         li {
@@ -846,12 +818,7 @@ div.list_area {
     width: 100%;
     overflow: auto;
     display: flex;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
     justify-content: space-between;
-    -webkit-justify-content: space-between;
 }
 
 div.listphoto {
@@ -884,12 +851,7 @@ div.listphoto {
         margin-bottom: 10px;
         width: 100%;
         display: flex;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
         justify-content: flex-start;
-        -webkit-justify-content: flex-start;
 
         li {
             margin-right: 5px;
@@ -955,24 +917,14 @@ div.listphoto {
     .cartin {
         margin: 0;
         display: flex;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
         justify-content: space-between;
-        -webkit-justify-content: space-between;
 
         .quantity {
             padding: 3px 10px 0 0;
             width: 150px;
             text-align: right;
             display: flex;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            -webkit-box-pack: justify;
-            -ms-flex-pack: justify;
             justify-content: flex-start;
-            -webkit-justify-content: flex-start;
             width: 40%;
             padding: 0 4% 0 0;
 
@@ -1008,19 +960,12 @@ div.listphoto {
 ----------------------------------------------- */
 #detailarea {
     display: flex;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
     justify-content: space-between;
-    -webkit-justify-content: space-between;
 }
 
 #main_column {
     h3 {
-        -webkit-flex-grow: 1;
         flex-grow: 1;
-        -webkit-box-sizing: border-box;
         box-sizing: border-box;
     }
 
@@ -1028,9 +973,7 @@ div.listphoto {
     div {
         &.subtext,
         &.subphotoimg {
-            -webkit-flex-grow: 2;
             flex-grow: 2;
-            -webkit-box-sizing: border-box;
             box-sizing: border-box;
         }
     }
@@ -1154,12 +1097,7 @@ div.listphoto {
         margin-bottom: 10px;
         width: 100%;
         display: flex;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
         justify-content: flex-start;
-        -webkit-justify-content: flex-start;
 
         li {
             margin-right: 5px;
@@ -1244,23 +1182,12 @@ div.listphoto {
         background-color: #ecf5ff;
         border: 1px solid #cef0f4;
         display: flex;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
         justify-content: space-between;
-        -webkit-justify-content: space-between;
-        -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
 
         .quantity {
             display: flex;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            -webkit-box-pack: justify;
-            -ms-flex-pack: justify;
             justify-content: flex-start;
-            -webkit-justify-content: flex-start;
             padding-top: 4px;
             width: 50%;
         }
@@ -1293,13 +1220,7 @@ div.listphoto {
 .LC_Page_Products_Detail {
     .sub_area {
         display: flex;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
         justify-content: space-between;
-        -webkit-justify-content: space-between;
-        -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
     }
 }
@@ -1464,12 +1385,7 @@ div.form_area {
     margin-bottom: 10px;
     width: 100%;
     display: flex;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
     justify-content: space-between;
-    -webkit-justify-content: space-between;
 
     .information {
         width: 65%;
@@ -2422,21 +2338,13 @@ ul.button_like li {
     #calender_area {
         .block_body {
             display: flex;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            -webkit-box-pack: justify;
-            -ms-flex-pack: justify;
             justify-content: space-between;
-            -webkit-justify-content: space-between;
-            -webkit-flex-wrap: wrap;
             flex-wrap: wrap;
         }
 
         table {
             width: 48%;
-            -webkit-flex-grow: 1;
             flex-grow: 1;
-            -webkit-box-sizing: border-box;
             box-sizing: border-box;
             margin: 0 1%;
         }
