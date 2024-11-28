@@ -260,7 +260,8 @@ class SC_Helper_Purchase
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        return $objQuery->getRow('*', 'dtb_order_temp', 'order_temp_id = ?', [$uniqId]);
+        $result = $objQuery->getRow('*', 'dtb_order_temp', 'order_temp_id = ?', array($uniqId));
+        return is_array($result) ? $result : []; // 必ず配列を返す
     }
 
     /**
