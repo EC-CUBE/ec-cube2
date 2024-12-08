@@ -42,12 +42,12 @@ jobs:
           if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
             echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
           else
-            echo "TAG=8.3-apache-${BASE_REF}" >> $GITHUB_ENV
+            echo "TAG=8.4-apache-${BASE_REF}" >> $GITHUB_ENV
           fi
         else
-          echo "TAG=8.3-apache-${REF_NAME}" >> $GITHUB_ENV
+          echo "TAG=8.4-apache-${REF_NAME}" >> $GITHUB_ENV
         fi
     - run: |
         docker compose up -d --wait
         docker compose exec -T ec-cube composer install
-    - run: docker compose exec -T ec-cube php data/vendor/bin/php-cs-fixer fix --diff --dry-run --allow-risky=yes
+    - run: docker compose exec -T -e PHP_CS_FIXER_IGNORE_ENV=1 ec-cube php data/vendor/bin/php-cs-fixer fix --diff --dry-run --allow-risky=yes
