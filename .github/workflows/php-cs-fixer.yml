@@ -1,0 +1,53 @@
+name: php-cs-fixer dry-run
+run-name: php-cs-fixer
+
+on:
+  workflow_call:
+    inputs:
+      ref_name:
+        required: false
+        type: string
+      base_ref:
+        required: false
+        type: string
+      event_name:
+        required: true
+        type: string
+      owner:
+        required: true
+        type: string
+jobs:
+  php-cs-fixer:
+    name: php-cs-fixer
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@v4
+
+    - name: Build docker image
+      uses: ./.github/actions/dockerbuild
+      with:
+        php-version: '8.4'
+
+    - name: Setup environment
+      env:
+        REF_NAME: ${{ inputs.ref_name }}
+        BASE_REF: ${{ inputs.base_ref }}
+        EVENT_NAME: ${{ inputs.event_name }}
+        OWNER: ${{ inputs.owner }}
+      run: |
+        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml" >> $GITHUB_ENV
+        echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
+        if [ $EVENT_NAME = "pull_request" ]; then
+          if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
+            echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
+          else
+            echo "TAG=8.4-apache-${BASE_REF}" >> $GITHUB_ENV
+          fi
+        else
+          echo "TAG=8.4-apache-${REF_NAME}" >> $GITHUB_ENV
+        fi
+    - run: |
+        docker compose up -d --wait
+        docker compose exec -T ec-cube composer install
+    - run: docker compose exec -T -e PHP_CS_FIXER_IGNORE_ENV=1 ec-cube php data/vendor/bin/php-cs-fixer fix --diff --dry-run --allow-risky=yes
