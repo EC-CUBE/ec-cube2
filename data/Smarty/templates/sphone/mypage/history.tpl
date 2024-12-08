@@ -97,7 +97,7 @@
                         <img src="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$orderDetail.main_list_image|sfNoImageMainList|h}-->" style="max-width: 80px;max-height: 80px;" alt="<!--{$orderDetail.product_name|h}-->" class="photoL" />
                         <div class="cartinContents">
                             <div>
-                                <p><em><!--→商品名--><a<!--{if $orderDetail.enable}--> href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$orderDetail.product_id|u}-->"<!--{/if}--> rel="external"><!--{$orderDetail.product_name|h}--></a><!--←商品名--></em></p>
+                                <p><em><!--→商品名--><a<!--{if $orderDetail.enable}--> href="<!--{$smarty.const.P_DETAIL_URLPATH}--><!--{$orderDetail.product_id|u}-->"<!--{/if}-->><!--{$orderDetail.product_name|h}--></a><!--←商品名--></em></p>
                                 <p>
                                     <!--→金額-->
                                     <!--{assign var=price value="`$orderDetail.price`"}-->
@@ -109,7 +109,7 @@
                                 <!--{if $orderDetail.product_type_id == $smarty.const.PRODUCT_TYPE_DOWNLOAD}-->
                                     <p id="downloadable">
                                         <!--{if $orderDetail.is_downloadable}-->
-                                            <a target="_self" href="<!--{$smarty.const.ROOT_URLPATH}-->mypage/download.php?order_id=<!--{$tpl_arrOrderData.order_id}-->&amp;product_id=<!--{$orderDetail.product_id}-->&amp;product_class_id=<!--{$orderDetail.product_class_id}-->" rel="external">ダウンロード</a><br />
+                                            <a target="_self" href="<!--{$smarty.const.ROOT_URLPATH}-->mypage/download.php?order_id=<!--{$tpl_arrOrderData.order_id}-->&amp;product_id=<!--{$orderDetail.product_id}-->&amp;product_class_id=<!--{$orderDetail.product_class_id}-->">ダウンロード</a><br />
                                         <!--{else}-->
                                             <!--{if $orderDetail.payment_date == "" && $orderDetail.effective == "0"}-->
                                                 <!--{$arrProductType[$orderDetail.product_type_id]}--><br />（入金確認中）
@@ -164,14 +164,14 @@
                     <p>配信日：<!--{$tpl_arrMailHistory[cnt].send_date|sfDispDBDate|h}--><br />
                         <!--{assign var=key value="`$tpl_arrMailHistory[cnt].template_id`"}-->
                         通知メール：<!--{$arrMAILTEMPLATE[$key]|h}--></p>
-                    <p><a href="javascript:;" onclick="getMailDetail(<!--{$tpl_arrMailHistory[cnt].send_id}-->)" rel="external"><!--{$tpl_arrMailHistory[cnt].subject|h}--></a></p>
+                    <p><a href="javascript:;" onclick="getMailDetail(<!--{$tpl_arrMailHistory[cnt].send_id}-->)"><!--{$tpl_arrMailHistory[cnt].subject|h}--></a></p>
                 </div>
                 <!--▲メール -->
             <!--{/section}-->
         </div><!-- /.formBox -->
         <!--▲メール一覧 -->
 
-        <p><a rel="external" class="btn_more" href="./<!--{$smarty.const.DIR_INDEX_PATH}-->">購入履歴一覧に戻る</a></p>
+        <p><a class="btn_more" href="./<!--{$smarty.const.DIR_INDEX_PATH}-->">購入履歴一覧に戻る</a></p>
 
     </div><!-- /.form_area -->
 

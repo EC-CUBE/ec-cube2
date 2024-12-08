@@ -30,7 +30,7 @@ jobs:
           - 'test/front_login'
           - 'test/front_guest'
           - 'test/admin'
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4-rc' ]
         db: [ mysql, pgsql ]
     steps:
     - name: Checkout
@@ -60,7 +60,11 @@ jobs:
         echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
         if [ $EVENT_NAME = "pull_request" ]; then
-          echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+          if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
+            echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
+          else
+            echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+          fi
         else
           echo "TAG=${PHP}-apache-${REF_NAME}" >> $GITHUB_ENV
         fi
@@ -72,6 +76,11 @@ jobs:
     - name: Setup to EC-CUBE
       run: |
         docker compose up -d --wait
+        while [ ! -e "data/config/config.php" ]
+        do
+            printf "."
+            sleep 1
+        done
         docker compose exec -T ec-cube composer install
         docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
         docker compose exec -T ec-cube composer update 'symfony/*' -W
@@ -118,7 +127,7 @@ jobs:
       fail-fast: false
       matrix:
         db: [ 'pgsql', 'mysql' ]
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4-rc' ]
         include:
           - db: mysql
             dbport: '3306'
@@ -153,7 +162,11 @@ jobs:
         echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
         if [ $EVENT_NAME = "pull_request" ]; then
-          echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+          if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
+            echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
+          else
+            echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+          fi
         else
           echo "TAG=${PHP}-apache-${REF_NAME}" >> $GITHUB_ENV
         fi

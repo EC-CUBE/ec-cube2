@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,52 +27,49 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfRmDupSlash()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfRmDupSlashTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfRmDupSlash非SSLの場合スキーマ部分以外の重複スラッシュが1つになる()
+    {
+        $input = 'http://www.example.co.jp///aaa//bb/co.php';
+        $this->expected = 'http://www.example.co.jp/aaa/bb/co.php';
+        $this->actual = SC_Utils::sfRmDupSlash($input);
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfRmDupSlash_非SSLの場合_スキーマ部分以外の重複スラッシュが1つになる()
-  {
-    $input = 'http://www.example.co.jp///aaa//bb/co.php';
-    $this->expected = 'http://www.example.co.jp/aaa/bb/co.php';
-    $this->actual = SC_Utils::sfRmDupSlash($input);
+    public function testSfRmDupSlashSSLの場合スキーマ部分以外の重複スラッシュが1つになる()
+    {
+        $input = 'https://www.example.co.jp///aaa//bb/co.php';
+        $this->expected = 'https://www.example.co.jp/aaa/bb/co.php';
+        $this->actual = SC_Utils::sfRmDupSlash($input);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfRmDupSlash_SSLの場合_スキーマ部分以外の重複スラッシュが1つになる()
-  {
-    $input = 'https://www.example.co.jp///aaa//bb/co.php';
-    $this->expected = 'https://www.example.co.jp/aaa/bb/co.php';
-    $this->actual = SC_Utils::sfRmDupSlash($input);
+    public function testSfRmDupSlash上記以外の場合全ての重複スラッシュが1つになる()
+    {
+        $input = 'hoge//www.example.co.jp///aaa//bb/co.php';
+        $this->expected = 'hoge/www.example.co.jp/aaa/bb/co.php';
+        $this->actual = SC_Utils::sfRmDupSlash($input);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  public function testSfRmDupSlash_上記以外の場合_全ての重複スラッシュが1つになる()
-  {
-    $input = 'hoge//www.example.co.jp///aaa//bb/co.php';
-    $this->expected = 'hoge/www.example.co.jp/aaa/bb/co.php';
-    $this->actual = SC_Utils::sfRmDupSlash($input);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 class LC_Page_Admin_Total_Ex extends LC_Page_Admin_Total
 {
     public function init()

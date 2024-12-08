@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * RSS(商品) のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Rss_Products extends LC_Page_Ex
@@ -71,10 +70,10 @@ class LC_Page_Rss_Products extends LC_Page_Ex
     {
         $objView = new SC_SiteView_Ex();
 
-        //店舗情報をセット
+        // 店舗情報をセット
         $this->arrSiteInfo = SC_Helper_DB_Ex::sfGetBasisData();
 
-        //商品IDを取得
+        // 商品IDを取得
         if (isset($_GET['product_id']) && $_GET['product_id'] != '' && is_numeric($_GET['product_id'])) {
             $product_id = $_GET['product_id'];
         } else {
@@ -108,31 +107,31 @@ class LC_Page_Rss_Products extends LC_Page_Ex
         // 従来互換 (for 2.11)
         $this->arrProduct = &$this->arrProducts;
 
-        //セットしたデータをテンプレートファイルに出力
+        // セットしたデータをテンプレートファイルに出力
         $objView->assignobj($this);
 
-        //キャッシュしない(念のため)
+        // キャッシュしない(念のため)
         header('Pragma: no-cache');
 
-        //XMLテキスト(これがないと正常にRSSとして認識してくれないツールがあるため)
+        // XMLテキスト(これがないと正常にRSSとして認識してくれないツールがあるため)
         header('Content-type: application/xml');
-        P_DETAIL_URLPATH;
 
-        //画面表示
+        // 画面表示
         $objView->display($this->tpl_mainpage, true);
     }
 
     /**
      * lfGetProductsDetailData.
      *
-     * @param  str   $mode       モード
-     * @param  str   $product_id 商品ID
+     * @param  string   $mode       モード
+     * @param  string   $product_id 商品ID
+     *
      * @return array $arrProduct 商品情報の配列を返す
      */
     public function lfGetProductsDetailData($mode, $product_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        //商品詳細を取得
+        // 商品詳細を取得
         if ($mode == 'all') {
             $arrProduct = $this->lfGetProductsDetail($objQuery, $mode);
         } else {
@@ -141,24 +140,24 @@ class LC_Page_Rss_Products extends LC_Page_Ex
         // 値の整形
         foreach (array_keys($arrProduct) as $key) {
             // 画像ファイルのURLセット
-            if (file_exists(IMAGE_SAVE_REALDIR . $arrProduct[$key]['main_list_image'])) {
+            if (file_exists(IMAGE_SAVE_REALDIR.$arrProduct[$key]['main_list_image'])) {
                 $dir = IMAGE_SAVE_RSS_URL;
             } else {
                 $dir = IMAGE_TEMP_RSS_URL;
             }
-            $arrProduct[$key]['main_list_image'] = $dir . $arrProduct[$key]['main_list_image'];
-            if (file_exists(IMAGE_SAVE_REALDIR . $arrProduct[$key]['main_image'])) {
+            $arrProduct[$key]['main_list_image'] = $dir.$arrProduct[$key]['main_list_image'];
+            if (file_exists(IMAGE_SAVE_REALDIR.$arrProduct[$key]['main_image'])) {
                 $dir = IMAGE_SAVE_RSS_URL;
             } else {
                 $dir = IMAGE_TEMP_RSS_URL;
             }
-            $arrProduct[$key]['main_image'] = $dir . $arrProduct[$key]['main_image'];
-            if (file_exists(IMAGE_SAVE_REALDIR . $arrProduct[$key]['main_large_image'])) {
+            $arrProduct[$key]['main_image'] = $dir.$arrProduct[$key]['main_image'];
+            if (file_exists(IMAGE_SAVE_REALDIR.$arrProduct[$key]['main_large_image'])) {
                 $dir = IMAGE_SAVE_RSS_URL;
             } else {
                 $dir = IMAGE_TEMP_RSS_URL;
             }
-            $arrProduct[$key]['main_large_image'] = $dir . $arrProduct[$key]['main_large_image'];
+            $arrProduct[$key]['main_large_image'] = $dir.$arrProduct[$key]['main_large_image'];
             // ポイント計算
             $arrProduct[$key]['point'] = SC_Utils_Ex::sfPrePoint(
                 $arrProduct[$key]['price02'],
@@ -168,7 +167,7 @@ class LC_Page_Rss_Products extends LC_Page_Ex
             if ($arrProduct[$key]['stock_unlimited'] == 1) {
                 $arrProduct[$key]['stock_unlimited'] = '在庫無制限';
             } else {
-                $arrProduct[$key]['stock_unlimited'] = NULL;
+                $arrProduct[$key]['stock_unlimited'] = null;
             }
         }
 
@@ -183,7 +182,7 @@ class LC_Page_Rss_Products extends LC_Page_Ex
     public function lfGetProductsListData()
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        //商品一覧を取得
+        // 商品一覧を取得
         $arrProduct = $objQuery->getAll('SELECT product_id, name AS product_name FROM dtb_products');
 
         return $arrProduct;
@@ -197,29 +196,29 @@ class LC_Page_Rss_Products extends LC_Page_Ex
     public function lfGetProductsAllData()
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        //商品情報を取得
+        // 商品情報を取得
         $arrProduct = $this->lfGetProductsAllclass($objQuery);
         // 値の整形
         foreach (array_keys($arrProduct) as $key) {
             // 画像ファイルのURLセット
-            if (file_exists(IMAGE_SAVE_REALDIR . $arrProduct[$key]['main_list_image'])) {
+            if (file_exists(IMAGE_SAVE_REALDIR.$arrProduct[$key]['main_list_image'])) {
                 $dir = IMAGE_SAVE_RSS_URL;
             } else {
                 $dir = IMAGE_TEMP_RSS_URL;
             }
-            $arrProduct[$key]['main_list_image'] = $dir . $arrProduct[$key]['main_list_image'];
-            if (file_exists(IMAGE_SAVE_REALDIR . $arrProduct[$key]['main_image'])) {
+            $arrProduct[$key]['main_list_image'] = $dir.$arrProduct[$key]['main_list_image'];
+            if (file_exists(IMAGE_SAVE_REALDIR.$arrProduct[$key]['main_image'])) {
                 $dir = IMAGE_SAVE_RSS_URL;
             } else {
                 $dir = IMAGE_TEMP_RSS_URL;
             }
-            $arrProduct[$key]['main_image'] = $dir . $arrProduct[$key]['main_image'];
-            if (file_exists(IMAGE_SAVE_REALDIR . $arrProduct[$key]['main_large_image'])) {
+            $arrProduct[$key]['main_image'] = $dir.$arrProduct[$key]['main_image'];
+            if (file_exists(IMAGE_SAVE_REALDIR.$arrProduct[$key]['main_large_image'])) {
                 $dir = IMAGE_SAVE_RSS_URL;
             } else {
                 $dir = IMAGE_TEMP_RSS_URL;
             }
-            $arrProduct[$key]['main_large_image'] = $dir . $arrProduct[$key]['main_large_image'];
+            $arrProduct[$key]['main_large_image'] = $dir.$arrProduct[$key]['main_large_image'];
             // ポイント計算
             $arrProduct[$key]['point_max'] = SC_Utils_Ex::sfPrePoint(
                 $arrProduct[$key]['price02_max'],
@@ -238,7 +237,8 @@ class LC_Page_Rss_Products extends LC_Page_Ex
      * 商品情報を取得する
      *
      * @param  SC_Query $objQuery   DB操作クラス
-     * @param  integer  $product_id 商品ID
+     * @param  int  $product_id 商品ID
+     *
      * @return array    $arrProduct 取得結果を配列で返す
      */
     public function lfGetProductsDetail(&$objQuery, $product_id = 'all')
@@ -250,11 +250,11 @@ class LC_Page_Rss_Products extends LC_Page_Ex
             $objQuery->setOrder('product_id');
             $arrProductLsit = $objProduct->lists($objQuery);
         } else {
-            $arrProductLsit = $objProduct->getListByProductIds($objQuery, array($product_id));
+            $arrProductLsit = $objProduct->getListByProductIds($objQuery, [$product_id]);
         }
 
         // 各商品のカテゴリIDとランクの取得
-        $arrProduct = array();
+        $arrProduct = [];
         foreach ($arrProductLsit as $key => $val) {
             $sql = '';
             $sql .= ' SELECT';
@@ -269,7 +269,7 @@ class LC_Page_Rss_Products extends LC_Page_Ex
             $sql .= '   T1.category_id = T2.category_id';
             $sql .= ' WHERE';
             $sql .= '   product_id = ?';
-            $arrCategory = $objQuery->getAll($sql, array($val['product_id']));
+            $arrCategory = $objQuery->getAll($sql, [$val['product_id']]);
             if (!empty($arrCategory)) {
                 $arrProduct[$key] = array_merge($val, $arrCategory[0]);
             }
@@ -282,6 +282,7 @@ class LC_Page_Rss_Products extends LC_Page_Ex
      * 商品情報を取得する(vw_products_allclass使用)
      *
      * @param  SC_Query $objQuery DB操作クラス
+     *
      * @return array    $arrProduct 取得結果を配列で返す
      */
     public function lfGetProductsAllclass(&$objQuery)
@@ -292,7 +293,7 @@ class LC_Page_Rss_Products extends LC_Page_Ex
         $objQuery->setOrder('product_id');
         $arrProductLsit = $objProduct->lists($objQuery);
         // 各商品のカテゴリIDとランクの取得
-        $arrProducts = array();
+        $arrProducts = [];
         foreach ($arrProductLsit as $key => $val) {
             $sql = '';
             $sql .= ' SELECT';
@@ -307,7 +308,7 @@ class LC_Page_Rss_Products extends LC_Page_Ex
             $sql .= '   T1.category_id = T2.category_id';
             $sql .= ' WHERE';
             $sql .= '   product_id = ?';
-            $arrCategory = $objQuery->getAll($sql, array($val['product_id']));
+            $arrCategory = $objQuery->getAll($sql, [$val['product_id']]);
             if (!empty($arrCategory)) {
                 $arrProducts[$key] = array_merge($val, $arrCategory[0]);
             }

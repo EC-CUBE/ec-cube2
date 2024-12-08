@@ -10,7 +10,7 @@ class SC_Helper_DB_sfCountCategoryTest extends SC_Helper_DB_TestBase
     /** @var int[] */
     protected $category_ids;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objDb = new SC_Helper_DB_Ex();
@@ -50,7 +50,7 @@ class SC_Helper_DB_sfCountCategoryTest extends SC_Helper_DB_TestBase
         $this->objDb->sfCountCategory($this->objQuery);
         // 検証
         $category_total_counts = $this->objQuery->select('*', 'dtb_category_total_count');
-        $this->assertCount((int)$arrCategory['level'], $category_total_counts);
+        $this->assertCount((int) $arrCategory['level'], $category_total_counts);
         foreach ($category_total_counts as $arrCategoryTotalCount) {
             $this->assertTrue(in_array($arrCategoryTotalCount['category_id'], $this->category_ids));
             $this->assertEquals(1, $arrCategoryTotalCount['product_count']);
@@ -61,7 +61,7 @@ class SC_Helper_DB_sfCountCategoryTest extends SC_Helper_DB_TestBase
         $this->objDb->sfCountCategory($this->objQuery);
         // 検証
         $category_ids = $this->objQuery->getCol('category_id', 'dtb_category_total_count');
-        $this->assertEmpty($category_ids, 'dtb_category_total_count にデータが残っている。: ' . var_export($category_ids, true));
+        $this->assertEmpty($category_ids, 'dtb_category_total_count にデータが残っている。: '.var_export($category_ids, true));
     }
 
     public function testSfCountCategoryWithNoStockHidden()
@@ -70,7 +70,7 @@ class SC_Helper_DB_sfCountCategoryTest extends SC_Helper_DB_TestBase
             'dtb_products_class',
             [
                 'stock' => 0,
-                'stock_unlimited' => 0
+                'stock_unlimited' => 0,
             ],
             'product_id = ?', [$this->product_id]);
         $this->objDb->updateProductCategories($this->category_ids, $this->product_id);

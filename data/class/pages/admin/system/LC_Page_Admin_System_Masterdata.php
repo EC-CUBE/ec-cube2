@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * マスターデータ管理 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
@@ -73,7 +72,7 @@ class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
      */
     public function action()
     {
-        $this->arrMasterDataName = $this->getMasterDataNames(array('mtb_pref', 'mtb_zip', 'mtb_constants'));
+        $this->arrMasterDataName = $this->getMasterDataNames(['mtb_pref', 'mtb_zip', 'mtb_constants']);
         $masterData = new SC_DB_MasterData_Ex();
 
         switch ($this->getMode()) {
@@ -89,6 +88,7 @@ class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
                 }
                 // FIXME break 入れ忘れと思われる。そうでないなら、要コメント。
 
+                // no break
             case 'show':
                 // POST 文字列の妥当性チェック
                 $this->masterDataName = $this->checkMasterDataName($_POST, $this->arrMasterDataName);
@@ -101,14 +101,13 @@ class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
             default:
                 break;
         }
-
     }
 
     /**
      * マスターデータ名チェックを行う
      *
-     * @access private
      * @param  array  $arrMasterDataName マスターデータテーブル名のリスト
+     *
      * @return string $master_data_name 選択しているマスターデータのテーブル名
      */
     public function checkMasterDataName(&$arrParams, &$arrMasterDataName)
@@ -127,11 +126,11 @@ class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
     /**
      * マスターデータ名を配列で取得する.
      *
-     * @access private
      * @param  string[] $ignores 取得しないマスターデータ名の配列
+     *
      * @return array マスターデータ名の配列
      */
-    public function getMasterDataNames($ignores = array())
+    public function getMasterDataNames($ignores = [])
     {
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
         $arrMasterDataName = $dbFactory->findTableNames('mtb_');
@@ -154,7 +153,6 @@ class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
      *
      * 重複した値が存在する場合はエラーメッセージを表示する.
      *
-     * @access private
      * @return void|string エラーが発生した場合はエラーメッセージを返す.
      */
     public function checkUniqueID(&$arrParams)
@@ -166,7 +164,7 @@ class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
             if ($arrId[$i] != '') {
                 for ($j = $i + 1; $j < count($arrId); $j++) {
                     if ($id == $arrId[$j]) {
-                        return $id . ' が重複しているため登録できません.';
+                        return $id.' が重複しているため登録できません.';
                     }
                 }
             }
@@ -176,15 +174,15 @@ class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
     /**
      * マスターデータの登録.
      *
-     * @access private{
      * @param  array  $arrParams        $_POST値
      * @param  SC_DB_MasterData_Ex $masterData       SC_DB_MasterData_Ex()
      * @param  string $master_data_name 登録対象のマスターデータのテーブル名
+     *
      * @return void
      */
     public function registMasterData($arrParams, &$masterData, $master_data_name)
     {
-        $arrTmp = array();
+        $arrTmp = [];
         foreach ($arrParams['id'] as $key => $val) {
             // ID が空のデータは生成しない
             if ($val != '') {
@@ -197,7 +195,7 @@ class LC_Page_Admin_System_Masterdata extends LC_Page_Admin_Ex
         $masterData->objQuery->begin();
         $masterData->deleteMasterData($master_data_name, false);
         // TODO カラム名はメタデータから取得した方が良い
-        $masterData->registMasterData($master_data_name, array('id', 'name', 'rank'), $arrTmp, false);
+        $masterData->registMasterData($master_data_name, ['id', 'name', 'rank'], $arrTmp, false);
         $masterData->objQuery->commit();
     }
 }

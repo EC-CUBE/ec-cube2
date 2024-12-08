@@ -5,13 +5,13 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var string */
     protected $evaluation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'EVAL_CHECK';
     }
 
-    public function testEVAL_CHECK()
+    public function testEVALCHECK()
     {
         $this->evaluation = "define('AAA', 'BBB')";
         $this->expected = '';
@@ -20,12 +20,10 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testEVAL_CHECKWithInvalid()
+    public function testEVALCHECKWithInvalid()
     {
         if (PHP_VERSION_ID >= 80000) {
             $this->markTestSkipped('ArgumentCountError in PHP8');
-
         }
         $this->evaluation = "define('AAA')";
         $this->expected = '※ form の形式が不正です。<br />';
@@ -34,7 +32,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testEVAL_CHECKWithEmpty()
+    public function testEVALCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $this->expected = '';
@@ -43,7 +41,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testEVAL_CHECKWithNull()
+    public function testEVALCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
         $this->expected = '';
@@ -52,7 +50,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testEVAL_CHECKWithErrorExists()
+    public function testEVALCHECKWithErrorExists()
     {
         $this->arrForm = [
             self::FORM_NAME => 'a',
@@ -62,7 +60,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
             [self::FORM_NAME, self::FORM_NAME],
             [
                 'NUM_CHECK',
-                $this->target_func
+                $this->target_func,
             ]
         );
 

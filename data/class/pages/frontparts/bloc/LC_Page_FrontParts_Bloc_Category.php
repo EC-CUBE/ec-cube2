@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * カテゴリ のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_FrontParts_Bloc_Category extends LC_Page_FrontParts_Bloc_Ex
@@ -36,8 +35,6 @@ class LC_Page_FrontParts_Bloc_Category extends LC_Page_FrontParts_Bloc_Ex
     public $arrCat;
     /** @var array */
     public $arrTree;
-    /** @var int */
-    public $root_parent_id;
 
     /**
      * Page を初期化する.
@@ -80,18 +77,18 @@ class LC_Page_FrontParts_Bloc_Category extends LC_Page_FrontParts_Bloc_Ex
                 $this->arrTree = $this->lfGetCatTree($this->tpl_category_id, true);
                 break;
         }
-
     }
 
     /**
      * 選択中のカテゴリIDを取得する.
      *
      * @param  array $arrRequest リクエスト配列
+     *
      * @return array $arrCategoryId 選択中のカテゴリID
      */
     public function lfGetSelectedCategoryId($arrRequest)
     {
-            // 商品ID取得
+        // 商品ID取得
         $product_id = '';
         if (isset($arrRequest['product_id']) && $arrRequest['product_id'] != '' && is_numeric($arrRequest['product_id'])) {
             $product_id = $arrRequest['product_id'];
@@ -105,7 +102,7 @@ class LC_Page_FrontParts_Bloc_Category extends LC_Page_FrontParts_Bloc_Ex
         $objDb = new SC_Helper_DB_Ex();
         $arrCategoryId = $objDb->sfGetCategoryId($product_id, $category_id);
         if (empty($arrCategoryId)) {
-            $arrCategoryId = array(0);
+            $arrCategoryId = [0];
         }
 
         return $arrCategoryId;
@@ -115,7 +112,8 @@ class LC_Page_FrontParts_Bloc_Category extends LC_Page_FrontParts_Bloc_Ex
      * カテゴリツリーの取得.
      *
      * @param  array   $arrParentCategoryId 親カテゴリの配列
-     * @param  boolean $count_check         登録商品数をチェックする場合はtrue
+     * @param  bool $count_check         登録商品数をチェックする場合はtrue
+     *
      * @return array   $arrRet カテゴリツリーの配列を返す
      */
     public function lfGetCatTree($arrParentCategoryId, $count_check = false)
@@ -123,11 +121,10 @@ class LC_Page_FrontParts_Bloc_Category extends LC_Page_FrontParts_Bloc_Ex
         $objCategory = new SC_Helper_Category_Ex($count_check);
         $arrTree = $objCategory->getTree();
 
-        $this->arrParentID = array();
+        $this->arrParentID = [];
         foreach ($arrParentCategoryId as $category_id) {
             $arrParentID = $objCategory->getTreeTrail($category_id);
             $this->arrParentID = array_merge($this->arrParentID, $arrParentID);
-            $this->root_parent_id[] = $arrParentID[0];
         }
 
         return $arrTree;
@@ -136,7 +133,8 @@ class LC_Page_FrontParts_Bloc_Category extends LC_Page_FrontParts_Bloc_Ex
     /**
      * メインカテゴリの取得.
      *
-     * @param  boolean $count_check 登録商品数をチェックする場合はtrue
+     * @param  bool $count_check 登録商品数をチェックする場合はtrue
+     *
      * @return array   $arrMainCat メインカテゴリの配列を返す
      */
     public function lfGetMainCat($count_check = false)
@@ -153,7 +151,7 @@ class LC_Page_FrontParts_Bloc_Category extends LC_Page_FrontParts_Bloc_Ex
         $objQuery->setOption('ORDER BY rank DESC');
         $arrRet = $objQuery->select($col, $from, $where);
         // メインカテゴリを抽出する。
-        $arrMainCat = array();
+        $arrMainCat = [];
         foreach ($arrRet as $cat) {
             if ($cat['level'] != 1) {
                 continue;

@@ -1,5 +1,3 @@
-version: '3'
-
 networks:
   backend:
     driver: bridge
@@ -46,6 +44,7 @@ services:
       SMTP_PORT: 1025
       SMTP_USER: ~
       SMTP_PASSWORD: ~
+      TEST_MAILCATCHER_URL: "http://mailcatcher:1080"
     networks:
       - backend
 

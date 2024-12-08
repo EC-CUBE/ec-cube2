@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once CLASS_REALDIR . 'helper/SC_Helper_Plugin.php';
+require_once CLASS_REALDIR.'helper/SC_Helper_Plugin.php';
 
 /*
  * app_initial.php の spl_autoload_register を登録する前に必要なクラスですので、削除しないでください
@@ -32,8 +32,8 @@ require_once CLASS_REALDIR . 'helper/SC_Helper_Plugin.php';
  *
  * SC_Helper_Plugin_Ex をカスタマイズする場合はこのクラスを編集する.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_Helper_Plugin_Ex extends SC_Helper_Plugin

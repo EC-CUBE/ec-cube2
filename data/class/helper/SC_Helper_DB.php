@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
+/*
  * DB関連のヘルパークラス.
  *
  * @package Helper
@@ -30,7 +30,7 @@
  */
 
 // NOTE: PHP5 対応が不要となったらクラス定数に変更する。
-define('SC_HELPER_DB_BASIS_DATA_CACHE_REALFILE', MASTER_DATA_REALDIR . 'dtb_baseinfo.serial');
+define('SC_HELPER_DB_BASIS_DATA_CACHE_REALFILE', MASTER_DATA_REALDIR.'dtb_baseinfo.serial');
 
 class SC_Helper_DB
 {
@@ -62,6 +62,7 @@ class SC_Helper_DB
      * @param  string $colType    カラムのデータ型
      * @param  string $dsn         データソース名
      * @param  bool   $add         カラムの作成も行う場合 true
+     *
      * @return bool   カラムが存在する場合とカラムの生成に成功した場合 true,
      *               テーブルが存在しない場合 false,
      *               引数 $add == false でカラムが存在しない場合 false
@@ -74,7 +75,9 @@ class SC_Helper_DB
         $objQuery = SC_Query_Ex::getSingletonInstance($dsn);
 
         // テーブルが無ければエラー
-        if (!in_array($tableName, $objQuery->listTables())) return false;
+        if (!in_array($tableName, $objQuery->listTables())) {
+            return false;
+        }
 
         // 正常に接続されている場合
         if (!$objQuery->isError()) {
@@ -111,6 +114,7 @@ class SC_Helper_DB
      * @param  string $tableName   テーブル名
      * @param  string $where       データを検索する WHERE 句
      * @param  array  $arrWhereVal WHERE句のプレースホルダ値
+     *
      * @return bool   データが存在する場合 true, データの追加に成功した場合 true,
      *               $add == false で, データが存在しない場合 false
      */
@@ -127,7 +131,8 @@ class SC_Helper_DB
      *
      * 引数 $force が false の場合は, キャッシュされた結果を使用する.
      *
-     * @param  boolean $force キャッシュファイルを生成し、ローカルキャッシュを削除するか
+     * @param  bool $force キャッシュファイルを生成し、ローカルキャッシュを削除するか
+     *
      * @return array   店舗基本情報の配列
      */
     public static function sfGetBasisData($force = false)
@@ -160,8 +165,11 @@ class SC_Helper_DB
      * 基本情報のキャッシュデータを取得する
      *
      * エラー画面表示で直接呼ばれる。キャッシュファイルが存在しなくとも空の配列を応答することで、(幾らかの情報欠落などはあるかもしれないが) エラー画面の表示できるよう考慮している。
-     * @param  boolean $generate キャッシュファイルが無い時、DBのデータを基にキャッシュを生成するか
+     *
+     * @param  bool $generate キャッシュファイルが無い時、DBのデータを基にキャッシュを生成するか
+     *
      * @return array   店舗基本情報の配列
+     *
      * @deprecated 2.17.1 本体で使用されていないため非推奨
      */
     public static function sfGetBasisDataCache($generate = false)
@@ -183,7 +191,9 @@ class SC_Helper_DB
      * 基本情報のキャッシュデータを取得する
      *
      * エラー画面表示で直接呼ばれる。キャッシュファイルが存在しなくとも空の配列を応答することで、(幾らかの情報欠落などはあるかもしれないが) エラー画面の表示できるよう考慮している。
-     * @param  boolean $ignore_error エラーを無視するか
+     *
+     * @param  bool $ignore_error エラーを無視するか
+     *
      * @return array   店舗基本情報の配列
      */
     public static function getBasisDataFromCacheFile($ignore_error = false)
@@ -194,8 +204,7 @@ class SC_Helper_DB
         if (file_exists(SC_HELPER_DB_BASIS_DATA_CACHE_REALFILE)) {
             // キャッシュデータファイルを読み込みアンシリアライズした配列を取得
             $arrReturn = unserialize(file_get_contents(SC_HELPER_DB_BASIS_DATA_CACHE_REALFILE));
-        }
-        elseif (!$ignore_error) {
+        } elseif (!$ignore_error) {
             throw new Exception('基本情報のキャッシュデータファイルが存在しません。');
         }
 
@@ -255,6 +264,7 @@ class SC_Helper_DB
      * 基本情報の登録数を取得する
      *
      * @return int
+     *
      * @deprecated
      */
     public function sfGetBasisCount()
@@ -267,7 +277,7 @@ class SC_Helper_DB
     /**
      * 基本情報の登録有無を取得する
      *
-     * @return boolean 有無
+     * @return bool 有無
      */
     public function sfGetBasisExists()
     {
@@ -278,6 +288,7 @@ class SC_Helper_DB
 
     /**
      * 選択中のアイテムのルートカテゴリIDを取得する
+     *
      * @deprecated 本体で使用されていないため非推奨
      */
     public function sfGetRootId()
@@ -285,8 +296,12 @@ class SC_Helper_DB
         if (!$this->g_root_on) {
             $this->g_root_on = true;
 
-            if (!isset($_GET['product_id'])) $_GET['product_id'] = '';
-            if (!isset($_GET['category_id'])) $_GET['category_id'] = '';
+            if (!isset($_GET['product_id'])) {
+                $_GET['product_id'] = '';
+            }
+            if (!isset($_GET['category_id'])) {
+                $_GET['category_id'] = '';
+            }
 
             if (!empty($_GET['product_id']) || !empty($_GET['category_id'])) {
                 // 選択中のカテゴリIDを判定する
@@ -311,19 +326,20 @@ class SC_Helper_DB
     /**
      * 受注番号、最終ポイント、加算ポイント、利用ポイントから「オーダー前ポイント」を取得する
      *
-     * @param  integer $order_id     受注番号
-     * @param  integer $use_point    利用ポイント
-     * @param  integer $add_point    加算ポイント
-     * @param  integer $order_status 対応状況
+     * @param  int $order_id     受注番号
+     * @param  int $use_point    利用ポイント
+     * @param  int $add_point    加算ポイント
+     * @param  int $order_status 対応状況
+     *
      * @return array   オーダー前ポイントの配列
      */
     public static function sfGetRollbackPoint($order_id, $use_point, $add_point, $order_status)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $arrRet = $objQuery->select('customer_id', 'dtb_order', 'order_id = ?', array($order_id));
+        $arrRet = $objQuery->select('customer_id', 'dtb_order', 'order_id = ?', [$order_id]);
         $customer_id = $arrRet[0]['customer_id'];
         if ($customer_id != '' && $customer_id >= 1) {
-            $arrRet = $objQuery->select('point', 'dtb_customer', 'customer_id = ?', array($customer_id));
+            $arrRet = $objQuery->select('point', 'dtb_customer', 'customer_id = ?', [$customer_id]);
             $point = $arrRet[0]['point'];
             $rollback_point = $arrRet[0]['point'];
 
@@ -341,14 +357,15 @@ class SC_Helper_DB
             $point = '';
         }
 
-        return array($point, $rollback_point);
+        return [$point, $rollback_point];
     }
 
     /**
      * カテゴリツリーの取得を行う.
      *
-     * @param  integer $parent_category_id 親カテゴリID
+     * @param  int $parent_category_id 親カテゴリID
      * @param  bool    $count_check        登録商品数のチェックを行う場合 true
+     *
      * @return array   カテゴリツリーの配列
      */
     public static function sfGetCatTree($parent_category_id, $count_check = false)
@@ -393,9 +410,10 @@ class SC_Helper_DB
      * カテゴリツリーを走査し, パンくずリスト用の配列を生成する.
      *
      * @param array カテゴリの配列
-     * @param integer $parent 上位カテゴリID
+     * @param int $parent 上位カテゴリID
      * @param array パンくずリスト用の配列
      * @result void
+     *
      * @see sfGetCatTree()
      * @deprecated 本体で使用されていないため非推奨
      */
@@ -406,11 +424,11 @@ class SC_Helper_DB
         } else {
             foreach ($arrTree as $val) {
                 if ($val['category_id'] == $parent) {
-                    $result[] = array(
+                    $result[] = [
                         'category_id' => $val['category_id'],
                         'parent_category_id' => (int) $val['parent_category_id'],
                         'category_name' => $val['category_name'],
-                    );
+                    ];
                     $this->findTree($arrTree, $val['parent_category_id'], $result);
                 }
             }
@@ -420,8 +438,9 @@ class SC_Helper_DB
     /**
      * カテゴリツリーの取得を複数カテゴリで行う.
      *
-     * @param  integer $product_id  商品ID
+     * @param  int $product_id  商品ID
      * @param  bool    $count_check 登録商品数のチェックを行う場合 true
+     *
      * @return array   カテゴリツリーの配列
      */
     public static function sfGetMultiCatTree($product_id, $count_check = false)
@@ -450,7 +469,7 @@ class SC_Helper_DB
 
         $arrCategory_id = SC_Helper_DB_Ex::sfGetCategoryId($product_id);
 
-        $arrCatTree = array();
+        $arrCatTree = [];
         foreach ($arrCategory_id as $pkey => $parent_category_id) {
             $arrParentID = SC_Helper_DB_Ex::sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $parent_category_id);
 
@@ -470,8 +489,10 @@ class SC_Helper_DB
     /**
      * 親カテゴリを連結した文字列を取得する.
      *
-     * @param  integer $category_id カテゴリID
+     * @param  int $category_id カテゴリID
+     *
      * @return string  親カテゴリを連結した文字列
+     *
      * @deprecated 本体で使用されていないため非推奨
      */
     public function sfGetCatCombName($category_id)
@@ -484,9 +505,9 @@ class SC_Helper_DB
         // カテゴリ名称を取得する
         foreach ($arrCatID as $val) {
             $sql = 'SELECT category_name FROM dtb_category WHERE category_id = ?';
-            $arrVal = array($val);
+            $arrVal = [$val];
             $CatName = $objQuery->getOne($sql, $arrVal);
-            $ConbName .= $CatName . ' | ';
+            $ConbName .= $CatName.' | ';
         }
         // 最後の ｜ をカットする
         $ConbName = substr_replace($ConbName, '', strlen($ConbName) - 2, 2);
@@ -497,21 +518,23 @@ class SC_Helper_DB
     /**
      * 指定したカテゴリIDの大カテゴリを取得する.
      *
-     * @param  integer $category_id カテゴリID
+     * @param  int $category_id カテゴリID
+     *
      * @return array   指定したカテゴリIDの大カテゴリ
+     *
      * @deprecated 本体で使用されていないため非推奨
      */
     public function sfGetFirstCat($category_id)
     {
         // 商品が属するカテゴリIDを縦に取得
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $arrRet = array();
+        $arrRet = [];
         $arrCatID = $this->sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
         $arrRet['id'] = $arrCatID[0];
 
         // カテゴリ名称を取得する
         $sql = 'SELECT category_name FROM dtb_category WHERE category_id = ?';
-        $arrVal = array($arrRet['id']);
+        $arrVal = [$arrRet['id']];
         $arrRet['name'] = $objQuery->getOne($sql, $arrVal);
 
         return $arrRet;
@@ -525,6 +548,7 @@ class SC_Helper_DB
      * @param  string $addwhere       追加する WHERE 句
      * @param  bool   $products_check 商品の存在するカテゴリのみ取得する場合 true
      * @param  string $head           カテゴリ名のプレフィックス文字列
+     *
      * @return array  カテゴリツリーの配列
      */
     public static function sfGetCategoryList($addwhere = '', $products_check = false, $head = CATEGORY_HEAD)
@@ -533,7 +557,7 @@ class SC_Helper_DB
         $where = 'del_flg = 0';
 
         if ($addwhere != '') {
-            $where.= " AND $addwhere";
+            $where .= " AND $addwhere";
         }
 
         $objQuery->setOption('ORDER BY rank DESC');
@@ -550,11 +574,11 @@ class SC_Helper_DB
         $arrRet = $objQuery->select($col, $from, $where);
 
         $max = count($arrRet);
-        $arrList = array();
+        $arrList = [];
         for ($cnt = 0; $cnt < $max; $cnt++) {
             $id = $arrRet[$cnt]['category_id'];
             $name = $arrRet[$cnt]['category_name'];
-            $arrList[$id] = str_repeat($head, $arrRet[$cnt]['level']) . $name;
+            $arrList[$id] = str_repeat($head, $arrRet[$cnt]['level']).$name;
         }
 
         return $arrList;
@@ -566,6 +590,7 @@ class SC_Helper_DB
      * 親カテゴリの Value=0 を対象とする
      *
      * @param  bool  $parent_zero 親カテゴリの Value=0 の場合 true
+     *
      * @return array カテゴリツリーの配列
      */
     public static function sfGetLevelCatList($parent_zero = true)
@@ -577,12 +602,12 @@ class SC_Helper_DB
         $where = 'del_flg = 0';
         $objQuery->setOption('ORDER BY level');
         $arrRet = $objQuery->select($col, 'dtb_category', $where);
-        $arrCatName = array();
+        $arrCatName = [];
         foreach ($arrRet as $arrTmp) {
             $arrCatName[$arrTmp['category_id']] =
-                (($arrTmp['parent_category_id'] > 0)?
+                (($arrTmp['parent_category_id'] > 0) ?
                     $arrCatName[$arrTmp['parent_category_id']] : '')
-                . CATEGORY_HEAD . $arrTmp['category_name'];
+                .CATEGORY_HEAD.$arrTmp['category_name'];
         }
 
         $col = 'category_id, parent_category_id, category_name, level';
@@ -591,8 +616,8 @@ class SC_Helper_DB
         $arrRet = $objQuery->select($col, 'dtb_category', $where);
         $max = count($arrRet);
 
-        $arrValue = array();
-        $arrOutput = array();
+        $arrValue = [];
+        $arrOutput = [];
         for ($cnt = 0; $cnt < $max; $cnt++) {
             if ($parent_zero) {
                 if ($arrRet[$cnt]['level'] == LEVEL_MAX) {
@@ -607,7 +632,7 @@ class SC_Helper_DB
             $arrOutput[$cnt] = $arrCatName[$arrRet[$cnt]['category_id']];
         }
 
-        return array($arrValue, $arrOutput);
+        return [$arrValue, $arrOutput];
     }
 
     /**
@@ -616,9 +641,10 @@ class SC_Helper_DB
      * 引数のカテゴリIDが有効な場合は, カテゴリIDを含んだ配列を返す
      * 引数のカテゴリIDが無効な場合, dtb_product_categories にレコードが存在する場合は, カテゴリIDを含んだ配列を返す
      *
-     * @param  integer $product_id  プロダクトID
-     * @param  integer $category_id カテゴリID
+     * @param  int $product_id  プロダクトID
+     * @param  int $category_id カテゴリID
      * @param   bool $closed 引数のカテゴリIDが無効な場合で, 非表示の商品を含む場合はtrue
+     *
      * @return array   選択中の商品のカテゴリIDの配列
      */
     public static function sfGetCategoryId($product_id, $category_id = 0, $closed = false)
@@ -633,13 +659,13 @@ class SC_Helper_DB
         $objCategory = new SC_Helper_Category_Ex();
         // XXX SC_Helper_Category::isValidCategoryId() で使用している SC_Helper_DB::sfIsRecord() が内部で del_flg = 0 を追加するため, $closed は機能していない
         if ($objCategory->isValidCategoryId($category_id, $closed)) {
-            $category_id = array($category_id);
-        } elseif (SC_Utils_Ex::sfIsInt($product_id) && $product_id != 0 && SC_Helper_DB_Ex::sfIsRecord('dtb_products','product_id', $product_id, $status)) {
+            $category_id = [$category_id];
+        } elseif (SC_Utils_Ex::sfIsInt($product_id) && $product_id != 0 && SC_Helper_DB_Ex::sfIsRecord('dtb_products', 'product_id', $product_id, $status)) {
             $objQuery = SC_Query_Ex::getSingletonInstance();
-            $category_id = $objQuery->getCol('category_id', 'dtb_product_categories', 'product_id = ?', array($product_id));
+            $category_id = $objQuery->getCol('category_id', 'dtb_product_categories', 'product_id = ?', [$product_id]);
         } else {
             // 不正な場合は、空の配列を返す。
-            $category_id = array();
+            $category_id = [];
         }
 
         return $category_id;
@@ -648,45 +674,52 @@ class SC_Helper_DB
     /**
      * 商品をカテゴリの先頭に追加する.
      *
-     * @param  integer $category_id カテゴリID
-     * @param  integer $product_id  プロダクトID
+     * @param  int $category_id カテゴリID
+     * @param  int $product_id  プロダクトID
+     *
      * @return void
      */
     public function addProductBeforCategories($category_id, $product_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $sqlval = array('category_id' => $category_id,
-                        'product_id' => $product_id);
+        $sqlval = [
+            'category_id' => $category_id,
+            'product_id' => $product_id,
+        ];
 
-        $arrSql = array();
+        $arrSql = [];
         $arrSql['rank'] = '(SELECT COALESCE(MAX(rank), 0) FROM dtb_product_categories sub WHERE category_id = ?) + 1';
 
         $from_and_where = $objQuery->dbFactory->getDummyFromClauseSql();
         $from_and_where .= ' WHERE NOT EXISTS(SELECT * FROM dtb_product_categories WHERE category_id = ? AND product_id = ?)';
-        $objQuery->insert('dtb_product_categories', $sqlval, $arrSql, array($category_id), $from_and_where, array($category_id, $product_id));
+        $objQuery->insert('dtb_product_categories', $sqlval, $arrSql, [$category_id], $from_and_where, [$category_id, $product_id]);
     }
 
     /**
      * 商品をカテゴリの末尾に追加する.
      *
-     * @param  integer $category_id カテゴリID
-     * @param  integer $product_id  プロダクトID
+     * @param  int $category_id カテゴリID
+     * @param  int $product_id  プロダクトID
+     *
      * @return void
+     *
      * @deprecated 本体で使用されていないため非推奨
      */
     public function addProductAfterCategories($category_id, $product_id)
     {
-        $sqlval = array('category_id' => $category_id,
-                        'product_id' => $product_id);
+        $sqlval = [
+            'category_id' => $category_id,
+            'product_id' => $product_id,
+        ];
 
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 現在の商品カテゴリを取得
         $arrCat = $objQuery->select('product_id, category_id, rank',
-                                    'dtb_product_categories',
-                                    'category_id = ?',
-                                    array($category_id));
+            'dtb_product_categories',
+            'category_id = ?',
+            [$category_id]);
 
         $min = 0;
         foreach ($arrCat as $val) {
@@ -704,22 +737,24 @@ class SC_Helper_DB
     /**
      * 商品をカテゴリから削除する.
      *
-     * @param  integer $category_id カテゴリID
-     * @param  integer $product_id  プロダクトID
+     * @param  int $category_id カテゴリID
+     * @param  int $product_id  プロダクトID
+     *
      * @return void
      */
     public function removeProductByCategories($category_id, $product_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->delete('dtb_product_categories',
-                          'category_id = ? AND product_id = ?', array($category_id, $product_id));
+            'category_id = ? AND product_id = ?', [$category_id, $product_id]);
     }
 
     /**
      * 商品カテゴリを更新する.
      *
      * @param  array   $arrCategory_id 登録するカテゴリIDの配列
-     * @param  integer $product_id     プロダクトID
+     * @param  int $product_id     プロダクトID
+     *
      * @return void
      */
     public function updateProductCategories($arrCategory_id, $product_id)
@@ -728,9 +763,9 @@ class SC_Helper_DB
 
         // 現在のカテゴリ情報を取得
         $arrCurrentCat = $objQuery->getCol('category_id',
-                                           'dtb_product_categories',
-                                           'product_id = ?',
-                                           array($product_id));
+            'dtb_product_categories',
+            'product_id = ?',
+            [$product_id]);
 
         // 登録するカテゴリ情報と比較
         foreach ($arrCurrentCat as $category_id) {
@@ -750,18 +785,17 @@ class SC_Helper_DB
     /**
      * カテゴリ数の登録を行う.
      *
-     *
      * @param  SC_Query $objQuery           SC_Query インスタンス
-     * @param  boolean  $is_force_all_count 全カテゴリの集計を強制する場合 true
+     * @param  bool  $is_force_all_count 全カテゴリの集計を強制する場合 true
      * @param bool $is_nostock_hidden 在庫切れの商品は非表示にする場合 true
      *
      * @return void
      */
-    public function sfCountCategory($objQuery = NULL, $is_force_all_count = false, $is_nostock_hidden = NOSTOCK_HIDDEN)
+    public function sfCountCategory($objQuery = null, $is_force_all_count = false, $is_nostock_hidden = NOSTOCK_HIDDEN)
     {
         $objProduct = new SC_Product_Ex();
 
-        if ($objQuery == NULL) {
+        if ($objQuery == null) {
             $objQuery = SC_Query_Ex::getSingletonInstance();
         }
 
@@ -771,7 +805,7 @@ class SC_Helper_DB
             $is_out_trans = true;
         }
 
-        //共通のfrom/where文の構築
+        // 共通のfrom/where文の構築
         $where_alldtl = SC_Product_Ex::getProductDispConditions('alldtl');
         // 在庫無し商品の非表示
         if ($is_nostock_hidden) {
@@ -780,7 +814,7 @@ class SC_Helper_DB
             $from_alldtl = 'dtb_products as alldtl';
         }
 
-        //dtb_category_countの構成
+        // dtb_category_countの構成
         // 各カテゴリに所属する商品の数を集計。集計対象には子カテゴリを含まない。
 
         if ($is_force_all_count) {
@@ -791,7 +825,7 @@ class SC_Helper_DB
             $arrCategoryCountOld = $objQuery->select('category_id, product_count', 'dtb_category_count');
         }
 
-        //各カテゴリ内の商品数を数えて取得
+        // 各カテゴリ内の商品数を数えて取得
         $sql = <<< __EOS__
             SELECT T1.category_id, count(*) as product_count
             FROM dtb_category AS T1
@@ -807,15 +841,15 @@ __EOS__;
 
         $arrCategoryCountNew = $objQuery->getAll($sql);
         // 各カテゴリに所属する商品の数を集計。集計対象には子カテゴリを「含む」。
-        //差分を取得して、更新対象カテゴリだけを確認する。
+        // 差分を取得して、更新対象カテゴリだけを確認する。
 
-        //各カテゴリ毎のデータ値において以前との差を見る
-        //古いデータの構造入れ替え
+        // 各カテゴリ毎のデータ値において以前との差を見る
+        // 古いデータの構造入れ替え
         $arrOld = [];
         foreach ($arrCategoryCountOld as $item) {
             $arrOld[$item['category_id']] = $item['product_count'];
         }
-        //新しいデータの構造入れ替え
+        // 新しいデータの構造入れ替え
         $arrNew = [];
         foreach ($arrCategoryCountNew as $item) {
             $arrNew[$item['category_id']] = $item['product_count'];
@@ -825,7 +859,7 @@ __EOS__;
         unset($arrCategoryCountNew);
 
         $arrNotExistsProductCategoryId = [];
-        //削除カテゴリを想定して、古いカテゴリ一覧から見て商品数が異なるデータが無いか確認。
+        // 削除カテゴリを想定して、古いカテゴリ一覧から見て商品数が異なるデータが無いか確認。
         foreach ($arrOld as $category_id => $count) {
             // 商品が存在しない
             if (!isset($arrNew[$category_id])) {
@@ -841,7 +875,7 @@ __EOS__;
         $arrTgtCategoryId = $arrNotExistsProductCategoryId;
 
         foreach ($arrNotExistsProductCategoryId as $category_id) {
-            $objQuery->delete('dtb_category_count', 'category_id = ?', array($category_id));
+            $objQuery->delete('dtb_category_count', 'category_id = ?', [$category_id]);
 
             $arrParentID = self::sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
             $arrTgtCategoryId = array_merge($arrTgtCategoryId, $arrParentID);
@@ -853,7 +887,7 @@ __EOS__;
             $sqlval['create_date'] = 'CURRENT_TIMESTAMP';
             $sqlval['product_count'] = $count;
             if (isset($arrOld[$category_id])) {
-                $objQuery->update('dtb_category_count', $sqlval, 'category_id = ?', array($category_id));
+                $objQuery->update('dtb_category_count', $sqlval, 'category_id = ?', [$category_id]);
             } else {
                 $sqlval['category_id'] = $category_id;
                 $objQuery->insert('dtb_category_count', $sqlval);
@@ -866,14 +900,14 @@ __EOS__;
         unset($arrOld);
         unset($arrNew);
 
-        //dtb_category_total_count 集計処理開始
-        //更新対象カテゴリIDだけ集計しなおす。
+        // dtb_category_total_count 集計処理開始
+        // 更新対象カテゴリIDだけ集計しなおす。
         $arrUpdateData = [];
         foreach ($arrTgtCategoryId as $category_id) {
             $arrWhereVal = [];
             list($tmp_where, $arrTmpVal) = static::sfGetCatWhere($category_id);
             if ($tmp_where != '') {
-                $where_product_ids = 'product_id IN (SELECT product_id FROM dtb_product_categories WHERE ' . $tmp_where . ')';
+                $where_product_ids = 'product_id IN (SELECT product_id FROM dtb_product_categories WHERE '.$tmp_where.')';
                 $arrWhereVal = $arrTmpVal;
             } else {
                 $where_product_ids = '0<>0'; // 一致させない
@@ -888,14 +922,14 @@ __EOS__;
         // 更新対象だけを更新。
         foreach ($arrUpdateData as $category_id => $count) {
             if ($count == 0) {
-                $objQuery->delete('dtb_category_total_count', 'category_id = ?', array($category_id));
-                continue 1;
+                $objQuery->delete('dtb_category_total_count', 'category_id = ?', [$category_id]);
+                continue;
             }
             $sqlval = [
                 'product_count' => $count,
                 'create_date' => 'CURRENT_TIMESTAMP',
             ];
-            $ret = $objQuery->update('dtb_category_total_count', $sqlval, 'category_id = ?', array($category_id));
+            $ret = $objQuery->update('dtb_category_total_count', $sqlval, 'category_id = ?', [$category_id]);
             if (!$ret) {
                 $sqlval['category_id'] = $category_id;
                 $objQuery->insert('dtb_category_total_count', $sqlval);
@@ -914,8 +948,9 @@ __EOS__;
      * @param string  $table    テーブル名
      * @param string  $pid_name 親ID名
      * @param string  $id_name  ID名
-     * @param integer $id       ID
+     * @param int $id       ID
      * @param array 子ID の配列
+     *
      * @deprecated 本体で使用されていないため非推奨
      */
     public static function sfGetChildsID($table, $pid_name, $id_name, $id)
@@ -931,13 +966,14 @@ __EOS__;
      * @param  string  $table    テーブル名
      * @param  string  $pid_name 親ID名
      * @param  string  $id_name  ID名
-     * @param  integer $id       ID番号
+     * @param  int $id       ID番号
+     *
      * @return array   子IDの配列
      */
     public static function sfGetChildrenArray($table, $pid_name, $id_name, $id)
     {
-        $arrChildren = array();
-        $arrRet = array($id);
+        $arrChildren = [];
+        $arrRet = [$id];
 
         while (count($arrRet) > 0) {
             $arrChildren = array_merge($arrChildren, $arrRet);
@@ -954,13 +990,14 @@ __EOS__;
      * @param  string $id_name  ID名
      * @param  array  $arrPID   親IDの配列
      * @param string $table
+     *
      * @return array  子IDの配列
      */
     public static function sfGetChildrenArraySub($table, $pid_name, $id_name, $arrPID)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $where = "$pid_name IN (" . SC_Utils_Ex::repeatStrWithSeparator('?', count($arrPID)) . ')';
+        $where = "$pid_name IN (".SC_Utils_Ex::repeatStrWithSeparator('?', count($arrPID)).')';
 
         $return = $objQuery->getCol($id_name, $table, $where, $arrPID);
 
@@ -973,8 +1010,10 @@ __EOS__;
      * @param  string   $table    テーブル名
      * @param  string   $pid_name 親ID名
      * @param  string   $id_name  ID名
-     * @param  integer  $id       ID
+     * @param  int  $id       ID
+     *
      * @return array    親IDの配列
+     *
      * @deprecated SC_Helper_DB::sfGetParentsArray() を使用して下さい
      */
     public static function sfGetParents($table, $pid_name, $id_name, $id)
@@ -990,12 +1029,13 @@ __EOS__;
      * @param  string  $table    テーブル名
      * @param  string  $pid_name 親ID名
      * @param  string  $id_name  ID名
-     * @param  integer $id       ID
+     * @param  int $id       ID
+     *
      * @return array   親IDの配列
      */
     public static function sfGetParentsArray($table, $pid_name, $id_name, $id)
     {
-        $arrParents = array();
+        $arrParents = [];
         $ret = $id;
 
         $loop_cnt = 1;
@@ -1030,7 +1070,7 @@ __EOS__;
         }
         $objQuery = SC_Query_Ex::getSingletonInstance();
         if (!is_array($child)) {
-            $child = array($child);
+            $child = [$child];
         }
         $parent = $objQuery->get($pid_name, $table, "$id_name = ?", $child);
 
@@ -1040,7 +1080,8 @@ __EOS__;
     /**
      * カテゴリから商品を検索する場合のWHERE文と値を返す.
      *
-     * @param  integer $category_id カテゴリID
+     * @param  int $category_id カテゴリID
+     *
      * @return array   商品を検索する場合の配列
      */
     public static function sfGetCatWhere($category_id)
@@ -1048,9 +1089,9 @@ __EOS__;
         // 子カテゴリIDの取得
         $arrRet = SC_Helper_DB_Ex::sfGetChildrenArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
 
-        $where = 'category_id IN (' . SC_Utils_Ex::repeatStrWithSeparator('?', count($arrRet)) . ')';
+        $where = 'category_id IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($arrRet)).')';
 
-        return array($where, $arrRet);
+        return [$where, $arrRet];
     }
 
     /**
@@ -1061,9 +1102,10 @@ __EOS__;
      * @param  string $valname     データ内容のカラム名
      * @param  string $where       WHERE句
      * @param  array  $arrVal プレースホルダ
+     *
      * @return array  SELECT ボックス用リストの配列
      */
-    public static function sfGetIDValueList($table, $keyname, $valname, $where = '', $arrVal = array())
+    public static function sfGetIDValueList($table, $keyname, $valname, $where = '', $arrVal = [])
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = "$keyname, $valname";
@@ -1071,7 +1113,7 @@ __EOS__;
         $objQuery->setOrder('rank DESC');
         $arrList = $objQuery->select($col, $table, $where, $arrVal);
         $count = count($arrList);
-        $arrRet = array();
+        $arrRet = [];
         for ($cnt = 0; $cnt < $count; $cnt++) {
             $key = $arrList[$cnt][$keyname];
             $val = $arrList[$cnt][$valname];
@@ -1086,8 +1128,9 @@ __EOS__;
      *
      * @param  string         $table    テーブル名
      * @param  string         $colname  カラム名
-     * @param  integer $id       テーブルのキー
+     * @param  int $id       テーブルのキー
      * @param  string         $andwhere SQL の AND 条件である WHERE 句
+     *
      * @return void
      */
     public function sfRankUp($table, $colname, $id, $andwhere = '')
@@ -1096,10 +1139,10 @@ __EOS__;
         $objQuery->begin();
         $where = "$colname = ?";
         if ($andwhere != '') {
-            $where.= " AND $andwhere";
+            $where .= " AND $andwhere";
         }
         // 対象項目のランクを取得
-        $rank = $objQuery->get('rank', $table, $where, array($id));
+        $rank = $objQuery->get('rank', $table, $where, [$id]);
         // ランクの最大値を取得
         $maxrank = $objQuery->max('rank', $table, $andwhere);
         // ランクが最大値よりも小さい場合に実行する。
@@ -1107,10 +1150,10 @@ __EOS__;
             // ランクが一つ上のIDを取得する。
             $where = 'rank = ?';
             if ($andwhere != '') {
-                $where.= " AND $andwhere";
+                $where .= " AND $andwhere";
             }
             $uprank = $rank + 1;
-            $up_id = $objQuery->get($colname, $table, $where, array($uprank));
+            $up_id = $objQuery->get($colname, $table, $where, [$uprank]);
 
             // ランク入れ替えの実行
             $where = "$colname = ?";
@@ -1118,16 +1161,16 @@ __EOS__;
                 $where .= " AND $andwhere";
             }
 
-            $sqlval = array(
+            $sqlval = [
                 'rank' => $rank + 1,
-            );
-            $arrWhereVal = array($id);
+            ];
+            $arrWhereVal = [$id];
             $objQuery->update($table, $sqlval, $where, $arrWhereVal);
 
-            $sqlval = array(
+            $sqlval = [
                 'rank' => $rank,
-            );
-            $arrWhereVal = array($up_id);
+            ];
+            $arrWhereVal = [$up_id];
             $objQuery->update($table, $sqlval, $where, $arrWhereVal);
         }
         $objQuery->commit();
@@ -1138,8 +1181,9 @@ __EOS__;
      *
      * @param  string         $table    テーブル名
      * @param  string         $colname  カラム名
-     * @param  integer $id       テーブルのキー
+     * @param  int $id       テーブルのキー
      * @param  string         $andwhere SQL の AND 条件である WHERE 句
+     *
      * @return void
      */
     public function sfRankDown($table, $colname, $id, $andwhere = '')
@@ -1148,20 +1192,20 @@ __EOS__;
         $objQuery->begin();
         $where = "$colname = ?";
         if ($andwhere != '') {
-            $where.= " AND $andwhere";
+            $where .= " AND $andwhere";
         }
         // 対象項目のランクを取得
-        $rank = $objQuery->get('rank', $table, $where, array($id));
+        $rank = $objQuery->get('rank', $table, $where, [$id]);
 
         // ランクが1(最小値)よりも大きい場合に実行する。
         if ($rank > 1) {
             // ランクが一つ下のIDを取得する。
             $where = 'rank = ?';
             if ($andwhere != '') {
-                $where.= " AND $andwhere";
+                $where .= " AND $andwhere";
             }
             $downrank = $rank - 1;
-            $down_id = $objQuery->get($colname, $table, $where, array($downrank));
+            $down_id = $objQuery->get($colname, $table, $where, [$downrank]);
 
             // ランク入れ替えの実行
             $where = "$colname = ?";
@@ -1169,16 +1213,16 @@ __EOS__;
                 $where .= " AND $andwhere";
             }
 
-            $sqlval = array(
+            $sqlval = [
                 'rank' => $rank - 1,
-            );
-            $arrWhereVal = array($id);
+            ];
+            $arrWhereVal = [$id];
             $objQuery->update($table, $sqlval, $where, $arrWhereVal);
 
-            $sqlval = array(
+            $sqlval = [
                 'rank' => $rank,
-            );
-            $arrWhereVal = array($down_id);
+            ];
+            $arrWhereVal = [$down_id];
             $objQuery->update($table, $sqlval, $where, $arrWhereVal);
         }
         $objQuery->commit();
@@ -1189,9 +1233,10 @@ __EOS__;
      *
      * @param  string         $tableName   テーブル名
      * @param  string         $keyIdColumn キーを保持するカラム名
-     * @param  integer $keyId       キーの値
-     * @param  integer        $pos         指定順位
+     * @param  int $keyId       キーの値
+     * @param  int        $pos         指定順位
      * @param  string         $where       SQL の AND 条件である WHERE 句
+     *
      * @return void
      */
     public function sfMoveRank($tableName, $keyIdColumn, $keyId, $pos, $where = '')
@@ -1201,11 +1246,11 @@ __EOS__;
 
         // 自身のランクを取得する
         if ($where != '') {
-            $getWhere = "$keyIdColumn = ? AND " . $where;
+            $getWhere = "$keyIdColumn = ? AND ".$where;
         } else {
             $getWhere = "$keyIdColumn = ?";
         }
-        $oldRank = $objQuery->get('rank', $tableName, $getWhere, array($keyId));
+        $oldRank = $objQuery->get('rank', $tableName, $getWhere, [$keyId]);
 
         $max = $objQuery->max('rank', $tableName, $where);
 
@@ -1219,14 +1264,14 @@ __EOS__;
         }
 
         // 指定した順位へrankを書き換える。
-        $sqlval = array(
+        $sqlval = [
             'rank' => $newRank,
-        );
+        ];
         $str_where = "$keyIdColumn = ?";
         if ($where != '') {
             $str_where .= " AND $where";
         }
-        $arrWhereVal = array($keyId);
+        $arrWhereVal = [$keyId];
         $objQuery->update($tableName, $sqlval, $str_where, $arrWhereVal);
 
         $objQuery->commit();
@@ -1239,6 +1284,7 @@ __EOS__;
      *
      * @param  int $position 指定された位置
      * @param  int $maxRank  現在のランク最大値
+     *
      * @return int $newRank DBに登録するRANK値
      */
     public function getNewRank($position, $maxRank)
@@ -1262,26 +1308,27 @@ __EOS__;
      * @param  SC_Query  $objQuery
      * @param string $tableName
      * @param string $addWhere
-     * @return boolean
+     *
+     * @return bool
      */
     public function moveOtherItemRank($newRank, $oldRank, &$objQuery, $tableName, $addWhere)
     {
-        $sqlval = array();
-        $arrRawSql = array();
+        $sqlval = [];
+        $arrRawSql = [];
         $where = 'rank BETWEEN ? AND ?';
         if ($addWhere != '') {
             $where .= " AND $addWhere";
         }
         if ($newRank > $oldRank) {
-            //位置を上げる場合、他の商品の位置を1つ下げる（ランクを1下げる）
+            // 位置を上げる場合、他の商品の位置を1つ下げる（ランクを1下げる）
             $arrRawSql['rank'] = 'rank - 1';
-            $arrWhereVal = array($oldRank + 1, $newRank);
+            $arrWhereVal = [$oldRank + 1, $newRank];
         } elseif ($newRank < $oldRank) {
-            //位置を下げる場合、他の商品の位置を1つ上げる（ランクを1上げる）
+            // 位置を下げる場合、他の商品の位置を1つ上げる（ランクを1上げる）
             $arrRawSql['rank'] = 'rank + 1';
-            $arrWhereVal = array($newRank, $oldRank - 1);
+            $arrWhereVal = [$newRank, $oldRank - 1];
         } else {
-            //入れ替え先の順位が入れ替え元の順位と同じ場合なにもしない
+            // 入れ替え先の順位が入れ替え元の順位と同じ場合なにもしない
             return false;
         }
 
@@ -1295,46 +1342,48 @@ __EOS__;
      *
      * @param string         $table    テーブル名
      * @param string         $colname  カラム名
-     * @param integer $id       テーブルのキー
+     * @param int $id       テーブルのキー
      * @param string         $andwhere SQL の AND 条件である WHERE 句
      * @param bool           $delete   レコードごと削除する場合 true,
      *                     レコードごと削除しない場合 false
+     *
      * @return void
      */
     public function sfDeleteRankRecord($table, $colname, $id, $andwhere = '',
-                                $delete = false) {
+        $delete = false)
+    {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
         // 削除レコードのランクを取得する。
         $where = "$colname = ?";
         if ($andwhere != '') {
-            $where.= " AND $andwhere";
+            $where .= " AND $andwhere";
         }
-        $rank = $objQuery->get('rank', $table, $where, array($id));
+        $rank = $objQuery->get('rank', $table, $where, [$id]);
 
         if (!$delete) {
             // ランクを最下位にする、DELフラグON
-            $sqlval = array(
-                'rank'      => 0,
-                'del_flg'   => 1,
-            );
+            $sqlval = [
+                'rank' => 0,
+                'del_flg' => 1,
+            ];
             $where = "$colname = ?";
-            $arrWhereVal = array($id);
+            $arrWhereVal = [$id];
             $objQuery->update($table, $sqlval, $where, $arrWhereVal);
         } else {
-            $objQuery->delete($table, "$colname = ?", array($id));
+            $objQuery->delete($table, "$colname = ?", [$id]);
         }
 
         // 追加レコードのランクより上のレコードを一つずらす。
-        $sqlval = array();
+        $sqlval = [];
         $where = 'rank > ?';
         if ($andwhere != '') {
             $where .= " AND $andwhere";
         }
-        $arrWhereVal = array($rank);
-        $arrRawSql = array(
+        $arrWhereVal = [$rank];
+        $arrRawSql = [
             'rank' => '(rank - 1)',
-        );
+        ];
         $objQuery->update($table, $sqlval, $where, $arrWhereVal, $arrRawSql);
 
         $objQuery->commit();
@@ -1348,7 +1397,9 @@ __EOS__;
      * @param  string   $id_name  ID名
      * @param  string   $col_name カラム名
      * @param  array    $arrId    IDの配列
+     *
      * @return array    特定のカラムの配列
+     *
      * @deprecated 本体で使用されていないため非推奨
      */
     public function sfGetParentsCol($objQuery, $table, $id_name, $col_name, $arrId)
@@ -1361,7 +1412,7 @@ __EOS__;
             if ($where == '') {
                 $where = "$id_name = ?";
             } else {
-                $where.= " OR $id_name = ?";
+                $where .= " OR $id_name = ?";
             }
         }
 
@@ -1380,10 +1431,12 @@ __EOS__;
      * @param  string   $table     テーブル名
      * @param  string   $id_name   ID名
      * @param  string   $cat_name  カテゴリ名
-     * @param  integer  $old_catid 旧カテゴリID
-     * @param  integer  $new_catid 新カテゴリID
-     * @param  integer  $id        ID
+     * @param  int  $old_catid 旧カテゴリID
+     * @param  int  $new_catid 新カテゴリID
+     * @param  int  $id        ID
+     *
      * @return void
+     *
      * @deprecated 本体で使用されていないため非推奨
      */
     public function sfMoveCatRank($objQuery, $table, $id_name, $cat_name, $old_catid, $new_catid, $id)
@@ -1393,25 +1446,25 @@ __EOS__;
         }
         // 旧カテゴリでのランク削除処理
         // 移動レコードのランクを取得する。
-        $sqlval = array();
+        $sqlval = [];
         $where = "$id_name = ?";
-        $rank = $objQuery->get('rank', $table, $where, array($id));
+        $rank = $objQuery->get('rank', $table, $where, [$id]);
         // 削除レコードのランクより上のレコードを一つ下にずらす。
         $where = "rank > ? AND $cat_name = ?";
-        $arrWhereVal = array($rank, $old_catid);
-        $arrRawSql = array(
+        $arrWhereVal = [$rank, $old_catid];
+        $arrRawSql = [
             'rank' => '(rank - 1)',
-        );
+        ];
         $objQuery->update($table, $sqlval, $where, $arrWhereVal, $arrRawSql);
 
         // 新カテゴリでの登録処理
         // 新カテゴリの最大ランクを取得する。
-        $max_rank = $objQuery->max('rank', $table, "$cat_name = ?", array($new_catid)) + 1;
-        $sqlval = array(
+        $max_rank = $objQuery->max('rank', $table, "$cat_name = ?", [$new_catid]) + 1;
+        $sqlval = [
             'rank' => $max_rank,
-        );
+        ];
         $where = "$id_name = ?";
-        $arrWhereVal = array($id);
+        $arrWhereVal = [$id];
         $objQuery->update($table, $sqlval, $where, $arrWhereVal);
     }
 
@@ -1424,7 +1477,9 @@ __EOS__;
      * @param  string $col      カラム名
      * @param  array  $arrVal   要素の配列
      * @param  string  $addwhere SQL の AND 条件である WHERE 句
+     *
      * @return bool   レコードが存在する場合 true
+     *
      * @deprecated SC_Query::exists() を使用してください
      */
     public static function sfIsRecord($table, $col, $arrVal, $addwhere = '')
@@ -1435,7 +1490,7 @@ __EOS__;
         $where = 'del_flg = 0';
 
         if ($addwhere != '') {
-            $where.= " AND $addwhere";
+            $where .= " AND $addwhere";
         }
 
         foreach ($arrCol as $val) {
@@ -1443,7 +1498,7 @@ __EOS__;
                 if ($where == '') {
                     $where = "$val = ?";
                 } else {
-                    $where.= " AND $val = ?";
+                    $where .= " AND $val = ?";
                 }
             }
         }
@@ -1460,14 +1515,15 @@ __EOS__;
      * メーカー商品数数の登録を行う.
      *
      * @param  SC_Query $objQuery SC_Query インスタンス
+     *
      * @return void
      */
     public function sfCountMaker($objQuery)
     {
-        //テーブル内容の削除
+        // テーブル内容の削除
         $objQuery->query('DELETE FROM dtb_maker_count');
 
-        //各メーカーの商品数を数えて格納
+        // 各メーカーの商品数を数えて格納
         $sql = ' INSERT INTO dtb_maker_count(maker_id, product_count, create_date) ';
         $sql .= ' SELECT T1.maker_id, count(T2.maker_id), CURRENT_TIMESTAMP ';
         $sql .= ' FROM dtb_maker AS T1 LEFT JOIN dtb_products AS T2';
@@ -1480,10 +1536,10 @@ __EOS__;
     /**
      * 選択中の商品のメーカーを取得する.
      *
-     * @param  integer $product_id プロダクトID
-     * @param  integer $maker_id   メーカーID
-     * @return array   選択中の商品のメーカーIDの配列
+     * @param  int $product_id プロダクトID
+     * @param  int $maker_id   メーカーID
      *
+     * @return array   選択中の商品のメーカーIDの配列
      */
     public function sfGetMakerId($product_id, $maker_id = 0, $closed = false)
     {
@@ -1498,14 +1554,14 @@ __EOS__;
             $maker_id = (int) $maker_id;
             $product_id = (int) $product_id;
             if (SC_Utils_Ex::sfIsInt($maker_id) && $maker_id != 0 && $this->sfIsRecord('dtb_maker', 'maker_id', $maker_id)) {
-                $this->g_maker_id = array($maker_id);
+                $this->g_maker_id = [$maker_id];
             } elseif (SC_Utils_Ex::sfIsInt($product_id) && $product_id != 0 && $this->sfIsRecord('dtb_products', 'product_id', $product_id, $status)) {
                 $objQuery = SC_Query_Ex::getSingletonInstance();
-                $maker_id = $objQuery->getCol('maker_id', 'dtb_products', 'product_id = ?', array($product_id));
+                $maker_id = $objQuery->getCol('maker_id', 'dtb_products', 'product_id = ?', [$product_id]);
                 $this->g_maker_id = $maker_id;
             } else {
                 // 不正な場合は、空の配列を返す。
-                $this->g_maker_id = array();
+                $this->g_maker_id = [];
             }
         }
 
@@ -1519,6 +1575,7 @@ __EOS__;
      *
      * @param  string $addwhere       追加する WHERE 句
      * @param  bool   $products_check 商品の存在するカテゴリのみ取得する場合 true
+     *
      * @return array  カテゴリツリーの配列
      */
     public function sfGetMakerList($addwhere = '', $products_check = false)
@@ -1527,7 +1584,7 @@ __EOS__;
         $where = 'del_flg = 0';
 
         if ($addwhere != '') {
-            $where.= " AND $addwhere";
+            $where .= " AND $addwhere";
         }
 
         $objQuery->setOption('ORDER BY rank DESC');
@@ -1544,7 +1601,7 @@ __EOS__;
         $arrRet = $objQuery->select($col, $from, $where);
 
         $max = count($arrRet);
-        $arrList = array();
+        $arrList = [];
         for ($cnt = 0; $cnt < $max; $cnt++) {
             $id = $arrRet[$cnt]['maker_id'];
             $name = $arrRet[$cnt]['name'];
@@ -1557,8 +1614,10 @@ __EOS__;
     /**
      * 店舗基本情報に基づいて税金額を返す
      *
-     * @param  integer $price 計算対象の金額
-     * @return double 税金額
+     * @param  int $price 計算対象の金額
+     *
+     * @return float 税金額
+     *
      * @deprecated SC_Helper_TaxRule::sfTax() を使用してください
      */
     public function sfTax($price)
@@ -1576,14 +1635,16 @@ __EOS__;
      * @param  int $price 計算対象の金額
      * @param  int $tax
      * @param  int $tax_rule
-     * @return double 税金付与した金額
+     *
+     * @return float 税金付与した金額
+     *
      * @deprecated SC_Helper_TaxRule::calcTax() を使用してください
      */
     public static function sfCalcIncTax($price, $tax = null, $tax_rule = null)
     {
         // 店舗基本情報を取得
         $CONF = SC_Helper_DB_Ex::sfGetBasisData();
-        $tax      = $tax      === null ? $CONF['tax']      : $tax;
+        $tax = $tax === null ? $CONF['tax'] : $tax;
         $tax_rule = $tax_rule === null ? $CONF['tax_rule'] : $tax_rule;
 
         return SC_Utils_Ex::sfCalcIncTax($price, $tax, $tax_rule);
@@ -1592,9 +1653,10 @@ __EOS__;
     /**
      * 店舗基本情報に基づいて加算ポイントを返す
      *
-     * @param  integer $totalpoint
-     * @param  integer $use_point
-     * @return integer 加算ポイント
+     * @param  int $totalpoint
+     * @param  int $use_point
+     *
+     * @return int 加算ポイント
      */
     public static function sfGetAddPoint($totalpoint, $use_point)
     {
@@ -1610,7 +1672,9 @@ __EOS__;
      * XXX プラグイン用に追加。将来消すかも。
      *
      * @param  string $sqlFilePath SQL ファイルのパス
+     *
      * @return void
+     *
      * @deprecated 本体で使用されていないため非推奨
      */
     public function sfExecSqlByFile($sqlFilePath)
@@ -1619,11 +1683,15 @@ __EOS__;
             $objQuery = SC_Query_Ex::getSingletonInstance();
 
             $sqls = file_get_contents($sqlFilePath);
-            if ($sqls === false) trigger_error('ファイルは存在するが読み込めない', E_USER_ERROR);
+            if ($sqls === false) {
+                trigger_error('ファイルは存在するが読み込めない', E_USER_ERROR);
+            }
 
             foreach (explode(';', $sqls) as $sql) {
                 $sql = trim($sql);
-                if (strlen($sql) == 0) continue;
+                if (strlen($sql) == 0) {
+                    continue;
+                }
                 $objQuery->query($sql);
             }
         }
@@ -1632,16 +1700,19 @@ __EOS__;
     /**
      * 商品規格を設定しているか
      *
-     * @param  integer $product_id 商品ID
+     * @param  int $product_id 商品ID
+     *
      * @return bool    商品規格が存在する場合:true, それ以外:false
      */
     public function sfHasProductClass($product_id)
     {
-        if (!SC_Utils_Ex::sfIsInt($product_id)) return false;
+        if (!SC_Utils_Ex::sfIsInt($product_id)) {
+            return false;
+        }
 
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $where = 'product_id = ? AND del_flg = 0 AND (classcategory_id1 != 0 OR classcategory_id2 != 0)';
-        $exists = $objQuery->exists('dtb_products_class', $where, array($product_id));
+        $exists = $objQuery->exists('dtb_products_class', $where, [$product_id]);
 
         return $exists;
     }
@@ -1650,6 +1721,7 @@ __EOS__;
      * 店舗基本情報を登録する
      *
      * @param  array $arrData 登録するデータ
+     *
      * @return void
      */
     public static function registerBasisData($arrData)
@@ -1686,10 +1758,12 @@ __EOS__;
      * @param  string  $table
      * @param  string  $where
      * @param  array   $arrval
-     * @return integer レコード件数
+     *
+     * @return int レコード件数
+     *
      * @deprecated SC_Query::count() を使用してください
      */
-    public function countRecords($table, $where = '', $arrval = array())
+    public function countRecords($table, $where = '', $arrval = [])
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = 'COUNT(*)';

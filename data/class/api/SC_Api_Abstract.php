@@ -24,25 +24,24 @@
 /**
  * APIの抽象クラス
  *
- * @package Api
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
-
 abstract class SC_Api_Abstract
 {
     /** 認証タイプ */
-    const API_AUTH_TYPE_REFERER = '1';          // リファラー
-    const API_AUTH_TYPE_SESSION_TOKEN = '2';    // CSRF TOKEN
-    const API_AUTH_TYPE_API_SIGNATURE = '3';    // API 署名認証 推奨
-    const API_AUTH_TYPE_CUSTOMER = '4';         // 会員認証
-    const API_AUTH_TYPE_MEMBER = '5';           // 管理者認証
-    const API_AUTH_TYPE_CUSTOMER_LOGIN_SESSION = '6';   // 顧客ログインセッションが有効
-    const API_AUTH_TYPE_MEMBER_LOGIN_SESSION = '7';     // 管理者ログインセッションが有効
-    const API_AUTH_TYPE_IP = '8';               // IP認証
-    const API_AUTH_TYPE_HOST = '9';             // ホスト認証
-    const API_AUTH_TYPE_SSL = '10';             // SSL強制
-    const API_AUTH_TYPE_OPEN = '99';            // 完全オープン
+    public const API_AUTH_TYPE_REFERER = '1';          // リファラー
+    public const API_AUTH_TYPE_SESSION_TOKEN = '2';    // CSRF TOKEN
+    public const API_AUTH_TYPE_API_SIGNATURE = '3';    // API 署名認証 推奨
+    public const API_AUTH_TYPE_CUSTOMER = '4';         // 会員認証
+    public const API_AUTH_TYPE_MEMBER = '5';           // 管理者認証
+    public const API_AUTH_TYPE_CUSTOMER_LOGIN_SESSION = '6';   // 顧客ログインセッションが有効
+    public const API_AUTH_TYPE_MEMBER_LOGIN_SESSION = '7';     // 管理者ログインセッションが有効
+    public const API_AUTH_TYPE_IP = '8';               // IP認証
+    public const API_AUTH_TYPE_HOST = '9';             // ホスト認証
+    public const API_AUTH_TYPE_SSL = '10';             // SSL強制
+    public const API_AUTH_TYPE_OPEN = '99';            // 完全オープン
 
     /** API Operation default */
     protected $operation_name = 'operation_name';
@@ -53,8 +52,8 @@ abstract class SC_Api_Abstract
     protected $default_sub_data = '';
 
     protected $status = true;
-    protected $arrErr = array();
-    protected $arrResponse = array();
+    protected $arrErr = [];
+    protected $arrResponse = [];
     /** @var SC_FormParam */
     protected $objFormParam;
 
@@ -87,7 +86,7 @@ abstract class SC_Api_Abstract
 
     public function getDefaultConfig()
     {
-        $arrApiConfig = array();
+        $arrApiConfig = [];
         $arrApiConfig['operation_name'] = $this->operation_name;
         $arrApiConfig['operation_description'] = $this->operation_description;
         $arrApiConfig['auth_types'] = $this->default_auth_types;
@@ -120,7 +119,7 @@ abstract class SC_Api_Abstract
     {
     }
 
-    protected function doInitParam($arrParam = array())
+    protected function doInitParam($arrParam = [])
     {
         $this->objFormParam = new SC_FormParam_Ex();
         $this->lfInitParam($this->objFormParam);

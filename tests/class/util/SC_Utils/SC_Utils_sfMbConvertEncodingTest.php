@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -29,39 +29,37 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * functionを1つ呼び出しているだけなので、エラーにならないことだけ確認する.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfMbConvertEncodingTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfMbConvertEncodingCP932の場合エラーが起きない()
+    {
+        $input = 'あいうえお、今日は良い天気です。';
+        $encode = 'CP932';
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+        $this->assertNotNull(SC_Utils::sfMbConvertEncoding($input, $encode), '変換結果');
+    }
 
-  /////////////////////////////////////////
-  public function testSfMbConvertEncoding_CP932の場合_エラーが起きない()
-  {
-    $input = 'あいうえお、今日は良い天気です。';
-    $encode = 'CP932';
+    public function testSfMbConvertEncodingUTF8の場合エラーが起きない()
+    {
+        $input = 'あいうえお、今日は良い天気です。';
+        $encode = 'UTF8';
 
-    $this->assertNotNull(SC_Utils::sfMbConvertEncoding($input, $encode), '変換結果');
-  }
+        $this->assertNotNull(SC_Utils::sfMbConvertEncoding($input, $encode), '変換結果');
+    }
 
-  public function testSfMbConvertEncoding_UTF8の場合_エラーが起きない()
-  {
-    $input = 'あいうえお、今日は良い天気です。';
-    $encode = 'UTF8';
-
-    $this->assertNotNull(SC_Utils::sfMbConvertEncoding($input, $encode), '変換結果');
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

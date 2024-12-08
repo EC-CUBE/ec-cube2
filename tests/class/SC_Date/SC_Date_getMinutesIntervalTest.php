@@ -21,31 +21,29 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Date_getMinutesIntervalTest extends Common_TestCase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objDate = new SC_Date_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testGetMinutesInterval_要素が00と30の配列を返す()
+    public function testGetMinutesInterval要素が00と30の配列を返す()
     {
-        $this->expected = array('00'=>'00', '30'=>'30');
+        $this->expected = ['00' => '00', '30' => '30'];
         $this->actual = $this->objDate->getMinutesInterval();
 
-        $this->verify("0分と30分");
+        $this->verify('0分と30分');
     }
-  
 }

@@ -37,8 +37,8 @@
  * マスターデータがキャッシュされると, key => value 形式の配列として使用できる.
  * マスターデータのキャッシュは, MASTER_DATA_REALDIR/マスターデータ名.php というファイルが生成される.
  *
- * @package DB
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_DB_MasterData
@@ -47,7 +47,7 @@ class SC_DB_MasterData
     public $objQuery;
 
     /** デフォルトのテーブルカラム名 */
-    public $columns = array('id', 'name', 'rank', 'remarks');
+    public $columns = ['id', 'name', 'rank', 'remarks'];
 
     /**
      * マスターデータを取得する.
@@ -62,13 +62,14 @@ class SC_DB_MasterData
      * @param string $name    マスターデータ名
      * @param array  $columns [0] => キー, [1] => 表示文字列, [2] => 表示順
      *                        を表すカラム名を格納した配列
+     *
      * @return array マスターデータ
      */
-    public function getMasterData($name, $columns = array())
+    public function getMasterData($name, $columns = [])
     {
         $columns = $this->getDefaultColumnName($columns);
 
-        $filepath = MASTER_DATA_REALDIR . $name . '.serial';
+        $filepath = MASTER_DATA_REALDIR.$name.'.serial';
 
         if (!file_exists($filepath)) {
             // キャッシュ生成
@@ -94,7 +95,8 @@ class SC_DB_MasterData
      *                        を表すカラム名を格納した配列
      * @param  array   $masterData マスターデータ
      * @param  bool    $autoCommit トランザクションを自動的に commit する場合 true
-     * @return integer マスターデータの登録数
+     *
+     * @return int マスターデータの登録数
      */
     public function registMasterData($name, $columns, $masterData, $autoCommit = true)
     {
@@ -106,9 +108,11 @@ class SC_DB_MasterData
         }
         $i = 0;
         foreach ($masterData as $key => $val) {
-            $sqlVal = array($columns[0] => (string) $key,
-                            $columns[1] => (string) $val,
-                            $columns[2] => (string) $i);
+            $sqlVal = [
+                $columns[0] => (string) $key,
+                $columns[1] => (string) $val,
+                $columns[2] => (string) $i,
+            ];
             $this->objQuery->insert($name, $sqlVal);
             $i++;
         }
@@ -130,7 +134,8 @@ class SC_DB_MasterData
      *                        を表すカラム名を格納した配列
      * @param  array   $masterData マスターデータ
      * @param  bool    $autoCommit トランザクションを自動的に commit する場合 true
-     * @return integer マスターデータの更新数
+     *
+     * @return int マスターデータの更新数
      */
     public function updateMasterData($name, $columns, $masterData, $autoCommit = true)
     {
@@ -144,8 +149,8 @@ class SC_DB_MasterData
         // 指定のデータを更新
         $i = 0;
         foreach ($masterData as $key => $val) {
-            $sqlVal = array($columns[1] => $val);
-            $this->objQuery->update($name, $sqlVal, $columns[0] . ' = ' .  SC_Utils_Ex::sfQuoteSmart($key));
+            $sqlVal = [$columns[1] => $val];
+            $this->objQuery->update($name, $sqlVal, $columns[0].' = '.SC_Utils_Ex::sfQuoteSmart($key));
             $i++;
         }
         if ($autoCommit) {
@@ -165,7 +170,8 @@ class SC_DB_MasterData
      * @param  string  $key        キー名
      * @param  string  $comment    コメント
      * @param  bool    $autoCommit トランザクションを自動的に commit する場合 true
-     * @return integer マスターデータの更新数
+     *
+     * @return int マスターデータの更新数
      */
     public function insertMasterData($name, $key, $value, $comment, $autoCommit = true)
     {
@@ -198,7 +204,8 @@ class SC_DB_MasterData
      *
      * @param  string  $name       マスターデータ名
      * @param  bool    $autoCommit トランザクションを自動的に commit する場合 true
-     * @return integer マスターデータの削除数
+     *
+     * @return int マスターデータの削除数
      */
     public function deleteMasterData($name, $autoCommit = true)
     {
@@ -222,15 +229,16 @@ class SC_DB_MasterData
      * マスターデータのキャッシュを消去する.
      *
      * @param  string $name マスターデータ名
-     * @return boolean|null   消去した場合 true
+     *
+     * @return bool|null   消去した場合 true
      */
     public function clearCache($name)
     {
-        $masterDataFile = MASTER_DATA_REALDIR . $name . '.php';
+        $masterDataFile = MASTER_DATA_REALDIR.$name.'.php';
         if (is_file($masterDataFile)) {
             unlink($masterDataFile);
         }
-        $masterDataFile = MASTER_DATA_REALDIR . $name . '.serial';
+        $masterDataFile = MASTER_DATA_REALDIR.$name.'.serial';
         if (is_file($masterDataFile)) {
             unlink($masterDataFile);
         }
@@ -249,9 +257,10 @@ class SC_DB_MasterData
      * @param bool   $isDefine      定数を生成する場合 true
      * @param string[]  $commentColumn [0] => キー, [1] => コメント文字列,
      *                             [2] => 表示順 を表すカラム名を格納した配列
+     *
      * @return bool キャッシュの生成に成功した場合 true
      */
-    public function createCache($name, $columns = array(), $isDefine = false, $commentColumn = array())
+    public function createCache($name, $columns = [], $isDefine = false, $commentColumn = [])
     {
         // マスターデータを取得
         $masterData = $this->getDbMasterData($name, $columns);
@@ -259,7 +268,7 @@ class SC_DB_MasterData
         // マスターデータを文字列にする
         // 定数を生成する場合
         if ($isDefine) {
-            $path = MASTER_DATA_REALDIR . $name . '.php';
+            $path = MASTER_DATA_REALDIR.$name.'.php';
 
             $data = "<?php\n";
             // 定数コメントを生成する場合
@@ -268,11 +277,11 @@ class SC_DB_MasterData
             } else {
                 $data .= $this->getMasterDataAsDefine($masterData);
             }
-            $data .=  "\n";
+            $data .= "\n";
 
         // 配列を生成する場合
         } else {
-            $path = MASTER_DATA_REALDIR . $name . '.serial';
+            $path = MASTER_DATA_REALDIR.$name.'.serial';
             $data = serialize($masterData);
         }
 
@@ -302,9 +311,10 @@ class SC_DB_MasterData
      * @param string $name    マスターデータ名
      * @param array  $columns [0] => キー, [1] => 表示文字列, [2] => 表示順
      *                        を表すカラム名を格納した配列
+     *
      * @return array マスターデータ
      */
-    public function getDbMasterData($name, $columns = array())
+    public function getDbMasterData($name, $columns = [])
     {
         $columns = $this->getDefaultColumnName($columns);
 
@@ -312,10 +322,10 @@ class SC_DB_MasterData
         if (isset($columns[2]) && strlen($columns[2]) >= 1) {
             $this->objQuery->setOrder($columns[2]);
         }
-        $results = $this->objQuery->select($columns[0] . ', ' . $columns[1], $name);
+        $results = $this->objQuery->select($columns[0].', '.$columns[1], $name);
 
         // 結果を key => value 形式に格納
-        $masterData = array();
+        $masterData = [];
         foreach ($results as $result) {
             $masterData[$result[$columns[0]]] = $result[$columns[1]];
         }
@@ -331,9 +341,10 @@ class SC_DB_MasterData
      *
      * @param array $columns [0] => キー, [1] => 表示文字列, [2] => 表示順
      *                        を表すカラム名を格納した配列
+     *
      * @return array カラム名を格納した配列
      */
-    public function getDefaultColumnName($columns = array())
+    public function getDefaultColumnName($columns = [])
     {
         if (!empty($columns)) {
             return $columns;
@@ -345,19 +356,19 @@ class SC_DB_MasterData
     /**
      * マスターデータの配列を定数定義の文字列として出力する.
      *
-     * @access private
      * @param  array  $masterData マスターデータの配列
      * @param  array  $comments   コメントの配列
+     *
      * @return string 定数定義の文字列
      */
-    public function getMasterDataAsDefine($masterData, $comments = array())
+    public function getMasterDataAsDefine($masterData, $comments = [])
     {
         $data = '';
         foreach ($masterData as $key => $val) {
             if (!empty($comments[$key])) {
-                $data .= '/** ' . $comments[$key] . " */\n";
+                $data .= '/** '.$comments[$key]." */\n";
             }
-            $data .= "define('" . $key . "', " . $val . ");\n";
+            $data .= "define('".$key."', ".$val.");\n";
         }
 
         return $data;

@@ -35,36 +35,36 @@ class SC_Plugin_Installer
      */
     public function __construct($exec_func, $arrPlugin)
     {
-        $this->exec_func   = $exec_func;
+        $this->exec_func = $exec_func;
         $this->plugin_code = $arrPlugin['plugin_code'];
-        $this->arrPlugin   = $arrPlugin;
-        $this->arrInstallData = array();
-        $this->arrInstallData['sql'] = array();
-        $this->arrInstallData['copy_file'] = array();
-        $this->arrInstallData['copy_direcrtory'] = array();
-        $this->arrInstallData['insert'] = array();
-        $this->arrInstallData['update'] = array();
-        $this->arrInstallData['delete'] = array();
-        $this->arrInstallData['remove_file'] = array();
-        $this->arrInstallData['remove_directory'] = array();
+        $this->arrPlugin = $arrPlugin;
+        $this->arrInstallData = [];
+        $this->arrInstallData['sql'] = [];
+        $this->arrInstallData['copy_file'] = [];
+        $this->arrInstallData['copy_direcrtory'] = [];
+        $this->arrInstallData['insert'] = [];
+        $this->arrInstallData['update'] = [];
+        $this->arrInstallData['delete'] = [];
+        $this->arrInstallData['remove_file'] = [];
+        $this->arrInstallData['remove_directory'] = [];
     }
 
     public function execPlugin()
     {
-        $this->log("start");
+        $this->log('start');
 
         $plugin_code = $this->arrPlugin['plugin_code'];
 
         // テーブル作成SQLなどを実行
         $arrSql = $this->arrInstallData['sql'];
-        $arrErr = array();
+        $arrErr = [];
 
         // SQLの検証
         foreach ($arrSql as $sql) {
-            $this->log("verify sql: " . $sql['sql']);
+            $this->log('verify sql: '.$sql['sql']);
             $error_message = $this->verifySql($sql['sql'], $sql['params']);
             if (!is_null($error_message)) {
-                $this->log("verify sql: invalid sql " . $sql['sql']);
+                $this->log('verify sql: invalid sql '.$sql['sql']);
                 $this->log("verify sql: $error_message");
                 $arrErr[] = $error_message;
             }
@@ -79,7 +79,7 @@ class SC_Plugin_Installer
         // SQLの実行
         if (!SC_Utils_Ex::isBlank($arrSql)) {
             foreach ($arrSql as $sql) {
-                $this->log("exec sql: " . $sql['sql']);
+                $this->log('exec sql: '.$sql['sql']);
                 $objQuery->query($sql['sql'], $sql['params']);
             }
         }
@@ -88,12 +88,12 @@ class SC_Plugin_Installer
         if (!SC_Utils_Ex::isBlank($arrInsertQuery)) {
             foreach ($arrInsertQuery as $query) {
                 $objQuery->insert(
-                        $query['table'],
-                        $query['arrVal'],
-                        $query['arrSql'],
-                        $query['arrSqlVal'],
-                        $query['form'],
-                        $query['arrFromVal']
+                    $query['table'],
+                    $query['arrVal'],
+                    $query['arrSql'],
+                    $query['arrSqlVal'],
+                    $query['form'],
+                    $query['arrFromVal']
                 );
             }
         }
@@ -102,12 +102,12 @@ class SC_Plugin_Installer
         if (!SC_Utils_Ex::isBlank($arrUpdateQuery)) {
             foreach ($arrUpdateQuery as $query) {
                 $objQuery->update(
-                        $query['table'],
-                        $query['arrVal'],
-                        $query['where'],
-                        $query['arrWhereVal'],
-                        $query['arrRawSql'],
-                        $query['arrRawSqlVal']
+                    $query['table'],
+                    $query['arrVal'],
+                    $query['where'],
+                    $query['arrWhereVal'],
+                    $query['arrRawSql'],
+                    $query['arrRawSqlVal']
                 );
             }
         }
@@ -117,11 +117,11 @@ class SC_Plugin_Installer
 
         if (!SC_Utils_Ex::isBlank($arrCopyDirectories)) {
             foreach ($arrCopyDirectories as $directory) {
-                $this->log("exec dir copy: " . $directory['src'] . ' -> ' . $directory['dist']);
+                $this->log('exec dir copy: '.$directory['src'].' -> '.$directory['dist']);
                 // ディレクトリコピー -> HTML配下とDATA配下を別関数にする
                 SC_Utils::copyDirectory(
-                        PLUGIN_UPLOAD_REALDIR . $plugin_code . DIRECTORY_SEPARATOR . $directory['src'],
-                        PLUGIN_HTML_REALDIR   . $plugin_code . DIRECTORY_SEPARATOR . $directory['dist']);
+                    PLUGIN_UPLOAD_REALDIR.$plugin_code.DIRECTORY_SEPARATOR.$directory['src'],
+                    PLUGIN_HTML_REALDIR.$plugin_code.DIRECTORY_SEPARATOR.$directory['dist']);
             }
         }
 
@@ -130,63 +130,62 @@ class SC_Plugin_Installer
 
         if (!SC_Utils_Ex::isBlank($arrCopyFiles)) {
             foreach ($arrCopyFiles as $file) {
-                $this->log("exec file copy: " . $file['src'] . ' -> ' . $file['dist']);
+                $this->log('exec file copy: '.$file['src'].' -> '.$file['dist']);
                 // ファイルコピー
-                copy(PLUGIN_UPLOAD_REALDIR . $plugin_code . DIRECTORY_SEPARATOR . $file['src'],
-                     PLUGIN_HTML_REALDIR   . $plugin_code . DIRECTORY_SEPARATOR . $file['dist']);
+                copy(PLUGIN_UPLOAD_REALDIR.$plugin_code.DIRECTORY_SEPARATOR.$file['src'],
+                    PLUGIN_HTML_REALDIR.$plugin_code.DIRECTORY_SEPARATOR.$file['dist']);
             }
         }
 
-        $this->log("end");
+        $this->log('end');
     }
 
     public function copyFile($src, $dist)
     {
-        $this->arrInstallData['copy_file'][] = array(
-            'src'  => $src,
-            'dist' => $dist
-        );
+        $this->arrInstallData['copy_file'][] = [
+            'src' => $src,
+            'dist' => $dist,
+        ];
     }
 
     public function copyDirectory($src, $dist)
     {
-        $this->arrInstallData['copy_directory'][] = array(
-            'src'  => $src,
-            'dist' => $dist
-        );
+        $this->arrInstallData['copy_directory'][] = [
+            'src' => $src,
+            'dist' => $dist,
+        ];
     }
 
     public function removeFile($dist)
     {
-        $this->arrInstallData['remove_file'][] = array(
-            'dist' => $dist
-        );
+        $this->arrInstallData['remove_file'][] = [
+            'dist' => $dist,
+        ];
     }
 
     public function removeDirectory($dist)
     {
-       $this->arrInstallData['remove_directory'][] = array(
-            'dist' => $dist
-        );
+        $this->arrInstallData['remove_directory'][] = [
+            'dist' => $dist,
+        ];
     }
 
-    public function sql($sql, array $params = array())
+    public function sql($sql, array $params = [])
     {
-        $this->arrInstallData['sql'][] = array(
-            'sql'    => $sql,
-            'params' => $params
-        );
+        $this->arrInstallData['sql'][] = [
+            'sql' => $sql,
+            'params' => $params,
+        ];
     }
 
     protected function log($msg)
     {
-        $msg = sprintf("%s %s: %s", $this->plugin_code, $this->exec_func, $msg);
+        $msg = sprintf('%s %s: %s', $this->plugin_code, $this->exec_func, $msg);
         GC_Utils::gfPrintLog($msg, PLUGIN_LOG_REALFILE);
     }
 
     /**
      * カラム追加クエリの追加
-     *
      */
     public function addColumn($table_name, $col_name, $col_type)
     {
@@ -196,7 +195,6 @@ class SC_Plugin_Installer
 
     /**
      * カラム削除クエリの追加
-     *
      */
     public function dropColumn($table_name, $col_name)
     {
@@ -204,32 +202,31 @@ class SC_Plugin_Installer
         $this->sql($sql);
     }
 
-    public function insert($table, $arrVal, $arrSql = array(), $arrSqlVal = array(), $from = '', $arrFromVal = array())
+    public function insert($table, $arrVal, $arrSql = [], $arrSqlVal = [], $from = '', $arrFromVal = [])
     {
-        $this->arrInstallData['insert'][] = array(
+        $this->arrInstallData['insert'][] = [
             'table' => $table,
             'arrVal' => $arrVal,
             'arrSql' => $arrSql,
             'arrSqlVal' => $arrSqlVal,
-            'form' =>$from,
-            'arrFromVal' => $arrFromVal
-        );
+            'form' => $from,
+            'arrFromVal' => $arrFromVal,
+        ];
     }
 
-    public function update($table, $arrVal, $where = '', $arrWhereVal = array(), $arrRawSql = array(), $arrRawSqlVal = array())
+    public function update($table, $arrVal, $where = '', $arrWhereVal = [], $arrRawSql = [], $arrRawSqlVal = [])
     {
-        $this->arrInstallData['update'][] = array(
+        $this->arrInstallData['update'][] = [
             'table' => $table,
             'arrVal' => $arrVal,
             'where' => $where,
             'arrWhereVal' => $arrWhereVal,
-            'arrRawSql' =>$arrRawSql,
-            'arrRawSqlVal' => $arrRawSqlVal
-        );
+            'arrRawSql' => $arrRawSql,
+            'arrRawSqlVal' => $arrRawSqlVal,
+        ];
     }
 
     /**
-     *
      * @param string $sql
      * @param type   $params
      */
@@ -245,7 +242,7 @@ class SC_Plugin_Installer
         $sth = $objQuery->prepare($sql);
         $error_message = '';
         if (PEAR::isError($sth)) {
-            $error_message = $sth->message . ":" . $sth->userinfo;
+            $error_message = $sth->message.':'.$sth->userinfo;
             $objQuery->force_run = false;
 
             return $error_message;

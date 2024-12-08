@@ -7,7 +7,7 @@ class SC_FormParamTest extends Common_TestCase
      */
     protected $objFormParam;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objFormParam = new SC_FormParam_Ex();
@@ -20,12 +20,12 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testCheckError()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
         $this->objFormParam->setParam(['name01' => '']);
         $this->actual = $this->objFormParam->checkError();
 
         $this->expected = [
-            'name01' => '※ お名前(姓)が入力されていません。<br />'
+            'name01' => '※ お名前(姓)が入力されていません。<br />',
         ];
 
         $this->verify();
@@ -33,7 +33,7 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testConvParam()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
         $this->objFormParam->setParam(['name01' => 'ｱｲｳｴｵ']);
         $this->objFormParam->convParam();
         $this->actual = $this->objFormParam->getFormParamList();
@@ -43,8 +43,8 @@ class SC_FormParamTest extends Common_TestCase
                 'keyname' => 'name01',
                 'disp_name' => 'お名前(姓)',
                 'length' => STEXT_LEN,
-                'value' => 'アイウエオ'
-            ]
+                'value' => 'アイウエオ',
+            ],
         ];
 
         $this->verify();
@@ -52,7 +52,7 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetHashArray()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
         $this->objFormParam->setParam(['name01' => 'あ']);
         $this->actual = $this->objFormParam->getHashArray();
         $this->expected = ['name01' => 'あ'];
@@ -62,13 +62,13 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetDbArray()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), '', false);
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), '', true);
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], '', false);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], '', true);
 
         $this->objFormParam->setParam(
             [
                 'name01' => 'あ',
-                'name02' => 'い'
+                'name02' => 'い',
             ]
         );
 
@@ -80,45 +80,45 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetSwapArray()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), '', true);
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], '', true);
         $this->objFormParam->setParam(
             [
                 'name01' => ['test01' => 'ああ'],
-                'name02' => ['test02' => 'い']
+                'name02' => ['test02' => 'い'],
             ]
         );
         $this->actual = $this->objFormParam->getSwapArray();
 
         $this->expected = [
             'test01' => ['name01' => 'ああ'],
-            'test02' => ['name02' => 'い']
+            'test02' => ['name02' => 'い'],
         ];
         $this->verify();
     }
 
     public function testSetParamWithSeq()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
         $this->objFormParam->setParam(['あ', 'い'], true);
         $this->actual = $this->objFormParam->getHashArray();
 
         $this->expected = [
             'name01' => 'あ',
-            'name02' => 'い'
+            'name02' => 'い',
         ];
         $this->verify();
     }
 
     public function testToLower()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
         $this->objFormParam->setParam(
             [
                 'name01' => 'A',
-                'name02' => 'B'
+                'name02' => 'B',
             ]
         );
         $this->objFormParam->toLower('name01');
@@ -126,22 +126,22 @@ class SC_FormParamTest extends Common_TestCase
 
         $this->expected = [
             'name01' => 'a',
-            'name02' => 'B'
+            'name02' => 'B',
         ];
         $this->verify();
     }
 
     public function testRecursionCheck()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), '', true);
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], '', true);
         $this->objFormParam->setParam(
             [
                 'name01' => [
                     ['ああ', ''],
-                    ['うう', 'ええ']
+                    ['うう', 'ええ'],
                 ],
-                'name02' => [['ｱｱｱ'], ['ｱｱｱ']]
+                'name02' => [['ｱｱｱ'], ['ｱｱｱ']],
             ]
         );
         $this->objFormParam->convParam();
@@ -157,8 +157,8 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetKeyList()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), '', true);
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], '', true);
 
         $this->actual = $this->objFormParam->getKeyList();
         $this->expected = ['name01', 'name02'];
@@ -167,8 +167,8 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetCount()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), '', true);
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], '', true);
 
         $this->actual = $this->objFormParam->getCount();
         $this->expected = 2;
@@ -177,13 +177,13 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetValueWithDefault()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
 
         $this->objFormParam->setParam(
             [
                 'name01' => '',
-                'name02' => ['', '']
+                'name02' => ['', ''],
             ]
         );
         $this->assertEquals('あ', $this->objFormParam->getValue('name01', 'あ'));
@@ -192,15 +192,15 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testTrimParam()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), '', true);
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], '', true);
         $this->objFormParam->setParam(
             [
                 'name01' => [
                     [' ああ ', ''],
-                    ["\tうう", "\n\nええ"]
+                    ["\tうう", "\n\nええ"],
                 ],
-                'name02' => [['あああ'], ['あああ　']]
+                'name02' => [['あああ'], ['あああ　']],
             ]
         );
         $this->objFormParam->trimParam(true);
@@ -211,15 +211,15 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testTrimParamWithWideSpace()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), '', true);
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], '', true);
         $this->objFormParam->setParam(
             [
                 'name01' => [
                     [' ああ ', ''],
-                    ["\tうう", "\n\nええ"]
+                    ["\tうう", "\n\nええ"],
                 ],
-                'name02' => [['あああ'], ['あああ　']]
+                'name02' => [['あああ'], ['あああ　']],
             ]
         );
         $this->objFormParam->trimParam(false);
@@ -230,7 +230,7 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testSetValueWithKeyIsNotFound()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
         $this->objFormParam->setValue('aaaa', 'あ');
 
         $this->assertEquals('', $this->objFormParam->getValue('name01'));
@@ -238,17 +238,15 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetParamSetting()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
 
         $this->expected = [
-            'name01' =>
-            [
+            'name01' => [
                 'disp_name' => 'お名前(姓)',
                 'keyname' => 'name01',
                 'length' => 50,
                 'convert' => 'aKV',
-                'arrCheck' =>
-                [
+                'arrCheck' => [
                     0 => 'EXIST_CHECK',
                     1 => 'NO_SPTAB',
                     2 => 'SPTAB_CHECK',
@@ -264,15 +262,14 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetParamSettingWithKey()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
 
         $this->expected = [
             'disp_name' => 'お名前(姓)',
             'keyname' => 'name01',
             'length' => 50,
             'convert' => 'aKV',
-            'arrCheck' =>
-            [
+            'arrCheck' => [
                 0 => 'EXIST_CHECK',
                 1 => 'NO_SPTAB',
                 2 => 'SPTAB_CHECK',
@@ -287,7 +284,7 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetParamSettingWithKeyAndTargetDefault()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), 'あ');
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], 'あ');
 
         $this->expected = 'あ';
         $this->actual = $this->objFormParam->getParamSetting('name01', 'default');
@@ -297,7 +294,7 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetParamSettingWithKeyAndTarget()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), 'あ');
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], 'あ');
 
         $this->expected = 'aKV';
         $this->actual = $this->objFormParam->getParamSetting('name01', 'convert');
@@ -307,8 +304,8 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetTitleArray()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), '', true);
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], '', true);
 
         $this->expected = ['お名前(姓)', 'お名前(名)'];
         $this->actual = $this->objFormParam->getTitleArray();
@@ -317,8 +314,8 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testHtmlDispArray()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), 'あ', false);
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], 'あ', false);
 
         $this->objFormParam->setHtmlDispNameArray();
         $this->expected = [
@@ -331,9 +328,9 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testSetParamList()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name1', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(姓)', 'name2', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->setParamList([['name' =>'あ'], ['name' => 'い']], 'name');
+        $this->objFormParam->addParam('お名前(姓)', 'name1', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(姓)', 'name2', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->setParamList([['name' => 'あ'], ['name' => 'い']], 'name');
 
         $this->assertEquals('あ', $this->objFormParam->getValue('name1'));
         $this->assertEquals('い', $this->objFormParam->getValue('name2'));
@@ -341,22 +338,22 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testSetDbDate()
     {
-        $this->objFormParam->addParam('年', 'year', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('月', 'month', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('日', 'day', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('年', 'year', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('月', 'month', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('日', 'day', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
 
-        $this->objFormParam->setDbDate('2019-04-01');
+        $this->objFormParam->setDbDate('2019-04-01 00:00:00');
 
-        $this->assertEquals('2019', $this->objFormParam->getValue('year'));
-        $this->assertEquals('04', $this->objFormParam->getValue('month'));
-        $this->assertEquals('01', $this->objFormParam->getValue('day'));
+        $this->assertSame('2019', $this->objFormParam->getValue('year'));
+        $this->assertSame('4', $this->objFormParam->getValue('month'));
+        $this->assertSame('1', $this->objFormParam->getValue('day'));
     }
 
     public function testSetDbDateWithEmpty()
     {
-        $this->objFormParam->addParam('年', 'year', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('月', 'month', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('日', 'day', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('年', 'year', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('月', 'month', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('日', 'day', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
 
         $this->objFormParam->setDbDate('');
 
@@ -367,19 +364,19 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testGetSearchArray()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), 'あ', false);
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], 'あ', false);
 
         $this->objFormParam->setParam(
             [
                 'name01' => 'あ',
-                'name02' => 'い'
+                'name02' => 'い',
             ]
         );
 
         $this->expected = [
             'name01' => 'あ',
-            'name02' => 'い'
+            'name02' => 'い',
         ];
 
         $this->actual = $this->objFormParam->getSearchArray('name');
@@ -388,20 +385,20 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testRemoveParam()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', array('NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), 'あ', false);
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $this->objFormParam->addParam('お名前(名)', 'name02', STEXT_LEN, 'aKV', ['NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], 'あ', false);
 
         $this->objFormParam->removeParam('name01');
 
         $this->objFormParam->setParam(
             [
                 'name01' => 'あ',
-                'name02' => 'い'
+                'name02' => 'い',
             ]
         );
 
         $this->expected = [
-            'name02' => 'い'
+            'name02' => 'い',
         ];
 
         $this->actual = $this->objFormParam->getSearchArray('name');
@@ -410,7 +407,7 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testOverwiteParam()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
 
         $this->objFormParam->overwriteParam('name01', 'disp_name', 'Name');
         $this->expected = 'Name';
@@ -421,7 +418,7 @@ class SC_FormParamTest extends Common_TestCase
 
     public function testOverwiteParamWithDefault()
     {
-        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'), 'あ');
+        $this->objFormParam->addParam('お名前(姓)', 'name01', STEXT_LEN, 'aKV', ['EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'], 'あ');
 
         $this->objFormParam->overwriteParam('name01', 'default', 'Name');
         $this->expected = 'Name';
@@ -463,7 +460,7 @@ class SC_FormParamTest extends Common_TestCase
             'CHANGE_LOWER',
             'FILE_EXISTS',
             'DOWN_FILE_EXISTS',
-            'XXXXXXXXXX'
+            'XXXXXXXXXX',
         ];
 
         foreach ($arrCheck as $key => $check) {
@@ -488,7 +485,7 @@ class SC_FormParamTest extends Common_TestCase
             'FILE_EXISTS_key' => '※ FILE_EXISTSのファイルが存在しません。',
             'DOWN_FILE_EXISTS_key' => '※ DOWN_FILE_EXISTSのファイルが存在しません。',
             'XXXXXXXXXX_key' => '※※　エラーチェック形式(XXXXXXXXXX)には対応していません　※※ ',
-            'NUM_COUNT_CHECK_key' => '※ NUM_COUNT_CHECKは50桁で入力して下さい。'
+            'NUM_COUNT_CHECK_key' => '※ NUM_COUNT_CHECKは50桁で入力して下さい。',
         ];
         $this->actual = @$this->objFormParam->checkError(false);
         $this->verify();

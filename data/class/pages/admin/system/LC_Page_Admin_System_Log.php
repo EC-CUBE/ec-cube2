@@ -21,17 +21,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ログ のページクラス.
  *
- * @package Page
  * @author Seasoft 塚田将久
+ *
  * @version $Id$
  */
 class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
 {
-    public $arrLogList = array();
+    public $arrLogList = [];
     /** @var string */
     public $tpl_ec_log;
 
@@ -44,11 +43,11 @@ class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
     {
         parent::init();
         $this->tpl_mainpage = 'system/log.tpl';
-        $this->tpl_subno    = 'log';
-        $this->tpl_mainno   = 'system';
+        $this->tpl_subno = 'log';
+        $this->tpl_mainno = 'system';
         $this->tpl_maintitle = 'システム設定';
         $this->tpl_subtitle = 'EC-CUBE ログ表示';
-        $this->line_max     = 50;
+        $this->line_max = 50;
     }
 
     /**
@@ -69,7 +68,7 @@ class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
      */
     public function action()
     {
-        $objFormParam = new SC_FormParam_Ex;
+        $objFormParam = new SC_FormParam_Ex();
 
         // パラメーター情報初期化
         $this->lfInitParam($objFormParam);
@@ -87,19 +86,19 @@ class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
             $log_path = $this->getLogPath($objFormParam->getValue('log'));
             $this->tpl_ec_log = $this->getEccubeLog($log_path);
         }
-
     }
 
     /**
      * パラメーターの初期化.
      *
      * @param SC_FormParam_Ex $objFormParam
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('ファイル', 'log', null, '', array());
-        $objFormParam->addParam('行数', 'line_max', INT_LEN, '', array('NUM_CHECK', 'MAX_LENGTH_CHECK'), 50);
+        $objFormParam->addParam('ファイル', 'log', null, '', []);
+        $objFormParam->addParam('行数', 'line_max', INT_LEN, '', ['NUM_CHECK', 'MAX_LENGTH_CHECK'], 50);
     }
 
     /**
@@ -110,26 +109,30 @@ class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
     public function getEccubeLog($log_path_base)
     {
         $index = 0;
-        $arrLogs = array();
-        for ($gen = 0 ; $gen <= MAX_LOG_QUANTITY; $gen++) {
+        $arrLogs = [];
+        for ($gen = 0; $gen <= MAX_LOG_QUANTITY; $gen++) {
             $path = $log_path_base;
             if ($gen != 0) {
                 $path .= ".$gen";
             }
 
             // ファイルが存在しない場合、前世代のログへ
-            if (!file_exists($path)) continue;
+            if (!file_exists($path)) {
+                continue;
+            }
 
             $arrLogTmp = array_reverse(file($path));
 
-            $arrBodyReverse = array();
+            $arrBodyReverse = [];
             foreach ($arrLogTmp as $line) {
                 // 上限に達した場合、処理を抜ける
-                if (count($arrLogs) >= $this->line_max) break 2;
+                if (count($arrLogs) >= $this->line_max) {
+                    break 2;
+                }
 
-                $line = chop($line);
+                $line = rtrim($line);
                 if (preg_match('/^(\d+\/\d+\/\d+ \d+:\d+:\d+) \[([^\]]+)\] (.*)$/', $line, $arrMatch)) {
-                    $arrLogLine = array();
+                    $arrLogLine = [];
                     // 日時
                     $arrLogLine['date'] = $arrMatch[1];
                     // パス
@@ -137,7 +140,7 @@ class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
                     // 内容
                     $arrBodyReverse[] = $arrMatch[3];
                     $arrLogLine['body'] = implode("\n", array_reverse($arrBodyReverse));
-                    $arrBodyReverse = array();
+                    $arrBodyReverse = [];
 
                     $arrLogs[] = $arrLogLine;
                 } else {
@@ -160,7 +163,7 @@ class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
         if (strlen($log_name) === 0) {
             return LOG_REALFILE;
         }
-        if (defined($const_name = $log_name . '_LOG_REALFILE')) {
+        if (defined($const_name = $log_name.'_LOG_REALFILE')) {
             return constant($const_name);
         }
         trigger_error('不正なログが指定されました。', E_USER_ERROR);
@@ -170,6 +173,7 @@ class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
      * ログファイルの一覧を読み込む
      *
      * TODO mtb_constants から動的生成したい。
+     *
      * @return void
      */
     public function loadLogList()

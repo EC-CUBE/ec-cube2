@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ログアウト のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Logout extends LC_Page_Admin_Ex
@@ -61,7 +60,7 @@ class LC_Page_Admin_Logout extends LC_Page_Admin_Ex
         $this->lfDoLogout();
 
         // ログイン画面に遷移
-        SC_Response_Ex::sendRedirectFromUrlPath(ADMIN_DIR . DIR_INDEX_PATH);
+        SC_Response_Ex::sendRedirectFromUrlPath(ADMIN_DIR.DIR_INDEX_PATH);
     }
 
     /**

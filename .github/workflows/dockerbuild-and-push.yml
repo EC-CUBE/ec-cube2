@@ -21,15 +21,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4-rc' ]
 
     steps:
       - name: downcase REPO
         run: |
           echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}-php" >> ${GITHUB_ENV}
 
-      - if: ${{ matrix.php >= 7.4 }}
-        run: |
+      - run: |
           echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
           echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
           echo "APCU=apcu" >>  ${GITHUB_ENV}
@@ -70,7 +69,7 @@ jobs:
             type=match,prefix=${{ matrix.php }}-apache-,pattern=eccube2-weekly-(.*),group=1
 
       - name: Build and export to Docker
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           load: true
@@ -95,7 +94,7 @@ jobs:
         run: |
           sudo chown -R 1001:1000 zap
           sudo chmod -R g+w zap
-          docker-compose up -d
+          docker compose up -d
 
       - run: sleep 1
       - run: |
@@ -116,7 +115,7 @@ jobs:
       - run: git checkout composer.*
       ## see https://docs.github.com/ja/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#publishing-a-package-using-an-action
       - name: Push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         if: success()
         with:
           context: .

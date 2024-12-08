@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,82 +27,79 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfGetTimestamp()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetTimestampTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfGetTimestamp年が設定されていない場合0バイト文字列が返る()
+    {
+        $year = '';
+        $month = '10';
+        $day = '23';
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+        $this->expected = '';
+        $this->actual = SC_Utils::sfGetTimestamp($year, $month, $day);
+        $this->verify();
+    }
 
-  /////////////////////////////////////////
-  public function testSfGetTimestamp_年が設定されていない場合_0バイト文字列が返る()
-  {
-    $year = '';
-    $month = '10';
-    $day = '23';
+    public function testSfGetTimestamp月が設定されていない場合0バイト文字列が返る()
+    {
+        $year = '2012';
+        $month = '';
+        $day = '13';
 
-    $this->expected = '';
-    $this->actual = SC_Utils::sfGetTimestamp($year, $month, $day);
-    $this->verify();
-  }
+        $this->expected = '';
+        $this->actual = SC_Utils::sfGetTimestamp($year, $month, $day);
+        $this->verify();
+    }
 
-  public function testSfGetTimestamp_月が設定されていない場合_0バイト文字列が返る()
-  {
-    $year = '2012';
-    $month = '';
-    $day = '13';
+    public function testSfGetTimestamp日が設定されていない場合0バイト文字列が返る()
+    {
+        $year = '1999';
+        $month = '09';
+        $day = '';
 
-    $this->expected = '';
-    $this->actual = SC_Utils::sfGetTimestamp($year, $month, $day);
-    $this->verify();
-  }
+        $this->expected = '';
+        $this->actual = SC_Utils::sfGetTimestamp($year, $month, $day);
+        $this->verify();
+    }
 
-  public function testSfGetTimestamp_日が設定されていない場合_0バイト文字列が返る()
-  {
-    $year = '1999';
-    $month = '09';
-    $day = '';
+    public function testSfGetTimestamp年月日全て設定されている場合連結された文字列が返る()
+    {
+        $year = '1999';
+        $month = '09';
+        $day = '23';
 
-    $this->expected = '';
-    $this->actual = SC_Utils::sfGetTimestamp($year, $month, $day);
-    $this->verify();
-  }
+        $this->expected = '1999-09-23 00:00:00';
+        $this->actual = SC_Utils::sfGetTimestamp($year, $month, $day);
 
-  public function testSfGetTimestamp_年月日全て設定されている場合_連結された文字列が返る()
-  {
-    $year = '1999';
-    $month = '09';
-    $day = '23';
+        $this->verify();
+    }
 
-    $this->expected = '1999-09-23 00:00:00';
-    $this->actual = SC_Utils::sfGetTimestamp($year, $month, $day);
+    public function testSfGetTimestamp最終時刻フラグがONの場合時刻が深夜のものになる()
+    {
+        $year = '1999';
+        $month = '09';
+        $day = '23';
 
-    $this->verify();
-  }
+        $this->expected = '1999-09-23 23:59:59';
+        $this->actual = SC_Utils::sfGetTimestamp($year, $month, $day, true);
 
-  public function testSfGetTimestamp_最終時刻フラグがONの場合_時刻が深夜のものになる()
-  {
-    $year = '1999';
-    $month = '09';
-    $day = '23';
+        $this->verify();
+    }
 
-    $this->expected = '1999-09-23 23:59:59';
-    $this->actual = SC_Utils::sfGetTimestamp($year, $month, $day, true);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

@@ -23,11 +23,10 @@
 
 class SC_CheckError_HTML_TAG_CHECKTest extends SC_CheckError_AbstractTestCase
 {
-
     /** @var array */
     protected $arrAllowedTag;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $masterData = new SC_DB_MasterData_Ex();
@@ -35,7 +34,7 @@ class SC_CheckError_HTML_TAG_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->target_func = 'HTML_TAG_CHECK';
     }
 
-    public function testHTML_TAG_CHECK_許可されていないhtmlタグが含まれる場合_エラー()
+    public function testHTMLTAGCHECK許可されていないhtmlタグが含まれる場合エラー()
     {
         $not_allowed_tag = 'script';
 
@@ -55,7 +54,7 @@ class SC_CheckError_HTML_TAG_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testHTML_TAG_CHECK_許可されているhtmlタグが含まれる場合_エラーではない()
+    public function testHTMLTAGCHECK許可されているhtmlタグが含まれる場合エラーではない()
     {
         $allowed_tag = 'p';
 
@@ -73,9 +72,8 @@ class SC_CheckError_HTML_TAG_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testHTML_TAG_CHECK_htmlタグが含まれない場合_エラーではない()
+    public function testHTMLTAGCHECKHtmlタグが含まれない場合エラーではない()
     {
-
         $this->arrForm = [self::FORM_NAME => 'htmlタグを含まないテスト文章。'];
 
         $this->expected = '';
@@ -86,9 +84,8 @@ class SC_CheckError_HTML_TAG_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
         $this->objErr->doFunc([$this->target_func, self::FORM_NAME, $this->arrAllowedTag],
-                              [$this->target_func]);
+            [$this->target_func]);
         $this->objErr->doFunc(['dummy', self::FORM_NAME, $this->arrAllowedTag],
-                              [$this->target_func]);
-
+            [$this->target_func]);
     }
 }

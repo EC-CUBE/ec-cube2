@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ブロック編集 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Design_Bloc extends LC_Page_Admin_Ex
@@ -95,11 +94,11 @@ class LC_Page_Admin_Design_Bloc extends LC_Page_Admin_Ex
                     if (SC_Utils_Ex::isBlank($this->arrErr)) {
                         $result = $this->doRegister($objFormParam, $objBloc);
                         if ($result !== false) {
-                            $arrPram = array(
+                            $arrPram = [
                                 'bloc_id' => $result,
                                 'device_type_id' => $this->device_type_id,
                                 'msg' => 'on',
-                            );
+                            ];
 
                             SC_Response_Ex::reload($arrPram, true);
                             SC_Response_Ex::actionExit();
@@ -108,14 +107,14 @@ class LC_Page_Admin_Design_Bloc extends LC_Page_Admin_Ex
                 }
                 break;
 
-            // 削除
+                // 削除
             case 'delete':
                 if (!$is_error) {
                     if ($this->doDelete($objFormParam, $objBloc)) {
-                        $arrPram = array(
+                        $arrPram = [
                             'device_type_id' => $this->device_type_id,
                             'msg' => 'on',
-                        );
+                        ];
 
                         SC_Response_Ex::reload($arrPram, true);
                         SC_Response_Ex::actionExit();
@@ -141,9 +140,9 @@ class LC_Page_Admin_Design_Bloc extends LC_Page_Admin_Ex
             }
         } else {
             // 画面にエラー表示しないため, ログ出力
-            GC_Utils_Ex::gfPrintLog('Error: ' . print_r($this->arrErr, true));
+            GC_Utils_Ex::gfPrintLog('Error: '.print_r($this->arrErr, true));
         }
-        $this->tpl_subtitle = $this->arrDeviceType[$this->device_type_id] . '＞' . $this->tpl_subtitle;
+        $this->tpl_subtitle = $this->arrDeviceType[$this->device_type_id].'＞'.$this->tpl_subtitle;
         $this->arrForm = $objFormParam->getFormParamList();
     }
 
@@ -151,22 +150,24 @@ class LC_Page_Admin_Design_Bloc extends LC_Page_Admin_Ex
      * パラメーター情報の初期化
      *
      * @param  SC_FormParam_Ex $objFormParam SC_FormParamインスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('ブロックID', 'bloc_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('端末種別ID', 'device_type_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('ブロック名', 'bloc_name', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('ファイル名', 'filename', STEXT_LEN, 'a', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('ブロックID', 'bloc_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('端末種別ID', 'device_type_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('ブロック名', 'bloc_name', STEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('ファイル名', 'filename', STEXT_LEN, 'a', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
         $objFormParam->addParam('ブロックデータ', 'bloc_html');
     }
 
     /**
      * ブロックのテンプレートを取得する.
      *
-     * @param  integer           $bloc_id ブロックID
+     * @param  int           $bloc_id ブロックID
      * @param  SC_Helper_Bloc_Ex $objBloc SC_Helper_Bloc_Ex インスタンス
+     *
      * @return array             ブロック情報の配列
      */
     public function getBlocTemplate($bloc_id, SC_Helper_Bloc_Ex &$objBloc)
@@ -184,7 +185,8 @@ class LC_Page_Admin_Design_Bloc extends LC_Page_Admin_Ex
      *
      * @param  SC_FormParam    $objFormParam SC_FormParam インスタンス
      * @param  SC_Helper_Bloc  $objBloc      SC_Helper_Bloc インスタンス
-     * @return integer|boolean 登録が成功した場合, 登録したブロックID;
+     *
+     * @return int|bool 登録が成功した場合, 登録したブロックID;
      *                         失敗した場合 false
      */
     public function doRegister(&$objFormParam, SC_Helper_Bloc_Ex &$objBloc)
@@ -204,7 +206,8 @@ class LC_Page_Admin_Design_Bloc extends LC_Page_Admin_Ex
      *
      * @param  SC_FormParam   $objFormParam SC_FormParam インスタンス
      * @param  SC_Helper_Bloc $objBloc      SC_Helper_Bloc インスタンス
-     * @return boolean        登録が成功した場合 true; 失敗した場合 false
+     *
+     * @return bool        登録が成功した場合 true; 失敗した場合 false
      */
     public function doDelete(&$objFormParam, SC_Helper_Bloc_Ex &$objBloc)
     {
@@ -222,18 +225,19 @@ class LC_Page_Admin_Design_Bloc extends LC_Page_Admin_Ex
      * エラーチェックを行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return array        エラーメッセージの配列
      */
     public function lfCheckError(&$objFormParam, &$arrErr, SC_Helper_Bloc_Ex &$objBloc)
     {
         $arrParams = $objFormParam->getHashArray();
         $objErr = new SC_CheckError_Ex($arrParams);
-        $objErr->arrErr =& $arrErr;
-        $objErr->doFunc(array('ブロック名', 'bloc_name', STEXT_LEN), array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objErr->doFunc(array('ファイル名', 'filename', STEXT_LEN), array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK','FILE_NAME_CHECK_BY_NOUPLOAD'));
+        $objErr->arrErr = &$arrErr;
+        $objErr->doFunc(['ブロック名', 'bloc_name', STEXT_LEN], ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objErr->doFunc(['ファイル名', 'filename', STEXT_LEN], ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'FILE_NAME_CHECK_BY_NOUPLOAD']);
 
         $where = 'filename = ?';
-        $arrValues = array($arrParams['filename']);
+        $arrValues = [$arrParams['filename']];
 
         // 変更の場合は自ブロックを除外
         if (!SC_Utils_Ex::isBlank($arrParams['bloc_id'])) {

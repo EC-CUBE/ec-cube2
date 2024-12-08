@@ -5,7 +5,7 @@ class SC_Helper_DB_sfHasProductClassTest extends SC_Helper_DB_TestBase
     /** @var SC_Helper_DB_Ex */
     protected $objDb;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objDb = new SC_Helper_DB_Ex();

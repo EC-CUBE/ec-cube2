@@ -2,6 +2,7 @@
 /**
  * marqueeタグで囲む。
  *
+ * @deprecated mobile テンプレートは廃止されたため非推奨
  * DoCoMoの携帯端末の場合はmarqueeを使用しない。
  *
  * @return string 出力
@@ -10,7 +11,7 @@ function smarty_block_marquee($params, $content, &$smarty, &$repeat)
 {
     // {/marquee}の場合のみ出力する。
     if ($repeat || !isset($content)) {
-    return null;
+        return null;
     }
 
     // 末尾の改行などを取り除く。
@@ -18,7 +19,7 @@ function smarty_block_marquee($params, $content, &$smarty, &$repeat)
 
     // marqueeタグを使用しない場合
     if (SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE && SC_MobileUserAgent::getCarrier() == 'docomo') {
-    return "<div>\n$content\n</div>\n";
+        return "<div>\n$content\n</div>\n";
     }
 
     return "<marquee>\n$content\n</marquee>\n";
