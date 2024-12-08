@@ -87,8 +87,11 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
                     if ($objLayout->isEditablePage($this->device_type_id, $this->page_id)) {
                         $objLayout->lfDelPageData($this->page_id, $this->device_type_id);
 
-                        SC_Response_Ex::reload(['device_type_id' => $this->device_type_id,
-                                                     'msg' => 'on', ], true);
+                        $arrQueryString = [
+                            'device_type_id' => $this->device_type_id,
+                            'msg' => 'on',
+                        ];
+                        SC_Response_Ex::reload($arrQueryString, true);
                         SC_Response_Ex::actionExit();
                     }
                 }
