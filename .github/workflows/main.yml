@@ -18,13 +18,21 @@ jobs:
     with:
       event_name: ${{ github.event_name }}
     uses: ./.github/workflows/dockerbuild.yml
-  phpstan:
+  php-cs-fixer:
     with:
       ref_name: ${{ github.ref_name }}
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
     needs: [ dockerbuild ]
+    uses: ./.github/workflows/php-cs-fixer.yml
+  phpstan:
+    with:
+      ref_name: ${{ github.ref_name }}
+      base_ref: ${{ github.base_ref }}
+      event_name: ${{ github.event_name }}
+      owner: ${{ github.repository_owner }}
+    needs: [ php-cs-fixer ]
     uses: ./.github/workflows/phpstan.yml
   unit-tests:
     with:
@@ -32,7 +40,7 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ dockerbuild ]
+    needs: [ php-cs-fixer ]
     uses: ./.github/workflows/unit-tests.yml
   e2e-tests:
     with:
@@ -40,7 +48,7 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ dockerbuild ]
+    needs: [ php-cs-fixer ]
     uses: ./.github/workflows/e2e-tests.yml
   success:
     needs:
