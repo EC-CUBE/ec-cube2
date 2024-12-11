@@ -24,7 +24,7 @@
     "@babel/preset-env": "^7.25.8",
     "@faker-js/faker": "^9.2.0",
     "@playwright/test": "^1.48.2",
-    "@types/date-fns": "^2.6.0",
+    "@types/date-fns": "^2.6.3",
     "@types/faker": "^6.6.11",
     "@types/tar": "^6.1.13",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
