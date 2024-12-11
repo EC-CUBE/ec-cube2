@@ -129,6 +129,13 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
                 $objFormParam->convParam();
                 $this->arrErr = $objFormParam->checkError();
                 $select_file = SC_Helper_FileManager_Ex::convertToAbsolutePath($objFormParam->getValue('select_file'));
+                if ($select_file === realpath(USER_REALDIR)) {
+                    GC_Utils_Ex::gfPrintLog($select_file.' は削除できません.');
+                    $tpl_onload = "alert('user_dataは削除できません');";
+                    $this->setTplOnLoad($tpl_onload);
+
+                    break;
+                }
                 $path_exists = SC_Utils::checkFileExistsWithInBasePath($select_file, USER_REALDIR);
                 if (SC_Utils_Ex::isBlank($this->arrErr) && $path_exists) {
                     SC_Helper_FileManager_Ex::deleteFile($select_file);
