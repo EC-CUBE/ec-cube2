@@ -146,7 +146,7 @@ class SC_UploadFile
             }
         }
 
-        return $objErr->arrErr[$keyname];
+        return $objErr->arrErr[$keyname] ?? '';
     }
 
     // アップロードされたダウンロードファイルを保存する。

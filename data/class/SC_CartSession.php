@@ -117,7 +117,7 @@ class SC_CartSession
     {
         $count = [];
         foreach ($this->cartSession[$product_type_id] as $key => $value) {
-            $count[] = $this->cartSession[$product_type_id][$key]['cart_no'];
+            $count[] = $this->cartSession[$product_type_id][$key]['cart_no'] ?? null;
         }
 
         return max($count) + 1;
@@ -147,7 +147,8 @@ class SC_CartSession
     {
         $max = 0;
         if (
-            is_array($this->cartSession[$product_type_id])
+            isset($this->cartSession[$product_type_id])
+            && is_array($this->cartSession[$product_type_id])
             && count($this->cartSession[$product_type_id]) > 0
         ) {
             foreach ($this->cartSession[$product_type_id] as $key => $value) {
@@ -156,6 +157,24 @@ class SC_CartSession
                         $max = $key;
                     }
                 }
+            }
+        } else {
+            $this->cartSession[$product_type_id] = [];
+        }
+
+        // カート内商品の最大要素番号までの要素が存在しない場合、要素を追加しておく
+        for ($i = 0; $i <= $max; $i++) {
+            if (!array_key_exists($i, $this->cartSession[$product_type_id])) {
+                $this->cartSession[$product_type_id][$i] = [
+                    'id' => null,
+                    'cart_no' => null,
+                    'price' => 0,
+                    'quantity' => 0,
+                    'productsClass' => [
+                        'product_id' => null,
+                        'product_class_id' => null,
+                    ],
+                ];
             }
         }
 

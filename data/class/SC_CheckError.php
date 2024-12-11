@@ -1475,7 +1475,7 @@ class SC_CheckError
             $date1 = sprintf('%d%02d%02d000000', $start_year, $start_month, $start_day);
             $date2 = sprintf('%d%02d%02d235959', $end_year, $end_month, $end_day);
 
-            if (($this->arrErr[$keyname1] == '' && $this->arrErr[$keyname2] == '') && $date1 > $date2) {
+            if ((!isset($this->arrErr[$keyname1]) && !isset($this->arrErr[$keyname2])) && $date1 > $date2) {
                 $this->arrErr[$keyname1] =
                     "※ {$disp_name1}と{$disp_name2}の期間指定が不正です。<br />";
             }

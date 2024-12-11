@@ -312,7 +312,7 @@ class SC_Helper_Purchase
         $exists = SC_Helper_Purchase_Ex::getOrderTemp($uniqId);
 
         // 国ID追加
-        $sqlval['order_country_id'] = ($sqlval['order_country_id']) ? $sqlval['order_country_id'] : DEFAULT_COUNTRY_ID;
+        $sqlval['order_country_id'] = isset($sqlval['order_country_id']) ? $sqlval['order_country_id'] : DEFAULT_COUNTRY_ID;
 
         if (SC_Utils_Ex::isBlank($exists)) {
             $sqlval['order_temp_id'] = $uniqId;
@@ -780,23 +780,23 @@ class SC_Helper_Purchase
                 continue;
             }
             $d = $objProduct->getDetailAndProductsClass($arrValues['product_class_id']);
-            $name = SC_Utils_Ex::isBlank($arrValues['product_name'])
+            $name = !isset($arrValues['product_name'])
                 ? $d['name']
                 : $arrValues['product_name'];
 
-            $code = SC_Utils_Ex::isBlank($arrValues['product_code'])
+            $code = !isset($arrValues['product_code'])
                 ? $d['product_code']
                 : $arrValues['product_code'];
 
-            $cname1 = SC_Utils_Ex::isBlank($arrValues['classcategory_name1'])
+            $cname1 = !isset($arrValues['classcategory_name1'])
                 ? $d['classcategory_name1']
                 : $arrValues['classcategory_name1'];
 
-            $cname2 = SC_Utils_Ex::isBlank($arrValues['classcategory_name2'])
+            $cname2 = !isset($arrValues['classcategory_name2'])
                 ? $d['classcategory_name2']
                 : $arrValues['classcategory_name2'];
 
-            $price = SC_Utils_Ex::isBlank($arrValues['price'])
+            $price = !isset($arrValues['price'])
                 ? $d['price']
                 : $arrValues['price'];
 

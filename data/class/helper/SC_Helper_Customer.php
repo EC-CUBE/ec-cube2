@@ -111,7 +111,7 @@ class SC_Helper_Customer
             $customer_id = $objQuery->nextVal('dtb_customer_customer_id');
             $arrData['customer_id'] = $customer_id;
             // 作成日
-            if (is_null($arrData['create_date'])) {
+            if (!isset($arrData['create_date'])) {
                 $arrData['create_date'] = 'CURRENT_TIMESTAMP';
             }
             $objQuery->insert('dtb_customer', $arrData);

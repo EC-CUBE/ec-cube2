@@ -270,9 +270,12 @@ class SC_Customer
     {
         // ポイントはリアルタイム表示
         if ($keyname == 'point') {
-            $objQuery = SC_Query_Ex::getSingletonInstance();
-            $point = $objQuery->get('point', 'dtb_customer', 'customer_id = ?', [$_SESSION['customer']['customer_id']]);
-            $_SESSION['customer']['point'] = $point;
+            $point = 0;
+            if (isset($_SESSION['customer']['customer_id'])) {
+                $objQuery = SC_Query_Ex::getSingletonInstance();
+                $point = $objQuery->get('point', 'dtb_customer', 'customer_id = ?', [$_SESSION['customer']['customer_id']]);
+                $_SESSION['customer']['point'] = $point;
+            }
 
             return $point;
         } else {

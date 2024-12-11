@@ -496,7 +496,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
             if (isset($arrStaticProps[$key])) {
                 $arrPluginInfo[$key] = $arrStaticProps[$key];
             // クラス変数定義がなければ, クラス定数での定義を読み込み.
-            } elseif ($arrConstants[$key]) {
+            } elseif (isset($arrConstants[$key])) {
                 $arrPluginInfo[$key] = $arrConstants[$key];
             } else {
                 $arrPluginInfo[$key] = null;

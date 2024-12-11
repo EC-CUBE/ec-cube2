@@ -176,7 +176,7 @@ class SC_Response
         }
 
         // url-path → URL 変換
-        if ($location[0] === '/') {
+        if ($location !== '' && $location[0] === '/') {
             $netUrl = new Net_URL($location);
             $location = $netUrl->getUrl();
         }
