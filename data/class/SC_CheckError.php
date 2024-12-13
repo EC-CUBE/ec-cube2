@@ -119,7 +119,7 @@ class SC_CheckError
 
         $this->createParam($value);
 
-        $input_var = $this->arrParam[$keyname];
+        $input_var = $this->arrParam[$keyname] ?? '';
         if (is_array($input_var)) {
             if (count($input_var) == 0) {
                 $this->arrErr[$keyname] =
@@ -304,7 +304,7 @@ class SC_CheckError
         // $this->createParam($value);
 
         // 文字数の取得
-        if ($this->arrParam[$keyname1] !== $this->arrParam[$keyname2]) {
+        if (($this->arrParam[$keyname1] ?? '') !== ($this->arrParam[$keyname2] ?? '')) {
             $this->arrErr[$keyname1] =
                 "※{$disp_name1}と{$disp_name2}が一致しません。<br />";
         }
@@ -338,7 +338,7 @@ class SC_CheckError
         // $this->createParam($value);
 
         // 文字数の取得
-        if ($this->arrParam[$keyname1] == $this->arrParam[$keyname2]) {
+        if (($this->arrParam[$keyname1] ?? '') == ($this->arrParam[$keyname2] ?? '')) {
             $this->arrErr[$keyname1] = sprintf(
                 '※ %sと%sは、同じ値を使用できません。<br />',
                 $disp_name1,
@@ -375,8 +375,8 @@ class SC_CheckError
         // $this->createParam($value);
 
         // 文字数の取得
-        $input_var1 = $this->arrParam[$keyname1];
-        $input_var2 = $this->arrParam[$keyname2];
+        $input_var1 = $this->arrParam[$keyname1] ?? '';
+        $input_var2 = $this->arrParam[$keyname2] ?? '';
         if ($input_var1 != ''
             && $input_var2 != ''
             && ($input_var1 > $input_var2)
@@ -1221,7 +1221,7 @@ class SC_CheckError
 
         $this->createParam($value);
 
-        if ($_FILES[$keyname]['size'] > $max_file_size * 1024) {
+        if (isset($_FILES[$keyname]['size']) && $_FILES[$keyname]['size'] > $max_file_size * 1024) {
             $byte = 'KB';
             if ($max_file_size >= 1000) {
                 $max_file_size = $max_file_size / 1000;
@@ -1556,7 +1556,7 @@ class SC_CheckError
                 $end_year, $end_month, $end_day,
                 $end_hour, $end_minute, $end_second);
 
-            if (($this->arrErr[$keyname1] == '' && $this->arrErr[$keyname2] == '') && $date1 > $date2) {
+            if ((!isset($this->arrErr[$keyname1]) && !isset($this->arrErr[$keyname2])) && $date1 > $date2) {
                 $this->arrErr[$keyname1] =
                     "※ {$disp_name1}と{$disp_name2}の期間指定が不正です。<br />";
             }
@@ -1616,7 +1616,7 @@ class SC_CheckError
             $date1 = sprintf('%d%02d', $start_year, $start_month);
             $date2 = sprintf('%d%02d', $end_year, $end_month);
 
-            if (($this->arrErr[$keyname1] == '' && $this->arrErr[$keyname2] == '') && $date1 > $date2) {
+            if ((!isset($this->arrErr[$keyname1]) && !isset($this->arrErr[$keyname2])) && $date1 > $date2) {
                 $this->arrErr[$keyname1] =
                     "※ {$disp_name1}と{$disp_name2}の期間指定が不正です。<br />";
             }

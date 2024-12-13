@@ -79,7 +79,7 @@ class SC_Utils_sfArrKeyValueTest extends Common_TestCase
       '3033' => '2003',
       '4044' => '2004',
     ];
-        $this->actual = SC_Utils::sfArrKeyValue($this->arrList, $this->keyname, $this->valuename, $len_max);
+        $this->actual = SC_Utils::sfArrKeyValue($this->arrList, $this->keyname, $this->valuename);
 
         $this->verify();
     }

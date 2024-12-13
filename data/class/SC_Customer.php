@@ -202,7 +202,7 @@ class SC_Customer
     {
         $_SESSION['customer'] = $this->customer_data;
         // セッション情報の保存
-        GC_Utils_Ex::gfPrintLog('access : user='.$this->customer_data['customer_id']."\t".'ip='.$this->getRemoteHost(), CUSTOMER_LOG_REALFILE, false);
+        GC_Utils_Ex::gfPrintLog('access : user='.($this->customer_data['customer_id'] ?? '')."\t".'ip='.$this->getRemoteHost(), CUSTOMER_LOG_REALFILE, false);
     }
 
     /**

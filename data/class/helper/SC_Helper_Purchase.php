@@ -183,7 +183,7 @@ class SC_Helper_Purchase
         $uniqid = $objSiteSession->getUniqId();
 
         if (!empty($arrOrderTemp)) {
-            $tempSession = unserialize($arrOrderTemp['session']);
+            $tempSession = unserialize($arrOrderTemp['session'] ?? '');
             $_SESSION = array_merge($_SESSION, $tempSession === false ? [] : $tempSession);
 
             $objCartSession = new SC_CartSession_Ex();
@@ -304,7 +304,7 @@ class SC_Helper_Purchase
             }
         }
 
-        $sqlval['session'] = serialize($_SESSION);
+        $sqlval['session'] = isset($_SESSION) ? serialize($_SESSION) : '';
         if (!empty($objCustomer)) {
             // 注文者の情報を常に最新に保つ
             static::copyFromCustomer($sqlval, $objCustomer);
@@ -411,8 +411,8 @@ class SC_Helper_Purchase
         $arrItems['price'] = $arrItems['productsClass']['price02'];
         $inctax = SC_Helper_TaxRule_Ex::sfCalcIncTax(
             $arrItems['price'],
-            $arrItems['productsClass']['product_id'],
-            $arrItems['productsClass']['product_class_id']
+            $arrItems['productsClass']['product_id'] ?? 0,
+            $arrItems['productsClass']['product_class_id'] ?? 0
         );
         $arrItems['total_inctax'] = $inctax * $arrItems['quantity'];
     }
@@ -719,7 +719,7 @@ class SC_Helper_Purchase
 
             // 配送日付を timestamp に変換
             if (
-                !SC_Utils_Ex::isBlank($arrValues['shipping_date'])
+                isset($arrValues['shipping_date'])
                 && $convert_shipping_date
             ) {
                 $d = mb_strcut($arrValues['shipping_date'], 0, 10);
@@ -776,7 +776,7 @@ class SC_Helper_Purchase
 
         $objProduct = new SC_Product_Ex();
         foreach ($arrParams as $arrValues) {
-            if (SC_Utils_Ex::isBlank($arrValues['product_class_id'])) {
+            if (!isset($arrValues['product_class_id'])) {
                 continue;
             }
             $d = $objProduct->getDetailAndProductsClass($arrValues['product_class_id']);
@@ -797,7 +797,7 @@ class SC_Helper_Purchase
                 : $arrValues['classcategory_name2'];
 
             $price = !isset($arrValues['price'])
-                ? $d['price']
+                ? ($d['price'] ?? null)
                 : $arrValues['price'];
 
             $arrValues['order_id'] = $order_id;
@@ -839,7 +839,7 @@ class SC_Helper_Purchase
         }
 
         // 対応状況の指定が無い場合は新規受付
-        if (SC_Utils_Ex::isBlank($orderParams['status'])) {
+        if (!isset($orderParams['status'])) {
             $orderParams['status'] = ORDER_NEW;
         }
 
@@ -850,7 +850,7 @@ class SC_Helper_Purchase
         $this->registerOrder($orderParams['order_id'], $orderParams);
 
         // 詳細情報を取得
-        $cartItems = $objCartSession->getCartList($cartKey, $orderParams['order_pref'], $orderParams['order_country_id']);
+        $cartItems = $objCartSession->getCartList($cartKey, $orderParams['order_pref'] ?? 0, $orderParams['order_country_id'] ?? 0);
 
         // 詳細情報を生成
         $objProduct = new SC_Product_Ex();
@@ -868,9 +868,9 @@ class SC_Helper_Purchase
             $arrDetail[$i]['point_rate'] = $item['point_rate'];
             $arrDetail[$i]['price'] = $item['price'];
             $arrDetail[$i]['quantity'] = $item['quantity'];
-            $arrDetail[$i]['tax_rate'] = $item['tax_rate'];
-            $arrDetail[$i]['tax_rule'] = $item['tax_rule'];
-            $arrDetail[$i]['tax_adjust'] = $item['tax_adjust'];
+            $arrDetail[$i]['tax_rate'] = $item['tax_rate'] ?? null;
+            $arrDetail[$i]['tax_rule'] = $item['tax_rule'] ?? null;
+            $arrDetail[$i]['tax_adjust'] = $item['tax_adjust'] ?? null;
 
             // 在庫の減少処理
             if (!$objProduct->reduceStock($p['product_class_id'], $item['quantity'])) {

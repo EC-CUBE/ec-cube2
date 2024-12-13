@@ -280,7 +280,7 @@ class SC_CartSession
     {
         $objProduct = new SC_Product_Ex();
         $arrProduct = $objProduct->getProductsClass($product_class_id);
-        $product_type_id = $arrProduct['product_type_id'];
+        $product_type_id = $arrProduct['product_type_id'] ?? null;
         $find = false;
         $max = $this->getMax($product_type_id);
         for ($i = 0; $i <= $max; $i++) {
@@ -893,7 +893,7 @@ class SC_CartSession
      */
     public function getKey()
     {
-        return $_SESSION['cartKey'];
+        return $_SESSION['cartKey'] ?? null;
     }
 
     /**

@@ -36,7 +36,7 @@ class SC_Initial
     public function __construct()
     {
         /* EC-CUBEのバージョン */
-        define('ECCUBE_VERSION', '2.17.2-p2');
+        defined('ECCUBE_VERSION') or define('ECCUBE_VERSION', '2.17.2-p2');
     }
 
     /**
@@ -73,7 +73,9 @@ class SC_Initial
 
         // heroku用
         } elseif (getenv('DATABASE_URL')) {
-            ini_set('display_errors', 1);
+            if (!headers_sent()) {
+                ini_set('display_errors', 1);
+            }
             copy(realpath(__DIR__).'/../../tests/config.php', CONFIG_REALFILE);
 
             require_once CONFIG_REALFILE;
@@ -140,25 +142,25 @@ class SC_Initial
      */
     public function phpconfigInit()
     {
-        ini_set('html_errors', '1');
-        if (PHP_VERSION_ID < 50600) {
-            ini_set('mbstring.http_input', CHAR_CODE);
-            ini_set('mbstring.http_output', CHAR_CODE);
+        if (!headers_sent()) {
+            ini_set('html_errors', '1');
+            if (PHP_VERSION_ID < 50600) {
+                ini_set('mbstring.http_input', CHAR_CODE);
+                ini_set('mbstring.http_output', CHAR_CODE);
+            }
+            if (PHP_VERSION_ID < 80100) {
+                ini_set('auto_detect_line_endings', 1);
+            }
+            ini_set('default_charset', CHAR_CODE);
+            ini_set('mbstring.detect_order', 'auto');
+            ini_set('mbstring.substitute_character', 'none');
+            ini_set('pcre.backtrack_limit', 1000000);
+            ini_set('arg_separator.output', '&');
         }
-        if (PHP_VERSION_ID < 80100) {
-            ini_set('auto_detect_line_endings', 1);
-        }
-        ini_set('default_charset', CHAR_CODE);
-        ini_set('mbstring.detect_order', 'auto');
-        ini_set('mbstring.substitute_character', 'none');
-        ini_set('pcre.backtrack_limit', 1000000);
-
         mb_language('ja'); // mb_internal_encoding() より前に
         // TODO .htaccess の mbstring.language を削除できないか検討
 
         mb_internal_encoding(CHAR_CODE); // mb_language() より後で
-
-        ini_set('arg_separator.output', '&');
 
         // ロケールを明示的に設定
         $res = setlocale(LC_ALL, LOCALE);

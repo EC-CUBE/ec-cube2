@@ -65,9 +65,9 @@ class SC_Helper_Maker
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select('*', 'dtb_maker', $where, [$name]);
+        $arrRet = $objQuery->getRow('*', 'dtb_maker', $where, [$name]);
 
-        return $arrRet[0];
+        return $arrRet;
     }
 
     /**
