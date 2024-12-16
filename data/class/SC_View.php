@@ -40,7 +40,6 @@ class SC_View
 
     public function init()
     {
-        // include_phpの利用のためSmartyBCを呼び出す、ホントはinclude_phpをなくしたいそうすれば、blank.tplもなくせる
         $this->_smarty = new \Smarty\Smarty();
         $this->_smarty->setLeftDelimiter('<!--{');
         $this->_smarty->setRightDelimiter('}-->');
@@ -74,6 +73,7 @@ class SC_View
         $this->_smarty->registerPlugin('function', 'sfIsHTTPS', ['SC_Utils_Ex', 'sfIsHTTPS']);
         $this->_smarty->registerPlugin('function', 'sfSetErrorStyle', ['SC_Utils_Ex', 'sfSetErrorStyle']);
         $this->_smarty->registerPlugin('function', 'printXMLDeclaration', ['GC_Utils_Ex', 'printXMLDeclaration']);
+        $this->_smarty->muteUndefinedOrNullWarnings();
         $this->_smarty->default_modifiers = ['script_escape'];
 
         if (ADMIN_MODE == '1') {
