@@ -184,7 +184,7 @@
                 <!--{assign var=tax_rate value="`$arrForm.tax_rate.value[$product_index]`"}-->
                 <!--{assign var=tax_rule value="`$arrForm.tax_rule.value[$product_index]`"}-->
             <td class="right"><!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|n2s}--> 円<br />(税率<!--{$tax_rate|n2s}-->%)</td>
-            <td class="right"><!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|sfMultiply:$quantity|n2s}-->円</td>
+            <td class="right"><!--{($price|sfCalcIncTax:$tax_rate:$tax_rule*$quantity)|n2s}-->円</td>
         </tr>
         <!--{/section}-->
         <tr>
