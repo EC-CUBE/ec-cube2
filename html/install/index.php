@@ -870,7 +870,7 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
                     try {
                         $ret = $objDB->query($val);
                     } catch (Exception $e) {
-                        $ret = new MDB2_Error();
+                        $ret = new MDB2_Error(); // MySQL8 利用時は mysqli_sql_exception になるため、 MDB2_Error に変換
                     }
                     if (PEAR::isError($ret) && $disp_err) {
                         $arrErr['all'] = '>> ' . $ret->message . '<br />';
