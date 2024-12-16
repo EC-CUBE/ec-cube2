@@ -867,7 +867,11 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
                         $dbFactory = SC_DB_DBFactory_Ex::getInstance($arrDsn['phptype']);
                         $val = $dbFactory->sfChangeReservedWords($val);
                     }
-                    $ret = $objDB->query($val);
+                    try {
+                        $ret = $objDB->query($val);
+                    } catch (Exception $e) {
+                        $ret = new MDB2_Error();
+                    }
                     if (PEAR::isError($ret) && $disp_err) {
                         $arrErr['all'] = '>> ' . $ret->message . '<br />';
                         // エラー文を取得する
