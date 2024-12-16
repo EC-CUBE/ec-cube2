@@ -101,7 +101,7 @@
                     <!--{/if}-->
                     </td>
                     <td class="alignR"><!--{$orderDetail.quantity|h}--></td>
-                    <td class="alignR"><!--{$orderDetail.price_inctax|sfMultiply:$orderDetail.quantity|n2s}-->円</td>
+                    <td class="alignR"><!--{($orderDetail.price_inctax*$orderDetail.quantity)|n2s}-->円</td>
                 </tr>
             <!--{/foreach}-->
             <tr>
