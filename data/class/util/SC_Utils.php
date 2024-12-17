@@ -906,7 +906,11 @@ class SC_Utils
         return $array;
     }
 
-    /* かけ算をする（Smarty用) */
+    /**
+     * かけ算をする（Smarty用)
+     *
+     * @deprecated 本体で使用されていないため非推奨
+     */
     public static function sfMultiply($num1, $num2)
     {
         return $num1 * $num2;
