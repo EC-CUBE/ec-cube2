@@ -47,8 +47,10 @@ class SC_CheckError_createParamTest extends SC_CheckError_AbstractTestCase
     {
         $this->objErr->doFunc(['EXIST_CHECK', 'aabbcc_1234'], ['EXIST_CHECK']);
 
-        $this->expected = [self::FORM_NAME => [0 => 'A', 1 => 'B', 2 => 'C'],
-            'aabbcc_1234' => '', ];
+        $this->expected = [
+            self::FORM_NAME => [0 => 'A', 1 => 'B', 2 => 'C'],
+            'aabbcc_1234' => '',
+        ];
         $this->actual = $this->objErr->arrParam;
         $this->assertEquals($this->expected, $this->actual);
     }

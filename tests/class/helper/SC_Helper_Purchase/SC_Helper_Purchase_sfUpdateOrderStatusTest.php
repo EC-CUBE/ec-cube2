@@ -87,13 +87,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
     }
 
     // TODO 定数を変更できないためテスト不可
-    /**
-     * public function testSfUpdateOrderStatus_ポイント使用しない設定の場合_ポイントに関する処理が行われない()
-     * {
-     *
-     * $this->verify();
-     * }
-     */
+    // public function testSfUpdateOrderStatus_ポイント使用しない設定の場合_ポイントに関する処理が行われない()
+    // {
+    //     $this->verify();
+    // }
+
     public function testSfUpdateOrderStatus対応状況が発送済みに変更された場合発送日が更新される()
     {
         $order_id = $this->order_ids[0];
@@ -345,11 +343,9 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
     }
 
     // TODO ロールバックされる場合はexitするためテスト不可.
-    /**
-     * public function testSfUpdateOrderStatus_加算ポイントが負でポイントが足りていない場合_会員テーブルがロールバックされエラーとなる()
-     * {
-     * }
-     */
+    // public function testSfUpdateOrderStatus_加算ポイントが負でポイントが足りていない場合_会員テーブルがロールバックされエラーとなる()
+    // {
+    // }
 
     // ////////////////////////////////////////
 

@@ -248,15 +248,21 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->setTestData(1, '2', 'f');
 
         $this->objQuery->update('test_table',
-            ['id' => '1',
+            [
+                'id' => '1',
                 'column1' => '2',
                 'column2' => '2',
-                'column3' => 'f', ],
+                'column3' => 'f',
+            ],
             'id = ?', [1]);
-        $this->expected = [['id' => '1',
-            'column1' => '2',
-            'column2' => '2',
-            'column3' => 'f', ]];
+        $this->expected = [
+            [
+                'id' => '1',
+                'column1' => '2',
+                'column2' => '2',
+                'column3' => 'f',
+            ],
+        ];
 
         $this->actual = $this->objQuery->getAll('SELECT * FROM test_table');
 

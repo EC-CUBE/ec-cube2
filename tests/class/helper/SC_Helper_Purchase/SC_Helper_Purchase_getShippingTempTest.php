@@ -62,11 +62,13 @@ class SC_Helper_Purchase_getShippingTempTest extends SC_Helper_Purchase_TestBase
             '00001' => [
                 'shipment_id' => '00001',
                 'shipment_item' => ['商品1'],
-                'shipping_pref' => '東京都', ],
+                'shipping_pref' => '東京都',
+            ],
             '00002' => [
                 'shipment_id' => '00002',
                 'shipment_item' => ['商品2'],
-                'shipping_pref' => '沖縄県', ],
+                'shipping_pref' => '沖縄県',
+            ],
         ];
         $this->actual = SC_Helper_Purchase::getShippingTemp(true);
 

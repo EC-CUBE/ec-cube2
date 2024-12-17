@@ -48,7 +48,7 @@ class LC_Page_Api_Php extends LC_Page_Ex
     public function process()
     {
         $this->action();
-        //        $this->sendResponse();
+        // $this->sendResponse();
     }
 
     /**

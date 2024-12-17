@@ -32,8 +32,8 @@
  * {
  *     function thisDay($format = 'int')
  *     {
- * .*         $day = parent::thisDay('timestamp');
- * .*         return date('D', $day);
+ *         $day = parent::thisDay('timestamp');
+ *         return date('D', $day);
  *     }
  * }
  * $Day = & new Calendar_Day(2003, 10, 25);

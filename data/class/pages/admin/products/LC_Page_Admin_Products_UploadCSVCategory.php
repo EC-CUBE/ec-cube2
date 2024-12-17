@@ -500,9 +500,12 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
             $where = 'parent_category_id = ? AND category_id <> ? AND category_name = ?';
             $exists = $objQuery->exists('dtb_category',
                 $where,
-                [$parent_category_id,
+                [
+                    $parent_category_id,
                     $item['category_id'],
-                    $item['category_name'], ]);
+                    $item['category_name'],
+                ]
+            );
             if ($exists) {
                 $arrErr['category_name'] = '※ 既に同名のカテゴリが存在します。';
             }

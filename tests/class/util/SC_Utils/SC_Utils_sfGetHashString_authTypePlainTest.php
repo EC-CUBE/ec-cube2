@@ -47,17 +47,16 @@ class SC_Utils_sfGetHashString_authTypePlainTest extends Common_TestCase
     }
 
     // ///////////////////////////////////////
-    /**
-     * public function testSfGetHashString_暗号化なしの設定になっている場合_文字列が変換されない()
-     * {
-     * $input = 'hello, world';
-     *
-     * $this->expected = $input;
-     * $this->actual = SC_Utils::sfGetHashString($input);
-     *
-     * $this->verify();
-     * }
-     */
+    // public function testSfGetHashString_暗号化なしの設定になっている場合_文字列が変換されない()
+    // {
+    //     $input = 'hello, world';
+
+    //     $this->expected = $input;
+    //     $this->actual = SC_Utils::sfGetHashString($input);
+
+    //     $this->verify();
+    // }
+
     public function testDummyTest()
     {
         // Warning が出るため空のテストを作成
