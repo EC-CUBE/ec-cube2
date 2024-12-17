@@ -65,7 +65,7 @@
         <!--{assign var=tax_rule value="`$orderDetail.tax_rule`"}-->
         <!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|n2s|h}-->円<br>
         数量：<!--{$quantity|h}--><br>
-        小計：<!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|sfMultiply:$quantity|n2s}-->円<br>
+        小計：<!--{($price|sfCalcIncTax:$tax_rate:$tax_rule*$quantity)|n2s}-->円<br>
     <!--{/foreach}-->
     <hr>
     小計：<!--{$tpl_arrOrderData.subtotal|n2s}-->円<br>
