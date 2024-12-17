@@ -388,4 +388,14 @@ __EOF__;
 
         return $col_num;
     }
+
+    /**
+     * レスポンシブWebデザイン表示か
+     *
+     * @return boolean
+     */
+    public static function isResponsive()
+    {
+        return SMARTPHONE_TEMPLATE_NAME === TEMPLATE_NAME;
+    }
 }
