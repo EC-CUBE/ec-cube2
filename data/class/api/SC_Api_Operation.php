@@ -368,10 +368,10 @@ class SC_Api_Operation
         if (count($arrErr) == 0) {
             // 実行成功
             $arrResponseValidSection = ['Request' => [
-                                                            'IsValid' => 'True',
-                                                            $operation_name.'Request' => $arrOperationRequestValid,
-                                                            ],
-                                            ];
+                'IsValid' => 'True',
+                $operation_name.'Request' => $arrOperationRequestValid,
+            ],
+            ];
             $response_outer = $operation_name.'Response';
             SC_Api_Utils_Ex::printApiLog('Operation SUCCESS', $start_time, $response_outer);
         } else {
@@ -381,10 +381,10 @@ class SC_Api_Operation
                 $arrResponseErrorSection[] = ['Code' => $error_code, 'Message' => $error_msg];
             }
             $arrResponseValidSection = ['Request' => [
-                                                            'IsValid' => 'False',
-                                                            'Errors' => ['Error' => $arrResponseErrorSection],
-                                                            ],
-                                            ];
+                'IsValid' => 'False',
+                'Errors' => ['Error' => $arrResponseErrorSection],
+            ],
+            ];
             if (is_object($objApiOperation)) {
                 $response_outer = $operation_name.'Response';
             } else {

@@ -103,9 +103,9 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $result = $this->setTestData(1, '2', 'f');
 
         $this->expected = [['id' => '1',
-                                       'column1' => '1',
-                                       'column2' => '2',
-                                       'column3' => 'f', ]];
+            'column1' => '1',
+            'column2' => '2',
+            'column3' => 'f', ]];
         $this->actual = $this->objQuery->getAll('SELECT * FROM test_table WHERE id = ?', [1]);
 
         $this->verify();
@@ -120,9 +120,9 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $result = $this->setTestData(1, '2', 'f');
 
         $this->expected = [['id' => '1',
-                                       'column1' => '1',
-                                       'column2' => '2',
-                                       'column3' => 'f', ]];
+            'column1' => '1',
+            'column2' => '2',
+            'column3' => 'f', ]];
 
         $this->actual = $this->objQuery->setWhere('id = ?')
                                        ->setOrder('id')
@@ -190,9 +190,9 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->objQuery->query($sql, $data);
 
         $this->expected = [['id' => '1',
-                                       'column1' => '1',
-                                       'column2' => '1',
-                                       'column3' => 'f', ]];
+            'column1' => '1',
+            'column2' => '1',
+            'column3' => 'f', ]];
 
         $this->actual = $this->objQuery->getAll('SELECT * FROM test_table');
 
@@ -205,14 +205,14 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
 
         $this->objQuery->insert('test_table',
             ['id' => '1',
-                  'column1' => '1',
-                  'column2' => '1',
-                  'column3' => 'f', ]);
+                'column1' => '1',
+                'column2' => '1',
+                'column3' => 'f', ]);
 
         $this->expected = [['id' => '1',
-                                       'column1' => '1',
-                                       'column2' => '1',
-                                       'column3' => 'f', ]];
+            'column1' => '1',
+            'column2' => '1',
+            'column3' => 'f', ]];
 
         $this->actual = $this->objQuery->getAll('SELECT * FROM test_table');
 
@@ -233,9 +233,9 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->objQuery->query($sql, $data);
 
         $this->expected = [['id' => '1',
-                                       'column1' => '2',
-                                       'column2' => '2',
-                                       'column3' => 'f', ]];
+            'column1' => '2',
+            'column2' => '2',
+            'column3' => 'f', ]];
 
         $this->actual = $this->objQuery->getAll('SELECT * FROM test_table');
 
@@ -249,14 +249,14 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
 
         $this->objQuery->update('test_table',
             ['id' => '1',
-                  'column1' => '2',
-                  'column2' => '2',
-                  'column3' => 'f', ],
+                'column1' => '2',
+                'column2' => '2',
+                'column3' => 'f', ],
             'id = ?', [1]);
         $this->expected = [['id' => '1',
-                                       'column1' => '2',
-                                       'column2' => '2',
-                                       'column3' => 'f', ]];
+            'column1' => '2',
+            'column2' => '2',
+            'column3' => 'f', ]];
 
         $this->actual = $this->objQuery->getAll('SELECT * FROM test_table');
 

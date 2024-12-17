@@ -1113,7 +1113,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
     /**
      * エラー情報が格納されているか判定します.
      *
-     * @return boolean.
+     * @return bool.
      */
     public function isError($error)
     {

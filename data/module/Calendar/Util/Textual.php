@@ -51,6 +51,7 @@ class Calendar_Util_Textual
      * @param string (optional) format of returned months (one,two,short or long)
      *
      * @return array
+     *
      * @static
      */
     public static function monthNames($format = 'long')
@@ -83,6 +84,7 @@ class Calendar_Util_Textual
      * @param string (optional) format of returned days (one,two,short or long)
      *
      * @return array
+     *
      * @static
      */
     public static function weekdayNames($format = 'long')
@@ -116,6 +118,7 @@ class Calendar_Util_Textual
      * @param string (optional) format of returned months (one,two,short or long)
      *
      * @return string
+     *
      * @static
      */
     public static function prevMonthName($Calendar, $format = 'long')
@@ -132,6 +135,7 @@ class Calendar_Util_Textual
      * @param string (optional) format of returned months (one,two,short or long)
      *
      * @return string
+     *
      * @static
      */
     public static function thisMonthName($Calendar, $format = 'long')
@@ -148,6 +152,7 @@ class Calendar_Util_Textual
      * @param string (optional) format of returned months (one,two,short or long)
      *
      * @return string
+     *
      * @static
      */
     public static function nextMonthName($Calendar, $format = 'long')
@@ -165,6 +170,7 @@ class Calendar_Util_Textual
      * @param string (optional) format of returned months (one,two,short or long)
      *
      * @return string
+     *
      * @static
      */
     public static function prevDayName($Calendar, $format = 'long')
@@ -187,6 +193,7 @@ class Calendar_Util_Textual
      * @param string (optional) format of returned months (one,two,short or long)
      *
      * @return string
+     *
      * @static
      */
     public static function thisDayName($Calendar, $format = 'long')
@@ -205,6 +212,7 @@ class Calendar_Util_Textual
      * @param string (optional) format of returned months (one,two,short or long)
      *
      * @return string
+     *
      * @static
      */
     public static function nextDayName($Calendar, $format = 'long')
@@ -228,6 +236,7 @@ class Calendar_Util_Textual
      * @param string (optional) format of returned months (one,two,short or long)
      *
      * @return array ordered array of week day names
+     *
      * @static
      */
     public static function orderedWeekdays($Calendar, $format = 'long')

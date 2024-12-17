@@ -293,7 +293,7 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
                 $col = $item['col'];
             }
             // HTML_TAG_CHECKは別途実行なので除去し、別保存しておく
-            if (strpos(strtoupper($item['error_check_types']), 'HTML_TAG_CHECK') !== false) {
+            if (str_contains(strtoupper($item['error_check_types']), 'HTML_TAG_CHECK')) {
                 $this->arrTagCheckItem[] = $item;
                 $error_check_types = str_replace('HTML_TAG_CHECK', '', $item['error_check_types']);
             } else {
@@ -501,8 +501,8 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
             $exists = $objQuery->exists('dtb_category',
                 $where,
                 [$parent_category_id,
-                        $item['category_id'],
-                        $item['category_name'], ]);
+                    $item['category_id'],
+                    $item['category_name'], ]);
             if ($exists) {
                 $arrErr['category_name'] = '※ 既に同名のカテゴリが存在します。';
             }

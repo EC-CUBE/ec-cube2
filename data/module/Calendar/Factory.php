@@ -68,6 +68,7 @@ class Calendar_Factory
      * @param int second
      *
      * @return object subclass of Calendar
+     *
      * @static
      */
     public static function create($type, $y = 2000, $m = 1, $d = 1, $h = 0, $i = 0, $s = 0)
@@ -137,6 +138,7 @@ class Calendar_Factory
      * @param mixed timestamp (depending on Calendar engine being used)
      *
      * @return object subclass of Calendar
+     *
      * @static
      */
     public static function &createByTimestamp($type, $stamp)

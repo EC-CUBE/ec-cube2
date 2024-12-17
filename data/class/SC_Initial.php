@@ -195,8 +195,8 @@ class SC_Initial
             $useFilenameDirIndex = USE_FILENAME_DIR_INDEX;
         } else {
             if (isset($_SERVER['SERVER_SOFTWARE'])) {
-                if (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false
-                    || strpos($_SERVER['SERVER_SOFTWARE'], 'Symfony') !== false) {
+                if (str_contains($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS')
+                    || str_contains($_SERVER['SERVER_SOFTWARE'], 'Symfony')) {
                     $useFilenameDirIndex = true;
                 }
             }

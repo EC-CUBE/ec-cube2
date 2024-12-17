@@ -94,13 +94,13 @@ class SC_Utils_sfIsIntTest extends Common_TestCase
 
     // TODO 「整数かどうか」という関数名なのでここはFALSEになるべきでは？
     /**
-    public function testSfIsInt_正の小数の場合_FALSEが返る()
-    {
-      $this->expected = FALSE;
-      $this->actual = SC_Utils::sfIsInt('123.456');
-
-      $this->verify('整数かどうか');
-    }
+     * public function testSfIsInt_正の小数の場合_FALSEが返る()
+     * {
+     * $this->expected = FALSE;
+     * $this->actual = SC_Utils::sfIsInt('123.456');
+     *
+     * $this->verify('整数かどうか');
+     * }
      */
     public function testSfIsInt負の整数の場合TRUEが返る()
     {
@@ -111,13 +111,13 @@ class SC_Utils_sfIsIntTest extends Common_TestCase
     }
 
     // TODO 文字列長でチェックしているので負の場合は範囲が小さくなっている
-  /*
-  public function testSfIsInt_負の整数で桁数が最大の場合_TRUEが返る()
-  {
-    $this->expected = TRUE;
-    $this->actual = SC_Utils::sfIsInt('-123456789');
+    /*
+    public function testSfIsInt_負の整数で桁数が最大の場合_TRUEが返る()
+    {
+      $this->expected = TRUE;
+      $this->actual = SC_Utils::sfIsInt('-123456789');
 
-    $this->verify('整数かどうか');
-  }
-  */
+      $this->verify('整数かどうか');
+    }
+    */
 }

@@ -203,7 +203,7 @@ class LC_Page_Forgot extends LC_Page_Ex
                     .' AND name01 = ? AND name02 = ?'
                     .' AND status = 2 AND del_flg = 0';
         $arrVal = [$arrForm['email'], $arrForm['email'],
-                            $arrForm['name01'], $arrForm['name02'], ];
+            $arrForm['name01'], $arrForm['name02'], ];
         $result = $objQuery->select($cols, $table, $where, $arrVal);
         if (isset($result[0]['reminder']) && isset($arrReminder[$result[0]['reminder']])
                 && $result[0]['reminder'] == $arrForm['reminder']) {

@@ -50,8 +50,8 @@ class LC_Page_Mypage_DeliveryAddr extends LC_Page_Ex
         $this->arrCountry = $masterData->getMasterData('mtb_country');
         $this->httpCacheControl('nocache');
         $this->validUrl = [MYPAGE_DELIVADDR_URLPATH,
-                                DELIV_URLPATH,
-                                MULTIPLE_URLPATH, ];
+            DELIV_URLPATH,
+            MULTIPLE_URLPATH, ];
     }
 
     /**

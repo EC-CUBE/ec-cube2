@@ -320,6 +320,7 @@ class Calendar
      * @param array containing Calendar objects to select (optional)
      *
      * @return bool
+     *
      * @abstract
      */
     public function build($sDates = [])
@@ -338,6 +339,7 @@ class Calendar
      * @param array
      *
      * @return bool
+     *
      * @abstract
      */
     public function setSelection($sDates)
@@ -436,13 +438,13 @@ class Calendar
      * Set the CALENDAR_FIRST_DAY_OF_WEEK constant to the $firstDay value
      * if the constant is not set yet.
      *
-     * @throws E_USER_WARNING this method throws a WARNING if the
-     *    CALENDAR_FIRST_DAY_OF_WEEK constant is already defined and
-     *    the $firstDay parameter is set to a different value
-     *
      * @param int $firstDay first day of the week (0=sunday, 1=monday, ...)
      *
      * @return int
+     *
+     * @throws E_USER_WARNING this method throws a WARNING if the
+     *    CALENDAR_FIRST_DAY_OF_WEEK constant is already defined and
+     *    the $firstDay parameter is set to a different value
      */
     public function defineFirstDayOfWeek($firstDay = null)
     {

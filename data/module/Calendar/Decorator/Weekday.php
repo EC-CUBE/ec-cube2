@@ -144,7 +144,7 @@ class Calendar_Decorator_Weekday extends Calendar_Decorator
      */
     public function adjustWeekScale($dayOfWeek)
     {
-        $dayOfWeek = $dayOfWeek - $this->firstDay;
+        $dayOfWeek -= $this->firstDay;
         if ($dayOfWeek >= 0) {
             return $dayOfWeek;
         } else {

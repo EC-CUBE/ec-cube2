@@ -32,8 +32,8 @@
  * {
  *     function thisDay($format = 'int')
  *     {
-.*         $day = parent::thisDay('timestamp');
-.*         return date('D', $day);
+ * .*         $day = parent::thisDay('timestamp');
+ * .*         return date('D', $day);
  *     }
  * }
  * $Day = & new Calendar_Day(2003, 10, 25);
@@ -238,6 +238,7 @@ class Calendar_Decorator
      * @param array containing Calendar objects to select (optional)
      *
      * @return bool
+     *
      * @abstract
      */
     public function build($sDates = [])

@@ -67,20 +67,20 @@ class SC_Helper_Purchase_registerOrderTest extends SC_Helper_Purchase_TestBase
 
         $this->expected = [
             'sfUpdateOrderStatus' => [
-            'order_id' => $order_id,
-            'status' => '1',
-            'add_point' => 10,
-            'use_point' => 20,
+                'order_id' => $order_id,
+                'status' => '1',
+                'add_point' => 10,
+                'use_point' => 20,
             ],
             'sfUpdateOrderNameCol' => $order_id,
             'count' => '2',
             'content' => [
-            'order_id' => $order_id,
-            'customer_id' => $this->customer_ids[0],
-            'status' => '1',
-            'add_point' => '10',
-            'use_point' => '20',
-            'order_name01' => '受注情報01_更新',
+                'order_id' => $order_id,
+                'customer_id' => $this->customer_ids[0],
+                'status' => '1',
+                'add_point' => '10',
+                'use_point' => '20',
+                'order_name01' => '受注情報01_更新',
             ],
         ];
         $this->actual = $_SESSION['testResult'];
@@ -111,20 +111,20 @@ class SC_Helper_Purchase_registerOrderTest extends SC_Helper_Purchase_TestBase
 
         $this->expected = [
             'sfUpdateOrderStatus' => [
-            'order_id' => '1003',
-            'status' => '2',
-            'add_point' => 100,
-            'use_point' => 200,
+                'order_id' => '1003',
+                'status' => '2',
+                'add_point' => 100,
+                'use_point' => 200,
             ],
             'sfUpdateOrderNameCol' => '1003',
             'count' => '3',
             'content' => [
-            'order_id' => '1003',
-            'customer_id' => '1003',
-            'status' => null,         // ここではsfUpdateOrderStatusをモックにしているので更新されない
-            'add_point' => '100',
-            'use_point' => '200',
-            'order_name01' => '受注情報03',
+                'order_id' => '1003',
+                'customer_id' => '1003',
+                'status' => null,         // ここではsfUpdateOrderStatusをモックにしているので更新されない
+                'add_point' => '100',
+                'use_point' => '200',
+                'order_name01' => '受注情報03',
             ],
         ];
         $this->actual = $_SESSION['testResult'];

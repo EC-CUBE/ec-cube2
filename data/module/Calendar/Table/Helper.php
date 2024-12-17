@@ -77,7 +77,7 @@ class Calendar_Table_Helper
      *
      * @var int
      */
-    public $numWeeks = null;
+    public $numWeeks;
 
     /**
      * Number of emtpy days before real days begin in month
@@ -232,11 +232,12 @@ class Calendar_Table_Helper
     public function getEmptyDaysAfter()
     {
         // Causes bug when displaying more than one month
-//        static $index;
-//        if (!isset($index)) {
+        //        static $index;
+        //        if (!isset($index)) {
         $index = $this->getEmptyDaysBefore() + $this->cE->getDaysInMonth(
             $this->calendar->thisYear(), $this->calendar->thisMonth());
-//        }
+
+        //        }
         return $index;
     }
 

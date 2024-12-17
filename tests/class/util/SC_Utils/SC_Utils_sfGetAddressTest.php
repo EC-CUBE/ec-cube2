@@ -58,12 +58,12 @@ class SC_Utils_sfGetAddressTest extends Common_TestCase
     public function test住所が一件だけヒットする場合住所データが取得できる()
     {
         $this->expected = [
-      [
-        'state' => '1',    // 北海道
-        'city' => '札幌市中央区',
-        'town' => '大通東',
-      ],
-    ];
+            [
+                'state' => '1',    // 北海道
+                'city' => '札幌市中央区',
+                'town' => '大通東',
+            ],
+        ];
         $this->actual = SC_Utils::sfGetAddress('0600041');
 
         $this->verify('郵便番号検索結果');
@@ -73,34 +73,34 @@ class SC_Utils_sfGetAddressTest extends Common_TestCase
     // 今の仕様ではこれでOKかもしれないが、そもそも一件目しか使わないのなら
     // $data_list[0]を返した方が良いのでは?
     /**
-    public function test_住所が二件以上ヒットする場合_町名を消した住所データが取得できる()
-    {
-      $this->expected = array(
-        array(
-          'state' => '5',    // 秋田県
-          'city' => '秋田市',
-          'town' => ''
-        ),
-        array(
-          'state' => '5',
-          'city' => '秋田市',
-          'town' => ''
-        )
-      );
-      $this->actual = SC_Utils::sfGetAddress('0110951');
-
-      $this->verify('郵便番号検索結果');
-    }
+     * public function test_住所が二件以上ヒットする場合_町名を消した住所データが取得できる()
+     * {
+     * $this->expected = array(
+     * array(
+     * 'state' => '5',    // 秋田県
+     * 'city' => '秋田市',
+     * 'town' => ''
+     * ),
+     * array(
+     * 'state' => '5',
+     * 'city' => '秋田市',
+     * 'town' => ''
+     * )
+     * );
+     * $this->actual = SC_Utils::sfGetAddress('0110951');
+     *
+     * $this->verify('郵便番号検索結果');
+     * }
      */
     public function test住所に但し書きが含まれる場合但し書きが消去される()
     {
         $this->expected = [
-      [
-        'state' => '1',    // 北海道
-        'city' => '札幌市中央区',
-        'town' => '大通西',
-      ],
-    ];
+            [
+                'state' => '1',    // 北海道
+                'city' => '札幌市中央区',
+                'town' => '大通西',
+            ],
+        ];
         $this->actual = SC_Utils::sfGetAddress('0600042');
 
         $this->verify('郵便番号検索結果');
@@ -109,12 +109,12 @@ class SC_Utils_sfGetAddressTest extends Common_TestCase
     public function test住所に注意文言がある場合町名が消去される()
     {
         $this->expected = [
-      [
-        'state' => '1',    // 北海道
-        'city' => '札幌市中央区',
-        'town' => '',
-      ],
-    ];
+            [
+                'state' => '1',    // 北海道
+                'city' => '札幌市中央区',
+                'town' => '',
+            ],
+        ];
         $this->actual = SC_Utils::sfGetAddress('0600000');
 
         $this->verify('郵便番号検索結果');
@@ -123,12 +123,12 @@ class SC_Utils_sfGetAddressTest extends Common_TestCase
     public function test住所に番地の説明が含まれる場合町名が消去される()
     {
         $this->expected = [
-      [
-        'state' => '8',    // 茨城県
-        'city' => '猿島郡堺町',
-        'town' => '',
-      ],
-    ];
+            [
+                'state' => '8',    // 茨城県
+                'city' => '猿島郡堺町',
+                'town' => '',
+            ],
+        ];
         $this->actual = SC_Utils::sfGetAddress('3060433');
 
         $this->verify('郵便番号検索結果');
@@ -139,49 +139,49 @@ class SC_Utils_sfGetAddressTest extends Common_TestCase
     protected function setUpAddress()
     {
         $address = [
-      [
-        'zip_id' => '2',
-        'zipcode' => '0600041',
-        'state' => '北海道',
-        'city' => '札幌市中央区',
-        'town' => '大通東',
-      ],
-      [
-        'zip_id' => '3',
-        'zipcode' => '0600042',
-        'state' => '北海道',
-        'city' => '札幌市中央区',
-        'town' => '大通西（１〜１９丁目）',
-      ],
-      [
-        'zip_id' => '0',
-        'zipcode' => '0600000',
-        'state' => '北海道',
-        'city' => '札幌市中央区',
-        'town' => '以下に掲載がない場合',
-      ],
-      [
-        'zip_id' => '26867',
-        'zipcode' => '3060433',
-        'state' => '茨城県',
-        'city' => '猿島郡堺町',
-        'town' => '堺町の次に番地がくる場合',
-      ],
-      [
-        'zip_id' => '16223',
-        'zipcode' => '0110951',
-        'state' => '秋田県',
-        'city' => '秋田市',
-        'town' => '土崎港相染町',
-      ],
-      [
-        'zip_id' => '16226',
-        'zipcode' => '0110951',
-        'state' => '秋田県',
-        'city' => '秋田市',
-        'town' => '土崎港古川町',
-      ],
-    ];
+            [
+                'zip_id' => '2',
+                'zipcode' => '0600041',
+                'state' => '北海道',
+                'city' => '札幌市中央区',
+                'town' => '大通東',
+            ],
+            [
+                'zip_id' => '3',
+                'zipcode' => '0600042',
+                'state' => '北海道',
+                'city' => '札幌市中央区',
+                'town' => '大通西（１〜１９丁目）',
+            ],
+            [
+                'zip_id' => '0',
+                'zipcode' => '0600000',
+                'state' => '北海道',
+                'city' => '札幌市中央区',
+                'town' => '以下に掲載がない場合',
+            ],
+            [
+                'zip_id' => '26867',
+                'zipcode' => '3060433',
+                'state' => '茨城県',
+                'city' => '猿島郡堺町',
+                'town' => '堺町の次に番地がくる場合',
+            ],
+            [
+                'zip_id' => '16223',
+                'zipcode' => '0110951',
+                'state' => '秋田県',
+                'city' => '秋田市',
+                'town' => '土崎港相染町',
+            ],
+            [
+                'zip_id' => '16226',
+                'zipcode' => '0110951',
+                'state' => '秋田県',
+                'city' => '秋田市',
+                'town' => '土崎港古川町',
+            ],
+        ];
 
         $this->objQuery->delete('mtb_zip');
         foreach ($address as $item) {

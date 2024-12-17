@@ -113,7 +113,8 @@ class SC_Api_Utils
      *
      * @param string $msg            出力文字列
      * @param text $operation_name
-     @ @rturn void
+     *
+     * @ @rturn void
      */
     public static function printApiLog($msg, $start_time = '', $operation_name = '')
     {

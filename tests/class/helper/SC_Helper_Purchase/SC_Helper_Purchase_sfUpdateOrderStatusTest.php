@@ -65,15 +65,15 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id); // 引数は最低限だけ指定
 
         $this->expected = [
-      'order' => [
-        'status' => '3',
-        'add_point' => '20',
-        'use_point' => '10',
-      ],
-      'customer' => [
-        'point' => $customer_point,
-      ],
-    ];
+            'order' => [
+                'status' => '3',
+                'add_point' => '20',
+                'use_point' => '10',
+            ],
+            'customer' => [
+                'point' => $customer_point,
+            ],
+        ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
             'dtb_order', 'order_id = ?', [$order_id]));
@@ -88,12 +88,11 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
 
     // TODO 定数を変更できないためテスト不可
     /**
-    public function testSfUpdateOrderStatus_ポイント使用しない設定の場合_ポイントに関する処理が行われない()
-    {
-
-
-      $this->verify();
-    }
+     * public function testSfUpdateOrderStatus_ポイント使用しない設定の場合_ポイントに関する処理が行われない()
+     * {
+     *
+     * $this->verify();
+     * }
      */
     public function testSfUpdateOrderStatus対応状況が発送済みに変更された場合発送日が更新される()
     {
@@ -108,15 +107,15 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_DELIV, 50, 45);
 
         $this->expected = [
-      'order' => [
-        'status' => ORDER_DELIV,
-        'add_point' => '50',  // 引数の設定どおりになる
-        'use_point' => '45', // 引数の設定どおりになる
-      ],
-      'customer' => [
-        'point' => $customer_point, // ポイントを使わない
-      ],
-    ];
+            'order' => [
+                'status' => ORDER_DELIV,
+                'add_point' => '50',  // 引数の設定どおりになる
+                'use_point' => '45', // 引数の設定どおりになる
+            ],
+            'customer' => [
+                'point' => $customer_point, // ポイントを使わない
+            ],
+        ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
             'dtb_order', 'order_id = ?', [$order_id]));
@@ -145,12 +144,12 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_PRE_END, 50, 45);
 
         $this->expected = [
-      'order' => [
-        'status' => ORDER_PRE_END,
-        'add_point' => '50',  // 引数の設定どおりになる
-        'use_point' => '45', // 引数の設定どおりになる
-      ],
-    ];
+            'order' => [
+                'status' => ORDER_PRE_END,
+                'add_point' => '50',  // 引数の設定どおりになる
+                'use_point' => '45', // 引数の設定どおりになる
+            ],
+        ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
             'dtb_order', 'order_id = ?', [$order_id]));
@@ -178,15 +177,15 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_CANCEL, 0, 45);
 
         $this->expected = [
-      'order' => [
-        'status' => ORDER_CANCEL,
-        'add_point' => '0',  // 引数の設定どおりになる
-        'use_point' => '45', // 引数の設定どおりになる
-      ],
-      'customer' => [
-        'point' => '210', // 元々200pt+10pt戻す
-      ],
-    ];
+            'order' => [
+                'status' => ORDER_CANCEL,
+                'add_point' => '0',  // 引数の設定どおりになる
+                'use_point' => '45', // 引数の設定どおりになる
+            ],
+            'customer' => [
+                'point' => '210', // 元々200pt+10pt戻す
+            ],
+        ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
             'dtb_order', 'order_id = ?', [$order_id]));
@@ -208,15 +207,15 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_NEW, 50, 45);
 
         $this->expected = [
-      'order' => [
-        'status' => ORDER_NEW,
-        'add_point' => '50',  // 引数の設定どおりになる
-        'use_point' => '45', // 引数の設定どおりになる
-      ],
-      'customer' => [
-        'point' => '55', // 元々100pt→45pt引く
-      ],
-    ];
+            'order' => [
+                'status' => ORDER_NEW,
+                'add_point' => '50',  // 引数の設定どおりになる
+                'use_point' => '45', // 引数の設定どおりになる
+            ],
+            'customer' => [
+                'point' => '55', // 元々100pt→45pt引く
+            ],
+        ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
             'dtb_order', 'order_id = ?', [$order_id]));
@@ -238,15 +237,15 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_CANCEL, 50, 45);
 
         $this->expected = [
-      'order' => [
-        'status' => ORDER_CANCEL,
-        'add_point' => '50',  // 引数の設定どおりになる
-        'use_point' => '45', // 引数の設定どおりになる
-      ],
-      'customer' => [
-        'point' => '180', // 元々200pt→20pt引く
-      ],
-    ];
+            'order' => [
+                'status' => ORDER_CANCEL,
+                'add_point' => '50',  // 引数の設定どおりになる
+                'use_point' => '45', // 引数の設定どおりになる
+            ],
+            'customer' => [
+                'point' => '180', // 元々200pt→20pt引く
+            ],
+        ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
             'dtb_order', 'order_id = ?', [$order_id]));
@@ -268,15 +267,15 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_DELIV, 50, 0);
 
         $this->expected = [
-      'order' => [
-        'status' => ORDER_DELIV,
-        'add_point' => '50',  // 引数の設定どおりになる
-        'use_point' => '0', // 引数の設定どおりになる
-      ],
-      'customer' => [
-        'point' => '150', // 元々100pt→50pt足す
-      ],
-    ];
+            'order' => [
+                'status' => ORDER_DELIV,
+                'add_point' => '50',  // 引数の設定どおりになる
+                'use_point' => '0', // 引数の設定どおりになる
+            ],
+            'customer' => [
+                'point' => '150', // 元々100pt→50pt足す
+            ],
+        ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
             'dtb_order', 'order_id = ?', [$order_id]));
@@ -298,15 +297,15 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_PRE_END, 40, 25);
 
         $this->expected = [
-      'order' => [
-        'status' => ORDER_PRE_END,
-        'add_point' => '40',  // 引数の設定どおりになる
-        'use_point' => '25', // 引数の設定どおりになる
-      ],
-      'customer' => [
-        'point' => '105', // 変更前の状態で-10pt,変更後の状態で+15pt
-      ],
-    ];
+            'order' => [
+                'status' => ORDER_PRE_END,
+                'add_point' => '40',  // 引数の設定どおりになる
+                'use_point' => '25', // 引数の設定どおりになる
+            ],
+            'customer' => [
+                'point' => '105', // 変更前の状態で-10pt,変更後の状態で+15pt
+            ],
+        ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
             'dtb_order', 'order_id = ?', [$order_id]));
@@ -328,15 +327,15 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         SC_Helper_Purchase_sfUpdateOrderStatusMock::sfUpdateOrderStatus($order_id, ORDER_PRE_END, 0, 50);
 
         $this->expected = [
-      'order' => [
-        'status' => ORDER_PRE_END,
-        'add_point' => '0',  // 引数の設定どおりになる
-        'use_point' => '50', // 引数の設定どおりになる
-      ],
-      'customer' => [
-        'point' => '40', // 変更前の状態で-10pt,変更後の状態で-50pt
-      ],
-    ];
+            'order' => [
+                'status' => ORDER_PRE_END,
+                'add_point' => '0',  // 引数の設定どおりになる
+                'use_point' => '50', // 引数の設定どおりになる
+            ],
+            'customer' => [
+                'point' => '40', // 変更前の状態で-10pt,変更後の状態で-50pt
+            ],
+        ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
             'dtb_order', 'order_id = ?', [$order_id]));
@@ -347,9 +346,9 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
 
     // TODO ロールバックされる場合はexitするためテスト不可.
     /**
-    public function testSfUpdateOrderStatus_加算ポイントが負でポイントが足りていない場合_会員テーブルがロールバックされエラーとなる()
-    {
-    }
+     * public function testSfUpdateOrderStatus_加算ポイントが負でポイントが足りていない場合_会員テーブルがロールバックされエラーとなる()
+     * {
+     * }
      */
 
     // ////////////////////////////////////////
