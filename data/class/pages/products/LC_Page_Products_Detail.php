@@ -21,9 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-if (file_exists(MODULE_REALDIR.'mdl_gmopg/inc/function.php')) {
-    require_once MODULE_REALDIR.'mdl_gmopg/inc/function.php';
-}
 /**
  * 商品詳細 のページクラス.
  *
