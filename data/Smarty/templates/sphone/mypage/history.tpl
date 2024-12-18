@@ -125,7 +125,7 @@
                             <!--{assign var=tax_rule value="`$orderDetail.tax_rule`"}-->
                             <ul>
                                 <li><span class="mini">数量：</span><!--{$quantity|h}--></li>
-                                <li class="result"><span class="mini">小計：</span><!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|sfMultiply:$quantity|n2s}-->円</li>
+                                <li class="result"><span class="mini">小計：</span><!--{($price|sfCalcIncTax:$tax_rate:$tax_rule*$quantity)|n2s}-->円</li>
                             </ul>
                         </div>
                     </div>
