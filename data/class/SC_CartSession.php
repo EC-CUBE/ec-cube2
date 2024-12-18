@@ -769,7 +769,7 @@ class SC_CartSession
         $discount = 0,
         $deliv_id = 0,
         $order_pref = 0,
-        $order_country_id = 0,
+        $order_country_id = 0
     ) {
         $results = [];
         $total_point = $this->getAllProductsPoint($product_type_id);

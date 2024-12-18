@@ -526,7 +526,7 @@ class SC_Helper_Purchase
             'sex', 'zip01', 'zip02', 'country_id', 'zipcode', 'pref', 'addr01', 'addr02',
             'tel01', 'tel02', 'tel03', 'fax01', 'fax02', 'fax03',
             'job', 'birth', 'email',
-        ],
+        ]
     ) {
         if ($objCustomer->isLoginSuccess(true)) {
             foreach ($keys as $key) {

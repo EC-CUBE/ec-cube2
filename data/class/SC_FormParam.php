@@ -285,7 +285,7 @@ class SC_FormParam
      * @return void
      */
     public function recursionCheck($disp_name, $func, $value, &$arrErr,
-        $length = 0,
+        $length = 0
     ) {
         // 配列の場合は、再帰実行
         if (is_array($value)) {
