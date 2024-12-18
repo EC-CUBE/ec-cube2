@@ -32,12 +32,13 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 
 #### システム要件
 
-| 分類      | ソフトウェア         | Version                                                                 |
-|-----------|----------------------|-------------------------------------------------------------------------|
-| WebServer | Apache               | 2.4.x or higher<br> (mod_rewrite / mod_ssl 必須)                        |
-| PHP       | PHP                  | 7.4.33 or higher                                                        |
-| Database  | PostgreSQL           | 9.x or higher                                                           |
-| Database  | MySQL                | 5.x / 8.x or higher<br> (InnoDBエンジン 必須)                           |
+| 分類      | ソフトウェア | Version                                                 |
+|-----------|--------------|---------------------------------------------------------|
+| WebServer | Apache       | 2.4.x or higher<br> (mod_rewrite / mod_ssl 必須)        |
+| PHP       | PHP          | 7.4.33 or higher                                        |
+| Database  | PostgreSQL   | 9.x or higher                                           |
+| Database  | MySQL        | 5.x / 8.0.x / 8.4.x or higher<br> (InnoDBエンジン 必須) |
+
 
 ##### 必要な PHP Extensions
 
