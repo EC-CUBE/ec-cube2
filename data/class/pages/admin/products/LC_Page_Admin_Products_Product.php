@@ -1049,11 +1049,7 @@ __EOF__;
         $objDb = new SC_Helper_DB_Ex();
 
         // 配列の添字を定義
-        $checkArray = ['name', 'status',
-                            'main_list_comment', 'main_comment',
-                            'deliv_fee', 'comment1', 'comment2', 'comment3',
-                            'comment4', 'comment5', 'comment6',
-                            'sale_limit', 'deliv_date_id', 'maker_id', 'note', ];
+        $checkArray = ['name', 'status', 'main_list_comment', 'main_comment', 'deliv_fee', 'comment1', 'comment2', 'comment3', 'comment4', 'comment5', 'comment6', 'sale_limit', 'deliv_date_id', 'maker_id', 'note'];
         $arrList = SC_Utils_Ex::arrayDefineIndexes($arrList, $checkArray);
 
         // INSERTする値を作成する。
