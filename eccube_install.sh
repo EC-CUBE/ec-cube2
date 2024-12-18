@@ -265,7 +265,7 @@ case "${DBTYPE}" in
     fi
     # MySQL
     echo "dropdb..."
-    ${MYSQL} -u ${ROOTUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} -e "DROP DATABASE \`${DBNAME}\`"
+    ${MYSQL} -u ${ROOTUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} -e "DROP DATABASE IF EXISTS \`${DBNAME}\`"
     echo "createdb..."
     ${MYSQL} -u ${ROOTUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} -e "CREATE DATABASE \`${DBNAME}\` DEFAULT COLLATE=utf8_general_ci;"
     #echo "grant user..."
