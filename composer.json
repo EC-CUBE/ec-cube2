@@ -28,7 +28,7 @@
         "nanasess/ec-cube2-class-extends-stubs": "^1.0",
         "nanasess/eccube2-fixture-generator": "^2.0",
         "phpdocumentor/reflection-docblock": "~5.5.1",
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^9.6",
         "symfony/yaml": "^5.4 || ^6.4"
     },
@@ -47,7 +47,8 @@
         "pear/xml_util": "*",
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^2.6",
-        "smarty/smarty": "^5.0.2"
+        "smarty/smarty": "^5.0.2",
+        "symfony/polyfill-php80": "^1.31"
     },
     "autoload": {
         "classmap": [

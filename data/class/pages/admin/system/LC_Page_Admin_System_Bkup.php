@@ -213,7 +213,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
         $arrBkupList = $this->lfGetBkupData('ORDER BY create_date DESC');
         // テンプレートファイルに渡すデータをセット
         $this->arrErr = isset($arrErr) ? $arrErr : [];
-        $this->arrForm = isset($arrForm) ? $arrForm : [];
+        $this->arrForm = $arrForm;
         $this->arrBkupList = $arrBkupList;
     }
 
