@@ -41,6 +41,7 @@
         "nanasess/php8-compat": "^1.0",
         "pear/archive_tar": "^1.4.3",
         "pear/mail": "*",
+        "pear/net_smtp": "^1.12",
         "pear/net_socket": "^1.2",
         "pear/pear-core-minimal": "^1.10",
         "pear/xml_parser": "*",
