@@ -4,13 +4,73 @@
  ブラウザリセット
 ************************************************ */
 
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
     margin: 0;
     padding: 0;
     border: 0;
 }
 
-table, caption, th, td {
+table,
+caption,
+th,
+td {
     margin: 0;
     padding: 0;
     border: 0;
@@ -21,20 +81,24 @@ table, caption, th, td {
     font-weight: normal;
 }
 
-a img, iframe {
+a img,
+iframe {
     border: none;
 }
 
-ol, ul, li {
+ol,
+ul,
+li {
     list-style: none;
 }
 
-input, textarea, select, button {
+input,
+textarea,
+select,
+button {
     font-size: 100%;
     font-family: inherit;
 }
-
-@charset "utf-8";
 
 html {
     height: 100%;
@@ -44,7 +108,7 @@ body {
     width: 100%;
     height: 100%;
     background: #fff;
-    font-family: "ＭＳ Ｐゴシック","Hiragino Maru Gothic Pro","ヒラギノ丸ゴ Pro W4",Osaka,sans-serif;
+    font-family: "ＭＳ Ｐゴシック", "Hiragino Maru Gothic Pro", "ヒラギノ丸ゴ Pro W4", Osaka, sans-serif;
     font-size: 80%;
     line-height: 120%;
 }
@@ -54,7 +118,8 @@ option {
     font-size: 100%;
 }
 
-input, textarea {
+input,
+textarea {
     margin-right: 3px;
 }
 
@@ -66,7 +131,8 @@ select {
     }
 }
 
-input.top, textarea.top {
+input.top,
+textarea.top {
     margin-bottom: 5px;
 }
 
@@ -128,7 +194,8 @@ table {
     font-size: 100%;
 }
 
-th, td {
+th,
+td {
     padding: 5px;
     border: 1px solid #ccc;
 }
@@ -152,7 +219,8 @@ table {
             }
         }
 
-        .edit, .delete {
+        .edit,
+        .delete {
             width: 10%;
         }
 
@@ -169,7 +237,9 @@ table {
         }
 
         td {
-            &.id, &.thumbnail {
+
+            &.id,
+            &.thumbnail {
                 text-align: center;
             }
 
@@ -194,7 +264,9 @@ table {
     width: 200px;
 }
 
-.contents-main .btn-area, #popup .btn-area, #form_edit .btn-area {
+.contents-main .btn-area,
+#popup .btn-area,
+#form_edit .btn-area {
     margin: 0 0 60px 0;
     padding: 20px 0;
     clear: both;
@@ -203,7 +275,9 @@ table {
     text-align: center;
 }
 
-.contents-main .btn-area li, #popup .btn-area li, .btn-area li {
+.contents-main .btn-area li,
+#popup .btn-area li,
+.btn-area li {
     margin-right: 10px;
     display: inline;
 }
@@ -254,7 +328,9 @@ td.AlignLeft {
 /*おすすめ商品検索画面*/
 
 #recommend-search-results .hidden {
-    td, th {
+
+    td,
+    th {
         background: #C9C9C9;
     }
 }
@@ -296,7 +372,9 @@ td.AlignLeft {
 }
 
 a.btn-normal {
-    &:link, &:visited {
+
+    &:link,
+    &:visited {
         margin-right: 5px;
         padding: 2px 10px;
         border: solid 1px #bcbecb;
@@ -367,7 +445,9 @@ a.btn-normal {
 }
 
 a.btn-tool-format {
-    &:link, &:visited {
+
+    &:link,
+    &:visited {
         padding: 0 6px;
         border: solid 1px #6b6d87;
         display: inline-block;
@@ -436,7 +516,9 @@ a.btn-tool-format {
 }
 
 a.btn-tool {
-    &:link, &:visited {
+
+    &:link,
+    &:visited {
         padding: 0 6px;
         border: solid 1px #999;
         display: inline-block;
@@ -504,7 +586,9 @@ a.btn-tool {
 }
 
 a.btn-action {
-    &:link, &:visited {
+
+    &:link,
+    &:visited {
         padding: 5px 10px;
         border: solid 1px #bcbecb;
         display: inline-block;
@@ -537,7 +621,7 @@ a.btn-action {
     }
 }
 
-/*商品を選択するボタン(2/18追加)*/
+/* 商品を選択するボタン */
 
 .btn-action-m {
     padding: 3px 10px;
@@ -572,7 +656,9 @@ a.btn-action {
 }
 
 a.btn-action-m {
-    &:link, &:visited {
+
+    &:link,
+    &:visited {
         padding: 3px 10px;
         border: solid 1px #bcbecb;
         display: inline-block;
@@ -605,9 +691,10 @@ a.btn-action-m {
     }
 }
 
-/*戻るボタン*/
 
 .btn-action {
+
+    /*戻るボタン*/
     .btn-prev {
         padding: 0 0 0 20px;
         display: inline-block;
@@ -616,6 +703,7 @@ a.btn-action-m {
         font-size: 114%;
     }
 
+    /*進むボタン*/
     .btn-next {
         padding: 0 20px 0 0;
         display: inline-block;
@@ -625,10 +713,12 @@ a.btn-action-m {
     }
 }
 
-/*進むボタン*/
-
+/*LINK*/
 a {
-    &.btn-normal:hover, &.btn-action:hover, &.btn-tool:hover {
+
+    &.btn-normal:hover,
+    &.btn-action:hover,
+    &.btn-tool:hover {
         border: solid 1px #d5d7df;
         color: #6d728b;
     }
@@ -638,22 +728,23 @@ a {
         color: #6b728b;
     }
 
-    &.btn:active, &.btn-normal:active {
+    &.btn:active,
+    &.btn-normal:active {
         background-image: url('../img/button/white-grad-active.png');
     }
 
-    &:link, &:visited {
+    &:link,
+    &:visited {
         color: #39c;
         text-decoration: none;
     }
 
-    &:link:hover, &[href]:hover {
+    &:link:hover,
+    &[href]:hover {
         color: #74badc;
         text-decoration: none;
     }
 }
-
-/*LINK*/
 
 .left {
     text-align: left;
@@ -746,25 +837,13 @@ a {
 
         div {
             display: block;
-            _float: left;
-
-            /*IE6対策*/
             cursor: pointer;
 
             span {
                 display: block;
-                _float: left;
-
-                /*IE6対策*/
                 cursor: pointer;
                 padding: 7px 10px;
-                _padding: 9px 10px 5px;
-
-                /*IE6対策*/
                 height: 15px;
-                _height: 13px;
-
-                /*IE6対策*/
             }
 
             color: #2d2f39;
@@ -781,7 +860,8 @@ a {
             }
         }
 
-        &.on div, &.sfhover div {
+        &.on div,
+        &.sfhover div {
             background: url('../img/header/navi_on.jpg') left 0 repeat-x;
 
             span {
@@ -798,6 +878,7 @@ a {
             clear: both;
         }
 
+        /*プルダウンメニュー 第1階層*/
         li {
             display: block;
             top: 2px;
@@ -808,7 +889,10 @@ a {
             background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;
             font-weight: normal;
 
-            a, div, a span, div span {
+            a,
+            div,
+            a span,
+            div span {
                 display: block;
                 top: 2px;
                 width: 180px;
@@ -822,21 +906,31 @@ a {
             border: solid #888;
             border-width: 0 0 1px 0;
 
-            a span, div span {
+            a span,
+            div span {
                 padding: 2px 0 0 8px;
                 text-indent: 8px;
             }
 
-            a:hover, div:hover {
+            a:hover,
+            div:hover {
                 background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
             }
 
-            a:hover span, div:hover span {
+            a:hover span,
+            div:hover span {
                 background: #666;
             }
         }
 
-        &.on li a, li.on a, &.on li div, li.on div, &.sfhover li a, li.sfhover a, &.sfhover li div, li.sfhover div {
+        &.on li a,
+        li.on a,
+        &.on li div,
+        li.on div,
+        &.sfhover li a,
+        li.sfhover a,
+        &.sfhover li div,
+        li.sfhover div {
             background: transparent;
 
             span {
@@ -845,17 +939,22 @@ a {
         }
 
         &.sfhover li {
-            a:hover, div:hover {
+
+            a:hover,
+            div:hover {
                 background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
             }
         }
 
         li.sfhover {
-            a:hover, div:hover {
+
+            a:hover,
+            div:hover {
                 background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
             }
         }
 
+        /*プルダウンメニュー 第2階層*/
         ul.level2 {
             position: absolute;
             top: 27px;
@@ -865,7 +964,11 @@ a {
         }
 
         li {
-            li, a, li a span, div {
+
+            li,
+            a,
+            li a span,
+            div {
                 margin-left: 0;
                 display: block;
                 width: 180px;
@@ -893,7 +996,9 @@ a {
                 }
 
                 &.sfhover {
-                    div:hover, a:hover {
+
+                    div:hover,
+                    a:hover {
                         width: 180px;
                         top: 1px;
                         height: 27px;
@@ -906,9 +1011,6 @@ a {
 
         ul ul {
             margin: -28px 0 0 180px;
-            _margin: -28px 0 0 187px;
-
-            /*IE6応急 */
         }
 
         &.sfhover ul {
@@ -924,7 +1026,9 @@ a {
         }
 
         li {
-            &.sfhover ul, li.sfhover ul {
+
+            &.sfhover ul,
+            li.sfhover ul {
                 left: auto;
             }
         }
@@ -933,21 +1037,21 @@ a {
     ul.level1 li.on_level2 {
         background: url('../img/header/subnavi_bak_l2.gif') top left no-repeat #787878;
 
-        a:hover, div:hover {
+        a:hover,
+        div:hover {
             background: url('../img/header/subnavi_bak_l2_on.gif') top left no-repeat #787878;
         }
 
         ul.level2 li {
-            a:hover, div:hover {
+
+            a:hover,
+            div:hover {
                 background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
             }
         }
     }
 }
 
-/*プルダウンメニュー 第1階層*/
-
-/*プルダウンメニュー 第2階層*/
 
 /*subnavi*/
 
@@ -996,7 +1100,8 @@ a {
     }
 }
 
-.number-on a:visited, .number a:visited {
+.number-on a:visited,
+.number a:visited {
     color: #fff;
     text-decoration: none;
 }
@@ -1031,7 +1136,8 @@ a {
         background: #f4f5f5;
     }
 
-    a:hover, &.on a:hover {
+    a:hover,
+    &.on a:hover {
         background: #f8f8f8;
         border: 1px solid #ccc;
     }
@@ -1046,7 +1152,7 @@ a {
     min-height: 100%;
 }
 
-body > #container {
+body>#container {
     height: auto;
 }
 
@@ -1357,13 +1463,15 @@ body > #container {
 /* 商品管理
 ----------------------------------------------- */
 
-#products-category-left, #products-rank-left {
+#products-category-left,
+#products-rank-left {
     float: left;
     width: 285px;
     min-height: 200px;
 }
 
-#products-category-right, #products-rank-right {
+#products-category-right,
+#products-rank-right {
     margin-left: 285px;
 }
 
@@ -1376,7 +1484,8 @@ body > #container {
     min-height: 200px;
 }
 
-#products-category-left, #products-rank-left {
+#products-category-left,
+#products-rank-left {
     min-height: 200px;
     padding: 10px;
     border: 3px solid #ddd;
@@ -1384,7 +1493,8 @@ body > #container {
     background-color: #f3f3f3;
 }
 
-#products-category-left li ul, #products-rank-left li ul {
+#products-category-left li ul,
+#products-rank-left li ul {
     margin-left: 20px;
 }
 
@@ -1446,7 +1556,8 @@ body > #container {
 .design-layout {
     table-layout: fixed;
 
-    th, td {
+    th,
+    td {
         vertical-align: top;
         text-align: center;
     }
@@ -1461,15 +1572,26 @@ body > #container {
 }
 
 .design-layout {
-    #LeftNavi, #MainHead, #RightNavi {
+
+    #LeftNavi,
+    #MainHead,
+    #RightNavi {
         width: 33.33%;
     }
 
-    #TopNavi, #HeadNavi, #HeaderTopNavi, #LeftNavi, #MainHead, #MainFoot, #RightNavi, #BottomNavi, #FooterBottomNavi, #HeaderInternalNavi, #Unused {
+    #TopNavi,
+    #HeadNavi,
+    #HeaderTopNavi,
+    #LeftNavi,
+    #MainHead,
+    #MainFoot,
+    #RightNavi,
+    #BottomNavi,
+    #FooterBottomNavi,
+    #HeaderInternalNavi,
+    #Unused {
         padding-bottom: 20px;
-        height: 10px;
-
-        /*IE6応急処置 */
+        height: 10px; /* IE6応急処置 */
     }
 
     div.sort {
@@ -1538,223 +1660,192 @@ td {
 /* フォーム
 ----------------------------------------------- */
 
-div.btn, p.remark {
+div.btn,
+p.remark {
     margin: 0 0 20px 0;
 }
 
 /*FORM*/
-
+/*W3*/
 .box3 {
     width: 33px;
 }
 
-/*W3*/
 
+/*W6*/
 .box6 {
     width: 54px;
 }
 
-/*W6*/
-
+/*W10*/
 .box10 {
     width: 82px;
 }
 
-/*W10*/
-
+/*W20*/
 .box20 {
     width: 152px;
 }
 
-/*W20*/
-
+/*W25*/
 .box25 {
     width: 187px;
 }
 
-/*W25*/
-
+/*W30*/
 .box30 {
     width: 222px;
 }
 
-/*W30*/
-
+/*W33*/
 .box33 {
     width: 243px;
 }
 
-/*W33*/
-
+/*W35*/
 .box35 {
     width: 257px;
 }
 
-/*W35*/
-
+/*W40*/
 .box40 {
     width: 276px;
 }
 
-/*W40*/
-
+/*W45*/
 .box45 {
     width: 341px;
 }
 
-/*W45*/
-
+/*W50*/
 .box50 {
     width: 362px;
 }
 
-/*W50*/
-
+/*W52*/
 .box52 {
     width: 376px;
 }
 
-/*W52*/
-
+/*W54*/
 .box54 {
     width: 390px;
 }
 
-/*W54*/
-
+/*W60*/
 .box60 {
     width: 432px;
 }
 
-/*W60*/
-
+/*W65*/
 .box65 {
     width: 467px;
 }
 
-/*W65*/
-
+/*W68*/
 .box68 {
     width: 488px;
 }
 
-/*W68*/
-
+/*W76*/
 .box76 {
     width: 544px;
 }
 
-/*W76*/
-
+/*W40×H8*/
 .area40 {
     width: 302px;
     height: 134px;
 }
 
-/*W40×H8*/
-
+/*W40×H20*/
 .area45 {
     width: 337px;
     height: 290px;
 }
 
-/*W40×H20*/
-
+/*W40×H8*/
 .area46 {
     width: 337px;
     height: 134px;
 }
 
-/*W40×H8*/
-
+/*W50?H4*/
 .area50 {
     width: 372px;
     height: 82px;
 }
 
 /*W50?H4*/
-
 .area55 {
     width: 407px;
     height: 82px;
 }
 
-/*W50?H4*/
-
+/*W59×H8*/
 .area59 {
     width: 432px;
     height: 134px;
 }
 
-/*W59×H8*/
-
+/*W60?H8*/
 .area60 {
     width: 433px;
     height: 134px;
 }
 
-/*W60?H8*/
-
+/*W60?H4*/
 .area61 {
     width: 433px;
     height: 82px;
 }
 
-/*W60?H4*/
-
+/*W65×H20*/
 .area65 {
     width: 444px;
     height: 290px;
 }
 
-/*W65×H20*/
-
+/*W70?H12*/
 .area70 {
     width: 512px;
     height: 186px;
 }
 
-/*W70?H12*/
-
+/*W75?H12*/
 .area75 {
     width: 547px;
     height: 186px;
 }
 
-/*W75?H12*/
-
+/*W80×H8*/
 .area80 {
     width: 572px;
     height: 134px;
 }
-
-/*W80×H8*/
 
 .area90 {
     width: 650px;
     height: 420px;
 }
 
+/*W80×H30*/
 .area96 {
     width: 694px;
     height: 420px;
 }
 
-/*W80×H30*/
-
+/*W80×H10*/
 .area96_2 {
     width: 694px;
     height: 160px;
 }
 
-/*W80×H10*/
-
+/*W99?H40*/
 .area99 {
     width: 715px;
     height: 523px;
 }
-
-/*W99?H40*/
 
 /*COLOR*/
 
@@ -1791,7 +1882,14 @@ x-dummy {
 }
 
 .authority_1 {
-    #navi-basis-masterdata, #navi-contents-file, #navi-design-bloc, #navi-design-template, #navi-design-add, #navi-system, #navi-ownersstore {
+
+    #navi-basis-masterdata,
+    #navi-contents-file,
+    #navi-design-bloc,
+    #navi-design-template,
+    #navi-design-add,
+    #navi-system,
+    #navi-ownersstore {
         /* display: none; --- IE で不具合 */
         border: none;
         width: 0;
@@ -1828,7 +1926,8 @@ table.layout {
     width: auto;
     vertical-align: top;
 
-    th, td {
+    th,
+    td {
         margin: 0;
         padding: 0;
         border: none;
