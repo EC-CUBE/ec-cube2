@@ -808,16 +808,16 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $order_id = $objPurchase->registerOrder($order_id, $arrValues);
 
         $arrDetail = $objFormParam->getSwapArray([
-                'product_id',
-                'product_class_id',
-                'product_code',
-                'product_name',
-                'price', 'quantity',
-                'point_rate',
-                'classcategory_name1',
-                'classcategory_name2',
-                'tax_rate',
-                'tax_rule',
+            'product_id',
+            'product_class_id',
+            'product_code',
+            'product_name',
+            'price', 'quantity',
+            'point_rate',
+            'classcategory_name1',
+            'classcategory_name2',
+            'tax_rate',
+            'tax_rule',
         ]);
 
         // 変更しようとしている商品情報とDBに登録してある商品情報を比較することで、更新すべき数量を計算
@@ -1286,6 +1286,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 }
             }
         }
+
         // $objFormParam->setParam($arrUpdateParams);
         return $arrUpdateParams;
     }

@@ -67,7 +67,7 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
      */
     public function action()
     {
-        if (strpos(HTTPS_URL, 'https://') !== false) {
+        if (str_contains(HTTPS_URL, 'https://')) {
             $this->tpl_enable_ssl = true;
         }
 
@@ -137,7 +137,7 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
 
         $installData = file(CONFIG_REALFILE, FILE_IGNORE_NEW_LINES);
         foreach ($installData as $key => $line) {
-            if (strpos($line, 'ADMIN_DIR') !== false && ADMIN_DIR != $admin_dir) {
+            if (str_contains($line, 'ADMIN_DIR') && ADMIN_DIR != $admin_dir) {
                 if ($admin_dir == 'admin/') {
                     $arrErr['admin_dir'] .= '別のディレクトリ名を指定してください。';
                 }
@@ -176,7 +176,7 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
         $installData = file(CONFIG_REALFILE, FILE_IGNORE_NEW_LINES);
         $diff = 0;
         foreach ($installData as $key => $line) {
-            if (strpos($line, 'ADMIN_DIR') !== false && ADMIN_DIR != $admin_dir) {
+            if (str_contains($line, 'ADMIN_DIR') && ADMIN_DIR != $admin_dir) {
                 $installData[$key] = 'define("ADMIN_DIR", "'.$admin_dir.'");';
                 // 管理機能ディレクトリのリネーム
                 if (!rename(HTML_REALDIR.ADMIN_DIR, HTML_REALDIR.$admin_dir)) {
@@ -187,11 +187,11 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
                 $diff++;
             }
 
-            if (strpos($line, 'ADMIN_FORCE_SSL') !== false) {
+            if (str_contains($line, 'ADMIN_FORCE_SSL')) {
                 $installData[$key] = 'define("ADMIN_FORCE_SSL", '.$admin_force_ssl.');';
                 $diff++;
             }
-            if (strpos($line, 'ADMIN_ALLOW_HOSTS') !== false && ADMIN_ALLOW_HOSTS != $admin_allow_hosts) {
+            if (str_contains($line, 'ADMIN_ALLOW_HOSTS') && ADMIN_ALLOW_HOSTS != $admin_allow_hosts) {
                 $installData[$key] = "define('ADMIN_ALLOW_HOSTS', '".$admin_allow_hosts."');";
                 $diff++;
             }

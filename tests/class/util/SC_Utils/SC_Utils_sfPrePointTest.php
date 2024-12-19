@@ -90,9 +90,9 @@ class SC_Utils_sfPrePointTest extends Common_TestCase
     {
         $this->expected = [9, 9];
         $this->actual = [
-      SC_Utils::sfPrePoint(100, 9.4),
-      SC_Utils::sfPrePoint(100, 9.5),
-    ];
+            SC_Utils::sfPrePoint(100, 9.4),
+            SC_Utils::sfPrePoint(100, 9.5),
+        ];
 
         $this->verify();
     }

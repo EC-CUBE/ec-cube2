@@ -45,27 +45,27 @@ class SC_Helper_Address_getAddressTest extends SC_Helper_Address_TestBase
         $other_deliv_id = '1001';
         $customer_id = 1;
         $this->expected = [
-                'other_deliv_id' => '1001',
-                'customer_id' => '1',
-                'name01' => 'テスト',
-                'name02' => 'に',
-                'kana01' => 'テスト',
-                'kana02' => 'ニ',
-                'zip01' => '222',
-                'zip02' => '2222',
-                'pref' => '2',
-                'addr01' => 'テスト1',
-                'addr02' => 'テスト2',
-                'tel01' => '000',
-                'tel02' => '0000',
-                'tel03' => '0000',
-                'fax01' => '111',
-                'fax02' => '1111',
-                'fax03' => '1111',
-                'country_id' => null,
-                'company_name' => null,
-                'zipcode' => null,
-            ];
+            'other_deliv_id' => '1001',
+            'customer_id' => '1',
+            'name01' => 'テスト',
+            'name02' => 'に',
+            'kana01' => 'テスト',
+            'kana02' => 'ニ',
+            'zip01' => '222',
+            'zip02' => '2222',
+            'pref' => '2',
+            'addr01' => 'テスト1',
+            'addr02' => 'テスト2',
+            'tel01' => '000',
+            'tel02' => '0000',
+            'tel03' => '0000',
+            'fax01' => '111',
+            'fax02' => '1111',
+            'fax03' => '1111',
+            'country_id' => null,
+            'company_name' => null,
+            'zipcode' => null,
+        ];
         $this->actual = $this->objAddress->getAddress($other_deliv_id, $customer_id);
 
         $this->verify('登録配送先取得');

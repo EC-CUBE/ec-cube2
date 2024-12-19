@@ -36,11 +36,11 @@ class SC_Helper_News_getNewsTest extends SC_Helper_News_TestBase
         $news_id = '1001';
 
         $this->expected = [
-        'update_date' => '2000-01-01 00:00:00',
-        'news_id' => '1001',
-        'news_title' => 'ニュース情報01',
-        'creator_id' => '1',
-        'del_flg' => '0',
+            'update_date' => '2000-01-01 00:00:00',
+            'news_id' => '1001',
+            'news_title' => 'ニュース情報01',
+            'creator_id' => '1',
+            'del_flg' => '0',
         ];
 
         $result = $this->objNews->getNews($news_id);

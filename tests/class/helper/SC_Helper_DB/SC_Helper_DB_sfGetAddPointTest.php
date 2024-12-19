@@ -13,6 +13,7 @@ class SC_Helper_DB_sfGetAddPointTest extends SC_Helper_DB_TestBase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testSfGetAddPoint()
@@ -28,6 +29,7 @@ class SC_Helper_DB_sfGetAddPointTest extends SC_Helper_DB_TestBase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testSfGetAddPointWithMinus()

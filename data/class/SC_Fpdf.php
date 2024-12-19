@@ -192,11 +192,11 @@ class SC_Fpdf extends SC_Helper_FPDI
             $this->lfText(27, $y, $line, 8);
             $cut = strlen($line);
             $text = substr($text, $cut, strlen($text) - $cut);
-            $y = $y + 3;
+            $y += 3;
         }
         if ($text != '') {
             $this->lfText(27, $y, $text, 8);
-            $y = $y + 3;
+            $y += 3;
         }
 
         $text = $this->arrDisp['order_addr02']; // 購入者住所2
@@ -206,11 +206,11 @@ class SC_Fpdf extends SC_Helper_FPDI
             $this->lfText(27, $y, $line, 8);
             $cut = strlen($line);
             $text = substr($text, $cut, strlen($text) - $cut);
-            $y = $y + 3;
+            $y += 3;
         }
         if ($text != '') {
             $this->lfText(27, $y, $text, 8);
-            $y = $y + 3;
+            $y += 3;
         }
 
         $text = $this->arrDisp['order_name01'].'　'.$this->arrDisp['order_name02'].'　様';

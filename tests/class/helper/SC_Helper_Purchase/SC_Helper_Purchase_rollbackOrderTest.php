@@ -58,28 +58,28 @@ class SC_Helper_Purchase_rollbackOrderTest extends SC_Helper_Purchase_TestBase
         $this->actual['testResult'] = $_SESSION['testResult'];
         $this->actual['siteRegist'] = $_SESSION['site']['regist_success'];
         $this->expected = [
-      'testResult' => [
-        'cancelOrder' => [
-          'order_id' => '1001',
-          'orderStatus' => ORDER_CANCEL,
-          'is_delete' => false,
-        ],
-        'getOrderTempByOrderId' => [
-          'order_id' => '1001',
-        ],
-        'saveOrderTemp' => [
-          'uniqid' => $uniqid,
-          'arrOrderTemp' => [
-            'customer_id' => '2001',
-            'del_flg' => '0',
-          ],
-        ],
-        'verifyChangeCart' => [
-          'uniqid' => $uniqid,
-        ],
-      ],
-      'siteRegist' => true,
-    ];
+            'testResult' => [
+                'cancelOrder' => [
+                    'order_id' => '1001',
+                    'orderStatus' => ORDER_CANCEL,
+                    'is_delete' => false,
+                ],
+                'getOrderTempByOrderId' => [
+                    'order_id' => '1001',
+                ],
+                'saveOrderTemp' => [
+                    'uniqid' => $uniqid,
+                    'arrOrderTemp' => [
+                        'customer_id' => '2001',
+                        'del_flg' => '0',
+                    ],
+                ],
+                'verifyChangeCart' => [
+                    'uniqid' => $uniqid,
+                ],
+            ],
+            'siteRegist' => true,
+        ];
         $this->verify();
     }
 
@@ -96,28 +96,28 @@ class SC_Helper_Purchase_rollbackOrderTest extends SC_Helper_Purchase_TestBase
         $this->actual['testResult'] = $_SESSION['testResult'];
         $this->actual['siteRegist'] = $_SESSION['site']['regist_success'];
         $this->expected = [
-      'testResult' => [
-        'cancelOrder' => [
-          'order_id' => '1001',
-          'orderStatus' => ORDER_DELIV,
-          'is_delete' => true,
-        ],
-        'getOrderTempByOrderId' => [
-          'order_id' => '1001',
-        ],
-        'saveOrderTemp' => [
-          'uniqid' => $uniqid,
-          'arrOrderTemp' => [
-            'customer_id' => '2001',
-            'del_flg' => '0',
-          ],
-        ],
-        'verifyChangeCart' => [
-          'uniqid' => $uniqid,
-        ],
-      ],
-      'siteRegist' => true,
-    ];
+            'testResult' => [
+                'cancelOrder' => [
+                    'order_id' => '1001',
+                    'orderStatus' => ORDER_DELIV,
+                    'is_delete' => true,
+                ],
+                'getOrderTempByOrderId' => [
+                    'order_id' => '1001',
+                ],
+                'saveOrderTemp' => [
+                    'uniqid' => $uniqid,
+                    'arrOrderTemp' => [
+                        'customer_id' => '2001',
+                        'del_flg' => '0',
+                    ],
+                ],
+                'verifyChangeCart' => [
+                    'uniqid' => $uniqid,
+                ],
+            ],
+            'siteRegist' => true,
+        ];
         $this->verify();
     }
     // ////////////////////////////////////////
@@ -130,35 +130,35 @@ class SC_Helper_Purchase_rollbackOrderMock extends SC_Helper_Purchase
     public static function cancelOrder($order_id, $orderStatus = ORDER_CANCEL, $is_delete = false)
     {
         $_SESSION['testResult']['cancelOrder'] = [
-      'order_id' => $order_id,
-      'orderStatus' => $orderStatus,
-      'is_delete' => $is_delete,
-    ];
+            'order_id' => $order_id,
+            'orderStatus' => $orderStatus,
+            'is_delete' => $is_delete,
+        ];
     }
 
     public static function getOrderTempByOrderId($order_id)
     {
         $_SESSION['testResult']['getOrderTempByOrderId'] = [
-      'order_id' => $order_id,
-    ];
+            'order_id' => $order_id,
+        ];
 
         return [
-      'customer_id' => '2001',
-    ];
+            'customer_id' => '2001',
+        ];
     }
 
     public static function saveOrderTemp($uniqid, $arrOrderTemp, &$objCustomer = null)
     {
         $_SESSION['testResult']['saveOrderTemp'] = [
-      'uniqid' => $uniqid,
-      'arrOrderTemp' => $arrOrderTemp,
-    ];
+            'uniqid' => $uniqid,
+            'arrOrderTemp' => $arrOrderTemp,
+        ];
     }
 
     public static function verifyChangeCart($uniqid, &$objCartSession)
     {
         $_SESSION['testResult']['verifyChangeCart'] = [
-      'uniqid' => $uniqid,
-    ];
+            'uniqid' => $uniqid,
+        ];
     }
 }

@@ -508,14 +508,14 @@ class SC_Helper_FileManager
     {
         $endsWithSlash = substr($path, -1) === '/';
         // 絶対パスかどうか
-        if (strpos($path, '/') === 0 || preg_match('/^[a-z]:/i', $path)) {
+        if (str_starts_with($path, '/') || preg_match('/^[a-z]:/i', $path)) {
             $path = realpath($path);
         } else {
             $path = realpath(HTML_REALDIR.$path);
         }
 
         // USER_REALDIR 以下のパスかどうか
-        if ($path === false || strpos($path, realpath(USER_REALDIR)) === false) {
+        if ($path === false || !str_contains($path, realpath(USER_REALDIR))) {
             $path = realpath(USER_REALDIR);
         }
 

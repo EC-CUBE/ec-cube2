@@ -90,6 +90,7 @@ class HTTP_Request_Listener
      * @param    object  an object the listener is attached to
      * @param    string  Event name
      * @param    mixed   Additional data
+     *
      * @abstract
      */
     public function update(&$subject, $event, $data = null)

@@ -99,7 +99,7 @@ class LC_Page_Shopping_LoadPaymentModule extends LC_Page_Ex
             $module_path = str_replace('\\', '/', $module_path);
         }
         $module_realdir = str_replace('\\', '/', realpath(MODULE_REALDIR).'/');
-        if (strpos($module_path, $module_realdir) !== false) {
+        if (str_contains($module_path, $module_realdir)) {
             $module_path = str_replace($module_realdir, '', $module_path);
         }
         $module_path = $module_realdir.$module_path;

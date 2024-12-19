@@ -144,6 +144,7 @@ class SC_SendMailTest extends Common_TestCase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testGetBackendParams()

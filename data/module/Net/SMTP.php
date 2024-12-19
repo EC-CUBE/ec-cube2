@@ -95,14 +95,14 @@ class Net_SMTP
      *
      * @var callable
      */
-    public $_debug_handler = null;
+    public $_debug_handler;
 
     /**
      * The socket resource being used to connect to the SMTP server.
      *
      * @var resource
      */
-    public $_socket = null;
+    public $_socket;
 
     /**
      * The most recent server response code.
@@ -123,7 +123,7 @@ class Net_SMTP
      *
      * @var string
      */
-    public $_greeting = null;
+    public $_greeting;
 
     /**
      * Stores detected features of the SMTP server.
@@ -511,9 +511,9 @@ class Net_SMTP
          * extension, are connected to an SMTP server which supports the
          * STARTTLS extension, and aren't already connected over a secure
          * (SSL) socket connection. */
-        if ($tls && version_compare(PHP_VERSION, '5.1.0', '>=') &&
-            extension_loaded('openssl') && isset($this->_esmtp['STARTTLS']) &&
-            strncasecmp($this->host, 'ssl://', 6) !== 0) {
+        if ($tls && version_compare(PHP_VERSION, '5.1.0', '>=')
+            && extension_loaded('openssl') && isset($this->_esmtp['STARTTLS'])
+            && strncasecmp($this->host, 'ssl://', 6) !== 0) {
             /* Start the TLS connection attempt. */
             if (PEAR::isError($result = $this->_put('STARTTLS'))) {
                 return $result;
@@ -824,7 +824,7 @@ class Net_SMTP
             if ($params['verp'] === true) {
                 $args .= ' XVERP';
 
-                /* XVERP=something */
+            /* XVERP=something */
             } elseif (trim($params['verp'])) {
                 $args .= ' XVERP='.$params['verp'];
             }

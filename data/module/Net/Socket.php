@@ -53,7 +53,7 @@ class Net_Socket extends PEAR
      *
      * @var resource
      */
-    public $fp = null;
+    public $fp;
 
     /**
      * Whether the socket is blocking. Defaults to true.
@@ -130,8 +130,8 @@ class Net_Socket extends PEAR
 
         if (!$addr) {
             return $this->raiseError('$addr cannot be empty');
-        } elseif (strspn($addr, '.0123456789') == strlen($addr) ||
-                  strstr($addr, '/') !== false) {
+        } elseif (strspn($addr, '.0123456789') == strlen($addr)
+                  || strstr($addr, '/') !== false) {
             $this->addr = $addr;
         } else {
             $this->addr = @gethostbyname($addr);

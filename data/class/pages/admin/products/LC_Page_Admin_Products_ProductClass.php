@@ -375,9 +375,9 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
                     if (SC_Utils_Ex::isBlank($arrValues['down_realfilename'][$i])) {
                         $arrErr['down_realfilename'][$i] = '※ ダウンロード商品の場合はダウンロード商品用ファイルをアップロードしてください。<br />';
                     }
-                    /*
-                     * 通常商品チェック
-                     */
+                /*
+                 * 通常商品チェック
+                 */
                 } elseif ($arrValues['product_type_id'][$i] != PRODUCT_TYPE_DOWNLOAD) {
                     if (!SC_Utils_Ex::isBlank($arrValues['down_filename'][$i])) {
                         $arrErr['down_filename'][$i] = '※ ダウンロード商品ではない場合、ダウンロードファイル名を設定できません。<br />';
@@ -602,7 +602,7 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
             $size = DOWN_SIZE;
             $byte = 'KB';
             if ($size >= 1000) {
-                $size = $size / 1000;
+                $size /= 1000;
                 $byte = 'MB';
             }
             $this->arrErr['down_realfilename'][$index] = '※ ダウンロード販売用ファイル名のファイルサイズは'.$size.$byte.'以下のものを使用してください。<br />';

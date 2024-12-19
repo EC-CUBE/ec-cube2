@@ -47,7 +47,7 @@ class SC_Utils_Test extends Common_TestCase
     // ///////////////////////////////////////
     public function testIsAbsoluteRealPath絶対パスの場合Trueが返る()
     {
-        if (strpos(PHP_OS, 'WIN') !== false) {
+        if (str_contains(PHP_OS, 'WIN')) {
             $input = 'C:/Program Files/username/hoge/hoge.txt';
             $this->markTestSkipped(
                 'Appveyorが落ちるので暫定スキップしています'
@@ -63,7 +63,7 @@ class SC_Utils_Test extends Common_TestCase
 
     public function testIsAbsoluteRealPath相対パスの場合Trueが返る()
     {
-        if (strpos(PHP_OS, 'WIN') !== false) {
+        if (str_contains(PHP_OS, 'WIN')) {
             $input = './system32/hoge/hoge.txt';
         } else {
             $input = '../etc/php.ini';

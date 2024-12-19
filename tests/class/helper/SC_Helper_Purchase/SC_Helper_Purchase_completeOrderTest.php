@@ -51,11 +51,11 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
 
         $_SESSION['cartKey'] = '1';
         $_SESSION['site'] = [
-      'pre_page' => 'pre',
-      'now_page' => 'now',
-      'regist_success' => true,
-      'uniqid' => $this->order_temp_ids[0],
-    ];
+            'pre_page' => 'pre',
+            'now_page' => 'now',
+            'regist_success' => true,
+            'uniqid' => $this->order_temp_ids[0],
+        ];
 
         $this->helper = new SC_Helper_Purchase_completeOrderMock();
     }
@@ -73,32 +73,32 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
         $this->helper->completeOrder(ORDER_DELIV);
 
         $this->expected = [
-      'verifyChangeCart' => [
-        'uniqId' => $this->order_temp_ids[0],
-      ],
-      'getOrderTemp' => [
-        'uniqId' => $this->order_temp_ids[0],
-      ],
-      'registerOrderComplete' => [
-        'order_temp_id' => $this->order_temp_ids[0],
-        'status' => ORDER_DELIV,
-        'cartKey' => '1',
-      ],
-      'registerShipmentItem' => [
-        [
-          'order_id' => $this->order_ids[0],
-          'shipping_id' => '00001',
-          'shipment_item' => '商品1',
-        ],
-      ],
-      'registerShipping' => [
-        'order_id' => $this->order_ids[0],
-      ],
-      'cleanupSession' => [
-        'order_id' => $this->order_ids[0],
-        'cartKey' => '1',
-      ],
-    ];
+            'verifyChangeCart' => [
+                'uniqId' => $this->order_temp_ids[0],
+            ],
+            'getOrderTemp' => [
+                'uniqId' => $this->order_temp_ids[0],
+            ],
+            'registerOrderComplete' => [
+                'order_temp_id' => $this->order_temp_ids[0],
+                'status' => ORDER_DELIV,
+                'cartKey' => '1',
+            ],
+            'registerShipmentItem' => [
+                [
+                    'order_id' => $this->order_ids[0],
+                    'shipping_id' => '00001',
+                    'shipment_item' => '商品1',
+                ],
+            ],
+            'registerShipping' => [
+                'order_id' => $this->order_ids[0],
+            ],
+            'cleanupSession' => [
+                'order_id' => $this->order_ids[0],
+                'cartKey' => '1',
+            ],
+        ];
         $this->actual = $_SESSION['testResult'];
         $this->verify('適切なfunctionが呼ばれている');
         $last_buy_date = $this->objQuery->get('last_buy_date', 'dtb_customer', 'customer_id = ?', $this->customer_ids[1]);
@@ -110,32 +110,32 @@ class SC_Helper_Purchase_completeOrderTest extends SC_Helper_Purchase_TestBase
         $this->helper->completeOrder(); // デフォルトのステータス(NEW)
 
         $this->expected = [
-      'verifyChangeCart' => [
-        'uniqId' => $this->order_temp_ids[0],
-      ],
-      'getOrderTemp' => [
-        'uniqId' => $this->order_temp_ids[0],
-      ],
-      'registerOrderComplete' => [
-        'order_temp_id' => $this->order_temp_ids[0],
-        'status' => ORDER_NEW,
-        'cartKey' => '1',
-      ],
-      'registerShipmentItem' => [
-        [
-          'order_id' => (string) $this->order_ids[0],
-          'shipping_id' => '00001',
-          'shipment_item' => '商品1',
-        ],
-      ],
-      'registerShipping' => [
-        'order_id' => (string) $this->order_ids[0],
-      ],
-      'cleanupSession' => [
-        'order_id' => (string) $this->order_ids[0],
-        'cartKey' => '1',
-      ],
-    ];
+            'verifyChangeCart' => [
+                'uniqId' => $this->order_temp_ids[0],
+            ],
+            'getOrderTemp' => [
+                'uniqId' => $this->order_temp_ids[0],
+            ],
+            'registerOrderComplete' => [
+                'order_temp_id' => $this->order_temp_ids[0],
+                'status' => ORDER_NEW,
+                'cartKey' => '1',
+            ],
+            'registerShipmentItem' => [
+                [
+                    'order_id' => (string) $this->order_ids[0],
+                    'shipping_id' => '00001',
+                    'shipment_item' => '商品1',
+                ],
+            ],
+            'registerShipping' => [
+                'order_id' => (string) $this->order_ids[0],
+            ],
+            'cleanupSession' => [
+                'order_id' => (string) $this->order_ids[0],
+                'cartKey' => '1',
+            ],
+        ];
         $this->actual = $_SESSION['testResult'];
         $this->verify('適切なfunctionが呼ばれている');
     }
@@ -160,10 +160,10 @@ class SC_Helper_Purchase_completeOrderMock extends SC_Helper_Purchase
     public function registerOrderComplete($orderTemp, &$objCartSession, $cartKey)
     {
         $_SESSION['testResult']['registerOrderComplete'] = [
-      'order_temp_id' => $orderTemp['order_temp_id'],
-      'status' => $orderTemp['status'],
-      'cartKey' => $cartKey,
-    ];
+            'order_temp_id' => $orderTemp['order_temp_id'],
+            'status' => $orderTemp['status'],
+            'cartKey' => $cartKey,
+        ];
 
         return parent::registerOrderComplete($orderTemp, $objCartSession, $cartKey);
     }
@@ -171,24 +171,24 @@ class SC_Helper_Purchase_completeOrderMock extends SC_Helper_Purchase
     public static function registerShipmentItem($order_id, $shipping_id, $shipment_item)
     {
         $_SESSION['testResult']['registerShipmentItem'][] = [
-      'order_id' => $order_id,
-      'shipping_id' => $shipping_id,
-      'shipment_item' => $shipment_item,
-    ];
+            'order_id' => $order_id,
+            'shipping_id' => $shipping_id,
+            'shipment_item' => $shipment_item,
+        ];
     }
 
     public static function registerShipping($order_id, $shipping_temp, $convert_shipping_date = true)
     {
         $_SESSION['testResult']['registerShipping'] = [
-      'order_id' => $order_id,
-    ];
+            'order_id' => $order_id,
+        ];
     }
 
     public static function cleanupSession($order_id, &$objCartSesion, &$objCustomer, $cartKey)
     {
         $_SESSION['testResult']['cleanupSession'] = [
-      'order_id' => $order_id,
-      'cartKey' => $cartKey,
-    ];
+            'order_id' => $order_id,
+            'cartKey' => $cartKey,
+        ];
     }
 }

@@ -25,6 +25,7 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function test引数が空の場合税率設定で設定かつ適用日時内の最新の値が返される()
@@ -51,6 +52,7 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function test商品idを指定した場合商品に設定かつ適用日時内の最新の値が返される()
@@ -77,6 +79,7 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function test商品規格idを指定した場合商品に登録かつ適用日時内の最新の値が返される()
@@ -103,6 +106,7 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function test商品規格idのみを指定した場合税率設定に登録かつ適用日時内の最新の値が返される()
@@ -129,6 +133,7 @@ class SC_Helper_TaxRule_getTaxRule_OptionProductTaxRuleTest extends SC_Helper_Ta
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      *
      * 基本税率と同じ税率を設定すると商品別税率を削除する

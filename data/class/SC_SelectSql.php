@@ -133,7 +133,7 @@ class SC_SelectSql
         // @see http://svn.ec-cube.net/open_trac/ticket/328
         // FIXME とりあえずintvalで対策...
         $date2 = mktime(0, 0, 0, (int) $to_month, (int) $to_day, (int) $to_year);
-        $date2 = $date2 + 86400;
+        $date2 += 86400;
         // SQL文のdate関数に与えるフォーマットは、yyyy/mm/ddで指定する。
         $date2 = date('Y/m/d', $date2);
 

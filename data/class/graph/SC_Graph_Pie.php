@@ -189,7 +189,7 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
                 list($ax, $ay) = $this->lfGetArcPos($x, $y, $w, $h, $end);
                 // ラインのずれを補正する
                 if ($end > 180) {
-                    $ax = $ax + 1;
+                    ++$ax;
                 }
                 imageline($this->image, $ax, $ay, $ax, $ay + $z, $this->flame_color);
             }

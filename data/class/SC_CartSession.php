@@ -598,6 +598,7 @@ class SC_CartSession
      * @param int $quantity      設定する数量
      * @param int $cart_no       カート番号
      * @param int $product_type_id 商品種別ID
+     *
      * @retrun void
      */
     public function setQuantity($quantity, $cart_no, $product_type_id)

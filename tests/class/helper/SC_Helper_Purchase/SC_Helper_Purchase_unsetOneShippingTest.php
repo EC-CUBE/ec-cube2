@@ -51,15 +51,15 @@ class SC_Helper_Purchase_unsetOneShippingTempTest extends SC_Helper_Purchase_Tes
         SC_Helper_Purchase::unsetOneShippingTemp('00002');
 
         $this->expected = [
-      '00001' => [
-        'shipment_id' => '00001',
-        'shipment_item' => ['商品1'],
-        'shipping_pref' => '東京都', ],
-      '00003' => [
-        'shipment_id' => '00003',
-        'shipment_item' => [],
-        'shipping_pref' => '埼玉県', ],
-    ];
+            '00001' => [
+                'shipment_id' => '00001',
+                'shipment_item' => ['商品1'],
+                'shipping_pref' => '東京都', ],
+            '00003' => [
+                'shipment_id' => '00003',
+                'shipment_item' => [],
+                'shipping_pref' => '埼玉県', ],
+        ];
         $this->actual = $_SESSION['shipping'];
 
         $this->verify('配送情報');

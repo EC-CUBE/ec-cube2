@@ -45,10 +45,10 @@ class API_AddrFromZip extends SC_Api_Abstract_Ex
             $arrAddrList = SC_Utils_Ex::sfGetAddress($zipcode);
             if (!SC_Utils_Ex::isBlank($arrAddrList)) {
                 $this->setResponse('Address', [
-                            'State' => $arrAddrList[0]['state'],
-                            'City' => $arrAddrList[0]['city'],
-                            'Town' => $arrAddrList[0]['town'],
-                        ]
+                    'State' => $arrAddrList[0]['state'],
+                    'City' => $arrAddrList[0]['city'],
+                    'Town' => $arrAddrList[0]['town'],
+                ]
                 );
 
                 return true;

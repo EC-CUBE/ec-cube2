@@ -23,6 +23,7 @@ class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function test定数が正しく設定されているかのテスト()
@@ -34,6 +35,7 @@ class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function test引数が空の場合税率設定で設定かつ適用日時内の最新の値が返される()
@@ -60,6 +62,7 @@ class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function test商品idを指定した場合税率設定で設定かつ適用日時内の最新の値が返される()
@@ -86,6 +89,7 @@ class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function test商品規格idを指定した場合税率設定で設定かつ適用日時内の最新の値が返される()

@@ -68,13 +68,13 @@ class SC_DB_DBFactory
         if (empty($dsn)) {
             if (defined('DEFAULT_DSN')) {
                 $dsn = ['phptype' => DB_TYPE,
-                             'username' => DB_USER,
-                             'password' => DB_PASSWORD,
-                             'protocol' => 'tcp',
-                             'hostspec' => DB_SERVER,
-                             'port' => DB_PORT,
-                             'database' => DB_NAME,
-                             ];
+                    'username' => DB_USER,
+                    'password' => DB_PASSWORD,
+                    'protocol' => 'tcp',
+                    'hostspec' => DB_SERVER,
+                    'port' => DB_PORT,
+                    'database' => DB_NAME,
+                ];
             } else {
                 return '';
             }

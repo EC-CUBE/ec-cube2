@@ -616,6 +616,7 @@ __EOS__;
             $arrProduct['price02_min_tax_format'] = &$arrProduct['price02_min_inctax_format'];
             $arrProduct['price02_max_tax_format'] = &$arrProduct['price02_max_inctax_format'];
         }
+
         // @deprecated 2.12.4
         // 旧バージョン互換用
         // 現在は参照渡しで戻せる

@@ -68,6 +68,7 @@ class Calendar_Decorator_Textual extends Calendar_Decorator
      * @param string (optional) format of returned months (one,two,short or long)
      *
      * @return array
+     *
      * @static
      */
     public function monthNames($format = 'long')
@@ -81,6 +82,7 @@ class Calendar_Decorator_Textual extends Calendar_Decorator
      * @param string (optional) format of returned days (one,two,short or long)
      *
      * @return array
+     *
      * @static
      */
     public function weekdayNames($format = 'long')

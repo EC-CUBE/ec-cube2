@@ -185,7 +185,7 @@ class Calendar_Engine_UnixTS /* implements Calendar_Engine_Interface */
      */
     public function getMinYears()
     {
-        return $min = strpos(PHP_OS, 'WIN') === false ? 1902 : 1970;
+        return $min = !str_contains(PHP_OS, 'WIN') ? 1902 : 1970;
     }
 
     /**

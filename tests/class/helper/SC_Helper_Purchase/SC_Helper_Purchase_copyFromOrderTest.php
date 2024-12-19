@@ -48,42 +48,42 @@ class SC_Helper_Purchase_copyFromOrderTest extends SC_Helper_Purchase_TestBase
     {
         $dest = [];
         $src = [
-       'order_name01' => '姓',
-       'order_name02' => '名',
-       'order_kana01' => 'セイ',
-       'order_kana02' => 'メイ',
-       'order_sex' => '1',
-       'order_zip01' => '012',
-       'order_zip02' => '1234',
-       'order_pref' => '北海道',
-       'order_addr01' => '住所01',
-       'order_addr02' => '住所02',
-       'order_tel01' => '01',
-       'order_tel02' => '1234',
-       'order_tel03' => '5678',
-       'order_fax01' => '02',
-       'order_fax02' => '2345',
-       'order_fax03' => '6789',
-     ];
+            'order_name01' => '姓',
+            'order_name02' => '名',
+            'order_kana01' => 'セイ',
+            'order_kana02' => 'メイ',
+            'order_sex' => '1',
+            'order_zip01' => '012',
+            'order_zip02' => '1234',
+            'order_pref' => '北海道',
+            'order_addr01' => '住所01',
+            'order_addr02' => '住所02',
+            'order_tel01' => '01',
+            'order_tel02' => '1234',
+            'order_tel03' => '5678',
+            'order_fax01' => '02',
+            'order_fax02' => '2345',
+            'order_fax03' => '6789',
+        ];
 
         $this->expected = [
-       'shipping_name01' => '姓',
-       'shipping_name02' => '名',
-       'shipping_kana01' => 'セイ',
-       'shipping_kana02' => 'メイ',
-       'shipping_sex' => '1',
-       'shipping_zip01' => '012',
-       'shipping_zip02' => '1234',
-       'shipping_pref' => '北海道',
-       'shipping_addr01' => '住所01',
-       'shipping_addr02' => '住所02',
-       'shipping_tel01' => '01',
-       'shipping_tel02' => '1234',
-       'shipping_tel03' => '5678',
-       'shipping_fax01' => '02',
-       'shipping_fax02' => '2345',
-       'shipping_fax03' => '6789',
-     ];
+            'shipping_name01' => '姓',
+            'shipping_name02' => '名',
+            'shipping_kana01' => 'セイ',
+            'shipping_kana02' => 'メイ',
+            'shipping_sex' => '1',
+            'shipping_zip01' => '012',
+            'shipping_zip02' => '1234',
+            'shipping_pref' => '北海道',
+            'shipping_addr01' => '住所01',
+            'shipping_addr02' => '住所02',
+            'shipping_tel01' => '01',
+            'shipping_tel02' => '1234',
+            'shipping_tel03' => '5678',
+            'shipping_fax01' => '02',
+            'shipping_fax02' => '2345',
+            'shipping_fax03' => '6789',
+        ];
         $helper = new SC_Helper_Purchase_Ex();
         $helper->copyFromOrder($dest, $src);
         $this->actual = $dest;
@@ -95,15 +95,15 @@ class SC_Helper_Purchase_copyFromOrderTest extends SC_Helper_Purchase_TestBase
     {
         $dest = [];
         $src = [
-       'input_name01' => '姓',
-       'input_name02' => '名',
-       'input_zip01' => '012', // キーに含まれないもの
-     ];
+            'input_name01' => '姓',
+            'input_name02' => '名',
+            'input_zip01' => '012', // キーに含まれないもの
+        ];
 
         $this->expected = [
-       'output_name01' => '姓',
-       'output_name02' => '名',
-     ];
+            'output_name01' => '姓',
+            'output_name02' => '名',
+        ];
         $helper = new SC_Helper_Purchase_Ex();
         $helper->copyFromOrder($dest, $src, 'output', 'input', ['name01', 'name02']);
         $this->actual = $dest;

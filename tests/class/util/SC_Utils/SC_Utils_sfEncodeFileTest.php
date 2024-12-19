@@ -60,9 +60,9 @@ class SC_Utils_sfEncodeFileTest extends Common_TestCase
         fclose($fp_out);
 
         $this->expected = [
-      'filename' => $outdir.'enc_test.txt',
-      'content' => 'こんにちは',
-    ];
+            'filename' => $outdir.'enc_test.txt',
+            'content' => 'こんにちは',
+        ];
 
         $this->actual['filename'] = SC_Utils::sfEncodeFile($filepath, 'euc-jp', $outdir);
 
@@ -75,5 +75,5 @@ class SC_Utils_sfEncodeFileTest extends Common_TestCase
 
     // TODO ファイルが開けなかった場合はexitするためテスト不可
 
-  // ////////////////////////////////////////
+    // ////////////////////////////////////////
 }

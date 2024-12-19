@@ -167,8 +167,8 @@ class SC_SendMail
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         $this->host = $host;
         $arrHost = [
-                'host' => $this->host,
-                'port' => $this->port,
+            'host' => $this->host,
+            'port' => $this->port,
         ];
         // PEAR::Mailを使ってメール送信オブジェクト作成
         $this->objMail = &Mail::factory('smtp', $arrHost);
@@ -184,8 +184,8 @@ class SC_SendMail
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         $this->port = $port;
         $arrHost = [
-                'host' => $this->host,
-                'port' => $this->port,
+            'host' => $this->host,
+            'port' => $this->port,
         ];
         // PEAR::Mailを使ってメール送信オブジェクト作成
         $this->objMail = &Mail::factory('smtp', $arrHost);

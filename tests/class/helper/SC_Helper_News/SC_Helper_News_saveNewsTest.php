@@ -60,19 +60,19 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
         $this->setUpNews();
 
         $sqlval = [
-          'news_id' => '1002',
-          'news_title' => 'ニュース情報05更新',
-          'creator_id' => '1',
-          'del_flg' => '0',
-          ];
+            'news_id' => '1002',
+            'news_title' => 'ニュース情報05更新',
+            'creator_id' => '1',
+            'del_flg' => '0',
+        ];
 
         $this->expected['count'] = '4';
         $this->expected['content'] = [
-          'news_id' => '1002',
-          'news_title' => 'ニュース情報05更新',
-          'creator_id' => '1',
-          'del_flg' => '0',
-          ];
+            'news_id' => '1002',
+            'news_title' => 'ニュース情報05更新',
+            'creator_id' => '1',
+            'del_flg' => '0',
+        ];
 
         $ret_id = $this->objNews->saveNews($sqlval);
 

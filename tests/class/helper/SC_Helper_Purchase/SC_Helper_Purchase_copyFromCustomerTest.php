@@ -92,31 +92,31 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
         $this->customer->setValue('email_mobile', 'mobile@example.com');
 
         $this->expected = [
-      'order_name01' => '姓01',
-      'order_name02' => '名01',
-      'order_kana01' => 'セイ01',
-      'order_kana02' => 'メイ01',
-      'order_sex' => '1',
-      'order_zip01' => '123',
-      'order_zip02' => '4567',
-      'order_pref' => '東京都',
-      'order_addr01' => 'abc市',
-      'order_addr02' => 'def町',
-      'order_tel01' => '01',
-      'order_tel02' => '234',
-      'order_tel03' => '5678',
-      'order_fax01' => '02',
-      'order_fax02' => '345',
-      'order_fax03' => '6789',
-      'order_job' => '会社員',
-      'order_birth' => '2012-01-01',
-      'order_email' => 'mobile@example.com',
-      'customer_id' => '1001',
-      'update_date' => 'CURRENT_TIMESTAMP',
-      'order_country_id' => '',
-      'order_company_name' => '',
-      'order_zipcode' => '',
-    ];
+            'order_name01' => '姓01',
+            'order_name02' => '名01',
+            'order_kana01' => 'セイ01',
+            'order_kana02' => 'メイ01',
+            'order_sex' => '1',
+            'order_zip01' => '123',
+            'order_zip02' => '4567',
+            'order_pref' => '東京都',
+            'order_addr01' => 'abc市',
+            'order_addr02' => 'def町',
+            'order_tel01' => '01',
+            'order_tel02' => '234',
+            'order_tel03' => '5678',
+            'order_fax01' => '02',
+            'order_fax02' => '345',
+            'order_fax03' => '6789',
+            'order_job' => '会社員',
+            'order_birth' => '2012-01-01',
+            'order_email' => 'mobile@example.com',
+            'customer_id' => '1001',
+            'update_date' => 'CURRENT_TIMESTAMP',
+            'order_country_id' => '',
+            'order_company_name' => '',
+            'order_zipcode' => '',
+        ];
         $helper = new SC_Helper_Purchase_Ex();
         $helper->copyFromCustomer($dest, $this->customer);
         $this->actual = $dest;
@@ -134,11 +134,11 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
         User_Utils::setDeviceType(DEVICE_TYPE_MOBILE);
 
         $this->expected = [
-      'order_name01' => '姓01',
-      'order_email' => 'test@example.com',
-      'customer_id' => '1001',
-      'update_date' => 'CURRENT_TIMESTAMP',
-    ];
+            'order_name01' => '姓01',
+            'order_email' => 'test@example.com',
+            'customer_id' => '1001',
+            'update_date' => 'CURRENT_TIMESTAMP',
+        ];
         $helper = new SC_Helper_Purchase_Ex();
         $helper->copyFromCustomer($dest, $this->customer, $prefix, $keys);
         $this->actual = $dest;
@@ -157,11 +157,11 @@ class SC_Helper_Purchase_copyFromCustomerTest extends SC_Helper_Purchase_TestBas
         $this->customer->setValue('email_mobile', 'mobile@example.com');
 
         $this->expected = [
-      'prefix_name01' => '姓01',
-      'prefix_email' => 'test@example.com',
-      'customer_id' => '1001',
-      'update_date' => 'CURRENT_TIMESTAMP',
-    ];
+            'prefix_name01' => '姓01',
+            'prefix_email' => 'test@example.com',
+            'customer_id' => '1001',
+            'update_date' => 'CURRENT_TIMESTAMP',
+        ];
         $helper = new SC_Helper_Purchase_Ex();
         $helper->copyFromCustomer($dest, $this->customer, $prefix, $keys);
         $this->actual = $dest;

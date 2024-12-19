@@ -44,8 +44,8 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'country_id' => null,
                 'company_name' => null,
                 'zipcode' => null,
-                  ],
-                                ];
+            ],
+        ];
         $this->actual = $this->objAddress->getList($customer_id, $startno);
 
         $this->verify('配送先一覧取得');
@@ -56,7 +56,7 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
         $this->setUpAddress();
         $customer_id = '1';
         $this->expected = [
-                        [
+            [
                 'other_deliv_id' => '1001',
                 'customer_id' => '1',
                 'name01' => 'テスト',
@@ -77,7 +77,7 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'country_id' => null,
                 'company_name' => null,
                 'zipcode' => null,
-                  ],
+            ],
             [
                 'other_deliv_id' => '1000',
                 'customer_id' => '1',
@@ -99,8 +99,8 @@ class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
                 'country_id' => null,
                 'company_name' => null,
                 'zipcode' => null,
-                  ],
-                                ];
+            ],
+        ];
         $this->actual = $this->objAddress->getList($customer_id);
 
         $this->verify('配送先一覧取得');

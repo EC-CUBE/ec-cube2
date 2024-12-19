@@ -212,10 +212,10 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
     /**
      * POSTされた値からSQLのWHEREとBINDを配列で返す。
      *
-     * @return array        ('where' => where string, 'bind' => databind array)
-     *
      * @param  SC_FormParam $objFormParam
      * @param SC_Helper_DB_Ex $objDb
+     *
+     * @return array        ('where' => where string, 'bind' => databind array)
      */
     public function createWhere(&$objFormParam, &$objDb)
     {

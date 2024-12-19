@@ -32,7 +32,7 @@ class SC_Helper_Kiyaku_TestBase extends Common_TestCase
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
                 'del_flg' => '0',
-                  ],
+            ],
             [
                 'kiyaku_id' => '1001',
                 'kiyaku_title' => 'test2',
@@ -42,7 +42,7 @@ class SC_Helper_Kiyaku_TestBase extends Common_TestCase
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
                 'del_flg' => '0',
-                  ],
+            ],
             [
                 'kiyaku_id' => '1002',
                 'kiyaku_title' => 'test3',
@@ -52,8 +52,8 @@ class SC_Helper_Kiyaku_TestBase extends Common_TestCase
                 'create_date' => '2000-01-01 00:00:00',
                 'update_date' => '2000-01-01 00:00:00',
                 'del_flg' => '1',
-                  ],
-                                ];
+            ],
+        ];
 
         $this->objQuery->delete('dtb_kiyaku');
         foreach ($kiyaku as $key => $item) {

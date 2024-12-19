@@ -347,7 +347,7 @@ class SC_Helper_Transform
                     $err_msg .= '<br />'.$arrErr['err_msg'];
                 } else {
                     if ($arrErr['type'] == self::ERR_TARGET_ELEMENT_NOT_FOUND) {
-                        $err_msg .= "<br />${arrErr['selector']} が存在しません";
+                        $err_msg .= "<br />{$arrErr['selector']} が存在しません";
                     } else {
                         $err_msg .= '<br />'.print_r($arrErr, true);
                     }

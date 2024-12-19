@@ -249,7 +249,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
                     $arrData['OPTION_PRODUCT_TAX_RULE'] = $val;
                     break;
                 default:
-                }
+            }
         }
         $masterData = new SC_DB_MasterData_Ex();
         // DBのデータを更新

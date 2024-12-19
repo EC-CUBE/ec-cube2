@@ -61,12 +61,12 @@ class SC_Utils_arrayDefineIndexesTest extends Common_TestCase
         $defineIndexes = ['tomato', 'banana', 'kiwi'];
 
         $this->expected = [
-      'apple' => 'りんご',
-      'banana' => 'バナナ',
-      'orange' => 'オレンジ',
-      'tomato' => '',
-      'kiwi' => '',
-    ];
+            'apple' => 'りんご',
+            'banana' => 'バナナ',
+            'orange' => 'オレンジ',
+            'tomato' => '',
+            'kiwi' => '',
+        ];
         $this->actual = SC_Utils::arrayDefineIndexes($input_array, $defineIndexes);
 
         $this->verify();

@@ -57,15 +57,15 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
         $order_id = '1';
         $shipping_id = '1';
         $arrParams = [
-      [
-        // 'product_class_id' => '1',
-        'product_name' => '追加製品名01',
-        'product_code' => 'newcode01',
-        'classcategory_name1' => 'newcat01',
-        'classcategory_name2' => 'newcat02',
-        'price' => '2500',
-      ],
-    ];
+            [
+                // 'product_class_id' => '1',
+                'product_name' => '追加製品名01',
+                'product_code' => 'newcode01',
+                'classcategory_name1' => 'newcat01',
+                'classcategory_name2' => 'newcat02',
+                'price' => '2500',
+            ],
+        ];
 
         // 期待値の設定
         $this->expected['count'] = 0;
@@ -89,26 +89,26 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
         $order_id = $this->order_ids[0];
         $shipping_id = '0';
         $arrParams = [
-      [
-        'product_class_id' => '1',
-        'product_name' => '追加製品名01',
-        'product_code' => 'newcode01',
-        'classcategory_name1' => 'newcat01',
-        'classcategory_name2' => 'newcat02',
-        'price' => '2500',
-      ],
-    ];
+            [
+                'product_class_id' => '1',
+                'product_name' => '追加製品名01',
+                'product_code' => 'newcode01',
+                'classcategory_name1' => 'newcat01',
+                'classcategory_name2' => 'newcat02',
+                'price' => '2500',
+            ],
+        ];
 
         // 期待値の設定
         $this->expected['count'] = 1;
         $this->expected['first'] = [
-      'product_class_id' => '1',
-      'product_name' => '追加製品名01',
-      'product_code' => 'newcode01',
-      'classcategory_name1' => 'newcat01',
-      'classcategory_name2' => 'newcat02',
-      'price' => '2500',
-    ];
+            'product_class_id' => '1',
+            'product_name' => '追加製品名01',
+            'product_code' => 'newcode01',
+            'classcategory_name1' => 'newcat01',
+            'classcategory_name2' => 'newcat02',
+            'price' => '2500',
+        ];
 
         // 対象functionの呼び出し
         SC_Helper_Purchase::registerShipmentItem($order_id, $shipping_id, $arrParams);
@@ -131,28 +131,28 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
         $order_id = $this->order_ids[0];
         $shipping_id = '1';
         $arrParams = [
-      [
-        'product_class_id' => '1',
-        // 'product_name' => '追加製品名01',
-        // 'product_code' => 'newcode01',
-        // 'classcategory_name1' => 'newcat01',
-        // 'classcategory_name2' => 'newcat02',
-        // 'price' => '2500'
-      ],
-    ];
+            [
+                'product_class_id' => '1',
+                // 'product_name' => '追加製品名01',
+                // 'product_code' => 'newcode01',
+                // 'classcategory_name1' => 'newcat01',
+                // 'classcategory_name2' => 'newcat02',
+                // 'price' => '2500'
+            ],
+        ];
 
         // 期待値の設定
         $this->expected['count'] = 1;
         $this->expected['first'] = [
-      'product_class_id' => '1',
-      'product_name' => 'アイスクリーム',
-      'product_code' => 'ice-01',
-      'classcategory_name1' => '抹茶',
-      'classcategory_name2' => 'S',
-  // TODO 要確認price01, price02を設定しても価格が取れない。実際にはDBから取るケースが無い?
-      // 'price' => '1500'
-      'price' => null,
-    ];
+            'product_class_id' => '1',
+            'product_name' => 'アイスクリーム',
+            'product_code' => 'ice-01',
+            'classcategory_name1' => '抹茶',
+            'classcategory_name2' => 'S',
+            // TODO 要確認price01, price02を設定しても価格が取れない。実際にはDBから取るケースが無い?
+            // 'price' => '1500'
+            'price' => null,
+        ];
 
         // 対象functionの呼び出し
         SC_Helper_Purchase::registerShipmentItem($order_id, $shipping_id, $arrParams);
@@ -174,27 +174,27 @@ class SC_Helper_Purchase_registerShipmentItemTest extends SC_Helper_Purchase_Tes
         $order_id = '1';
         $shipping_id = '1';
         $arrParams = [
-      [
-        'product_class_id' => '1',
-        'product_name' => '追加製品名01',
-        'product_code' => 'newcode01',
-        'classcategory_name1' => 'newcat01',
-        'classcategory_name2' => 'newcat02',
-        'price' => '2500',
-        'xxxx' => 'yyyyyy', // 存在しないカラム
-      ],
-    ];
+            [
+                'product_class_id' => '1',
+                'product_name' => '追加製品名01',
+                'product_code' => 'newcode01',
+                'classcategory_name1' => 'newcat01',
+                'classcategory_name2' => 'newcat02',
+                'price' => '2500',
+                'xxxx' => 'yyyyyy', // 存在しないカラム
+            ],
+        ];
 
         // 期待値の設定
         $this->expected['count'] = 1;
         $this->expected['first'] = [
-      'product_class_id' => '1',
-      'product_name' => '追加製品名01',
-      'product_code' => 'newcode01',
-      'classcategory_name1' => 'newcat01',
-      'classcategory_name2' => 'newcat02',
-      'price' => '2500',
-    ];
+            'product_class_id' => '1',
+            'product_name' => '追加製品名01',
+            'product_code' => 'newcode01',
+            'classcategory_name1' => 'newcat01',
+            'classcategory_name2' => 'newcat02',
+            'price' => '2500',
+        ];
 
         // 対象functionの呼び出し
         SC_Helper_Purchase::registerShipmentItem($order_id, $shipping_id, $arrParams);

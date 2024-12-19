@@ -37,6 +37,7 @@ class LoadClassFileChangeCustomDirTest extends Common_TestCase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testLOading()

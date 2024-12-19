@@ -67,22 +67,22 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
             }, $this->arrProductsClasses)
         );
         $this->expected = [
-      'testResult' => [
-        'registerOrder' => [
-          'order_id' => '1001',
-          'params' => [
-            'status' => ORDER_CANCEL,
-          ],
-        ],
-        'getOrderDetail' => [
-          'order_id' => '1001',
-        ],
-      ],
-      'productClass' => array_map(function ($productsClass) {
-          return ['stock' => $productsClass['stock']];
-      }, $this->arrProductsClasses
-      ),
-    ];
+            'testResult' => [
+                'registerOrder' => [
+                    'order_id' => '1001',
+                    'params' => [
+                        'status' => ORDER_CANCEL,
+                    ],
+                ],
+                'getOrderDetail' => [
+                    'order_id' => '1001',
+                ],
+            ],
+            'productClass' => array_map(function ($productsClass) {
+                return ['stock' => $productsClass['stock']];
+            }, $this->arrProductsClasses
+            ),
+        ];
         $this->verify();
     }
 
@@ -102,22 +102,22 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
             }, $this->arrProductsClasses)
         );
         $this->expected = [
-      'testResult' => [
-        'registerOrder' => [
-          'order_id' => '1001',
-          'params' => [
-            'status' => ORDER_NEW,
-          ],
-        ],
-        'getOrderDetail' => [
-          'order_id' => '1001',
-        ],
-      ],
-      'productClass' => array_map(function ($productsClass) {
-          return ['stock' => $productsClass['stock']];
-      }, $this->arrProductsClasses
-      ),
-    ];
+            'testResult' => [
+                'registerOrder' => [
+                    'order_id' => '1001',
+                    'params' => [
+                        'status' => ORDER_NEW,
+                    ],
+                ],
+                'getOrderDetail' => [
+                    'order_id' => '1001',
+                ],
+            ],
+            'productClass' => array_map(function ($productsClass) {
+                return ['stock' => $productsClass['stock']];
+            }, $this->arrProductsClasses
+            ),
+        ];
 
         $this->verify();
     }
@@ -137,23 +137,23 @@ class SC_Helper_Purchase_cancelOrderTest extends SC_Helper_Purchase_TestBase
             }, $this->arrProductsClasses)
         );
         $this->expected = [
-      'testResult' => [
-        'registerOrder' => [
-          'order_id' => '1001',
-          'params' => [
-            'status' => ORDER_DELIV,
-            'del_flg' => '1',
-          ],
-        ],
-        'getOrderDetail' => [
-          'order_id' => '1001',
-        ],
-      ],
-      'productClass' => array_map(function ($productsClass) {
-          return ['stock' => $productsClass['stock']];
-      }, $this->arrProductsClasses
-      ),
-    ];
+            'testResult' => [
+                'registerOrder' => [
+                    'order_id' => '1001',
+                    'params' => [
+                        'status' => ORDER_DELIV,
+                        'del_flg' => '1',
+                    ],
+                ],
+                'getOrderDetail' => [
+                    'order_id' => '1001',
+                ],
+            ],
+            'productClass' => array_map(function ($productsClass) {
+                return ['stock' => $productsClass['stock']];
+            }, $this->arrProductsClasses
+            ),
+        ];
 
         $this->verify();
     }
@@ -166,26 +166,26 @@ class SC_Helper_Purchase_cancelOrderMock extends SC_Helper_Purchase
     public static function registerOrder($order_id, $params)
     {
         $_SESSION['testResult']['registerOrder'] = [
-      'order_id' => $order_id,
-      'params' => $params,
-    ];
+            'order_id' => $order_id,
+            'params' => $params,
+        ];
     }
 
     public static function getOrderDetail($order_id, $has_order_status = true)
     {
         $_SESSION['testResult']['getOrderDetail'] = [
-      'order_id' => $order_id,
-    ];
+            'order_id' => $order_id,
+        ];
 
         return [
-      [
-        'product_class_id' => '1001',
-        'quantity' => '5',
-      ],
-      [
-        'product_class_id' => '1002',
-        'quantity' => '1',
-      ],
-    ];
+            [
+                'product_class_id' => '1001',
+                'quantity' => '5',
+            ],
+            [
+                'product_class_id' => '1002',
+                'quantity' => '1',
+            ],
+        ];
     }
 }

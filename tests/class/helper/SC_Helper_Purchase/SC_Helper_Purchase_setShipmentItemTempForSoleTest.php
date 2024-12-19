@@ -54,12 +54,12 @@ class SC_Helper_Purchase_setShipmentItemTempForSoleTest extends SC_Helper_Purcha
         $helper->setShipmentItemTempForSole($cartSession, $shipping_id);
 
         $this->expected = [
-      'clearShipmentItemTemp' => true,
-      'shipmentItemTemp' => [
-        ['shipping_id' => '1001', 'id' => '1', 'quantity' => '10'],
-        ['shipping_id' => '1001', 'id' => '2', 'quantity' => '5'],
-      ],
-    ];
+            'clearShipmentItemTemp' => true,
+            'shipmentItemTemp' => [
+                ['shipping_id' => '1001', 'id' => '1', 'quantity' => '10'],
+                ['shipping_id' => '1001', 'id' => '2', 'quantity' => '5'],
+            ],
+        ];
         $this->actual = $_SESSION['testResult'];
 
         $this->verify();
@@ -87,9 +87,9 @@ class SC_CartSession_setShipmentItemTempForSoleMock extends SC_CartSession
     public function getCartList($key, $pref_id = 0, $country_id = 0)
     {
         return [
-      ['id' => '1', 'quantity' => '10'],
-      ['id' => '2', 'quantity' => '5'],
-      ['id' => '3', 'quantity' => '0'],
-    ];
+            ['id' => '1', 'quantity' => '10'],
+            ['id' => '2', 'quantity' => '5'],
+            ['id' => '3', 'quantity' => '0'],
+        ];
     }
 }

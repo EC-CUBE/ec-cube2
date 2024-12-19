@@ -190,6 +190,7 @@ class LC_Page_Admin_Order_Mail extends LC_Page_Admin_Order_Ex
                     $objFormParam->getValue('header'),
                     $objFormParam->getValue('footer'));
             }
+
             // TODO $SC_SendMail から送信がちゃんと出来たか確認できたら素敵。
             return true;
         }
