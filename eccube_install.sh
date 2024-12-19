@@ -232,29 +232,29 @@ case "${DBTYPE}" in
 "heroku" )
     # PostgreSQL
     echo "create table..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
     echo "insert data..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -f ${SQL_DIR}/insert_data.sql ${DBNAME}
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -f ${SQL_DIR}/insert_data.sql ${DBNAME}
     echo "create sequence table..."
     create_sequence_tables
     echo "execute optional SQL..."
-    get_optional_sql | ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} ${DBNAME}
+    get_optional_sql | ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 ${DBNAME}
     DBTYPE="pgsql"
 ;;
 "appveyor" | "pgsql" )
    # PostgreSQL
     echo "dropdb..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "DROP DATABASE IF EXISTS ${DBNAME};" template1
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -c "DROP DATABASE IF EXISTS ${DBNAME};" template1
     echo "createdb..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};" template1
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -c "CREATE DATABASE ${DBNAME};" template1
     echo "create table..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
     echo "insert data..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -f ${SQL_DIR}/insert_data.sql ${DBNAME}
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -f ${SQL_DIR}/insert_data.sql ${DBNAME}
     echo "create sequence table..."
     create_sequence_tables
     echo "execute optional SQL..."
-    get_optional_sql | ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} ${DBNAME}
+    get_optional_sql | ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 ${DBNAME}
     DBTYPE="pgsql"
 ;;
 "mysql" )
