@@ -210,7 +210,7 @@ class SC_Helper_Session
     public static function isValidToken($is_unset = false)
     {
         // token の妥当性チェック
-        $ret = $_REQUEST[TRANSACTION_ID_NAME] === $_SESSION[TRANSACTION_ID_NAME];
+        $ret = ($_REQUEST[TRANSACTION_ID_NAME] ?? '') === ($_SESSION[TRANSACTION_ID_NAME] ?? '');
 
         if (empty($_REQUEST[TRANSACTION_ID_NAME]) || empty($_SESSION[TRANSACTION_ID_NAME])) {
             $ret = false;

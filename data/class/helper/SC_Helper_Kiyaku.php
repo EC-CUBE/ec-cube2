@@ -45,9 +45,9 @@ class SC_Helper_Kiyaku
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select('*', 'dtb_kiyaku', $where, [$kiyaku_id]);
+        $arrRet = $objQuery->getRow('*', 'dtb_kiyaku', $where, [$kiyaku_id]);
 
-        return $arrRet[0];
+        return $arrRet;
     }
 
     /**

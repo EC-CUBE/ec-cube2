@@ -310,7 +310,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
         $objErr->doFunc(['ポイントを使用する', 'point_check'], ['EXIST_CHECK']);
 
         if ($arrForm['point_check'] == '1'
-            && SC_Utils_Ex::isBlank($objErr->arrErr['use_point'])) {
+            && SC_Utils_Ex::isBlank($objErr->arrErr['use_point'] ?? '')) {
             $objErr->doFunc(['ポイント', 'use_point'], ['EXIST_CHECK']);
             if ($max_point == '') {
                 $max_point = 0;
@@ -356,7 +356,11 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
             $time_id = $objFormParam->getValue('deliv_time_id'.$shipping_id);
             $_SESSION['shipping'][$key]['deliv_id'] = $deliv_id;
             $_SESSION['shipping'][$key]['time_id'] = $time_id;
-            $_SESSION['shipping'][$key]['shipping_time'] = $arrDelivTime[$time_id];
+            if (isset($arrDelivTime[$time_id])) {
+                $_SESSION['shipping'][$key]['shipping_time'] = $arrDelivTime[$time_id];
+            } else {
+                $_SESSION['shipping'][$key]['shipping_time'] = '';
+            }
             $_SESSION['shipping'][$key]['shipping_date'] = $objFormParam->getValue('deliv_date'.$shipping_id);
         }
     }

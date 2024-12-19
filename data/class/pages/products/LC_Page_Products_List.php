@@ -338,7 +338,7 @@ class LC_Page_Products_List extends LC_Page_Ex
         if (strlen($arrSearchData['maker_id']) > 0) {
             $objMaker = new SC_Helper_Maker_Ex();
             $maker = $objMaker->getMaker($arrSearchData['maker_id']);
-            $arrSearch['maker'] = $maker['name'];
+            $arrSearch['maker'] = $maker['name'] ?? '';
         }
 
         // 商品名検索条件

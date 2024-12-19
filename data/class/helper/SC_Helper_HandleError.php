@@ -63,7 +63,9 @@ class SC_Helper_HandleError
             // E_USER_ERROR 以外のエラーを捕捉した場合の処理用
             register_shutdown_function([__CLASS__, 'handle_error']);
             // 以降の処理では画面へのエラー表示は行なわない
-            ini_set('display_errors', 0);
+            if (!headers_sent()) {
+                ini_set('display_errors', 0);
+            }
         }
     }
 
@@ -103,7 +105,9 @@ class SC_Helper_HandleError
             case E_USER_ERROR:
                 // パラメーターが読み込まれるまでは、エラー例外をスローする。(上の分岐があるため phpunit の実行中に限定される。)
                 if (!defined('ERROR_LOG_REALFILE')) {
-                    ini_set('display_errors', static::$default_display_errors);
+                    if (!headers_sent()) {
+                        ini_set('display_errors', static::$default_display_errors);
+                    }
                     throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
                 }
 
@@ -197,7 +201,9 @@ class SC_Helper_HandleError
 
         // パラメーターが読み込まれるまでは、エラー例外をスローする。
         if (!defined('ERROR_LOG_REALFILE')) {
-            ini_set('display_errors', static::$default_display_errors);
+            if (!headers_sent()) {
+                ini_set('display_errors', static::$default_display_errors);
+            }
             throw new ErrorException($arrError['message'], 0, $arrError['type'], $arrError['file'], $arrError['line']);
         }
 

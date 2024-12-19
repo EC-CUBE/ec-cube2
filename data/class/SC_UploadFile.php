@@ -146,7 +146,7 @@ class SC_UploadFile
             }
         }
 
-        return $objErr->arrErr[$keyname];
+        return $objErr->arrErr[$keyname] ?? '';
     }
 
     // アップロードされたダウンロードファイルを保存する。
@@ -177,7 +177,7 @@ class SC_UploadFile
             }
         }
 
-        return $objErr->arrErr[$keyname];
+        return $objErr->arrErr[$keyname] ?? '';
     }
 
     // 画像を削除する。
@@ -506,7 +506,7 @@ class SC_UploadFile
         $objImage = new SC_Image_Ex($this->temp_dir);
         $cnt = 0;
         if ($arrVal['down_realfilename'] != '') {
-            if ($this->save_file[$cnt] == '' && !preg_match('|^sub/|', $arrVal['down_realfilename'])) {
+            if (!isset($this->save_file[$cnt]) && !preg_match('|^sub/|', $arrVal['down_realfilename'])) {
                 $objImage->deleteImage($arrVal['down_realfilename'], $this->save_dir);
             }
         }

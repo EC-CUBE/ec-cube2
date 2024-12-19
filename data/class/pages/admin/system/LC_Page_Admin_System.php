@@ -89,7 +89,7 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex
             = $this->getMemberCount('work = 1 AND del_flg <> 1 AND member_id <> '.ADMIN_ID);
 
         // ページ送りの処理 $_GET['pageno']が信頼しうる値かどうかチェックする。
-        $pageno = $this->lfCheckPageNo($_GET['pageno']);
+        $pageno = $this->lfCheckPageNo($_GET['pageno'] ?? 1);
 
         $objNavi = new SC_PageNavi_Ex($pageno, $linemax, MEMBER_PMAX, 'eccube.moveMemberPage', NAVI_PMAX);
         $this->tpl_strnavi = $objNavi->strnavi;
