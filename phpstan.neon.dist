@@ -39,5 +39,24 @@ parameters:
       message: "#^Variable \\$SJIS_widths might not be defined\\.$#"
       path: data/class/helper/SC_Helper_FPDI.php
     -
-      message: "#^Inner named functions are not supported by PHPStan\\.#"
-      path: data/class/SC_Initial.php
+      message: '#^Path in include_once\(\) "Auth/SASL.php" is not a file or it does not exist.#'
+      path: data/module/Net/SMTP.php
+    -
+      message: '#^Path in require_once\(\) ".*\.php" is not a file or it does not exist\.$#'
+      paths:
+        - data/module/Calendar/Calendar.php
+        - data/module/Calendar/Day.php
+        - data/module/Calendar/Decorator/Textual.php
+        - data/module/Calendar/Decorator/Uri.php
+        - data/module/Calendar/Decorator/Weekday.php
+        - data/module/Calendar/Decorator/Wrapper.php
+        - data/module/Calendar/Factory.php
+        - data/module/Calendar/Hour.php
+        - data/module/Calendar/Minute.php
+        - data/module/Calendar/Month.php
+        - data/module/Calendar/Month/Weekdays.php
+        - data/module/Calendar/Month/Weeks.php
+        - data/module/Calendar/Second.php
+        - data/module/Calendar/Util/Textual.php
+        - data/module/Calendar/Week.php
+        - data/module/Calendar/Year.php
