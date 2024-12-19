@@ -822,232 +822,92 @@ a {
 
 #navi {
     z-index: 90;
-    height: 28px;
     background: url('../img/header/navi_back.jpg') top left repeat-x;
     font-size: 100%;
     line-height: 100%;
+    * {
+        box-sizing: border-box;
+    }
 
     li {
         background: url('../img/header/navi_back_line.jpg') no-repeat right;
         display: block;
         float: left;
         cursor: pointer;
-        height: 28px;
         position: relative;
 
-        div {
+        > div {
             display: block;
             cursor: pointer;
-
-            span {
-                display: block;
-                cursor: pointer;
-                padding: 7px 10px;
-                height: 15px;
-            }
-
-            color: #2d2f39;
-            height: 28px;
-            font-weight: bold;
             text-decoration: none;
+        }
+    }
 
-            &:hover {
+    > li {
+        height: 28px;
+
+        /* 横並びメニューのみ適用 */
+        > div {
+            color: #2d2f39;
+            font-weight: bold;
+            height: 100%;
+            padding: 7px 10px 0;
+
+            :not(:has(.sfhover)) .on > &,
+            .sfhover > & {
                 background: url('../img/header/navi_on.jpg') left 0 repeat-x;
-
-                span {
-                    background: url('../img/header/navi_on.jpg') left 0 repeat-x;
-                }
-            }
-        }
-
-        &.on div,
-        &.sfhover div {
-            background: url('../img/header/navi_on.jpg') left 0 repeat-x;
-
-            span {
-                background: url('../img/header/navi_on.jpg') left 0 repeat-x;
-            }
-        }
-
-        ul {
-            position: absolute;
-            top: 26px;
-            left: -9999px;
-            width: 14px;
-            font-weight: normal;
-            clear: both;
-        }
-
-        /*プルダウンメニュー 第1階層*/
-        li {
-            display: block;
-            top: 2px;
-            width: 180px;
-            height: 27px;
-            line-height: 24px;
-            color: #fff;
-            background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;
-            font-weight: normal;
-
-            a,
-            div,
-            a span,
-            div span {
-                display: block;
-                top: 2px;
-                width: 180px;
-                height: 27px;
-                line-height: 24px;
-                color: #fff;
-                background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;
-                font-weight: normal;
-            }
-
-            border: solid #888;
-            border-width: 0 0 1px 0;
-
-            a span,
-            div span {
-                padding: 2px 0 0 8px;
-                text-indent: 8px;
-            }
-
-            a:hover,
-            div:hover {
-                background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
-            }
-
-            a:hover span,
-            div:hover span {
-                background: #666;
-            }
-        }
-
-        &.on li a,
-        li.on a,
-        &.on li div,
-        li.on div,
-        &.sfhover li a,
-        li.sfhover a,
-        &.sfhover li div,
-        li.sfhover div {
-            background: transparent;
-
-            span {
-                background: transparent;
-            }
-        }
-
-        &.sfhover li {
-
-            a:hover,
-            div:hover {
-                background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
-            }
-        }
-
-        li.sfhover {
-
-            a:hover,
-            div:hover {
-                background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
-            }
-        }
-
-        /*プルダウンメニュー 第2階層*/
-        ul.level2 {
-            position: absolute;
-            top: 27px;
-            left: -9999px;
-            width: 14px;
-            font-weight: normal;
-        }
-
-        li {
-
-            li,
-            a,
-            li a span,
-            div {
-                margin-left: 0;
-                display: block;
-                width: 180px;
-                top: 1px;
-                height: 27px;
-                line-height: 24px;
-                color: #fff;
-                background: #787878;
-                font-weight: normal;
-                background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;
-            }
-
-            li {
-                div span {
-                    margin-left: 0;
-                    display: block;
-                    width: 180px;
-                    top: 1px;
-                    height: 27px;
-                    line-height: 24px;
-                    color: #fff;
-                    background: #787878;
-                    font-weight: normal;
-                    background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;
-                }
-
-                &.sfhover {
-
-                    div:hover,
-                    a:hover {
-                        width: 180px;
-                        top: 1px;
-                        height: 27px;
-                        color: #fff;
-                        background: url('../img/header/ico_sub_navi.gif') no-repeat left #474747;
-                    }
-                }
-            }
-        }
-
-        ul ul {
-            margin: -28px 0 0 180px;
-        }
-
-        &.sfhover ul {
-            ul {
-                left: -9999px;
-
-                ul {
-                    left: -9999px;
-                }
-            }
-
-            left: auto;
-        }
-
-        li {
-
-            &.sfhover ul,
-            li.sfhover ul {
-                left: auto;
             }
         }
     }
 
-    ul.level1 li.on_level2 {
-        background: url('../img/header/subnavi_bak_l2.gif') top left no-repeat #787878;
-
-        a:hover,
-        div:hover {
-            background: url('../img/header/subnavi_bak_l2_on.gif') top left no-repeat #787878;
-        }
-
-        ul.level2 li {
-
-            a:hover,
-            div:hover {
+    > li ul {
+        /* プルダウンメニュー 第1階層以下共通 */
+        position: absolute;
+        clear: both;
+        display: none;
+        > li {
+            margin-left: 0;
+            display: block;
+            width: 180px;
+            height: 27px;
+            line-height: 24px;
+            background: url('../img/header/subnavi_bak.gif') top left no-repeat #787878;
+            text-indent: 8px;
+            &.sfhover {
                 background: url('../img/header/subnavi_bak_on.gif') top left no-repeat #474747;
             }
+            a,
+            div {
+                color: #fff;
+                display: block;
+                padding: 2px 0 0 8px;
+            }
+        }
+        .sfhover > & {
+            display: block;
+        }
+    }
+
+    > li > ul {
+        /* プルダウンメニュー 第1階層 */
+        z-index: 91;
+        top: 28px;
+
+        > li {
+            border: solid #888;
+            border-width: 0 0 1px 0;
+            &:has(ul) > div {
+                /* 既存画像を使いまわしたためトリッキー */
+                background: url('../img/header/subnavi_bak_l2_on.gif') top left no-repeat;
+                mix-blend-mode: lighten;
+            }
+        }
+
+        /* プルダウンメニュー 第2階層 */
+        > li > ul {
+            z-index: 92;
+            top: 0;
+            left: 180px;
         }
     }
 }
