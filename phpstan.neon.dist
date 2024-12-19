@@ -23,9 +23,6 @@ parameters:
         - data/module/Calendar/Decorator.php
         - data/module/Calendar/Factory.php
     -
-      message: "#^Call to an undefined method Net_Socket\\:\\:raiseError\\(\\)\\.$#"
-      path: data/module/Net/Socket.php
-    -
       message: "#^Call to static method dayOfWeek\\(\\) on an unknown class Date_Calc\\.#"
       path: data/module/Calendar/Util/Textual.php
     # -
