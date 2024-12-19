@@ -22,6 +22,42 @@
  */
 *}-->
 
+<style>
+#contents-filemanager-tree {
+    float: left;
+    height: 430px;
+}
+#contents-filemanager-right {
+    width: 720px;
+    float: right;
+}
+#tree {
+    width: 230px;
+    border: 3px solid #ddd;
+    padding: 10px;
+    background-color: #F3F3F3;
+}
+#contents-filemanager-nowdir {
+    margin: 0 0 20px 0;
+}
+#file_view {
+    overflow: auto;
+}
+#file_view td.file-name {
+    cursor: pointer;
+}
+#now_dir {
+    height: 20px;
+    width: 300px;
+    padding-left: 3px;
+    margin: 0 0 10px 0;
+    overflow: hidden;
+    background-color : #FFFFFF;
+    border-style: solid;
+    border-color: #C0C0C0;
+    border-width: 1px
+}
+</style>
 <script type="text/javascript">//<![CDATA[
     $(function() {
         var bread_crumbs = <!--{$tpl_now_dir}-->;
