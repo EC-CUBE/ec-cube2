@@ -22,6 +22,22 @@
  */
 *}-->
 
+<style>
+#contents-filemanager-tree {
+    float: left;
+    height: 430px;
+}
+#contents-filemanager-right {
+    width: 720px;
+    float: right;
+}
+#tree {
+    width: 230px;
+    border: 3px solid #ddd;
+    padding: 10px;
+    background-color: #F3F3F3;
+}
+</style>
 <script type="text/javascript">//<![CDATA[
     $(function() {
         var bread_crumbs = <!--{$tpl_now_dir}-->;
