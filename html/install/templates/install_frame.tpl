@@ -26,12 +26,6 @@
 <meta http-equiv="content-script-type" content="text/javascript" />
 <meta http-equiv="content-style-type" content="text/css" />
 <link rel="stylesheet" href="css/admin_contents.css" type="text/css" media="all" />
-<!--[if lt IE 9]>
-<script src="../js/jquery-1.11.1.min.js"></script>
-<![endif]-->
-<!--[if gte IE 9]><!-->
-<script src="../js/jquery-2.1.1.min.js"></script>
-<!--<![endif]-->
 <script type="text/javascript" src="../js/eccube.js"></script>
 
 <script type="text/javascript">//<![CDATA[
