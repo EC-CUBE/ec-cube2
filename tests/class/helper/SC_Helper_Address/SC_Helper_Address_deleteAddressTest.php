@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(__DIR__) . '/../../../..';
-require_once $HOME . '/tests/class/helper/SC_Helper_Address/SC_Helper_Address_TestBase.php';
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Address/SC_Helper_Address_TestBase.php';
 
 class SC_Helper_Address_deleteAddressTest extends SC_Helper_Address_TestBase
 {
