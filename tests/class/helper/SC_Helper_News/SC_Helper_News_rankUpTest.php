@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(__DIR__).'/../../../..';
-require_once $HOME.'/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.php';
+$HOME = realpath(__DIR__) . '/../../../..';
+require_once $HOME . '/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.php';
 
 class SC_Helper_News_rankUpTest extends SC_Helper_News_TestBase
 {
@@ -20,7 +20,7 @@ class SC_Helper_News_rankUpTest extends SC_Helper_News_TestBase
 
     public function testRankUpTestニュースIDを指定した場合対象のランクが1増加する()
     {
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->setUpNews();
         $news_id = 1002;
 

@@ -15,16 +15,16 @@
     "jquery-easing": "^0.0.1",
     "jquery-migrate": "^3.5.2",
     "slick-carousel": "^1.8.1",
-    "style-loader": "^3.3.4",
+    "style-loader": "^4.0.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.95.0"
+    "webpack": "^5.97.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.8",
-    "@babel/preset-env": "^7.25.8",
-    "@faker-js/faker": "^8.4.1",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@faker-js/faker": "^9.3.0",
     "@playwright/test": "^1.48.2",
-    "@types/date-fns": "^2.6.0",
+    "@types/date-fns": "^2.6.3",
     "@types/faker": "^6.6.11",
     "@types/tar": "^6.1.13",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
@@ -37,7 +37,7 @@
     "eslint-plugin-import": "^2.31.0",
     "expose-loader": "^5.0.0",
     "tar": "^7.4.3",
-    "typescript": "^5.6.3",
+    "typescript": "^5.7.2",
     "webpack-cli": "^5.1.4",
     "zaproxy": "^1.0.1"
   },

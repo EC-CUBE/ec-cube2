@@ -33,8 +33,8 @@ services:
       PASSWORD_HASH_ALGOS: sha256
 
   mysql:
-    image: mysql:8.0
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --default-time-zone=+09:00
+    image: mysql:8.4
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --default-time-zone=+09:00
     ports:
       - '13306:3306'
     volumes:

@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(__DIR__).'/../../../..';
-require_once $HOME.'/tests/class/helper/SC_Helper_Kiyaku/SC_Helper_Kiyaku_TestBase.php';
+$HOME = realpath(__DIR__) . '/../../../..';
+require_once $HOME . '/tests/class/helper/SC_Helper_Kiyaku/SC_Helper_Kiyaku_TestBase.php';
 
 class SC_Helper_Kiyaku_saveKiyakuTest extends SC_Helper_Kiyaku_TestBase
 {
@@ -24,7 +24,7 @@ class SC_Helper_Kiyaku_saveKiyakuTest extends SC_Helper_Kiyaku_TestBase
 
         if(DB_TYPE != 'pgsql') { //postgresqlだとどうしてもDBエラーになるのでとりいそぎ回避
 
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $this->setUpKiyaku();
             $this->expected = '1003';
 
@@ -54,7 +54,7 @@ class SC_Helper_Kiyaku_saveKiyakuTest extends SC_Helper_Kiyaku_TestBase
     {
         if(DB_TYPE != 'pgsql') { //postgresqlだとどうしてもDBエラーになるのでとりいそぎ回避
 
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $this->setUpKiyaku();
             $sqlval = array(
                     'kiyaku_id' => '1001',
