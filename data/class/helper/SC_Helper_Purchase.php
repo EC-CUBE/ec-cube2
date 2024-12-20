@@ -261,6 +261,7 @@ class SC_Helper_Purchase
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $result = $objQuery->getRow('*', 'dtb_order_temp', 'order_temp_id = ?', [$uniqId]);
+
         return is_array($result) ? $result : []; // 必ず配列を返す
     }
 
@@ -573,10 +574,10 @@ class SC_Helper_Purchase
             $arrKey = $this->arrShippingKey;
         }
         if (!SC_Utils_Ex::isBlank($prefix)) {
-            $prefix = $prefix.'_';
+            $prefix .= '_';
         }
         if (!SC_Utils_Ex::isBlank($src_prefix)) {
-            $src_prefix = $src_prefix.'_';
+            $src_prefix .= '_';
         }
         foreach ($arrKey as $key) {
             if (isset($src[$src_prefix.$key])) {
@@ -1315,6 +1316,7 @@ __EOS__;
      *
      * @param int $order_id   更新対象の注文番号
      * @param bool $temp_table 更新対象は「受注_Temp」か
+     *
      * @static
      */
     public static function sfUpdateOrderNameCol($order_id, $temp_table = false)

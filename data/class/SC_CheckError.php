@@ -1109,7 +1109,7 @@ class SC_CheckError
         // 改行コードが含まれている場合には配列に変換
         $params = str_replace("\r", '', $this->arrParam[$keyname]);
         if (!empty($params)) {
-            if (strpos($params, "\n") === false) {
+            if (!str_contains($params, "\n")) {
                 $params .= "\n";
             }
             $params = explode("\n", $params);
@@ -1224,7 +1224,7 @@ class SC_CheckError
         if ($_FILES[$keyname]['size'] > $max_file_size * 1024) {
             $byte = 'KB';
             if ($max_file_size >= 1000) {
-                $max_file_size = $max_file_size / 1000;
+                $max_file_size /= 1000;
                 $byte = 'MB';
             }
             $this->arrErr[$keyname] = sprintf(

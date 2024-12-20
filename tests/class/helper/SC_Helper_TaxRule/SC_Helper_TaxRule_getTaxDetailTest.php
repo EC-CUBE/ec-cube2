@@ -112,6 +112,7 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testGetTaxPerTaxRateWithFloor()
@@ -161,6 +162,7 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testGetTaxPerTaxRateWithCeil()
@@ -262,7 +264,9 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
 
     /**
      * @see https://github.com/EC-CUBE/ec-cube2/pull/762#issuecomment-1897799676
+     *
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testGetTaxPerTaxRateWithFloor2()
@@ -312,7 +316,9 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
 
     /**
      * @see https://github.com/EC-CUBE/ec-cube2/pull/762#issuecomment-1897799676
+     *
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testGetTaxPerTaxRateWithCeil2()

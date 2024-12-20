@@ -91,7 +91,7 @@ class API_BrowseNodeLookup extends SC_Api_Abstract_Ex
                         'Name' => $category['category_name'],
                         'PageURL' => HTTP_URL.'products/list.php?category_id='.$category['category_id'],
                         'has_children' => $category['has_children'],
-                        ];
+                    ];
                 }
             }
             $this->setResponse('BrowseNode', $arrData);
