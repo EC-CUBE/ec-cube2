@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(__DIR__).'/../../../..';
-require_once $HOME.'/tests/class/helper/SC_Helper_Address/SC_Helper_Address_TestBase.php';
+$HOME = realpath(__DIR__) . '/../../../..';
+require_once $HOME . '/tests/class/helper/SC_Helper_Address/SC_Helper_Address_TestBase.php';
 
 class SC_Helper_Address_registAddressTest extends SC_Helper_Address_TestBase
 {
@@ -22,7 +22,7 @@ class SC_Helper_Address_registAddressTest extends SC_Helper_Address_TestBase
     /*
         public function testregistAddressTest_顧客idが無い場合_システムエラーを返す()
         {
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $this->setUpAddress();
             //$this->expected = "1";
             $this->objAddress->registAddress(null);
@@ -56,7 +56,7 @@ class SC_Helper_Address_registAddressTest extends SC_Helper_Address_TestBase
                     'fax03' => '1114',
                     'country_id' => null
                 );
-            $objQuery =& SC_Query_Ex::getSingletonInstance();
+            $objQuery = SC_Query_Ex::getSingletonInstance();
             $this->expected = '1002';
             $this->objAddress->registAddress($arrSql);
             $col = 'other_deliv_id';
