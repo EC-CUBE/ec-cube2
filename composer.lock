@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "61103d3a54c8391d2c0c246e909f46f5",
+    "content-hash": "ebdd83e60c352fb264ec7b9ef3e6bdee",
     "packages": [
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -159,6 +159,55 @@
                 "source": "https://github.com/nanasess/php8-compat/tree/1.0.0"
             },
             "time": "2020-12-08T04:46:03+00:00"
+        },
+        {
+            "name": "nobuhiko/calendar",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nobuhiko/Calendar.git",
+                "reference": "a43c49fc4dd9c9f13f37e09ef5331d97057df21a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nobuhiko/Calendar/zipball/a43c49fc4dd9c9f13f37e09ef5331d97057df21a",
+                "reference": "a43c49fc4dd9c9f13f37e09ef5331d97057df21a",
+                "shasum": ""
+            },
+            "require": {
+                "nanasess/php8-compat": "^1.0",
+                "pear/pear_exception": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "suggest": {
+                "pear/date": "Install optionally via your project's composer.json"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Calendar": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "KIMOTO Nobuhiko",
+                    "email": "nobuhiko.kimoto@gmail.com"
+                }
+            ],
+            "description": "More info available on: http://pear.php.net/package/Calendar",
+            "support": {
+                "source": "https://github.com/nobuhiko/Calendar/tree/1.0.0"
+            },
+            "time": "2024-12-20T04:37:00+00:00"
         },
         {
             "name": "pear/archive_tar",
