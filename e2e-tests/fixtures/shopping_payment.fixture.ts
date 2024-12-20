@@ -1,13 +1,17 @@
 import { test as base } from './shopping_deliv.fixture';
 import { ShoppingPaymentPage } from '../pages/shopping/payment.page';
 
-export const test = base.extend({
-  page: async ({ page }, use) => {
+type ShoppingPaymentLoginFixtures = {
+  shoppingPaymentLoginPage: ShoppingPaymentPage;
+};
+
+export const test = base.extend<ShoppingPaymentLoginFixtures>({
+  shoppingPaymentLoginPage: async ({ shoppingDelivLoginPage, page }, use) => {
     const paymentPage = new ShoppingPaymentPage(page);
     await paymentPage.goto();
     await paymentPage.fillOut();
     await paymentPage.gotoNext();
-    use(page);
+    use(paymentPage);
   }
 });
 
