@@ -19,16 +19,9 @@ parameters:
       message: "#^Call to an undefined static method PEAR\\:\\:raiseError\\(\\)\\.$#"
       paths:
         - data/module/HTTP/Request.php
-        - data/module/Net/SMTP.php
         - data/module/Calendar/Calendar.php
         - data/module/Calendar/Decorator.php
         - data/module/Calendar/Factory.php
-    -
-      message: "#^Call to an undefined method Net_Socket\\:\\:raiseError\\(\\)\\.$#"
-      path: data/module/Net/Socket.php
-    -
-      message: "#^Call to static method factory\\(\\) on an unknown class Auth_SASL\\.$#"
-      path: data/module/Net/SMTP.php
     -
       message: "#^Call to static method dayOfWeek\\(\\) on an unknown class Date_Calc\\.#"
       path: data/module/Calendar/Util/Textual.php
@@ -38,9 +31,6 @@ parameters:
     -
       message: "#^Variable \\$SJIS_widths might not be defined\\.$#"
       path: data/class/helper/SC_Helper_FPDI.php
-    -
-      message: '#^Path in include_once\(\) "Auth/SASL.php" is not a file or it does not exist.#'
-      path: data/module/Net/SMTP.php
     -
       message: '#^Path in require_once\(\) ".*\.php" is not a file or it does not exist\.$#'
       paths:
