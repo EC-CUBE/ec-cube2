@@ -25,7 +25,7 @@ class SC_Helper_Address_deleteAddressTest extends SC_Helper_Address_TestBase
         $customer_id = 1;
         $this->expected = null;
         $this->objAddress->deleteAddress($other_deliv_id, $customer_id);
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $select = '*';
         $from = 'dtb_other_deliv';
         $where = 'other_deliv_id = ? AND customer_id = ?';

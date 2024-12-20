@@ -48,27 +48,27 @@ class SC_Utils_sfMakeHiddenArrayest extends Common_TestCase
     public function testSfMakeHiddenArray多段配列が1次元配列に変換される()
     {
         $input_array = [
-      'vegetable' => '野菜',
-      'fruit' => [
-        'apple' => 'りんご',
-        'banana' => 'バナナ',
-      ],
-      'drink' => [
-         'alcohol' => [
-           'beer' => 'ビール',
-         ],
-         'water' => '水',
-      ],
-      'rice' => '米',
-    ];
+            'vegetable' => '野菜',
+            'fruit' => [
+                'apple' => 'りんご',
+                'banana' => 'バナナ',
+            ],
+            'drink' => [
+                'alcohol' => [
+                    'beer' => 'ビール',
+                ],
+                'water' => '水',
+            ],
+            'rice' => '米',
+        ];
         $this->expected = [
-      'vegetable' => '野菜',
-      'fruit[apple]' => 'りんご',
-      'fruit[banana]' => 'バナナ',
-      'drink[alcohol][beer]' => 'ビール',
-      'drink[water]' => '水',
-      'rice' => '米',
-    ];
+            'vegetable' => '野菜',
+            'fruit[apple]' => 'りんご',
+            'fruit[banana]' => 'バナナ',
+            'drink[alcohol][beer]' => 'ビール',
+            'drink[water]' => '水',
+            'rice' => '米',
+        ];
         $this->actual = SC_Utils::sfMakeHiddenArray($input_array);
         $this->verify();
     }
