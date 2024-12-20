@@ -61,9 +61,9 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
     {
         $this->helper->saveOrderTemp(null,
             [
-              'customer_id' => '1003',
-              'order_name01' => '受注情報03',
-              'update_date' => 'CURRENT_TIMESTAMP',
+                'customer_id' => '1003',
+                'order_name01' => '受注情報03',
+                'update_date' => 'CURRENT_TIMESTAMP',
             ]
         );
 
@@ -77,20 +77,20 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
     {
         $this->helper->saveOrderTemp('1003',
             [
-              'customer_id' => '1003',
-              'order_name01' => '受注情報03',
-              'update_date' => 'CURRENT_TIMESTAMP',
+                'customer_id' => '1003',
+                'order_name01' => '受注情報03',
+                'update_date' => 'CURRENT_TIMESTAMP',
             ]
         );
 
         $this->expected['count'] = '3';
         $this->expected['content'] = [
-        [
-          'order_temp_id' => '1003',
-          'customer_id' => '1003',
-          'order_name01' => '受注情報03',
-        ],
-      ];
+            [
+                'order_temp_id' => '1003',
+                'customer_id' => '1003',
+                'order_name01' => '受注情報03',
+            ],
+        ];
         $this->actual['count'] = $this->objQuery->count('dtb_order_temp');
         $this->actual['content'] = $this->objQuery->select(
             'order_temp_id, customer_id, order_name01',
@@ -103,20 +103,20 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
     {
         $this->helper->saveOrderTemp($this->order_temp_ids[0],
             [
-              'customer_id' => '2002',
-              'order_name01' => '受注情報92',
-              'update_date' => 'CURRENT_TIMESTAMP',
+                'customer_id' => '2002',
+                'order_name01' => '受注情報92',
+                'update_date' => 'CURRENT_TIMESTAMP',
             ]
         );
 
         $this->expected['count'] = '2';
         $this->expected['content'] = [
-        [
-          'order_temp_id' => $this->order_temp_ids[0],
-          'customer_id' => '2002',
-          'order_name01' => '受注情報92',
-        ],
-      ];
+            [
+                'order_temp_id' => $this->order_temp_ids[0],
+                'customer_id' => '2002',
+                'order_name01' => '受注情報92',
+            ],
+        ];
         $this->actual['count'] = $this->objQuery->count('dtb_order_temp');
         $this->actual['content'] = $this->objQuery->select(
             'order_temp_id, customer_id, order_name01',
@@ -129,10 +129,10 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
     {
         $this->helper->saveOrderTemp('1003',
             [
-              'order_temp_id' => '1003',
-              'customer_id' => '1003',
-              'order_name01' => '受注情報03',
-              'update_date' => 'CURRENT_TIMESTAMP',
+                'order_temp_id' => '1003',
+                'customer_id' => '1003',
+                'order_name01' => '受注情報03',
+                'update_date' => 'CURRENT_TIMESTAMP',
             ],
             new SC_Customer_Ex()
         );

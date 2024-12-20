@@ -95,7 +95,7 @@ class SC_SessionFactory_UseCookie extends SC_SessionFactory_Ex
      */
     protected function getSecureOption()
     {
-        return strpos(HTTP_URL, 'https') !== false && strpos(HTTPS_URL, 'https') !== false;
+        return str_contains(HTTP_URL, 'https') && str_contains(HTTPS_URL, 'https');
     }
 }
 /*
