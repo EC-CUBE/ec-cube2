@@ -96,7 +96,7 @@ class SC_Helper_Address_registAddressTest extends SC_Helper_Address_TestBase
                 'company_name' => null,
                 'zipcode' => null,
             ];
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->objAddress->registAddress($arrSql);
 
         $this->expected = $arrSql;

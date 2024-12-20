@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(__DIR__).'/../../../..';
-require_once $HOME.'/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.php';
+$HOME = realpath(__DIR__) . '/../../../..';
+require_once $HOME . '/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.php';
 
 class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
 {
@@ -24,7 +24,7 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
             $this->markTestSkipped('postgresqlだとどうしてもDBエラーになるのでスキップ');
         }
 
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->setUpNews();
 
         $sqlval = [
@@ -48,7 +48,8 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
             'news_title, creator_id, del_flg',
             'dtb_news',
             'news_id = ?',
-            [$ret_id]);
+            [$ret_id]
+        );
         $this->actual['content'] = $result[0];
 
         $this->verify();
@@ -56,23 +57,23 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
 
     public function testSaveNewsTestNewsIdが存在する場合対象のニュースが更新される()
     {
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->setUpNews();
 
         $sqlval = [
-          'news_id' => '1002',
-          'news_title' => 'ニュース情報05更新',
-          'creator_id' => '1',
-          'del_flg' => '0',
-          ];
+            'news_id' => '1002',
+            'news_title' => 'ニュース情報05更新',
+            'creator_id' => '1',
+            'del_flg' => '0',
+        ];
 
         $this->expected['count'] = '4';
         $this->expected['content'] = [
-          'news_id' => '1002',
-          'news_title' => 'ニュース情報05更新',
-          'creator_id' => '1',
-          'del_flg' => '0',
-          ];
+            'news_id' => '1002',
+            'news_title' => 'ニュース情報05更新',
+            'creator_id' => '1',
+            'del_flg' => '0',
+        ];
 
         $ret_id = $this->objNews->saveNews($sqlval);
 
@@ -81,7 +82,8 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
             'news_id, news_title, creator_id, del_flg',
             'dtb_news',
             'news_id = ?',
-            [$ret_id]);
+            [$ret_id]
+        );
         $this->actual['content'] = $result[0];
 
         $this->verify();

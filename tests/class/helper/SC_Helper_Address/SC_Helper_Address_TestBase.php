@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(__DIR__).'/../../../../';
-require_once $HOME.'/tests/class/Common_TestCase.php';
+$HOME = realpath(__DIR__) . '/../../../../';
+require_once $HOME . '/tests/class/Common_TestCase.php';
 
 class SC_Helper_Address_TestBase extends Common_TestCase
 {
@@ -20,7 +20,7 @@ class SC_Helper_Address_TestBase extends Common_TestCase
      */
     protected function setUpAddress()
     {
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // シーケンス初期化
 
         $kiyaku = [
@@ -42,7 +42,7 @@ class SC_Helper_Address_TestBase extends Common_TestCase
                 'fax01' => '111',
                 'fax02' => '1111',
                 'fax03' => '1111',
-                  ],
+            ],
             [
                 'other_deliv_id' => '1001',
                 'customer_id' => '1',
@@ -61,8 +61,8 @@ class SC_Helper_Address_TestBase extends Common_TestCase
                 'fax01' => '111',
                 'fax02' => '1111',
                 'fax03' => '1111',
-                  ],
-                                ];
+            ],
+        ];
 
         $this->objQuery->delete('dtb_other_deliv');
         foreach ($kiyaku as $key => $item) {
