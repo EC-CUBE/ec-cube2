@@ -52,9 +52,9 @@ class SC_Helper_Purchase_clearShipmentItemTempTest extends SC_Helper_Purchase_Te
         $helper->clearShipmentItemTemp(); // default:null
 
         $this->expected = ['00001' => null, '00002' => null, '00003' => null];
-        $this->actual['00001'] = $_SESSION['shipping']['00001']['shipment_item'];
-        $this->actual['00002'] = $_SESSION['shipping']['00002']['shipment_item'];
-        $this->actual['00003'] = $_SESSION['shipping']['00003']['shipment_item'];
+        $this->actual['00001'] = $_SESSION['shipping']['00001']['shipment_item'] ?? null;
+        $this->actual['00002'] = $_SESSION['shipping']['00002']['shipment_item'] ?? null;
+        $this->actual['00003'] = $_SESSION['shipping']['00003']['shipment_item'] ?? null;
 
         $this->verify('配送商品');
     }
@@ -67,9 +67,9 @@ class SC_Helper_Purchase_clearShipmentItemTempTest extends SC_Helper_Purchase_Te
         $helper->clearShipmentItemTemp('00001');
 
         $this->expected = ['00001' => null, '00002' => ['商品2'], '00003' => []];
-        $this->actual['00001'] = $_SESSION['shipping']['00001']['shipment_item'];
-        $this->actual['00002'] = $_SESSION['shipping']['00002']['shipment_item'];
-        $this->actual['00003'] = $_SESSION['shipping']['00003']['shipment_item'];
+        $this->actual['00001'] = $_SESSION['shipping']['00001']['shipment_item'] ?? null;
+        $this->actual['00002'] = $_SESSION['shipping']['00002']['shipment_item'] ?? null;
+        $this->actual['00003'] = $_SESSION['shipping']['00003']['shipment_item'] ?? null;
 
         $this->verify('配送商品');
     }
@@ -82,9 +82,9 @@ class SC_Helper_Purchase_clearShipmentItemTempTest extends SC_Helper_Purchase_Te
         $helper->clearShipmentItemTemp('00004');
 
         $this->expected = ['00001' => ['商品1'], '00002' => ['商品2'], '00003' => []];
-        $this->actual['00001'] = $_SESSION['shipping']['00001']['shipment_item'];
-        $this->actual['00002'] = $_SESSION['shipping']['00002']['shipment_item'];
-        $this->actual['00003'] = $_SESSION['shipping']['00003']['shipment_item'];
+        $this->actual['00001'] = $_SESSION['shipping']['00001']['shipment_item'] ?? null;
+        $this->actual['00002'] = $_SESSION['shipping']['00002']['shipment_item'] ?? null;
+        $this->actual['00003'] = $_SESSION['shipping']['00003']['shipment_item'] ?? null;
 
         $this->verify('配送商品');
     }
@@ -100,9 +100,9 @@ class SC_Helper_Purchase_clearShipmentItemTempTest extends SC_Helper_Purchase_Te
 
         // '00001'は配列でないので全体を取得
         $this->expected = ['00001' => 'temp', '00002' => ['商品2'], '00003' => []];
-        $this->actual['00001'] = $_SESSION['shipping']['00001'];
-        $this->actual['00002'] = $_SESSION['shipping']['00002']['shipment_item'];
-        $this->actual['00003'] = $_SESSION['shipping']['00003']['shipment_item'];
+        $this->actual['00001'] = $_SESSION['shipping']['00001'] ?? null;
+        $this->actual['00002'] = $_SESSION['shipping']['00002']['shipment_item'] ?? null;
+        $this->actual['00003'] = $_SESSION['shipping']['00003']['shipment_item'] ?? null;
 
         $this->verify('配送商品');
     }

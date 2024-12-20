@@ -108,6 +108,11 @@ jobs:
         FORCE_COLOR: 1
       run: yarn ${PATTERN} e2e-tests/${GROUP}
 
+    - name: Print error log
+      if: always()
+      continue-on-error: true
+      run: docker compose exec ec-cube tail -n 100 data/logs/error.log
+
     - name: Upload evidence
       if: failure()
       uses: actions/upload-artifact@v4

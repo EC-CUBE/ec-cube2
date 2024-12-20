@@ -57,6 +57,9 @@ class SC_Response
 
     public function sendHeader()
     {
+        if (headers_sent()) {
+            return;
+        }
         // HTTPのヘッダ
         foreach ($this->header as $name => $head) {
             header($name.': '.$head);
@@ -176,7 +179,7 @@ class SC_Response
         }
 
         // url-path → URL 変換
-        if ($location[0] === '/') {
+        if ($location !== '' && $location[0] === '/') {
             $netUrl = new Net_URL($location);
             $location = $netUrl->getUrl();
         }
@@ -247,7 +250,9 @@ class SC_Response
 
         $url = $netUrl->getURL();
 
-        header("Location: $url");
+        if (!headers_sent()) {
+            header("Location: $url");
+        }
         static::exitWrapper();
     }
 
@@ -385,10 +390,12 @@ class SC_Response
      */
     public static function headerForDownload($file_name)
     {
-        header("Content-disposition: attachment; filename={$file_name}");
-        header("Content-type: application/octet-stream; name={$file_name}");
-        header('Cache-Control: ');
-        header('Pragma: ');
+        if (!headers_sent()) {
+            header("Content-disposition: attachment; filename={$file_name}");
+            header("Content-type: application/octet-stream; name={$file_name}");
+            header('Cache-Control: ');
+            header('Pragma: ');
+        }
     }
 
     /**

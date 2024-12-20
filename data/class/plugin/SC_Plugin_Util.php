@@ -227,7 +227,8 @@ class SC_Plugin_Util
                                     ];
         // 必須拡張モジュールのチェック
         $arrErr = [];
-        if (is_array($arrRequireExtension[ECCUBE_VERSION])) {
+        if (isset($arrRequireExtension[ECCUBE_VERSION])
+            && is_array($arrRequireExtension[ECCUBE_VERSION])) {
             foreach ($arrRequireExtension[ECCUBE_VERSION] as $val) {
                 if (!extension_loaded($val)) {
                     $arrErr[$key] .= "※ プラグインを利用するには、拡張モジュール「{$val}」が必要です。<br />";

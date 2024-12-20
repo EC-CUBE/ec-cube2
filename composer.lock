@@ -1932,22 +1932,23 @@
         },
         {
             "name": "nanasess/eccube2-fixture-generator",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nanasess/eccube2-fixture-generator.git",
-                "reference": "9a41ed3df3bc7c626c73f30eea9a6d7a17fda715"
+                "reference": "c41cb84e9cb255fe4822e8f948c9fd744a70c88c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nanasess/eccube2-fixture-generator/zipball/9a41ed3df3bc7c626c73f30eea9a6d7a17fda715",
-                "reference": "9a41ed3df3bc7c626c73f30eea9a6d7a17fda715",
+                "url": "https://api.github.com/repos/nanasess/eccube2-fixture-generator/zipball/c41cb84e9cb255fe4822e8f948c9fd744a70c88c",
+                "reference": "c41cb84e9cb255fe4822e8f948c9fd744a70c88c",
                 "shasum": ""
             },
             "require": {
                 "fakerphp/faker": "^1.23"
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.65",
                 "symfony/console": "^2.8 || ^3.4 || ^4.4 || ^5.4 || ^6.4"
             },
             "suggest": {
@@ -1974,9 +1975,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nanasess/eccube2-fixture-generator/issues",
-                "source": "https://github.com/nanasess/eccube2-fixture-generator/tree/2.0.2"
+                "source": "https://github.com/nanasess/eccube2-fixture-generator/tree/2.0.3"
             },
-            "time": "2024-06-06T01:19:24+00:00"
+            "time": "2024-12-12T07:45:09+00:00"
         },
         {
             "name": "nikic/php-parser",

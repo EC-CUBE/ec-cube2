@@ -46,7 +46,7 @@ class Test_Utils
     {
         $output_array = [];
         foreach ($map_keys as $index => $map_key) {
-            $output_array[$map_key] = $input_array[$map_key];
+            $output_array[$map_key] = $input_array[$map_key] ?? null;
         }
 
         return $output_array;
