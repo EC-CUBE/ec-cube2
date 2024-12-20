@@ -20,7 +20,7 @@ test.describe.serial('プラグイン管理の確認をします', () => {
     await fs.promises.unlink(pluginFile);
   });
 
-  test('プラグイン管理画面を確認します', async ({ loginPage, page }) => {
+  test('プラグイン管理画面を確認します', async ({ adminLoginPage, page }) => {
     await page.goto(url);
     page.on('dialog', dialog => dialog.accept());
 

@@ -3,17 +3,17 @@ import { test, expect } from '../../fixtures/mypage_login.fixture';
 const url = '/products/list.php';
 
 test.describe('商品一覧のテストをします', () => {
-  test('商品一覧が正常に見られているかを確認します', async ( { page } ) => {
+  test('商品一覧が正常に見られているかを確認します', async ( { mypageLoginPage, page } ) => {
     await page.goto(url);
     await expect(page.locator('#site_description')).toHaveText('EC-CUBE発!世界中を旅して見つけた立方体グルメを立方隊長が直送！');
   });
 
-  test('body の class 名出力を確認します', async ( { page } ) => {
+  test('body の class 名出力を確認します', async ( { mypageLoginPage, page } ) => {
     await page.goto(url);
     await expect(page.locator('body')).toHaveAttribute('class', 'LC_Page_Products_List');
   });
 
-  test('50件まで一覧表示します', async ( { page } ) => {
+  test('50件まで一覧表示します', async ( { mypageLoginPage, page } ) => {
     await page.goto(url);
     await page.selectOption('#page_navi_top select', { label: '50件' });
     await page.waitForSelector('#undercolumn > form > div > div.listrightbloc > h3 > a');
@@ -33,7 +33,7 @@ test.describe('商品一覧のテストをします', () => {
     }
   });
 
-  test('食品のカテゴリを確認します', async ( { page } ) => {
+  test('食品のカテゴリを確認します', async ( { mypageLoginPage, page } ) => {
     await page.goto(`${ url }?category_id=3`);
     await page.selectOption('#page_navi_top select', { label: '50件' });
     await page.waitForSelector('#undercolumn > form > div > div.listrightbloc > h3 > a');

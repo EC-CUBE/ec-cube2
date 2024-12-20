@@ -10,7 +10,7 @@ import { CartPage } from '../../../pages/cart.page';
 
 test.describe.serial('お届け先指定画面のテストをします', () => {
 
-  test('お届け先指定画面へ遷移します', async ( { page }) => {
+  test('お届け先指定画面へ遷移します', async ( { cartLoginPage, page }) => {
     await page.goto(url);       // url を履歴に登録しておく
     await expect(page.locator('h2.title')).toContainText('お届け先の指定');
   });
@@ -29,7 +29,7 @@ test.describe.serial('お届け先指定画面のテストをします', () => {
     });
   });
 
-  test('お支払方法・お届け時間等の指定画面へ遷移します', async ( { page } ) => {
+  test('お支払方法・お届け時間等の指定画面へ遷移します', async ( { cartLoginPage, page } ) => {
     await page.click('input[alt=選択したお届け先に送る]');
     await expect(page.locator('h2.title')).toContainText('お支払方法・お届け時間等の指定');
   });

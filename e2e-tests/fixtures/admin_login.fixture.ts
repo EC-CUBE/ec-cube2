@@ -4,12 +4,12 @@ import { Mode, ContextType } from '../utils/ZapClient';
 import { ECCUBE_ADMIN_USER, ECCUBE_ADMIN_PASS, ADMIN_DIR } from "../config/default.config";
 import PlaywrightConfig from '../../playwright.config';
 
-type LoginFixtures = {
-  loginPage: AdminLoginPage;
+type AdminLoginFixtures = {
+  adminLoginPage: AdminLoginPage;
 };
 
-export const test = base.extend<LoginFixtures>({
-  loginPage: async ({ page }, use) => {
+export const test = base.extend<AdminLoginFixtures>({
+  adminLoginPage: async ({ page }, use) => {
     const loginPage = new AdminLoginPage(page);
     if (PlaywrightConfig.use?.proxy === undefined) {
       await page.goto(`/${ ADMIN_DIR }`);

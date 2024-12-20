@@ -15,7 +15,7 @@ test.describe.serial('購入フロー(ログイン)のテストをします', ()
     await mailcatcher.delete('/messages');
   });
 
-  test('商品を購入します', async ({ page }) => {
+  test('商品を購入します', async ({ mypageLoginPage, page }) => {
     await page.goto(url);
     await expect(page.locator('#detailrightbloc > h2')).toContainText('アイスクリーム');
 
