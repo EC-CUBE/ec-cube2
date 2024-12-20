@@ -56,13 +56,13 @@ $GLOBALS['productsList'] = array(
 );
 
 switch (getMode()) {
-case 'products_list':
-    displayProductsList();
-    break;
+    case 'products_list':
+        displayProductsList();
+        break;
 
-default:
-    displayProductsList();
-    break;
+    default:
+        displayProductsList();
+        break;
 }
 
 /**
@@ -106,7 +106,7 @@ function updateModuleTable($arrProductsList)
 {
     $table = 'dtb_module';
     $where = 'module_id = ?';
-    $objQuery =& SC_Query_Ex::getSingletonInstance();
+    $objQuery = SC_Query_Ex::getSingletonInstance();
 
     $objQuery->begin();
     foreach ($arrProductsList as $arrProduct) {

@@ -58,7 +58,7 @@ class SC_Helper_Purchase_getOrderTempTest extends SC_Helper_Purchase_TestBase
     {
         $order_id = '9999';
 
-        $this->expected = null;
+        $this->expected = [];
         $this->actual = SC_Helper_Purchase::getOrderTemp($order_id);
 
         $this->verify();

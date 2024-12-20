@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(__DIR__).'/../../../..';
-require_once $HOME.'/tests/class/helper/SC_Helper_Kiyaku/SC_Helper_Kiyaku_TestBase.php';
+$HOME = realpath(__DIR__) . '/../../../..';
+require_once $HOME . '/tests/class/helper/SC_Helper_Kiyaku/SC_Helper_Kiyaku_TestBase.php';
 
 class SC_Helper_Kiyaku_getKiyakuTest extends SC_Helper_Kiyaku_TestBase
 {
@@ -20,7 +20,7 @@ class SC_Helper_Kiyaku_getKiyakuTest extends SC_Helper_Kiyaku_TestBase
 
     public function testgetKiyakuTest規約情報を取得できた場合規約のarrayを返す()
     {
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->setUpKiyaku();
         $has_deleted = false;
         $kiyaku_id = 1000;
@@ -42,7 +42,7 @@ class SC_Helper_Kiyaku_getKiyakuTest extends SC_Helper_Kiyaku_TestBase
 
     public function testgetKiyakuTest規約情報を規約idから取得する際削除された規約を指定した場合Nullを返す()
     {
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->setUpKiyaku();
         $has_deleted = false;
         $kiyaku_id = 1002;
@@ -55,7 +55,7 @@ class SC_Helper_Kiyaku_getKiyakuTest extends SC_Helper_Kiyaku_TestBase
 
     public function testgetKiyakuTest削除された情報を含む規約情報を規約idから取得する際削除された規約を指定した場合Nullを返す()
     {
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->setUpKiyaku();
         $has_deleted = true;
         $kiyaku_id = 1002;

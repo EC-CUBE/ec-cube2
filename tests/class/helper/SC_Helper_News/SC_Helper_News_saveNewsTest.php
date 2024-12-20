@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(__DIR__).'/../../../..';
-require_once $HOME.'/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.php';
+$HOME = realpath(__DIR__) . '/../../../..';
+require_once $HOME . '/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.php';
 
 class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
 {
@@ -24,7 +24,7 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
             $this->markTestSkipped('postgresqlだとどうしてもDBエラーになるのでスキップ');
         }
 
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->setUpNews();
 
         $sqlval = [
@@ -48,7 +48,8 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
             'news_title, creator_id, del_flg',
             'dtb_news',
             'news_id = ?',
-            [$ret_id]);
+            [$ret_id]
+        );
         $this->actual['content'] = $result[0];
 
         $this->verify();
@@ -56,7 +57,7 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
 
     public function testSaveNewsTestNewsIdが存在する場合対象のニュースが更新される()
     {
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->setUpNews();
 
         $sqlval = [
@@ -81,7 +82,8 @@ class SC_Helper_News_saveNewsTest extends SC_Helper_News_TestBase
             'news_id, news_title, creator_id, del_flg',
             'dtb_news',
             'news_id = ?',
-            [$ret_id]);
+            [$ret_id]
+        );
         $this->actual['content'] = $result[0];
 
         $this->verify();

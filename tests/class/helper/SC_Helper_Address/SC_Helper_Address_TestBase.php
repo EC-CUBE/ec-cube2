@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(__DIR__).'/../../../../';
-require_once $HOME.'/tests/class/Common_TestCase.php';
+$HOME = realpath(__DIR__) . '/../../../../';
+require_once $HOME . '/tests/class/Common_TestCase.php';
 
 class SC_Helper_Address_TestBase extends Common_TestCase
 {
@@ -20,7 +20,7 @@ class SC_Helper_Address_TestBase extends Common_TestCase
      */
     protected function setUpAddress()
     {
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         // シーケンス初期化
 
         $kiyaku = [
