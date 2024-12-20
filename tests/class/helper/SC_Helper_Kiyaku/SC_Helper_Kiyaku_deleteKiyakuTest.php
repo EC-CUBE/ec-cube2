@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(__DIR__).'/../../../..';
-require_once $HOME.'/tests/class/helper/SC_Helper_Kiyaku/SC_Helper_Kiyaku_TestBase.php';
+$HOME = realpath(__DIR__) . '/../../../..';
+require_once $HOME . '/tests/class/helper/SC_Helper_Kiyaku/SC_Helper_Kiyaku_TestBase.php';
 
 class SC_Helper_Kiyaku_deleteKiyakuTest extends SC_Helper_Kiyaku_TestBase
 {
@@ -20,7 +20,7 @@ class SC_Helper_Kiyaku_deleteKiyakuTest extends SC_Helper_Kiyaku_TestBase
 
     public function testdeleteKiyakuTest削除ができた場合DelFlgの1を返す()
     {
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->setUpKiyaku();
         $kiyaku_id = 1001;
 
