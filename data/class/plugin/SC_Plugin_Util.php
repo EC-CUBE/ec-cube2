@@ -221,10 +221,10 @@ class SC_Plugin_Util
         // プラグイン利用に必須のモジュール
         // 'EC-CUBEバージョン' => array('モジュール名')
         $arrRequireExtension = [
-                                     '2.12.0' => ['dom'],
-                                     '2.12.1' => ['dom'],
-                                     '2.12.2' => ['dom'],
-                                    ];
+            '2.12.0' => ['dom'],
+            '2.12.1' => ['dom'],
+            '2.12.2' => ['dom'],
+        ];
         // 必須拡張モジュールのチェック
         $arrErr = [];
         if (is_array($arrRequireExtension[ECCUBE_VERSION])) {

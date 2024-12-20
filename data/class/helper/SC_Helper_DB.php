@@ -256,6 +256,7 @@ class SC_Helper_DB
             // ファイル生成失敗
             return false;
         }
+
         // ファイル生成成功
         return true;
     }
@@ -412,6 +413,7 @@ class SC_Helper_DB
      * @param array カテゴリの配列
      * @param int $parent 上位カテゴリID
      * @param array パンくずリスト用の配列
+     *
      * @result void
      *
      * @see sfGetCatTree()
