@@ -18,5 +18,10 @@ parameters:
     #   message: "#^Constant SMARTY_PLUGINS_DIR not found\\.$#"
     #   path: data/smarty_extends/*
     -
+      message: "#^Call to an undefined static method PEAR\\:\\:raiseError\\(\\)\\.$#"
+      paths:
+        - data/module/HTTP/Request.php
+
+    -
       message: "#^Variable \\$SJIS_widths might not be defined\\.$#"
       path: data/class/helper/SC_Helper_FPDI.php
