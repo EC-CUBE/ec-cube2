@@ -18,6 +18,7 @@ $rules = [
     'yoda_style' => false, // 強制しなくて良い
     'blank_line_after_opening_tag' => false, // 強制しなくて良い
     'fully_qualified_strict_types' => false, // 強制しなくて良い
+    'trailing_comma_in_multiline' => ['after_heredoc' => true, 'elements' => ['arrays']], // elements で arrays 以外を指定するとPHP7.4でエラーになる
 
     // @Symfony:risky のうち、以下のルールを無効化
     'psr_autoloading' => false, // PSR-4 に準拠していないため
