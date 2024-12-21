@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(__DIR__) . '/../../../..';
-require_once $HOME . '/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.php';
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.php';
 
 class SC_Helper_News_deleteNewsTest extends SC_Helper_News_TestBase
 {

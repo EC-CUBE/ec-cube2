@@ -49,21 +49,21 @@ class SC_Helper_Purchase_registerShippingTest extends SC_Helper_Purchase_TestBas
     {
         $order_id = '10';
         $arrParams = [
-        '20' => [
-            'order_id' => '10',
-            'shipping_id' => '20',
-            'shipping_name01' => '配送情報10',
-            'shipping_date' => '2012/01/12',
-       ],
-    ];
+            '20' => [
+                'order_id' => '10',
+                'shipping_id' => '20',
+                'shipping_name01' => '配送情報10',
+                'shipping_date' => '2012/01/12',
+            ],
+        ];
 
         $this->expected['count'] = '4'; // 1件増える
         $this->expected['content'] = [
-        'order_id' => '10',
-        'shipping_id' => '20',
-        'shipping_name01' => '配送情報10',
-        'shipping_date' => '2012-01-12 00:00:00',
-    ];
+            'order_id' => '10',
+            'shipping_id' => '20',
+            'shipping_name01' => '配送情報10',
+            'shipping_date' => '2012-01-12 00:00:00',
+        ];
 
         SC_Helper_Purchase::registerShipping($order_id, $arrParams);
 
@@ -86,21 +86,21 @@ class SC_Helper_Purchase_registerShippingTest extends SC_Helper_Purchase_TestBas
     {
         $order_id = '2';
         $arrParams = [
-        '30' => [
-            'order_id' => '2',
-            'shipping_id' => '30',
-            'shipping_name01' => '配送情報02-update',
-            'shipping_date' => '2013/12/03',
-        ],
-    ];
+            '30' => [
+                'order_id' => '2',
+                'shipping_id' => '30',
+                'shipping_name01' => '配送情報02-update',
+                'shipping_date' => '2013/12/03',
+            ],
+        ];
 
         $this->expected['count'] = '3'; // 件数が変わらない
         $this->expected['content'] = [
-        'order_id' => '2',
-        'shipping_id' => '30',
-        'shipping_name01' => '配送情報02-update',
-        'shipping_date' => '2013-12-03 00:00:00',
-    ];
+            'order_id' => '2',
+            'shipping_id' => '30',
+            'shipping_name01' => '配送情報02-update',
+            'shipping_date' => '2013-12-03 00:00:00',
+        ];
 
         SC_Helper_Purchase::registerShipping($order_id, $arrParams);
 
@@ -123,21 +123,21 @@ class SC_Helper_Purchase_registerShippingTest extends SC_Helper_Purchase_TestBas
     {
         $order_id = '2';
         $arrParams = [
-        '30' => [
-            'order_id' => '2',
-            'shipping_id' => '30',
-            'shipping_name01' => '配送情報02-update',
-    //      'shipping_date' => '2013/12/03 00:00:00'
-        ],
-    ];
+            '30' => [
+                'order_id' => '2',
+                'shipping_id' => '30',
+                'shipping_name01' => '配送情報02-update',
+                // 'shipping_date' => '2013/12/03 00:00:00'
+            ],
+        ];
 
         $this->expected['count'] = '3';
         $this->expected['content'] = [
-        'order_id' => '2',
-        'shipping_id' => '30',
-        'shipping_name01' => '配送情報02-update',
-        'shipping_date' => null,
-    ];
+            'order_id' => '2',
+            'shipping_id' => '30',
+            'shipping_name01' => '配送情報02-update',
+            'shipping_date' => null,
+        ];
 
         SC_Helper_Purchase::registerShipping($order_id, $arrParams);
 
@@ -160,21 +160,21 @@ class SC_Helper_Purchase_registerShippingTest extends SC_Helper_Purchase_TestBas
     {
         $order_id = '2';
         $arrParams = [
-        '30' => [
-            'order_id' => '2',
-        //    'shipping_id' => '30',
-            'shipping_name01' => '配送情報02-update',
-            'shipping_date' => '2013/12/03 00:00:00',
-        ],
-    ];
+            '30' => [
+                'order_id' => '2',
+                // 'shipping_id' => '30',
+                'shipping_name01' => '配送情報02-update',
+                'shipping_date' => '2013/12/03 00:00:00',
+            ],
+        ];
 
         $this->expected['count'] = '3'; // 件数が変わらない
         $this->expected['content'] = [
-        'order_id' => '2',
-        'shipping_id' => '30',
-        'shipping_name01' => '配送情報02-update',
-        'shipping_date' => '2013-12-03 00:00:00',
-    ];
+            'order_id' => '2',
+            'shipping_id' => '30',
+            'shipping_name01' => '配送情報02-update',
+            'shipping_date' => '2013-12-03 00:00:00',
+        ];
 
         SC_Helper_Purchase::registerShipping($order_id, $arrParams);
 

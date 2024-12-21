@@ -9,6 +9,7 @@ class SC_FpdfTest extends Common_TestCase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function test正しいMediaBox情報が出力される()

@@ -60,29 +60,29 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
     protected function getSingleShipping()
     {
         return [
-      '00001' => [
-        'shipment_id' => '00001',
-        'shipment_item' => '商品1',
-        'shipping_pref' => '東京都', ],
-    ];
+            '00001' => [
+                'shipment_id' => '00001',
+                'shipment_item' => '商品1',
+                'shipping_pref' => '東京都', ],
+        ];
     }
 
     protected function getMultipleShipping()
     {
         return [
-      '00001' => [
-        'shipment_id' => '00001',
-        'shipment_item' => ['商品1'],
-        'shipping_pref' => '東京都', ],
-      '00002' => [
-        'shipment_id' => '00002',
-        'shipment_item' => ['商品2'],
-        'shipping_pref' => '沖縄県', ],
-      '00003' => [
-        'shipment_id' => '00003',
-        'shipment_item' => [],
-        'shipping_pref' => '埼玉県', ],
-    ];
+            '00001' => [
+                'shipment_id' => '00001',
+                'shipment_item' => ['商品1'],
+                'shipping_pref' => '東京都', ],
+            '00002' => [
+                'shipment_id' => '00002',
+                'shipment_item' => ['商品2'],
+                'shipping_pref' => '沖縄県', ],
+            '00003' => [
+                'shipment_id' => '00003',
+                'shipment_item' => [],
+                'shipping_pref' => '埼玉県', ],
+        ];
     }
 
     /**
@@ -91,28 +91,28 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
     protected function setUpShippingOnDb()
     {
         $shippings = [
-      [
-        'update_date' => '2000-01-01 00:00:00',
-        'shipping_id' => '1',
-        'order_id' => '1001',
-        'shipping_name01' => '配送情報01',
-        'shipping_date' => '2012-01-12',
-      ],
-      [
-        'update_date' => '2000-01-01 00:00:00',
-        'shipping_id' => '2',
-        'order_id' => '2',
-        'shipping_name01' => '配送情報02',
-        'shipping_date' => '2011-10-01',
-      ],
-      [
-        'update_date' => '2000-01-01 00:00:00',
-        'shipping_id' => '1002',
-        'order_id' => '1002',
-        'shipping_time' => '午後',
-        'time_id' => '1',
-      ],
-    ];
+            [
+                'update_date' => '2000-01-01 00:00:00',
+                'shipping_id' => '1',
+                'order_id' => '1001',
+                'shipping_name01' => '配送情報01',
+                'shipping_date' => '2012-01-12',
+            ],
+            [
+                'update_date' => '2000-01-01 00:00:00',
+                'shipping_id' => '2',
+                'order_id' => '2',
+                'shipping_name01' => '配送情報02',
+                'shipping_date' => '2011-10-01',
+            ],
+            [
+                'update_date' => '2000-01-01 00:00:00',
+                'shipping_id' => '1002',
+                'order_id' => '1002',
+                'shipping_time' => '午後',
+                'time_id' => '1',
+            ],
+        ];
 
         $this->objQuery->delete('dtb_shipping');
         foreach ($shippings as $key => $item) {
@@ -126,24 +126,24 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
     protected function setUpOrder($customer_ids = [], $product_class_ids = [])
     {
         $orders = [
-      [
-        'update_date' => '2000-01-01 00:00:00',
-        'customer_id' => $customer_ids[0],
-        'order_name01' => '受注情報01',
-        'status' => '3',
-        'payment_date' => '2032-12-31 01:20:30', // 日付が変わっても良いように、遠い未来に設定
-        'use_point' => '10',
-        'add_point' => '20',
-      ],
-      [
-        'update_date' => '2000-01-01 00:00:00',
-        'customer_id' => $customer_ids[1],
-        'order_name01' => '受注情報02',
-        'status' => '5',
-        'use_point' => '10',
-        'add_point' => '20',
-      ],
-    ];
+            [
+                'update_date' => '2000-01-01 00:00:00',
+                'customer_id' => $customer_ids[0],
+                'order_name01' => '受注情報01',
+                'status' => '3',
+                'payment_date' => '2032-12-31 01:20:30', // 日付が変わっても良いように、遠い未来に設定
+                'use_point' => '10',
+                'add_point' => '20',
+            ],
+            [
+                'update_date' => '2000-01-01 00:00:00',
+                'customer_id' => $customer_ids[1],
+                'order_name01' => '受注情報02',
+                'status' => '5',
+                'use_point' => '10',
+                'add_point' => '20',
+            ],
+        ];
 
         $this->objQuery->delete('dtb_order');
 
@@ -173,8 +173,8 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
         $this->objQuery->delete('dtb_customer');
 
         return [
-     $this->objGenerator->createCustomer(null, ['point' => 100]),
-     $this->objGenerator->createCustomer(null, ['point' => 200]),
-   ];
+            $this->objGenerator->createCustomer(null, ['point' => 100]),
+            $this->objGenerator->createCustomer(null, ['point' => 200]),
+        ];
     }
 }

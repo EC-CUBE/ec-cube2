@@ -302,14 +302,14 @@ class HTTP_Request
      *
      * @var array
      */
-    public $_readTimeout = null;
+    public $_readTimeout;
 
     /**
      * Options to pass to Net_Socket::connect. See stream_context_create
      *
      * @var array
      */
-    public $_socketOptions = null;
+    public $_socketOptions;
     /**#@-*/
 
     /**
@@ -401,7 +401,7 @@ class HTTP_Request
             $host = $this->_url->host.':'.$this->_url->port;
         } elseif ($this->_url->port != 443 && strcasecmp($this->_url->protocol, 'https') == 0) {
             $host = $this->_url->host.':'.$this->_url->port;
-        } elseif ($this->_url->port == 443 && strcasecmp($this->_url->protocol, 'https') == 0 && strpos($this->_url->url, ':443') !== false) {
+        } elseif ($this->_url->port == 443 && strcasecmp($this->_url->protocol, 'https') == 0 && str_contains($this->_url->url, ':443')) {
             $host = $this->_url->host.':'.$this->_url->port;
         } else {
             $host = $this->_url->host;
@@ -733,20 +733,20 @@ class HTTP_Request
 
         // RFC 2068, section 19.7.1: A client MUST NOT send the Keep-Alive
         // connection token to a proxy server...
-        if (isset($this->_proxy_host) && !empty($this->_requestHeaders['connection']) &&
-            'Keep-Alive' == $this->_requestHeaders['connection']) {
+        if (isset($this->_proxy_host) && !empty($this->_requestHeaders['connection'])
+            && 'Keep-Alive' == $this->_requestHeaders['connection']) {
             $this->removeHeader('connection');
         }
 
-        $keepAlive = (HTTP_REQUEST_HTTP_VER_1_1 == $this->_http && empty($this->_requestHeaders['connection'])) ||
-                     (!empty($this->_requestHeaders['connection']) && 'Keep-Alive' == $this->_requestHeaders['connection']);
+        $keepAlive = (HTTP_REQUEST_HTTP_VER_1_1 == $this->_http && empty($this->_requestHeaders['connection']))
+                     || (!empty($this->_requestHeaders['connection']) && 'Keep-Alive' == $this->_requestHeaders['connection']);
         $sockets = &PEAR::getStaticProperty('HTTP_Request', 'sockets');
         $sockKey = $host.':'.$port;
         unset($this->_sock);
 
         // There is a connected socket in the "static" property?
-        if ($keepAlive && !empty($sockets[$sockKey]) &&
-            !empty($sockets[$sockKey]->fp)) {
+        if ($keepAlive && !empty($sockets[$sockKey])
+            && !empty($sockets[$sockKey]->fp)) {
             $this->_sock = &$sockets[$sockKey];
             $err = null;
         } else {
@@ -810,7 +810,7 @@ class HTTP_Request
                 $this->_url = new Net_URL($redirect);
                 $this->addHeader('Host', $this->_generateHostHeader());
             // Absolute path
-            } elseif (strpos($redirect, '/') === 0) {
+            } elseif (str_starts_with($redirect, '/')) {
                 $this->_url->path = $redirect;
 
             // Relative path
@@ -938,9 +938,9 @@ class HTTP_Request
 
         $request = $this->_method.' '.$url.' HTTP/'.$this->_http."\r\n";
 
-        if (in_array($this->_method, $this->_bodyDisallowed) ||
-            (0 == strlen($this->_body) && (HTTP_REQUEST_METHOD_POST != $this->_method ||
-             (empty($this->_postData) && empty($this->_postFiles))))) {
+        if (in_array($this->_method, $this->_bodyDisallowed)
+            || (0 == strlen($this->_body) && (HTTP_REQUEST_METHOD_POST != $this->_method
+             || (empty($this->_postData) && empty($this->_postFiles))))) {
             $this->removeHeader('Content-Type');
         } else {
             if (empty($this->_requestHeaders['content-type'])) {
@@ -965,8 +965,8 @@ class HTTP_Request
             $request .= "\r\n";
 
         // Post data if it's an array
-        } elseif (HTTP_REQUEST_METHOD_POST == $this->_method &&
-                  (!empty($this->_postData) || !empty($this->_postFiles))) {
+        } elseif (HTTP_REQUEST_METHOD_POST == $this->_method
+                  && (!empty($this->_postData) || !empty($this->_postFiles))) {
             // "normal" POST request
             if (!isset($boundary)) {
                 $postdata = implode('&', array_map(
@@ -1100,8 +1100,8 @@ class HTTP_Request
      */
     public function detach(&$listener)
     {
-        if (!is_a($listener, 'HTTP_Request_Listener') ||
-            !isset($this->_listeners[$listener->getId()])) {
+        if (!is_a($listener, 'HTTP_Request_Listener')
+            || !isset($this->_listeners[$listener->getId()])) {
             return false;
         }
         unset($this->_listeners[$listener->getId()]);
@@ -1231,9 +1231,9 @@ class HTTP_Response
      * @param  bool      Whether the response can actually have a message-body.
      *                   Will be set to false for HEAD requests.
      *
-     * @throws PEAR_Error
-     *
      * @return mixed     true on success, PEAR_Error in case of malformed response
+     *
+     * @throws PEAR_Error
      */
     public function process($saveBody = true, $canHaveBody = true)
     {
@@ -1259,15 +1259,15 @@ class HTTP_Response
         // 3. ... If a message is received with both a
         // Transfer-Encoding header field and a Content-Length header field,
         // the latter MUST be ignored.
-        $canHaveBody = $canHaveBody && $this->_code >= 200 &&
-                       $this->_code != 204 && $this->_code != 304;
+        $canHaveBody = $canHaveBody && $this->_code >= 200
+                       && $this->_code != 204 && $this->_code != 304;
 
         // If response body is present, read it and decode
         $chunked = isset($this->_headers['transfer-encoding']) && ('chunked' == $this->_headers['transfer-encoding']);
         $gzipped = isset($this->_headers['content-encoding']) && ('gzip' == $this->_headers['content-encoding']);
         $hasBody = false;
-        if ($canHaveBody && ($chunked || !isset($this->_headers['content-length']) ||
-                0 != $this->_headers['content-length'])) {
+        if ($canHaveBody && ($chunked || !isset($this->_headers['content-length'])
+                || 0 != $this->_headers['content-length'])) {
             if ($chunked || !isset($this->_headers['content-length'])) {
                 $this->_toRead = null;
             } else {
@@ -1318,7 +1318,7 @@ class HTTP_Response
      */
     public function _processHeader($header)
     {
-        if (false === strpos($header, ':')) {
+        if (!str_contains($header, ':')) {
             return;
         }
         list($headername, $headervalue) = explode(':', $header, 2);
@@ -1364,7 +1364,7 @@ class HTTP_Response
             $cookie['value'] = trim(substr($elements[0], $pos + 1));
 
             for ($i = 1; $i < count($elements); $i++) {
-                if (false === strpos($elements[$i], '=')) {
+                if (!str_contains($elements[$i], '=')) {
                     $elName = trim($elements[$i]);
                     $elValue = null;
                 } else {

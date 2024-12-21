@@ -148,7 +148,7 @@ class gdthumb
 
                             return '';
                         } else {
-                            $dst_file = $dst_file.'.gif';
+                            $dst_file .= '.gif';
                             if ($re_size[0] == $size[0] && $re_size[1] == $size[1]) {
                                 // サイズが同じ場合には、そのままコピーする。(画質劣化を防ぐ）
                                 copy($path, $dst_file);
@@ -165,7 +165,7 @@ class gdthumb
 
                             return '';
                         } else {
-                            $dst_file = $dst_file.'.png';
+                            $dst_file .= '.png';
                             if ($re_size[0] == $size[0] && $re_size[1] == $size[1]) {
                                 // サイズが同じ場合には、そのままコピーする。(画質劣化を防ぐ）
                                 copy($path, $dst_file);
@@ -195,7 +195,7 @@ class gdthumb
 
                         return '';
                     } else {
-                        $dst_file = $dst_file.'.png';
+                        $dst_file .= '.png';
                         imagepng($dst_im, $dst_file);
                     }
                     imagedestroy($dst_im);
@@ -216,7 +216,7 @@ class gdthumb
 
                     return '';
                 } else {
-                    $dst_file = $dst_file.'.jpg';
+                    $dst_file .= '.jpg';
 
                     if ($re_size[0] == $size[0] && $re_size[1] == $size[1]) {
                         // サイズが同じ場合には、そのままコピーする。(画質劣化を防ぐ）
@@ -263,7 +263,7 @@ class gdthumb
 
                     return '';
                 } else {
-                    $dst_file = $dst_file.'.png';
+                    $dst_file .= '.png';
                     if ($re_size[0] == $size[0] && $re_size[1] == $size[1]) {
                         // サイズが同じ場合には、そのままコピーする。(画質劣化を防ぐ）
                         copy($path, $dst_file);
