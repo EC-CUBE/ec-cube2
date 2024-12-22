@@ -68,12 +68,12 @@ class SC_Helper_Purchase_cleanupSessionTest extends SC_Helper_Purchase_TestBase
         $helper->cleanupSession(1001, $cartSession, $customer, PRODUCT_TYPE_NORMAL);
 
         $this->expected = [
-      'cart_max_deleted' => 0,
-      'cart_max_notdeleted' => 1,
-      'uniqid' => '',
-      'shipping' => null,
-      'multiple_temp' => null,
-    ];
+            'cart_max_deleted' => 0,
+            'cart_max_notdeleted' => 1,
+            'uniqid' => '',
+            'shipping' => null,
+            'multiple_temp' => null,
+        ];
 
         $this->actual['cart_max_deleted'] = $cartSession->getMax(PRODUCT_TYPE_NORMAL);
         $this->actual['cart_max_notdeleted'] = $cartSession->getMax(PRODUCT_TYPE_DOWNLOAD);

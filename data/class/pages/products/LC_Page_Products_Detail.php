@@ -443,6 +443,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
         $objFormParam->setParam($_REQUEST);
         // 入力値の変換
         $objFormParam->convParam();
+
         // 入力情報を渡す
         return $objFormParam->getFormParamList();
     }

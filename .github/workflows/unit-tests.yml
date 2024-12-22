@@ -23,8 +23,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-22.04 ]
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4-rc' ]
+        operating-system: [ ubuntu-24.04 ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
         db: [ mysql, pgsql ]
 
     steps:
@@ -38,7 +38,7 @@ jobs:
 
     - name: Create ADMIN_DIR
       run: |
-        sudo apt-fast install -y sharutils
+        sudo apt install -y sharutils
         echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
 
     - name: Setup environment
