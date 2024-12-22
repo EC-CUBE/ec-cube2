@@ -30,7 +30,7 @@
  */
 class SC_Helper_Bloc
 {
-    private $device_type_id = null;
+    private $device_type_id;
 
     public function __construct($devide_type_id = DEVICE_TYPE_PC)
     {

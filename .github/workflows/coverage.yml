@@ -21,7 +21,7 @@ on:
 jobs:
   run-on-linux:
     name: Run on Linux
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -74,7 +74,7 @@ jobs:
 
     - name: Create ADMIN_DIR
       run: |
-        sudo apt-fast install -y sharutils
+        sudo apt install -y sharutils
         echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
 
     - name: Setup to EC-CUBE
@@ -88,7 +88,7 @@ jobs:
         HTTP_URL: http://127.0.0.1:8085/
         HTTPS_URL: http://127.0.0.1:8085/
       run: |
-        sudo apt-fast install -y mysql-client postgresql-client
+        sudo apt install -y mysql-client postgresql-client
         ./eccube_install.sh ${DB}
 
     - name: Run to PHPUnit

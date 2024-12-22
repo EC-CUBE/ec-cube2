@@ -39,7 +39,7 @@ $module_id = isset($_GET['module_id']) ? $_GET['module_id'] : null;
 if (!empty($module_id) && is_numeric($module_id)) {
     GC_Utils_Ex::gfPrintLog('loading module ====> module_id = ' . $module_id);
 
-    $objQuery =& SC_Query_Ex::getSingletonInstance();
+    $objQuery = SC_Query_Ex::getSingletonInstance();
     $arrRet = $objQuery->select('module_code', 'dtb_module', 'module_id = ?', array($module_id));
 
     if (isset($arrRet[0]['module_code'])) {

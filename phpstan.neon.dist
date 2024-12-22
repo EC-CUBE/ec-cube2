@@ -7,7 +7,6 @@ parameters:
       - data/module/SOAP/*
       - data/vendor/*
       - data/downloads/*
-      - data/module/Calendar/Engine/PearDate.php
       - data/class/helper/SC_Helper_Mobile.php
       - data/class/SC_MobileEmoji.php
       - data/class/SC_MobileImage.php
@@ -15,48 +14,14 @@ parameters:
     analyseAndScan:
       - *.tpl.php
   ignoreErrors:
-    -
-      message: "#^Call to an undefined static method PEAR\\:\\:raiseError\\(\\)\\.$#"
-      paths:
-        - data/module/HTTP/Request.php
-        - data/module/Net/SMTP.php
-        - data/module/Calendar/Calendar.php
-        - data/module/Calendar/Decorator.php
-        - data/module/Calendar/Factory.php
-    -
-      message: "#^Call to an undefined method Net_Socket\\:\\:raiseError\\(\\)\\.$#"
-      path: data/module/Net/Socket.php
-    -
-      message: "#^Call to static method factory\\(\\) on an unknown class Auth_SASL\\.$#"
-      path: data/module/Net/SMTP.php
-    -
-      message: "#^Call to static method dayOfWeek\\(\\) on an unknown class Date_Calc\\.#"
-      path: data/module/Calendar/Util/Textual.php
     # -
     #   message: "#^Constant SMARTY_PLUGINS_DIR not found\\.$#"
     #   path: data/smarty_extends/*
     -
+      message: "#^Call to an undefined static method PEAR\\:\\:raiseError\\(\\)\\.$#"
+      paths:
+        - data/module/HTTP/Request.php
+
+    -
       message: "#^Variable \\$SJIS_widths might not be defined\\.$#"
       path: data/class/helper/SC_Helper_FPDI.php
-    -
-      message: '#^Path in include_once\(\) "Auth/SASL.php" is not a file or it does not exist.#'
-      path: data/module/Net/SMTP.php
-    -
-      message: '#^Path in require_once\(\) ".*\.php" is not a file or it does not exist\.$#'
-      paths:
-        - data/module/Calendar/Calendar.php
-        - data/module/Calendar/Day.php
-        - data/module/Calendar/Decorator/Textual.php
-        - data/module/Calendar/Decorator/Uri.php
-        - data/module/Calendar/Decorator/Weekday.php
-        - data/module/Calendar/Decorator/Wrapper.php
-        - data/module/Calendar/Factory.php
-        - data/module/Calendar/Hour.php
-        - data/module/Calendar/Minute.php
-        - data/module/Calendar/Month.php
-        - data/module/Calendar/Month/Weekdays.php
-        - data/module/Calendar/Month/Weeks.php
-        - data/module/Calendar/Second.php
-        - data/module/Calendar/Util/Textual.php
-        - data/module/Calendar/Week.php
-        - data/module/Calendar/Year.php

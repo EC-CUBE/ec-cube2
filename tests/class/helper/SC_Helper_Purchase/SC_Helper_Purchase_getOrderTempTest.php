@@ -58,7 +58,7 @@ class SC_Helper_Purchase_getOrderTempTest extends SC_Helper_Purchase_TestBase
     {
         $order_id = '9999';
 
-        $this->expected = null;
+        $this->expected = [];
         $this->actual = SC_Helper_Purchase::getOrderTemp($order_id);
 
         $this->verify();
@@ -70,10 +70,10 @@ class SC_Helper_Purchase_getOrderTempTest extends SC_Helper_Purchase_TestBase
         $arrCustomer = $this->objQuery->getRow('*', 'dtb_customer', 'customer_id = ?', [$this->customer_ids[0]]);
 
         $this->expected = [
-      'order_temp_id' => $order_temp_id,
-      'customer_id' => $this->customer_ids[0],
-      'order_name01' => $arrCustomer['name01'],
-    ];
+            'order_temp_id' => $order_temp_id,
+            'customer_id' => $this->customer_ids[0],
+            'order_name01' => $arrCustomer['name01'],
+        ];
         $result = SC_Helper_Purchase::getOrderTemp($order_temp_id);
 
         $this->actual = Test_Utils::mapArray($result, ['order_temp_id', 'customer_id', 'order_name01']);
