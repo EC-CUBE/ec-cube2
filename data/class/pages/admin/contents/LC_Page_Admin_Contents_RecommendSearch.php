@@ -140,10 +140,10 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
     /**
      * POSTされた値からSQLのWHEREとBINDを配列で返す。
      *
-     * @return array        ('where' => where string, 'bind' => databind array)
-     *
      * @param  SC_FormParam $objFormParam
      * @param SC_Helper_DB_Ex $objDb
+     *
+     * @return array        ('where' => where string, 'bind' => databind array)
      */
     public function createWhere(&$objFormParam, &$objDb)
     {
@@ -219,6 +219,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
         $objQuery->setWhere($where);
         // 取得範囲の指定(開始行番号、行数のセット)
         $objQuery->setLimitOffset($page_max, $startno);
+
         // 検索結果の取得
         return $objProduct->findProductIdsOrder($objQuery, $bind);
     }

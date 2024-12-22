@@ -61,45 +61,45 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
     {
         // 引数の準備
         $orderParams = [
-      'order_id' => $this->order_ids[0],
-      'status' => ORDER_PAY_WAIT,
-      'mail_maga_flg' => '1',
-      'order_tax_rate' => '5',
-      'order_tax_rule' => '1',
-    ];
+            'order_id' => $this->order_ids[0],
+            'status' => ORDER_PAY_WAIT,
+            'mail_maga_flg' => '1',
+            'order_tax_rate' => '5',
+            'order_tax_rule' => '1',
+        ];
         $cartSession = new SC_CartSession_registerOrderCompleteMock();
         $_SESSION['site']['uniqid'] = $this->order_temp_ids[0];
 
         $this->helper->registerOrderComplete($orderParams, $cartSession, '1');
 
         $this->expected = [
-      'registerOrder' => [
-        'order_id' => $this->order_ids[0],
-        'status' => ORDER_PAY_WAIT,
-        'mailmaga_flg' => null,
-      ],
-      'registerOrderDetail' => [
-        'order_id' => $this->order_ids[0],
-        'params' => [
-          [
-            'order_id' => $this->order_ids[0],
-            'product_id' => '1002',
-            'product_class_id' => '1002',
-            'product_name' => '製品02',
-            'product_code' => 'cd1002',
-            'classcategory_name1' => 'cat01',
-            'classcategory_name2' => 'cat02',
-            'point_rate' => '5',
-            'price' => '1000',
-            'quantity' => '10',
-            'tax_rate' => null,
-            'tax_rule' => null,
-            'tax_adjust' => null,
-          ],
-        ],
-      ],
-      'del_flg' => '1',
-    ];
+            'registerOrder' => [
+                'order_id' => $this->order_ids[0],
+                'status' => ORDER_PAY_WAIT,
+                'mailmaga_flg' => null,
+            ],
+            'registerOrderDetail' => [
+                'order_id' => $this->order_ids[0],
+                'params' => [
+                    [
+                        'order_id' => $this->order_ids[0],
+                        'product_id' => '1002',
+                        'product_class_id' => '1002',
+                        'product_name' => '製品02',
+                        'product_code' => 'cd1002',
+                        'classcategory_name1' => 'cat01',
+                        'classcategory_name2' => 'cat02',
+                        'point_rate' => '5',
+                        'price' => '1000',
+                        'quantity' => '10',
+                        'tax_rate' => null,
+                        'tax_rule' => null,
+                        'tax_adjust' => null,
+                    ],
+                ],
+            ],
+            'del_flg' => '1',
+        ];
 
         $this->actual = $_SESSION['testResult'];
         $this->actual['del_flg'] = $this->objQuery->get('del_flg', 'dtb_order_temp', 'order_temp_id = ?', $this->order_temp_ids[0]);
@@ -110,11 +110,11 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
     {
         // 引数の準備
         $orderParams = [
-      'order_id' => '1001',
-    //  'status' => ORDER_PAY_WAIT,
-      'order_tax_rate' => '5',
-      'order_tax_rule' => '1',
-    ];
+            'order_id' => '1001',
+            //  'status' => ORDER_PAY_WAIT,
+            'order_tax_rate' => '5',
+            'order_tax_rule' => '1',
+        ];
         $cartSession = new SC_CartSession_registerOrderCompleteMock();
         $_SESSION['site']['uniqid'] = '1001';
 
@@ -122,12 +122,12 @@ class SC_Helper_Purchase_registerOrderCompleteTest extends SC_Helper_Purchase_Te
 
         // 上の条件と重複する部分は確認を省略
         $this->expected = [
-      'registerOrder' => [
-        'order_id' => '1001',
-        'status' => ORDER_NEW,
-        'mailmaga_flg' => null,
-      ],
-    ];
+            'registerOrder' => [
+                'order_id' => '1001',
+                'status' => ORDER_NEW,
+                'mailmaga_flg' => null,
+            ],
+        ];
 
         $this->actual['registerOrder'] = $_SESSION['testResult']['registerOrder'];
         $this->verify();
@@ -141,18 +141,18 @@ class SC_Helper_Purchase_registerOrderCompleteMock extends SC_Helper_Purchase
     public static function registerOrder($order_id, $params)
     {
         $_SESSION['testResult']['registerOrder'] = [
-      'order_id' => $order_id,
-      'status' => $params['status'],
-      'mailmaga_flg' => $params['mailmaga_flg'] ?? null,
-    ];
+            'order_id' => $order_id,
+            'status' => $params['status'],
+            'mailmaga_flg' => $params['mailmaga_flg'],
+        ];
     }
 
     public static function registerOrderDetail($order_id, $params)
     {
         $_SESSION['testResult']['registerOrderDetail'] = [
-      'order_id' => $order_id,
-      'params' => $params,
-    ];
+            'order_id' => $order_id,
+            'params' => $params,
+        ];
     }
 
     public function setUniqId()
@@ -166,19 +166,19 @@ class SC_CartSession_registerOrderCompleteMock extends SC_CartSession
     public function getCartList($cartKey, $pref_id = 0, $country_id = 0)
     {
         return [
-      [
-        'productsClass' => [
-          'product_id' => '1002',
-          'product_class_id' => '1002',
-          'name' => '製品02',
-          'product_code' => 'cd1002',
-          'classcategory_name1' => 'cat01',
-          'classcategory_name2' => 'cat02',
-        ],
-        'point_rate' => '5',
-        'price' => '1000',
-        'quantity' => '10',
-      ],
-    ];
+            [
+                'productsClass' => [
+                    'product_id' => '1002',
+                    'product_class_id' => '1002',
+                    'name' => '製品02',
+                    'product_code' => 'cd1002',
+                    'classcategory_name1' => 'cat01',
+                    'classcategory_name2' => 'cat02',
+                ],
+                'point_rate' => '5',
+                'price' => '1000',
+                'quantity' => '10',
+            ],
+        ];
     }
 }

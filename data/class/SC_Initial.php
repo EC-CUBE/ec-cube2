@@ -57,7 +57,6 @@ class SC_Initial
         $this->resetSuperglobalsRequest();  // stripslashesDeepGpc メソッドより後で実行
         $this->setTimezone();               // 本当はエラーハンドラーより先に読みたい気も
         $this->normalizeHostname();         // defineConstants メソッドより後で実行
-        $this->compatPhp();
     }
 
     /**
@@ -197,8 +196,8 @@ class SC_Initial
             $useFilenameDirIndex = USE_FILENAME_DIR_INDEX;
         } else {
             if (isset($_SERVER['SERVER_SOFTWARE'])) {
-                if (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false
-                    || strpos($_SERVER['SERVER_SOFTWARE'], 'Symfony') !== false) {
+                if (str_contains($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS')
+                    || str_contains($_SERVER['SERVER_SOFTWARE'], 'Symfony')) {
                     $useFilenameDirIndex = true;
                 }
             }
@@ -549,48 +548,6 @@ class SC_Initial
             // リダイレクト(恒久的)
             SC_Response_Ex::sendHttpStatus(301);
             SC_Response_Ex::sendRedirect($correct_url);
-        }
-    }
-
-    /**
-     * PHPバージョン互換処理
-     *
-     * @deprecated https://github.com/EC-CUBE/ec-cube2/issues/681 が実現したら、外部ライブラリへ移行して、削除する予定。
-     *
-     * @return void
-     */
-    public function compatPhp()
-    {
-        if (!function_exists('str_starts_with')) {
-            /**
-             * 文字列が指定された部分文字列で始まるかを調べる。(for PHP < 8)
-             *
-             * @param string $haystack
-             * @param string $needle
-             *
-             * @return bool
-             */
-            function str_starts_with($haystack, $needle)
-            {
-                return strncmp($haystack, $needle, strlen($needle)) === 0;
-            }
-        }
-
-        if (!function_exists('str_ends_with')) {
-            /**
-             * 文字列が、指定された文字列で終わるかを調べる。(for PHP < 8)
-             *
-             * @param string $haystack
-             * @param string $needle
-             *
-             * @return bool
-             */
-            function str_ends_with($haystack, $needle)
-            {
-                $needle_len = strlen($needle);
-
-                return substr($haystack, -$needle_len, $needle_len) === $needle;
-            }
         }
     }
 }

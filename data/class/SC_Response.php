@@ -136,6 +136,7 @@ class SC_Response
      * @param  bool|null $useSsl             true:HTTPSを強制, false:HTTPを強制, null:継承
      *
      * @return void
+     *
      * @static
      */
     public static function sendRedirect($location, $arrQueryString = [], $inheritQueryString = false, $useSsl = null)
@@ -264,6 +265,7 @@ class SC_Response
      * @param  string $location /html/ からのパス。先頭に / を含むかは任意。「../」の解釈は行なわない。
      *
      * @return void
+     *
      * @static
      */
     public static function sendRedirectFromUrlPath($location, $arrQueryString = [], $inheritQueryString = false, $useSsl = null)
@@ -316,12 +318,13 @@ class SC_Response
      * @see http://ja.wikipedia.org/wiki/HTTP%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89 (邦訳)
      *
      * @license http://www.gnu.org/licenses/fdl.html GFDL (邦訳)
+     *
      * @static
      */
     public static function sendHttpStatus($statusCode)
     {
         $protocol = $_SERVER['SERVER_PROTOCOL'];
-        $httpVersion = (strpos($protocol, '1.1') !== false) ? '1.1' : '1.0';
+        $httpVersion = (str_contains($protocol, '1.1')) ? '1.1' : '1.0';
         $messages = [
             // Informational 1xx                        // 【情報】
             100 => 'Continue',                          // 継続

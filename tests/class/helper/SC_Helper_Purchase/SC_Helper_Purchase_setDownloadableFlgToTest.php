@@ -47,8 +47,8 @@ class SC_Helper_Purchase_setDownloadableFlgToTest extends SC_Helper_Purchase_Tes
     public function testSetDownloadableFlgTo販売価格が0円の場合フラグがONになる()
     {
         $input = [
-      '1001' => ['price' => 0],
-    ];
+            '1001' => ['price' => 0],
+        ];
 
         $this->expected = true;
         SC_Helper_Purchase::setDownloadableFlgTo($input);
@@ -60,8 +60,8 @@ class SC_Helper_Purchase_setDownloadableFlgToTest extends SC_Helper_Purchase_Tes
     public function testSetDownloadableFlgToダウンロード期限内かつ入金日ありの場合フラグがONになる()
     {
         $input = [
-      '1001' => ['price' => 1000, 'effective' => '1', 'payment_date' => '2012-12-12'],
-    ];
+            '1001' => ['price' => 1000, 'effective' => '1', 'payment_date' => '2012-12-12'],
+        ];
 
         $this->expected = true;
         SC_Helper_Purchase::setDownloadableFlgTo($input);
@@ -73,8 +73,8 @@ class SC_Helper_Purchase_setDownloadableFlgToTest extends SC_Helper_Purchase_Tes
     public function testSetDownloadableFlgToダウンロード期限内かつ入金日なしの場合フラグがOFFになる()
     {
         $input = [
-      '1001' => ['price' => 1000, 'effective' => '1', 'payment_date' => null],
-    ];
+            '1001' => ['price' => 1000, 'effective' => '1', 'payment_date' => null],
+        ];
 
         $this->expected = false;
         SC_Helper_Purchase::setDownloadableFlgTo($input);
@@ -86,8 +86,8 @@ class SC_Helper_Purchase_setDownloadableFlgToTest extends SC_Helper_Purchase_Tes
     public function testSetDownloadableFlgToダウンロード期限外かつ入金日ありの場合フラグがOFFになる()
     {
         $input = [
-      '1001' => ['price' => 1000, 'effective' => '0', 'payment_date' => '2012-12-12'],
-    ];
+            '1001' => ['price' => 1000, 'effective' => '0', 'payment_date' => '2012-12-12'],
+        ];
 
         $this->expected = false;
         SC_Helper_Purchase::setDownloadableFlgTo($input);
@@ -99,8 +99,8 @@ class SC_Helper_Purchase_setDownloadableFlgToTest extends SC_Helper_Purchase_Tes
     public function testSetDownloadableFlgToダウンロード期限外かつ入金日なしの場合フラグがOFFになる()
     {
         $input = [
-      '1001' => ['price' => 1000, 'effective' => '0', 'payment_date' => null],
-    ];
+            '1001' => ['price' => 1000, 'effective' => '0', 'payment_date' => null],
+        ];
 
         $this->expected = false;
         SC_Helper_Purchase::setDownloadableFlgTo($input);

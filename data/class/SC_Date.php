@@ -29,8 +29,8 @@ class SC_Date
     public $day;
     public $end_year;
 
-    public static $arrHoliday = null;
-    public static $arrRegularHoliday = null;
+    public static $arrHoliday;
+    public static $arrRegularHoliday;
 
     // コンストラクタ
     public function __construct($start_year = '', $end_year = '')
