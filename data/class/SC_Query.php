@@ -204,7 +204,7 @@ class SC_Query
     {
         $sql = $this->conn->last_query;
         if ($disp) {
-            echo $sql.";<br />\n";
+            echo $sql . ";<br />\n";
         }
 
         return $sql;
@@ -359,7 +359,7 @@ class SC_Query
         $sqlse = "SELECT $cols";
 
         if (strlen($from) === 0) {
-            $sqlse .= ' '.$dbFactory->getDummyFromClauseSql();
+            $sqlse .= ' ' . $dbFactory->getDummyFromClauseSql();
         } else {
             $sqlse .= " FROM $from";
         }
@@ -368,7 +368,7 @@ class SC_Query
         if (strlen($where) >= 1) {
             $sqlse .= " WHERE $where";
         } elseif (strlen($this->where) >= 1) {
-            $sqlse .= ' WHERE '.$this->where;
+            $sqlse .= ' WHERE ' . $this->where;
             // 実行時と同じくキャストしてから評価する (空文字を要素1の配列と評価させる意図)
             $arrWhereValForEval = (array) $arrWhereVal;
             if (empty($arrWhereValForEval)) {
@@ -376,7 +376,7 @@ class SC_Query
             }
         }
 
-        $sqlse .= ' '.$this->groupby.' '.$this->order.' '.$this->option;
+        $sqlse .= ' ' . $this->groupby . ' ' . $this->order . ' ' . $this->option;
 
         return $sqlse;
     }
@@ -430,7 +430,7 @@ class SC_Query
         if (strlen($str) == 0) {
             $this->groupby = '';
         } else {
-            $this->groupby = 'GROUP BY '.$str;
+            $this->groupby = 'GROUP BY ' . $str;
         }
 
         return $this;
@@ -448,7 +448,7 @@ class SC_Query
     public function andWhere($str)
     {
         if ($this->where != '') {
-            $this->where .= ' AND '.$str;
+            $this->where .= ' AND ' . $str;
         } else {
             $this->where = $str;
         }
@@ -468,7 +468,7 @@ class SC_Query
     public function orWhere($str)
     {
         if ($this->where != '') {
-            $this->where .= ' OR '.$str;
+            $this->where .= ' OR ' . $str;
         } else {
             $this->where = $str;
         }
@@ -508,7 +508,7 @@ class SC_Query
         if (strlen($str) == 0) {
             $this->order = '';
         } else {
-            $this->order = 'ORDER BY '.$str;
+            $this->order = 'ORDER BY ' . $str;
         }
 
         return $this;
@@ -570,7 +570,7 @@ class SC_Query
         $arrValForQuery = [];
 
         foreach ($arrVal as $key => $val) {
-            $strcol .= $key.',';
+            $strcol .= $key . ',';
             if (strcasecmp('Now()', $val) === 0) {
                 $strval .= 'Now(),';
             } elseif (strcasecmp('CURRENT_TIMESTAMP', $val) === 0) {
@@ -583,8 +583,8 @@ class SC_Query
         }
 
         foreach ($arrSql as $key => $val) {
-            $strcol .= $key.',';
-            $strval .= $val.',';
+            $strcol .= $key . ',';
+            $strval .= $val . ',';
             $find = true;
         }
 
@@ -599,7 +599,7 @@ class SC_Query
         $sqlin = "INSERT INTO $table($strcol) SELECT $strval";
 
         if (strlen($from) >= 1) {
-            $sqlin .= ' '.$from;
+            $sqlin .= ' ' . $from;
             $arrValForQuery = array_merge($arrValForQuery, $arrFromVal);
         }
 
@@ -629,11 +629,11 @@ class SC_Query
 
         foreach ($arrVal as $key => $val) {
             if (strcasecmp('Now()', $val) === 0) {
-                $arrCol[] = $key.'= Now()';
+                $arrCol[] = $key . '= Now()';
             } elseif (strcasecmp('CURRENT_TIMESTAMP', $val) === 0) {
-                $arrCol[] = $key.'= CURRENT_TIMESTAMP';
+                $arrCol[] = $key . '= CURRENT_TIMESTAMP';
             } else {
-                $arrCol[] = $key.'= ?';
+                $arrCol[] = $key . '= ?';
                 $arrValForQuery[] = $val;
             }
             $find = true;
@@ -832,10 +832,15 @@ class SC_Query
      */
     public function delete($table, $where = '', $arrWhereVal = [])
     {
+        // 空deleteは実行しない
+        if ($this->count($table, $where, $arrWhereVal) == 0) {
+            return;
+        }
+
         if (strlen($where) <= 0) {
-            $sqlde = 'DELETE FROM '.$this->conn->quoteIdentifier($table);
+            $sqlde = 'DELETE FROM ' . $this->conn->quoteIdentifier($table);
         } else {
-            $sqlde = 'DELETE FROM '.$this->conn->quoteIdentifier($table).' WHERE '.$where;
+            $sqlde = 'DELETE FROM ' . $this->conn->quoteIdentifier($table) . ' WHERE ' . $where;
         }
         $ret = $this->query($sqlde, $arrWhereVal, false, null, MDB2_PREPARE_MANIP);
 
@@ -1125,10 +1130,10 @@ class SC_Query
     {
         $err = "SQL: [$sql]\n";
         if ($arrVal !== false) {
-            $err .= 'PlaceHolder: ['.var_export($arrVal, true)."]\n";
+            $err .= 'PlaceHolder: [' . var_export($arrVal, true) . "]\n";
         }
-        $err .= $error->getMessage()."\n";
-        $err .= rtrim($error->getUserInfo())."\n";
+        $err .= $error->getMessage() . "\n";
+        $err .= rtrim($error->getUserInfo()) . "\n";
 
         // PEAR::MDB2 内部のスタックトレースを出力する場合、下記のコメントを外す。
         // $err .= GC_Utils_Ex::toStringBacktrace($error->getBackTrace());
@@ -1140,7 +1145,7 @@ class SC_Query
      */
     public function error($msg)
     {
-        $msg = "DB処理でエラーが発生しました。\n".$msg;
+        $msg = "DB処理でエラーが発生しました。\n" . $msg;
         if (!$this->force_run) {
             trigger_error($msg, E_USER_ERROR);
         } else {
@@ -1214,8 +1219,8 @@ class SC_Query
         }
 
         $msg = "[execute start {$arrStartInfo['http_request_id']}#{$arrStartInfo['count']}]\n"
-             .'SQL: '.$objSth->query."\n"
-             .'PlaceHolder: '.var_export($arrVal, true)."\n";
+            . 'SQL: ' . $objSth->query . "\n"
+            . 'PlaceHolder: ' . var_export($arrVal, true) . "\n";
         GC_Utils_Ex::gfPrintLog($msg, DB_LOG_REALFILE);
 
         return $arrStartInfo;
@@ -1246,11 +1251,11 @@ class SC_Query
                 return;
             }
             // 開始時にログ出力していないため、ここで実行内容を出力する
-            $msg .= 'SQL: '.$objSth->query."\n";
-            $msg .= 'PlaceHolder: '.var_export($arrVal, true)."\n";
+            $msg .= 'SQL: ' . $objSth->query . "\n";
+            $msg .= 'PlaceHolder: ' . var_export($arrVal, true) . "\n";
         }
 
-        $msg .= 'execution time: '.sprintf('%.2f sec', $timeExecTime)."\n";
+        $msg .= 'execution time: ' . sprintf('%.2f sec', $timeExecTime) . "\n";
         GC_Utils_Ex::gfPrintLog($msg, DB_LOG_REALFILE);
     }
 
