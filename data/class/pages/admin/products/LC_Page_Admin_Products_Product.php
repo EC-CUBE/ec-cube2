@@ -1388,6 +1388,7 @@ __EOF__;
                 || SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_image'.$i]) == false
                 || SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_large_image'.$i]) == false
                 || $arrSubProductData['image_key'] == 'sub_image'.$i
+                || $arrSubProductData['image_key'] == 'sub_large_image'.$i
             ) {
                 $has_subproduct_data = true;
                 break;
