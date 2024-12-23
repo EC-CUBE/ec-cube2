@@ -116,7 +116,7 @@ class SC_Helper_Purchase
 
         $this->cleanupSession($order_id, $objCartSession, $objCustomer, $cartkey);
 
-        GC_Utils_Ex::gfPrintLog('order complete. order_id=' . $order_id);
+        GC_Utils_Ex::gfPrintLog('order complete. order_id='.$order_id);
     }
 
     /**
@@ -567,7 +567,7 @@ class SC_Helper_Purchase
         if ($objCustomer->isLoginSuccess(true)) {
             foreach ($keys as $key) {
                 if (in_array($key, $keys)) {
-                    $dest[$prefix . '_' . $key] = $objCustomer->getValue($key);
+                    $dest[$prefix.'_'.$key] = $objCustomer->getValue($key);
                 }
             }
 
@@ -576,9 +576,9 @@ class SC_Helper_Purchase
             ) {
                 $email_mobile = $objCustomer->getValue('email_mobile');
                 if (empty($email_mobile)) {
-                    $dest[$prefix . '_email'] = $objCustomer->getValue('email');
+                    $dest[$prefix.'_email'] = $objCustomer->getValue('email');
                 } else {
-                    $dest[$prefix . '_email'] = $email_mobile;
+                    $dest[$prefix.'_email'] = $email_mobile;
                 }
             }
 
@@ -614,8 +614,8 @@ class SC_Helper_Purchase
             $src_prefix .= '_';
         }
         foreach ($arrKey as $key) {
-            if (isset($src[$src_prefix . $key])) {
-                $dest[$prefix . $key] = $src[$src_prefix . $key];
+            if (isset($src[$src_prefix.$key])) {
+                $dest[$prefix.$key] = $src[$src_prefix.$key];
             }
         }
     }
@@ -631,7 +631,7 @@ class SC_Helper_Purchase
     {
         $arrKey = [];
         foreach ($this->arrShippingKey as $key) {
-            $arrKey[] = 'shipping_' . $key;
+            $arrKey[] = 'shipping_'.$key;
         }
 
         return SC_Utils_Ex::sfArrayIntersectKeys($arrSrc, $arrKey);
@@ -653,7 +653,7 @@ class SC_Helper_Purchase
         $max_date = max($delivDateIds);
         // 発送目安
         switch ($max_date) {
-                // 即日発送
+            // 即日発送
             case '1':
                 $start_day = 1;
                 break;
@@ -1080,7 +1080,7 @@ __EOS__;
                 ELSE '0'
             END AS enable,
 __EOS__;
-        $col .= $dbFactory->getDownloadableDaysWhereSql('T1') . ' AS effective';
+        $col .= $dbFactory->getDownloadableDaysWhereSql('T1').' AS effective';
         $from = <<< __EOS__
             dtb_order T1
             JOIN dtb_order_detail T2
@@ -1113,7 +1113,7 @@ __EOS__;
             // 販売価格が 0 円
             if ($arrOrderDetail[$key]['price'] == '0') {
                 $arrOrderDetail[$key]['is_downloadable'] = true;
-                // ダウンロード期限内かつ, 入金日あり
+            // ダウンロード期限内かつ, 入金日あり
             } elseif (
                 $arrOrderDetail[$key]['effective'] == '1'
                 && !SC_Utils_Ex::isBlank($arrOrderDetail[$key]['payment_date'])
@@ -1331,7 +1331,7 @@ __EOS__;
         // 対応状況が発送済みに変更の場合、発送日を更新
         if ($arrOrderOld['status'] != ORDER_DELIV && $newStatus == ORDER_DELIV) {
             $sqlval['commit_date'] = 'CURRENT_TIMESTAMP';
-            // 対応状況が入金済みに変更の場合、入金日を更新
+        // 対応状況が入金済みに変更の場合、入金日を更新
         } elseif ($arrOrderOld['status'] != ORDER_PRE_END && $newStatus == ORDER_PRE_END) {
             $sqlval['payment_date'] = 'CURRENT_TIMESTAMP';
         }
@@ -1374,7 +1374,7 @@ __EOS__;
             [],
             $sql_where,
             [$order_id],
-            ['payment_method' => '(SELECT payment_method FROM dtb_payment WHERE payment_id = ' . $tgt_table . '.payment_id)']
+            ['payment_method' => '(SELECT payment_method FROM dtb_payment WHERE payment_id = '.$tgt_table.'.payment_id)']
         );
     }
 
@@ -1515,7 +1515,7 @@ __EOS__;
     {
         $term = PENDING_ORDER_CANCEL_TIME;
         if (!SC_Utils_Ex::isBlank($term) && preg_match('/^[0-9]+$/', $term)) {
-            $target_time = strtotime('-' . $term . ' sec');
+            $target_time = strtotime('-'.$term.' sec');
             $objQuery = SC_Query_Ex::getSingletonInstance();
             $arrVal = [date('Y/m/d H:i:s', $target_time), ORDER_PENDING];
             $objQuery->begin();
@@ -1524,7 +1524,7 @@ __EOS__;
                 foreach ($arrOrders as $arrOrder) {
                     $order_id = $arrOrder['order_id'];
                     SC_Helper_Purchase_Ex::cancelOrder($order_id, ORDER_CANCEL, true);
-                    GC_Utils_Ex::gfPrintLog('order cancel.(time expire) order_id=' . $order_id);
+                    GC_Utils_Ex::gfPrintLog('order cancel.(time expire) order_id='.$order_id);
                 }
             }
             $objQuery->commit();
@@ -1549,23 +1549,23 @@ __EOS__;
                         $cartKeys = $objCartSess->getKeys();
                         $term = PENDING_ORDER_CANCEL_TIME;
                         if (preg_match('/^[0-9]+$/', $term)) {
-                            $target_time = strtotime('-' . $term . ' sec');
+                            $target_time = strtotime('-'.$term.' sec');
                             $create_time = strtotime($arrOrder['create_date']);
                             if (SC_Utils_Ex::isBlank($cartKeys) && $target_time < $create_time) {
                                 SC_Helper_Purchase_Ex::rollbackOrder($order_id, ORDER_CANCEL, true);
-                                GC_Utils_Ex::gfPrintLog('order rollback.(my pending) order_id=' . $order_id);
+                                GC_Utils_Ex::gfPrintLog('order rollback.(my pending) order_id='.$order_id);
                             } else {
                                 SC_Helper_Purchase_Ex::cancelOrder($order_id, ORDER_CANCEL, true);
                                 if ($target_time > $create_time) {
-                                    GC_Utils_Ex::gfPrintLog('order cancel.(my pending and time expire) order_id=' . $order_id);
+                                    GC_Utils_Ex::gfPrintLog('order cancel.(my pending and time expire) order_id='.$order_id);
                                 } else {
-                                    GC_Utils_Ex::gfPrintLog('order cancel.(my pending and set cart) order_id=' . $order_id);
+                                    GC_Utils_Ex::gfPrintLog('order cancel.(my pending and set cart) order_id='.$order_id);
                                 }
                             }
                         }
                     } else {
                         SC_Helper_Purchase_Ex::cancelOrder($order_id, ORDER_CANCEL, true);
-                        GC_Utils_Ex::gfPrintLog('order cancel.(my old pending) order_id=' . $order_id);
+                        GC_Utils_Ex::gfPrintLog('order cancel.(my old pending) order_id='.$order_id);
                     }
                 }
             }
@@ -1592,10 +1592,10 @@ __EOS__;
             $cartKeys = $objCartSess->getKeys();
             if (SC_Utils_Ex::isBlank($cartKeys)) {
                 SC_Helper_Purchase_Ex::rollbackOrder($order_id, ORDER_CANCEL, true);
-                GC_Utils_Ex::gfPrintLog('order rollback.(session pending) order_id=' . $order_id);
+                GC_Utils_Ex::gfPrintLog('order rollback.(session pending) order_id='.$order_id);
             } else {
                 SC_Helper_Purchase_Ex::cancelOrder($order_id, ORDER_CANCEL, true);
-                GC_Utils_Ex::gfPrintLog('order rollback.(session pending and set card) order_id=' . $order_id);
+                GC_Utils_Ex::gfPrintLog('order rollback.(session pending and set card) order_id='.$order_id);
             }
         }
         $objQuery->commit();
