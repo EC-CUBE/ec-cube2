@@ -80,6 +80,11 @@ jobs:
     - name: Run to PHPUnit SessionFactory
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
 
+    - name: Print error log
+      if: always()
+      continue-on-error: true
+      run: docker compose exec ec-cube tail -n 100 data/logs/error.log
+
     - name: Upload logs
       if: failure()
       uses: actions/upload-artifact@v4
