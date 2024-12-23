@@ -8,6 +8,7 @@ class Modifier_ScriptEscapeTest extends PHPUnit_Framework_TestCase
     public function scriptEscapeProvider()
     {
         $default_pattern = '/#script escaped#/';
+
         return [
             ['<script type="text/javascript"></script>', $default_pattern],
             ['<svg onload="alert(1)">test</svg>', $default_pattern],
