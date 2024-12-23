@@ -96,7 +96,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         $mode = $this->getMode();
         switch ($mode) {
             case 'pre_edit':
-            case 'copy' :
+            case 'copy':
                 // パラメーター初期化(商品ID)
                 $this->lfInitFormParam_PreEdit($objFormParam, $_POST);
                 // エラーチェック
@@ -249,7 +249,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
                 break;
 
                 // 関連商品選択
-            case 'recommend_select' :
+            case 'recommend_select':
                 // パラメーター初期化
                 $this->lfInitFormParam_RecommendSelect($objFormParam);
                 $this->lfInitFormParam($objFormParam, $_POST);
@@ -359,18 +359,18 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         $objFormParam->addParam('temp_main_large_image', 'temp_main_large_image', '', '', []);
 
         for ($cnt = 1; $cnt <= PRODUCTSUB_MAX; $cnt++) {
-            $objFormParam->addParam('詳細-サブタイトル'.$cnt, 'sub_title'.$cnt, STEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
-            $objFormParam->addParam('詳細-サブコメント'.$cnt, 'sub_comment'.$cnt, LLTEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
-            $objFormParam->addParam('save_sub_image'.$cnt, 'save_sub_image'.$cnt, '', '', []);
-            $objFormParam->addParam('save_sub_large_image'.$cnt, 'save_sub_large_image'.$cnt, '', '', []);
-            $objFormParam->addParam('temp_sub_image'.$cnt, 'temp_sub_image'.$cnt, '', '', []);
-            $objFormParam->addParam('temp_sub_large_image'.$cnt, 'temp_sub_large_image'.$cnt, '', '', []);
+            $objFormParam->addParam('詳細-サブタイトル' . $cnt, 'sub_title' . $cnt, STEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+            $objFormParam->addParam('詳細-サブコメント' . $cnt, 'sub_comment' . $cnt, LLTEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+            $objFormParam->addParam('save_sub_image' . $cnt, 'save_sub_image' . $cnt, '', '', []);
+            $objFormParam->addParam('save_sub_large_image' . $cnt, 'save_sub_large_image' . $cnt, '', '', []);
+            $objFormParam->addParam('temp_sub_image' . $cnt, 'temp_sub_image' . $cnt, '', '', []);
+            $objFormParam->addParam('temp_sub_large_image' . $cnt, 'temp_sub_large_image' . $cnt, '', '', []);
         }
 
         for ($cnt = 1; $cnt <= RECOMMEND_PRODUCT_MAX; $cnt++) {
-            $objFormParam->addParam('関連商品コメント'.$cnt, 'recommend_comment'.$cnt, LTEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
-            $objFormParam->addParam('関連商品ID'.$cnt, 'recommend_id'.$cnt, INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
-            $objFormParam->addParam('recommend_delete'.$cnt, 'recommend_delete'.$cnt, '', 'n', []);
+            $objFormParam->addParam('関連商品コメント' . $cnt, 'recommend_comment' . $cnt, LTEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+            $objFormParam->addParam('関連商品ID' . $cnt, 'recommend_id' . $cnt, INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+            $objFormParam->addParam('recommend_delete' . $cnt, 'recommend_delete' . $cnt, '', 'n', []);
         }
 
         $objFormParam->addParam('商品ID', 'copy_product_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
@@ -478,7 +478,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         // HTMLタグ許可チェック
         $objErr->doFunc(['詳細-メインコメント', 'main_comment', $this->arrAllowedTag], ['HTML_TAG_CHECK']);
         for ($cnt = 1; $cnt <= PRODUCTSUB_MAX; $cnt++) {
-            $objErr->doFunc(['詳細-サブコメント'.$cnt, 'sub_comment'.$cnt, $this->arrAllowedTag], ['HTML_TAG_CHECK']);
+            $objErr->doFunc(['詳細-サブコメント' . $cnt, 'sub_comment' . $cnt, $this->arrAllowedTag], ['HTML_TAG_CHECK']);
         }
 
         // 規格情報がない商品の場合のチェック
@@ -512,18 +512,18 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
     public function lfCheckError_RecommendSelect(&$arrForm, &$arrErr)
     {
         $select_recommend_no = $arrForm['select_recommend_no'];
-        $select_recommend_id = $arrForm['recommend_id'.$select_recommend_no];
+        $select_recommend_id = $arrForm['recommend_id' . $select_recommend_no];
 
         foreach ($arrForm as $key => $value) {
             if (preg_match('/^recommend_id/', $key)) {
                 if ($select_recommend_no == preg_replace('/^recommend_id/', '', $key)) {
                     continue;
                 }
-                $delete_key = 'recommend_delete'.(int) str_replace('recommend_id', '', $key);
+                $delete_key = 'recommend_delete' . (int) str_replace('recommend_id', '', $key);
                 if ($select_recommend_id == $arrForm[$key] && $arrForm[$delete_key] != 1) {
                     // 重複した場合、選択されたデータをリセットする
-                    $arrForm['recommend_id'.$select_recommend_no] = '';
-                    $arrErr['recommend_comment'.$select_recommend_no] = '※ すでに登録されている関連商品です。<br />';
+                    $arrForm['recommend_id' . $select_recommend_no] = '';
+                    $arrErr['recommend_comment' . $select_recommend_no] = '※ すでに登録されている関連商品です。<br />';
                     break;
                 }
             }
@@ -688,9 +688,9 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
                 // 一覧メイン画像
                 $this->lfMakeScaleImage($objUpFile, $image_key, 'main_list_image');
                 break;
-            case 'sub_large_image'.$subno:
+            case 'sub_large_image' . $subno:
                 // サブメイン画像
-                $this->lfMakeScaleImage($objUpFile, $_POST['image_key'], 'sub_image'.$subno);
+                $this->lfMakeScaleImage($objUpFile, $_POST['image_key'], 'sub_image' . $subno);
                 break;
             default:
                 break;
@@ -730,9 +730,9 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         $from_path = '';
 
         if ($objUpFile->temp_file[$arrImageKey[$from_key]]) {
-            $from_path = $objUpFile->temp_dir.$objUpFile->temp_file[$arrImageKey[$from_key]];
+            $from_path = $objUpFile->temp_dir . $objUpFile->temp_file[$arrImageKey[$from_key]];
         } elseif ($objUpFile->save_file[$arrImageKey[$from_key]]) {
-            $from_path = $objUpFile->save_dir.$objUpFile->save_file[$arrImageKey[$from_key]];
+            $from_path = $objUpFile->save_dir . $objUpFile->save_file[$arrImageKey[$from_key]];
         }
 
         if (file_exists($from_path)) {
@@ -744,11 +744,12 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
                 $objUpFile->save_file[$arrImageKey[$to_key]] = '';
             }
 
-            if (empty($objUpFile->temp_file[$arrImageKey[$to_key]])
+            if (
+                empty($objUpFile->temp_file[$arrImageKey[$to_key]])
                 && empty($objUpFile->save_file[$arrImageKey[$to_key]])
             ) {
                 // リネームする際は、自動生成される画像名に一意となるように、Suffixを付ける
-                $dst_file = $objUpFile->lfGetTmpImageName(IMAGE_RENAME, '', $objUpFile->temp_file[$arrImageKey[$from_key]]).$this->lfGetAddSuffix($to_key);
+                $dst_file = $objUpFile->lfGetTmpImageName(IMAGE_RENAME, '', $objUpFile->temp_file[$arrImageKey[$from_key]]) . $this->lfGetAddSuffix($to_key);
                 $path = $objUpFile->makeThumb($from_path, $to_w, $to_h, $dst_file);
                 $objUpFile->temp_file[$arrImageKey[$to_key]] = basename($path);
             }
@@ -813,7 +814,8 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
             if ($temp_file) {
                 $objImage->moveTempImage($temp_file, $objUpFile->save_dir);
                 $arrImageKey[] = $arrKeyName[$key];
-                if (!empty($arrSaveFile[$key])
+                if (
+                    !empty($arrSaveFile[$key])
                     && !$this->lfHasSameProductImage($product_id, $arrImageKey, $arrSaveFile[$key], $objUpFile)
                     && !in_array($temp_file, $arrSaveFile)
                 ) {
@@ -961,8 +963,8 @@ __EOF__;
 
         $no = 1;
         foreach ($arrRet as $arrVal) {
-            $arrRecommendProducts['recommend_id'.$no] = $arrVal['recommend_product_id'];
-            $arrRecommendProducts['recommend_comment'.$no] = $arrVal['comment'];
+            $arrRecommendProducts['recommend_id' . $no] = $arrVal['recommend_product_id'];
+            $arrRecommendProducts['recommend_comment' . $no] = $arrVal['comment'];
             $no++;
         }
 
@@ -981,9 +983,9 @@ __EOF__;
         $arrRecommend = [];
 
         for ($i = 1; $i <= RECOMMEND_PRODUCT_MAX; $i++) {
-            $keyname = 'recommend_id'.$i;
-            $delkey = 'recommend_delete'.$i;
-            $commentkey = 'recommend_comment'.$i;
+            $keyname = 'recommend_id' . $i;
+            $delkey = 'recommend_delete' . $i;
+            $commentkey = 'recommend_comment' . $i;
 
             if (!isset($arrForm[$delkey])) {
                 $arrForm[$delkey] = null;
@@ -1031,7 +1033,7 @@ __EOF__;
      */
     public function lfSetOnloadJavaScript_InputPage($anchor_hash = '')
     {
-        return "eccube.checkStockLimit('".DISABLED_RGB."');fnInitSelect('category_id_unselect'); fnMoveSelect('category_id_unselect', 'category_id');".$anchor_hash;
+        return "eccube.checkStockLimit('" . DISABLED_RGB . "');fnInitSelect('category_id_unselect'); fnMoveSelect('category_id_unselect', 'category_id');" . $anchor_hash;
     }
 
     /**
@@ -1072,8 +1074,8 @@ __EOF__;
         $sqlval = array_merge($sqlval, $arrRet);
 
         for ($cnt = 1; $cnt <= PRODUCTSUB_MAX; $cnt++) {
-            $sqlval['sub_title'.$cnt] = $arrList['sub_title'.$cnt];
-            $sqlval['sub_comment'.$cnt] = $arrList['sub_comment'.$cnt];
+            $sqlval['sub_title' . $cnt] = $arrList['sub_title' . $cnt];
+            $sqlval['sub_comment' . $cnt] = $arrList['sub_comment' . $cnt];
         }
 
         $objQuery->begin();
@@ -1131,7 +1133,7 @@ __EOF__;
                     }
                 }
             }
-        // 更新
+            // 更新
         } else {
             $product_id = $arrList['product_id'];
             // 削除要求のあった既存ファイルの削除
@@ -1259,9 +1261,9 @@ __EOF__;
         $sqlval['product_id'] = $product_id;
         $rank = RECOMMEND_PRODUCT_MAX;
         for ($i = 1; $i <= RECOMMEND_PRODUCT_MAX; $i++) {
-            $keyname = 'recommend_id'.$i;
-            $commentkey = 'recommend_comment'.$i;
-            $deletekey = 'recommend_delete'.$i;
+            $keyname = 'recommend_id' . $i;
+            $commentkey = 'recommend_comment' . $i;
+            $deletekey = 'recommend_delete' . $i;
 
             if (!isset($arrList[$deletekey])) {
                 $arrList[$deletekey] = null;
@@ -1358,7 +1360,7 @@ __EOF__;
                 break;
             default:
                 $arrRet = explode('sub_image', $to_key);
-                $dist_name = '_sub'.$arrRet[1];
+                $dist_name = '_sub' . $arrRet[1];
                 break;
         }
 
@@ -1378,12 +1380,14 @@ __EOF__;
         $has_subproduct_data = false;
 
         for ($i = 1; $i <= PRODUCTSUB_MAX; $i++) {
-            if (SC_Utils_Ex::isBlank($arrSubProductData['sub_title'.$i]) == false
-                || SC_Utils_Ex::isBlank($arrSubProductData['sub_comment'.$i]) == false
-                || SC_Utils_Ex::isBlank($arrSubProductData['sub_image'.$i]) == false
-                || SC_Utils_Ex::isBlank($arrSubProductData['sub_large_image'.$i]) == false
-                || SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_image'.$i]) == false
-                || SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_large_image'.$i]) == false
+            if (
+                SC_Utils_Ex::isBlank($arrSubProductData['sub_title' . $i]) == false
+                || SC_Utils_Ex::isBlank($arrSubProductData['sub_comment' . $i]) == false
+                || SC_Utils_Ex::isBlank($arrSubProductData['sub_image' . $i]) == false
+                || SC_Utils_Ex::isBlank($arrSubProductData['sub_large_image' . $i]) == false
+                || SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_image' . $i]) == false
+                || SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_large_image' . $i]) == false
+                || $arrSubProductData['image_key'] == 'sub_image' . $i
             ) {
                 $has_subproduct_data = true;
                 break;
@@ -1404,7 +1408,7 @@ __EOF__;
     public function getAnchorHash($anchor_key)
     {
         if ($anchor_key != '') {
-            return "location.hash='#".htmlspecialchars($anchor_key)."'";
+            return "location.hash='#" . htmlspecialchars($anchor_key) . "'";
         } else {
             return '';
         }
