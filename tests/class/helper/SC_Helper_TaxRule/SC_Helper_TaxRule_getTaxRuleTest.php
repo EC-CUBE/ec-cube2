@@ -2,7 +2,7 @@
 
 $HOME = realpath(__DIR__).'/../../../..';
 // 商品別税率機能無効
-defined('OPTION_PRODUCT_TAX_RULE') or define('OPTION_PRODUCT_TAX_RULE', 0);
+defined('OPTION_PRODUCT_TAX_RULE') || define('OPTION_PRODUCT_TAX_RULE', 0);
 require_once $HOME.'/tests/class/helper/SC_Helper_TaxRule/SC_Helper_TaxRule_TestBase.php';
 
 class SC_Helper_TaxRule_getTaxRuleTest extends SC_Helper_TaxRule_TestBase

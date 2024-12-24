@@ -2,7 +2,7 @@
 
 $HOME = realpath(__DIR__).'/../../../..';
 // このテスト専用の定数の設定
-defined('AUTH_TYPE') or define('AUTH_TYPE', 'HMAC');
+defined('AUTH_TYPE') || define('AUTH_TYPE', 'HMAC');
 require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
