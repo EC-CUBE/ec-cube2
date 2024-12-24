@@ -34,9 +34,25 @@
 class SC_Helper_Purchase
 {
     public $arrShippingKey = [
-        'name01', 'name02', 'kana01', 'kana02', 'company_name',
-        'sex', 'zip01', 'zip02', 'country_id', 'zipcode', 'pref', 'addr01', 'addr02',
-        'tel01', 'tel02', 'tel03', 'fax01', 'fax02', 'fax03',
+        'name01',
+        'name02',
+        'kana01',
+        'kana02',
+        'company_name',
+        'sex',
+        'zip01',
+        'zip02',
+        'country_id',
+        'zipcode',
+        'pref',
+        'addr01',
+        'addr02',
+        'tel01',
+        'tel02',
+        'tel03',
+        'fax01',
+        'fax02',
+        'fax03',
     ];
 
     /**
@@ -524,10 +540,28 @@ class SC_Helper_Purchase
         &$objCustomer,
         $prefix = 'order',
         $keys = [
-            'name01', 'name02', 'kana01', 'kana02', 'company_name',
-            'sex', 'zip01', 'zip02', 'country_id', 'zipcode', 'pref', 'addr01', 'addr02',
-            'tel01', 'tel02', 'tel03', 'fax01', 'fax02', 'fax03',
-            'job', 'birth', 'email',
+            'name01',
+            'name02',
+            'kana01',
+            'kana02',
+            'company_name',
+            'sex',
+            'zip01',
+            'zip02',
+            'country_id',
+            'zipcode',
+            'pref',
+            'addr01',
+            'addr02',
+            'tel01',
+            'tel02',
+            'tel03',
+            'fax01',
+            'fax02',
+            'fax03',
+            'job',
+            'birth',
+            'email',
         ]
     ) {
         if ($objCustomer->isLoginSuccess(true)) {
@@ -712,9 +746,7 @@ class SC_Helper_Purchase
         $table = 'dtb_shipping';
         $where = 'order_id = ?';
 
-        if ($objQuery->count($table, $where, [$order_id]) > 0) {
-            $objQuery->delete($table, $where, [$order_id]);
-        }
+        $objQuery->delete($table, $where, [$order_id]);
 
         foreach ($arrParams as $key => $arrShipping) {
             $arrValues = $objQuery->extractOnlyColsOf($table, $arrShipping);
@@ -833,8 +865,14 @@ class SC_Helper_Purchase
 
         // 不要な変数を unset
         $unsets = [
-            'mailmaga_flg', 'deliv_check', 'point_check', 'password',
-            'reminder', 'reminder_answer', 'mail_flag', 'session',
+            'mailmaga_flg',
+            'deliv_check',
+            'point_check',
+            'password',
+            'reminder',
+            'reminder_answer',
+            'mail_flag',
+            'session',
         ];
         foreach ($unsets as $unset) {
             unset($orderParams[$unset]);
