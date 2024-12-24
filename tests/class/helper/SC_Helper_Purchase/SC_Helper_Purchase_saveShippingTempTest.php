@@ -53,15 +53,15 @@ class SC_Helper_Purchase_saveShippingTempTest extends SC_Helper_Purchase_TestBas
         );
 
         $this->expected = [
-      'count' => 4,                // 配送情報全体の件数
-      'shipping_id' => 0,
-      'shipment_item' => null,
-      'shipping_pref' => '大阪府',
-    ];
+            'count' => 4,                // 配送情報全体の件数
+            'shipping_id' => 0,
+            'shipment_item' => null,
+            'shipping_pref' => '大阪府',
+        ];
         $this->actual['count'] = count($_SESSION['shipping']);
         $this->actual['shipping_id'] = $_SESSION['shipping']['0']['shipping_id'];
-        $this->actual['shipment_item'] = $_SESSION['shipping']['0']['shipment_item'];
-        $this->actual['shipping_pref'] = $_SESSION['shipping']['0']['shipping_pref'];
+        $this->actual['shipment_item'] = $_SESSION['shipping']['0']['shipment_item'] ?? null;
+        $this->actual['shipping_pref'] = $_SESSION['shipping']['0']['shipping_pref'] ?? null;
 
         $this->verify('登録した配送情報');
     }
@@ -76,11 +76,11 @@ class SC_Helper_Purchase_saveShippingTempTest extends SC_Helper_Purchase_TestBas
         );
 
         $this->expected = [
-      'count' => 3,                // 配送情報全体の件数
-      'shipping_id' => '00001',
-      'shipment_item' => ['商品1'],
-      'shipping_pref' => '大阪府',
-    ];
+            'count' => 3,                // 配送情報全体の件数
+            'shipping_id' => '00001',
+            'shipment_item' => ['商品1'],
+            'shipping_pref' => '大阪府',
+        ];
         $this->actual['count'] = count($_SESSION['shipping']);
         $this->actual['shipping_id'] = $_SESSION['shipping']['00001']['shipping_id'];
         $this->actual['shipment_item'] = $_SESSION['shipping']['00001']['shipment_item'];

@@ -834,12 +834,15 @@ __EOS__;
             // 合計の計算
             foreach ($arrResults as $arrResult) {
                 foreach ($arrResult as $key => $value) {
+                    if (!isset($arrTotal[$key])) {
+                        $arrTotal[$key] = 0;
+                    }
                     $arrTotal[$key] += (int) $arrResult[$key];
                 }
             }
             // 平均値の計算
             $arrTotal['total_average'] = 0;
-            if ($arrTotal['total_order'] > 0) {
+            if (isset($arrTotal['total_order']) && $arrTotal['total_order'] > 0) {
                 $arrTotal['total_average'] = $arrTotal['total'] / $arrTotal['total_order'];
             }
             if (is_nan($arrTotal['total_average'])) {
@@ -863,7 +866,7 @@ __EOS__;
         $arrRet = [];
         for ($i = 0; $i < $max; $i++) {
             foreach ($arrDataCol as $val) {
-                $arrRet[$i][$val] = ($arrData[$i][$val]) ? $arrData[$i][$val] : '0';
+                $arrRet[$i][$val] = isset($arrData[$i][$val]) ? $arrData[$i][$val] : '0';
             }
             // 期間別集計の合計行の「期間」項目に不要な値が表示されてしまわない様、'合計'と表示する
             if (($i === $max - 1) && isset($arrRet[$i]['str_date'])) {

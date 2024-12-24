@@ -19,7 +19,7 @@ on:
 jobs:
   run-on-linux:
     name: Run on Linux
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -30,7 +30,7 @@ jobs:
           - 'test/front_login'
           - 'test/front_guest'
           - 'test/admin'
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4-rc' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
         db: [ mysql, pgsql ]
     steps:
     - name: Checkout
@@ -43,7 +43,7 @@ jobs:
 
     # - name: Create ADMIN_DIR
     #   run: |
-    #     sudo apt-fast install -y sharutils
+    #     sudo apt install -y sharutils
     #     echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
 
     - name: Setup environment
@@ -108,6 +108,11 @@ jobs:
         FORCE_COLOR: 1
       run: yarn ${PATTERN} e2e-tests/${GROUP}
 
+    - name: Print error log
+      if: always()
+      continue-on-error: true
+      run: docker compose exec ec-cube tail -n 100 data/logs/error.log
+
     - name: Upload evidence
       if: failure()
       uses: actions/upload-artifact@v4
@@ -122,12 +127,12 @@ jobs:
         path: data/logs
   installer:
     name: Installer test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         db: [ 'pgsql', 'mysql' ]
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4-rc' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
         include:
           - db: mysql
             dbport: '3306'

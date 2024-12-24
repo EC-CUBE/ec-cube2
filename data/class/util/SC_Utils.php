@@ -106,7 +106,7 @@ class SC_Utils
 
         $path = implode('/', $results);
 
-        return $parse['scheme'].'://'.$parse['host'].':'.$parse['port'].'/'.$path;
+        return $parse['scheme'].'://'.$parse['host'].':'.($parse['port'] ?? '').'/'.$path;
     }
 
     // 装飾付きエラーメッセージの表示
@@ -325,7 +325,7 @@ class SC_Utils
      */
     public static function sfIsZeroFilling($value)
     {
-        if (strlen($value) > 1 && (strpos($value, '0') === 0)) {
+        if (strlen($value) > 1 && str_starts_with($value, '0')) {
             return true;
         }
 
@@ -1063,7 +1063,7 @@ class SC_Utils
         }
 
         if ($commadisp) {
-            $ret = $ret.'...';
+            $ret .= '...';
         }
 
         return $ret;
@@ -1165,7 +1165,7 @@ class SC_Utils
         $max = max(count($keys), count($vals));
         $combine_ary = [];
         for ($i = 0; $i < $max; $i++) {
-            $combine_ary[$keys[$i]] = $vals[$i];
+            $combine_ary[$keys[$i] ?? ''] = $vals[$i] ?? null;
         }
         if (is_array($combine_ary)) {
             return $combine_ary;
@@ -1268,13 +1268,13 @@ class SC_Utils
         if (is_array($fileArray)) {
             foreach ($fileArray as $data_) {
                 // CVS管理ファイルはコピーしない
-                if (strpos($data_, '/CVS/Entries') !== false) {
+                if (str_contains($data_, '/CVS/Entries')) {
                     break;
                 }
-                if (strpos($data_, '/CVS/Repository') !== false) {
+                if (str_contains($data_, '/CVS/Repository')) {
                     break;
                 }
-                if (strpos($data_, '/CVS/Root') !== false) {
+                if (str_contains($data_, '/CVS/Root')) {
                     break;
                 }
 
@@ -1346,7 +1346,7 @@ class SC_Utils
             if ($src_fp) {
                 while (!feof($src_fp)) {
                     $line = fgets($src_fp);
-                    if (strpos($line, '@version') !== false) {
+                    if (str_contains($line, '@version')) {
                         $arrLine = explode(' ', $line);
                         $version = $arrLine[5];
                     }
@@ -1881,7 +1881,7 @@ class SC_Utils
      */
     public static function isAbsoluteRealPath($realpath)
     {
-        if (strpos(PHP_OS, 'WIN') === false) {
+        if (!str_contains(PHP_OS, 'WIN')) {
             return substr($realpath, 0, 1) == '/';
         } else {
             return preg_match('/^[a-zA-Z]:(\\\|\/)/', $realpath) ? true : false;

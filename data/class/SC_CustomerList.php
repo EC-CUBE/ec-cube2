@@ -142,7 +142,7 @@ class SC_CustomerList extends SC_SelectSql_Ex
             foreach ($this->arrSql['search_email'] as $val) {
                 $val = trim($val);
                 // 検索条件を含まない
-                if ($this->arrSql['not_emailinc'] == '1') {
+                if (isset($this->arrSql['not_emailinc']) && $this->arrSql['not_emailinc'] == '1') {
                     if ($sql_where == '') {
                         $sql_where .= 'dtb_customer.email NOT ILIKE ? ';
                     } else {
@@ -173,7 +173,7 @@ class SC_CustomerList extends SC_SelectSql_Ex
             foreach ($this->arrSql['search_email_mobile'] as $val) {
                 $val = trim($val);
                 // 検索条件を含まない
-                if ($this->arrSql['not_email_mobileinc'] == '1') {
+                if (isset($this->arrSql['not_email_mobileinc']) && $this->arrSql['not_email_mobileinc'] == '1') {
                     if ($sql_where == '') {
                         $sql_where .= 'dtb_customer.email_mobile NOT ILIKE ? ';
                     } else {
@@ -319,8 +319,8 @@ class SC_CustomerList extends SC_SelectSql_Ex
         if (!isset($this->arrSql['search_end_day'])) {
             $this->arrSql['search_end_day'] = '';
         }
-        if ((strlen($this->arrSql['search_start_year']) > 0 && strlen($this->arrSql['search_start_month']) > 0 && strlen($this->arrSql['search_start_day']) > 0) ||
-                (strlen($this->arrSql['search_end_year']) > 0 && strlen($this->arrSql['search_end_month']) > 0 && strlen($this->arrSql['search_end_day']) > 0)) {
+        if ((strlen($this->arrSql['search_start_year']) > 0 && strlen($this->arrSql['search_start_month']) > 0 && strlen($this->arrSql['search_start_day']) > 0)
+                || (strlen($this->arrSql['search_end_year']) > 0 && strlen($this->arrSql['search_end_month']) > 0 && strlen($this->arrSql['search_end_day']) > 0)) {
             $arrRegistTime = $this->selectTermRange($this->arrSql['search_start_year'], $this->arrSql['search_start_month'], $this->arrSql['search_start_day'],
                 $this->arrSql['search_end_year'], $this->arrSql['search_end_month'], $this->arrSql['search_end_day'], $regdate_col);
             foreach ($arrRegistTime as $data) {
@@ -348,8 +348,8 @@ class SC_CustomerList extends SC_SelectSql_Ex
             $this->arrSql['search_buy_end_day'] = '';
         }
 
-        if ((strlen($this->arrSql['search_buy_start_year']) > 0 && strlen($this->arrSql['search_buy_start_month']) > 0 && strlen($this->arrSql['search_buy_start_day']) > 0) ||
-                (strlen($this->arrSql['search_buy_end_year']) > 0 && strlen($this->arrSql['search_buy_end_month']) > 0 && strlen($this->arrSql['search_buy_end_day']) > 0)) {
+        if ((strlen($this->arrSql['search_buy_start_year']) > 0 && strlen($this->arrSql['search_buy_start_month']) > 0 && strlen($this->arrSql['search_buy_start_day']) > 0)
+                || (strlen($this->arrSql['search_buy_end_year']) > 0 && strlen($this->arrSql['search_buy_end_month']) > 0 && strlen($this->arrSql['search_buy_end_day']) > 0)) {
             $arrRegistTime = $this->selectTermRange($this->arrSql['search_buy_start_year'], $this->arrSql['search_buy_start_month'], $this->arrSql['search_buy_start_day'],
                 $this->arrSql['search_buy_end_year'], $this->arrSql['search_buy_end_month'], $this->arrSql['search_buy_end_day'], 'last_buy_date');
             foreach ($arrRegistTime as $data) {

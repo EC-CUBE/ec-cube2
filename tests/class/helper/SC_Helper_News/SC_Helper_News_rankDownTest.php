@@ -20,7 +20,7 @@ class SC_Helper_News_rankDownTest extends SC_Helper_News_TestBase
 
     public function testRankDownTestニュースIDを指定した場合対象のランクが1減少する()
     {
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->setUpNews();
         $news_id = 1003;
 

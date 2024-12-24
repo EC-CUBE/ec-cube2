@@ -313,7 +313,7 @@ __EOS__;
      */
     public function sfChangeArrayToString($sql)
     {
-        if (strpos(strtoupper($sql), 'ARRAY_TO_STRING') !== false) {
+        if (str_contains(strtoupper($sql), 'ARRAY_TO_STRING')) {
             preg_match_all('/ARRAY_TO_STRING.*?\(.*?ARRAY\(.*?SELECT (.+?) FROM (.+?) WHERE (.+?)\).*?\,.*?\'(.+?)\'.*?\)/is', $sql, $match, PREG_SET_ORDER);
 
             foreach ($match as $item) {

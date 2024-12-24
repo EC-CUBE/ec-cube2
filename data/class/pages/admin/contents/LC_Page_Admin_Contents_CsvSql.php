@@ -461,7 +461,7 @@ class LC_Page_Admin_Contents_CsvSql extends LC_Page_Admin_Ex
             'NOTIFY\s',
             'PREPARE\s',
             'REASSIGN\s',
-//            'REINDEX\s', // REINDEXは許可で良いかなと
+            // 'REINDEX\s', // REINDEXは許可で良いかなと
             'RELEASE\sSAVEPOINT',
             'RENAME\s',
             'REST\s',

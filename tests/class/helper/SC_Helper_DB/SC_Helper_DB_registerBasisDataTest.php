@@ -37,7 +37,6 @@ class SC_Helper_DB_registerBasisDataTest extends SC_Helper_DB_TestBase
         $this->assertEmpty($this->objDb->sfGetBasisData(true));
 
         $this->BaseInfo['company_name'] = $this->faker->company;
-        $this->assertEquals($this->expected['company_name'], $this->actual['company_name']);
         SC_Helper_DB_Ex::registerBasisData($this->BaseInfo);
 
         $this->expected = $this->BaseInfo;
