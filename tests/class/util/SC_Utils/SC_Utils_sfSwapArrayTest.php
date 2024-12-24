@@ -47,14 +47,14 @@ class SC_Utils_sfSwapArrayTest extends Common_TestCase
     public function testSfSwapArrayカラム名ありの指定の場合キーに名称が入る()
     {
         $input_array = [
-      ['id' => '1001', 'name' => 'name1001'],
-      ['id' => '1002', 'name' => 'name1002'],
-    ];
+            ['id' => '1001', 'name' => 'name1001'],
+            ['id' => '1002', 'name' => 'name1002'],
+        ];
 
         $this->expected = [
-      'id' => ['1001', '1002'],
-      'name' => ['name1001', 'name1002'],
-    ];
+            'id' => ['1001', '1002'],
+            'name' => ['name1001', 'name1002'],
+        ];
         $this->actual = SC_Utils::sfSwapArray($input_array);
 
         $this->verify();
@@ -63,14 +63,14 @@ class SC_Utils_sfSwapArrayTest extends Common_TestCase
     public function testSfSwapArrayカラム名なしの指定の場合キーに名称が入らない()
     {
         $input_array = [
-      ['id' => '1001', 'name' => 'name1001'],
-      ['id' => '1002', 'name' => 'name1002'],
-    ];
+            ['id' => '1001', 'name' => 'name1001'],
+            ['id' => '1002', 'name' => 'name1002'],
+        ];
 
         $this->expected = [
-      ['1001', '1002'],
-      ['name1001', 'name1002'],
-    ];
+            ['1001', '1002'],
+            ['name1001', 'name1002'],
+        ];
         $this->actual = SC_Utils::sfSwapArray($input_array, false);
 
         $this->verify();

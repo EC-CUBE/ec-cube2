@@ -202,7 +202,7 @@ class SC_Customer
     {
         $_SESSION['customer'] = $this->customer_data;
         // セッション情報の保存
-        GC_Utils_Ex::gfPrintLog('access : user='.$this->customer_data['customer_id']."\t".'ip='.$this->getRemoteHost(), CUSTOMER_LOG_REALFILE, false);
+        GC_Utils_Ex::gfPrintLog('access : user='.($this->customer_data['customer_id'] ?? '')."\t".'ip='.$this->getRemoteHost(), CUSTOMER_LOG_REALFILE, false);
     }
 
     /**
@@ -270,9 +270,12 @@ class SC_Customer
     {
         // ポイントはリアルタイム表示
         if ($keyname == 'point') {
-            $objQuery = SC_Query_Ex::getSingletonInstance();
-            $point = $objQuery->get('point', 'dtb_customer', 'customer_id = ?', [$_SESSION['customer']['customer_id']]);
-            $_SESSION['customer']['point'] = $point;
+            $point = 0;
+            if (isset($_SESSION['customer']['customer_id'])) {
+                $objQuery = SC_Query_Ex::getSingletonInstance();
+                $point = $objQuery->get('point', 'dtb_customer', 'customer_id = ?', [$_SESSION['customer']['customer_id']]);
+                $_SESSION['customer']['point'] = $point;
+            }
 
             return $point;
         } else {
@@ -386,8 +389,8 @@ __EOS__;
     {
         switch (SC_Display_Ex::detectDevice()) {
             case DEVICE_TYPE_MOBILE:
-                if (!$this->getCustomerDataFromMobilePhoneIdPass($login_pass) &&
-                    !$this->getCustomerDataFromEmailPass($login_pass, $login_email, true)
+                if (!$this->getCustomerDataFromMobilePhoneIdPass($login_pass)
+                    && !$this->getCustomerDataFromEmailPass($login_pass, $login_email, true)
                 ) {
                     return false;
                 } else {

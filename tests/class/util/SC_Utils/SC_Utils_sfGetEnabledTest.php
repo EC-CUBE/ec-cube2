@@ -2,7 +2,7 @@
 
 $HOME = realpath(__DIR__).'/../../../..';
 // テスト用に背景色を設定
-define('ERR_COLOR', 'blue');
+defined('ERR_COLOR') || define('ERR_COLOR', 'blue');
 require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE

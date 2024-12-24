@@ -45,7 +45,9 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
         $this->tpl_subtitle = 'テンプレート追加';
         $this->arrErr = [];
         $this->arrForm = [];
-        ini_set('max_execution_time', 300);
+        if (!headers_sent()) {
+            ini_set('max_execution_time', 300);
+        }
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrDeviceType = $masterData->getMasterData('mtb_device_type');
     }

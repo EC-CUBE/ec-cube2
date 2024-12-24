@@ -20,7 +20,7 @@ class SC_Helper_News_moveRankTest extends SC_Helper_News_TestBase
 
     public function testMoveRankTestニュースIDと移動先ランクを指定した場合対象のランクが移動する()
     {
-        $objQuery = &SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
         $this->setUpNews();
         $news_id = 1001;
         $rank = 1;

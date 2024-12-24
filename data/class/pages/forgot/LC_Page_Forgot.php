@@ -202,8 +202,10 @@ class LC_Page_Forgot extends LC_Page_Ex
         $where = '(email = ? OR email_mobile = ?)'
                     .' AND name01 = ? AND name02 = ?'
                     .' AND status = 2 AND del_flg = 0';
-        $arrVal = [$arrForm['email'], $arrForm['email'],
-                            $arrForm['name01'], $arrForm['name02'], ];
+        $arrVal = [
+            $arrForm['email'], $arrForm['email'],
+            $arrForm['name01'], $arrForm['name02'],
+        ];
         $result = $objQuery->select($cols, $table, $where, $arrVal);
         if (isset($result[0]['reminder']) && isset($arrReminder[$result[0]['reminder']])
                 && $result[0]['reminder'] == $arrForm['reminder']) {

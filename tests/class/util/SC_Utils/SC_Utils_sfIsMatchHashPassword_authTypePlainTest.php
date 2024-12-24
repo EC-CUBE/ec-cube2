@@ -2,7 +2,7 @@
 
 $HOME = realpath(__DIR__).'/../../../..';
 // このテスト専用の定数の設定
-define('AUTH_TYPE', 'PLAIN');
+defined('AUTH_TYPE') || define('AUTH_TYPE', 'PLAIN');
 require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
@@ -47,29 +47,29 @@ class SC_Utils_sfIsMatchHashPassword_authTypePlainTest extends Common_TestCase
     }
 
     // ///////////////////////////////////////
-    /**
-    public function testSfIsMatchHashPassword_文字列が一致する場合_trueが返る()
-    {
-      $pass = 'ec-cube';
-      $hashpass = 'ec-cube';
 
-      $this->expected = TRUE;
-      $this->actual = SC_Utils::sfIsMatchHashPassword($pass, $hashpass);
+    // public function testSfIsMatchHashPassword_文字列が一致する場合_trueが返る()
+    // {
+    //     $pass = 'ec-cube';
+    //     $hashpass = 'ec-cube';
 
-      $this->verify('パスワード文字列比較結果');
-    }
+    //     $this->expected = TRUE;
+    //     $this->actual = SC_Utils::sfIsMatchHashPassword($pass, $hashpass);
 
-    public function testSfIsMatchHashPassword_文字列が一致しない場合_falseが返る()
-    {
-      $pass = 'ec-cube';
-      $hashpass = 'EC-cube';
+    //     $this->verify('パスワード文字列比較結果');
+    // }
 
-      $this->expected = FALSE;
-      $this->actual = SC_Utils::sfIsMatchHashPassword($pass, $hashpass);
+    // public function testSfIsMatchHashPassword_文字列が一致しない場合_falseが返る()
+    // {
+    //     $pass = 'ec-cube';
+    //     $hashpass = 'EC-cube';
 
-      $this->verify('パスワード文字列比較結果');
-    }
-     */
+    //     $this->expected = FALSE;
+    //     $this->actual = SC_Utils::sfIsMatchHashPassword($pass, $hashpass);
+
+    //     $this->verify('パスワード文字列比較結果');
+    // }
+
     public function testDummyTest()
     {
         // Warning が出るため空のテストを作成
