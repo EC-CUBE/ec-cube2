@@ -38,7 +38,7 @@
     "expose-loader": "^5.0.0",
     "tar": "^7.4.3",
     "typescript": "^5.7.2",
-    "webpack-cli": "^5.1.4",
+    "webpack-cli": "^6.0.1",
     "zaproxy": "^1.0.1"
   },
   "scripts": {
