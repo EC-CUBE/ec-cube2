@@ -88,7 +88,7 @@ class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
             // 編集処理
             case 'edit':
                 $this->arrErr = $this->lfCheckError($objFormParam, $objHoliday);
-                if (!SC_Utils_Ex::isBlank($this->arrErr['holiday_id'])) {
+                if (!SC_Utils_Ex::isBlank($this->arrErr['holiday_id'] ?? '')) {
                     trigger_error('', E_USER_ERROR);
 
                     return;
