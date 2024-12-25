@@ -143,7 +143,7 @@ class SC_Helper_Purchase_registerOrderCompleteMock extends SC_Helper_Purchase
         $_SESSION['testResult']['registerOrder'] = [
             'order_id' => $order_id,
             'status' => $params['status'],
-            'mailmaga_flg' => $params['mailmaga_flg'],
+            'mailmaga_flg' => $params['mailmaga_flg'] ?? 0,
         ];
     }
 

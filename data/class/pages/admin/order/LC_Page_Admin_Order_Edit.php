@@ -184,10 +184,10 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             if (!SC_Utils_Ex::isBlank($objFormParam->getValue('customer_id'))) {
                 $customer_id = $objFormParam->getValue('customer_id');
                 $arrCustomer = SC_Helper_Customer_Ex::sfGetCustomerDataFromId($customer_id);
-                $objFormParam->setValue('customer_point', $arrCustomer['point']);
+                $objFormParam->setValue('customer_point', $arrCustomer['point'] ?? 0);
 
                 // 新規受注登録で、ポイント利用できるように現在ポイントを設定
-                $objFormParam->setValue('point', $arrCustomer['point']);
+                $objFormParam->setValue('point', $arrCustomer['point'] ?? 0);
             }
         }
 

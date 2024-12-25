@@ -154,7 +154,7 @@ class SC_Helper_FileManager
         $arrTree[$cnt]['rank'] = 0;
         $arrTree[$cnt]['count'] = $cnt;
         // 初期表示はオープン
-        if ($_POST['mode'] != '') {
+        if (isset($_POST['mode'])) {
             $arrTree[$cnt]['open'] = $this->lfIsFileOpen($dir, $tree_status);
         } else {
             $arrTree[$cnt]['open'] = true;
