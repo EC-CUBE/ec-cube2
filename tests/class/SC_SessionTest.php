@@ -213,12 +213,12 @@ class SC_SessionTest extends Common_TestCase
     public function testLogout()
     {
         $this->objSession->logout();
-        $this->assertNull($_SESSION[TRANSACTION_ID_NAME]);
-        $this->assertNull($_SESSION['cert']);
-        $this->assertNull($_SESSION['login_id']);
-        $this->assertNull($_SESSION['authority']);
-        $this->assertNull($_SESSION['member_id']);
-        $this->assertNull($_SESSION['uniqid']);
+        $this->assertNull($_SESSION[TRANSACTION_ID_NAME] ?? null);
+        $this->assertNull($_SESSION['cert'] ?? null);
+        $this->assertNull($_SESSION['login_id'] ?? null);
+        $this->assertNull($_SESSION['authority'] ?? null);
+        $this->assertNull($_SESSION['member_id'] ?? null);
+        $this->assertNull($_SESSION['uniqid'] ?? null);
     }
 
     public function testRegenerateSID()

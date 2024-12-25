@@ -832,6 +832,11 @@ class SC_Query
      */
     public function delete($table, $where = '', $arrWhereVal = [])
     {
+        // 空deleteは実行しない
+        if ($this->count($table, $where, $arrWhereVal) == 0) {
+            return;
+        }
+
         if (strlen($where) <= 0) {
             $sqlde = 'DELETE FROM '.$this->conn->quoteIdentifier($table);
         } else {
@@ -1214,8 +1219,8 @@ class SC_Query
         }
 
         $msg = "[execute start {$arrStartInfo['http_request_id']}#{$arrStartInfo['count']}]\n"
-             .'SQL: '.$objSth->query."\n"
-             .'PlaceHolder: '.var_export($arrVal, true)."\n";
+            .'SQL: '.$objSth->query."\n"
+            .'PlaceHolder: '.var_export($arrVal, true)."\n";
         GC_Utils_Ex::gfPrintLog($msg, DB_LOG_REALFILE);
 
         return $arrStartInfo;

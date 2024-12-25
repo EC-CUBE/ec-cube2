@@ -106,7 +106,7 @@ class SC_Utils
 
         $path = implode('/', $results);
 
-        return $parse['scheme'].'://'.$parse['host'].':'.$parse['port'].'/'.$path;
+        return $parse['scheme'].'://'.$parse['host'].':'.($parse['port'] ?? '').'/'.$path;
     }
 
     // 装飾付きエラーメッセージの表示
@@ -1165,7 +1165,7 @@ class SC_Utils
         $max = max(count($keys), count($vals));
         $combine_ary = [];
         for ($i = 0; $i < $max; $i++) {
-            $combine_ary[$keys[$i]] = $vals[$i];
+            $combine_ary[$keys[$i] ?? ''] = $vals[$i] ?? null;
         }
         if (is_array($combine_ary)) {
             return $combine_ary;

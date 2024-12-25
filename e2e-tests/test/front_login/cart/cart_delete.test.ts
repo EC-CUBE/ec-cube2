@@ -11,7 +11,7 @@ import { CartPage } from '../../../pages/cart.page';
 // zap/patches/0009-cart_delete.patch を適用する必要があります
 test.describe.serial('カートページのテストをします', () => {
   const detailURL = `${ PlaywrightConfig.use?.baseURL ?? '' }/products/detail.php?product_id=1`;
-  test('カートの削除をテストします', async ( { page } ) => {
+  test('カートの削除をテストします', async ( { cartLoginPage, page } ) => {
     await page.goto(detailURL);
     await expect(page.locator('#detailrightbloc > h2')).toContainText('アイスクリーム');
 
