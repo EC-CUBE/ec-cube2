@@ -69,7 +69,7 @@ class SC_FormParam
         // TODO: debug_backtrace以外にいい方法があれば良いが、一旦これで
         $backtraces = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS, 2);
         // 呼び出し元のクラスを取得
-        $class = $backtraces[1]['class'];
+        $class = isset($backtraces[1]['class']) ? $backtraces[1]['class'] : null;
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         if (is_object($objPlugin)) {
             $objPlugin->doAction('SC_FormParam_construct', [$class, $this]);
