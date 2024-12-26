@@ -754,6 +754,7 @@ class SC_Helper_Purchase
             // 配送日付を timestamp に変換
             if (
                 isset($arrValues['shipping_date'])
+                && $arrValues['shipping_date'] != ''
                 && $convert_shipping_date
             ) {
                 $d = mb_strcut($arrValues['shipping_date'], 0, 10);
@@ -810,27 +811,27 @@ class SC_Helper_Purchase
 
         $objProduct = new SC_Product_Ex();
         foreach ($arrParams as $arrValues) {
-            if (!isset($arrValues['product_class_id'])) {
+            if (!isset($arrValues['product_class_id']) || $arrValues['product_class_id'] == '') {
                 continue;
             }
             $d = $objProduct->getDetailAndProductsClass($arrValues['product_class_id']);
-            $name = !isset($arrValues['product_name'])
+            $name = !isset($arrValues['product_name']) || $arrValues['product_name'] == ''
                 ? $d['name']
                 : $arrValues['product_name'];
 
-            $code = !isset($arrValues['product_code'])
+            $code = !isset($arrValues['product_code']) || $arrValues['product_code'] == ''
                 ? $d['product_code']
                 : $arrValues['product_code'];
 
-            $cname1 = !isset($arrValues['classcategory_name1'])
+            $cname1 = !isset($arrValues['classcategory_name1']) || $arrValues['classcategory_name1'] == ''
                 ? $d['classcategory_name1']
                 : $arrValues['classcategory_name1'];
 
-            $cname2 = !isset($arrValues['classcategory_name2'])
+            $cname2 = !isset($arrValues['classcategory_name2']) || $arrValues['classcategory_name2'] == ''
                 ? $d['classcategory_name2']
                 : $arrValues['classcategory_name2'];
 
-            $price = !isset($arrValues['price'])
+            $price = !isset($arrValues['price']) || $arrValues['price'] == ''
                 ? ($d['price'] ?? null)
                 : $arrValues['price'];
 
@@ -879,7 +880,7 @@ class SC_Helper_Purchase
         }
 
         // 対応状況の指定が無い場合は新規受付
-        if (!isset($orderParams['status'])) {
+        if (!isset($orderParams['status']) || $orderParams['status'] == '') {
             $orderParams['status'] = ORDER_NEW;
         }
 
