@@ -79,6 +79,12 @@ jobs:
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --group mysql_prepare
     - name: Run to PHPUnit SessionFactory
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
+    - name: Run to Email-template compatibility tests
+      # 2.17.2-p2 のメールテンプレートで正常にテストが通るかチェックする
+      run: |
+        git fetch --tags -f
+        git checkout eccube-2.17.2-p2 data/Smarty/templates/default/mail_templates
+        docker compose exec -T ec-cube php data/vendor/bin/phpunit tests/class/helper/SC_Helper_Mail/
 
     - name: Print error log
       if: always()
