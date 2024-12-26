@@ -49,17 +49,17 @@ class SC_Helper_Purchase_extractShippingTest extends SC_Helper_Purchase_TestBase
         $helper = new SC_Helper_Purchase_Ex();
         $helper->arrShippingKey = ['id', 'name', 'code'];
         $arrSrc = [
-      'shipping_id' => '1001',
-      'shipping_code' => 'cd1001',
-      'shipping_detail' => 'dt1001', // 無視される
-      'shipping_name' => '名称1001',
-    ];
+            'shipping_id' => '1001',
+            'shipping_code' => 'cd1001',
+            'shipping_detail' => 'dt1001', // 無視される
+            'shipping_name' => '名称1001',
+        ];
 
         $this->expected = [
-      'shipping_id' => '1001',
-      'shipping_name' => '名称1001',
-      'shipping_code' => 'cd1001',
-    ];
+            'shipping_id' => '1001',
+            'shipping_name' => '名称1001',
+            'shipping_code' => 'cd1001',
+        ];
         $this->actual = $helper->extractShipping($arrSrc);
 
         $this->verify();

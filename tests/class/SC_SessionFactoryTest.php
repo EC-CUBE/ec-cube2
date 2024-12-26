@@ -13,7 +13,7 @@ class SC_SessionFactoryTest extends Common_TestCase
         $refClass = new ReflectionClass($sessionFactory);
         $refMethod = $refClass->getMethod('getSecureOption');
         $refMethod->setAccessible(true);
-        if (strpos(HTTP_URL, 'https') !== false) {
+        if (str_contains(HTTP_URL, 'https')) {
             $this->assertTrue($refMethod->invoke($sessionFactory));
         } else {
             $this->markTestIncomplete();

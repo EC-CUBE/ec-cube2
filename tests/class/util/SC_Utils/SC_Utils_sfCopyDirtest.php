@@ -60,9 +60,9 @@ class SC_Utils_sfCopyDirTest extends Common_TestCase
         $dst = self::$TMP_DIR.'/dst/';
 
         $this->expected = [
-      'result' => false,
-      'file_exists' => false,
-    ];
+            'result' => false,
+            'file_exists' => false,
+        ];
         $this->actual['result'] = SC_Utils::sfCopyDir($src, $dst);
         $this->actual['file_exists'] = file_exists($dst);
 
@@ -80,9 +80,9 @@ class SC_Utils_sfCopyDirTest extends Common_TestCase
         $dst = self::$TMP_DIR.'/dst/';
 
         $this->expected = [
-      'dir_exists' => true,
-      'files' => ['test.txt'],
-    ];
+            'dir_exists' => true,
+            'files' => ['test.txt'],
+        ];
         SC_Utils::sfCopyDir($src, $dst);
         $this->actual['dir_exists'] = is_dir($dst);
         $this->actual['files'] = Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList($dst), 'file_name');
@@ -117,12 +117,12 @@ class SC_Utils_sfCopyDirTest extends Common_TestCase
         $dst = self::$TMP_DIR.'/dst/';
 
         $this->expected = [
-      'dir_exists' => true,
-      'files' => ['CVS', 'dir1', 'test.txt'],
-      'files_2' => ['dir12'],
-      'files_3' => ['dir123'],
-      'file_content' => 'good morning',
-    ];
+            'dir_exists' => true,
+            'files' => ['CVS', 'dir1', 'test.txt'],
+            'files_2' => ['dir12'],
+            'files_3' => ['dir123'],
+            'file_content' => 'good morning',
+        ];
         SC_Utils::sfCopyDir($src, $dst);
         $this->actual['dir_exists'] = is_dir($dst);
         $this->actual['files'] = Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList($dst), 'file_name');
@@ -151,10 +151,10 @@ class SC_Utils_sfCopyDirTest extends Common_TestCase
         $dst = self::$TMP_DIR.'/dst/';
 
         $this->expected = [
-      'dir_exists' => true,
-      'files' => ['test.txt'],
-      'file_content' => 'hello',
-    ];
+            'dir_exists' => true,
+            'files' => ['test.txt'],
+            'file_content' => 'hello',
+        ];
         SC_Utils::sfCopyDir($src, $dst, '', true);
         $this->actual['dir_exists'] = is_dir($dst);
         $this->actual['files'] = Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList($dst), 'file_name');
@@ -183,10 +183,10 @@ class SC_Utils_sfCopyDirTest extends Common_TestCase
         $dst = self::$TMP_DIR.'/dst/';
 
         $this->expected = [
-      'dir_exists' => true,
-      'files' => ['test.txt'],
-      'file_content' => 'good morning',
-    ];
+            'dir_exists' => true,
+            'files' => ['test.txt'],
+            'file_content' => 'good morning',
+        ];
         SC_Utils::sfCopyDir($src, $dst, '', true);
         $this->actual['dir_exists'] = is_dir($dst);
         $this->actual['files'] = Test_Utils::mapCols(SC_Helper_FileManager::sfGetFileList($dst), 'file_name');

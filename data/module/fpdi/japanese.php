@@ -22,7 +22,7 @@ class PDF_Japanese extends Fpdi
             $this->Error("CID font already added: $family $style");
         }
         $i = count($this->fonts) + 1;
-        $this->fonts[$fontkey] = ['i' => $i, 'type' => 'Type0', 'name' => $name, 'up' => -120, 'ut' => 40, 'cw' => $cw, 'CMap' => $CMap, 'registry' => $registry];
+        $this->fonts[$fontkey] = ['i' => $i, 'type' => 'Type0', 'name' => $name, 'up' => -120, 'ut' => 40, 'cw' => $cw, 'CMap' => $CMap, 'registry' => $registry, 'subsetted' => ''];
     }
 
     public function AddCIDFonts($family, $name, $cw, $CMap, $registry)

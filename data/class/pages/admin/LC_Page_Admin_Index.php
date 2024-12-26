@@ -168,7 +168,7 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
         // メンバー情報取得
         $cols = 'member_id, authority, login_date, name';
         $table = 'dtb_member';
-        $where = 'login_id = ?';
+        $where = 'login_id = ? AND del_flg <> 1 AND work = 1';
         $arrData = $objQuery->getRow($cols, $table, $where, [$login_id]);
         // セッション登録
         $sid = $this->lfSetLoginSession($arrData['member_id'], $login_id, $arrData['authority'], $arrData['name'], $arrData['login_date']);

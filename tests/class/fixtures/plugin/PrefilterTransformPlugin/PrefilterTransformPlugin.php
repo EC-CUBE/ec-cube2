@@ -9,7 +9,7 @@ class PrefilterTransformPlugin extends SC_Plugin_Base
             case DEVICE_TYPE_SMARTPHONE:
             case DEVICE_TYPE_PC:
                 // 商品一覧画面
-                if (strpos($filename, 'products/list.tpl') !== false) {
+                if (str_contains($filename, 'products/list.tpl')) {
                     // see http://downloads.ec-cube.net/manual/12.0_plugin/plugin.pdf
                     $objTransform->select('h2.title')->insertBefore('<p>プラグイン仕様書の記述方法</p>');
                 }
@@ -19,7 +19,7 @@ class PrefilterTransformPlugin extends SC_Plugin_Base
                 break;
             case DEVICE_TYPE_ADMIN:
             default:
-            }
+        }
         $source = $objTransform->getHTML();
     }
 }

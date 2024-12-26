@@ -15,7 +15,7 @@ const url = `${ PlaywrightConfig?.use?.baseURL ?? '' }/contact/index.php`;
 test.describe.serial('お問い合わせページのテストをします', () => {
   let page: Page;
 
-  test('お問い合わせページを表示します', async ( { page } ) => {
+  test('お問い合わせページを表示します', async ( { mypageLoginPage, page } ) => {
     const contactPage = new ContactPage(page);
     await contactPage.goto();
     await expect(page).toHaveTitle(/お問い合わせ/);
@@ -35,7 +35,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
     });
   });
 
-  test('ログイン状態を確認します', async ( { page } ) => {
+  test('ログイン状態を確認します', async ( { mypageLoginPage, page } ) => {
     await page.goto(PlaywrightConfig.use?.baseURL ?? '/');       // ログアウトしてしまう場合があるので一旦トップへ遷移する
     await page.goto(url);
     await expect(page.locator('#header')).toContainText('ようこそ');
@@ -46,7 +46,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
 
   let confirmMessage: HttpMessage;
   let completeMessage: HttpMessage;
-  test('お問い合わせ内容を入力します', async ({ page }) => {
+  test('お問い合わせ内容を入力します', async ({ mypageLoginPage, page }) => {
     const contactPage = new ContactPage(page);
     await contactPage.goto();
     const zapClient = contactPage.getZapClient();
@@ -116,7 +116,8 @@ test.describe.serial('お問い合わせページのテストをします', () =
 
       // transactionid を取得し直します
       await page.goto(url);
-
+      const contactPage = new ContactPage(page);
+      const zapClient = contactPage.getZapClient();
       const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
       requestBody = completeMessage.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${ transactionid }`);
       expect(completeMessage.responseHeader).toContain('HTTP/1.1 302 Found');

@@ -113,7 +113,7 @@ class SC_Plugin_Installer
         }
 
         // プラグインのディレクトリコピー
-        $arrCopyDirectories = $this->arrInstallData['copy_directory'];
+        $arrCopyDirectories = $this->arrInstallData['copy_directory'] ?? '';
 
         if (!SC_Utils_Ex::isBlank($arrCopyDirectories)) {
             foreach ($arrCopyDirectories as $directory) {

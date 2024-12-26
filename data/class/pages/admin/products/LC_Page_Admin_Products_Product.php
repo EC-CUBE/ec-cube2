@@ -96,7 +96,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         $mode = $this->getMode();
         switch ($mode) {
             case 'pre_edit':
-            case 'copy' :
+            case 'copy':
                 // パラメーター初期化(商品ID)
                 $this->lfInitFormParam_PreEdit($objFormParam, $_POST);
                 // エラーチェック
@@ -249,7 +249,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
                 break;
 
                 // 関連商品選択
-            case 'recommend_select' :
+            case 'recommend_select':
                 // パラメーター初期化
                 $this->lfInitFormParam_RecommendSelect($objFormParam);
                 $this->lfInitFormParam($objFormParam, $_POST);
@@ -744,7 +744,8 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
                 $objUpFile->save_file[$arrImageKey[$to_key]] = '';
             }
 
-            if (empty($objUpFile->temp_file[$arrImageKey[$to_key]])
+            if (
+                empty($objUpFile->temp_file[$arrImageKey[$to_key]])
                 && empty($objUpFile->save_file[$arrImageKey[$to_key]])
             ) {
                 // リネームする際は、自動生成される画像名に一意となるように、Suffixを付ける
@@ -813,7 +814,8 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
             if ($temp_file) {
                 $objImage->moveTempImage($temp_file, $objUpFile->save_dir);
                 $arrImageKey[] = $arrKeyName[$key];
-                if (!empty($arrSaveFile[$key])
+                if (
+                    !empty($arrSaveFile[$key])
                     && !$this->lfHasSameProductImage($product_id, $arrImageKey, $arrSaveFile[$key], $objUpFile)
                     && !in_array($temp_file, $arrSaveFile)
                 ) {
@@ -1378,12 +1380,15 @@ __EOF__;
         $has_subproduct_data = false;
 
         for ($i = 1; $i <= PRODUCTSUB_MAX; $i++) {
-            if (SC_Utils_Ex::isBlank($arrSubProductData['sub_title'.$i]) == false
+            if (
+                SC_Utils_Ex::isBlank($arrSubProductData['sub_title'.$i]) == false
                 || SC_Utils_Ex::isBlank($arrSubProductData['sub_comment'.$i]) == false
                 || SC_Utils_Ex::isBlank($arrSubProductData['sub_image'.$i]) == false
                 || SC_Utils_Ex::isBlank($arrSubProductData['sub_large_image'.$i]) == false
                 || SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_image'.$i]) == false
                 || SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_large_image'.$i]) == false
+                || $arrSubProductData['image_key'] == 'sub_image'.$i
+                || $arrSubProductData['image_key'] == 'sub_large_image'.$i
             ) {
                 $has_subproduct_data = true;
                 break;

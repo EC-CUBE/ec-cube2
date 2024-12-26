@@ -118,7 +118,7 @@ class SC_Helper_TaxRule
             $result[$rate] = [
                 'discount' => (int) $discount[$rate],
                 'total' => (int) $reduced_total,
-                'tax' => (int) (static::roundByCalcRule($tax, $defaultTaxRule)),
+                'tax' => (int) static::roundByCalcRule($tax, $defaultTaxRule),
             ];
         }
 

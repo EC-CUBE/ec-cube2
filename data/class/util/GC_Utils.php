@@ -101,17 +101,17 @@ class GC_Utils
             if (!isset($arrLine['class']) && $arrLine['function'] === 'trigger_error') {
                 break;
             }
-            if (($arrLine['class'] === 'SC_Helper_HandleError' || $arrLine['class'] === 'SC_Helper_HandleError_Ex')
+            if (isset($arrLine['class']) && ($arrLine['class'] === 'SC_Helper_HandleError' || $arrLine['class'] === 'SC_Helper_HandleError_Ex')
                 && ($arrLine['function'] === 'handle_error' || $arrLine['function'] === 'handle_warning')
             ) {
                 break;
             }
-            if (($arrLine['class'] === 'SC_Utils' || $arrLine['class'] === 'SC_Utils_Ex')
+            if (isset($arrLine['class']) && ($arrLine['class'] === 'SC_Utils' || $arrLine['class'] === 'SC_Utils_Ex')
                 && $arrLine['function'] === 'sfDispException'
             ) {
                 break;
             }
-            if (($arrLine['class'] === 'GC_Utils' || $arrLine['class'] === 'GC_Utils_Ex')
+            if (isset($arrLine['class']) && ($arrLine['class'] === 'GC_Utils' || $arrLine['class'] === 'GC_Utils_Ex')
                 && ($arrLine['function'] === 'gfDebugLog' || $arrLine['function'] === 'gfPrintLog')
             ) {
                 break;
@@ -199,7 +199,7 @@ class GC_Utils
                 $msg .= 'customer_id = '.$_SESSION['customer']['customer_id']."\n";
             }
             if (GC_Utils_Ex::isAdminFunction()) {
-                $msg .= 'login_id = '.$_SESSION['login_id'].'('.$_SESSION['authority'].')'.'['.substr(sha1(session_id()), 0, 8).']'."\n";
+                $msg .= 'login_id = '.$_SESSION['login_id'].'('.$_SESSION['authority'].')['.substr(sha1(session_id()), 0, 8).']'."\n";
             }
             $msg .= GC_Utils_Ex::toStringBacktrace(GC_Utils_Ex::getDebugBacktrace());
         }
@@ -325,7 +325,7 @@ class GC_Utils
         $string = '';
 
         foreach (array_reverse($arrBacktrace) as $backtrace) {
-            if (strlen($backtrace['class']) >= 1) {
+            if (isset($backtrace['class'])) {
                 $func = $backtrace['class'].$backtrace['type'].$backtrace['function'];
             } else {
                 $func = $backtrace['function'];

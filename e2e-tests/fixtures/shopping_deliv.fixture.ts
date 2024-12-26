@@ -1,10 +1,14 @@
 import { test as base } from './cartin.fixture';
-import PlaywrightConfig from '../../playwright.config';
+import { CartPage } from '../pages/cart.page';
 
-export const test = base.extend({
-  page: async ({ page }, use) => {
+type ShoppingDelivLoginFixtures = {
+  shoppingDelivLoginPage: CartPage;
+};
+
+export const test = base.extend<ShoppingDelivLoginFixtures>({
+  shoppingDelivLoginPage: async ({ cartLoginPage, page }, use) => {
     await page.click('input[alt=選択したお届け先に送る]');
-    use(page);
+    use(cartLoginPage);
   }
 });
 

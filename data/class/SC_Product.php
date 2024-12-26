@@ -241,7 +241,7 @@ __EOS__;
     public function getDetailAndProductsClass($productClassId)
     {
         $result = $this->getProductsClass($productClassId);
-        $result = array_merge($result, $this->getDetail($result['product_id']));
+        $result = array_merge($result, $this->getDetail($result['product_id'] ?? null));
 
         return $result;
     }
@@ -423,13 +423,13 @@ __EOS__;
         $objQuery->setWhere('product_class_id = ? AND T1.del_flg = 0');
         $arrRes = $this->getProductsClassByQuery($objQuery, $productClassId);
 
-        $arrProduct = (array) $arrRes[0];
+        $arrProduct = $arrRes[0] ?? [];
 
         // 税込計算
-        if (!SC_Utils_Ex::isBlank($arrProduct['price01'])) {
+        if (!SC_Utils_Ex::isBlank($arrProduct['price01'] ?? '')) {
             $arrProduct['price01_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price01'], $arrProduct['product_id']);
         }
-        if (!SC_Utils_Ex::isBlank($arrProduct['price02'])) {
+        if (!SC_Utils_Ex::isBlank($arrProduct['price02'] ?? '')) {
             $arrProduct['price02_inctax'] = SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProduct['price02'], $arrProduct['product_id']);
         }
 
@@ -577,7 +577,7 @@ __EOS__;
         // TODO エラーハンドリング
 
         $productsClass = $this->getDetailAndProductsClass($productClassId);
-        if ($productsClass['stock_unlimited'] != '1' && $productsClass['stock'] < 0) {
+        if (($productsClass['stock_unlimited'] ?? 0) != '1' && ($productsClass['stock'] ?? 0) < 0) {
             return false;
         }
 
@@ -616,6 +616,7 @@ __EOS__;
             $arrProduct['price02_min_tax_format'] = &$arrProduct['price02_min_inctax_format'];
             $arrProduct['price02_max_tax_format'] = &$arrProduct['price02_max_inctax_format'];
         }
+
         // @deprecated 2.12.4
         // 旧バージョン互換用
         // 現在は参照渡しで戻せる

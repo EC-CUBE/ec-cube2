@@ -2,7 +2,7 @@
 
 $HOME = realpath(__DIR__).'/../../../..';
 // テスト用にデフォルトの丸め方法を指定
-define('POINT_RULE', 1); // 四捨五入
+defined('POINT_RULE') || define('POINT_RULE', 1); // 四捨五入
 require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
@@ -90,9 +90,9 @@ class SC_Utils_sfPrePointTest extends Common_TestCase
     {
         $this->expected = [9, 9];
         $this->actual = [
-      SC_Utils::sfPrePoint(100, 9.4),
-      SC_Utils::sfPrePoint(100, 9.5),
-    ];
+            SC_Utils::sfPrePoint(100, 9.4),
+            SC_Utils::sfPrePoint(100, 9.5),
+        ];
 
         $this->verify();
     }

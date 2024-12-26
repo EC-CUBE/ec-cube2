@@ -61,7 +61,7 @@ class SC_Helper_Customer
         }
         $is_password_updated = false;
         // -- パスワードの更新がある場合は暗号化
-        if ($arrData['password'] == DEFAULT_PASSWORD || $arrData['password'] == '') {
+        if (!isset($arrData['password']) || $arrData['password'] == DEFAULT_PASSWORD) {
             // 更新しない
             unset($arrData['password']);
         } else {
@@ -75,7 +75,7 @@ class SC_Helper_Customer
             $arrData['password'] = SC_Utils_Ex::sfGetHashString($arrData['password'], $salt);
         }
         // -- 秘密の質問の更新がある場合は暗号化
-        if ($arrData['reminder_answer'] == DEFAULT_PASSWORD || $arrData['reminder_answer'] == '') {
+        if (!isset($arrData['reminder_answer']) || $arrData['reminder_answer'] == DEFAULT_PASSWORD) {
             // 更新しない
             unset($arrData['reminder_answer']);
 
@@ -111,7 +111,7 @@ class SC_Helper_Customer
             $customer_id = $objQuery->nextVal('dtb_customer_customer_id');
             $arrData['customer_id'] = $customer_id;
             // 作成日
-            if (is_null($arrData['create_date'])) {
+            if (!isset($arrData['create_date'])) {
                 $arrData['create_date'] = 'CURRENT_TIMESTAMP';
             }
             $objQuery->insert('dtb_customer', $arrData);
