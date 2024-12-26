@@ -60,8 +60,8 @@ class SC_Helper_Purchase_saveShippingTempTest extends SC_Helper_Purchase_TestBas
         ];
         $this->actual['count'] = count($_SESSION['shipping']);
         $this->actual['shipping_id'] = $_SESSION['shipping']['0']['shipping_id'];
-        $this->actual['shipment_item'] = $_SESSION['shipping']['0']['shipment_item'];
-        $this->actual['shipping_pref'] = $_SESSION['shipping']['0']['shipping_pref'];
+        $this->actual['shipment_item'] = $_SESSION['shipping']['0']['shipment_item'] ?? null;
+        $this->actual['shipping_pref'] = $_SESSION['shipping']['0']['shipping_pref'] ?? null;
 
         $this->verify('登録した配送情報');
     }

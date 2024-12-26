@@ -129,9 +129,8 @@ class SC_Helper_Purchase_getOrderDetailTest extends SC_Helper_Purchase_TestBase
         $this->actual = SC_Helper_Purchase::getOrderDetail($this->order_ids[0], false);
 
         $this->verify();
-
-        $this->assertEmpty($this->actual[0]['status']);
-        $this->assertEmpty($this->actual[0]['payment_date']);
+        $this->assertArrayNotHasKey('status', $this->actual[0]);
+        $this->assertArrayNotHasKey('payment_date', $this->actual[0]);
     }
 
     // ////////////////////////////////////////

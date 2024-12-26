@@ -46,8 +46,6 @@ class SC_CartSession_getAllCartListTest extends SC_CartSession_TestBase
         $this->actual = count($cartList);
 
         $this->verify('カート数');
-
-        return $cartList;
     }
 
     public function testGetAllCartList違う商品種別の商品を追加した場合用品種別分の配列を返す()
@@ -61,8 +59,6 @@ class SC_CartSession_getAllCartListTest extends SC_CartSession_TestBase
         $this->actual = count($cartList);
 
         $this->verify('カート数');
-
-        return $cartList;
     }
 
     public function testGetAllCartList複数回呼んでも同じ内容が返される()
@@ -75,7 +71,5 @@ class SC_CartSession_getAllCartListTest extends SC_CartSession_TestBase
         $this->actual = $this->objCartSession->getAllCartList();
 
         $this->verify('カートの内容');
-
-        return $cartList;
     }
 }

@@ -321,26 +321,26 @@ class LC_Page_Admin_Order_Disp extends LC_Page_Admin_Order_Ex
         $arrOrder = $objPurchase->getOrder($order_id);
 
         // 生年月日の処理
-        if (!SC_Utils_Ex::isBlank($arrOrder['order_birth'])) {
-            $order_birth = substr($arrOrder['order_birth'], 0, 10);
-            $arrOrderBirth = explode('-', $order_birth);
-            $arrOrder['order_birth_year'] = (int) $arrOrderBirth[0];
-            $arrOrder['order_birth_month'] = (int) $arrOrderBirth[1];
-            $arrOrder['order_birth_day'] = (int) $arrOrderBirth[2];
+        if (isset($arrOrder['order_birth'])) {
+            $orderBirth = new DateTimeImmutable($arrOrder['order_birth']);
+            $arrOrder['order_birth_year'] = (int) $orderBirth->format('Y');
+            $arrOrder['order_birth_month'] = (int) $orderBirth->format('n');
+            $arrOrder['order_birth_day'] = (int) $orderBirth->format('j');
         }
 
         $objFormParam->setParam($arrOrder);
 
         // ポイントを設定
         list($db_point, $rollback_point) = SC_Helper_DB_Ex::sfGetRollbackPoint(
-            $order_id, $arrOrder['use_point'], $arrOrder['add_point'], $arrOrder['status']
+            $order_id,
+            $arrOrder['use_point'] ?? 0, $arrOrder['add_point'] ?? 0, $arrOrder['status'] ?? null
         );
         $objFormParam->setValue('total_point', $db_point);
         $objFormParam->setValue('point', $rollback_point);
 
         if (!SC_Utils_Ex::isBlank($objFormParam->getValue('customer_id'))) {
             $arrCustomer = SC_Helper_Customer_Ex::sfGetCustomerDataFromId($objFormParam->getValue('customer_id'));
-            $objFormParam->setValue('customer_point', $arrCustomer['point']);
+            $objFormParam->setValue('customer_point', $arrCustomer['point'] ?? 0);
         }
     }
 }

@@ -106,12 +106,16 @@ class SC_ClassAutoloader
 
                             eval($base_class_str);
                         } else {
-                            include $plugin_classpath;
+                            if (file_exists($plugin_classpath)) {
+                                include $plugin_classpath;
+                            }
                         }
 
                         $parent_classname = $plugin_class;
                     } else {
-                        include $plugin_classpath;
+                        if (file_exists($plugin_classpath)) {
+                            include $plugin_classpath;
+                        }
                     }
                 }
 

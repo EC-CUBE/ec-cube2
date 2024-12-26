@@ -113,9 +113,11 @@ class SC_CustomerListTest extends Common_TestCase
         $this->params['search_job'] = [$this->expected['job']];
 
         $this->scenario();
+
         // SC_CustomerList::getList() に job が含まれていないので検索し直す
         $this->actual = $this->objQuery->getRow('*', 'dtb_customer', 'customer_id = ?', [$this->actual[0]['customer_id']]);
-        $this->assertEquals($this->expected[0]['pref'], $this->actual[0]['pref']);
+
+        $this->assertEquals($this->expected['job'], $this->actual['job']);
     }
 
     public function testSearchJobWithUnknown()
@@ -160,7 +162,7 @@ class SC_CustomerListTest extends Common_TestCase
         $this->params['search_email_mobile'] = $this->expected[0]['email_mobile'].', '.$this->faker->safeEmail;
 
         $this->scenario();
-        $this->assertEquals($this->expected[0]['email_mobile'], $this->actual[0]['email_mobile'], 'email_mobile は登録されないため null で一致する');
+        $this->assertNull($this->expected[0]['email_mobile'], 'email_mobile は登録されないため null');
     }
 
     public function testSearchEmailMobileWithExclude()

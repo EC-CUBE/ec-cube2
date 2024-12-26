@@ -10,7 +10,7 @@ import { test, expect } from '../../../fixtures/shopping_payment.fixture';
 
 test.describe.serial('ご注文完了画面のテストをします', () => {
 
-  test('ご注文完了画面へ遷移します', async ({ page }) => {
+  test('ご注文完了画面へ遷移します', async ({ shoppingPaymentLoginPage, page }) => {
     await page.click('[alt=ご注文完了ページへ]');
     await expect(page.locator('h2.title')).toContainText('ご注文完了');
   });

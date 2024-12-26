@@ -46,9 +46,9 @@ class SC_Helper_BestProducts
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select($col, 'dtb_best_products', $where, [$best_id]);
+        $arrRet = $objQuery->getRow($col, 'dtb_best_products', $where, [$best_id]);
 
-        return $arrRet[0];
+        return $arrRet;
     }
 
     /**
@@ -67,9 +67,9 @@ class SC_Helper_BestProducts
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select($col, 'dtb_best_products', $where, [$rank]);
+        $arrRet = $objQuery->getRow($col, 'dtb_best_products', $where, [$rank]);
 
-        return $arrRet[0];
+        return $arrRet;
     }
 
     /**
@@ -186,7 +186,7 @@ class SC_Helper_BestProducts
         if ($rank > 1) {
             // 表示順が一つ上のIDを取得する
             $arrAboveBestProducts = static::getByRank($rank - 1);
-            $above_best_id = $arrAboveBestProducts['best_id'];
+            $above_best_id = $arrAboveBestProducts['best_id'] ?? null;
 
             if ($above_best_id) {
                 // 一つ上のものを一つ下に下げる
@@ -215,7 +215,7 @@ class SC_Helper_BestProducts
         if ($rank < RECOMMEND_NUM) {
             // 表示順が一つ下のIDを取得する
             $arrBelowBestProducts = static::getByRank($rank + 1);
-            $below_best_id = $arrBelowBestProducts['best_id'];
+            $below_best_id = $arrBelowBestProducts['best_id'] ?? null;
 
             if ($below_best_id) {
                 // 一つ下のものを一つ上に上げる

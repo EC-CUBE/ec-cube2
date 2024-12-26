@@ -71,7 +71,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
         $objFormParam->setParam($_POST);
         $objFormParam->convParam();
 
-        $rank = (int) $_GET['rank'];
+        $rank = (int) ($_GET['rank'] ?? 0);
 
         switch ($this->getMode()) {
             case 'search':
@@ -86,7 +86,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
                     $wheres = $this->createWhere($objFormParam, $objDb);
                     $this->tpl_linemax = $this->getLineCount($wheres, $objProduct);
 
-                    $page_max = SC_Utils_Ex::sfGetSearchPageMax($arrPost['search_page_max']);
+                    $page_max = SC_Utils_Ex::sfGetSearchPageMax($arrPost['search_page_max'] ?? 0);
 
                     // ページ送りの取得
                     $objNavi = new SC_PageNavi_Ex($arrPost['search_pageno'], $this->tpl_linemax, $page_max, 'eccube.moveSearchPage', NAVI_PMAX);

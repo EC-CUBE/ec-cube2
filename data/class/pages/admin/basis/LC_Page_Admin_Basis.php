@@ -178,10 +178,10 @@ class LC_Page_Admin_Basis extends LC_Page_Admin_Ex
         $objFormParam->addParam('取扱商品', 'good_traded', LLTEXT_LEN, '', ['MAX_LENGTH_CHECK']);
         $objFormParam->addParam('メッセージ', 'message', LLTEXT_LEN, '', ['MAX_LENGTH_CHECK']);
 
-        if (!isset($post['downloadable_days_unlimited']) && $post['downloadable_days_unlimited'] != '1') {
-            $objFormParam->addParam('ダウンロード可能日数', 'downloadable_days', DOWNLOAD_DAYS_LEN, 'n', ['EXIST_CHECK', 'ZERO_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
-        } else {
+        if (isset($post['downloadable_days_unlimited']) && $post['downloadable_days_unlimited'] == '1') {
             $objFormParam->addParam('ダウンロード無制限', 'downloadable_days_unlimited', ['EXIST_CHECK']);
+        } else {
+            $objFormParam->addParam('ダウンロード可能日数', 'downloadable_days', DOWNLOAD_DAYS_LEN, 'n', ['EXIST_CHECK', 'ZERO_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK']);
         }
         $objFormParam->addParam('緯度', 'latitude', STEXT_LEN, '', ['MAX_LENGTH_CHECK', 'NUM_POINT_CHECK']);
         $objFormParam->addParam('軽度', 'longitude', STEXT_LEN, '', ['MAX_LENGTH_CHECK', 'NUM_POINT_CHECK']);

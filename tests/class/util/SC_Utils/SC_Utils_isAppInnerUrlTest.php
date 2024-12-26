@@ -2,8 +2,8 @@
 
 $HOME = realpath(__DIR__).'/../../../..';
 // テスト用に定数を定義
-define('HTTP_URL', 'http://sample.eccube.jp/');
-define('HTTPS_URL', 'https://sample.eccube.jp/');
+defined('HTTP_URL') || define('HTTP_URL', 'http://sample.eccube.jp/');
+defined('HTTPS_URL') || define('HTTPS_URL', 'https://sample.eccube.jp/');
 require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE

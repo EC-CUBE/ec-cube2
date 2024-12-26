@@ -142,7 +142,7 @@ class SC_CustomerList extends SC_SelectSql_Ex
             foreach ($this->arrSql['search_email'] as $val) {
                 $val = trim($val);
                 // 検索条件を含まない
-                if ($this->arrSql['not_emailinc'] == '1') {
+                if (isset($this->arrSql['not_emailinc']) && $this->arrSql['not_emailinc'] == '1') {
                     if ($sql_where == '') {
                         $sql_where .= 'dtb_customer.email NOT ILIKE ? ';
                     } else {
@@ -173,7 +173,7 @@ class SC_CustomerList extends SC_SelectSql_Ex
             foreach ($this->arrSql['search_email_mobile'] as $val) {
                 $val = trim($val);
                 // 検索条件を含まない
-                if ($this->arrSql['not_email_mobileinc'] == '1') {
+                if (isset($this->arrSql['not_email_mobileinc']) && $this->arrSql['not_email_mobileinc'] == '1') {
                     if ($sql_where == '') {
                         $sql_where .= 'dtb_customer.email_mobile NOT ILIKE ? ';
                     } else {

@@ -88,7 +88,7 @@ class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
             // 編集処理
             case 'edit':
                 $this->arrErr = $this->lfCheckError($objFormParam, $objHoliday);
-                if (!SC_Utils_Ex::isBlank($this->arrErr['holiday_id'])) {
+                if (!SC_Utils_Ex::isBlank($this->arrErr['holiday_id'] ?? '')) {
                     trigger_error('', E_USER_ERROR);
 
                     return;
@@ -201,7 +201,11 @@ class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
         if ($arrForm['month'] == 2 && $arrForm['day'] == 29) {
             $valid_date = true;
         } else {
-            $valid_date = checkdate($arrForm['month'], $arrForm['day'], date('Y'));
+            if (SC_Utils_Ex::isBlank($arrForm['month']) || SC_Utils_Ex::isBlank($arrForm['day'])) {
+                $valid_date = false;
+            } else {
+                $valid_date = checkdate($arrForm['month'], $arrForm['day'], date('Y'));
+            }
         }
         if (!$valid_date) {
             $arrErr['date'] = '※ 妥当な日付ではありません。<br />';

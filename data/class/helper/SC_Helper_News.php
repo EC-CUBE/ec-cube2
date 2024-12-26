@@ -46,9 +46,9 @@ class SC_Helper_News
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select($col, 'dtb_news', $where, [$news_id]);
+        $arrRet = $objQuery->getRow($col, 'dtb_news', $where, [$news_id]);
 
-        return $arrRet[0];
+        return $arrRet;
     }
 
     /**

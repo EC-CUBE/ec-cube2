@@ -117,7 +117,7 @@ class SC_CartSession
     {
         $count = [];
         foreach ($this->cartSession[$product_type_id] as $key => $value) {
-            $count[] = $this->cartSession[$product_type_id][$key]['cart_no'];
+            $count[] = $this->cartSession[$product_type_id][$key]['cart_no'] ?? null;
         }
 
         return max($count) + 1;
@@ -147,7 +147,8 @@ class SC_CartSession
     {
         $max = 0;
         if (
-            is_array($this->cartSession[$product_type_id])
+            isset($this->cartSession[$product_type_id])
+            && is_array($this->cartSession[$product_type_id])
             && count($this->cartSession[$product_type_id]) > 0
         ) {
             foreach ($this->cartSession[$product_type_id] as $key => $value) {
@@ -156,6 +157,24 @@ class SC_CartSession
                         $max = $key;
                     }
                 }
+            }
+        } else {
+            $this->cartSession[$product_type_id] = [];
+        }
+
+        // カート内商品の最大要素番号までの要素が存在しない場合、要素を追加しておく
+        for ($i = 0; $i <= $max; $i++) {
+            if (!array_key_exists($i, $this->cartSession[$product_type_id])) {
+                $this->cartSession[$product_type_id][$i] = [
+                    'id' => null,
+                    'cart_no' => null,
+                    'price' => 0,
+                    'quantity' => 0,
+                    'productsClass' => [
+                        'product_id' => null,
+                        'product_class_id' => null,
+                    ],
+                ];
             }
         }
 
@@ -261,7 +280,7 @@ class SC_CartSession
     {
         $objProduct = new SC_Product_Ex();
         $arrProduct = $objProduct->getProductsClass($product_class_id);
-        $product_type_id = $arrProduct['product_type_id'];
+        $product_type_id = $arrProduct['product_type_id'] ?? null;
         $find = false;
         $max = $this->getMax($product_type_id);
         for ($i = 0; $i <= $max; $i++) {
@@ -875,7 +894,7 @@ class SC_CartSession
      */
     public function getKey()
     {
-        return $_SESSION['cartKey'];
+        return $_SESSION['cartKey'] ?? null;
     }
 
     /**
