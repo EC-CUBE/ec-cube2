@@ -81,7 +81,7 @@ class LC_Page_Admin_Order_Mail extends LC_Page_Admin_Order_Ex
         if (array_key_exists('mail_order_id', $post) && $post['mode'] == 'mail_select') {
             $post['order_id_array'] = implode(',', $post['mail_order_id']);
         } elseif (!array_key_exists('order_id_array', $post)) {
-            $post['order_id_array'] = $post['order_id'];
+            $post['order_id_array'] = $post['order_id'] ?? null;
         }
 
         // 一括送信処理変数チェック(ここですべきかは課題)
