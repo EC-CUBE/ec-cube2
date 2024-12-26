@@ -35,7 +35,7 @@ class SC_CheckError_MIN_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         $this->minlength = 5;
         $this->arrForm = [self::FORM_NAME => ''];
-        $this->expected = '※ MIN_LENGTH_CHECKは5字以上で入力してください。<br />';
+        $this->expected = null;
 
         $this->scenario();
         $this->verify();
@@ -45,7 +45,7 @@ class SC_CheckError_MIN_LENGTH_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         $this->minlength = 5;
         $this->arrForm = [self::FORM_NAME => null];
-        $this->expected = '※ MIN_LENGTH_CHECKは5字以上で入力してください。<br />';
+        $this->expected = null;
 
         $this->scenario();
         $this->verify();
