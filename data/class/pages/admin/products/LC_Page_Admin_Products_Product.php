@@ -610,10 +610,10 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
             $arrForm['category_id'] = SC_Utils_Ex::jsonDecode($arrForm['category_id']);
         }
         $this->tpl_json_category_id = !empty($arrForm['category_id']) ? SC_Utils_Ex::jsonEncode($arrForm['category_id']) : SC_Utils_Ex::jsonEncode([]);
-        if ($arrForm['status'] == '') {
+        if (!isset($arrForm['status']) || $arrForm['status'] == '') {
             $arrForm['status'] = DEFAULT_PRODUCT_DISP;
         }
-        if ($arrForm['product_type_id'] == '') {
+        if (!isset($arrForm['product_type_id']) || $arrForm['product_type_id'] == '') {
             $arrForm['product_type_id'] = DEFAULT_PRODUCT_DOWN;
         }
         if (OPTION_PRODUCT_TAX_RULE) {
@@ -1381,14 +1381,14 @@ __EOF__;
 
         for ($i = 1; $i <= PRODUCTSUB_MAX; $i++) {
             if (
-                SC_Utils_Ex::isBlank($arrSubProductData['sub_title'.$i]) == false
-                || SC_Utils_Ex::isBlank($arrSubProductData['sub_comment'.$i]) == false
-                || SC_Utils_Ex::isBlank($arrSubProductData['sub_image'.$i]) == false
-                || SC_Utils_Ex::isBlank($arrSubProductData['sub_large_image'.$i]) == false
-                || SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_image'.$i]) == false
-                || SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_large_image'.$i]) == false
-                || $arrSubProductData['image_key'] == 'sub_image'.$i
-                || $arrSubProductData['image_key'] == 'sub_large_image'.$i
+                isset($arrSubProductData['sub_title'.$i]) && SC_Utils_Ex::isBlank($arrSubProductData['sub_title'.$i]) == false
+                || isset($arrSubProductData['sub_comment'.$i]) && SC_Utils_Ex::isBlank($arrSubProductData['sub_comment'.$i]) == false
+                || isset($arrSubProductData['sub_image'.$i]) && SC_Utils_Ex::isBlank($arrSubProductData['sub_image'.$i]) == false
+                || isset($arrSubProductData['sub_large_image'.$i]) && SC_Utils_Ex::isBlank($arrSubProductData['sub_large_image'.$i]) == false
+                || isset($arrSubProductData['temp_sub_image'.$i]) && SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_image'.$i]) == false
+                || isset($arrSubProductData['temp_sub_large_image'.$i]) && SC_Utils_Ex::isBlank($arrSubProductData['temp_sub_large_image'.$i]) == false
+                || isset($arrSubProductData['image_key']) && $arrSubProductData['image_key'] == 'sub_image'.$i
+                || isset($arrSubProductData['image_key']) && $arrSubProductData['image_key'] == 'sub_large_image'.$i
             ) {
                 $has_subproduct_data = true;
                 break;

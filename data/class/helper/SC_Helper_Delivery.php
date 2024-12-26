@@ -262,7 +262,10 @@ class SC_Helper_Delivery
     public function checkExist($arrDeliv)
     {
         $objDb = new SC_Helper_DB_Ex();
-        if ($arrDeliv['deliv_id'] == '') {
+        if (!isset($arrDeliv['deliv_id'])) {
+            if (!isset($arrDeliv['service_name'])) {
+                return false;
+            }
             $ret = $objDb->sfIsRecord('dtb_deliv', 'service_name', [$arrDeliv['service_name']]);
         } else {
             $objQuery = SC_Query_Ex::getSingletonInstance();
