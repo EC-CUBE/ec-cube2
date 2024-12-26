@@ -1843,6 +1843,12 @@ class SC_CheckError
         $key = $value[1];
 
         $pref_id = $this->arrParam[$key];
+
+        // 未入力の場合はエラーにしない(EXIST_CHECKを使用すること)
+        if (strlen($pref_id ?? '') === 0) {
+            return;
+        }
+
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists('mtb_pref', 'id = ?', [$pref_id]);
         if (!$exists) {

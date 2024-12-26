@@ -47,7 +47,7 @@ class SC_CheckError_PREF_CHECKTest extends SC_CheckError_AbstractTestCase
     public function testPREFCHECKWithEmpty()
     {
         $this->arrForm = [self::FORM_NAME => ''];
-        $this->expected = '※ PREF_CHECKが不正な値です。<br />';
+        $this->expected = null;
 
         $this->scenario();
         $this->verify();
@@ -56,7 +56,7 @@ class SC_CheckError_PREF_CHECKTest extends SC_CheckError_AbstractTestCase
     public function testPREFCHECKWithNull()
     {
         $this->arrForm = [self::FORM_NAME => null];
-        $this->expected = '※ PREF_CHECKが不正な値です。<br />';
+        $this->expected = null;
 
         $this->scenario();
         $this->verify();
