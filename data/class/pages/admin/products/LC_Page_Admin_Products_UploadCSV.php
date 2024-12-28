@@ -334,7 +334,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
                 $col = $item['col'];
             }
             // HTML_TAG_CHECKは別途実行なので除去し、別保存しておく
-            if (strpos(strtoupper($item['error_check_types']), 'HTML_TAG_CHECK') !== false) {
+            if (str_contains(strtoupper($item['error_check_types']), 'HTML_TAG_CHECK')) {
                 $this->arrTagCheckItem[] = $item;
                 $error_check_types = str_replace('HTML_TAG_CHECK', '', $item['error_check_types']);
             } else {
@@ -355,7 +355,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
                 defined($item['size_const_type']) ? constant($item['size_const_type']) : $item['size_const_type'],
                 $item['mb_convert_kana_option'],
                 $arrErrorCheckTypes,
-                $item['default'],
+                $item['default'] ?? null,
                 $item['rw_flg'] != CSV_COLUMN_RW_FLG_READ_ONLY
             );
         }

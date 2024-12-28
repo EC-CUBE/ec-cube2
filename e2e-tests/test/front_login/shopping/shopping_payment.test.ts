@@ -12,7 +12,7 @@ import { test, expect } from '../../../fixtures/shopping_deliv.fixture';
 
 test.describe.serial('お支払方法・お届け時間等の指定画面のテストをします', () => {
 
-  test('お支払方法・お届け時間等の指定画面へ遷移します', async ({ page }) => {
+  test('お支払方法・お届け時間等の指定画面へ遷移します', async ({ shoppingDelivLoginPage, page }) => {
     await expect(page.locator('h2.title')).toContainText('お支払方法・お届け時間等の指定');
     await page.goto(url);
   });
@@ -31,7 +31,7 @@ test.describe.serial('お支払方法・お届け時間等の指定画面のテ�
     });
   });
 
-  test('注文確認画面へ遷移します', async ({ page }) => {
+  test('注文確認画面へ遷移します', async ({ shoppingDelivLoginPage, page }) => {
     const paymentPage = new ShoppingPaymentPage(page);
     await paymentPage.goto();
     await paymentPage.fillOut();

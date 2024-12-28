@@ -43,7 +43,7 @@ class SC_Date_isHolidayTest extends Common_TestCase
                 'create_date' => '2013-02-14 11:22:33',
                 'update_date' => '2013-02-14 22:11:33',
                 'del_flg' => '0',
-                  ],
+            ],
             [
                 'holiday_id' => '2',
                 'title' => 'TEST HOLIDAY2',
@@ -54,8 +54,8 @@ class SC_Date_isHolidayTest extends Common_TestCase
                 'create_date' => '2013-02-15 11:22:33',
                 'update_date' => '2013-02-16 22:11:33',
                 'del_flg' => '0',
-                  ],
-            ];
+            ],
+        ];
         // 休みの曜日を登録
         $baseInfo = [
             'id' => '1',

@@ -64,10 +64,10 @@ class SC_Helper_Purchase_getOrderDetailTest extends SC_Helper_Purchase_TestBase
     public function testGetOrderDetail存在する受注IDを指定した場合対応する受注詳細情報が取得できる()
     {
         $properties = [
-      'product_id', 'product_class_id', 'product_type_id', 'product_code',
-      'product_name', 'classcategory_name1', 'classcategory_name2', 'price',
-      'quantity', 'point_rate', 'status', 'payment_date', 'enable', 'effective',
-      'tax_rate', 'tax_rule', ];
+            'product_id', 'product_class_id', 'product_type_id', 'product_code',
+            'product_name', 'classcategory_name1', 'classcategory_name2', 'price',
+            'quantity', 'point_rate', 'status', 'payment_date', 'enable', 'effective',
+            'tax_rate', 'tax_rule', ];
 
         $this->objQuery->setOrder('order_detail_id');
         $arrOrderDetails = $this->objQuery->select('*', 'dtb_order_detail T1 JOIN dtb_order T2 ON T1.order_id = T2.order_id', 'T1.order_id = ?', [$this->order_ids[0]]);
@@ -101,10 +101,10 @@ class SC_Helper_Purchase_getOrderDetailTest extends SC_Helper_Purchase_TestBase
     public function testGetOrderDetailステータス取得フラグがOFFのの場合ステータス以外の情報が取得できる()
     {
         $properties = [
-      'product_id', 'product_class_id', 'product_type_id', 'product_code',
-      'product_name', 'classcategory_name1', 'classcategory_name2', 'price',
-      'quantity', 'point_rate', 'enable', 'effective',
-      'tax_rate', 'tax_rule', ];
+            'product_id', 'product_class_id', 'product_type_id', 'product_code',
+            'product_name', 'classcategory_name1', 'classcategory_name2', 'price',
+            'quantity', 'point_rate', 'enable', 'effective',
+            'tax_rate', 'tax_rule', ];
 
         $this->objQuery->setOrder('order_detail_id');
         $arrOrderDetails = $this->objQuery->select('*', 'dtb_order_detail T1 JOIN dtb_order T2 ON T1.order_id = T2.order_id', 'T1.order_id = ?', [$this->order_ids[0]]);
@@ -129,9 +129,8 @@ class SC_Helper_Purchase_getOrderDetailTest extends SC_Helper_Purchase_TestBase
         $this->actual = SC_Helper_Purchase::getOrderDetail($this->order_ids[0], false);
 
         $this->verify();
-
-        $this->assertEmpty($this->actual[0]['status']);
-        $this->assertEmpty($this->actual[0]['payment_date']);
+        $this->assertArrayNotHasKey('status', $this->actual[0]);
+        $this->assertArrayNotHasKey('payment_date', $this->actual[0]);
     }
 
     // ////////////////////////////////////////

@@ -76,7 +76,7 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
         $this->tpl_mainno = 'basis';
 
         $this->tpl_mode = $this->getMode();
-        $this->exec = (bool) $_GET['exec'];
+        $this->exec = (bool) ($_GET['exec'] ?? 0);
         $this->zip_csv_temp_realfile = DATA_REALDIR.'downloads/tmp/ken_all.zip';
     }
 

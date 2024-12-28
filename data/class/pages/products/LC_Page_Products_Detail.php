@@ -443,6 +443,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
         $objFormParam->setParam($_REQUEST);
         // 入力値の変換
         $objFormParam->convParam();
+
         // 入力情報を渡す
         return $objFormParam->getFormParamList();
     }
@@ -567,7 +568,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
         // サブ画像の有無を判定
         $subImageFlag = false;
         for ($i = 1; $i <= PRODUCTSUB_MAX; $i++) {
-            if ($arrFile['sub_image'.$i]['filepath'] != '') {
+            if (isset($arrFile['sub_image'.$i]['filepath'])) {
                 $subImageFlag = true;
             }
         }

@@ -47,12 +47,12 @@ class SC_Utils_sfGetUnderChildrenArrayTest extends Common_TestCase
     public function testSfGetUnderChildrenArray与えられた親IDを持つ要素だけが抽出される()
     {
         $input_array = [
-      ['parent_id' => '1001', 'child_id' => '1001001'],
-      ['parent_id' => '1002', 'child_id' => '1002001'],
-      ['parent_id' => '1002', 'child_id' => '1002002'],
-      ['parent_id' => '1003', 'child_id' => '1003001'],
-      ['parent_id' => '1004', 'child_id' => '1004001'],
-    ];
+            ['parent_id' => '1001', 'child_id' => '1001001'],
+            ['parent_id' => '1002', 'child_id' => '1002001'],
+            ['parent_id' => '1002', 'child_id' => '1002002'],
+            ['parent_id' => '1003', 'child_id' => '1003001'],
+            ['parent_id' => '1004', 'child_id' => '1004001'],
+        ];
         $this->expected = ['1002001', '1002002'];
         $this->actual = SC_Utils::sfGetUnderChildrenArray(
             $input_array,

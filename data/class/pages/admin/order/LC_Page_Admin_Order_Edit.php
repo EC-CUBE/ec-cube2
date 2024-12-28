@@ -184,10 +184,10 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             if (!SC_Utils_Ex::isBlank($objFormParam->getValue('customer_id'))) {
                 $customer_id = $objFormParam->getValue('customer_id');
                 $arrCustomer = SC_Helper_Customer_Ex::sfGetCustomerDataFromId($customer_id);
-                $objFormParam->setValue('customer_point', $arrCustomer['point']);
+                $objFormParam->setValue('customer_point', $arrCustomer['point'] ?? 0);
 
                 // 新規受注登録で、ポイント利用できるように現在ポイントを設定
-                $objFormParam->setValue('point', $arrCustomer['point']);
+                $objFormParam->setValue('point', $arrCustomer['point'] ?? 0);
             }
         }
 
@@ -808,16 +808,16 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $order_id = $objPurchase->registerOrder($order_id, $arrValues);
 
         $arrDetail = $objFormParam->getSwapArray([
-                'product_id',
-                'product_class_id',
-                'product_code',
-                'product_name',
-                'price', 'quantity',
-                'point_rate',
-                'classcategory_name1',
-                'classcategory_name2',
-                'tax_rate',
-                'tax_rule',
+            'product_id',
+            'product_class_id',
+            'product_code',
+            'product_name',
+            'price', 'quantity',
+            'point_rate',
+            'classcategory_name1',
+            'classcategory_name2',
+            'tax_rate',
+            'tax_rule',
         ]);
 
         // 変更しようとしている商品情報とDBに登録してある商品情報を比較することで、更新すべき数量を計算
@@ -1286,6 +1286,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 }
             }
         }
+
         // $objFormParam->setParam($arrUpdateParams);
         return $arrUpdateParams;
     }

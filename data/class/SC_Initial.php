@@ -36,7 +36,7 @@ class SC_Initial
     public function __construct()
     {
         /* EC-CUBEのバージョン */
-        define('ECCUBE_VERSION', '2.17.2-p2');
+        defined('ECCUBE_VERSION') || define('ECCUBE_VERSION', '2.17.2-p2');
     }
 
     /**
@@ -57,7 +57,6 @@ class SC_Initial
         $this->resetSuperglobalsRequest();  // stripslashesDeepGpc メソッドより後で実行
         $this->setTimezone();               // 本当はエラーハンドラーより先に読みたい気も
         $this->normalizeHostname();         // defineConstants メソッドより後で実行
-        $this->compatPhp();
     }
 
     /**
@@ -73,7 +72,9 @@ class SC_Initial
 
         // heroku用
         } elseif (getenv('DATABASE_URL')) {
-            ini_set('display_errors', 1);
+            if (!headers_sent()) {
+                ini_set('display_errors', 1);
+            }
             copy(realpath(__DIR__).'/../../tests/config.php', CONFIG_REALFILE);
 
             require_once CONFIG_REALFILE;
@@ -140,25 +141,25 @@ class SC_Initial
      */
     public function phpconfigInit()
     {
-        ini_set('html_errors', '1');
-        if (PHP_VERSION_ID < 50600) {
-            ini_set('mbstring.http_input', CHAR_CODE);
-            ini_set('mbstring.http_output', CHAR_CODE);
+        if (!headers_sent()) {
+            ini_set('html_errors', '1');
+            if (PHP_VERSION_ID < 50600) {
+                ini_set('mbstring.http_input', CHAR_CODE);
+                ini_set('mbstring.http_output', CHAR_CODE);
+            }
+            if (PHP_VERSION_ID < 80100) {
+                ini_set('auto_detect_line_endings', 1);
+            }
+            ini_set('default_charset', CHAR_CODE);
+            ini_set('mbstring.detect_order', 'auto');
+            ini_set('mbstring.substitute_character', 'none');
+            ini_set('pcre.backtrack_limit', 1000000);
+            ini_set('arg_separator.output', '&');
         }
-        if (PHP_VERSION_ID < 80100) {
-            ini_set('auto_detect_line_endings', 1);
-        }
-        ini_set('default_charset', CHAR_CODE);
-        ini_set('mbstring.detect_order', 'auto');
-        ini_set('mbstring.substitute_character', 'none');
-        ini_set('pcre.backtrack_limit', 1000000);
-
         mb_language('ja'); // mb_internal_encoding() より前に
         // TODO .htaccess の mbstring.language を削除できないか検討
 
         mb_internal_encoding(CHAR_CODE); // mb_language() より後で
-
-        ini_set('arg_separator.output', '&');
 
         // ロケールを明示的に設定
         $res = setlocale(LC_ALL, LOCALE);
@@ -195,8 +196,8 @@ class SC_Initial
             $useFilenameDirIndex = USE_FILENAME_DIR_INDEX;
         } else {
             if (isset($_SERVER['SERVER_SOFTWARE'])) {
-                if (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false
-                    || strpos($_SERVER['SERVER_SOFTWARE'], 'Symfony') !== false) {
+                if (str_contains($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS')
+                    || str_contains($_SERVER['SERVER_SOFTWARE'], 'Symfony')) {
                     $useFilenameDirIndex = true;
                 }
             }
@@ -547,48 +548,6 @@ class SC_Initial
             // リダイレクト(恒久的)
             SC_Response_Ex::sendHttpStatus(301);
             SC_Response_Ex::sendRedirect($correct_url);
-        }
-    }
-
-    /**
-     * PHPバージョン互換処理
-     *
-     * @deprecated https://github.com/EC-CUBE/ec-cube2/issues/681 が実現したら、外部ライブラリへ移行して、削除する予定。
-     *
-     * @return void
-     */
-    public function compatPhp()
-    {
-        if (!function_exists('str_starts_with')) {
-            /**
-             * 文字列が指定された部分文字列で始まるかを調べる。(for PHP < 8)
-             *
-             * @param string $haystack
-             * @param string $needle
-             *
-             * @return bool
-             */
-            function str_starts_with($haystack, $needle)
-            {
-                return strncmp($haystack, $needle, strlen($needle)) === 0;
-            }
-        }
-
-        if (!function_exists('str_ends_with')) {
-            /**
-             * 文字列が、指定された文字列で終わるかを調べる。(for PHP < 8)
-             *
-             * @param string $haystack
-             * @param string $needle
-             *
-             * @return bool
-             */
-            function str_ends_with($haystack, $needle)
-            {
-                $needle_len = strlen($needle);
-
-                return substr($haystack, -$needle_len, $needle_len) === $needle;
-            }
         }
     }
 }

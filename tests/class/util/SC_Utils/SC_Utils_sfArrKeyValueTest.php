@@ -42,11 +42,11 @@ class SC_Utils_sfArrKeyValueTest extends Common_TestCase
         // parent::setUp();
 
         $this->arrList = [
-      ['testkey' => '1011', 'testvalue' => '2001', 'key' => '3001'],
-      ['testkey' => '2022', 'testvalue' => '2002', 'key' => '3002'],
-      ['testkey' => '3033', 'testvalue' => '2003', 'key' => '3003'],
-      ['testkey' => '4044', 'testvalue' => '2004', 'key' => '3004'],
-    ];
+            ['testkey' => '1011', 'testvalue' => '2001', 'key' => '3001'],
+            ['testkey' => '2022', 'testvalue' => '2002', 'key' => '3002'],
+            ['testkey' => '3033', 'testvalue' => '2003', 'key' => '3003'],
+            ['testkey' => '4044', 'testvalue' => '2004', 'key' => '3004'],
+        ];
         $this->keyname = 'testkey';
         $this->valuename = 'testvalue';
     }
@@ -62,10 +62,10 @@ class SC_Utils_sfArrKeyValueTest extends Common_TestCase
         $len_max = 3;
 
         $this->expected = [
-      '1011' => '2001',
-      '2022' => '2002',
-      '3033' => '2003',
-    ];
+            '1011' => '2001',
+            '2022' => '2002',
+            '3033' => '2003',
+        ];
         $this->actual = SC_Utils::sfArrKeyValue($this->arrList, $this->keyname, $this->valuename, $len_max);
 
         $this->verify();
@@ -74,12 +74,12 @@ class SC_Utils_sfArrKeyValueTest extends Common_TestCase
     public function testSfArrKeyValue最大長が指定されていない場合全要素が出力される()
     {
         $this->expected = [
-      '1011' => '2001',
-      '2022' => '2002',
-      '3033' => '2003',
-      '4044' => '2004',
-    ];
-        $this->actual = SC_Utils::sfArrKeyValue($this->arrList, $this->keyname, $this->valuename, $len_max);
+            '1011' => '2001',
+            '2022' => '2002',
+            '3033' => '2003',
+            '4044' => '2004',
+        ];
+        $this->actual = SC_Utils::sfArrKeyValue($this->arrList, $this->keyname, $this->valuename);
 
         $this->verify();
     }
@@ -90,11 +90,11 @@ class SC_Utils_sfArrKeyValueTest extends Common_TestCase
         $keysize = 1;
 
         $this->expected = [
-      '1...' => '2001',
-      '2...' => '2002',
-      '3...' => '2003',
-      '4...' => '2004',
-    ];
+            '1...' => '2001',
+            '2...' => '2002',
+            '3...' => '2003',
+            '4...' => '2004',
+        ];
         $this->actual = SC_Utils::sfArrKeyValue($this->arrList, $this->keyname, $this->valuename, $len_max, $keysize);
 
         $this->verify();

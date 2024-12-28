@@ -34,9 +34,25 @@
 class SC_Helper_Purchase
 {
     public $arrShippingKey = [
-        'name01', 'name02', 'kana01', 'kana02', 'company_name',
-        'sex', 'zip01', 'zip02', 'country_id', 'zipcode', 'pref', 'addr01', 'addr02',
-        'tel01', 'tel02', 'tel03', 'fax01', 'fax02', 'fax03',
+        'name01',
+        'name02',
+        'kana01',
+        'kana02',
+        'company_name',
+        'sex',
+        'zip01',
+        'zip02',
+        'country_id',
+        'zipcode',
+        'pref',
+        'addr01',
+        'addr02',
+        'tel01',
+        'tel02',
+        'tel03',
+        'fax01',
+        'fax02',
+        'fax03',
     ];
 
     /**
@@ -183,7 +199,7 @@ class SC_Helper_Purchase
         $uniqid = $objSiteSession->getUniqId();
 
         if (!empty($arrOrderTemp)) {
-            $tempSession = unserialize($arrOrderTemp['session']);
+            $tempSession = unserialize($arrOrderTemp['session'] ?? '');
             $_SESSION = array_merge($_SESSION, $tempSession === false ? [] : $tempSession);
 
             $objCartSession = new SC_CartSession_Ex();
@@ -260,7 +276,9 @@ class SC_Helper_Purchase
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        return $objQuery->getRow('*', 'dtb_order_temp', 'order_temp_id = ?', [$uniqId]);
+        $result = $objQuery->getRow('*', 'dtb_order_temp', 'order_temp_id = ?', [$uniqId]);
+
+        return is_array($result) ? $result : []; // 必ず配列を返す
     }
 
     /**
@@ -304,7 +322,7 @@ class SC_Helper_Purchase
             }
         }
 
-        $sqlval['session'] = serialize($_SESSION);
+        $sqlval['session'] = isset($_SESSION) ? serialize($_SESSION) : '';
         if (!empty($objCustomer)) {
             // 注文者の情報を常に最新に保つ
             static::copyFromCustomer($sqlval, $objCustomer);
@@ -312,7 +330,7 @@ class SC_Helper_Purchase
         $exists = SC_Helper_Purchase_Ex::getOrderTemp($uniqId);
 
         // 国ID追加
-        $sqlval['order_country_id'] = ($sqlval['order_country_id']) ? $sqlval['order_country_id'] : DEFAULT_COUNTRY_ID;
+        $sqlval['order_country_id'] = isset($sqlval['order_country_id']) ? $sqlval['order_country_id'] : DEFAULT_COUNTRY_ID;
 
         if (SC_Utils_Ex::isBlank($exists)) {
             $sqlval['order_temp_id'] = $uniqId;
@@ -411,8 +429,8 @@ class SC_Helper_Purchase
         $arrItems['price'] = $arrItems['productsClass']['price02'];
         $inctax = SC_Helper_TaxRule_Ex::sfCalcIncTax(
             $arrItems['price'],
-            $arrItems['productsClass']['product_id'],
-            $arrItems['productsClass']['product_class_id']
+            $arrItems['productsClass']['product_id'] ?? 0,
+            $arrItems['productsClass']['product_class_id'] ?? 0
         );
         $arrItems['total_inctax'] = $inctax * $arrItems['quantity'];
     }
@@ -522,10 +540,28 @@ class SC_Helper_Purchase
         &$objCustomer,
         $prefix = 'order',
         $keys = [
-            'name01', 'name02', 'kana01', 'kana02', 'company_name',
-            'sex', 'zip01', 'zip02', 'country_id', 'zipcode', 'pref', 'addr01', 'addr02',
-            'tel01', 'tel02', 'tel03', 'fax01', 'fax02', 'fax03',
-            'job', 'birth', 'email',
+            'name01',
+            'name02',
+            'kana01',
+            'kana02',
+            'company_name',
+            'sex',
+            'zip01',
+            'zip02',
+            'country_id',
+            'zipcode',
+            'pref',
+            'addr01',
+            'addr02',
+            'tel01',
+            'tel02',
+            'tel03',
+            'fax01',
+            'fax02',
+            'fax03',
+            'job',
+            'birth',
+            'email',
         ]
     ) {
         if ($objCustomer->isLoginSuccess(true)) {
@@ -572,10 +608,10 @@ class SC_Helper_Purchase
             $arrKey = $this->arrShippingKey;
         }
         if (!SC_Utils_Ex::isBlank($prefix)) {
-            $prefix = $prefix.'_';
+            $prefix .= '_';
         }
         if (!SC_Utils_Ex::isBlank($src_prefix)) {
-            $src_prefix = $src_prefix.'_';
+            $src_prefix .= '_';
         }
         foreach ($arrKey as $key) {
             if (isset($src[$src_prefix.$key])) {
@@ -710,16 +746,15 @@ class SC_Helper_Purchase
         $table = 'dtb_shipping';
         $where = 'order_id = ?';
 
-        if ($objQuery->count($table, $where, [$order_id]) > 0) {
-            $objQuery->delete($table, $where, [$order_id]);
-        }
+        $objQuery->delete($table, $where, [$order_id]);
 
         foreach ($arrParams as $key => $arrShipping) {
             $arrValues = $objQuery->extractOnlyColsOf($table, $arrShipping);
 
             // 配送日付を timestamp に変換
             if (
-                !SC_Utils_Ex::isBlank($arrValues['shipping_date'])
+                isset($arrValues['shipping_date'])
+                && $arrValues['shipping_date'] != ''
                 && $convert_shipping_date
             ) {
                 $d = mb_strcut($arrValues['shipping_date'], 0, 10);
@@ -776,28 +811,28 @@ class SC_Helper_Purchase
 
         $objProduct = new SC_Product_Ex();
         foreach ($arrParams as $arrValues) {
-            if (SC_Utils_Ex::isBlank($arrValues['product_class_id'])) {
+            if (!isset($arrValues['product_class_id']) || $arrValues['product_class_id'] == '') {
                 continue;
             }
             $d = $objProduct->getDetailAndProductsClass($arrValues['product_class_id']);
-            $name = SC_Utils_Ex::isBlank($arrValues['product_name'])
+            $name = !isset($arrValues['product_name']) || $arrValues['product_name'] == ''
                 ? $d['name']
                 : $arrValues['product_name'];
 
-            $code = SC_Utils_Ex::isBlank($arrValues['product_code'])
+            $code = !isset($arrValues['product_code']) || $arrValues['product_code'] == ''
                 ? $d['product_code']
                 : $arrValues['product_code'];
 
-            $cname1 = SC_Utils_Ex::isBlank($arrValues['classcategory_name1'])
+            $cname1 = !isset($arrValues['classcategory_name1']) || $arrValues['classcategory_name1'] == ''
                 ? $d['classcategory_name1']
                 : $arrValues['classcategory_name1'];
 
-            $cname2 = SC_Utils_Ex::isBlank($arrValues['classcategory_name2'])
+            $cname2 = !isset($arrValues['classcategory_name2']) || $arrValues['classcategory_name2'] == ''
                 ? $d['classcategory_name2']
                 : $arrValues['classcategory_name2'];
 
-            $price = SC_Utils_Ex::isBlank($arrValues['price'])
-                ? $d['price']
+            $price = !isset($arrValues['price']) || $arrValues['price'] == ''
+                ? ($d['price'] ?? null)
                 : $arrValues['price'];
 
             $arrValues['order_id'] = $order_id;
@@ -831,15 +866,21 @@ class SC_Helper_Purchase
 
         // 不要な変数を unset
         $unsets = [
-            'mailmaga_flg', 'deliv_check', 'point_check', 'password',
-            'reminder', 'reminder_answer', 'mail_flag', 'session',
+            'mailmaga_flg',
+            'deliv_check',
+            'point_check',
+            'password',
+            'reminder',
+            'reminder_answer',
+            'mail_flag',
+            'session',
         ];
         foreach ($unsets as $unset) {
             unset($orderParams[$unset]);
         }
 
         // 対応状況の指定が無い場合は新規受付
-        if (SC_Utils_Ex::isBlank($orderParams['status'])) {
+        if (!isset($orderParams['status']) || $orderParams['status'] == '') {
             $orderParams['status'] = ORDER_NEW;
         }
 
@@ -850,7 +891,7 @@ class SC_Helper_Purchase
         $this->registerOrder($orderParams['order_id'], $orderParams);
 
         // 詳細情報を取得
-        $cartItems = $objCartSession->getCartList($cartKey, $orderParams['order_pref'], $orderParams['order_country_id']);
+        $cartItems = $objCartSession->getCartList($cartKey, $orderParams['order_pref'] ?? 0, $orderParams['order_country_id'] ?? 0);
 
         // 詳細情報を生成
         $objProduct = new SC_Product_Ex();
@@ -868,9 +909,9 @@ class SC_Helper_Purchase
             $arrDetail[$i]['point_rate'] = $item['point_rate'];
             $arrDetail[$i]['price'] = $item['price'];
             $arrDetail[$i]['quantity'] = $item['quantity'];
-            $arrDetail[$i]['tax_rate'] = $item['tax_rate'];
-            $arrDetail[$i]['tax_rule'] = $item['tax_rule'];
-            $arrDetail[$i]['tax_adjust'] = $item['tax_adjust'];
+            $arrDetail[$i]['tax_rate'] = $item['tax_rate'] ?? null;
+            $arrDetail[$i]['tax_rule'] = $item['tax_rule'] ?? null;
+            $arrDetail[$i]['tax_adjust'] = $item['tax_adjust'] ?? null;
 
             // 在庫の減少処理
             if (!$objProduct->reduceStock($p['product_class_id'], $item['quantity'])) {
@@ -1314,6 +1355,7 @@ __EOS__;
      *
      * @param int $order_id   更新対象の注文番号
      * @param bool $temp_table 更新対象は「受注_Temp」か
+     *
      * @static
      */
     public static function sfUpdateOrderNameCol($order_id, $temp_table = false)

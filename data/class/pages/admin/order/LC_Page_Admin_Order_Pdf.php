@@ -108,7 +108,7 @@ class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
                 }
                 break;
             default:
-                $this->arrForm = $this->createFromValues($_GET['order_id'], $_POST['pdf_order_id']);
+                $this->arrForm = $this->createFromValues($_GET['order_id'] ?? null, $_POST['pdf_order_id'] ?? null);
                 break;
         }
         $this->setTemplate($this->tpl_mainpage);

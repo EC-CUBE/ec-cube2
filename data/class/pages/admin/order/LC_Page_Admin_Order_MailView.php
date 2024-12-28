@@ -61,7 +61,7 @@ class LC_Page_Admin_Order_MailView extends LC_Page_Admin_Ex
      */
     public function action()
     {
-        $send_id = $_GET['send_id'];
+        $send_id = $_GET['send_id'] ?? null;
         if (SC_Utils_Ex::sfIsInt($send_id)) {
             $mailHistory = $this->getMailHistory($send_id);
             $this->tpl_subject = $mailHistory[0]['subject'];

@@ -76,7 +76,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
                         'product_id' => $val['product_id'],
                         'DetailPageURL' => HTTP_URL.'products/detail.php?product_id='.$val['product_id'],
                         'ItemAttributes' => $val,
-                        ];
+                    ];
                 }
                 $this->setResponse('Item', $arrData);
 

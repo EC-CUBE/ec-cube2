@@ -10,7 +10,7 @@ import { CartPage } from '../../../pages/cart.page';
 import { test, expect } from '../../../fixtures/cartin.fixture';
 
 test.describe.serial('カートページのテストをします', () => {
-  test('カートの内容を確認します', async ( { page } ) => {
+  test('カートの内容を確認します', async ( { cartLoginPage, page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();
     await expect(page.locator('h2.title')).toContainText('現在のカゴの中');
@@ -41,7 +41,7 @@ test.describe.serial('カートページのテストをします', () => {
     return await zapClient.getLastMessage(url);
   };
 
-  test('カートの数量を加算します', async ( { page } ) => {
+  test('カートの数量を加算します', async ( { cartLoginPage, page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();
     const quantity = parseInt(await cartPage.getQuantity().textContent() ?? '');
@@ -66,7 +66,7 @@ test.describe.serial('カートページのテストをします', () => {
     });
   });
 
-  test('カートの数量を減算します', async ( { page } ) => {
+  test('カートの数量を減算します', async ( { cartLoginPage, page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();
     const quantity = parseInt(await cartPage.getQuantity().textContent() ?? '');
