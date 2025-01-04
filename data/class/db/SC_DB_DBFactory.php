@@ -30,6 +30,11 @@
  */
 class SC_DB_DBFactory
 {
+    public const ISOLATION_LEVEL_READ_UNCOMMITTED = 10;
+    public const ISOLATION_LEVEL_READ_COMMITTED = 20;
+    public const ISOLATION_LEVEL_REPEATABLE_READ = 30;
+    public const ISOLATION_LEVEL_SERIALIZABLE = 40;
+
     /**
      * DB_TYPE に応じた DBFactory インスタンスを生成する.
      *
@@ -320,5 +325,27 @@ class SC_DB_DBFactory
 __EOS__;
 
         return $sql;
+    }
+
+    /**
+     * トランザクション分離レベルを取得する。
+     *
+     * @return int
+     */
+    public function getTransactionIsolationLevel()
+    {
+        // TODO: 一般的な DBMS のデフォルトを返している。実際のレベルを返すのが望ましい。しかし、毎回 `SHOW transaction_isolation` などを実行するのは避けたい。インストーラーで実行環境のレベルを退避して設定ファイルに記録したり、設定ファイルで別のレベルを設定できるよう改善できそう。
+        return static::ISOLATION_LEVEL_READ_COMMITTED;
+    }
+
+    /**
+     * 削除時に対象行が存在しない場合に削除をスキップする必要があるかを返す。
+     *
+     * @return bool
+     */
+
+    public function isSkipDeleteIfNotExists()
+    {
+        return false;
     }
 }
