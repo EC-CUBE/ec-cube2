@@ -35,6 +35,7 @@ class SC_Query
     public $option = '';
     public $where = '';
     public $arrWhereVal = [];
+    /** @var MDB2_Driver_pgsql|MDB2_Driver_mysqli */
     public $conn;
     public $groupby = '';
     public $order = '';
