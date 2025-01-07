@@ -912,7 +912,7 @@ class SC_Query
      * @param  mixed   $types        プレースホルダの型指定 デフォルトnull = string
      * @param  mixed   $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)
      *
-     * @return MDB2_Result|integer|MDB2_Error   SQL の実行結果
+     * @return MDB2_Result|int|MDB2_Error   SQL の実行結果
      */
     public function query($n, $arr = [], $ignore_err = false, $types = null, $result_types = MDB2_PREPARE_RESULT)
     {
@@ -1092,7 +1092,7 @@ class SC_Query
      * @param MDB2_Statement_Common プリペアドステートメントインスタンス
      * @param  array       $arrVal プレースホルダに挿入する配列
      *
-     * @return MDB2_Result|integer|MDB2_Error MDB2_Result or integer (affected rows).
+     * @return MDB2_Result|int|MDB2_Error MDB2_Result or integer (affected rows).
      */
     public function execute(&$sth, $arrVal = [])
     {

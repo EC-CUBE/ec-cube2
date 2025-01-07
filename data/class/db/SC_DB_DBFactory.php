@@ -343,7 +343,6 @@ __EOS__;
      *
      * @return bool
      */
-
     public function isSkipDeleteIfNotExists()
     {
         return false;

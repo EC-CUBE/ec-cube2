@@ -32,7 +32,7 @@ class SC_DB_DBFactoryTest extends Common_TestCase
         // TODO: SC_DB_DBFactory_Ex::getInstance() 引数なしのパターンを追加する、DB_TYPE に依存するテストとなる。
     }
 
-    public function testGetInstance_pgsql()
+    public function testGetInstancePgsql()
     {
         $this->assertInstanceOf('SC_DB_DBFactory', $this->dbFactoryPgsql);
         $this->assertInstanceOf('SC_DB_DBFactory_Ex', $this->dbFactoryPgsql);
@@ -42,7 +42,7 @@ class SC_DB_DBFactoryTest extends Common_TestCase
         $this->assertNotInstanceOf('SC_DB_DBFactory_MYSQL_Ex', $this->dbFactoryPgsql);
     }
 
-    public function testGetInstance_mysql()
+    public function testGetInstanceMysql()
     {
         $this->assertInstanceOf('SC_DB_DBFactory', $this->dbFactoryMysql);
         $this->assertInstanceOf('SC_DB_DBFactory_Ex', $this->dbFactoryMysql);
@@ -52,12 +52,12 @@ class SC_DB_DBFactoryTest extends Common_TestCase
         $this->assertNotInstanceOf('SC_DB_DBFactory_PGSQL_Ex', $this->dbFactoryMysql);
     }
 
-    public function testGetInstance_mysqli()
+    public function testGetInstanceMysqli()
     {
         $this->assertSame(get_class($this->dbFactoryMysql), get_class($this->dbFactoryMysqli));
     }
 
-    public function testGetInstance_uknown()
+    public function testGetInstanceUknown()
     {
         $this->assertInstanceOf('SC_DB_DBFactory', $this->dbFactory);
         $this->assertInstanceOf('SC_DB_DBFactory_Ex', $this->dbFactory);
@@ -74,6 +74,6 @@ class SC_DB_DBFactoryTest extends Common_TestCase
 
     public function testIsSkipDeleteIfNotExists()
     {
-        $this->assertEquals(false, $this->dbFactory->isSkipDeleteIfNotExists());
+        $this->assertFalse($this->dbFactory->isSkipDeleteIfNotExists());
     }
 }

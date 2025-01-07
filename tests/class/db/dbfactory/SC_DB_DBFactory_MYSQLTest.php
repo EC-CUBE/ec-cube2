@@ -10,7 +10,7 @@ class SC_DB_DBFactory_MYSQLTest extends Common_TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->dbFactory = new SC_DB_DBFactory_MYSQL_Ex;
+        $this->dbFactory = new SC_DB_DBFactory_MYSQL_Ex();
     }
 
     public function testGetInstance()
@@ -25,6 +25,6 @@ class SC_DB_DBFactory_MYSQLTest extends Common_TestCase
 
     public function testIsSkipDeleteIfNotExists()
     {
-        $this->assertEquals(true, $this->dbFactory->isSkipDeleteIfNotExists());
+        $this->assertTrue($this->dbFactory->isSkipDeleteIfNotExists());
     }
 }

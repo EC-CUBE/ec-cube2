@@ -10,7 +10,7 @@ class SC_DB_DBFactory_PGSQLTest extends Common_TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->dbFactory = new SC_DB_DBFactory_PGSQL_Ex;
+        $this->dbFactory = new SC_DB_DBFactory_PGSQL_Ex();
     }
 
     public function testGetInstance()
@@ -25,6 +25,6 @@ class SC_DB_DBFactory_PGSQLTest extends Common_TestCase
 
     public function testIsSkipDeleteIfNotExists()
     {
-        $this->assertEquals(false, $this->dbFactory->isSkipDeleteIfNotExists());
+        $this->assertFalse($this->dbFactory->isSkipDeleteIfNotExists());
     }
 }

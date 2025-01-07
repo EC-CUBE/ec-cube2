@@ -396,8 +396,8 @@ __EOS__;
         return static::ISOLATION_LEVEL_REPEATABLE_READ;
     }
 
-     public function isSkipDeleteIfNotExists()
-     {
-         return $this->getTransactionIsolationLevel() >= static::ISOLATION_LEVEL_REPEATABLE_READ;
-     }
- }
+    public function isSkipDeleteIfNotExists()
+    {
+        return $this->getTransactionIsolationLevel() >= static::ISOLATION_LEVEL_REPEATABLE_READ;
+    }
+}
