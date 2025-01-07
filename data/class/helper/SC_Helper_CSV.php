@@ -115,7 +115,7 @@ class SC_Helper_CSV
      * @param  int $csv_id CSV ID
      * @param  string  $where  SQL の WHERE 句
      * @param  array   $arrVal WHERE 句の要素
-     * @param  array   $order  SQL の ORDER BY 句
+     * @param  string  $order  SQL の ORDER BY 句
      *
      * @return array   CSV 項目の配列
      */
