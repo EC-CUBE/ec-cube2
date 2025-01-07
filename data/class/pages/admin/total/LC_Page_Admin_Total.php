@@ -678,8 +678,6 @@ __EOS__;
         $where .= ' AND del_flg = 0 AND status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
         $arrWhereVal += $this->excludeOrderStatuses;
         $objQuery->setGroupBy('age');
-
-        $objQuery->setGroupBy('age');
         $objQuery->setOrder('age DESC');
         $arrTotalResults = $objQuery->select($col, $from, $where, $arrWhereVal);
 
