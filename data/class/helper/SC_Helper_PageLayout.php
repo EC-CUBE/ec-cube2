@@ -392,7 +392,7 @@ __EOF__;
     /**
      * レスポンシブWebデザイン表示か
      *
-     * @return boolean
+     * @return bool
      */
     public static function isResponsive()
     {
