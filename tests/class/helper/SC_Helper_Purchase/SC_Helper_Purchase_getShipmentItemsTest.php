@@ -85,7 +85,7 @@ class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBas
             'shipping_id' => '0',
             'product_class_id' => '2',
             'product_name' => 'アイスクリーム',
-            'price' => '1008',
+            'price' => '1026',
             'productsClass' => ['product_class_id' => '2', 'product_id' => '1'],
         ];
         $this->expected['first'] = [
@@ -93,7 +93,7 @@ class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBas
             'shipping_id' => '0',
             'product_class_id' => '1',
             'product_name' => 'アイスクリーム',
-            'price' => '1008',
+            'price' => '1026',
             'productsClass' => ['product_class_id' => '1', 'product_id' => '1'],
         ];
 
@@ -126,7 +126,7 @@ class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBas
             'shipping_id' => '0',
             'product_class_id' => '2',
             'product_name' => 'アイスクリーム',
-            'price' => '1008',
+            'price' => '1026',
             'productsClass' => null,
         ];
         $this->expected['first'] = [
@@ -134,7 +134,7 @@ class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBas
             'shipping_id' => '0',
             'product_class_id' => '1',
             'product_name' => 'アイスクリーム',
-            'price' => '1008',
+            'price' => '1026',
             'productsClass' => null,
         ];
 
