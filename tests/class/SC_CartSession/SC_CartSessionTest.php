@@ -182,9 +182,9 @@ class SC_CartSessionTest extends Common_TestCase
         $this->objCartSession->addProduct(3, 1);
 
         $this->objCartSession->checkProducts(PRODUCT_TYPE_NORMAL);
-        $this->assertEquals(2016, $this->objCartSession->getAllProductsTotal(PRODUCT_TYPE_NORMAL));
+        $this->assertEquals(2052, $this->objCartSession->getAllProductsTotal(PRODUCT_TYPE_NORMAL));
 
-        $this->assertEquals(150, $this->objCartSession->getAllProductsTax(PRODUCT_TYPE_NORMAL));
+        $this->assertEquals(186, $this->objCartSession->getAllProductsTax(PRODUCT_TYPE_NORMAL));
         $this->assertEquals(186, $this->objCartSession->getAllProductsPoint(PRODUCT_TYPE_NORMAL));
     }
 
@@ -345,12 +345,12 @@ class SC_CartSessionTest extends Common_TestCase
 
         $this->objCartSession->checkProducts(PRODUCT_TYPE_NORMAL);
 
-        $use_point = 2017;
+        $use_point = 2053;
         $result = $this->objCartSession->calculate(PRODUCT_TYPE_NORMAL, new SC_CUstomer_Ex(), $use_point);
-        $this->assertEquals(150, $result['tax']);
-        $this->assertEquals(2016, $result['subtotal']);
+        $this->assertEquals(186, $result['tax']);
+        $this->assertEquals(2052, $result['subtotal']);
         $this->assertEquals(0, $result['deliv_fee']);
-        $this->assertEquals(2016, $result['total']);
+        $this->assertEquals(2052, $result['total']);
         $this->assertEquals(-1, $result['payment_total']);
         $this->assertEquals(0, $result['add_point']);
     }
