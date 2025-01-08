@@ -31,7 +31,6 @@
         <directory>./data/class/pages/</directory>
         <directory>./data/class/graph/</directory>
         <directory>./data/class/batch/</directory>
-        <directory>./data/class/db/dbfactory/</directory>
       </exclude>
     </coverage>
 </phpunit>
