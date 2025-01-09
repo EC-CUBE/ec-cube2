@@ -389,4 +389,15 @@ __EOS__;
         }
         $objQuery->exec("SET SESSION sql_mode = 'ANSI'");
     }
+
+    public function getTransactionIsolationLevel()
+    {
+        // TODO: デフォルトを返している。実際のレベルを返すのが望ましい。しかし、毎回 `SELECT @@session.transaction_isolation` などを実行するのは避けたい。
+        return static::ISOLATION_LEVEL_REPEATABLE_READ;
+    }
+
+    public function isSkipDeleteIfNotExists()
+    {
+        return $this->getTransactionIsolationLevel() >= static::ISOLATION_LEVEL_REPEATABLE_READ;
+    }
 }

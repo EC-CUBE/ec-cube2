@@ -619,7 +619,11 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         if (OPTION_PRODUCT_TAX_RULE) {
             // 編集の場合は設定された税率、新規の場合はデフォルトの税率を取得
             if ($arrForm['product_id'] == '') {
-                $arrRet = SC_Helper_TaxRule_Ex::getTaxRule();
+                if (isset($arrForm['tax_rate'])) {
+                    $arrRet['tax_rate'] = $arrForm['tax_rate'];
+                } else {
+                    $arrRet = SC_Helper_TaxRule_Ex::getTaxRule();
+                }
             } else {
                 $arrRet = SC_Helper_TaxRule_Ex::getTaxRule($arrForm['product_id']);
             }

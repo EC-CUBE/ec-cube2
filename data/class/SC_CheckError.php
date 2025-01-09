@@ -446,7 +446,13 @@ class SC_CheckError
         $this->createParam($value);
 
         // 文字数の取得
-        if (mb_strlen($this->arrParam[$keyname]) < $min_str_len) {
+        $len = mb_strlen($this->arrParam[$keyname]);
+
+        // 未入力の場合はエラーにしない(EXIST_CHECKを使用すること)
+        if ($len === 0) {
+            return;
+        }
+        if ($len < $min_str_len) {
             $this->arrErr[$keyname] = sprintf(
                 '※ %sは%d字以上で入力してください。<br />',
                 $disp_name,
@@ -1843,6 +1849,12 @@ class SC_CheckError
         $key = $value[1];
 
         $pref_id = $this->arrParam[$key];
+
+        // 未入力の場合はエラーにしない(EXIST_CHECKを使用すること)
+        if (strlen($pref_id ?? '') === 0) {
+            return;
+        }
+
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists('mtb_pref', 'id = ?', [$pref_id]);
         if (!$exists) {
