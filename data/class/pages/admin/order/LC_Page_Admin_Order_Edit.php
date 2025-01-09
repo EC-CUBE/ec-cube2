@@ -678,6 +678,18 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
     {
         $objProduct = new SC_Product_Ex();
         $arrValues = $objFormParam->getHashArray();
+
+        // XXX 空文字が入ってくる場合があるので数値へキャストする
+        // きちんとエラーハンドリングすべきだが応急処置
+        foreach (['price', 'quantity', 'tax_rate'] as $key) {
+            foreach ($arrValues[$key] as &$val) {
+                $val = (int) $val;
+            }
+        }
+        foreach (['discount', 'charge', 'deliv_fee', 'use_point'] as $key) {
+            $arrValues[$key] = (int) $arrValues[$key];
+        }
+
         $arrErr = [];
         $arrErrTemp = $objFormParam->checkError();
         $arrErrDate = [];
@@ -1217,7 +1229,9 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $arrUpdateQuantity = [];
             foreach ($arrShipmentsItems as $arritems) {
                 foreach ($arritems['shipment_product_class_id'] as $relation_index => $shipment_product_class_id) {
-                    $arrUpdateQuantity[$shipment_product_class_id] += $arritems['shipment_quantity'][$relation_index];
+                    // XXX 空文字が入ってくる場合があるので数値へキャストする
+                    // きちんとエラーハンドリングすべきだが応急処置
+                    $arrUpdateQuantity[$shipment_product_class_id] += (int) $arritems['shipment_quantity'][$relation_index];
                 }
             }
 
