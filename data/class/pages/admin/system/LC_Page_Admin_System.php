@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * システム管理 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_System extends LC_Page_Admin_Ex
@@ -49,13 +48,13 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex
     {
         parent::init();
 
-        $this->list_data    = '';  // テーブルデータ取得用
+        $this->list_data = '';  // テーブルデータ取得用
         $this->tpl_disppage = '';  // 表示中のページ番号
-        $this->tpl_strnavi  = '';
+        $this->tpl_strnavi = '';
         $this->tpl_mainpage = 'system/index.tpl';
-        $this->tpl_mainno   = 'system';
-        $this->tpl_subno    = 'index';
-        $this->tpl_onload   = 'eccube.getRadioChecked();';
+        $this->tpl_mainno = 'system';
+        $this->tpl_subno = 'index';
+        $this->tpl_onload = 'eccube.getRadioChecked();';
         $this->tpl_maintitle = 'システム設定';
         $this->tpl_subtitle = 'メンバー管理';
 
@@ -83,19 +82,19 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex
     public function action()
     {
         // ADMIN_ID以外の管理者件数を取得
-        $linemax = $this->getMemberCount('del_flg <> 1 AND member_id <> ' . ADMIN_ID);
+        $linemax = $this->getMemberCount('del_flg <> 1 AND member_id <> '.ADMIN_ID);
 
         // ADMIN_ID以外で稼動中の管理者件数を取得
         $this->workmax
-            = $this->getMemberCount('work = 1 AND del_flg <> 1 AND member_id <> ' . ADMIN_ID);
+            = $this->getMemberCount('work = 1 AND del_flg <> 1 AND member_id <> '.ADMIN_ID);
 
         // ページ送りの処理 $_GET['pageno']が信頼しうる値かどうかチェックする。
-        $pageno = $this->lfCheckPageNo($_GET['pageno']);
+        $pageno = $this->lfCheckPageNo($_GET['pageno'] ?? 1);
 
         $objNavi = new SC_PageNavi_Ex($pageno, $linemax, MEMBER_PMAX, 'eccube.moveMemberPage', NAVI_PMAX);
-        $this->tpl_strnavi  = $objNavi->strnavi;
+        $this->tpl_strnavi = $objNavi->strnavi;
         $this->tpl_disppage = $objNavi->now_page;
-        $this->tpl_pagemax  = $objNavi->max_page;
+        $this->tpl_pagemax = $objNavi->max_page;
 
         // 取得範囲を指定(開始行番号、行数のセット)して管理者データを取得
         $this->list_data = $this->getMemberData($objNavi->start_row);
@@ -106,9 +105,9 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex
     /**
      * dtb_memberからWHERE句に該当する件数を取得する.
      *
-     * @access private
      * @param  string  $where WHERE句
-     * @return integer 件数
+     *
+     * @return int 件数
      */
     public function getMemberCount($where)
     {
@@ -121,8 +120,8 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex
     /**
      * 開始行番号, 行数を指定して管理者データを取得する.
      *
-     * @access private
-     * @param  integer $startno 開始行番号
+     * @param  int $startno 開始行番号
+     *
      * @return array   管理者データの連想配列
      */
     public function getMemberData($startno)
@@ -133,7 +132,7 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->setOrder('rank DESC');
         $objQuery->setLimitOffset(MEMBER_PMAX, $startno);
-        $arrMemberData = $objQuery->select($col, $from, $where, array(ADMIN_ID));
+        $arrMemberData = $objQuery->select($col, $from, $where, [ADMIN_ID]);
 
         return $arrMemberData;
     }
@@ -141,9 +140,9 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex
     /**
      * 登録されている管理者権限が1つであるかチェックする.
      *
-     * @access private
      * @param  array   $arrMemberData 管理者データの連想配列
-     * @return boolean 管理者権限が1つであることを示すフラグ
+     *
+     * @return bool 管理者権限が1つであることを示すフラグ
      */
     public function checkLastAdministrator($arrMemberData)
     {
@@ -156,16 +155,16 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex
                 }
             }
         }
+
         return $numberOfAdministrator == 1 ? 1 : 0;
     }
-
 
     /**
      * ページ番号が信頼しうる値かチェックする.
      *
-     * @access private
-     * @param  integer $pageno ページの番号（$_GETから入ってきた値）
-     * @return integer $clean_pageno チェック後のページの番号
+     * @param  int $pageno ページの番号（$_GETから入ってきた値）
+     *
+     * @return int $clean_pageno チェック後のページの番号
      */
     public function lfCheckPageNo($pageno)
     {

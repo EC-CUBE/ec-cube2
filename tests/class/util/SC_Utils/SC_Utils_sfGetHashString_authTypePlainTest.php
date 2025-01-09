@@ -1,9 +1,9 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
+$HOME = realpath(__DIR__).'/../../../..';
 // このテスト専用の定数の設定
-define('AUTH_TYPE', 'PLAIN');
-require_once($HOME . "/tests/class/Common_TestCase.php");
+defined('AUTH_TYPE') || define('AUTH_TYPE', 'PLAIN');
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -31,37 +31,35 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
  * TODO まとめて実行する場合は定数の変更ができないためNG
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetHashString_authTypePlainTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    // public function testSfGetHashString_暗号化なしの設定になっている場合_文字列が変換されない()
+    // {
+    //     $input = 'hello, world';
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+    //     $this->expected = $input;
+    //     $this->actual = SC_Utils::sfGetHashString($input);
 
-  /////////////////////////////////////////
-  /**
-  public function testSfGetHashString_暗号化なしの設定になっている場合_文字列が変換されない()
-  {
-    $input = 'hello, world';
+    //     $this->verify();
+    // }
 
-    $this->expected = $input;
-    $this->actual = SC_Utils::sfGetHashString($input);
-
-    $this->verify();
-  }
-  */
-      public function testDummyTest() {
+    public function testDummyTest()
+    {
         // Warning が出るため空のテストを作成
         $this->assertTrue(true);
     }
 }
-

@@ -24,13 +24,13 @@
 /**
  * ブロックを管理するヘルパークラス.
  *
- * @package Helper
  * @author pineray
+ *
  * @version $Id$
  */
 class SC_Helper_Bloc
 {
-    private $device_type_id = NULL;
+    private $device_type_id;
 
     public function __construct($devide_type_id = DEVICE_TYPE_PC)
     {
@@ -40,7 +40,8 @@ class SC_Helper_Bloc
     /**
      * ブロックの情報を取得.
      *
-     * @param  integer $bloc_id ブロックID
+     * @param  int $bloc_id ブロックID
+     *
      * @return array
      */
     public function getBloc($bloc_id)
@@ -48,11 +49,11 @@ class SC_Helper_Bloc
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
         $where = 'bloc_id = ? AND device_type_id = ?';
-        $arrRet = $objQuery->getRow($col, 'dtb_bloc', $where, array($bloc_id, $this->device_type_id));
+        $arrRet = $objQuery->getRow($col, 'dtb_bloc', $where, [$bloc_id, $this->device_type_id]);
         if (SC_Utils_Ex::isAbsoluteRealPath($arrRet['tpl_path'])) {
             $tpl_path = $arrRet['tpl_path'];
         } else {
-            $tpl_path = SC_Helper_PageLayout_Ex::getTemplatePath($this->device_type_id) . BLOC_DIR . $arrRet['tpl_path'];
+            $tpl_path = SC_Helper_PageLayout_Ex::getTemplatePath($this->device_type_id).BLOC_DIR.$arrRet['tpl_path'];
         }
         if (file_exists($tpl_path)) {
             $arrRet['bloc_html'] = file_get_contents($tpl_path);
@@ -72,7 +73,7 @@ class SC_Helper_Bloc
         $col = '*';
         $where = 'device_type_id = ?';
         $table = 'dtb_bloc';
-        $arrRet = $objQuery->select($col, $table, $where, array($this->device_type_id));
+        $arrRet = $objQuery->select($col, $table, $where, [$this->device_type_id]);
 
         return $arrRet;
     }
@@ -83,11 +84,11 @@ class SC_Helper_Bloc
      * @param string $where
      * @param array  $sqlval
      */
-    public function getWhere($where = '', $sqlval = array())
+    public function getWhere($where = '', $sqlval = [])
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = '*';
-        $where = 'device_type_id = ? ' . (SC_Utils_Ex::isBlank($where) ? $where : 'AND ' . $where);
+        $where = 'device_type_id = ? '.(SC_Utils_Ex::isBlank($where) ? $where : 'AND '.$where);
         array_unshift($sqlval, $this->device_type_id);
         $table = 'dtb_bloc';
         $arrRet = $objQuery->select($col, $table, $where, $sqlval);
@@ -99,6 +100,7 @@ class SC_Helper_Bloc
      * ブロックの登録.
      *
      * @param  array    $sqlval
+     *
      * @return multiple 登録成功:ブロックID, 失敗:FALSE
      */
     public function save($sqlval)
@@ -108,13 +110,13 @@ class SC_Helper_Bloc
 
         // blod_id が空の場合は新規登録
         $is_new = SC_Utils_Ex::isBlank($sqlval['bloc_id']);
-        $bloc_dir = SC_Helper_PageLayout_Ex::getTemplatePath($sqlval['device_type_id']) . BLOC_DIR;
+        $bloc_dir = SC_Helper_PageLayout_Ex::getTemplatePath($sqlval['device_type_id']).BLOC_DIR;
         // 既存データの重複チェック
         if (!$is_new) {
             $arrExists = $this->getBloc($sqlval['bloc_id']);
 
             // 既存のファイルが存在する場合は削除しておく
-            $exists_file = $bloc_dir . $arrExists[0]['filename'] . '.tpl';
+            $exists_file = $bloc_dir.$arrExists[0]['filename'].'.tpl';
             if (file_exists($exists_file)) {
                 unlink($exists_file);
             }
@@ -122,23 +124,23 @@ class SC_Helper_Bloc
 
         $table = 'dtb_bloc';
         $arrValues = $objQuery->extractOnlyColsOf($table, $sqlval);
-        $arrValues['tpl_path'] = $sqlval['filename'] . '.tpl';
+        $arrValues['tpl_path'] = $sqlval['filename'].'.tpl';
         $arrValues['update_date'] = 'CURRENT_TIMESTAMP';
 
         // 新規登録
         if ($is_new || SC_Utils_Ex::isBlank($arrExists)) {
             $objQuery->setOrder('');
             $arrValues['bloc_id'] = 1 + $objQuery->max('bloc_id', $table, 'device_type_id = ?',
-                                                       array($arrValues['device_type_id']));
+                [$arrValues['device_type_id']]);
             $arrValues['create_date'] = 'CURRENT_TIMESTAMP';
             $objQuery->insert($table, $arrValues);
         // 更新
         } else {
             $objQuery->update($table, $arrValues, 'bloc_id = ? AND device_type_id = ?',
-                              array($arrValues['bloc_id'], $arrValues['device_type_id']));
+                [$arrValues['bloc_id'], $arrValues['device_type_id']]);
         }
 
-        $bloc_path = $bloc_dir . $arrValues['tpl_path'];
+        $bloc_path = $bloc_dir.$arrValues['tpl_path'];
         if (!SC_Helper_FileManager_Ex::sfWriteFile($bloc_path, $sqlval['bloc_html'])) {
             $objQuery->rollback();
 
@@ -153,24 +155,25 @@ class SC_Helper_Bloc
     /**
      * ブロックの削除.
      *
-     * @param  integer $bloc_id
-     * @return boolean
+     * @param  int $bloc_id
+     *
+     * @return bool
      */
     public function delete($bloc_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
 
-        $arrExists = $this->getWhere('bloc_id = ? AND deletable_flg = 1', array($bloc_id));
+        $arrExists = $this->getWhere('bloc_id = ? AND deletable_flg = 1', [$bloc_id]);
         $is_error = false;
         if (!SC_Utils_Ex::isBlank($arrExists)) {
             $objQuery->delete('dtb_bloc', 'bloc_id = ? AND device_type_id = ?',
-                              array($arrExists[0]['bloc_id'], $arrExists[0]['device_type_id']));
+                [$arrExists[0]['bloc_id'], $arrExists[0]['device_type_id']]);
             $objQuery->delete('dtb_blocposition', 'bloc_id = ? AND device_type_id = ?',
-                              array($arrExists[0]['bloc_id'], $arrExists[0]['device_type_id']));
+                [$arrExists[0]['bloc_id'], $arrExists[0]['device_type_id']]);
 
-            $bloc_dir = SC_Helper_PageLayout_Ex::getTemplatePath($this->device_type_id) . BLOC_DIR;
-            $exists_file = $bloc_dir . $arrExists[0]['filename'] . '.tpl';
+            $bloc_dir = SC_Helper_PageLayout_Ex::getTemplatePath($this->device_type_id).BLOC_DIR;
+            $exists_file = $bloc_dir.$arrExists[0]['filename'].'.tpl';
 
             // ファイルの削除
             if (file_exists($exists_file)) {
@@ -195,7 +198,7 @@ class SC_Helper_Bloc
     /**
      * 端末種別IDのメンバー変数を取得.
      *
-     * @return integer 端末種別ID
+     * @return int 端末種別ID
      */
     public function getDeviceTypeID()
     {

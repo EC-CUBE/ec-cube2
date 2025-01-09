@@ -28,34 +28,34 @@ class SC_UploadFile
     public $save_dir;
 
     /** ファイルinputタグのname */
-    public $keyname = array();
+    public $keyname = [];
 
     /** 横サイズ */
-    public $width = array();
+    public $width = [];
 
     /** 縦サイズ */
-    public $height = array();
+    public $height = [];
 
     /** 指定する拡張子 */
-    public $arrExt = array();
+    public $arrExt = [];
 
     /** 保存されたファイル名 */
-    public $temp_file = array();
+    public $temp_file = [];
 
     /** DBから読み出したファイル名 */
-    public $save_file = array();
+    public $save_file = [];
 
     /** 項目名 */
-    public $disp_name = array();
+    public $disp_name = [];
 
     /** 制限サイズ */
-    public $size = array();
+    public $size = [];
 
     /** 必須の場合:true */
-    public $necessary = array();
+    public $necessary = [];
 
     /** 画像の場合:true */
-    public $image = array();
+    public $image = [];
 
     /** @var int */
     public $file_max;
@@ -63,13 +63,13 @@ class SC_UploadFile
     // ファイル管理クラス
     public function __construct($temp_dir, $save_dir)
     {
-        $this->temp_dir = rtrim($temp_dir, '/') . '/';
-        $this->save_dir = rtrim($save_dir, '/') . '/';
+        $this->temp_dir = rtrim($temp_dir, '/').'/';
+        $this->save_dir = rtrim($save_dir, '/').'/';
         $this->file_max = 0;
     }
 
     // ファイル情報追加
-    public function addFile($disp_name, $keyname, $arrExt, $size, $necessary=false, $width=0, $height=0, $image=true)
+    public function addFile($disp_name, $keyname, $arrExt, $size, $necessary = false, $width = 0, $height = 0, $image = true)
     {
         $this->disp_name[] = $disp_name;
         $this->keyname[] = $keyname;
@@ -102,7 +102,7 @@ class SC_UploadFile
     // アップロードされたファイルを保存する。
 
     /**
-     * @param boolean $rename
+     * @param bool $rename
      */
     public function makeTempFile($keyname, $rename = IMAGE_RENAME)
     {
@@ -114,9 +114,9 @@ class SC_UploadFile
                 // 一致したキーのファイルに情報を保存する。
                 if ($val == $keyname) {
                     // 拡張子チェック
-                    $objErr->doFunc(array($this->disp_name[$cnt], $keyname, $this->arrExt[$cnt]), array('FILE_EXT_CHECK'));
+                    $objErr->doFunc([$this->disp_name[$cnt], $keyname, $this->arrExt[$cnt]], ['FILE_EXT_CHECK']);
                     // ファイルサイズチェック
-                    $objErr->doFunc(array($this->disp_name[$cnt], $keyname, $this->size[$cnt]), array('FILE_SIZE_CHECK'));
+                    $objErr->doFunc([$this->disp_name[$cnt], $keyname, $this->size[$cnt]], ['FILE_SIZE_CHECK']);
                     // エラーがない場合
                     if (!isset($objErr->arrErr[$keyname])) {
                         // 画像ファイルの場合
@@ -128,16 +128,16 @@ class SC_UploadFile
                         } else {
                             // 一意なファイル名を作成する。
                             if ($rename) {
-                                $uniqname = date('mdHi') . '_' . uniqid('').'.';
+                                $uniqname = date('mdHi').'_'.uniqid('').'.';
                                 $this->temp_file[$cnt] = preg_replace("/^.*\./", $uniqname, $_FILES[$keyname]['name']);
                             } else {
                                 $this->temp_file[$cnt] = $_FILES[$keyname]['name'];
                             }
-                            if (move_uploaded_file($_FILES[$keyname]['tmp_name'], $this->temp_dir . $this->temp_file[$cnt])) {
-                                GC_Utils_Ex::gfPrintLog($_FILES[$keyname]['name'].' -> '. $this->temp_dir . $this->temp_file[$cnt]);
+                            if (move_uploaded_file($_FILES[$keyname]['tmp_name'], $this->temp_dir.$this->temp_file[$cnt])) {
+                                GC_Utils_Ex::gfPrintLog($_FILES[$keyname]['name'].' -> '.$this->temp_dir.$this->temp_file[$cnt]);
                             } else {
                                 $objErr->arrErr[$keyname] = '※ ファイルのアップロードに失敗しました。<br />';
-                                GC_Utils_Ex::gfPrintLog('File Upload Error!: ' . $_FILES[$keyname]['name'].' -> '. $this->temp_dir . $this->temp_file[$cnt]);
+                                GC_Utils_Ex::gfPrintLog('File Upload Error!: '.$_FILES[$keyname]['name'].' -> '.$this->temp_dir.$this->temp_file[$cnt]);
                             }
                         }
                     }
@@ -146,11 +146,11 @@ class SC_UploadFile
             }
         }
 
-        return $objErr->arrErr[$keyname];
+        return $objErr->arrErr[$keyname] ?? '';
     }
 
     // アップロードされたダウンロードファイルを保存する。
-    public function makeTempDownFile($keyname='down_file')
+    public function makeTempDownFile($keyname = 'down_file')
     {
         $objErr = new SC_CheckError_Ex();
         $cnt = 0;
@@ -160,16 +160,16 @@ class SC_UploadFile
                 // 一致したキーのファイルに情報を保存する。
                 if ($val == $keyname) {
                     // 拡張子チェック
-                    $objErr->doFunc(array($this->disp_name[$cnt], $keyname, $this->arrExt[$cnt]), array('FILE_EXT_CHECK'));
+                    $objErr->doFunc([$this->disp_name[$cnt], $keyname, $this->arrExt[$cnt]], ['FILE_EXT_CHECK']);
                     // ファイルサイズチェック
-                    $objErr->doFunc(array($this->disp_name[$cnt], $keyname, $this->size[$cnt]), array('FILE_SIZE_CHECK'));
+                    $objErr->doFunc([$this->disp_name[$cnt], $keyname, $this->size[$cnt]], ['FILE_SIZE_CHECK']);
                     // エラーがない場合
                     if (!isset($objErr->arrErr[$keyname])) {
                         // 一意なファイル名を作成する。
-                        $uniqname = date('mdHi') . '_' . uniqid('').'.';
+                        $uniqname = date('mdHi').'_'.uniqid('').'.';
                         $this->temp_file[$cnt] = preg_replace("/^.*\./", $uniqname, $_FILES[$keyname]['name']);
-                        $result  = copy($_FILES[$keyname]['tmp_name'], $this->temp_dir . $this->temp_file[$cnt]);
-                        GC_Utils_Ex::gfPrintLog($result.' -> '. $this->temp_dir . $this->temp_file[$cnt]);
+                        $result = copy($_FILES[$keyname]['tmp_name'], $this->temp_dir.$this->temp_file[$cnt]);
+                        GC_Utils_Ex::gfPrintLog($result.' -> '.$this->temp_dir.$this->temp_file[$cnt]);
                         SC_Utils_Ex::extendTimeOut();
                     }
                 }
@@ -177,7 +177,7 @@ class SC_UploadFile
             }
         }
 
-        return $objErr->arrErr[$keyname];
+        return $objErr->arrErr[$keyname] ?? '';
     }
 
     // 画像を削除する。
@@ -213,7 +213,7 @@ class SC_UploadFile
                     $objImage->deleteImage($this->temp_file[$cnt], $this->temp_dir);
                 }
                 $this->temp_file[$cnt] = '';
-                //$this->save_file[$cnt] = '';
+                // $this->save_file[$cnt] = '';
             }
             $cnt++;
         }
@@ -231,7 +231,7 @@ class SC_UploadFile
         foreach ($this->keyname as $val) {
             if ($val == $keyname) {
                 if ($this->temp_file[$cnt] != '') {
-                    $filepath = $this->temp_dir . $this->temp_file[$cnt];
+                    $filepath = $this->temp_dir.$this->temp_file[$cnt];
                 }
             }
             $cnt++;
@@ -282,13 +282,13 @@ class SC_UploadFile
     public function getHiddenFileList()
     {
         $cnt = 0;
-        $arrRet = array();
+        $arrRet = [];
         foreach ($this->keyname as $val) {
             if (isset($this->temp_file[$cnt])) {
-                $arrRet['temp_' . $val] = $this->temp_file[$cnt];
+                $arrRet['temp_'.$val] = $this->temp_file[$cnt];
             }
             if (isset($this->save_file[$cnt]) && $this->save_file[$cnt] != '') {
-                $arrRet['save_' . $val] = $this->save_file[$cnt];
+                $arrRet['save_'.$val] = $this->save_file[$cnt];
             }
             $cnt++;
         }
@@ -301,11 +301,11 @@ class SC_UploadFile
     {
         $cnt = 0;
         foreach ($this->keyname as $val) {
-            $key = 'temp_' . $val;
+            $key = 'temp_'.$val;
             if (isset($arrPOST[$key]) && !empty($arrPOST[$key])) {
                 $this->temp_file[$cnt] = $arrPOST[$key];
             }
-            $key = 'save_' . $val;
+            $key = 'save_'.$val;
             if (isset($arrPOST[$key]) && !empty($arrPOST[$key])) {
                 $this->save_file[$cnt] = $arrPOST[$key];
             }
@@ -320,11 +320,11 @@ class SC_UploadFile
     {
         $cnt = 0;
         foreach ($this->keyname as $val) {
-            $key = 'temp_' . $val;
+            $key = 'temp_'.$val;
             if (isset($arrPOST[$key])) {
                 $this->temp_file[$cnt] = $arrPOST[$key];
             }
-            $key = 'save_' . $val;
+            $key = 'save_'.$val;
             if (isset($arrPOST[$key]) && !empty($arrPOST[$key])) {
                 $this->save_file[$cnt] = $arrPOST[$key];
             }
@@ -335,26 +335,26 @@ class SC_UploadFile
     // フォームに渡す用のファイル情報配列を返す
     public function getFormFileList($temp_url = null, $save_url = null, $real_size = false)
     {
-        $arrRet = array();
+        $arrRet = [];
         $cnt = 0;
         foreach ($this->keyname as $val) {
             if (isset($this->temp_file[$cnt]) && $this->temp_file[$cnt] != '') {
                 $real_filepath =
-                $arrRet[$val]['real_filepath'] = $this->temp_dir . $this->temp_file[$cnt];
+                $arrRet[$val]['real_filepath'] = $this->temp_dir.$this->temp_file[$cnt];
                 if (is_null($temp_url)) {
-                    $arrRet[$val]['filepath'] = ROOT_URLPATH . substr($real_filepath, strlen(HTML_REALDIR));
+                    $arrRet[$val]['filepath'] = ROOT_URLPATH.substr($real_filepath, strlen(HTML_REALDIR));
                 } else {
                     // パスのスラッシュ/が連続しないようにする。
-                    $arrRet[$val]['filepath'] = rtrim($temp_url, '/') . '/' . $this->temp_file[$cnt];
+                    $arrRet[$val]['filepath'] = rtrim($temp_url, '/').'/'.$this->temp_file[$cnt];
                 }
             } elseif (isset($this->save_file[$cnt]) && $this->save_file[$cnt] != '') {
                 $real_filepath =
-                $arrRet[$val]['real_filepath'] = $this->save_dir . $this->save_file[$cnt];
+                $arrRet[$val]['real_filepath'] = $this->save_dir.$this->save_file[$cnt];
                 if (is_null($save_url)) {
-                    $arrRet[$val]['filepath'] = ROOT_URLPATH . substr($real_filepath, strlen(HTML_REALDIR));
+                    $arrRet[$val]['filepath'] = ROOT_URLPATH.substr($real_filepath, strlen(HTML_REALDIR));
                 } else {
                     // パスのスラッシュ/が連続しないようにする。
-                    $arrRet[$val]['filepath'] = rtrim($save_url, '/') . '/' . $this->save_file[$cnt];
+                    $arrRet[$val]['filepath'] = rtrim($save_url, '/').'/'.$this->save_file[$cnt];
                 }
             }
             if (isset($arrRet[$val]['filepath']) && !empty($arrRet[$val]['filepath'])) {
@@ -403,7 +403,7 @@ class SC_UploadFile
      */
     public function getFormKikakuDownFile()
     {
-        $arrRet = array();
+        $arrRet = [];
         $cnt = 0;
         foreach ($this->keyname as $val) {
             if (isset($this->temp_file[$cnt])) {
@@ -421,7 +421,7 @@ class SC_UploadFile
     public function getDBFileList()
     {
         $cnt = 0;
-        $dbFileList = array();
+        $dbFileList = [];
         foreach ($this->keyname as $val) {
             if (isset($this->temp_file[$cnt]) && $this->temp_file[$cnt] != '') {
                 $dbFileList[$val] = $this->temp_file[$cnt];
@@ -460,9 +460,9 @@ class SC_UploadFile
      */
     public function setPostFileList($arrPost)
     {
-        for ($cnt = 0;$cnt < count($this->keyname); $cnt++) {
-            if (isset($arrPost['temp_down_realfilename:' . ($cnt+1)])) {
-                $this->temp_file[$cnt] = $arrPost['temp_down_realfilename:' . ($cnt+1)];
+        for ($cnt = 0; $cnt < count($this->keyname); $cnt++) {
+            if (isset($arrPost['temp_down_realfilename:'.($cnt + 1)])) {
+                $this->temp_file[$cnt] = $arrPost['temp_down_realfilename:'.($cnt + 1)];
             }
         }
     }
@@ -506,7 +506,7 @@ class SC_UploadFile
         $objImage = new SC_Image_Ex($this->temp_dir);
         $cnt = 0;
         if ($arrVal['down_realfilename'] != '') {
-            if ($this->save_file[$cnt] == '' && !preg_match('|^sub/|', $arrVal['down_realfilename'])) {
+            if (!isset($this->save_file[$cnt]) && !preg_match('|^sub/|', $arrVal['down_realfilename'])) {
                 $objImage->deleteImage($arrVal['down_realfilename'], $this->save_dir);
             }
         }
@@ -516,17 +516,21 @@ class SC_UploadFile
     public function checkExists($keyname = '')
     {
         $cnt = 0;
-        $arrRet = array();
+        $arrRet = [];
         foreach ($this->keyname as $val) {
             if ($val == $keyname || $keyname == '') {
                 // 必須であればエラーチェック
                 if ($this->necessary[$cnt] == true) {
-                    if (!isset($this->save_file[$cnt])) $this->save_file[$cnt] = '';
-                    if (!isset($this->temp_file[$cnt])) $this->temp_file[$cnt] = '';
+                    if (!isset($this->save_file[$cnt])) {
+                        $this->save_file[$cnt] = '';
+                    }
+                    if (!isset($this->temp_file[$cnt])) {
+                        $this->temp_file[$cnt] = '';
+                    }
                     if ($this->save_file[$cnt] == ''
                         && $this->temp_file[$cnt] == ''
                     ) {
-                        $arrRet[$val] = '※ ' . $this->disp_name[$cnt] . 'がアップロードされていません。<br>';
+                        $arrRet[$val] = '※ '.$this->disp_name[$cnt].'がアップロードされていません。<br>';
                     }
                 }
             }
@@ -547,7 +551,7 @@ class SC_UploadFile
         // keynameの添付ファイルを取得
         $arrImageKey = array_flip($this->keyname);
         $file = $this->temp_file[$arrImageKey[$keyname]];
-        $filepath = $this->temp_dir . $file;
+        $filepath = $this->temp_dir.$file;
 
         $path = $this->makeThumb($filepath, $to_w, $to_h, '');
 
@@ -560,19 +564,20 @@ class SC_UploadFile
      *
      * @param  string $rename
      * @param  int    $keyname
+     *
      * @return string
      */
     public function lfGetTmpImageName($rename, $keyname = '', $uploadfile = '')
     {
         if ($rename === true) {
             // 一意なIDを取得し、画像名をリネームし保存
-            $uniqname = date('mdHi') . '_' . uniqid('');
+            $uniqname = date('mdHi').'_'.uniqid('');
         } else {
             // アップロードした画像名で保存
             $uploadfile = strlen($uploadfile) > 0 ? $uploadfile : $_FILES[$keyname]['name'];
-            $uniqname =  preg_replace('/(.+)\.(.+?)$/', '$1', $uploadfile);
+            $uniqname = preg_replace('/(.+)\.(.+?)$/', '$1', $uploadfile);
         }
-        $dst_file = $this->temp_dir . $uniqname;
+        $dst_file = $this->temp_dir.$uniqname;
 
         return $dst_file;
     }
@@ -582,7 +587,8 @@ class SC_UploadFile
      *
      * @param string $keyname ファイルinputタグのname
      * @param SC_CheckError $objErr SC_CheckErrorインスタンス
-     * @return boolean
+     *
+     * @return bool
      */
     public function checkUploadError($keyname, SC_CheckError &$objErr)
     {
@@ -594,23 +600,23 @@ class SC_UploadFile
                 break;
             case UPLOAD_ERR_NO_FILE:
                 $objErr->arrErr[$keyname] = '※ '
-                    . $this->disp_name[$index]
-                    . 'が選択されていません。'
-                    . '<br />';
+                    .$this->disp_name[$index]
+                    .'が選択されていません。'
+                    .'<br />';
                 break;
             case UPLOAD_ERR_INI_SIZE:
                 $objErr->arrErr[$keyname] = '※ '
-                    . $this->disp_name[$index]
-                    . 'のアップロードに失敗しました。'
-                    . '(.htaccessファイルのphp_value upload_max_filesizeを調整してください)'
-                    . '<br />';
+                    .$this->disp_name[$index]
+                    .'のアップロードに失敗しました。'
+                    .'(.htaccessファイルのphp_value upload_max_filesizeを調整してください)'
+                    .'<br />';
                 break;
             default:
                 $objErr->arrErr[$keyname] = '※ '
-                    . $this->disp_name[$index]
-                    . 'のアップロードに失敗しました。'
-                    . 'エラーコードは[' . $_FILES[$keyname]['error'] . ']です。'
-                    . '<br />';
+                    .$this->disp_name[$index]
+                    .'のアップロードに失敗しました。'
+                    .'エラーコードは['.$_FILES[$keyname]['error'].']です。'
+                    .'<br />';
                 break;
         }
 

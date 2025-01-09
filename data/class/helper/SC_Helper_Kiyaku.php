@@ -24,8 +24,8 @@
 /**
  * 会員規約を管理するヘルパークラス.
  *
- * @package Helper
  * @author pineray
+ *
  * @version $Id$
  */
 class SC_Helper_Kiyaku
@@ -33,8 +33,9 @@ class SC_Helper_Kiyaku
     /**
      * 会員規約の情報を取得.
      *
-     * @param  integer $kiyaku_id   会員規約ID
-     * @param  boolean $has_deleted 削除された会員規約も含む場合 true; 初期値 false
+     * @param  int $kiyaku_id   会員規約ID
+     * @param  bool $has_deleted 削除された会員規約も含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function getKiyaku($kiyaku_id, $has_deleted = false)
@@ -44,15 +45,16 @@ class SC_Helper_Kiyaku
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select('*', 'dtb_kiyaku', $where, array($kiyaku_id));
+        $arrRet = $objQuery->getRow('*', 'dtb_kiyaku', $where, [$kiyaku_id]);
 
-        return $arrRet[0];
+        return $arrRet;
     }
 
     /**
      * 会員規約一覧の取得.
      *
-     * @param  boolean $has_deleted 削除された会員規約も含む場合 true; 初期値 false
+     * @param  bool $has_deleted 削除された会員規約も含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function getList($has_deleted = false)
@@ -74,6 +76,7 @@ class SC_Helper_Kiyaku
      * 会員規約の登録.
      *
      * @param  array    $sqlval
+     *
      * @return multiple 登録成功:会員規約ID, 失敗:FALSE
      */
     public function saveKiyaku($sqlval)
@@ -94,16 +97,17 @@ class SC_Helper_Kiyaku
             unset($sqlval['creator_id']);
             unset($sqlval['create_date']);
             $where = 'kiyaku_id = ?';
-            $ret = $objQuery->update('dtb_kiyaku', $sqlval, $where, array($kiyaku_id));
+            $ret = $objQuery->update('dtb_kiyaku', $sqlval, $where, [$kiyaku_id]);
         }
 
-        return ($ret) ? $sqlval['kiyaku_id'] : FALSE;
+        return ($ret) ? $sqlval['kiyaku_id'] : false;
     }
 
     /**
      * 会員規約の削除.
      *
-     * @param  integer $kiyaku_id 会員規約ID
+     * @param  int $kiyaku_id 会員規約ID
+     *
      * @return void
      */
     public function deleteKiyaku($kiyaku_id)
@@ -116,7 +120,8 @@ class SC_Helper_Kiyaku
     /**
      * 会員規約の表示順をひとつ上げる.
      *
-     * @param  integer $kiyaku_id 会員規約ID
+     * @param  int $kiyaku_id 会員規約ID
+     *
      * @return void
      */
     public function rankUp($kiyaku_id)
@@ -128,7 +133,8 @@ class SC_Helper_Kiyaku
     /**
      * 会員規約の表示順をひとつ下げる.
      *
-     * @param  integer $kiyaku_id 会員規約ID
+     * @param  int $kiyaku_id 会員規約ID
+     *
      * @return void
      */
     public function rankDown($kiyaku_id)
@@ -141,18 +147,19 @@ class SC_Helper_Kiyaku
      * 同じタイトルの規約が存在するか確認.
      *
      * @param  string  $title     規約タイトル
-     * @param  integer $kiyaku_id 会員規約ID
-     * @return boolean 同名のタイトルが存在:TRUE
+     * @param  int $kiyaku_id 会員規約ID
+     *
+     * @return bool 同名のタイトルが存在:TRUE
      */
-    public function isTitleExist($title, $kiyaku_id = NULL)
+    public function isTitleExist($title, $kiyaku_id = null)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $where  = 'del_flg = 0 AND kiyaku_title = ?';
-        $arrVal = array($title);
+        $where = 'del_flg = 0 AND kiyaku_title = ?';
+        $arrVal = [$title];
 
         if (!SC_Utils_Ex::isBlank($kiyaku_id)) {
-            $where   .= ' AND kiyaku_id <> ?';
+            $where .= ' AND kiyaku_id <> ?';
             $arrVal[] = $kiyaku_id;
         }
 

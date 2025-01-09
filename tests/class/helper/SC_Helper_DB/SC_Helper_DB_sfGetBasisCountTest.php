@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,23 +28,23 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
  * SC_Helper_DB::sfGetBasisCount()のテストクラス.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_DB_sfGetBasisCount extends SC_Helper_DB_TestBase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->helper = new SC_Helper_DB_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
     public function testSfGetBasisCount_baseinfoのデータが1行の場合_1を返す()
     {
         $this->setUpBasisData();
@@ -52,14 +52,14 @@ class SC_Helper_DB_sfGetBasisCount extends SC_Helper_DB_TestBase
         $this->actual = $this->helper->sfGetBasisCount();
         $this->verify();
     }
-    
+
     public function testSfGetBasisCount_baseinfoのデータが2行の場合_2を返す()
     {
         $this->setUpBasisData();
-        $baseinfo = array(
+        $baseinfo = [
             'id' => 2,
-            'update_date' => 'CURRENT_TIMESTAMP'
-            );
+            'update_date' => 'CURRENT_TIMESTAMP',
+        ];
         $this->objQuery->insert('dtb_baseinfo', $baseinfo);
         $this->expected = 2;
         $this->actual = $this->helper->sfGetBasisCount();

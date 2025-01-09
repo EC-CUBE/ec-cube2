@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,23 +28,23 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
  * SC_Helper_DB::sfColumnAdd()のテストクラス.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_DB_sfColumnAdd extends SC_Helper_DB_TestBase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->helper = new SC_Helper_DB_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
     public function testSfColumnAdd_指定のカラムが追加できたら_TRUEを返す()
     {
         $tableName = 'dtb_news';

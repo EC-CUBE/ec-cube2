@@ -24,8 +24,8 @@
 /**
  * メーカーを管理するヘルパークラス.
  *
- * @package Helper
  * @author pineray
+ *
  * @version $Id$
  */
 class SC_Helper_Maker
@@ -33,8 +33,9 @@ class SC_Helper_Maker
     /**
      * メーカーの情報を取得.
      *
-     * @param  integer $maker_id    メーカーID
-     * @param  boolean $has_deleted 削除されたメーカーも含む場合 true; 初期値 false
+     * @param  int $maker_id    メーカーID
+     * @param  bool $has_deleted 削除されたメーカーも含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function getMaker($maker_id, $has_deleted = false)
@@ -44,16 +45,17 @@ class SC_Helper_Maker
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select('*', 'dtb_maker', $where, array($maker_id));
+        $arrRet = $objQuery->getRow('*', 'dtb_maker', $where, [$maker_id]);
 
-        return $arrRet[0];
+        return $arrRet;
     }
 
     /**
      * 名前からメーカーの情報を取得.
      *
-     * @param  integer $name        メーカー名
-     * @param  boolean $has_deleted 削除されたメーカーも含む場合 true; 初期値 false
+     * @param  int $name        メーカー名
+     * @param  bool $has_deleted 削除されたメーカーも含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function getByName($name, $has_deleted = false)
@@ -63,15 +65,16 @@ class SC_Helper_Maker
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select('*', 'dtb_maker', $where, array($name));
+        $arrRet = $objQuery->getRow('*', 'dtb_maker', $where, [$name]);
 
-        return $arrRet[0];
+        return $arrRet;
     }
 
     /**
      * メーカー一覧の取得.
      *
-     * @param  boolean $has_deleted 削除されたメーカーも含む場合 true; 初期値 false
+     * @param  bool $has_deleted 削除されたメーカーも含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function getList($has_deleted = false)
@@ -93,6 +96,7 @@ class SC_Helper_Maker
      * メーカーの登録.
      *
      * @param  array    $sqlval
+     *
      * @return multiple 登録成功:メーカーID, 失敗:FALSE
      */
     public function saveMaker($sqlval)
@@ -113,16 +117,17 @@ class SC_Helper_Maker
             unset($sqlval['creator_id']);
             unset($sqlval['create_date']);
             $where = 'maker_id = ?';
-            $ret = $objQuery->update('dtb_maker', $sqlval, $where, array($maker_id));
+            $ret = $objQuery->update('dtb_maker', $sqlval, $where, [$maker_id]);
         }
 
-        return ($ret) ? $sqlval['maker_id'] : FALSE;
+        return ($ret) ? $sqlval['maker_id'] : false;
     }
 
     /**
      * メーカーの削除.
      *
-     * @param  integer $maker_id メーカーID
+     * @param  int $maker_id メーカーID
+     *
      * @return void
      */
     public function delete($maker_id)
@@ -135,7 +140,8 @@ class SC_Helper_Maker
     /**
      * メーカーの表示順をひとつ上げる.
      *
-     * @param  integer $maker_id メーカーID
+     * @param  int $maker_id メーカーID
+     *
      * @return void
      */
     public function rankUp($maker_id)
@@ -147,7 +153,8 @@ class SC_Helper_Maker
     /**
      * メーカーの表示順をひとつ下げる.
      *
-     * @param  integer $maker_id メーカーID
+     * @param  int $maker_id メーカーID
+     *
      * @return void
      */
     public function rankDown($maker_id)

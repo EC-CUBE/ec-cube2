@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,45 +27,43 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_
 /**
  * SC_Helper_Purchase::extractShipping()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_Purchase_extractShippingTest extends SC_Helper_Purchase_TestBase
 {
+    protected function setUp(): void
+    {
+        // parent::setUp();
+    }
 
-  protected function setUp()
-  {
-    // parent::setUp();
-  }
+    protected function tearDown(): void
+    {
+        // parent::tearDown();
+    }
 
-  protected function tearDown()
-  {
-    // parent::tearDown();
-  }
+    // ///////////////////////////////////////
+    public function testExtractShipping予め指定されたキーだけが抽出される()
+    {
+        $helper = new SC_Helper_Purchase_Ex();
+        $helper->arrShippingKey = ['id', 'name', 'code'];
+        $arrSrc = [
+            'shipping_id' => '1001',
+            'shipping_code' => 'cd1001',
+            'shipping_detail' => 'dt1001', // 無視される
+            'shipping_name' => '名称1001',
+        ];
 
-  /////////////////////////////////////////
-  public function testExtractShipping__予め指定されたキーだけが抽出される()
-  {
-    $helper = new SC_Helper_Purchase_Ex();
-    $helper->arrShippingKey = array('id', 'name', 'code');
-    $arrSrc = array(
-      'shipping_id' => '1001',
-      'shipping_code' => 'cd1001',
-      'shipping_detail' => 'dt1001', // 無視される
-      'shipping_name' => '名称1001'
-    );
- 
-    $this->expected = array(
-      'shipping_id' => '1001',
-      'shipping_name' => '名称1001',
-      'shipping_code' => 'cd1001'
-    );
-    $this->actual = $helper->extractShipping($arrSrc);
+        $this->expected = [
+            'shipping_id' => '1001',
+            'shipping_name' => '名称1001',
+            'shipping_code' => 'cd1001',
+        ];
+        $this->actual = $helper->extractShipping($arrSrc);
 
-    $this->verify();
-  }
+        $this->verify();
+    }
 
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

@@ -1,0 +1,7 @@
+# export COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml:docker-compose.owaspzap.yml
+# export COMPOSE_FILE=docker-compose.yml:docker-compose.mysql.yml:docker-compose.dev.yml
+export COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml
+# export COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml
+# export IMAGE_NAME=nanasess/ec-cube2-php
+# export TAG=5.4-apache-2.13.5
+export TAG=8.4-apache

@@ -114,11 +114,9 @@ create_sequence_tables()
 {
     SEQUENCES="
 dtb_best_products_best_id_seq
-dtb_bloc_bloc_id_seq
 dtb_category_category_id_seq
 dtb_class_class_id_seq
 dtb_classcategory_classcategory_id_seq
-dtb_csv_no_seq
 dtb_csv_sql_sql_id_seq
 dtb_customer_customer_id_seq
 dtb_deliv_deliv_id_seq
@@ -132,7 +130,6 @@ dtb_news_news_id_seq
 dtb_order_order_id_seq
 dtb_order_detail_order_detail_id_seq
 dtb_other_deliv_other_deliv_id_seq
-dtb_pagelayout_page_id_seq
 dtb_payment_payment_id_seq
 dtb_products_class_product_class_id_seq
 dtb_products_product_id_seq
@@ -210,6 +207,7 @@ defined('SMTP_HOST') or define('SMTP_HOST', '${SMTP_HOST}');
 defined('SMTP_PORT') or define('SMTP_PORT', '${SMTP_PORT}');
 defined('SMTP_USER') or define('SMTP_USER', '${SMTP_USER}');
 defined('SMTP_PASSWORD') or define('SMTP_PASSWORD', '${SMTP_PASSWORD}');
+defined('TEST_MAILCATCHER_URL') or define('TEST_MAILCATCHER_URL', '${TEST_MAILCATCHER_URL-"http://127.0.0.1:1080"}');
 
 __EOF__
 
@@ -231,29 +229,29 @@ case "${DBTYPE}" in
 "heroku" )
     # PostgreSQL
     echo "create table..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
     echo "insert data..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -f ${SQL_DIR}/insert_data.sql ${DBNAME}
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -f ${SQL_DIR}/insert_data.sql ${DBNAME}
     echo "create sequence table..."
     create_sequence_tables
     echo "execute optional SQL..."
-    get_optional_sql | ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} ${DBNAME}
+    get_optional_sql | ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 ${DBNAME}
     DBTYPE="pgsql"
 ;;
 "appveyor" | "pgsql" )
    # PostgreSQL
     echo "dropdb..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "DROP DATABASE IF EXISTS ${DBNAME};" template1
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -c "DROP DATABASE IF EXISTS ${DBNAME};" template1
     echo "createdb..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -c "CREATE DATABASE ${DBNAME};" template1
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -c "CREATE DATABASE ${DBNAME};" template1
     echo "create table..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -f ${SQL_DIR}/create_table_pgsql.sql ${DBNAME}
     echo "insert data..."
-    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -f ${SQL_DIR}/insert_data.sql ${DBNAME}
+    ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 -f ${SQL_DIR}/insert_data.sql ${DBNAME}
     echo "create sequence table..."
     create_sequence_tables
     echo "execute optional SQL..."
-    get_optional_sql | ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} ${DBNAME}
+    get_optional_sql | ${PSQL} -h ${DBSERVER} -U ${DBUSER} -p ${DBPORT} -v ON_ERROR_STOP=1 ${DBNAME}
     DBTYPE="pgsql"
 ;;
 "mysql" )
@@ -264,9 +262,9 @@ case "${DBTYPE}" in
     fi
     # MySQL
     echo "dropdb..."
-    ${MYSQL} -u ${ROOTUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} -e "DROP DATABASE \`${DBNAME}\`"
+    ${MYSQL} -u ${ROOTUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} -e "DROP DATABASE IF EXISTS \`${DBNAME}\`"
     echo "createdb..."
-    ${MYSQL} -u ${ROOTUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} -e "CREATE DATABASE \`${DBNAME}\` DEFAULT COLLATE=utf8_general_ci;"
+    ${MYSQL} -u ${ROOTUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} -e "CREATE DATABASE \`${DBNAME}\` DEFAULT COLLATE=utf8mb4_general_ci;"
     #echo "grant user..."
     #${MYSQL} -u ${ROOTUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} -e "GRANT ALL ON \`${DBNAME}\`.* TO '${DBUSER}'@'%' IDENTIFIED BY '${DBPASS}'"
     echo "create table..."

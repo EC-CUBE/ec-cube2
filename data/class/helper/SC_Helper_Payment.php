@@ -24,8 +24,8 @@
 /**
  * 支払方法を管理するヘルパークラス.
  *
- * @package Helper
  * @author pineray
+ *
  * @version $Id$
  */
 class SC_Helper_Payment
@@ -33,8 +33,9 @@ class SC_Helper_Payment
     /**
      * 支払方法の情報を取得.
      *
-     * @param  integer $payment_id  支払方法ID
-     * @param  boolean $has_deleted 削除された支払方法も含む場合 true; 初期値 false
+     * @param  int $payment_id  支払方法ID
+     * @param  bool $has_deleted 削除された支払方法も含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function get($payment_id, $has_deleted = false)
@@ -44,7 +45,7 @@ class SC_Helper_Payment
         if (!$has_deleted) {
             $where .= ' AND del_flg = 0';
         }
-        $arrRet = $objQuery->select('*', 'dtb_payment', $where, array($payment_id));
+        $arrRet = $objQuery->select('*', 'dtb_payment', $where, [$payment_id]);
 
         return $arrRet[0];
     }
@@ -52,7 +53,8 @@ class SC_Helper_Payment
     /**
      * 支払方法一覧の取得.
      *
-     * @param  boolean $has_deleted 削除された支払方法も含む場合 true; 初期値 false
+     * @param  bool $has_deleted 削除された支払方法も含む場合 true; 初期値 false
+     *
      * @return array
      */
     public function getList($has_deleted = false)
@@ -73,14 +75,15 @@ class SC_Helper_Payment
     /**
      * 購入金額に応じた支払方法を取得する.
      *
-     * @param  integer $total 購入金額
+     * @param  int $total 購入金額
+     *
      * @return array   購入金額に応じた支払方法の配列
      */
     public function getByPrice($total)
     {
         // 削除されていない支払方法を取得
         $payments = $this->getList();
-        $arrPayment = array();
+        $arrPayment = [];
         foreach ($payments as $data) {
             // 下限と上限が設定されている
             if (strlen($data['rule_max']) != 0 && strlen($data['upper_rule']) != 0) {
@@ -110,6 +113,7 @@ class SC_Helper_Payment
      * 支払方法の登録.
      *
      * @param  array $sqlval
+     *
      * @return void
      */
     public function save($sqlval)
@@ -130,14 +134,15 @@ class SC_Helper_Payment
             unset($sqlval['creator_id']);
             unset($sqlval['create_date']);
             $where = 'payment_id = ?';
-            $objQuery->update('dtb_payment', $sqlval, $where, array($payment_id));
+            $objQuery->update('dtb_payment', $sqlval, $where, [$payment_id]);
         }
     }
 
     /**
      * 支払方法の削除.
      *
-     * @param  integer $payment_id 支払方法ID
+     * @param  int $payment_id 支払方法ID
+     *
      * @return void
      */
     public function delete($payment_id)
@@ -150,7 +155,8 @@ class SC_Helper_Payment
     /**
      * 支払方法の表示順をひとつ上げる.
      *
-     * @param  integer $payment_id 支払方法ID
+     * @param  int $payment_id 支払方法ID
+     *
      * @return void
      */
     public function rankUp($payment_id)
@@ -162,7 +168,8 @@ class SC_Helper_Payment
     /**
      * 支払方法の表示順をひとつ下げる.
      *
-     * @param  integer $payment_id 支払方法ID
+     * @param  int $payment_id 支払方法ID
+     *
      * @return void
      */
     public function rankDown($payment_id)
@@ -176,13 +183,14 @@ class SC_Helper_Payment
      *
      * dtb_payment.memo03 に値が入っている場合は決済モジュールと見なす.
      *
-     * @param  integer $payment_id 支払い方法ID
-     * @return boolean 決済モジュールを使用する支払い方法の場合 true
+     * @param  int $payment_id 支払い方法ID
+     *
+     * @return bool 決済モジュールを使用する支払い方法の場合 true
      */
     public static function useModule($payment_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $memo03 = $objQuery->get('memo03', 'dtb_payment', 'payment_id = ?', array($payment_id));
+        $memo03 = $objQuery->get('memo03', 'dtb_payment', 'payment_id = ?', [$payment_id]);
 
         return !SC_Utils_Ex::isBlank($memo03);
     }
@@ -191,6 +199,7 @@ class SC_Helper_Payment
      * 支払方法IDをキー, 名前を値とする配列を取得.
      *
      * @param  string $type 値のタイプ
+     *
      * @return array
      */
     public static function getIDValueList($type = 'payment_method')

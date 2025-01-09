@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_Maker/SC_Helper_Maker_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_Maker/SC_Helper_Maker_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -25,81 +25,80 @@ require_once($HOME . "/tests/class/helper/SC_Helper_Maker/SC_Helper_Maker_TestBa
  */
 
 /**
- *
  * @author hiroshi kakuta
  */
 class SC_Helper_Maker_saveMakerTest extends SC_Helper_Maker_TestBase
 {
-    var $objHelperMaker;
+    public $objHelperMaker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-
         parent::setUp();
         $this->setUpMaker();
         $this->objHelperMaker = new SC_Helper_Maker_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
-    public function testSaveMaker_メーカーIDを指定すると更新される(){
-    //public function testSaveMaker_update(){
-        $sqlVal = array(
+    public function testSaveMakerメーカーIDを指定すると更新される()
+    {
+        // public function testSaveMaker_update(){
+        $sqlVal = [
             'maker_id' => '1001',
             'name' => 'ソニンー',
-        );
+        ];
 
         $this->objHelperMaker->saveMaker($sqlVal);
 
-        $this->expected = array(
+        $this->expected = [
             'name' => 'ソニンー',
-        );
+        ];
 
         $arrRet = $this->objHelperMaker->getMaker('1001');
 
         $this->actual = Test_Utils::mapArray($arrRet,
-            array('name')
+            ['name']
         );
 
         $this->verify();
     }
 
-    public function testSaveMaker_メーカーIDがない場合_インサートされる(){
-    //public function testSaveMaker_insert(){
-
-        if(DB_TYPE != 'pgsql') { //postgresqlだとどうしてもDBエラーになるのでとりいそぎ回避
-            $sqlVal = array(
-                'name' => 'フジスリー',
-                'creator_id' => '1',
-                'del_flg' => '0'
-            );
-
-            $maker_id = $this->objHelperMaker->saveMaker($sqlVal);
-
-            $this->expected = array(
-                'name' => 'フジスリー',
-                'rank' => '5',
-                'creator_id' => '1',
-                'del_flg' => '0'
-            );
-
-            $arrRet = $this->objHelperMaker->getMaker($maker_id);
-
-            $this->actual = Test_Utils::mapArray($arrRet,
-                array(
-                    'name',
-                    'rank',
-                    'creator_id',
-                    'del_flg'
-                )
-            );
-
-            $this->verify();
+    public function testSaveMakerメーカーIDがない場合インサートされる()
+    {
+        // public function testSaveMaker_insert(){
+        if (DB_TYPE == 'pgsql') {
+            $this->markTestSkipped('postgresqlだとどうしてもDBエラーになるのでスキップ');
         }
 
+        $sqlVal = [
+            'name' => 'フジスリー',
+            'creator_id' => '1',
+            'del_flg' => '0',
+        ];
+
+        $maker_id = $this->objHelperMaker->saveMaker($sqlVal);
+
+        $this->expected = [
+            'name' => 'フジスリー',
+            'rank' => '5',
+            'creator_id' => '1',
+            'del_flg' => '0',
+        ];
+
+        $arrRet = $this->objHelperMaker->getMaker($maker_id);
+
+        $this->actual = Test_Utils::mapArray($arrRet,
+            [
+                'name',
+                'rank',
+                'creator_id',
+                'del_flg',
+            ]
+        );
+
+        $this->verify();
     }
 }
-

@@ -28,8 +28,8 @@
  * 必ず SC_SessionFactory クラスを経由してインスタンス化する.
  * また, SC_SessionFactory クラスの関数を必ずオーバーライドしている必要がある.
  *
- * @package SC_SessionFactory
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_SessionFactory_UseCookie extends SC_SessionFactory_Ex
@@ -43,17 +43,21 @@ class SC_SessionFactory_UseCookie extends SC_SessionFactory_Ex
      **/
     public function initSession()
     {
-        ini_set('session.cache_limiter', 'none');
+        // header が送信されている場合は何もしない
+        if (headers_sent()) {
+            return;
+        }
+
         // (session.auto_start などで)セッションが開始されていた場合に備えて閉じる。(FIXME: 保存する必要はない。破棄で良い。)
         session_write_close();
-        $params = array(
+        $params = [
             'lifetime' => 0,
             'path' => ROOT_URLPATH,
             'domain' => DOMAIN_NAME,
             'secure' => $this->getSecureOption(),
             'httponly' => true,
-            'samesite' => ''
-        );
+            'samesite' => '',
+        ];
         if ($this->getSecureOption()) {
             $params['samesite'] = 'None'; // require secure option
         }
@@ -79,7 +83,7 @@ class SC_SessionFactory_UseCookie extends SC_SessionFactory_Ex
     /**
      * Cookieを使用するかどうか
      *
-     * @return boolean 常に true を返す
+     * @return bool 常に true を返す
      */
     public function useCookie()
     {
@@ -90,11 +94,12 @@ class SC_SessionFactory_UseCookie extends SC_SessionFactory_Ex
      * secure オプションの値を返す.
      *
      * この値をもとに secure オプションを設定する.
+     *
      * @return bool HTTP_URL 及び HTTPS_URL が https の場合は true
      */
     protected function getSecureOption()
     {
-        return (strpos(HTTP_URL, 'https') !== false && strpos(HTTPS_URL, 'https') !== false);
+        return str_contains(HTTP_URL, 'https') && str_contains(HTTPS_URL, 'https');
     }
 }
 /*

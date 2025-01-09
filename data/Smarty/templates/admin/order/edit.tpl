@@ -432,7 +432,7 @@
                         <span class="attention"><!--{$arrErr[$key][$product_index]}--></span>
                         税率<input type="text" name="<!--{$key}-->[<!--{$product_index}-->]" value="<!--{$arrForm[$key].value[$product_index]|h}-->" size="3" class="box3" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$product_index]|sfGetErrorColor}-->" id="<!--{$key}-->_<!--{$product_index}-->" />%
                     </td>
-                    <td class="right"><!--{$arrForm.price_inctax.value[$product_index]|sfMultiply:$quantity|n2s}-->円</td>
+                    <td class="right"><!--{($price|sfCalcIncTax:$tax_rate:$tax_rule*$quantity)|n2s}-->円</td>
                 </tr>
             <!--{/section}-->
             <tr>

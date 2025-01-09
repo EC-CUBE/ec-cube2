@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * ショッピングログインのページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Shopping extends LC_Page_Ex
@@ -77,7 +76,7 @@ class LC_Page_Shopping extends LC_Page_Ex
      */
     public function action()
     {
-        //決済処理中ステータスのロールバック
+        // 決済処理中ステータスのロールバック
         $objPurchase = new SC_Helper_Purchase_Ex();
         $objPurchase->cancelPendingOrder(PENDING_ORDER_CANCEL_FLAG);
 
@@ -98,15 +97,15 @@ class LC_Page_Shopping extends LC_Page_Ex
         // ログイン済みの場合は次画面に遷移
         if ($objCustomer->isLoginSuccess(true)) {
             SC_Response_Ex::sendRedirect(
-                    $this->getNextlocation($this->cartKey, $this->tpl_uniqid,
-                                           $objCustomer, $objPurchase,
-                                           $objSiteSess));
+                $this->getNextlocation($this->cartKey, $this->tpl_uniqid,
+                    $objCustomer, $objPurchase,
+                    $objSiteSess));
             SC_Response_Ex::actionExit();
         // 非会員かつ, ダウンロード商品の場合はエラー表示
         } else {
             if ($this->cartKey == PRODUCT_TYPE_DOWNLOAD) {
                 $msg = 'ダウンロード商品を含むお買い物は、会員登録が必要です。<br/>'
-                     . 'お手数ですが、会員登録をお願いします。';
+                     .'お手数ですが、会員登録をお願いします。';
                 SC_Utils_Ex::sfDispSiteError(FREE_ERROR_MSG, $objSiteSess, false, $msg);
                 SC_Response_Ex::actionExit();
             }
@@ -130,7 +129,7 @@ class LC_Page_Shopping extends LC_Page_Ex
                 // ログイン判定
                 if (SC_Utils_Ex::isBlank($this->arrErr)
                     && $objCustomer->doLogin($objFormParam->getValue('login_email'),
-                                             $objFormParam->getValue('login_pass'))) {
+                        $objFormParam->getValue('login_pass'))) {
                     // クッキー保存判定
                     if ($objFormParam->getValue('login_memory') == '1' && strlen($objFormParam->getValue('login_email')) >= 1) {
                         $objCookie->setCookie('login_email', $objFormParam->getValue('login_email'));
@@ -146,17 +145,16 @@ class LC_Page_Shopping extends LC_Page_Ex
                         }
                     // スマートフォンの場合はログイン成功を返す
                     } elseif (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                        echo SC_Utils_Ex::jsonEncode(array('success' =>
-                                                     $this->getNextLocation($this->cartKey, $this->tpl_uniqid,
-                                                                            $objCustomer, $objPurchase,
-                                                                            $objSiteSess)));
+                        echo SC_Utils_Ex::jsonEncode(['success' => $this->getNextLocation($this->cartKey, $this->tpl_uniqid,
+                            $objCustomer, $objPurchase,
+                            $objSiteSess)]);
                         SC_Response_Ex::actionExit();
                     }
 
                     SC_Response_Ex::sendRedirect(
-                            $this->getNextLocation($this->cartKey, $this->tpl_uniqid,
-                                                   $objCustomer, $objPurchase,
-                                                   $objSiteSess));
+                        $this->getNextLocation($this->cartKey, $this->tpl_uniqid,
+                            $objCustomer, $objPurchase,
+                            $objSiteSess));
                     SC_Response_Ex::actionExit();
                 // ログインに失敗した場合
                 } else {
@@ -180,7 +178,7 @@ class LC_Page_Shopping extends LC_Page_Ex
                     }
                 }
                 break;
-            // お客様情報登録
+                // お客様情報登録
             case 'nonmember_confirm':
                 $this->tpl_mainpage = $nonmember_mainpage;
                 $this->tpl_title = $nonmember_title;
@@ -202,13 +200,13 @@ class LC_Page_Shopping extends LC_Page_Ex
                 }
                 break;
 
-            // 前のページに戻る
+                // 前のページに戻る
             case 'return':
                 SC_Response_Ex::sendRedirect(CART_URL);
                 SC_Response_Ex::actionExit();
                 break;
 
-            // 複数配送ページへ遷移
+                // 複数配送ページへ遷移
             case 'multiple':
                 // 複数配送先指定が無効な場合はエラー
                 if (USE_MULTIPLE_SHIPPING === false) {
@@ -232,13 +230,14 @@ class LC_Page_Shopping extends LC_Page_Ex
                 $this->tpl_title = $nonmember_title;
                 break;
 
-            // お客様情報入力ページの表示
+                // お客様情報入力ページの表示
             case 'nonmember':
                 $this->tpl_mainpage = $nonmember_mainpage;
                 $this->tpl_title = $nonmember_title;
                 $this->lfInitParam($objFormParam);
                 // ※breakなし
 
+                // no break
             default:
                 // 前のページから戻ってきた場合は, お客様情報入力ページ
                 if (isset($_GET['from']) && $_GET['from'] == 'nonmember') {
@@ -268,6 +267,7 @@ class LC_Page_Shopping extends LC_Page_Ex
      * お客様情報入力時のパラメーター情報の初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam)
@@ -283,7 +283,7 @@ class LC_Page_Shopping extends LC_Page_Ex
         $objFormParam->removeParam('order_reminder_answer');
         $objFormParam->removeParam('order_mailmaga_flg');
 
-        $objFormParam->addParam('別のお届け先', 'deliv_check', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('別のお届け先', 'deliv_check', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
 
         SC_Helper_Customer_Ex::sfCustomerCommonParam($objFormParam, 'shipping_');
     }
@@ -292,13 +292,14 @@ class LC_Page_Shopping extends LC_Page_Ex
      * ログイン時のパラメーター情報の初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return void
      */
     public function lfInitLoginFormParam(&$objFormParam)
     {
-        $objFormParam->addParam('記憶する', 'login_memory', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('メールアドレス', 'login_email', '', 'a', array('EXIST_CHECK', 'EMAIL_CHECK', 'SPTAB_CHECK', 'EMAIL_CHAR_CHECK'));
-        $objFormParam->addParam('パスワード', 'login_pass', PASSWORD_MAX_LEN, '', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'SPTAB_CHECK'));
+        $objFormParam->addParam('記憶する', 'login_memory', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('メールアドレス', 'login_email', '', 'a', ['EXIST_CHECK', 'EMAIL_CHECK', 'SPTAB_CHECK', 'EMAIL_CHAR_CHECK']);
+        $objFormParam->addParam('パスワード', 'login_pass', PASSWORD_MAX_LEN, '', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'SPTAB_CHECK']);
 
         if ($this->tpl_valid_phone_id) {
             // 携帯端末IDが登録されている場合、メールアドレス入力欄が省略される
@@ -316,11 +317,12 @@ class LC_Page_Shopping extends LC_Page_Ex
      * 支払方法選択画面のパスを返す.
      * それ以外は, お届け先選択画面のパスを返す.
      *
-     * @param  integer            $product_type_id 商品種別ID
+     * @param  int            $product_type_id 商品種別ID
      * @param  string             $uniqid          受注一時テーブルのユニークID
      * @param  SC_Customer        $objCustomer     SC_Customer インスタンス
      * @param  SC_Helper_Purchase $objPurchase     SC_Helper_Purchase インスタンス
      * @param  SC_SiteSession     $objSiteSess     SC_SiteSession インスタンス
+     *
      * @return string             遷移先のパス
      */
     public function getNextLocation($product_type_id, $uniqid, &$objCustomer, &$objPurchase, &$objSiteSess)
@@ -328,7 +330,7 @@ class LC_Page_Shopping extends LC_Page_Ex
         switch ($product_type_id) {
             case PRODUCT_TYPE_DOWNLOAD:
                 $objPurchase->unsetAllShippingTemp(true);
-                $objPurchase->saveOrderTemp($uniqid, array(), $objCustomer);
+                $objPurchase->saveOrderTemp($uniqid, [], $objCustomer);
                 $objSiteSess->setRegistFlag();
 
                 return 'payment.php';
@@ -343,18 +345,19 @@ class LC_Page_Shopping extends LC_Page_Ex
      * データの一時登録を行う.
      *
      * 非会員向けの処理
-     * @param integer            $uniqid       受注一時テーブルのユニークID
+     *
+     * @param int            $uniqid       受注一時テーブルのユニークID
      * @param SC_Helper_Purchase $objPurchase  SC_Helper_Purchase インスタンス
      * @param SC_Customer        $objCustomer  SC_Customer インスタンス
      * @param SC_FormParam       $objFormParam SC_FormParam インスタンス
-     * @param boolean            $isMultiple   複数配送の場合 true
+     * @param bool            $isMultiple   複数配送の場合 true
      */
     public function lfRegistData($uniqid, &$objPurchase, &$objCustomer, &$objFormParam, $isMultiple = false)
     {
         $arrParams = $objFormParam->getHashArray();
 
         // 注文者をお届け先とする配列を取得
-        $arrShippingOwn = array();
+        $arrShippingOwn = [];
         $objPurchase->copyFromOrder($arrShippingOwn, $arrParams);
 
         // 都度入力されたお届け先
@@ -391,6 +394,7 @@ class LC_Page_Shopping extends LC_Page_Ex
      * 追加の必須チェック, 相関チェックを行うため, SC_CheckError を使用する.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
      * @return array        エラー情報の配
      */
     public function lfCheckError(&$objFormParam)
@@ -413,8 +417,8 @@ class LC_Page_Shopping extends LC_Page_Ex
         }
 
         // 複数項目チェック
-        $objErr->doFunc(array('生年月日', 'order_year', 'order_month', 'order_day'), array('CHECK_BIRTHDAY'));
-        $objErr->doFunc(array('メールアドレス', 'メールアドレス（確認）', 'order_email', 'order_email02'), array('EQUAL_CHECK'));
+        $objErr->doFunc(['生年月日', 'order_year', 'order_month', 'order_day'], ['CHECK_BIRTHDAY']);
+        $objErr->doFunc(['メールアドレス', 'メールアドレス（確認）', 'order_email', 'order_email02'], ['EQUAL_CHECK']);
 
         return $objErr->arrErr;
     }
@@ -427,17 +431,18 @@ class LC_Page_Shopping extends LC_Page_Ex
      *
      * @param  SC_FormParam       $objFormParam SC_FormParam インスタンス
      * @param  SC_Helper_Purchase $objPurchase  SC_Helper_Purchase インスタンス
-     * @param  integer            $uniqid       購入一時情報のユニークID
+     * @param  int            $uniqid       購入一時情報のユニークID
+     *
      * @return void
      */
     public function setFormParams(&$objFormParam, &$objPurchase, $uniqid)
     {
         $arrOrderTemp = $objPurchase->getOrderTemp($uniqid);
         if (SC_Utils_Ex::isBlank($arrOrderTemp)) {
-            $arrOrderTemp = array(
+            $arrOrderTemp = [
                 'order_email' => '',
                 'order_birth' => '',
-            );
+            ];
         }
         $arrShippingTemp = $objPurchase->getShippingTemp();
 
@@ -449,10 +454,10 @@ class LC_Page_Shopping extends LC_Page_Ex
         if (count($arrShippingTemp) > 1) {
             $objFormParam->setParam($arrShippingTemp[1]);
         } else {
-            if ($arrOrderTemp['deliv_check'] == 1) {
+            if (isset($arrOrderTemp['deliv_check']) && $arrOrderTemp['deliv_check'] == 1) {
                 $objFormParam->setParam($arrShippingTemp[1]);
             } else {
-                $objFormParam->setParam($arrShippingTemp[0]);
+                $objFormParam->setParam($arrShippingTemp[0] ?? []);
             }
         }
         $objFormParam->setValue('order_email02', $arrOrderTemp['order_email']);
@@ -465,8 +470,10 @@ class LC_Page_Shopping extends LC_Page_Ex
      * TODO リファクタリング
      * この関数は主にスマートフォンで使用します.
      *
-     * @param integer エラーコード
+     * @param int エラーコード
+     *
      * @return string JSON 形式のエラーメッセージ
+     *
      * @see LC_PageError
      */
     public function lfGetErrorMessage($error)
@@ -480,6 +487,6 @@ class LC_Page_Shopping extends LC_Page_Ex
                 $msg = 'メールアドレスもしくはパスワードが正しくありません。';
         }
 
-        return SC_Utils_Ex::jsonEncode(array('login_error' => $msg));
+        return SC_Utils_Ex::jsonEncode(['login_error' => $msg]);
     }
 }

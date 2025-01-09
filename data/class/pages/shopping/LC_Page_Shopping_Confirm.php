@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 入力内容確認のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Shopping_Confirm extends LC_Page_Ex
@@ -75,7 +74,7 @@ class LC_Page_Shopping_Confirm extends LC_Page_Ex
      */
     public function action()
     {
-        //決済処理中ステータスのロールバック
+        // 決済処理中ステータスのロールバック
         $objPurchase = new SC_Helper_Purchase_Ex();
         $objPurchase->cancelPendingOrder(PENDING_ORDER_CANCEL_FLAG);
 
@@ -120,14 +119,14 @@ class LC_Page_Shopping_Confirm extends LC_Page_Ex
         $arrOrderTemp = $objPurchase->getOrderTemp($this->tpl_uniqid);
         // カート集計を元に最終計算
         $arrCalcResults = $objCartSess->calculate($this->cartKey, $objCustomer,
-                                                  $arrOrderTemp['use_point'],
-                                                  $objPurchase->getShippingPref($this->is_multiple),
-                                                  $arrOrderTemp['charge'],
-                                                  $arrOrderTemp['discount'],
-                                                  $arrOrderTemp['deliv_id'],
-                                                  $arrOrderTemp['order_pref'], // 税金計算の為に追加　注文者基準
-                                                  $arrOrderTemp['order_country_id'] // 税金計算の為に追加　注文者基準
-                                                  );
+            $arrOrderTemp['use_point'],
+            $objPurchase->getShippingPref($this->is_multiple),
+            $arrOrderTemp['charge'],
+            $arrOrderTemp['discount'],
+            $arrOrderTemp['deliv_id'],
+            $arrOrderTemp['order_pref'], // 税金計算の為に追加　注文者基準
+            $arrOrderTemp['order_country_id'] // 税金計算の為に追加　注文者基準
+        );
 
         $this->arrForm = array_merge($arrOrderTemp, $arrCalcResults);
 
@@ -156,7 +155,7 @@ class LC_Page_Shopping_Confirm extends LC_Page_Ex
 
                 // 集計結果を受注一時テーブルに反映
                 $objPurchase->saveOrderTemp($this->tpl_uniqid, $this->arrForm,
-                                            $objCustomer);
+                    $objCustomer);
 
                 // 正常に登録されたことを記録しておく
                 $objSiteSess->setRegistFlag();
@@ -178,6 +177,5 @@ class LC_Page_Shopping_Confirm extends LC_Page_Ex
             default:
                 break;
         }
-
     }
 }

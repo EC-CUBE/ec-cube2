@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 管理者ログイン のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin extends LC_Page_Ex
@@ -149,29 +148,29 @@ class LC_Page_Admin extends LC_Page_Ex
             SC_Utils_Ex::sfIsSuccess(new SC_Session_Ex());
         }
 
-        //IP制限チェック
+        // IP制限チェック
         $allow_hosts = unserialize(ADMIN_ALLOW_HOSTS);
         if (is_array($allow_hosts) && count($allow_hosts) > 0) {
-            if (array_search($_SERVER['REMOTE_ADDR'], $allow_hosts) === FALSE) {
+            if (array_search($_SERVER['REMOTE_ADDR'], $allow_hosts) === false) {
                 SC_Utils_Ex::sfDispError(AUTH_ERROR);
             }
         }
 
-        //SSL制限チェック
-        if (ADMIN_FORCE_SSL == TRUE) {
+        // SSL制限チェック
+        if (ADMIN_FORCE_SSL == true) {
             if (SC_Utils_Ex::sfIsHTTPS() === false) {
-                SC_Response_Ex::sendRedirect($_SERVER['REQUEST_URI'], $_GET, FALSE, TRUE);
+                SC_Response_Ex::sendRedirect($_SERVER['REQUEST_URI'], $_GET, false, true);
             }
         }
 
-        $this->tpl_authority = $_SESSION['authority'];
+        $this->tpl_authority = $_SESSION['authority'] ?? '';
 
         // ディスプレイクラス生成
         $this->objDisplay = new SC_Display_Ex();
 
         // スーパーフックポイントを実行.
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
-        $objPlugin->doAction('LC_Page_preProcess', array($this));
+        $objPlugin->doAction('LC_Page_preProcess', [$this]);
 
         // トランザクショントークンの検証と生成
         $this->doValidToken(true);
@@ -179,10 +178,10 @@ class LC_Page_Admin extends LC_Page_Ex
 
         // ローカルフックポイントを実行
         $parent_class_name = get_parent_class($this);
-        $objPlugin->doAction($parent_class_name . '_action_before', array($this));
-        $class_name = get_class($this);
+        $objPlugin->doAction($parent_class_name.'_action_before', [$this]);
+        $class_name = static::class;
         if ($class_name != $parent_class_name) {
-            $objPlugin->doAction($class_name . '_action_before', array($this));
+            $objPlugin->doAction($class_name.'_action_before', [$this]);
         }
     }
 
@@ -205,17 +204,17 @@ class LC_Page_Admin extends LC_Page_Ex
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         // ローカルフックポイントを実行
         $parent_class_name = get_parent_class($this);
-        $objPlugin->doAction($parent_class_name . '_action_after', array($this));
-        $class_name = get_class($this);
+        $objPlugin->doAction($parent_class_name.'_action_after', [$this]);
+        $class_name = static::class;
         if ($class_name != $parent_class_name) {
-            $objPlugin->doAction($class_name . '_action_after', array($this));
+            $objPlugin->doAction($class_name.'_action_after', [$this]);
         }
 
         // HeadNaviにpluginテンプレートを追加する.
         $objPlugin->setHeadNaviBlocs($this->arrPageLayout['HeadNavi']);
 
         // スーパーフックポイントを実行.
-        $objPlugin->doAction('LC_Page_process', array($this));
+        $objPlugin->doAction('LC_Page_process', [$this]);
 
         $this->objDisplay->prepare($this, true);
         $this->objDisplay->response->write();
@@ -226,7 +225,7 @@ class LC_Page_Admin extends LC_Page_Ex
      *
      * @deprecated 2.12.0 GC_Utils_Ex::gfPrintLog を使用すること
      */
-    public function log($mess, $log_level='Info')
+    public function log($mess, $log_level = 'Info')
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         // ログレベル=Debugの場合は、DEBUG_MODEがtrueの場合のみログ出力する

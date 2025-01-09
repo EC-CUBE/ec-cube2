@@ -26,8 +26,8 @@
  *
  * XXX Singleton にするべき...
  *
- * @package Batch
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_Batch_Update extends SC_Batch
@@ -46,22 +46,23 @@ class SC_Batch_Update extends SC_Batch
      * バッチ処理を実行する.
      *
      * @param  string $target アップデータファイルのディレクトリパス
+     *
      * @return void
      */
     public function execute($target = '.')
     {
         $msg = '';
         $oldMask = umask(0);
-        $bkupDistInfoArray = array(); //バックアップファイル用のdistinfoファイル内容
-        $bkupPath = DATA_REALDIR . 'downloads/backup/update_' . time() . '/';
-        $bkupPathFile = $bkupPath . 'files/';
-        $this->lfMkdirRecursive($bkupPathFile . 'dummy');
+        $bkupDistInfoArray = []; // バックアップファイル用のdistinfoファイル内容
+        $bkupPath = DATA_REALDIR.'downloads/backup/update_'.time().'/';
+        $bkupPathFile = $bkupPath.'files/';
+        $this->lfMkdirRecursive($bkupPathFile.'dummy');
 
-        $arrLog = array(
-            'err' =>  array(),
-            'ok'  => array(),
-            'buckup_path' => $bkupPath
-        );
+        $arrLog = [
+            'err' => [],
+            'ok' => [],
+            'buckup_path' => $bkupPath,
+        ];
 
         if (!is_writable($bkupPath) || !is_writable($bkupPathFile)) {
             $msg = 'バックアップディレクトリの作成に失敗しました';
@@ -93,8 +94,8 @@ class SC_Batch_Update extends SC_Batch
 
                 // 除外ファイルをスキップ
                 if (in_array($fileName, $excludeArray)) {
-                    //$arrLog['ok'][] = '次のファイルは除外されました: ' . $path;
-                    $msg = '次のファイルは除外されました: ' . $path;
+                    // $arrLog['ok'][] = '次のファイルは除外されました: ' . $path;
+                    $msg = '次のファイルは除外されました: '.$path;
                     $this->printLog($msg);
                     continue;
                 }
@@ -102,7 +103,7 @@ class SC_Batch_Update extends SC_Batch
                 // sha1 を取得
                 $sha1 = sha1_file($path);
 
-                //$arrLog[] = $sha1 . ' => ' . $path;
+                // $arrLog[] = $sha1 . ' => ' . $path;
 
                 // 変換対象を順に処理
                 foreach ($includeArray as $include) {
@@ -114,30 +115,30 @@ class SC_Batch_Update extends SC_Batch
                         if (!empty($distinfo[$sha1])) {
                             $out = $distinfo[$sha1];
                         } else {
-                            $msg = 'ハッシュ値が一致しないため, コピー先が取得できません: ' . $path;
+                            $msg = 'ハッシュ値が一致しないため, コピー先が取得できません: '.$path;
                             $arrLog['err'][] = $msg;
                             $this->printLog($msg);
                             break 2;
                         }
 
                         if (file_exists($out) && $sha1 == sha1_file($out)) {
-                            $msg = '同じ内容のファイルをスキップしました: ' . $out;
+                            $msg = '同じ内容のファイルをスキップしました: '.$out;
                             $this->printLog($msg);
                             continue;
                         }
 
                         // バックアップを作成
                         if (file_exists($out)) {
-                            $bkupTo = $bkupPathFile . pathinfo($out, PATHINFO_BASENAME);
+                            $bkupTo = $bkupPathFile.pathinfo($out, PATHINFO_BASENAME);
                             $bkupDistInfoArray[sha1_file($out)] = $out;
 
                             if (!@copy($out, $bkupTo)) {
-                                $msg = 'バックアップファイルの作成に失敗しました: ' . $out . ' -> ' . $bkupTo;
+                                $msg = 'バックアップファイルの作成に失敗しました: '.$out.' -> '.$bkupTo;
                                 $arrLog['err'][] = $msg;
                                 $this->printLog($msg);
                                 break 2;
                             }
-                            $msg = 'バックアップファイルの作成に成功しました: ' . $out . ' -> ' . $bkupTo;
+                            $msg = 'バックアップファイルの作成に成功しました: '.$out.' -> '.$bkupTo;
                             $this->printLog($msg);
                         }
 
@@ -148,7 +149,7 @@ class SC_Batch_Update extends SC_Batch
                             $this->lfMkdirRecursive($out);
                             $handle = @fopen($out, 'w');
                             if (!$handle) {
-                                $msg = 'コピー先に書き込み権限がありません: ' . $out;
+                                $msg = 'コピー先に書き込み権限がありません: '.$out;
                                 $arrLog['err'][] = $msg;
                                 $this->printLog($msg);
                                 continue;
@@ -157,13 +158,13 @@ class SC_Batch_Update extends SC_Batch
 
                         // 取得した内容を書き込む
                         if (fwrite($handle, $contents) === false) {
-                            $msg = 'コピー先に書き込み権限がありません: ' . $out;
+                            $msg = 'コピー先に書き込み権限がありません: '.$out;
                             $arrLog['err'][] = $msg;
                             $this->printLog($msg);
                             continue;
                         }
 
-                        $msg =  'ファイルのコピーに成功しました: ' . $out;
+                        $msg = 'ファイルのコピーに成功しました: '.$out;
                         $arrLog['ok'][] = $msg;
                         $this->printLog($msg);
                         // ファイルを閉じる
@@ -174,13 +175,13 @@ class SC_Batch_Update extends SC_Batch
         }
         $src = $this->makeDistInfo($bkupDistInfoArray);
         if (is_writable($bkupPath)) {
-            $handle = @fopen($bkupPath . 'distinfo.php', 'w');
+            $handle = @fopen($bkupPath.'distinfo.php', 'w');
             @fwrite($handle, $src);
             @fclose($handle);
-            $msg = 'distinfoファイルの作成に成功しました: ' . $bkupPath . 'distinfo.php';
+            $msg = 'distinfoファイルの作成に成功しました: '.$bkupPath.'distinfo.php';
             $this->printLog($msg);
         } else {
-            $msg = 'distinfoファイルの作成に失敗しました: ' . $bkupPath . 'distinfo.php';
+            $msg = 'distinfoファイルの作成に失敗しました: '.$bkupPath.'distinfo.php';
             $arrLog['err'][] = $msg;
             $this->printLog($msg);
         }
@@ -194,18 +195,24 @@ class SC_Batch_Update extends SC_Batch
      *
      * @param string 任意のパス名
      * @param string $dir
+     *
      * @return array $dir より下層に存在するパス名の配列
+     *
      * @see http://www.php.net/glob
      */
     public function listdirs($dir)
     {
-        static $alldirs = array();
-        $dirs = glob($dir . '/*');
+        static $alldirs = [];
+        $dirs = glob($dir.'/*');
         if (is_array($dirs) && count($dirs) > 0) {
-            foreach ($dirs as $d) $alldirs[] = $d;
+            foreach ($dirs as $d) {
+                $alldirs[] = $d;
+            }
         }
         if (is_array($dirs)) {
-            foreach ($dirs as $dir) $this->listdirs($dir);
+            foreach ($dirs as $dir) {
+                $this->listdirs($dir);
+            }
         }
 
         return $alldirs;
@@ -233,9 +240,11 @@ class SC_Batch_Update extends SC_Batch
         $arrDirs = explode('/', str_replace('\\', '/', $path));
 
         foreach ($arrDirs as $n) {
-            $dir .= $n . '/';
+            $dir .= $n.'/';
             if (!file_exists($dir)) {
-                if (!@mkdir($dir)) break;
+                if (!@mkdir($dir)) {
+                    break;
+                }
             }
         }
     }
@@ -243,10 +252,10 @@ class SC_Batch_Update extends SC_Batch
     public function makeDistInfo($bkupDistInfoArray)
     {
         $src = "<?php\n"
-             . '$distifo = array(' . "\n";
+             .'$distifo = array('."\n";
 
         foreach ($bkupDistInfoArray as $key => $value) {
-            $src .= "'${key}' => '${value}',\n";
+            $src .= "'{$key}' => '{$value}',\n";
         }
         $src .= ");\n?>";
 
@@ -258,6 +267,6 @@ class SC_Batch_Update extends SC_Batch
      */
     public function printLog($msg)
     {
-        GC_Utils_Ex::gfPrintLog($msg, DATA_REALDIR . 'logs/ownersstore_batch_update.log');
+        GC_Utils_Ex::gfPrintLog($msg, DATA_REALDIR.'logs/ownersstore_batch_update.log');
     }
 }

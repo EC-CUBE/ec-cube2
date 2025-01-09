@@ -24,8 +24,8 @@
 /**
  * 売上集計 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Total extends LC_Page_Admin_Ex
@@ -57,48 +57,48 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         parent::init();
         // GDライブラリのインストール判定
         $this->install_GD = function_exists('gd_info') ? true : false;
-        $this->tpl_mainpage         = 'total/index.tpl';
-        $this->tpl_graphsubtitle    = 'total/subtitle.tpl';
-        $this->tpl_titleimage       = ROOT_URLPATH.'img/title/title_sale.jpg';
+        $this->tpl_mainpage = 'total/index.tpl';
+        $this->tpl_graphsubtitle = 'total/subtitle.tpl';
+        $this->tpl_titleimage = ROOT_URLPATH.'img/title/title_sale.jpg';
         $this->tpl_maintitle = '売上集計';
-        $this->tpl_mainno           = 'total';
+        $this->tpl_mainno = 'total';
 
-        $masterData                 = new SC_DB_MasterData_Ex();
-        $this->arrWDAY              = $masterData->getMasterData('mtb_wday');
-        $this->arrSex               = $masterData->getMasterData('mtb_sex');
-        $this->arrJob               = $masterData->getMasterData('mtb_job');
+        $masterData = new SC_DB_MasterData_Ex();
+        $this->arrWDAY = $masterData->getMasterData('mtb_wday');
+        $this->arrSex = $masterData->getMasterData('mtb_sex');
+        $this->arrJob = $masterData->getMasterData('mtb_job');
 
         // 登録・更新日検索用
-        $objDate                    = new SC_Date_Ex();
+        $objDate = new SC_Date_Ex();
         $objDate->setStartYear(RELEASE_YEAR);
-        $objDate->setEndYear(DATE('Y'));
-        $this->arrYear              = $objDate->getYear();
-        $this->arrMonth             = $objDate->getMonth();
-        $this->arrDay               = $objDate->getDay();
+        $objDate->setEndYear(date('Y'));
+        $this->arrYear = $objDate->getYear();
+        $this->arrMonth = $objDate->getMonth();
+        $this->arrDay = $objDate->getDay();
 
         // ページタイトル todo あとでなおす
-        $this->arrTitle['']         = '期間別集計';
-        $this->arrTitle['term']     = '期間別集計';
+        $this->arrTitle[''] = '期間別集計';
+        $this->arrTitle['term'] = '期間別集計';
         $this->arrTitle['products'] = '商品別集計';
-        $this->arrTitle['age']      = '年代別集計';
-        $this->arrTitle['job']      = '職業別集計';
-        $this->arrTitle['member']   = '会員別集計';
+        $this->arrTitle['age'] = '年代別集計';
+        $this->arrTitle['job'] = '職業別集計';
+        $this->arrTitle['member'] = '会員別集計';
 
         // 月度集計のkey名
-        $this->arrSearchForm1       = array('search_startyear_m', 'search_startmonth_m');
+        $this->arrSearchForm1 = ['search_startyear_m', 'search_startmonth_m'];
 
         // 期間別集計のkey名
-        $this->arrSearchForm2 = array(
+        $this->arrSearchForm2 = [
             'search_startyear',
             'search_startmonth',
             'search_startday',
             'search_endyear',
             'search_endmonth',
             'search_endday',
-        );
+        ];
 
         // 集計から除外する受注ステータスの配列
-        $this->excludeOrderStatuses = array(ORDER_CANCEL, ORDER_PENDING);
+        $this->excludeOrderStatuses = [ORDER_CANCEL, ORDER_PENDING];
     }
 
     /**
@@ -137,7 +137,6 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         switch ($this->getMode()) {
             case 'csv':
             case 'search':
-
                 $this->arrErr = $this->lfCheckError($objFormParam);
                 if (empty($this->arrErr)) {
                     // 日付
@@ -147,12 +146,12 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
                     $page = ($objFormParam->getValue('page')) ? $objFormParam->getValue('page') : 'term';
 
                     // 集計種類
-                    $type = ($objFormParam->getValue('type')) ? $objFormParam->getValue('type'): 'all';
+                    $type = ($objFormParam->getValue('type')) ? $objFormParam->getValue('type') : 'all';
 
-                    $this->tpl_page_type = 'total/page_'. $page .'.tpl';
+                    $this->tpl_page_type = 'total/page_'.$page.'.tpl';
                     // FIXME 可読性が低いので call_user_func_array を使わない (またはメソッド名を1つの定数値とする) 実装に。
-                    list($this->arrResults, $this->tpl_image) = call_user_func_array(array($this, 'lfGetOrder'.$page),
-                                                                                     array($type, $sdate, $edate));
+                    list($this->arrResults, $this->tpl_image) = call_user_func_array([$this, 'lfGetOrder'.$page],
+                        [$type, $sdate, $edate]);
                     if ($this->getMode() == 'csv') {
                         // CSV出力タイトル行の取得
                         list($arrTitleCol, $arrDataCol) = $this->lfGetCSVColum($page);
@@ -172,10 +171,10 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         }
 
         // 画面宣しても日付が保存される
-        $_SESSION           = $this->lfSaveDateSession($_SESSION, $this->arrHidden);
+        $_SESSION = $this->lfSaveDateSession($_SESSION, $this->arrHidden);
         $objFormParam->setParam($_SESSION['total']);
         // 入力値の取得
-        $this->arrForm      = $objFormParam->getFormParamList();
+        $this->arrForm = $objFormParam->getFormParamList();
         $this->tpl_subtitle = $this->arrTitle[$objFormParam->getValue('page')];
     }
 
@@ -218,15 +217,15 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         $arrList = $this->lfGetDateDefault();
 
         // 月度集計
-        $objFormParam->addParam('月度(年)', 'search_startyear_m', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), $arrList['startyear_m']);
-        $objFormParam->addParam('月度(月)', 'search_startmonth_m', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), $arrList['startmonth_m']);
+        $objFormParam->addParam('月度(年)', 'search_startyear_m', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK'], $arrList['startyear_m']);
+        $objFormParam->addParam('月度(月)', 'search_startmonth_m', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK'], $arrList['startmonth_m']);
         // 期間集計
-        $objFormParam->addParam('期間(開始日)', 'search_startyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), $arrList['startyear']);
-        $objFormParam->addParam('期間(開始日)', 'search_startmonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), $arrList['startmonth']);
-        $objFormParam->addParam('期間(開始日)', 'search_startday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), $arrList['startday']);
-        $objFormParam->addParam('期間(終了日)', 'search_endyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), $arrList['endyear']);
-        $objFormParam->addParam('期間(終了日)', 'search_endmonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), $arrList['endmonth']);
-        $objFormParam->addParam('期間(終了日)', 'search_endday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), $arrList['endday']);
+        $objFormParam->addParam('期間(開始日)', 'search_startyear', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK'], $arrList['startyear']);
+        $objFormParam->addParam('期間(開始日)', 'search_startmonth', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK'], $arrList['startmonth']);
+        $objFormParam->addParam('期間(開始日)', 'search_startday', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK'], $arrList['startday']);
+        $objFormParam->addParam('期間(終了日)', 'search_endyear', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK'], $arrList['endyear']);
+        $objFormParam->addParam('期間(終了日)', 'search_endmonth', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK'], $arrList['endmonth']);
+        $objFormParam->addParam('期間(終了日)', 'search_endday', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK'], $arrList['endday']);
 
         // hiddenデータの取得用
         $objFormParam->addParam('', 'page');
@@ -243,23 +242,23 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     public function lfCheckError(&$objFormParam)
     {
         $objFormParam->convParam();
-        $objErr         = new SC_CheckError_Ex($objFormParam->getHashArray());
+        $objErr = new SC_CheckError_Ex($objFormParam->getHashArray());
         $objErr->arrErr = $objFormParam->checkError();
 
         // 特殊項目チェック
 
         // 月度集計
         if ($objFormParam->getValue('search_form') == 1) {
-            $objErr->doFunc(array('月度', 'search_startyear_m', 'search_startmonth_m'), array('FULL_EXIST_CHECK'));
+            $objErr->doFunc(['月度', 'search_startyear_m', 'search_startmonth_m'], ['FULL_EXIST_CHECK']);
         }
 
         // 期間集計
         if ($objFormParam->getValue('search_form') == 2) {
-            $objErr->doFunc(array('期間(開始日)', 'search_startyear', 'search_startmonth', 'search_startday'), array('FULL_EXIST_CHECK'));
-            $objErr->doFunc(array('期間(終了日)', 'search_endyear', 'search_endmonth', 'search_endday'), array('FULL_EXIST_CHECK'));
-            $objErr->doFunc(array('期間(開始日)', 'search_startyear', 'search_startmonth', 'search_startday'), array('CHECK_DATE'));
-            $objErr->doFunc(array('期間(終了日)', 'search_endyear', 'search_endmonth', 'search_endday'), array('CHECK_DATE'));
-            $objErr->doFunc(array('期間(開始日)', '期間(終了日)', 'search_startyear', 'search_startmonth', 'search_startday', 'search_endyear', 'search_endmonth', 'search_endday'), array('CHECK_SET_TERM'));
+            $objErr->doFunc(['期間(開始日)', 'search_startyear', 'search_startmonth', 'search_startday'], ['FULL_EXIST_CHECK']);
+            $objErr->doFunc(['期間(終了日)', 'search_endyear', 'search_endmonth', 'search_endday'], ['FULL_EXIST_CHECK']);
+            $objErr->doFunc(['期間(開始日)', 'search_startyear', 'search_startmonth', 'search_startday'], ['CHECK_DATE']);
+            $objErr->doFunc(['期間(終了日)', 'search_endyear', 'search_endmonth', 'search_endday'], ['CHECK_DATE']);
+            $objErr->doFunc(['期間(開始日)', '期間(終了日)', 'search_startyear', 'search_startmonth', 'search_startday', 'search_endyear', 'search_endmonth', 'search_endday'], ['CHECK_SET_TERM']);
         }
 
         return $objErr->arrErr;
@@ -283,9 +282,9 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     /* 日付の初期値 */
     public function lfGetDateInit()
     {
-        $search_startyear_m     = $search_startyear  = $search_endyear  = date('Y');
-        $search_startmonth_m    = $search_startmonth = $search_endmonth = date('j');
-        $search_startday        = $search_endday     = date('n');
+        $search_startyear_m = $search_startyear = $search_endyear = date('Y');
+        $search_startmonth_m = $search_startmonth = $search_endmonth = date('j');
+        $search_startday = $search_endday = date('n');
 
         return compact($this->arrSearchForm1, $this->arrSearchForm2);
     }
@@ -303,15 +302,15 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         // 月度集計
         if ($arrRet['search_form'] == 1) {
             list($sdate, $edate) = SC_Utils_Ex::sfTermMonth($arrRet['search_startyear_m'],
-                                                            $arrRet['search_startmonth_m'],
-                                                            CLOSE_DAY);
+                $arrRet['search_startmonth_m'],
+                CLOSE_DAY);
         // 期間集計
         } elseif ($arrRet['search_form'] == 2) {
-            $sdate = $arrRet['search_startyear'] . '/' . $arrRet['search_startmonth'] . '/' . $arrRet['search_startday'];
-            $edate = $arrRet['search_endyear'] . '/' . $arrRet['search_endmonth'] . '/' . $arrRet['search_endday'];
+            $sdate = $arrRet['search_startyear'].'/'.$arrRet['search_startmonth'].'/'.$arrRet['search_startday'];
+            $edate = $arrRet['search_endyear'].'/'.$arrRet['search_endmonth'].'/'.$arrRet['search_endday'];
         }
 
-        return array($sdate, $edate);
+        return [$sdate, $edate];
     }
 
     /* 折れ線グラフの作成 */
@@ -321,7 +320,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
      * @param string $type
      * @param string $xtitle
      * @param string $ytitle
-     * @param boolean $xincline
+     * @param bool $xincline
      */
     public function lfGetGraphLine($arrResults, $keyname, $type, $xtitle, $ytitle, $sdate, $edate, $xincline)
     {
@@ -335,10 +334,10 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             // 一時ファイル名の取得
             $pngname = $this->lfGetGraphPng($type);
 
-            $path = GRAPH_REALDIR . $pngname;
+            $path = GRAPH_REALDIR.$pngname;
 
             // ラベル表示インターバルを求める
-            $interval = intval(count($arrList) / 20);
+            $interval = (int) (count($arrList) / 20);
             if ($interval < 1) {
                 $interval = 1;
             }
@@ -360,9 +359,9 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             // メインタイトル作成
             list($sy, $sm, $sd) = preg_split('|[/ ]|', $sdate);
             list($ey, $em, $ed) = preg_split('|[/ ]|', $edate);
-            $start_date = $sy . '年' . $sm . '月' . $sd . '日';
-            $end_date = $ey . '年' . $em . '月' . $ed . '日';
-            $objGraphLine->drawTitle('集計期間：' . $start_date . ' - ' . $end_date);
+            $start_date = $sy.'年'.$sm.'月'.$sd.'日';
+            $end_date = $ey.'年'.$em.'月'.$ed.'日';
+            $objGraphLine->drawTitle('集計期間：'.$start_date.' - '.$end_date);
 
             // グラフ描画
             $objGraphLine->drawGraph();
@@ -374,7 +373,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             }
 
             // ファイルパスを返す
-            $ret_path = GRAPH_URLPATH . $pngname;
+            $ret_path = GRAPH_URLPATH.$pngname;
         }
 
         return $ret_path;
@@ -393,12 +392,12 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         if (count($arrResults) > 0 && $this->install_GD) {
             // グラフの生成
             $arrList = SC_Utils_Ex::sfArrKeyValue($arrResults, $keyname,
-                                                  'total', GRAPH_PIE_MAX,
-                                                  GRAPH_LABEL_MAX);
+                'total', GRAPH_PIE_MAX,
+                GRAPH_LABEL_MAX);
 
             // 一時ファイル名の取得
             $pngname = $this->lfGetGraphPng($type);
-            $path = GRAPH_REALDIR . $pngname;
+            $path = GRAPH_REALDIR.$pngname;
 
             $objGraphPie = new SC_Graph_Pie_Ex();
 
@@ -410,9 +409,9 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             // メインタイトル作成
             list($sy, $sm, $sd) = preg_split('|[/ ]|', $sdate);
             list($ey, $em, $ed) = preg_split('|[/ ]|', $edate);
-            $start_date = $sy . '年' . $sm . '月' . $sd . '日';
-            $end_date = $ey . '年' . $em . '月' . $ed . '日';
-            $objGraphPie->drawTitle('集計期間：' . $start_date . ' - ' . $end_date);
+            $start_date = $sy.'年'.$sm.'月'.$sd.'日';
+            $end_date = $ey.'年'.$em.'月'.$ed.'日';
+            $objGraphPie->drawTitle('集計期間：'.$start_date.' - '.$end_date);
 
             // 円グラフ描画
             $objGraphPie->drawGraph();
@@ -424,7 +423,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             }
 
             // ファイルパスを返す
-            $ret_path = GRAPH_URLPATH . $pngname;
+            $ret_path = GRAPH_URLPATH.$pngname;
         }
 
         return $ret_path;
@@ -449,11 +448,11 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 
             // 一時ファイル名の取得
             $pngname = $this->lfGetGraphPng($type);
-            $path = GRAPH_REALDIR . $pngname;
+            $path = GRAPH_REALDIR.$pngname;
 
             $objGraphBar = new SC_Graph_Bar_Ex();
 
-            $arrKey = array();
+            $arrKey = [];
             foreach ($arrList as $key => $value) {
                 $arrKey[] = preg_replace('/～/u', '-', $key);
             }
@@ -468,9 +467,9 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $arrKey = array_keys($arrList);
             list($sy, $sm, $sd) = preg_split('|[/ ]|', $sdate);
             list($ey, $em, $ed) = preg_split('|[/ ]|', $edate);
-            $start_date = $sy . '年' . $sm . '月' . $sd . '日';
-            $end_date = $ey . '年' . $em . '月' . $ed . '日';
-            $objGraphBar->drawTitle('集計期間：' . $start_date . ' - ' . $end_date);
+            $start_date = $sy.'年'.$sm.'月'.$sd.'日';
+            $end_date = $ey.'年'.$em.'月'.$ed.'日';
+            $objGraphBar->drawTitle('集計期間：'.$start_date.' - '.$end_date);
 
             $objGraphBar->drawGraph();
 
@@ -480,7 +479,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             }
 
             // ファイルパスを返す
-            $ret_path = GRAPH_URLPATH . $pngname;
+            $ret_path = GRAPH_URLPATH.$pngname;
         }
 
         return $ret_path;
@@ -507,23 +506,23 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     /**
      * @param string $col_date
      */
-    public function lfGetWhereMember($col_date, $sdate, $edate, $type = NULL, $col_member = 'customer_id')
+    public function lfGetWhereMember($col_date, $sdate, $edate, $type = null, $col_member = 'customer_id')
     {
         $where = '';
         // 取得日付の指定
         if ($sdate != '') {
             if ($where != '') {
-                $where.= ' AND ';
+                $where .= ' AND ';
             }
-            $where.= " $col_date >= '". $sdate ."'";
+            $where .= " $col_date >= '".$sdate."'";
         }
 
         if ($edate != '') {
             if ($where != '') {
-                $where.= ' AND ';
+                $where .= ' AND ';
             }
             $edate = date('Y/m/d', strtotime('1 day', strtotime($edate)));
-            $where.= " $col_date < date('" . $edate ."')";
+            $where .= " $col_date < date('".$edate."')";
         }
 
         // 会員、非会員の判定
@@ -533,21 +532,21 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
                 break;
             case 'member':
                 if ($where != '') {
-                    $where.= ' AND ';
+                    $where .= ' AND ';
                 }
-                $where.= " $col_member <> 0";
+                $where .= " $col_member <> 0";
                 break;
             case 'nonmember':
                 if ($where != '') {
-                    $where.= ' AND ';
+                    $where .= ' AND ';
                 }
-                $where.= " $col_member = 0";
+                $where .= " $col_member = 0";
                 break;
             default:
                 break;
         }
 
-        return array($where, array());
+        return [$where, []];
     }
 
     /** 会員別集計 **/
@@ -571,17 +570,17 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             order_sex
 __EOS__;
 
-        $from       = 'dtb_order';
+        $from = 'dtb_order';
 
         $objQuery->setGroupBy('member, order_sex');
 
         $arrTotalResults = $objQuery->select($col, $from, $where, $arrWhereVal);
 
         foreach ($arrTotalResults as $key => $value) {
-            $arrResult =& $arrTotalResults[$key];
+            $arrResult = &$arrTotalResults[$key];
             $member_key = $arrResult['order_sex'];
             if ($member_key != '') {
-                $arrResult['member_name'] = (($arrResult['member']) ? '会員' : '非会員') . $this->arrSex[$member_key];
+                $arrResult['member_name'] = (($arrResult['member']) ? '会員' : '非会員').$this->arrSex[$member_key];
             } else {
                 $arrResult['member_name'] = '未回答';
             }
@@ -589,8 +588,7 @@ __EOS__;
 
         $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'member_name', 'member', '(売上比率)', $sdate, $edate) : '';
 
-
-        return array($arrTotalResults, $tpl_image);
+        return [$arrTotalResults, $tpl_image];
     }
 
     /** 商品別集計 **/
@@ -620,9 +618,9 @@ __EOS__;
         $objQuery->setOrder('total DESC');
         $arrTotalResults = $objQuery->select($col, $from, $where, $arrWhereVal);
 
-        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'product_name', 'products_' . $type, '(売上比率)', $sdate, $edate) : '';
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'product_name', 'products_'.$type, '(売上比率)', $sdate, $edate) : '';
 
-        return array($arrTotalResults, $tpl_image);
+        return [$arrTotalResults, $tpl_image];
     }
 
     /** 職業別集計 **/
@@ -638,7 +636,7 @@ __EOS__;
             AVG(total) AS total_average
 __EOS__;
 
-        $from   = 'dtb_order JOIN dtb_customer ON dtb_order.customer_id = dtb_customer.customer_id';
+        $from = 'dtb_order JOIN dtb_customer ON dtb_order.customer_id = dtb_customer.customer_id';
 
         $where .= ' AND dtb_order.del_flg = 0 AND dtb_order.status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
         $arrWhereVal += $this->excludeOrderStatuses;
@@ -648,19 +646,18 @@ __EOS__;
         $arrTotalResults = $objQuery->select($col, $from, $where, $arrWhereVal);
 
         foreach ($arrTotalResults as $key => $value) {
-            $arrResult =& $arrTotalResults[$key];
+            $arrResult = &$arrTotalResults[$key];
             $job_key = $arrResult['job'];
             if ($job_key != '') {
                 $arrResult['job_name'] = $this->arrJob[$job_key];
             } else {
                 $arrResult['job_name'] = '未回答';
             }
-
         }
 
-        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'job_name', 'job_' . $type, '(売上比率)', $sdate, $edate) : '';
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphPie($arrTotalResults, 'job_name', 'job_'.$type, '(売上比率)', $sdate, $edate) : '';
 
-        return array($arrTotalResults, $tpl_image);
+        return [$arrTotalResults, $tpl_image];
     }
 
     /** 年代別集計 **/
@@ -671,41 +668,39 @@ __EOS__;
         list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, $type);
 
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
-        $col = $dbFactory->getOrderTotalAgeColSql() . ' AS age';
+        $col = $dbFactory->getOrderTotalAgeColSql().' AS age';
         $col .= ',COUNT(order_id) AS order_count';
         $col .= ',SUM(total) AS total';
         $col .= ',AVG(total) AS total_average';
 
-        $from   = 'dtb_order';
+        $from = 'dtb_order';
 
         $where .= ' AND del_flg = 0 AND status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
-        $arrWhereVal += $this->excludeOrderStatuses;  $objQuery->setGroupBy('age');
-
+        $arrWhereVal += $this->excludeOrderStatuses;
         $objQuery->setGroupBy('age');
         $objQuery->setOrder('age DESC');
         $arrTotalResults = $objQuery->select($col, $from, $where, $arrWhereVal);
 
         foreach ($arrTotalResults as $key => $value) {
-            $arrResult =& $arrTotalResults[$key];
+            $arrResult = &$arrTotalResults[$key];
             $age_key = $arrResult['age'];
             if ($age_key != '') {
-                $arrResult['age_name'] = $arrResult['age'] . '代';
+                $arrResult['age_name'] = $arrResult['age'].'代';
             } else {
                 $arrResult['age_name'] = '未回答';
             }
-
         }
 
-        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphBar($arrTotalResults, 'age_name', 'age_' . $type, '(年齢)', '(売上合計)', $sdate, $edate) : '';
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphBar($arrTotalResults, 'age_name', 'age_'.$type, '(年齢)', '(売上合計)', $sdate, $edate) : '';
 
-        return array($arrTotalResults, $tpl_image);
+        return [$arrTotalResults, $tpl_image];
     }
 
     /** 期間別集計 **/
     // todo あいだの日付埋める
     public function lfGetOrderTerm($type, $sdate, $edate)
     {
-        $objQuery   = SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
         list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, null, null);
         $where .= ' AND del_flg = 0 AND status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
@@ -751,11 +746,11 @@ __EOS__;
 
         $arrTotalResults = $this->lfAddBlankLine($arrTotalResults, $type, $sdate, $edate);
 
-        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphLine($arrTotalResults, 'str_date', 'term_' . $type, $xtitle, $ytitle, $sdate, $edate, $xincline) : '';
+        $tpl_image = defined('DRAW_IMAGE') && DRAW_IMAGE ? $this->lfGetGraphLine($arrTotalResults, 'str_date', 'term_'.$type, $xtitle, $ytitle, $sdate, $edate, $xincline) : '';
 
         $arrTotalResults = $this->lfAddTotalLine($arrTotalResults);
 
-        return array($arrTotalResults, $tpl_image);
+        return [$arrTotalResults, $tpl_image];
     }
 
     /*
@@ -765,10 +760,10 @@ __EOS__;
     {
         $arrDateList = $this->lfDateTimeArray($type, $st, $ed);
 
-        $arrDateResults = array();
-        $arrRet = array();
+        $arrDateResults = [];
+        $arrRet = [];
         foreach ($arrResults as $arrResult) {
-            $strdate                = $arrResult['str_date'];
+            $strdate = $arrResult['str_date'];
             $arrDateResults[$strdate] = $arrResult;
         }
 
@@ -791,29 +786,29 @@ __EOS__;
     {
         switch ($type) {
             case 'month':
-                $format        = 'Y-m';
+                $format = 'Y-m';
                 break;
             case 'year':
-                $format        = 'Y';
+                $format = 'Y';
                 break;
             case 'wday':
-                $format        = 'D';
+                $format = 'D';
                 break;
             case 'hour':
-                $format        = 'H';
+                $format = 'H';
                 break;
             default:
-                $format        = 'Y-m-d';
+                $format = 'Y-m-d';
                 break;
         }
 
         if ($type == 'hour') {
-            $arrDateList = array('00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16',  '17', '18', '19', '20', '21', '22', '23');
+            $arrDateList = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16',  '17', '18', '19', '20', '21', '22', '23'];
         } else {
-            $arrDateList = array();
-            $tmp    = strtotime($st);
-            $nAday  = 60*60*24;
-            $edx    = strtotime($ed);
+            $arrDateList = [];
+            $tmp = strtotime($st);
+            $nAday = 60 * 60 * 24;
+            $edx = strtotime($ed);
             while ($tmp <= $edx) {
                 $sDate = date($format, $tmp);
                 if (!in_array($sDate, $arrDateList)) {
@@ -833,16 +828,19 @@ __EOS__;
     {
         // 検索結果が0でない場合
         if (count($arrResults) > 0) {
-            $arrTotal = array();
+            $arrTotal = [];
             // 合計の計算
             foreach ($arrResults as $arrResult) {
                 foreach ($arrResult as $key => $value) {
+                    if (!isset($arrTotal[$key])) {
+                        $arrTotal[$key] = 0;
+                    }
                     $arrTotal[$key] += (int) $arrResult[$key];
                 }
             }
             // 平均値の計算
             $arrTotal['total_average'] = 0;
-            if ($arrTotal['total_order'] > 0) {
+            if (isset($arrTotal['total_order']) && $arrTotal['total_order'] > 0) {
                 $arrTotal['total_average'] = $arrTotal['total'] / $arrTotal['total_order'];
             }
             if (is_nan($arrTotal['total_average'])) {
@@ -863,16 +861,16 @@ __EOS__;
     {
         $max = count($arrData);
         $csv_data = '';
-        $arrRet = array();
+        $arrRet = [];
         for ($i = 0; $i < $max; $i++) {
             foreach ($arrDataCol as $val) {
-                $arrRet[$i][$val] = ($arrData[$i][$val]) ? $arrData[$i][$val] : "0";
+                $arrRet[$i][$val] = isset($arrData[$i][$val]) ? $arrData[$i][$val] : '0';
             }
             // 期間別集計の合計行の「期間」項目に不要な値が表示されてしまわない様、'合計'と表示する
-            if (($i === $max -1) && isset($arrRet[$i]['str_date'])) {
+            if (($i === $max - 1) && isset($arrRet[$i]['str_date'])) {
                 $arrRet[$i]['str_date'] = '合計';
             }
-            $csv_data.= SC_Utils_Ex::sfGetCSVList($arrRet[$i]);
+            $csv_data .= SC_Utils_Ex::sfGetCSVList($arrRet[$i]);
         }
 
         return $csv_data;
@@ -883,71 +881,71 @@ __EOS__;
         switch ($page) {
             // 商品別集計
             case 'products':
-                $arrTitleCol = array(
+                $arrTitleCol = [
                     '商品コード',
                     '商品名',
                     '購入件数',
                     '数量',
                     '単価',
                     '金額',
-                );
-                $arrDataCol = array(
+                ];
+                $arrDataCol = [
                     'product_code',
                     'product_name',
                     'order_count',
                     'products_count',
                     'price',
                     'total',
-                );
+                ];
                 break;
-            // 職業別集計
+                // 職業別集計
             case 'job':
-                $arrTitleCol = array(
+                $arrTitleCol = [
                     '職業',
                     '購入件数',
                     '購入合計',
                     '購入平均',
-                );
-                $arrDataCol = array(
+                ];
+                $arrDataCol = [
                     'job_name',
                     'order_count',
                     'total',
                     'total_average',
-                );
+                ];
                 break;
-            // 会員別集計
+                // 会員別集計
             case 'member':
-                $arrTitleCol = array(
+                $arrTitleCol = [
                     '会員',
                     '購入件数',
                     '購入合計',
                     '購入平均',
-                );
-                $arrDataCol = array(
+                ];
+                $arrDataCol = [
                     'member_name',
                     'order_count',
                     'total',
                     'total_average',
-                );
+                ];
                 break;
-            // 年代別集計
+                // 年代別集計
             case 'age':
-                $arrTitleCol = array(
+                $arrTitleCol = [
                     '年齢',
                     '購入件数',
                     '購入合計',
                     '購入平均',
-                );
-                $arrDataCol = array(
+                ];
+                $arrDataCol = [
                     'age_name',
                     'order_count',
                     'total',
                     'total_average',
-                );
+                ];
                 break;
-            // 期間別集計
+                // 期間別集計
             default:
-                $arrTitleCol = array(
+                $arrTitleCol = [
                     '期間',
                     '購入件数',
                     '男性',
@@ -958,8 +956,8 @@ __EOS__;
                     '女性(非会員)',
                     '購入合計',
                     '購入平均',
-                );
-                $arrDataCol = array(
+                ];
+                $arrDataCol = [
                     'str_date',
                     'total_order',
                     'men',
@@ -970,10 +968,10 @@ __EOS__;
                     'women_nonmember',
                     'total',
                     'total_average',
-                );
+                ];
                 break;
         }
 
-        return array($arrTitleCol, $arrDataCol);
+        return [$arrTitleCol, $arrDataCol];
     }
 }

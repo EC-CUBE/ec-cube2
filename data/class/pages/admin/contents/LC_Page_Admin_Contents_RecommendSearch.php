@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * おすすめ商品管理 商品検索のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
@@ -72,7 +71,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
         $objFormParam->setParam($_POST);
         $objFormParam->convParam();
 
-        $rank = intval($_GET['rank']);
+        $rank = (int) ($_GET['rank'] ?? 0);
 
         switch ($this->getMode()) {
             case 'search':
@@ -87,7 +86,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
                     $wheres = $this->createWhere($objFormParam, $objDb);
                     $this->tpl_linemax = $this->getLineCount($wheres, $objProduct);
 
-                    $page_max = SC_Utils_Ex::sfGetSearchPageMax($arrPost['search_page_max']);
+                    $page_max = SC_Utils_Ex::sfGetSearchPageMax($arrPost['search_page_max'] ?? 0);
 
                     // ページ送りの取得
                     $objNavi = new SC_PageNavi_Ex($arrPost['search_pageno'], $this->tpl_linemax, $page_max, 'eccube.moveSearchPage', NAVI_PMAX);
@@ -105,27 +104,30 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
 
         // カテゴリ取得
         $this->arrCatList = $objDb->sfGetCategoryList();
-        $this->rank       = $rank;
+        $this->rank = $rank;
         $this->setTemplate('contents/recommend_search.tpl');
     }
 
     /**
      * パラメーターの初期化を行う
+     *
      * @param SC_FormParam_Ex $objFormParam
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('商品ID', 'search_name', LTEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('商品ID', 'search_category_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('商品コード', 'search_product_code', LTEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('商品ステータス', 'search_status', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('ページ番号', 'search_pageno', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('商品ID', 'search_name', LTEXT_LEN, 'KVa', ['MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('商品ID', 'search_category_id', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('商品コード', 'search_product_code', LTEXT_LEN, 'KVa', ['MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('商品ステータス', 'search_status', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('ページ番号', 'search_pageno', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
     }
 
     /**
      * 入力されたパラメーターのエラーチェックを行う。
+     *
      * @param  SC_FormParam_Ex $objFormParam
-     * @return Array  エラー内容
+     *
+     * @return array  エラー内容
      */
     public function lfCheckError(&$objFormParam)
     {
@@ -136,17 +138,18 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
     }
 
     /**
-     *
      * POSTされた値からSQLのWHEREとBINDを配列で返す。
-     * @return array        ('where' => where string, 'bind' => databind array)
+     *
      * @param  SC_FormParam $objFormParam
      * @param SC_Helper_DB_Ex $objDb
+     *
+     * @return array        ('where' => where string, 'bind' => databind array)
      */
     public function createWhere(&$objFormParam, &$objDb)
     {
         $arrForm = $objFormParam->getHashArray();
         $where = 'alldtl.del_flg = 0';
-        $bind = array();
+        $bind = [];
         foreach ($arrForm as $key => $val) {
             if ($val == '') {
                 continue;
@@ -160,12 +163,12 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
                 case 'search_category_id':
                     list($tmp_where, $tmp_bind) = $objDb->sfGetCatWhere($val);
                     if ($tmp_where != '') {
-                        $where.= ' AND EXISTS (SELECT * FROM dtb_product_categories WHERE dtb_product_categories.product_id = alldtl.product_id AND ' . $tmp_where . ')';
+                        $where .= ' AND EXISTS (SELECT * FROM dtb_product_categories WHERE dtb_product_categories.product_id = alldtl.product_id AND '.$tmp_where.')';
                         $bind = array_merge((array) $bind, (array) $tmp_bind);
                     }
                     break;
                 case 'search_product_code':
-                    $where .=    ' AND EXISTS (SELECT * FROM dtb_products_class WHERE dtb_products_class.product_id = alldtl.product_id AND product_code LIKE ?)';
+                    $where .= ' AND EXISTS (SELECT * FROM dtb_products_class WHERE dtb_products_class.product_id = alldtl.product_id AND product_code LIKE ?)';
                     $bind[] = '%'.$val.'%';
                     break;
                 case 'search_status':
@@ -177,15 +180,15 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
             }
         }
 
-        return array(
-            'where'=>$where,
-            'bind' => $bind
-        );
+        return [
+            'where' => $where,
+            'bind' => $bind,
+        ];
     }
 
     /**
-     *
      * 検索結果対象となる商品の数を返す。
+     *
      * @param array      $whereAndBind
      * @param SC_Product $objProduct
      */
@@ -203,9 +206,10 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
 
     /**
      * 検索結果の取得
+     *
      * @param array      $whereAndBind string whereと array bindの連想配列
      * @param SC_Product $objProduct
-     * @param integer $page_max
+     * @param int $page_max
      */
     public function getProducts($whereAndBind, &$objProduct, $page_max, $startno)
     {
@@ -215,6 +219,7 @@ class LC_Page_Admin_Contents_RecommendSearch extends LC_Page_Admin_Ex
         $objQuery->setWhere($where);
         // 取得範囲の指定(開始行番号、行数のセット)
         $objQuery->setLimitOffset($page_max, $startno);
+
         // 検索結果の取得
         return $objProduct->findProductIdsOrder($objQuery, $bind);
     }

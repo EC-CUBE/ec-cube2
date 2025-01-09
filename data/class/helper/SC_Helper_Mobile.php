@@ -24,9 +24,10 @@
 /**
  * モバイルのヘルパークラス.
  *
- * @package Helper
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
+ *
  * @deprecated
  */
 class SC_Helper_Mobile
@@ -37,43 +38,43 @@ class SC_Helper_Mobile
     /** 拡張MimeType配列
      * Application/octet-streamで対応出来ないファイルタイプのみ拡張子をキーに記述する
      * 拡張子が本配列に存在しない場合は application/force-download を利用する */
-    public $arrMimetypes = array(
-            'html'=> 'text/html',
-            'css' => 'text/css',
-            'hdml'=> 'text/x-hdml',
-            'mmf' => 'application/x-smaf',
-            'jpeg'=> 'image/jpeg',
-            'jpg' => 'image/jpeg',
-            'gif' => 'image/gif',
-            'png' => 'image/png',
-            'bmp' => 'image/x-ms-bmp',
-            'amc' => 'application/x-mpeg',
-            '3g2' => 'video/3gpp2',
-            '3gp' => 'video/3gpp',
-            'jam' => 'application/x-jam',
-            'kjx' => 'application/x-kjx',
-            'jar' => 'application/java-archive',
-            'jad' => 'text/vnd.sun.j2me.app-descriptor',
-            'swf' => 'application/x-shockwave-flash',
-            'dmt' => 'application/x-decomail-template',
-            'khm' => 'application/x-kddi-htmlmail',
-            'hmt' => 'application/x-htmlmail-template',
-            'ucm' => 'application/x-ucf-package',
-            'ucp' => 'application/x-ucf-package',
-            'pdf' => 'application/pdf',
-            'wma' => 'audio/x-ms-wma',
-            'asf' => 'video/x-ms-asf',
-            'wax' => 'audio/x-ms-wax',
-            'wvx' => 'video/x-ms-wvx',
-            'wmv' => 'video/x-ms-wmv',
-            'asx' => 'video/asx',
-            'txt' => 'text/plain',
-            'exe' => 'application/octet-stream',
-            'zip' => 'application/zip',
-            'doc' => 'application/msword',
-            'xls' => 'application/vnd.ms-excel',
-            'ppt' => 'application/vnd.ms-powerpoint'
-        );
+    public $arrMimetypes = [
+        'html' => 'text/html',
+        'css' => 'text/css',
+        'hdml' => 'text/x-hdml',
+        'mmf' => 'application/x-smaf',
+        'jpeg' => 'image/jpeg',
+        'jpg' => 'image/jpeg',
+        'gif' => 'image/gif',
+        'png' => 'image/png',
+        'bmp' => 'image/x-ms-bmp',
+        'amc' => 'application/x-mpeg',
+        '3g2' => 'video/3gpp2',
+        '3gp' => 'video/3gpp',
+        'jam' => 'application/x-jam',
+        'kjx' => 'application/x-kjx',
+        'jar' => 'application/java-archive',
+        'jad' => 'text/vnd.sun.j2me.app-descriptor',
+        'swf' => 'application/x-shockwave-flash',
+        'dmt' => 'application/x-decomail-template',
+        'khm' => 'application/x-kddi-htmlmail',
+        'hmt' => 'application/x-htmlmail-template',
+        'ucm' => 'application/x-ucf-package',
+        'ucp' => 'application/x-ucf-package',
+        'pdf' => 'application/pdf',
+        'wma' => 'audio/x-ms-wma',
+        'asf' => 'video/x-ms-asf',
+        'wax' => 'audio/x-ms-wax',
+        'wvx' => 'video/x-ms-wvx',
+        'wmv' => 'video/x-ms-wmv',
+        'asx' => 'video/asx',
+        'txt' => 'text/plain',
+        'exe' => 'application/octet-stream',
+        'zip' => 'application/zip',
+        'doc' => 'application/msword',
+        'xls' => 'application/vnd.ms-excel',
+        'ppt' => 'application/vnd.ms-powerpoint',
+    ];
 
     /**
      * EC-CUBE がサポートする携帯端末かどうかをチェックする。
@@ -84,7 +85,7 @@ class SC_Helper_Mobile
     public function lfMobileCheckCompatibility()
     {
         if (!SC_MobileUserAgent_Ex::isSupported()) {
-            header('Location: ' . ROOT_URLPATH . 'unsupported/' . DIR_INDEX_PATH);
+            header('Location: '.ROOT_URLPATH.'unsupported/'.DIR_INDEX_PATH);
             exit;
         }
     }
@@ -93,6 +94,7 @@ class SC_Helper_Mobile
      * 入力データを内部エンコーディングに変換し、絵文字を除去する。
      *
      * @param string &$value 入力データへの参照
+     *
      * @return void
      */
     public function lfMobileConvertInputValue(&$value)
@@ -117,9 +119,9 @@ class SC_Helper_Mobile
      */
     public function lfMobileInitInput()
     {
-        array_walk($_GET, array($this, 'lfMobileConvertInputValue'));
-        array_walk($_POST, array($this, 'lfMobileConvertInputValue'));
-        array_walk($_REQUEST, array($this, 'lfMobileConvertInputValue'));
+        array_walk($_GET, [$this, 'lfMobileConvertInputValue']);
+        array_walk($_POST, [$this, 'lfMobileConvertInputValue']);
+        array_walk($_REQUEST, [$this, 'lfMobileConvertInputValue']);
     }
 
     /**
@@ -130,7 +132,7 @@ class SC_Helper_Mobile
      */
     public function lfMobileGetExtSessionId()
     {
-        if (!preg_match('|^' . ROOT_URLPATH . '(.*)$|', $_SERVER['SCRIPT_NAME'], $matches)) {
+        if (!preg_match('|^'.ROOT_URLPATH.'(.*)$|', $_SERVER['SCRIPT_NAME'], $matches)) {
             return null;
         }
 
@@ -140,8 +142,8 @@ class SC_Helper_Mobile
 
         foreach ($_REQUEST as $key => $value) {
             $session_id = $objQuery->get('session_id', 'dtb_mobile_ext_session_id',
-                                         'param_key = ? AND param_value = ? AND url = ? AND create_date >= ?',
-                                         array($key, $value, $url, $time));
+                'param_key = ? AND param_value = ? AND url = ? AND create_date >= ?',
+                [$key, $value, $url, $time]);
             if (isset($session_id)) {
                 return $session_id;
             }
@@ -173,7 +175,7 @@ class SC_Helper_Mobile
         // セッションIDの存在をチェックする。
         $objSession = new SC_Helper_Session_Ex();
         if ($objSession->sfSessRead($sessionId) === null) {
-            GC_Utils_Ex::gfPrintLog("Non-existent session id : sid=".substr(sha1($sessionId), 0, 8));
+            GC_Utils_Ex::gfPrintLog('Non-existent session id : sid='.substr(sha1($sessionId), 0, 8));
 
             return false;
         }
@@ -186,7 +188,7 @@ class SC_Helper_Mobile
      *
      * FIXME '@' でエラーを抑制するのは良くない
      *
-     * @return boolean セッションデータが有効な場合は true、無効な場合は false を返す。
+     * @return bool セッションデータが有効な場合は true、無効な場合は false を返す。
      */
     public function lfMobileValidateSession()
     {
@@ -196,9 +198,9 @@ class SC_Helper_Mobile
         }
 
         // 有効期限を過ぎていないかどうかをチェックする。
-        if (intval(@$_SESSION['mobile']['expires']) < time()) {
-            $msg = 'Session expired at ' . date('Y/m/d H:i:s', @$_SESSION['mobile']['expires'])
-                 . ' : sid=' . substr(sha1(session_id()), 0, 8);
+        if ((int) (@$_SESSION['mobile']['expires']) < time()) {
+            $msg = 'Session expired at '.date('Y/m/d H:i:s', @$_SESSION['mobile']['expires'])
+                 .' : sid='.substr(sha1(session_id()), 0, 8);
             GC_Utils_Ex::gfPrintLog($msg);
 
             return false;
@@ -208,8 +210,8 @@ class SC_Helper_Mobile
         $model = SC_MobileUserAgent_Ex::getModel();
         if (@$_SESSION['mobile']['model'] != $model) {
             $msg = 'User agent model mismatch : '
-                 . '"$model" != "' . @$_SESSION['mobile']['model']
-                 . '" (expected), sid=' . substr(sha1(session_id()), 0, 8);
+                 .'"$model" != "'.@$_SESSION['mobile']['model']
+                 .'" (expected), sid='.substr(sha1(session_id()), 0, 8);
             GC_Utils_Ex::gfPrintLog($msg);
 
             return false;
@@ -236,13 +238,13 @@ class SC_Helper_Mobile
         mb_http_output('SJIS-win');
 
         // 端末に合わせて画像サイズを変換する。
-        ob_start(array('SC_MobileImage_Ex', 'handler'));
+        ob_start(['SC_MobileImage_Ex', 'handler']);
 
         // 内部エンコーディングから Shift JIS に変換する。
         ob_start('mb_output_handler');
 
-        //download.phpに対してカタカナ変換をするとファイルが壊れてしまうため回避する
-        if ($_SERVER['SCRIPT_FILENAME'] != HTML_REALDIR . 'mypage/download.php') {
+        // download.phpに対してカタカナ変換をするとファイルが壊れてしまうため回避する
+        if ($_SERVER['SCRIPT_FILENAME'] != HTML_REALDIR.'mypage/download.php') {
             // 全角カタカナを半角カタカナに変換する。
             ob_start(create_function('$buffer', 'return mb_convert_kana($buffer, "k");'));
         }
@@ -267,7 +269,7 @@ class SC_Helper_Mobile
     /**
      * Location等でセッションIDを付加する必要があるURLにセッションIDを付加する。
      *
-     * @return String
+     * @return string
      */
     public function gfAddSessionId($url = null)
     {
@@ -283,9 +285,9 @@ class SC_Helper_Mobile
      * @param array $array 元となる配列
      * @param array セッション ID を追加した配列
      */
-    public function sessionIdArray($array = array())
+    public function sessionIdArray($array = [])
     {
-        return array_merge($array, array(session_name() => session_id()));
+        return array_merge($array, [session_name() => session_id()]);
     }
 
     /**
@@ -303,6 +305,7 @@ class SC_Helper_Mobile
      *
      * @param  string       $next_url   空メール受け付け後に遷移させるページ (モバイルサイトトップからの相対URL)
      * @param  string       $session_id セッションID (省略した場合は現在のセッションID)
+     *
      * @return string|false トークンを返す。エラーが発生した場合はfalseを返す。
      */
     public function gfPrepareKaraMail($next_url, $session_id = null)
@@ -315,14 +318,14 @@ class SC_Helper_Mobile
 
         // GC
         $time = date('Y-m-d H:i:s', time() - MOBILE_SESSION_LIFETIME);
-        $objQuery->delete('dtb_mobile_kara_mail', 'email IS NULL AND create_date < ?', array($time));
+        $objQuery->delete('dtb_mobile_kara_mail', 'email IS NULL AND create_date < ?', [$time]);
 
-        $objQuery->delete('dtb_mobile_kara_mail', 'session_id = ?', array($session_id));
+        $objQuery->delete('dtb_mobile_kara_mail', 'session_id = ?', [$session_id]);
 
-        $arrValues = array(
+        $arrValues = [
             'session_id' => $session_id,
-            'next_url'   => $next_url,
-        );
+            'next_url' => $next_url,
+        ];
 
         $try = 10;
 
@@ -331,13 +334,13 @@ class SC_Helper_Mobile
 
             $arrValues['kara_mail_id'] = $objQuery->nextVal('dtb_mobile_kara_mail_kara_mail_id');
             $objQuery->insert('dtb_mobile_kara_mail', $arrValues);
-            $exists = $objQuery->exists('dtb_mobile_kara_mail', 'token = ?', array($token));
+            $exists = $objQuery->exists('dtb_mobile_kara_mail', 'token = ?', [$token]);
 
             if ($exists) {
                 break;
             }
 
-            $objQuery->delete('dtb_mobile_kara_mail', 'session_id = ?', array($session_id));
+            $objQuery->delete('dtb_mobile_kara_mail', 'session_id = ?', [$session_id]);
             $token = false;
             --$try;
         }
@@ -350,7 +353,8 @@ class SC_Helper_Mobile
      *
      * @param  string  $token トークン
      * @param  string  $email メールアドレス
-     * @return boolean 成功した場合はtrue、失敗した場合はfalseを返す。
+     *
+     * @return bool 成功した場合はtrue、失敗した場合はfalseを返す。
      */
     public function gfRegisterKaraMail($token, $email)
     {
@@ -359,28 +363,29 @@ class SC_Helper_Mobile
         // GC
         $time = date('Y-m-d H:i:s', time() - MOBILE_SESSION_LIFETIME);
         $objQuery->delete('dtb_mobile_kara_mail',
-                          '(email IS NULL AND create_date < ?) OR (email IS NOT NULL AND receive_date < ?)',
-                          array($time, $time));
+            '(email IS NULL AND create_date < ?) OR (email IS NOT NULL AND receive_date < ?)',
+            [$time, $time]);
 
-        $kara_mail_id = $objQuery->get('kara_mail_id', 'dtb_mobile_kara_mail', 'token = ?', array($token));
+        $kara_mail_id = $objQuery->get('kara_mail_id', 'dtb_mobile_kara_mail', 'token = ?', [$token]);
         if (!isset($kara_mail_id)) {
             return false;
         }
 
-        $arrValues = array('email' => $email);
-        $arrRawValues = array('receive_date' => 'CURRENT_TIMESTAMP');
-        $objQuery->update('dtb_mobile_kara_mail', $arrValues, 'kara_mail_id = ?', array($kara_mail_id), $arrRawValues);
+        $arrValues = ['email' => $email];
+        $arrRawValues = ['receive_date' => 'CURRENT_TIMESTAMP'];
+        $objQuery->update('dtb_mobile_kara_mail', $arrValues, 'kara_mail_id = ?', [$kara_mail_id], $arrRawValues);
 
         return true;
     }
 
     /**
      * 空メール管理テーブルからトークンが一致する行を削除し、
-     * 次に遷移させるページのURLを返す。　
+     * 次に遷移させるページのURLを返す。
      *
      * メールアドレスは $_SESSION['mobile']['kara_mail_from'] に登録される。
      *
      * @param  string       $token トークン
+     *
      * @return string|false URLを返す。エラーが発生した場合はfalseを返す。
      */
     public function gfFinishKaraMail($token)
@@ -391,7 +396,7 @@ class SC_Helper_Mobile
             'session_id, next_url, email',
             'dtb_mobile_kara_mail',
             'token = ? AND email IS NOT NULL AND receive_date >= ?',
-            array($token, date('Y-m-d H:i:s', time() - MOBILE_SESSION_LIFETIME)),
+            [$token, date('Y-m-d H:i:s', time() - MOBILE_SESSION_LIFETIME)],
             DB_FETCHMODE_ORDERED
         );
 
@@ -399,10 +404,10 @@ class SC_Helper_Mobile
             return false;
         }
 
-        $objQuery->delete('dtb_mobile_kara_mail', 'token = ?', array($token));
+        $objQuery->delete('dtb_mobile_kara_mail', 'token = ?', [$token]);
 
         list($session_id, $next_url, $email) = $arrRow;
-        $objURL = new Net_URL(HTTP_URL . $next_url);
+        $objURL = new Net_URL(HTTP_URL.$next_url);
         $objURL->addQueryString(session_name(), $session_id);
         $url = $objURL->getURL();
 
@@ -420,6 +425,7 @@ class SC_Helper_Mobile
      * @param  string $param_key   パラメーター名
      * @param  string $param_value パラメーター値
      * @param  string $url         URL
+     *
      * @return void
      */
     public function sfMobileSetExtSessionId($param_key, $param_value, $url)
@@ -428,14 +434,14 @@ class SC_Helper_Mobile
 
         // GC
         $time = date('Y-m-d H:i:s', time() - MOBILE_SESSION_LIFETIME);
-        $objQuery->delete('dtb_mobile_ext_session_id', 'create_date < ?', array($time));
+        $objQuery->delete('dtb_mobile_ext_session_id', 'create_date < ?', [$time]);
 
-        $arrValues = array(
-            'session_id'  => session_id(),
-            'param_key'   => $param_key,
+        $arrValues = [
+            'session_id' => session_id(),
+            'param_key' => $param_key,
             'param_value' => $param_value,
-            'url'         => $url,
-        );
+            'url' => $url,
+        ];
 
         $objQuery->insert('dtb_mobile_ext_session_id', $arrValues);
     }
@@ -444,7 +450,8 @@ class SC_Helper_Mobile
      * メールアドレスが携帯のものかどうかを判別する。
      *
      * @param  string  $address メールアドレス
-     * @return boolean 携帯のメールアドレスの場合はtrue、それ以外の場合はfalseを返す。
+     *
+     * @return bool 携帯のメールアドレスの場合はtrue、それ以外の場合はfalseを返す。
      */
     public function gfIsMobileMailAddress($address)
     {
@@ -465,11 +472,12 @@ class SC_Helper_Mobile
      * ファイルのMIMEタイプを判別する
      *
      * @param  string $filename ファイル名
+     *
      * @return string MIMEタイプ
      */
     public function getMimeType($filename)
     {
-        //ファイルの拡張子からコンテンツタイプを決定する
+        // ファイルの拡張子からコンテンツタイプを決定する
         $file_extension = strtolower(substr(strrchr($filename, '.'), 1));
         $mime_type = $this->defaultMimeType;
         if (array_key_exists($file_extension, $this->arrMimetypes)) {

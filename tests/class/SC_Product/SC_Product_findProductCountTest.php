@@ -1,28 +1,25 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../..";
-require_once($HOME . "/tests/class/SC_Product/SC_Product_TestBase.php");
-/**
- *
- */
+$HOME = realpath(__DIR__).'/../../..';
+require_once $HOME.'/tests/class/SC_Product/SC_Product_TestBase.php';
+
 class SC_Product_findProductCountTest extends SC_Product_TestBase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpProductClass();
         $this->objProducts = new SC_Product_Ex();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
-    public function testFindProductCount_全ての商品数を返す()
+    public function testFindProductCount全ての商品数を返す()
     {
         $this->expected = 3;
 
@@ -30,11 +27,11 @@ class SC_Product_findProductCountTest extends SC_Product_TestBase
 
         $this->verify('商品数');
     }
-    
-    public function testFindProductCount_検索条件に一致する商品数を返す()
+
+    public function testFindProductCount検索条件に一致する商品数を返す()
     {
         $this->objQuery->setWhere('product_id = ?');
-        $arrVal = array(1001);
+        $arrVal = [1001];
 
         $this->expected = 1;
 
@@ -42,5 +39,4 @@ class SC_Product_findProductCountTest extends SC_Product_TestBase
 
         $this->verify('検索商品数');
     }
-    
 }

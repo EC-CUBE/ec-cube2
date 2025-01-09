@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * システム管理 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_System_Rank extends LC_Page_Admin_Ex
@@ -60,7 +59,7 @@ class LC_Page_Admin_System_Rank extends LC_Page_Admin_Ex
     public function action()
     {
         // チェック後のデータを格納
-        $arrClean = array();
+        $arrClean = [];
 
         // $_GET['move'] が想定値かどうかチェック
         switch ($_GET['move']) {
@@ -104,7 +103,7 @@ class LC_Page_Admin_System_Rank extends LC_Page_Admin_Ex
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 自身のランクを取得する。
-        $rank = $objQuery->getOne('SELECT rank FROM dtb_member WHERE member_id = ?', array($id));
+        $rank = $objQuery->getOne('SELECT rank FROM dtb_member WHERE member_id = ?', [$id]);
 
         // ランクの最大値を取得する。
         $maxno = $objQuery->getOne('SELECT max(rank) FROM dtb_member');
@@ -115,16 +114,16 @@ class LC_Page_Admin_System_Rank extends LC_Page_Admin_Ex
             $up_id = $objQuery->getOne($sqlse, $rank + 1);
 
             // Updateする値を作成する.
-            $sqlVal1 = array();
-            $sqlVal2 = array();
+            $sqlVal1 = [];
+            $sqlVal2 = [];
             $sqlVal1['rank'] = $rank + 1;
             $sqlVal2['rank'] = $rank;
             $where = 'member_id = ?';
 
             // ランク入れ替えの実行
             $objQuery->begin();
-            $objQuery->update('dtb_member', $sqlVal1, $where, array($id));
-            $objQuery->update('dtb_member', $sqlVal2, $where, array($up_id));
+            $objQuery->update('dtb_member', $sqlVal1, $where, [$id]);
+            $objQuery->update('dtb_member', $sqlVal2, $where, [$up_id]);
             $objQuery->commit();
         }
     }
@@ -135,7 +134,7 @@ class LC_Page_Admin_System_Rank extends LC_Page_Admin_Ex
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 自身のランクを取得する。
-        $rank = $objQuery->getOne('SELECT rank FROM dtb_member WHERE member_id = ?', array($id));
+        $rank = $objQuery->getOne('SELECT rank FROM dtb_member WHERE member_id = ?', [$id]);
         // ランクの最小値を取得する。
         $minno = $objQuery->getOne('SELECT min(rank) FROM dtb_member');
         // ランクが最大値よりも大きい場合に実行する。
@@ -145,16 +144,16 @@ class LC_Page_Admin_System_Rank extends LC_Page_Admin_Ex
             $down_id = $objQuery->getOne($sqlse, $rank - 1);
 
             // Updateする値を作成する.
-            $sqlVal1 = array();
-            $sqlVal2 = array();
+            $sqlVal1 = [];
+            $sqlVal2 = [];
             $sqlVal1['rank'] = $rank - 1;
             $sqlVal2['rank'] = $rank;
             $where = 'member_id = ?';
 
             // ランク入れ替えの実行
             $objQuery->begin();
-            $objQuery->update('dtb_member', $sqlVal1, $where, array($id));
-            $objQuery->update('dtb_member', $sqlVal2, $where, array($down_id));
+            $objQuery->update('dtb_member', $sqlVal1, $where, [$id]);
+            $objQuery->update('dtb_member', $sqlVal2, $where, [$down_id]);
             $objQuery->commit();
         }
     }

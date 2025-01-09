@@ -21,15 +21,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 決済モジュールの呼び出しを行うクラス.
  *
  * 決済フローの妥当性検証は, トランザクションID等を使用して, 決済モジュール側で
  * 行う必要がある.
  *
- * @package Page
  * @author Kentaro Ohkouchi
+ *
  * @version $Id$
  */
 class LC_Page_Shopping_LoadPaymentModule extends LC_Page_Ex
@@ -75,7 +74,8 @@ class LC_Page_Shopping_LoadPaymentModule extends LC_Page_Ex
      * 決済モジュールが取得できた場合は, require 可能な決済モジュールのパスを返す.
      * 受注IDが無効な場合, 取得したパスにファイルが存在しない場合は false
      *
-     * @param  integer        $order_id 受注ID
+     * @param  int        $order_id 受注ID
+     *
      * @return string|false 成功した場合は決済モジュールのパス;
      *                        失敗した場合 false
      */
@@ -98,11 +98,11 @@ class LC_Page_Shopping_LoadPaymentModule extends LC_Page_Ex
         } else {
             $module_path = str_replace('\\', '/', $module_path);
         }
-        $module_realdir = str_replace('\\', '/', realpath(MODULE_REALDIR) . '/');
-        if (strpos($module_path, $module_realdir) !== false) {
+        $module_realdir = str_replace('\\', '/', realpath(MODULE_REALDIR).'/');
+        if (str_contains($module_path, $module_realdir)) {
             $module_path = str_replace($module_realdir, '', $module_path);
         }
-        $module_path = $module_realdir . $module_path;
+        $module_path = $module_realdir.$module_path;
         if (file_exists($module_path)) {
             return $module_path;
         }
@@ -121,8 +121,7 @@ class LC_Page_Shopping_LoadPaymentModule extends LC_Page_Ex
      *
      * 受注IDが取得できない場合は false を返す.
      *
-     * @access private
-     * @return integer 受注IDの取得に成功した場合は受注IDを返す;
+     * @return int 受注IDの取得に成功した場合は受注IDを返す;
      *                         失敗した場合は, false を返す.
      */
     public function getOrderId()
@@ -151,7 +150,7 @@ class LC_Page_Shopping_LoadPaymentModule extends LC_Page_Ex
     /**
      * 決済モジュールから遷移する場合があるため, トークンチェックしない.
      *
-     * @param  boolean $is_admin 管理画面でエラー表示をする場合 true
+     * @param  bool $is_admin 管理画面でエラー表示をする場合 true
      */
     public function doValidToken($is_admin = false)
     {

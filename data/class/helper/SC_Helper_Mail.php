@@ -24,8 +24,8 @@
 /**
  * メール関連 のヘルパークラス.
  *
- * @package Helper
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_Helper_Mail
@@ -51,7 +51,7 @@ class SC_Helper_Mail
     public function __construct()
     {
         $masterData = new SC_DB_MasterData_Ex();
-        $this->arrMAILTPLPATH =  $masterData->getMasterData('mtb_mail_tpl_path');
+        $this->arrMAILTPLPATH = $masterData->getMasterData('mtb_mail_tpl_path');
         $this->arrPref = $masterData->getMasterData('mtb_pref');
         $this->arrCountry = $masterData->getMasterData('mtb_country');
     }
@@ -80,7 +80,7 @@ class SC_Helper_Mail
 
     /**
      * @param string $to_name
-     * @param integer $template_id
+     * @param int $template_id
      * @param LC_Page_Contact $objPage
      */
     public function sfSendTemplateMail($to, $to_name, $template_id, &$objPage, $from_address = '', $from_name = '', $reply_to = '', $bcc = '')
@@ -102,9 +102,15 @@ class SC_Helper_Mail
 
         // メール送信処理
         $objSendMail = new SC_SendMail_Ex();
-        if ($from_address == '') $from_address = $arrInfo['email03'];
-        if ($from_name == '') $from_name = $arrInfo['shop_name'];
-        if ($reply_to == '') $reply_to = $arrInfo['email03'];
+        if ($from_address == '') {
+            $from_address = $arrInfo['email03'];
+        }
+        if ($from_name == '') {
+            $from_name = $arrInfo['shop_name'];
+        }
+        if ($reply_to == '') {
+            $reply_to = $arrInfo['email03'];
+        }
         $error = $arrInfo['email04'];
         $tosubject = $this->sfMakeSubject($tmp_subject, $objMailView);
 
@@ -137,7 +143,7 @@ class SC_Helper_Mail
 
         // 受注情報の取得
         $where = 'order_id = ? AND del_flg = 0';
-        $arrOrder = $objQuery->getRow('*', 'dtb_order', $where, array($order_id));
+        $arrOrder = $objQuery->getRow('*', 'dtb_order', $where, [$order_id]);
 
         if (empty($arrOrder)) {
             trigger_error("該当する受注が存在しない。(注文番号: $order_id)", E_USER_ERROR);
@@ -145,7 +151,7 @@ class SC_Helper_Mail
 
         $where = 'order_id = ?';
         $objQuery->setOrder('order_detail_id');
-        $arrTplVar->arrOrderDetail = $objQuery->select('*', 'dtb_order_detail', $where, array($order_id));
+        $arrTplVar->arrOrderDetail = $objQuery->select('*', 'dtb_order_detail', $where, [$order_id]);
 
         // 配送情報の取得
         $arrTplVar->arrShipping = $this->sfGetShippingData($order_id);
@@ -155,13 +161,13 @@ class SC_Helper_Mail
         // 会員情報の取得
         $customer_id = $arrOrder['customer_id'];
         $objQuery->setOrder('customer_id');
-        $arrRet = $objQuery->select('point', 'dtb_customer', 'customer_id = ?', array($customer_id));
+        $arrRet = $objQuery->select('point', 'dtb_customer', 'customer_id = ?', [$customer_id]);
         $arrCustomer = isset($arrRet[0]) ? $arrRet[0] : '';
 
         $arrTplVar->arrCustomer = $arrCustomer;
         $arrTplVar->arrOrder = $arrOrder;
 
-        //その他決済情報
+        // その他決済情報
         if ($arrOrder['memo02'] != '') {
             $arrOther = unserialize($arrOrder['memo02']);
 
@@ -202,7 +208,7 @@ class SC_Helper_Mail
         $tosubject = $this->sfMakeSubject($tmp_subject, $objMailView);
 
         $objSendMail->setItem('', $tosubject, $body, $from, $arrInfo['shop_name'], $from, $error, $error, $bcc);
-        $objSendMail->setTo($arrOrder['order_email'], $arrOrder['order_name01'] . ' '. $arrOrder['order_name02'] .' 様');
+        $objSendMail->setTo($arrOrder['order_email'], $arrOrder['order_name01'].' '.$arrOrder['order_name02'].' 様');
 
         // 送信フラグ:trueの場合は、送信する。
         if ($send) {
@@ -217,7 +223,8 @@ class SC_Helper_Mail
     /**
      * 配送情報の取得
      *
-     * @param integer $order_id 受注ID
+     * @param int $order_id 受注ID
+     *
      * @return array 配送情報を格納した配列
      */
     public function sfGetShippingData($order_id)
@@ -225,13 +232,13 @@ class SC_Helper_Mail
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $objQuery->setOrder('shipping_id');
-        $arrRet = $objQuery->select('*', 'dtb_shipping', 'order_id = ?', array($order_id));
+        $arrRet = $objQuery->select('*', 'dtb_shipping', 'order_id = ?', [$order_id]);
         foreach ($arrRet as $key => $value) {
             $col = 's_i.*, tax_rate, tax_rule';
             $from = 'dtb_shipment_item AS s_i JOIN dtb_order_detail AS o_d
                 ON s_i.order_id = o_d.order_id AND s_i.product_class_id = o_d.product_class_id';
             $where = 'o_d.order_id = ? AND shipping_id = ?';
-            $arrWhereVal = array($order_id, $arrRet[$key]['shipping_id']);
+            $arrWhereVal = [$order_id, $arrRet[$key]['shipping_id']];
             $objQuery->setOrder('order_detail_id');
             $arrItems = $objQuery->select($col, $from, $where, $arrWhereVal);
             $arrRet[$key]['shipment_item'] = $arrItems;
@@ -247,7 +254,7 @@ class SC_Helper_Mail
         $objMailView->setPage($this->getPage());
         $arrInfo = SC_Helper_DB_Ex::sfGetBasisData();
         // メール本文の取得
-        $objPage->tpl_shopname=$arrInfo['shop_name'];
+        $objPage->tpl_shopname = $arrInfo['shop_name'];
         $objPage->tpl_infoemail = $arrInfo['email02'];
         $objMailView->assignobj($objPage);
         $body = $objMailView->fetch($tplpath);
@@ -277,23 +284,23 @@ class SC_Helper_Mail
         $objSendMail->sendMail();
     }
 
-    //件名にテンプレートを用いる
+    // 件名にテンプレートを用いる
 
     /**
      * @param SC_SiteView_Ex $objMailView
      */
-    public function sfMakeSubject($subject, &$objMailView = NULL)
+    public function sfMakeSubject($subject, &$objMailView = null)
     {
         if (empty($objMailView)) {
             $objMailView = new SC_SiteView_Ex();
             $objMailView->setPage($this->getPage());
         }
-        $objTplAssign = new stdClass;
+        $objTplAssign = new stdClass();
 
         $arrInfo = SC_Helper_DB_Ex::sfGetBasisData();
-        $objTplAssign->tpl_shopname=$arrInfo['shop_name'];
-        $objTplAssign->tpl_infoemail=$subject; // 従来互換
-        $objTplAssign->tpl_mailtitle=$subject;
+        $objTplAssign->tpl_shopname = $arrInfo['shop_name'];
+        $objTplAssign->tpl_infoemail = $subject; // 従来互換
+        $objTplAssign->tpl_mailtitle = $subject;
         $objMailView->assignobj($objTplAssign);
         $subject = $objMailView->fetch('mail_templates/mail_title.tpl');
         // #1940 (SC_Helper_Mail#sfMakeSubject 先頭に改行を含む値を返す) 対応
@@ -309,12 +316,14 @@ class SC_Helper_Mail
      */
     public function sfSaveMailHistory($order_id, $template_id, $subject, $body)
     {
-        $sqlval = array();
+        $sqlval = [];
         $sqlval['subject'] = $subject;
         $sqlval['order_id'] = $order_id;
         $sqlval['template_id'] = $template_id;
         $sqlval['send_date'] = 'CURRENT_TIMESTAMP';
-        if (!isset($_SESSION['member_id'])) $_SESSION['member_id'] = '';
+        if (!isset($_SESSION['member_id'])) {
+            $_SESSION['member_id'] = '';
+        }
         if ($_SESSION['member_id'] != '') {
             $sqlval['creator_id'] = $_SESSION['member_id'];
         } else {
@@ -329,6 +338,7 @@ class SC_Helper_Mail
 
     /**
      * 会員登録があるかどうかのチェック(仮会員を含まない)
+     *
      * @deprecated 本体では使用されていないため非推奨
      */
     public function sfCheckCustomerMailMaga($email)
@@ -337,7 +347,7 @@ class SC_Helper_Mail
         $from = 'dtb_customer';
         $where = '(email = ? OR email_mobile = ?) AND status = 2 AND del_flg = 0';
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $arrRet = $objQuery->select($col, $from, $where, array($email));
+        $arrRet = $objQuery->select($col, $from, $where, [$email]);
         // 会員のメールアドレスが登録されている
         if (!empty($arrRet[0]['customer_id'])) {
             return true;
@@ -349,12 +359,12 @@ class SC_Helper_Mail
     /**
      * 登録メールを送信する。
      *
-     * @param  string  $secret_key  会員固有キー
-     * @param  integer $customer_id 会員ID
-     * @param  boolean $is_mobile   false(default):PCアドレスにメールを送る true:携帯アドレスにメールを送る
+     * @param  string  $secret_key  会員固有キー。$customer_id に有効な数値が指定されると、無視される。
+     * @param  int $customer_id 会員ID
+     * @param  bool $is_mobile   false(default):PCアドレスにメールを送る true:携帯アドレスにメールを送る
      * @param $resend_flg true  仮登録メール再送
-     * @return boolean true:成功 false:失敗
      *
+     * @return bool true:成功 false:失敗
      */
     public function sfSendRegistMail($secret_key, $customer_id = '', $is_mobile = false, $resend_flg = false)
     {
@@ -362,7 +372,7 @@ class SC_Helper_Mail
         if (SC_Utils_Ex::sfIsInt($customer_id)) {
             $arrCustomerData = SC_Helper_Customer_Ex::sfGetCustomerDataFromId($customer_id);
         } else {
-            $arrCustomerData = SC_Helper_Customer_Ex::sfGetCustomerDataFromId('', 'secret_key = ?', array($secret_key));
+            $arrCustomerData = SC_Helper_Customer_Ex::sfGetCustomerDataFromId('', 'secret_key = ?', [$secret_key]);
         }
         if (SC_Utils_Ex::isBlank($arrCustomerData)) {
             return false;
@@ -373,20 +383,22 @@ class SC_Helper_Mail
         $objMailText = new SC_SiteView_Ex();
         $objMailText->setPage($this->getPage());
         $objMailText->assign('CONF', $CONF);
-        $objMailText->assign('name01', $arrCustomerData['name01']);
-        $objMailText->assign('name02', $arrCustomerData['name02']);
-        $objMailText->assign('uniqid', $arrCustomerData['secret_key']);
-        $objMailText->assignobj($arrCustomerData);
+        $objMailText->assign('arrCustomer', $arrCustomerData);
 
-        $objHelperMail  = new SC_Helper_Mail_Ex();
-        // 仮会員が有効の場合
-        if (CUSTOMER_CONFIRM_MAIL == true and $arrCustomerData['status'] == 1 or $arrCustomerData['status'] == 1 and $resend_flg == true) {
-            $subject        = $objHelperMail->sfMakeSubject('会員登録のご確認', $objMailText);
+        // 旧テンプレート互換用 https://github.com/EC-CUBE/ec-cube2/issues/982
+        $objMailText->assignarray($arrCustomerData);
+        $objMailText->assign('uniqid', $arrCustomerData['secret_key']);
+
+        $objHelperMail = new SC_Helper_Mail_Ex();
+        // 仮会員が有効の場合 (FIXME: コメント不正確)
+        if ($arrCustomerData['status'] == 1
+            && (CUSTOMER_CONFIRM_MAIL == true || $resend_flg == true)
+        ) {
+            $subject = $objHelperMail->sfMakeSubject('会員登録のご確認', $objMailText);
             $toCustomerMail = $objMailText->fetch('mail_templates/customer_mail.tpl');
         } else {
-            $subject        = $objHelperMail->sfMakeSubject('会員登録のご完了', $objMailText);
+            $subject = $objHelperMail->sfMakeSubject('会員登録のご完了', $objMailText);
             $toCustomerMail = $objMailText->fetch('mail_templates/customer_regist_mail.tpl');
-
         }
 
         $objMail = new SC_SendMail_Ex();
@@ -407,7 +419,7 @@ class SC_Helper_Mail
         } else {
             $to_addr = $arrCustomerData['email'];
         }
-        $objMail->setTo($to_addr, $arrCustomerData['name01'] . $arrCustomerData['name02'] .' 様');
+        $objMail->setTo($to_addr, $arrCustomerData['name01'].$arrCustomerData['name02'].' 様');
 
         $objMail->sendMail();
 
@@ -416,8 +428,11 @@ class SC_Helper_Mail
 
     /**
      * 保存されているメルマガテンプレートの取得
-     * @param integer 特定IDのテンプレートを取り出したい時はtemplate_idを指定。未指定時は全件取得
+     *
+     * @param int 特定IDのテンプレートを取り出したい時はtemplate_idを指定。未指定時は全件取得
+     *
      * @return　array メールテンプレート情報を格納した配列
+     *
      * @todo   表示順も引数で変更できるように
      */
     public static function sfGetMailmagaTemplate($template_id = null)
@@ -429,7 +444,7 @@ class SC_Helper_Mail
         // 条件文
         $where = 'del_flg = ?';
         $arrValues[] = 0;
-        //template_id指定時
+        // template_id指定時
         if (SC_Utils_Ex::sfIsInt($template_id) === true) {
             $where .= ' AND template_id = ?';
             $arrValues[] = $template_id;
@@ -445,7 +460,9 @@ class SC_Helper_Mail
 
     /**
      * 保存されているメルマガ送信履歴の取得
-     * @param integer 特定の送信履歴を取り出したい時はsend_idを指定。未指定時は全件取得
+     *
+     * @param int 特定の送信履歴を取り出したい時はsend_idを指定。未指定時は全件取得
+     *
      * @return　array 送信履歴情報を格納した配列
      */
     public function sfGetSendHistory($send_id = null)
@@ -458,7 +475,7 @@ class SC_Helper_Mail
         $where = 'del_flg = ?';
         $arrValues[] = 0;
 
-        //send_id指定時
+        // send_id指定時
         if (SC_Utils_Ex::sfIsInt($send_id) === true) {
             $where .= ' AND send_id = ?';
             $arrValues[] = $send_id;
@@ -475,7 +492,8 @@ class SC_Helper_Mail
     /**
      * 指定したIDのメルマガ配送を行う
      *
-     * @param integer $send_id dtb_send_history の情報
+     * @param int $send_id dtb_send_history の情報
+     *
      * @return　void
      */
     public static function sfSendMailmagazine($send_id)
@@ -486,17 +504,19 @@ class SC_Helper_Mail
         $objMail = new SC_SendMail_Ex();
 
         $where = 'del_flg = 0 AND send_id = ?';
-        $arrMail = $objQuery->getRow('*', 'dtb_send_history', $where, array($send_id));
+        $arrMail = $objQuery->getRow('*', 'dtb_send_history', $where, [$send_id]);
 
         // 対象となる$send_idが見つからない
-        if (SC_Utils_Ex::isBlank($arrMail)) return;
+        if (SC_Utils_Ex::isBlank($arrMail)) {
+            return;
+        }
 
         // 送信先リストの取得
         $arrDestinationList = $objQuery->select(
             '*',
             'dtb_send_customer',
             'send_id = ? AND (send_flag = 2 OR send_flag IS NULL)',
-            array($send_id)
+            [$send_id]
         );
 
         // 現在の配信数
@@ -541,19 +561,19 @@ class SC_Helper_Mail
 
             // 送信結果情報を更新
             $objQuery->update('dtb_send_customer',
-                              array('send_flag'=>$sendFlag),
-                              'send_id = ? AND customer_id = ?',
-                              array($send_id,$arrDestination['customer_id']));
+                ['send_flag' => $sendFlag],
+                'send_id = ? AND customer_id = ?',
+                [$send_id, $arrDestination['customer_id']]);
         }
 
         // メール全件送信完了後の処理
         $objQuery->update('dtb_send_history',
-                          array('end_date'=>'CURRENT_TIMESTAMP', 'complete_count'=>$complete_count),
-                          'send_id = ?',
-                          array($send_id));
+            ['end_date' => 'CURRENT_TIMESTAMP', 'complete_count' => $complete_count],
+            'send_id = ?',
+            [$send_id]);
 
         // 送信完了　報告メール
-        $compSubject = date('Y年m月d日H時i分') . '  下記メールの配信が完了しました。';
+        $compSubject = date('Y年m月d日H時i分').'  下記メールの配信が完了しました。';
         // 管理者宛に変更
         $objMail->setTo($objSite['email03']);
         $objMail->setSubject($compSubject);

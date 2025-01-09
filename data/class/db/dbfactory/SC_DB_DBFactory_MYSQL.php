@@ -28,8 +28,8 @@
  * 必ず SC_DB_DBFactory クラスを経由してインスタンス化する.
  * また, SC_DB_DBFactory クラスの関数を必ずオーバーライドしている必要がある.
  *
- * @package DB
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
@@ -41,6 +41,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      * DBのバージョンを取得する.
      *
      * @param  string $dsn データソース名
+     *
      * @return string データベースのバージョン
      */
     public function sfGetDBVersion($dsn = '')
@@ -48,14 +49,14 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
         $objQuery = SC_Query_Ex::getSingletonInstance($dsn);
         $val = $objQuery->getOne('select version()');
 
-        return 'MySQL ' . $val;
+        return 'MySQL '.$val;
     }
 
     /**
      * MySQL 用の SQL 文に変更する.
      *
-     * @access private
      * @param  string $sql SQL 文
+     *
      * @return string MySQL 用に置換した SQL 文
      */
     public function sfChangeMySQL($sql)
@@ -72,6 +73,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
         $sql = $this->sfChangeArrayToString($sql);
         // rank に引用符をつける
         $sql = $this->sfChangeReservedWords($sql);
+
         return $sql;
     }
 
@@ -92,29 +94,31 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      * 昨日の売上高・売上件数を算出する SQL を返す.
      *
      * @param  string $method SUM または COUNT
+     *
      * @return string 昨日の売上高・売上件数を算出する SQL
      */
     public function getOrderYesterdaySql($method)
     {
-        return 'SELECT ' . $method . '(total) FROM dtb_order '
-               . 'WHERE del_flg = 0 '
-               . 'AND cast(create_date as date) = DATE_ADD(current_date, interval -1 day) '
-               . 'AND status <> ' . ORDER_CANCEL;
+        return 'SELECT '.$method.'(total) FROM dtb_order '
+               .'WHERE del_flg = 0 '
+               .'AND cast(create_date as date) = DATE_ADD(current_date, interval -1 day) '
+               .'AND status <> '.ORDER_CANCEL;
     }
 
     /**
      * 当月の売上高・売上件数を算出する SQL を返す.
      *
      * @param  string $method SUM または COUNT
+     *
      * @return string 当月の売上高・売上件数を算出する SQL
      */
     public function getOrderMonthSql($method)
     {
         return 'SELECT '.$method.'(total) FROM dtb_order '
-               . 'WHERE del_flg = 0 '
-               . "AND date_format(create_date, '%Y/%m') = ? "
-               . "AND date_format(create_date, '%Y/%m/%d') <> date_format(CURRENT_TIMESTAMP, '%Y/%m/%d') "
-               . 'AND status <> ' . ORDER_CANCEL;
+               .'WHERE del_flg = 0 '
+               ."AND date_format(create_date, '%Y/%m') = ? "
+               ."AND date_format(create_date, '%Y/%m/%d') <> date_format(CURRENT_TIMESTAMP, '%Y/%m/%d') "
+               .'AND status <> '.ORDER_CANCEL;
     }
 
     /**
@@ -125,12 +129,12 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
     public function getReviewYesterdaySql()
     {
         return 'SELECT COUNT(*) FROM dtb_review AS A '
-               . 'LEFT JOIN dtb_products AS B '
-               . 'ON A.product_id = B.product_id '
-               . 'WHERE A.del_flg = 0 '
-               . 'AND B.del_flg = 0 '
-               . 'AND cast(A.create_date as date) = DATE_ADD(current_date, interval -1 day) '
-               . 'AND cast(A.create_date as date) != current_date';
+               .'LEFT JOIN dtb_products AS B '
+               .'ON A.product_id = B.product_id '
+               .'WHERE A.del_flg = 0 '
+               .'AND B.del_flg = 0 '
+               .'AND cast(A.create_date as date) = DATE_ADD(current_date, interval -1 day) '
+               .'AND cast(A.create_date as date) != current_date';
     }
 
     /**
@@ -147,6 +151,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      * ダウンロード販売の検索条件の SQL を返す.
      *
      * @param  string $dtb_order_alias
+     *
      * @return string 検索条件の SQL
      */
     public function getDownloadableDaysWhereSql($dtb_order_alias = 'dtb_order')
@@ -169,6 +174,7 @@ __EOS__;
      * 売上集計の期間別集計のSQLを返す
      *
      * @param  mixed  $type
+     *
      * @return string 検索条件のSQL
      */
     public function getOrderTotalDaysWhereSql($type)
@@ -217,6 +223,7 @@ __EOS__;
      * 文字列連結を行う.
      *
      * @param  string[]  $columns 連結を行うカラム名
+     *
      * @return string 連結後の SQL 文
      */
     public function concatColumn($columns)
@@ -226,7 +233,7 @@ __EOS__;
         $total = count($columns);
         foreach ($columns as $column) {
             $sql .= $column;
-            if ($i < $total -1) {
+            if ($i < $total - 1) {
                 $sql .= ', ';
             }
             $i++;
@@ -242,12 +249,13 @@ __EOS__;
      * 引数に部分一致するテーブル名を配列で返す.
      *
      * @param  string $expression 検索文字列
+     *
      * @return array  テーブル名の配列
      */
     public function findTableNames($expression = '')
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $sql = 'SHOW TABLES LIKE '. $objQuery->quote('%' . $expression . '%');
+        $sql = 'SHOW TABLES LIKE '.$objQuery->quote('%'.$expression.'%');
         $arrColList = $objQuery->getAll($sql);
         $arrColList = SC_Utils_Ex::sfSwapArray($arrColList, false);
 
@@ -257,8 +265,8 @@ __EOS__;
     /**
      * ILIKE句 を LIKE句へ変換する.
      *
-     * @access private
      * @param  string $sql SQL文
+     *
      * @return string 変換後の SQL 文
      */
     public function sfChangeILIKE($sql)
@@ -271,8 +279,8 @@ __EOS__;
     /**
      * RANDOM() を RAND() に変換する.
      *
-     * @access private
      * @param  string $sql SQL文
+     *
      * @return string 変換後の SQL 文
      */
     public function sfChangeRANDOM($sql)
@@ -285,8 +293,8 @@ __EOS__;
     /**
      * TRUNC() を TRUNCATE() に変換する.
      *
-     * @access private
      * @param  string $sql SQL文
+     *
      * @return string 変換後の SQL 文
      */
     public function sfChangeTrunc($sql)
@@ -299,17 +307,17 @@ __EOS__;
     /**
      * ARRAY_TO_STRING(ARRAY(A),B) を GROUP_CONCAT() に変換する.
      *
-     * @access private
      * @param  string $sql SQL文
+     *
      * @return string 変換後の SQL 文
      */
     public function sfChangeArrayToString($sql)
     {
-        if (strpos(strtoupper($sql), 'ARRAY_TO_STRING') !== FALSE) {
+        if (str_contains(strtoupper($sql), 'ARRAY_TO_STRING')) {
             preg_match_all('/ARRAY_TO_STRING.*?\(.*?ARRAY\(.*?SELECT (.+?) FROM (.+?) WHERE (.+?)\).*?\,.*?\'(.+?)\'.*?\)/is', $sql, $match, PREG_SET_ORDER);
 
             foreach ($match as $item) {
-                $replace = 'GROUP_CONCAT(' . $item[1] . ' SEPARATOR \'' . $item[4] . '\') FROM ' . $item[2] . ' WHERE ' . $item[3];
+                $replace = 'GROUP_CONCAT('.$item[1].' SEPARATOR \''.$item[4].'\') FROM '.$item[2].' WHERE '.$item[3];
                 $sql = str_replace($item[0], $replace, $sql);
             }
         }
@@ -324,6 +332,7 @@ __EOS__;
      *
      * @param  string $table 対象テーブル名
      * @param  string $name  対象カラム名
+     *
      * @return array  インデックス設定情報配列
      */
     public function sfGetCreateIndexDefinition($table, $name, $definition)
@@ -350,6 +359,7 @@ __EOS__;
     {
         $changesql = preg_replace('/(^|[^\w])RANK([^\w]|$)/i', '$1`RANK`$2', $sql);
         $changesql = preg_replace('/``/i', '`', $changesql); // 2重エスケープ問題の対処
+
         return $changesql;
     }
 
@@ -367,6 +377,7 @@ __EOS__;
      * 各 DB に応じた SC_Query での初期化を行う
      *
      * @param  SC_Query $objQuery SC_Query インスタンス
+     *
      * @return void
      */
     public function initObjQuery(SC_Query &$objQuery)
@@ -377,5 +388,16 @@ __EOS__;
             $objQuery->exec('SET SESSION storage_engine = InnoDB');
         }
         $objQuery->exec("SET SESSION sql_mode = 'ANSI'");
+    }
+
+    public function getTransactionIsolationLevel()
+    {
+        // TODO: デフォルトを返している。実際のレベルを返すのが望ましい。しかし、毎回 `SELECT @@session.transaction_isolation` などを実行するのは避けたい。
+        return static::ISOLATION_LEVEL_REPEATABLE_READ;
+    }
+
+    public function isSkipDeleteIfNotExists()
+    {
+        return $this->getTransactionIsolationLevel() >= static::ISOLATION_LEVEL_REPEATABLE_READ;
     }
 }

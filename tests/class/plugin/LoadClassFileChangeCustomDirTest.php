@@ -5,7 +5,7 @@
  */
 class LoadClassFileChangeCustomDirTest extends Common_TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         // ATTENTION プラグインをロードする前にオートローディングが実行されると、 loadClassFileChange が無効になってしまうため parent::setUp() は実行しない
         $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);
@@ -20,7 +20,7 @@ class LoadClassFileChangeCustomDirTest extends Common_TestCase
             'compliant_version' => '2.17',
             'enable' => 1,
             'create_date' => 'CURRENT_TIMESTAMP',
-            'update_date' => 'CURRENT_TIMESTAMP'
+            'update_date' => 'CURRENT_TIMESTAMP',
         ];
         $this->objQuery->insert('dtb_plugin', $pluginValues);
 
@@ -30,19 +30,20 @@ class LoadClassFileChangeCustomDirTest extends Common_TestCase
             'plugin_id' => $plugin_id,
             'hook_point' => 'loadClassFileChange',
             'callback' => 'loadClassFileChange',
-            'update_date' => 'CURRENT_TIMESTAMP'
+            'update_date' => 'CURRENT_TIMESTAMP',
         ];
         $this->objQuery->insert('dtb_plugin_hookpoint', $hookpointValues);
     }
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testLOading()
     {
         //  __DIR__.'/../fixtures/plugin/ に配置したプラグインをオートロード対象にする
-        spl_autoload_register(function ($class){
+        spl_autoload_register(function ($class) {
             SC_ClassAutoloader_Ex::autoload($class, __DIR__.'/../fixtures/plugin/');
         }, true, true);
 

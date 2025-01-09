@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * メール配信履歴 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Mail_History extends LC_Page_Admin_Ex
@@ -81,22 +80,23 @@ class LC_Page_Admin_Mail_History extends LC_Page_Admin_Ex
                 break;
         }
 
-        list($this->tpl_linemax, $this->arrDataList, $this->arrPagenavi) = $this->lfDoSearch($_POST['search_pageno']);
+        list($this->tpl_linemax, $this->arrDataList, $this->arrPagenavi) = $this->lfDoSearch($_POST['search_pageno'] ?? 1);
     }
 
     /**
      * 実行履歴の取得
      *
-     * @param  integer $search_pageno 表示したいページ番号
+     * @param  int $search_pageno 表示したいページ番号
+     *
      * @return array(  integer 全体件数, mixed メール配信データ一覧配列, mixed SC_PageNaviオブジェクト)
      */
     public function lfDoSearch($search_pageno = 1)
     {
         // 引数の初期化
-        if (SC_Utils_Ex::sfIsInt($search_pageno)===false) {
+        if (SC_Utils_Ex::sfIsInt($search_pageno) === false) {
             $search_pageno = 1;
         }
-        //
+
         $objSelect = SC_Query_Ex::getSingletonInstance();    // 一覧データ取得用
         $objQuery = SC_Query_Ex::getSingletonInstance();    // 件数取得用
 
@@ -118,23 +118,24 @@ class LC_Page_Admin_Mail_History extends LC_Page_Admin_Ex
         $arrResult = $objSelect->select($col, 'dtb_send_history', ' del_flg = 0');
 
         $objNavi = new SC_PageNavi_Ex($search_pageno,
-                                    $linemax,
-                                    SEARCH_PMAX,
-                                    'eccube.moveNaviPage', NAVI_PMAX);
+            $linemax,
+            SEARCH_PMAX,
+            'eccube.moveNaviPage', NAVI_PMAX);
 
-        return array($linemax, $arrResult, $objNavi->arrPagenavi);
+        return [$linemax, $arrResult, $objNavi->arrPagenavi];
     }
 
     /**
      * 送信履歴の削除
+     *
      * @return void
      */
     public function lfDeleteHistory($send_id)
     {
-            $objQuery = SC_Query_Ex::getSingletonInstance();
-            $objQuery->update('dtb_send_history',
-                              array('del_flg' =>1),
-                              'send_id = ?',
-                              array($send_id));
+        $objQuery = SC_Query_Ex::getSingletonInstance();
+        $objQuery->update('dtb_send_history',
+            ['del_flg' => 1],
+            'send_id = ?',
+            [$send_id]);
     }
 }

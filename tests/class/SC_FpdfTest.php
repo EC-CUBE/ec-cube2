@@ -2,23 +2,28 @@
 
 class SC_FpdfTest extends Common_TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    public function test_正しいMediaBox情報が出力される()
+    /**
+     * @runInSeparateProcess
+     *
+     * @preserveGlobalState disabled
+     */
+    public function test正しいMediaBox情報が出力される()
     {
         $order_id = $this->objGenerator->createOrder(0, []);
         $objFormParam = new SC_FormParam_Ex();
 
-        $fpdf = new \SC_Fpdf(true, "");
+        $fpdf = new \SC_Fpdf(true, '');
         $objFormParam->setParam(
             [
                 'order_id' => $order_id,
-                'year'  >= date('Y'),
+                'year' >= date('Y'),
                 'month' => date('n'),
-                'day'  => date('j'),
+                'day' => date('j'),
 
                 'msg1' => 'このたびはお買上げいただきありがとうございます。',
                 'msg2' => '下記の内容にて納品させていただきます。',
@@ -30,7 +35,7 @@ class SC_FpdfTest extends Common_TestCase
         $fpdf->createPdf($objFormParam);
         $pdfContent = ob_get_clean();
 
-        preg_match("|/MediaBox.+|", $pdfContent, $matches);
+        preg_match('|/MediaBox.+|', $pdfContent, $matches);
         $mediaBoxLine = $matches[0];
 
         // 不正な出力。

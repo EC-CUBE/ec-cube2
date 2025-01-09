@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * MyPage のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Mypage extends LC_Page_AbstractMypage_Ex
@@ -78,21 +77,21 @@ class LC_Page_Mypage extends LC_Page_AbstractMypage_Ex
      */
     public function action()
     {
-        //決済処理中ステータスのロールバック
+        // 決済処理中ステータスのロールバック
         $objPurchase = new SC_Helper_Purchase_Ex();
         $objPurchase->cancelPendingOrder(PENDING_ORDER_CANCEL_FLAG);
 
         $objCustomer = new SC_Customer_Ex();
         $customer_id = $objCustomer->getValue('customer_id');
 
-        //ページ送り用
-        $this->objNavi = new SC_PageNavi_Ex($_REQUEST['pageno'],
-                                            $this->lfGetOrderHistory($customer_id),
-                                            SEARCH_PMAX,
-                                            'eccube.movePage',
-                                            NAVI_PMAX,
-                                            'pageno=#page#',
-                                            SC_Display_Ex::detectDevice() !== DEVICE_TYPE_MOBILE);
+        // ページ送り用
+        $this->objNavi = new SC_PageNavi_Ex($_REQUEST['pageno'] ?? 1,
+            $this->lfGetOrderHistory($customer_id),
+            SEARCH_PMAX,
+            'eccube.movePage',
+            NAVI_PMAX,
+            'pageno=#page#',
+            SC_Display_Ex::detectDevice() !== DEVICE_TYPE_MOBILE);
 
         $this->arrOrder = $this->lfGetOrderHistory($customer_id, $this->objNavi->start_row);
 
@@ -117,19 +116,19 @@ class LC_Page_Mypage extends LC_Page_AbstractMypage_Ex
      * 受注履歴を返す
      *
      * @param mixed $customer_id
-     * @param integer $startno     0以上の場合は受注履歴を返却する -1の場合は件数を返す
-     * @access private
+     * @param int $startno     0以上の場合は受注履歴を返却する -1の場合は件数を返す
+     *
      * @return array|null
      */
     public function lfGetOrderHistory($customer_id, $startno = -1)
     {
-        $objQuery   = SC_Query_Ex::getSingletonInstance();
+        $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $col        = 'order_id, create_date, payment_id, payment_total, status';
-        $from       = 'dtb_order';
-        $where      = 'del_flg = 0 AND customer_id = ?';
-        $arrWhereVal = array($customer_id);
-        $order      = 'order_id DESC';
+        $col = 'order_id, create_date, payment_id, payment_total, status';
+        $from = 'dtb_order';
+        $where = 'del_flg = 0 AND customer_id = ?';
+        $arrWhereVal = [$customer_id];
+        $order = 'order_id DESC';
 
         if ($startno == -1) {
             return $objQuery->count($from, $where, $arrWhereVal);
@@ -139,7 +138,7 @@ class LC_Page_Mypage extends LC_Page_AbstractMypage_Ex
         // 表示順序
         $objQuery->setOrder($order);
 
-        //購入履歴の取得
+        // 購入履歴の取得
         return $objQuery->select($col, $from, $where, $arrWhereVal);
     }
 }

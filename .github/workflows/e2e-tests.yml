@@ -19,7 +19,7 @@ on:
 jobs:
   run-on-linux:
     name: Run on Linux
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -30,7 +30,7 @@ jobs:
           - 'test/front_login'
           - 'test/front_guest'
           - 'test/admin'
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
         db: [ mysql, pgsql ]
     steps:
     - name: Checkout
@@ -43,7 +43,7 @@ jobs:
 
     # - name: Create ADMIN_DIR
     #   run: |
-    #     sudo apt-fast install -y sharutils
+    #     sudo apt install -y sharutils
     #     echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
 
     - name: Setup environment
@@ -60,7 +60,11 @@ jobs:
         echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
         if [ $EVENT_NAME = "pull_request" ]; then
-          echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+          if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
+            echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
+          else
+            echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+          fi
         else
           echo "TAG=${PHP}-apache-${REF_NAME}" >> $GITHUB_ENV
         fi
@@ -104,6 +108,11 @@ jobs:
         FORCE_COLOR: 1
       run: yarn ${PATTERN} e2e-tests/${GROUP}
 
+    - name: Print error log
+      if: always()
+      continue-on-error: true
+      run: docker compose exec ec-cube tail -n 100 data/logs/error.log
+
     - name: Upload evidence
       if: failure()
       uses: actions/upload-artifact@v4
@@ -118,12 +127,12 @@ jobs:
         path: data/logs
   installer:
     name: Installer test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         db: [ 'pgsql', 'mysql' ]
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
         include:
           - db: mysql
             dbport: '3306'
@@ -158,7 +167,11 @@ jobs:
         echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
         if [ $EVENT_NAME = "pull_request" ]; then
-          echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+          if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
+            echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
+          else
+            echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+          fi
         else
           echo "TAG=${PHP}-apache-${REF_NAME}" >> $GITHUB_ENV
         fi

@@ -40,20 +40,19 @@ class SC_View
 
     public function init()
     {
-        // include_phpの利用のためSmartyBCを呼び出す、ホントはinclude_phpをなくしたいそうすれば、blank.tplもなくせる
         $this->_smarty = new \Smarty\Smarty();
         $this->_smarty->setLeftDelimiter('<!--{');
         $this->_smarty->setRightDelimiter('}-->');
         $this->_smarty->registerPlugin('modifier', 'sfDispDBDate', function ($dbdate, $time = true) { return SC_Utils_Ex::sfDispDBDate($dbdate, $time); });
-        $this->_smarty->registerPlugin('modifier', 'sfGetErrorColor', array('SC_Utils_Ex', 'sfGetErrorColor'));
-        $this->_smarty->registerPlugin('modifier', 'sfTrim', array('SC_Utils_Ex', 'sfTrim'));
-        $this->_smarty->registerPlugin('modifier', 'sfCalcIncTax', array('SC_Helper_DB_Ex', 'sfCalcIncTax'));
-        $this->_smarty->registerPlugin('modifier', 'sfPrePoint', array('SC_Utils_Ex', 'sfPrePoint'));
-        $this->_smarty->registerPlugin('modifier', 'sfGetChecked',array('SC_Utils_Ex', 'sfGetChecked'));
-        $this->_smarty->registerPlugin('modifier', 'sfTrimURL', array('SC_Utils_Ex', 'sfTrimURL'));
-        $this->_smarty->registerPlugin('modifier', 'sfMultiply', array('SC_Utils_Ex', 'sfMultiply'));
-        $this->_smarty->registerPlugin('modifier', 'sfRmDupSlash', array('SC_Utils_Ex', 'sfRmDupSlash'));
-        $this->_smarty->registerPlugin('modifier', 'sfCutString', array('SC_Utils_Ex', 'sfCutString'));
+        $this->_smarty->registerPlugin('modifier', 'sfGetErrorColor', ['SC_Utils_Ex', 'sfGetErrorColor']);
+        $this->_smarty->registerPlugin('modifier', 'sfTrim', ['SC_Utils_Ex', 'sfTrim']);
+        $this->_smarty->registerPlugin('modifier', 'sfCalcIncTax', ['SC_Helper_DB_Ex', 'sfCalcIncTax']);
+        $this->_smarty->registerPlugin('modifier', 'sfPrePoint', ['SC_Utils_Ex', 'sfPrePoint']);
+        $this->_smarty->registerPlugin('modifier', 'sfGetChecked', ['SC_Utils_Ex', 'sfGetChecked']);
+        $this->_smarty->registerPlugin('modifier', 'sfTrimURL', ['SC_Utils_Ex', 'sfTrimURL']);
+        $this->_smarty->registerPlugin('modifier', 'sfMultiply', ['SC_Utils_Ex', 'sfMultiply']);
+        $this->_smarty->registerPlugin('modifier', 'sfRmDupSlash', ['SC_Utils_Ex', 'sfRmDupSlash']);
+        $this->_smarty->registerPlugin('modifier', 'sfCutString', ['SC_Utils_Ex', 'sfCutString']);
         $this->_smarty->registerPlugin('function', 'from_to', 'smarty_function_from_to');
         $this->_smarty->registerPlugin('function', 'include_php_ex', 'smarty_function_include_php_ex');
         $this->_smarty->registerPlugin('modifier', 'h', 'smarty_modifier_h');
@@ -61,9 +60,9 @@ class SC_View
         $this->_smarty->registerPlugin('modifier', 'nl2br_html', 'smarty_modifier_nl2br_html');
         $this->_smarty->registerPlugin('modifier', 'script_escape', 'smarty_modifier_script_escape');
         $this->_smarty->registerPlugin('modifier', 'u', 'smarty_modifier_u');
-        $this->_smarty->registerPlugin('modifier', 'sfMbConvertEncoding', array('SC_Utils_Ex', 'sfMbConvertEncoding'));
-        $this->_smarty->registerPlugin('modifier', 'sfGetEnabled', array('SC_Utils_Ex', 'sfGetEnabled'));
-        $this->_smarty->registerPlugin('modifier', 'sfNoImageMainList', array('SC_Utils_Ex', 'sfNoImageMainList'));
+        $this->_smarty->registerPlugin('modifier', 'sfMbConvertEncoding', ['SC_Utils_Ex', 'sfMbConvertEncoding']);
+        $this->_smarty->registerPlugin('modifier', 'sfGetEnabled', ['SC_Utils_Ex', 'sfGetEnabled']);
+        $this->_smarty->registerPlugin('modifier', 'sfNoImageMainList', ['SC_Utils_Ex', 'sfNoImageMainList']);
         $this->_smarty->registerPlugin('modifier', 'file_exists', 'file_exists');
         $this->_smarty->registerPlugin('modifier', 'function_exists', 'function_exists');
         $this->_smarty->registerPlugin('modifier', 'preg_quote', 'preg_quote');
@@ -71,10 +70,11 @@ class SC_View
         $this->_smarty->registerPlugin('modifier', 'php_uname', 'php_uname');
         $this->_smarty->registerPlugin('modifier', 'array_key_exists', 'array_key_exists');
         // XXX register_function で登録すると if で使用できないのではないか？
-        $this->_smarty->registerPlugin('function','sfIsHTTPS', array('SC_Utils_Ex', 'sfIsHTTPS'));
-        $this->_smarty->registerPlugin('function','sfSetErrorStyle', array('SC_Utils_Ex', 'sfSetErrorStyle'));
-        $this->_smarty->registerPlugin('function','printXMLDeclaration', array('GC_Utils_Ex', 'printXMLDeclaration'));
-        $this->_smarty->default_modifiers = array('script_escape');
+        $this->_smarty->registerPlugin('function', 'sfIsHTTPS', ['SC_Utils_Ex', 'sfIsHTTPS']);
+        $this->_smarty->registerPlugin('function', 'sfSetErrorStyle', ['SC_Utils_Ex', 'sfSetErrorStyle']);
+        $this->_smarty->registerPlugin('function', 'printXMLDeclaration', ['GC_Utils_Ex', 'printXMLDeclaration']);
+        $this->_smarty->muteUndefinedOrNullWarnings();
+        $this->_smarty->default_modifiers = ['script_escape'];
 
         if (ADMIN_MODE == '1') {
             $this->time_start = microtime(true);
@@ -84,7 +84,7 @@ class SC_View
         // 各filterをセットします.
         $this->registFilter();
         // smarty:nodefaultsの後方互換を維持
-        $this->_smarty->registerFilter('pre', array($this, 'lower_compatibility_smarty'));
+        $this->_smarty->registerFilter('pre', [$this, 'lower_compatibility_smarty']);
     }
 
     // テンプレートに値を割り当てる
@@ -105,9 +105,12 @@ class SC_View
 
     /**
      * SC_Display用にレスポンスを返す
+     *
      * @global string $GLOBAL_ERR
+     *
      * @param  array   $template
-     * @param  boolean $no_error
+     * @param  bool $no_error
+     *
      * @return string
      */
     public function getResponse($template, $no_error = false)
@@ -120,11 +123,11 @@ class SC_View
                 define('OUTPUT_ERR', 'ON');
             }
         }
-        $res =  $this->_smarty->fetch($template);
+        $res = $this->_smarty->fetch($template);
         if (ADMIN_MODE == '1') {
             $time_end = microtime(true);
             $time = $time_end - $this->time_start;
-            $res .= '処理時間: ' . sprintf('%.3f', $time) . '秒';
+            $res .= '処理時間: '.sprintf('%.3f', $time).'秒';
         }
 
         return $res;
@@ -132,37 +135,42 @@ class SC_View
 
     /**
      * Pageオブジェクトをセットします.
+     *
      * @param  LC_Page_Ex $objPage
+     *
      * @return void
      */
     public function setPage($objPage)
     {
-       $this->objPage = $objPage;
+        $this->objPage = $objPage;
     }
 
     /**
      * Smartyのfilterをセットします.
+     *
      * @return void
      */
     public function registFilter()
     {
-        $this->_smarty->registerFilter('pre', array(&$this, 'prefilter_transform'));
-        $this->_smarty->registerFilter('output', array(&$this, 'outputfilter_transform'));
+        $this->_smarty->registerFilter('pre', [&$this, 'prefilter_transform']);
+        $this->_smarty->registerFilter('output', [&$this, 'outputfilter_transform']);
     }
 
     /**
      * prefilter用のフィルタ関数。プラグイン用のフックポイント処理を実行
+     *
      * @param  string          $source ソース
      * @param  \Smarty\Template $smarty Smartyのコンパイラクラス
+     *
      * @return string          $source ソース
      */
-    public function prefilter_transform($source, \Smarty\Template $template)
+    public function prefilter_transform($source, Smarty\Template $template)
     {
         if (!is_null($this->objPage)) {
             // フックポイントを実行.
             $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
             if ($objPlugin) {
-                $objPlugin->doAction('prefilterTransform', array(&$source, $this->objPage, $this->getCurrentTemplateFile($template)));
+                $objPlugin->doAction('prefilterTransform', [&$source, $this->objPage, $this->getCurrentTemplateFile($template)]);
             }
         }
 
@@ -171,17 +179,19 @@ class SC_View
 
     /**
      * outputfilter用のフィルタ関数。プラグイン用のフックポイント処理を実行
+     *
      * @param  string          $source ソース
      * @param  \Smarty\Template $smarty Smartyのコンパイラクラス
+     *
      * @return string          $source ソース
      */
-    public function outputfilter_transform($source, \Smarty\Template $template)
+    public function outputfilter_transform($source, Smarty\Template $template)
     {
         if (!is_null($this->objPage)) {
             // フックポイントを実行.
             $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
             if ($objPlugin) {
-                $objPlugin->doAction('outputfilterTransform', array(&$source, $this->objPage, $this->getCurrentTemplateFile($template)));
+                $objPlugin->doAction('outputfilterTransform', [&$source, $this->objPage, $this->getCurrentTemplateFile($template)]);
             }
         }
 
@@ -190,6 +200,7 @@ class SC_View
 
     /**
      * テンプレートの処理結果を表示
+     *
      * @param string $template
      * @param bool $no_error
      */
@@ -208,12 +219,13 @@ class SC_View
         if (ADMIN_MODE == '1') {
             $time_end = microtime(true);
             $time = $time_end - $this->time_start;
-            echo '処理時間: ' . sprintf('%.3f', $time) . '秒';
+            echo '処理時間: '.sprintf('%.3f', $time).'秒';
         }
     }
 
     /**
      * オブジェクト内の変数を全て割り当てる。
+     *
      * @param object $obj
      */
     public function assignobj($obj)
@@ -227,6 +239,7 @@ class SC_View
 
     /**
      * 連想配列内の変数を全て割り当てる。
+     *
      * @param array $array
      */
     public function assignarray($array)
@@ -239,7 +252,7 @@ class SC_View
     /**
      * テンプレートパスをアサインする.
      *
-     * @param integer $device_type_id 端末種別ID
+     * @param int $device_type_id 端末種別ID
      */
     public function assignTemplatePath($device_type_id)
     {
@@ -248,8 +261,8 @@ class SC_View
 
         // ヘッダとフッタを割り当て
         $templatePath = SC_Helper_PageLayout_Ex::getTemplatePath($device_type_id);
-        $header_tpl = $templatePath . 'header.tpl';
-        $footer_tpl = $templatePath . 'footer.tpl';
+        $header_tpl = $templatePath.'header.tpl';
+        $footer_tpl = $templatePath.'footer.tpl';
 
         $this->assign('header_tpl', $header_tpl);
         $this->assign('footer_tpl', $footer_tpl);
@@ -257,6 +270,7 @@ class SC_View
 
     /**
      * デバッグ
+     *
      * @param bool $var
      */
     public function debug($var = true)
@@ -264,18 +278,18 @@ class SC_View
         $this->_smarty->debugging = $var;
     }
 
-
     /**
      * 2.13のテンプレートのまま動作するためにsmartyの後方互換処理
      *
      * @param mixed $tpl_source
      * @param mixed $smarty
+     *
      * @return array|string|null
      */
     public function lower_compatibility_smarty($tpl_source, $smarty)
     {
-        $pattern = array("/\|smarty:nodefaults/", "/include_php /", "/=`(.+?)`/");
-        $replace = array(' ', 'include_php_ex ', "=$1");
+        $pattern = ["/\|smarty:nodefaults/", '/include_php /', '/=`(.+?)`/'];
+        $replace = [' ', 'include_php_ex ', '=$1'];
 
         return preg_replace($pattern, $replace, $tpl_source);
     }
@@ -291,11 +305,13 @@ class SC_View
      * この関数は 2.13 と同様にテンプレートディレクトリからの相対パスを返す
      *
      * @param Smarty_Internal_Template $template
+     *
      * @return string 現在のテンプレートファイルパス
      */
-    public function getCurrentTemplateFile(\Smarty\Template $template)
+    public function getCurrentTemplateFile(Smarty\Template $template)
     {
         $current_file = str_replace($template->getSmarty()->getTemplateDir(), '', $template->getSource()->getFilepath());
+
         return str_replace('\\', '/', $current_file); // Windows 向けにパスの区切り文字を正規化する
     }
 }

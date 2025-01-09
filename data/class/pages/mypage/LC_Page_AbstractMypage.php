@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * Mypage の基底クラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_AbstractMypage extends LC_Page_Ex
@@ -53,9 +52,9 @@ class LC_Page_AbstractMypage extends LC_Page_Ex
     {
         parent::init();
         // mypage 共通
-        $this->tpl_title        = 'MYページ';
-        $this->tpl_navi         = 'mypage/navi.tpl';
-        $this->tpl_mainno       = 'mypage';
+        $this->tpl_title = 'MYページ';
+        $this->tpl_navi = 'mypage/navi.tpl';
+        $this->tpl_mainno = 'mypage';
     }
 
     /** @return void */
@@ -96,11 +95,11 @@ class LC_Page_AbstractMypage extends LC_Page_Ex
             if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_MOBILE) {
                 $this->tpl_valid_phone_id = $objCustomer->checkMobilePhoneId();
             }
-            $this->tpl_title        = 'MYページ(ログイン)';
-            $this->tpl_mainpage     = 'mypage/login.tpl';
+            $this->tpl_title = 'MYページ(ログイン)';
+            $this->tpl_mainpage = 'mypage/login.tpl';
         } else {
-            //マイページ会員情報表示用共通処理
-            $this->tpl_login     = true;
+            // マイページ会員情報表示用共通処理
+            $this->tpl_login = true;
             $this->CustomerName1 = $objCustomer->getValue('name01');
             $this->CustomerName2 = $objCustomer->getValue('name02');
             $this->CustomerPoint = $objCustomer->getValue('point');

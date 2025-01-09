@@ -1,17 +1,18 @@
 <?php
-  /*
-   * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
-   *
-   * http://www.ec-cube.co.jp/
-   */
 
-  /**
-   * CSV 関連 のヘルパークラス.
-   *
-   * @package Page
-   * @author EC-CUBE CO.,LTD.
-   * @version $Id$
-   */
+/*
+ * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+ *
+ * http://www.ec-cube.co.jp/
+ */
+
+/**
+ * CSV 関連 のヘルパークラス.
+ *
+ * @author EC-CUBE CO.,LTD.
+ *
+ * @version $Id$
+ */
 class SC_Helper_CSV
 {
     /** 項目英名 */
@@ -37,45 +38,47 @@ class SC_Helper_CSV
     /**
      * 項目情報を初期化する.
      *
-     * @access private
      * @return void
      */
     public function init()
     {
-        $this->arrSubnavi = array(
+        $this->arrSubnavi = [
             1 => 'product',
             2 => 'customer',
             3 => 'order',
             4 => 'review',
             5 => 'category',
-        );
+        ];
 
-        $this->arrSubnaviName = array(
+        $this->arrSubnaviName = [
             1 => '商品管理',
             2 => '会員管理',
             3 => '受注管理',
             4 => 'レビュー',
             5 => 'カテゴリ',
-        );
+        ];
     }
 
     /**
      * CSVファイルを送信する
      *
-     * @param  integer $csv_id      CSVフォーマットID
+     * @param  int $csv_id      CSVフォーマットID
      * @param  string  $where       WHERE条件文
      * @param  array   $arrVal      プリペアドステートメントの実行時に使用される配列。配列の要素数は、クエリ内のプレースホルダの数と同じでなければなりません。
      * @param  string  $order       ORDER文
-     * @param  boolean $is_download true:ダウンロード用出力までさせる false:CSVの内容を返す(旧方式、メモリを食います。）
-     * @return boolean|string   $is_download = true時 成功失敗フラグ(boolean) 、$is_downalod = false時 string
+     * @param  bool $is_download true:ダウンロード用出力までさせる false:CSVの内容を返す(旧方式、メモリを食います。）
+     *
+     * @return bool|string   $is_download = true時 成功失敗フラグ(boolean) 、$is_downalod = false時 string
      */
-    public function sfDownloadCsv($csv_id, $where = '', $arrVal = array(), $order = '', $is_download = false)
+    public function sfDownloadCsv($csv_id, $where = '', $arrVal = [], $order = '', $is_download = false)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // CSV出力タイトル行の作成
-        $arrOutput = SC_Utils_Ex::sfSwapArray($this->sfGetCsvOutput($csv_id, 'status = ' . CSV_COLUMN_STATUS_FLG_ENABLE));
-        if (count($arrOutput) <= 0) return false; // 失敗終了
+        $arrOutput = SC_Utils_Ex::sfSwapArray($this->sfGetCsvOutput($csv_id, 'status = '.CSV_COLUMN_STATUS_FLG_ENABLE));
+        if (count($arrOutput) <= 0) {
+            return false;
+        } // 失敗終了
         $arrOutputCols = $arrOutput['col'];
 
         $cols = SC_Utils_Ex::sfGetCommaList($arrOutputCols, true);
@@ -109,13 +112,14 @@ class SC_Helper_CSV
     /**
      * CSV 項目を出力する.
      *
-     * @param  integer $csv_id CSV ID
+     * @param  int $csv_id CSV ID
      * @param  string  $where  SQL の WHERE 句
      * @param  array   $arrVal WHERE 句の要素
-     * @param  array   $order  SQL の ORDER BY 句
+     * @param  string  $order  SQL の ORDER BY 句
+     *
      * @return array   CSV 項目の配列
      */
-    public function sfGetCsvOutput($csv_id = '', $where = '', $arrVal = array(), $order = 'rank, no')
+    public function sfGetCsvOutput($csv_id = '', $where = '', $arrVal = [], $order = 'rank, no')
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -141,7 +145,8 @@ class SC_Helper_CSV
      * CSVが出力設定でインポート可能かのチェック
      *
      * @param array sfGetCsvOutputで取得した内容（またはそれと同等の配列)
-     * @return boolean true:インポート可能、false:インポート不可
+     *
+     * @return bool true:インポート可能、false:インポート不可
      */
     public function sfIsImportCSVFrame(&$arrCSVFrame)
     {
@@ -150,9 +155,9 @@ class SC_Helper_CSV
             if ($val['status'] != CSV_COLUMN_STATUS_FLG_ENABLE
                 && $val['rw_flg'] == CSV_COLUMN_RW_FLG_READ_WRITE
                 && $val['error_check_types'] != ''
-                && strpos(strtoupper($val['error_check_types']), 'EXIST_CHECK') !== FALSE
+                && str_contains(strtoupper($val['error_check_types']), 'EXIST_CHECK')
             ) {
-                //必須フィールド
+                // 必須フィールド
                 $result = false;
             }
         }
@@ -164,7 +169,8 @@ class SC_Helper_CSV
      * CSVが出力設定で更新可能かのチェック
      *
      * @param array sfGetCsvOutputで取得した内容（またはそれと同等の配列)
-     * @return boolean true:更新可能、false:新規追加のみ不可
+     *
+     * @return bool true:更新可能、false:新規追加のみ不可
      */
     public function sfIsUpdateCSVFrame(&$arrCSVFrame)
     {
@@ -173,7 +179,7 @@ class SC_Helper_CSV
             if ($val['status'] != CSV_COLUMN_STATUS_FLG_ENABLE
                 && $val['rw_flg'] == CSV_COLUMN_RW_FLG_KEY_FIELD
             ) {
-                //キーフィールド
+                // キーフィールド
                 $result = false;
             }
         }
@@ -185,7 +191,8 @@ class SC_Helper_CSV
      * CSVファイルのカウント数を得る.
      *
      * @param  resource $fp fopenを使用して作成したファイルポインタ
-     * @return integer  CSV のカウント数
+     *
+     * @return int  CSV のカウント数
      */
     public function sfGetCSVRecordCount($fp)
     {
@@ -196,9 +203,9 @@ class SC_Helper_CSV
         }
         // ファイルポインタを戻す
         if (rewind($fp)) {
-            return $count-1;
+            return $count - 1;
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -206,7 +213,8 @@ class SC_Helper_CSV
      * CSV作成 テンポラリファイル出力 コールバック関数
      *
      * @param  mixed   $data 出力データ
-     * @return boolean true (true:固定 false:中断)
+     *
+     * @return bool true (true:固定 false:中断)
      */
     public function cbOutputCSV($data)
     {
@@ -229,14 +237,15 @@ class SC_Helper_CSV
     /**
      * SQL文からクエリ実行し CSVファイルを送信する
      *
-     * @param  integer $sql         SQL文
+     * @param  int $sql         SQL文
      * @param  array   $arrVal      プリペアドステートメントの実行時に使用される配列。配列の要素数は、クエリ内のプレースホルダの数と同じでなければなりません。
      * @param  string       ファイル名の頭に付ける文字列
      * @param  array|null   ヘッダ出力列配列。null の場合、SQL 文の列名を出力する。
-     * @param  boolean      true:ダウンロード用出力までさせる false:CSVの内容を返す(旧方式、メモリを食います。）
-     * @return boolean|string   $is_download = true時 成功失敗フラグ(boolean) 、$is_downalod = false時 string
+     * @param  bool      true:ダウンロード用出力までさせる false:CSVの内容を返す(旧方式、メモリを食います。）
+     *
+     * @return bool|string   $is_download = true時 成功失敗フラグ(boolean) 、$is_downalod = false時 string
      */
-    public function sfDownloadCsvFromSql($sql, $arrVal = array(), $file_head = 'csv', $arrHeader = null, $is_download = false)
+    public function sfDownloadCsvFromSql($sql, $arrVal = [], $file_head = 'csv', $arrHeader = null, $is_download = false)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -244,7 +253,7 @@ class SC_Helper_CSV
             ob_start();
         }
 
-        $this->fpOutput =& SC_Helper_CSV_Ex::fopen_for_output_csv();
+        $this->fpOutput = &SC_Helper_CSV_Ex::fopen_for_output_csv();
 
         // mb_convert_variablesで変換できない文字は"?"にする
         mb_substitute_character(SUBSTITUTE_CHAR);
@@ -258,7 +267,7 @@ class SC_Helper_CSV
             $this->output_header = true;
         }
 
-        $objQuery->doCallbackAll(array(&$this, 'cbOutputCSV'), $sql, $arrVal);
+        $objQuery->doCallbackAll([&$this, 'cbOutputCSV'], $sql, $arrVal);
 
         // コールバック内でヘッダー出力する場合、0行時にヘッダーを生成できない。
         // コールバックが呼ばれていない場合、念のため CRLF を出力しておく。
@@ -271,7 +280,7 @@ class SC_Helper_CSV
 
         // CSV 用の HTTP ヘッダーを送出する。
         if ($is_download) {
-            $file_name = $file_head . '_' . date('ymd_His') .'.csv';
+            $file_name = $file_head.'_'.date('ymd_His').'.csv';
             SC_Response_Ex::headerForDownload($file_name);
             $return = true;
         }
@@ -304,7 +313,7 @@ class SC_Helper_CSV
         }
 
         foreach ($fields as $key => $value) {
-            $field =& $fields[$key];
+            $field = &$fields[$key];
 
             // 配列を「|」区切りの文字列に変換する
             if (is_array($field)) {
@@ -313,9 +322,9 @@ class SC_Helper_CSV
 
             /* enclose a field that contains a delimiter, an enclosure character, or a newline */
             if (is_string($field)
-                && preg_match('/[' . preg_quote($delimiter) . preg_quote($enclosure) . '\\s]/', $field)
+                && preg_match('/['.preg_quote($delimiter).preg_quote($enclosure).'\\s]/', $field)
             ) {
-                $field = $enclosure . preg_replace('/' . preg_quote($enclosure) . '/', $enclosure . $enclosure, $field) . $enclosure;
+                $field = $enclosure.preg_replace('/'.preg_quote($enclosure).'/', $enclosure.$enclosure, $field).$enclosure;
             }
         }
 
@@ -332,14 +341,14 @@ class SC_Helper_CSV
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
         if ($prefix == '') {
             $dir_name = SC_Utils_Ex::sfUpDirName();
-            $file_name = $dir_name . date('ymdHis') .'.csv';
+            $file_name = $dir_name.date('ymdHis').'.csv';
         } else {
-            $file_name = $prefix . date('ymdHis') .'.csv';
+            $file_name = $prefix.date('ymdHis').'.csv';
         }
         SC_Response_Ex::headerForDownload($file_name);
 
         /* データを出力 */
-        $fp =& SC_Helper_CSV_Ex::fopen_for_output_csv();
+        $fp = &SC_Helper_CSV_Ex::fopen_for_output_csv();
         foreach ($arrData as $lineArray) {
             fputcsv($fp, $lineArray);
         }
@@ -354,7 +363,7 @@ class SC_Helper_CSV
     public function lfDownloadCSVFile($filepath, $prefix = '')
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
-        $file_name = $prefix . date('YmdHis') . '.csv';
+        $file_name = $prefix.date('YmdHis').'.csv';
         SC_Response_Ex::headerForDownload($file_name);
 
         /* データを出力 */
@@ -380,8 +389,8 @@ class SC_Helper_CSV
 /**
  * 改行コードを CRLF に変換するフィルター
  *
- * @package php_user_filter
  * @author Seasoft 塚田将久 (新規作成)
+ *
  * @version $Id$
  */
 class php_user_filter_lf2crlf extends php_user_filter
@@ -394,7 +403,9 @@ class php_user_filter_lf2crlf extends php_user_filter
             $consumed += $bucket->datalen;
             stream_bucket_append($out, $bucket);
         }
+
         return PSFS_PASS_ON;
     }
 }
+
 stream_filter_register('convert.eccube_lf2crlf', 'php_user_filter_lf2crlf');

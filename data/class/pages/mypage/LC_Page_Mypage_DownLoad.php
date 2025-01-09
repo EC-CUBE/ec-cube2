@@ -24,8 +24,8 @@
 /**
  * ダウンロード商品ダウンロード のページクラス.
  *
- * @package Page
  * @author CUORE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Mypage_DownLoad extends LC_Page_Ex
@@ -39,9 +39,9 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
     /** 拡張Content-Type配列
      * Application/octet-streamで対応出来ないファイルタイプのみ拡張子をキーに記述する
      * 拡張子が本配列に存在しない場合は $defaultContentTypeを利用する */
-    public $arrContentType = array('apk' => 'application/vnd.android.package-archive',
-                                'pdf' => 'application/pdf'
-        );
+    public $arrContentType = ['apk' => 'application/vnd.android.package-archive',
+        'pdf' => 'application/pdf',
+    ];
 
     /**
      * Page を初期化する.
@@ -88,23 +88,23 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
         $objFormParam->setParam($_SESSION['customer']);
         $objFormParam->setParam($_GET);
         $this->arrErr = $this->lfCheckError($objFormParam);
-        if (count($this->arrErr)!=0) {
+        if (count($this->arrErr) != 0) {
             SC_Utils_Ex::sfDispSiteError(DOWNFILE_NOT_FOUND, '', true);
         }
-
     }
 
     /**
      * Page のResponse.
      *
      * todo たいした処理でないのに異常に処理が重い
+     *
      * @return void
      */
     public function sendResponse()
     {
         // TODO sendResponseをオーバーライドしている為、afterフックポイントが実行されない.直接実行する.(#1790)
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
-        $objPlugin->doAction('LC_Page_Mypage_DownLoad_action_after', array($this));
+        $objPlugin->doAction('LC_Page_Mypage_DownLoad_action_after', [$this]);
 
         $this->objDisplay->noAction();
 
@@ -113,19 +113,19 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
         $order_id = $_GET['order_id'];
         $product_class_id = $_GET['product_class_id'];
 
-        //DBから商品情報の読込
+        // DBから商品情報の読込
         $arrForm = $this->lfGetRealFileName($customer_id, $order_id, $product_class_id);
 
-        //ファイル情報が無い場合はNG
+        // ファイル情報が無い場合はNG
         if ($arrForm['down_realfilename'] == '') {
             SC_Utils_Ex::sfDispSiteError(DOWNFILE_NOT_FOUND, '', true);
         }
-        //ファイルそのものが無い場合もとりあえずNG
-        $realpath = DOWN_SAVE_REALDIR . $arrForm['down_realfilename'];
+        // ファイルそのものが無い場合もとりあえずNG
+        $realpath = DOWN_SAVE_REALDIR.$arrForm['down_realfilename'];
         if (!file_exists($realpath)) {
             SC_Utils_Ex::sfDispSiteError(DOWNFILE_NOT_FOUND, '', true);
         }
-        //ファイル名をエンコードする Safariの対策はUTF-8で様子を見る
+        // ファイル名をエンコードする Safariの対策はUTF-8で様子を見る
         $encoding = 'Shift_JIS';
         if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'Safari')) {
             $encoding = 'UTF-8';
@@ -154,9 +154,10 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
     /**
      * 商品情報の読み込みを行う.
      *
-     * @param  integer $customer_id      会員ID
-     * @param  integer $order_id         受注ID
-     * @param  integer $product_class_id 商品規格ID
+     * @param  int $customer_id      会員ID
+     * @param  int $order_id         受注ID
+     * @param  int $product_class_id 商品規格ID
+     *
      * @return string   商品情報の配列
      */
     public function lfGetRealFileName($customer_id, $order_id, $product_class_id)
@@ -175,9 +176,9 @@ __EOS__;
 
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
         $where = 'o.customer_id = ? AND o.order_id = ? AND od.product_class_id = ?';
-        $where .= ' AND ' . $dbFactory->getDownloadableDaysWhereSql('o');
+        $where .= ' AND '.$dbFactory->getDownloadableDaysWhereSql('o');
         $where .= ' = 1';
-        $arrWhereVal = array($customer_id, $order_id, $product_class_id);
+        $arrWhereVal = [$customer_id, $order_id, $product_class_id];
         $arrRet = $objQuery->select($col, $table, $where, $arrWhereVal);
 
         return $arrRet[0];
@@ -190,9 +191,9 @@ __EOS__;
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('customer_id', 'customer_id', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('order_id', 'order_id', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('product_class_id', 'product_class_id', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam('customer_id', 'customer_id', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('order_id', 'order_id', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('product_class_id', 'product_class_id', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK']);
     }
 
     /* 入力内容のチェック */
@@ -217,12 +218,12 @@ __EOS__;
     public function lfMobileHeader($realpath, $sdown_filename)
     {
         $objHelperMobile = new SC_Helper_Mobile_Ex();
-        //ファイルの拡張子からコンテンツタイプを取得する
+        // ファイルの拡張子からコンテンツタイプを取得する
         $mime_type = $objHelperMobile->getMIMEType($realpath);
-        header('Content-Type: ' . $mime_type);
-        header('Content-Disposition: attachment; filename=' . $sdown_filename);
+        header('Content-Type: '.$mime_type);
+        header('Content-Disposition: attachment; filename='.$sdown_filename);
         header('Accept-Ranges: bytes');
-        header('Last-Modified: ' . gmdate('D,d M Y H:i:s') . ' GMT');
+        header('Last-Modified: '.gmdate('D,d M Y H:i:s').' GMT');
         header('Cache-Control: public');
     }
 
@@ -234,12 +235,12 @@ __EOS__;
      */
     public function lfMobileAuDownload($realpath, $sdown_filename)
     {
-        //モバイル用ヘッダー出力
+        // モバイル用ヘッダー出力
         $this->lfMobileHeader($realpath, $sdown_filename);
-        //ファイルサイズを取得する
+        // ファイルサイズを取得する
         $file_size = filesize($realpath);
-        //読み込み
-        $fp = fopen($realpath, 'rb');
+        // 読み込み
+        $fp = fopen($realpath, 'r');
         if (isset($_SERVER['HTTP_RANGE'])) {
             // 二回目以降のリクエスト
             list($range_offset, $range_limit) = sscanf($_SERVER['HTTP_RANGE'], 'bytes=%d-%d');
@@ -247,12 +248,12 @@ __EOS__;
             $content_length = $range_limit - $range_offset + 1;
             fseek($fp, $range_offset, SEEK_SET);
             header('HTTP/1.1 206 Partial Content');
-            header('Content-Lenth: ' . $content_length);
-            header('Content-Range: ' . $content_range);
+            header('Content-Lenth: '.$content_length);
+            header('Content-Range: '.$content_range);
         } else {
             // 一回目のリクエスト
             $content_length = $file_size;
-            header('Content-Length: ' . $content_length);
+            header('Content-Length: '.$content_length);
         }
         echo fread($fp, $content_length);
         SC_Utils_Ex::sfFlush();
@@ -266,55 +267,57 @@ __EOS__;
      */
     public function lfMobileDownload($realpath, $sdown_filename)
     {
-        //モバイル用ヘッダー出力
+        // モバイル用ヘッダー出力
         $this->lfMobileHeader($realpath, $sdown_filename);
-        //ファイルサイズを取得する
+        // ファイルサイズを取得する
         $file_size = filesize($realpath);
 
-        //出力用バッファをクリアする
+        // 出力用バッファをクリアする
         @ob_end_clean();
         $range = 0;
-        //HTTP_RANGEがセットされていた場合
+        // HTTP_RANGEがセットされていた場合
         if (isset($_SERVER['HTTP_RANGE'])) {
             // 二回目以降のリクエスト
             list($a, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
             list($range) = explode(',', $range, 2);
             list($range, $range_end) = explode('-', $range);
-            $range=intval($range);
+            $range = (int) $range;
 
             if (!$range_end) {
-                $range_end=$file_size-1;
+                $range_end = $file_size - 1;
             } else {
-                $range_end=intval($range_end);
+                $range_end = (int) $range_end;
             }
 
-            $new_length = $range_end-$range+1;
+            $new_length = $range_end - $range + 1;
             header('HTTP/1.1 206 Partial Content');
             header("Content-Length: $new_length");
             header("Content-Range: bytes $range-$range_end/$file_size");
         } else {
             // 一回目のリクエスト
-            $new_length=$file_size;
+            $new_length = $file_size;
             header('Content-Length: '.$file_size);
         }
 
-        //ファイル読み込み
-        $chunksize = 1*(DOWNLOAD_BLOCK*1024);
+        // ファイル読み込み
+        $chunksize = 1 * (DOWNLOAD_BLOCK * 1024);
         $bytes_send = 0;
         if ($realpath = fopen($realpath, 'r')) {
             // 二回目以降のリクエスト
-            if (isset($_SERVER['HTTP_RANGE'])) fseek($realpath, $range);
+            if (isset($_SERVER['HTTP_RANGE'])) {
+                fseek($realpath, $range);
+            }
 
-            while (!feof($realpath) && (!connection_aborted()) && ($bytes_send<$new_length)) {
+            while (!feof($realpath) && (!connection_aborted()) && ($bytes_send < $new_length)) {
                 $buffer = fread($realpath, $chunksize);
-                print($buffer);
+                echo $buffer;
                 SC_Utils_Ex::sfFlush();
                 SC_Utils_Ex::extendTimeOut();
                 $bytes_send += strlen($buffer);
             }
             fclose($realpath);
         }
-        die();
+        exit;
     }
 
     /**
@@ -334,26 +337,26 @@ __EOS__;
             $contentType = $this->arrContentType[$extension];
         }
         header('Content-Type: '.$contentType);
-        //ファイル名指定
-        header('Content-Disposition: attachment; filename="' . $sdown_filename . '"');
+        // ファイル名指定
+        header('Content-Disposition: attachment; filename="'.$sdown_filename.'"');
         header('Content-Transfer-Encoding: binary');
-        //キャッシュ無効化
+        // キャッシュ無効化
         header('Expires: Mon, 26 Nov 1962 00:00:00 GMT');
-        header('Last-Modified: ' . gmdate('D,d M Y H:i:s') . ' GMT');
-        //IE6+SSL環境下は、キャッシュ無しでダウンロードできない
+        header('Last-Modified: '.gmdate('D,d M Y H:i:s').' GMT');
+        // IE6+SSL環境下は、キャッシュ無しでダウンロードできない
         header('Cache-Control: private');
         header('Pragma: private');
-        //ファイルサイズ指定
+        // ファイルサイズ指定
         $zv_filesize = filesize($realpath);
-        header('Content-Length: ' . $zv_filesize);
-        //ファイル読み込み
-        $handle = fopen($realpath, 'rb');
+        header('Content-Length: '.$zv_filesize);
+        // ファイル読み込み
+        $handle = fopen($realpath, 'r');
         if ($handle === false) {
             SC_Utils_Ex::sfDispSiteError(DOWNFILE_NOT_FOUND, '', true);
             SC_Response_Ex::actionExit();
         }
         while (!feof($handle)) {
-            echo fread($handle, DOWNLOAD_BLOCK*1024);
+            echo fread($handle, DOWNLOAD_BLOCK * 1024);
             SC_Utils_Ex::sfFlush();
             SC_Utils_Ex::extendTimeOut();
         }

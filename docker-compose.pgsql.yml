@@ -7,7 +7,8 @@ services:
     command: apache2-foreground
     entrypoint: /wait-for-pgsql.sh
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       TZ: Asia/Tokyo
       PHP_POST_MAX_SIZE: 10M
@@ -33,14 +34,15 @@ services:
       PASSWORD_HASH_ALGOS: sha256
 
   postgres:
-    image: postgres
+    image: postgres:latest
     environment:
       - TZ=Asia/Tokyo
       - POSTGRES_DB=eccube_db
       - POSTGRES_USER=eccube_db_user
       - POSTGRES_PASSWORD=password
-      - POSTGRES_HOST_AUTH_METHOD=md5
-      - POSTGRES_INITDB_ARGS=--auth-host=md5
+      # 古いクライアント用の設定
+      # - POSTGRES_HOST_AUTH_METHOD=md5
+      # - POSTGRES_INITDB_ARGS=--auth-host=md5
     ports:
       - 15432:5432
     volumes:

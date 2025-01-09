@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,57 +27,54 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfSwapArray()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfSwapArrayTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfSwapArrayカラム名ありの指定の場合キーに名称が入る()
+    {
+        $input_array = [
+            ['id' => '1001', 'name' => 'name1001'],
+            ['id' => '1002', 'name' => 'name1002'],
+        ];
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+        $this->expected = [
+            'id' => ['1001', '1002'],
+            'name' => ['name1001', 'name1002'],
+        ];
+        $this->actual = SC_Utils::sfSwapArray($input_array);
 
-  /////////////////////////////////////////
-  public function testSfSwapArray_カラム名ありの指定の場合_キーに名称が入る()
-  {
-    $input_array = array(
-      array('id' => '1001', 'name' => 'name1001'),
-      array('id' => '1002', 'name' => 'name1002')
-    );
+        $this->verify();
+    }
 
-    $this->expected = array(
-      'id' => array('1001', '1002'),
-      'name' => array('name1001', 'name1002')
-    );
-    $this->actual = SC_Utils::sfSwapArray($input_array);
+    public function testSfSwapArrayカラム名なしの指定の場合キーに名称が入らない()
+    {
+        $input_array = [
+            ['id' => '1001', 'name' => 'name1001'],
+            ['id' => '1002', 'name' => 'name1002'],
+        ];
 
-    $this->verify();
-  }
+        $this->expected = [
+            ['1001', '1002'],
+            ['name1001', 'name1002'],
+        ];
+        $this->actual = SC_Utils::sfSwapArray($input_array, false);
 
-  public function testSfSwapArray_カラム名なしの指定の場合_キーに名称が入らない()
-  {
-    $input_array = array(
-      array('id' => '1001', 'name' => 'name1001'),
-      array('id' => '1002', 'name' => 'name1002')
-    );
+        $this->verify();
+    }
 
-    $this->expected = array(
-      array('1001', '1002'),
-      array('name1001', 'name1002')
-    );
-    $this->actual = SC_Utils::sfSwapArray($input_array, false);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

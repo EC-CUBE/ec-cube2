@@ -7,13 +7,13 @@ class SC_CheckError_FILE_NAME_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var string|null */
     protected $fileName;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'FILE_NAME_CHECK';
     }
 
-    public function testFILE_NAME_CHECK()
+    public function testFILENAMECHECK()
     {
         $this->fileName = 'test.jpeg';
         $this->expected = '';
@@ -22,7 +22,7 @@ class SC_CheckError_FILE_NAME_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_NAME_CHECKWithError()
+    public function testFILENAMECHECKWithError()
     {
         $this->fileName = 'ア.JPG';
         $this->expected = '※ FILE_NAME_CHECKのファイル名には、英数字、記号（_ - .）のみを入力して下さい。<br />';
@@ -31,7 +31,7 @@ class SC_CheckError_FILE_NAME_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_NAME_CHECKWithEmpty()
+    public function testFILENAMECHECKWithEmpty()
     {
         $this->fileName = '';
         $this->expected = '';
@@ -40,7 +40,7 @@ class SC_CheckError_FILE_NAME_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testFILE_NAME_CHECKWithNull()
+    public function testFILENAMECHECKWithNull()
     {
         $this->fileName = null;
         $this->expected = '';
@@ -56,8 +56,8 @@ class SC_CheckError_FILE_NAME_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         $_FILES = [
             self::FORM_NAME => [
-                'name' => $this->fileName
-            ]
+                'name' => $this->fileName,
+            ],
         ];
         $this->arrForm = [];
         $this->objErr = new SC_CheckError_Ex($this->arrForm);

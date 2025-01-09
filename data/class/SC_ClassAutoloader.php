@@ -24,8 +24,8 @@
 /**
  * クラスのオートローディングクラス
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class SC_ClassAutoloader
@@ -47,14 +47,14 @@ class SC_ClassAutoloader
         } elseif (($arrClassNamePart[0] === 'SC' || $arrClassNamePart[0] === 'LC') && $is_ex === true && $count >= 4) {
             $arrClassNamePartTemp = $arrClassNamePart;
             // FIXME クラスファイルのディレクトリ命名が変。変な現状に合わせて強引な処理をしてる。
-            $arrClassNamePartTemp[1] = $arrClassNamePartTemp[1] . '_extends';
+            $arrClassNamePartTemp[1] .= '_extends';
             if ($count <= 5 && $arrClassNamePart[2] === 'Admin' && !in_array($arrClassNamePart[3], ['Home', 'Index', 'Logout'])) {
-                $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -1))) . '/';
+                $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -1))).'/';
             } else {
-                $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -2))) . '/';
+                $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -2))).'/';
             }
         } elseif ($arrClassNamePart[0] === 'SC' && $is_ex === false && $count >= 3) {
-            $classpath .= strtolower(implode('/', array_slice($arrClassNamePart, 1, -1))) . '/';
+            $classpath .= strtolower(implode('/', array_slice($arrClassNamePart, 1, -1))).'/';
         } elseif ($arrClassNamePart[0] === 'SC') {
             // 処理なし
         } else {
@@ -75,7 +75,7 @@ class SC_ClassAutoloader
             $plugin_class = $class;
             $plugin_classpath = $classpath;
 
-            $objPlugin->doAction('loadClassFileChange', array(&$plugin_class, &$plugin_classpath));
+            $objPlugin->doAction('loadClassFileChange', [&$plugin_class, &$plugin_classpath]);
 
             // FIXME: トリッキーな処理で _Ex ファイルを無視しないようにする（無視するとユーザーカスタマイズで分かりにくい)
             //        SC_XXXX_Ex がロードされる場合にextendsのchainを
@@ -94,11 +94,11 @@ class SC_ClassAutoloader
 
                         if ($parent_classname) {
                             $exp = "/(class[ ]+{$plugin_class}[ ]+extends +)[a-zA-Z_\-]+( *{?)/";
-                            $replace = '$1' . $parent_classname . '$2';
+                            $replace = '$1'.$parent_classname.'$2';
 
                             if (file_exists($plugin_classpath)) {
                                 $base_class_str = file_get_contents($plugin_classpath);
-                                $base_class_str = str_replace(array('<?php', '?>'), '', $base_class_str);
+                                $base_class_str = str_replace(['<?php', '?>'], '', $base_class_str);
                                 $base_class_str = preg_replace($exp, $replace, $base_class_str, 1);
                             } else {
                                 $base_class_str = 'class '.$class.' extends '.$parent_classname.' {}';
@@ -106,22 +106,26 @@ class SC_ClassAutoloader
 
                             eval($base_class_str);
                         } else {
-                            include $plugin_classpath;
+                            if (file_exists($plugin_classpath)) {
+                                include $plugin_classpath;
+                            }
                         }
 
                         $parent_classname = $plugin_class;
                     } else {
-                        include $plugin_classpath;
+                        if (file_exists($plugin_classpath)) {
+                            include $plugin_classpath;
+                        }
                     }
                 }
 
                 if ($is_ex) {
                     $exp = "/(class[ ]+{$class}[ ]+extends +)[a-zA-Z_\-]+( *{?)/";
-                    $replace = '$1' . $parent_classname . '$2';
+                    $replace = '$1'.$parent_classname.'$2';
 
                     if (file_exists($classpath)) {
                         $base_class_str = file_get_contents($classpath);
-                        $base_class_str = str_replace(array('<?php', '?>'), '', $base_class_str);
+                        $base_class_str = str_replace(['<?php', '?>'], '', $base_class_str);
                         $base_class_str = preg_replace($exp, $replace, $base_class_str, 1);
                     } else {
                         $base_class_str = 'class '.$class.' extends '.$parent_classname.' {}';
@@ -136,7 +140,7 @@ class SC_ClassAutoloader
 
         if ($is_ex) {
             // *_Ex ファイルが存在しない場合は、元クラスのエイリアスとする
-            if (!file_exists($classpath) && strpos($class, '_Ex') !== false) {
+            if (!file_exists($classpath) && str_contains($class, '_Ex')) {
                 class_alias(preg_replace('/_Ex$/', '', $class), $class);
             }
         }
@@ -146,7 +150,7 @@ class SC_ClassAutoloader
         } else {
             $arrPath = explode(PATH_SEPARATOR, get_include_path());
             foreach ($arrPath as $path) {
-                if (file_exists($path . '/' .$classpath)) {
+                if (file_exists($path.'/'.$classpath)) {
                     include $classpath;
                     break;
                 }

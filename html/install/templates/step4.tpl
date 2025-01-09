@@ -30,7 +30,7 @@
     <input type="hidden" name="senddata_cube_ver" value="<!--{$tpl_cube_ver}-->" />
     <input type="hidden" name="senddata_php_ver" value="<!--{$tpl_php_ver}-->" />
     <input type="hidden" name="senddata_db_ver" value="<!--{$tpl_db_ver}-->" />
-    <input type="hidden" name="senddata_os_type" value="<!--{""|php_uname|h}--> <!--{$smarty.server.SERVER_SOFTWARE|h}-->" />
+    <input type="hidden" name="senddata_os_type" value="<!--{php_uname()|h}--> <!--{$smarty.server.SERVER_SOFTWARE|h}-->" />
     <!--{foreach key=key item=item from=$arrHidden}-->
         <input type="hidden" name="<!--{$key}-->" value="<!--{$item|h}-->" />
     <!--{/foreach}-->
@@ -48,7 +48,7 @@
                 <li><span class="bold">EC-CUBEバージョン：</span><!--{$tpl_cube_ver}--></li>
                 <li><span class="bold">PHP情報：</span><!--{$tpl_php_ver}--></li>
                 <li><span class="bold">DB情報：</span><!--{$tpl_db_ver}--></li>
-                <li><span class="bold">OS情報：</span><!--{""|php_uname|h}--> <!--{$smarty.server.SERVER_SOFTWARE|h}--></li>
+                <li><span class="bold">OS情報：</span><!--{php_uname()|h}--> <!--{$smarty.server.SERVER_SOFTWARE|h}--></li>
             </ul>
         </div>
         <div class="result-info02">

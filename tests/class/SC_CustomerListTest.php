@@ -2,7 +2,7 @@
 
 class SC_CustomerListTest extends Common_TestCase
 {
-    /** @var Faker\Generator $faker */
+    /** @var Faker\Generator */
     protected $faker;
 
     /** @var int[] */
@@ -11,7 +11,7 @@ class SC_CustomerListTest extends Common_TestCase
     /** @var array */
     protected $params = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->faker = Faker\Factory::create('ja_JP');
@@ -113,9 +113,11 @@ class SC_CustomerListTest extends Common_TestCase
         $this->params['search_job'] = [$this->expected['job']];
 
         $this->scenario();
+
         // SC_CustomerList::getList() に job が含まれていないので検索し直す
         $this->actual = $this->objQuery->getRow('*', 'dtb_customer', 'customer_id = ?', [$this->actual[0]['customer_id']]);
-        $this->assertEquals($this->expected[0]['pref'], $this->actual[0]['pref']);
+
+        $this->assertEquals($this->expected['job'], $this->actual['job']);
     }
 
     public function testSearchJobWithUnknown()
@@ -160,7 +162,7 @@ class SC_CustomerListTest extends Common_TestCase
         $this->params['search_email_mobile'] = $this->expected[0]['email_mobile'].', '.$this->faker->safeEmail;
 
         $this->scenario();
-        $this->assertEquals($this->expected[0]['email_mobile'], $this->actual[0]['email_mobile'], 'email_mobile は登録されないため null で一致する');
+        $this->assertNull($this->expected[0]['email_mobile'], 'email_mobile は登録されないため null');
     }
 
     public function testSearchEmailMobileWithExclude()
@@ -534,8 +536,10 @@ class SC_CustomerListTest extends Common_TestCase
     {
         return $this->objQuery->getAll('SELECT customer_id,name01,name02,kana01,kana02,sex,email,email_mobile,tel01,tel02,tel03,pref,status,update_date,mailmaga_flg FROM dtb_customer WHERE customer_id IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($customer_ids), ',').')', $customer_ids);
     }
+
     /**
      * @param int $n 生成数
+     *
      * @return int[] customer_id の配列
      */
     protected function setUpCustomers($n)
@@ -545,6 +549,7 @@ class SC_CustomerListTest extends Common_TestCase
         for ($i = 0; $i < $n; $i++) {
             $result[] = $this->objGenerator->createCustomer();
         }
+
         return $result;
     }
 }

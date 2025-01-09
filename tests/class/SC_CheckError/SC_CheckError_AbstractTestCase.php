@@ -7,7 +7,7 @@ abstract class SC_CheckError_AbstractTestCase extends Common_TestCase
      *
      * @var string
      */
-    const FORM_NAME = 'form';
+    public const FORM_NAME = 'form';
 
     /** @var string */
     protected $target_func;
@@ -35,7 +35,7 @@ abstract class SC_CheckError_AbstractTestCase extends Common_TestCase
      */
     protected function verify($message = '')
     {
-        $this->actual = $this->objErr->arrErr[self::FORM_NAME];
+        $this->actual = $this->objErr->arrErr[self::FORM_NAME] ?? null;
         parent::verify($message);
     }
 }

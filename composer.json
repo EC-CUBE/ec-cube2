@@ -24,11 +24,12 @@
     "require-dev": {
         "doctrine/instantiator": "~1.5.0",
         "fakerphp/faker": "^1.23",
+        "friendsofphp/php-cs-fixer": "^3.9",
         "nanasess/ec-cube2-class-extends-stubs": "^1.0",
         "nanasess/eccube2-fixture-generator": "^2.0",
-        "php5friends/phpunit48": ">=4.8.41",
-        "phpdocumentor/reflection-docblock": "~5.4.0",
-        "phpstan/phpstan": "^1.10",
+        "phpdocumentor/reflection-docblock": "~5.6.1",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^9.6",
         "symfony/yaml": "^5.4 || ^6.4"
     },
     "require": {
@@ -38,15 +39,19 @@
         "mobiledetect/mobiledetectlib": "^3.74",
         "nanasess/mdb2": "^2.5",
         "nanasess/php8-compat": "^1.0",
+        "nobuhiko/calendar": "^1.0",
         "pear/archive_tar": "^1.4.3",
         "pear/mail": "*",
+        "pear/net_smtp": "^1.12",
+        "pear/net_socket": "^1.2",
         "pear/pear-core-minimal": "^1.10",
         "pear/xml_parser": "*",
         "pear/xml_serializer": "*",
         "pear/xml_util": "*",
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^2.6",
-        "smarty/smarty": "^5.0.2"
+        "smarty/smarty": "^5.0.2",
+        "symfony/polyfill-php80": "^1.31"
     },
     "autoload": {
         "classmap": [

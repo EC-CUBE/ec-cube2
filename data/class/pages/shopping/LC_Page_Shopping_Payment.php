@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 支払い方法選択 のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Shopping_Payment extends LC_Page_Ex
@@ -73,7 +72,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
      */
     public function action()
     {
-        //決済処理中ステータスのロールバック
+        // 決済処理中ステータスのロールバック
         $objPurchase = new SC_Helper_Purchase_Ex();
         $objPurchase->cancelPendingOrder(PENDING_ORDER_CANCEL_FLAG);
 
@@ -147,7 +146,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
                     $arrSelectedDeliv = $this->getSelectedDeliv($objCartSess, $deliv_id);
                     $arrSelectedDeliv['error'] = false;
                 } else {
-                    $arrSelectedDeliv = array('error' => true);
+                    $arrSelectedDeliv = ['error' => true];
                     $this->tpl_mainpage = 'shopping/select_deliv.tpl'; // モバイル用
                 }
 
@@ -160,14 +159,14 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
                 }
                 break;
 
-            // 登録処理
+                // 登録処理
             case 'confirm':
                 // パラメーター情報の初期化
                 $this->setFormParams($objFormParam, $_POST, $this->is_download, $this->arrShipping);
                 $this->arrErr = $this->lfCheckError($objFormParam, $this->arrPrices['subtotal'], $this->tpl_user_point);
 
                 $deliv_id = $objFormParam->getValue('deliv_id');
-                if (strval($deliv_id) !== strval(intval($deliv_id))) {
+                if ((string) $deliv_id !== (string) ((int) $deliv_id)) {
                     $deliv_id = $this->arrDeliv[0]['deliv_id'];
                     $objFormParam->setValue('deliv_id', $deliv_id);
                 }
@@ -191,15 +190,14 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
 
                 break;
 
-            // 前のページに戻る
+                // 前のページに戻る
             case 'return':
-
                 // 正常な推移であることを記録しておく
                 $objSiteSess->setRegistFlag();
 
                 $url = null;
                 if ($this->is_multiple) {
-                    $url = MULTIPLE_URLPATH . '?from=multiple';
+                    $url = MULTIPLE_URLPATH.'?from=multiple';
                 } elseif ($objCustomer->isLoginSuccess(true)) {
                     if ($this->cartKey == PRODUCT_TYPE_DOWNLOAD) {
                         $url = CART_URL;
@@ -207,7 +205,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
                         $url = DELIV_URLPATH;
                     }
                 } else {
-                    $url = SHOPPING_URL . '?from=nonmember';
+                    $url = SHOPPING_URL.'?from=nonmember';
                 }
 
                 SC_Response_Ex::sendRedirect($url);
@@ -248,7 +246,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
      *
      * @param SC_FormParam $objFormParam SC_FormParam インスタンス
      * @param array        $arrParam     設定する値の配列
-     * @param boolean      $deliv_only   deliv_id チェックのみの場合 true
+     * @param bool      $deliv_only   deliv_id チェックのみの場合 true
      * @param array        $arrShipping  配送先情報の配列
      */
     public function setFormParams(&$objFormParam, $arrParam, $deliv_only, &$arrShipping)
@@ -262,25 +260,26 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
      * パラメーター情報の初期化を行う.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
-     * @param  boolean      $deliv_only   必須チェックは deliv_id のみの場合 true
+     * @param  bool      $deliv_only   必須チェックは deliv_id のみの場合 true
      * @param  array        $arrShipping  配送先情報の配列
+     *
      * @return void
      */
     public function lfInitParam(&$objFormParam, $deliv_only, &$arrShipping)
     {
-        $objFormParam->addParam('配送業者', 'deliv_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam('ポイント', 'use_point', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK', 'ZERO_START'));
-        $objFormParam->addParam('その他お問い合わせ', 'message', LTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam('ポイントを使用する', 'point_check', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '2');
+        $objFormParam->addParam('配送業者', 'deliv_id', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
+        $objFormParam->addParam('ポイント', 'use_point', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK', 'ZERO_START']);
+        $objFormParam->addParam('その他お問い合わせ', 'message', LTEXT_LEN, 'KVa', ['SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam('ポイントを使用する', 'point_check', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK'], '2');
 
         if ($deliv_only) {
-            $objFormParam->addParam('お支払い方法', 'payment_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+            $objFormParam->addParam('お支払い方法', 'payment_id', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
         } else {
-            $objFormParam->addParam('お支払い方法', 'payment_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
+            $objFormParam->addParam('お支払い方法', 'payment_id', INT_LEN, 'n', ['EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK']);
 
             foreach ($arrShipping as $val) {
-                $objFormParam->addParam('お届け時間', 'deliv_time_id' . $val['shipping_id'], INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-                $objFormParam->addParam('お届け日', 'deliv_date' . $val['shipping_id'], STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('お届け時間', 'deliv_time_id'.$val['shipping_id'], INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK']);
+                $objFormParam->addParam('お届け日', 'deliv_date'.$val['shipping_id'], STEXT_LEN, 'KVa', ['MAX_LENGTH_CHECK']);
             }
         }
 
@@ -292,14 +291,15 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
      * 入力内容のチェックを行なう.
      *
      * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
-     * @param  integer      $subtotal     購入金額の小計
-     * @param  integer      $max_point    会員の保持ポイント
+     * @param  int      $subtotal     購入金額の小計
+     * @param  int      $max_point    会員の保持ポイント
+     *
      * @return array        入力チェック結果の配列
      */
     public function lfCheckError(&$objFormParam, $subtotal, $max_point)
     {
         // 入力データを渡す。
-        $arrForm =  $objFormParam->getHashArray();
+        $arrForm = $objFormParam->getHashArray();
         $objErr = new SC_CheckError_Ex($arrForm);
         $objErr->arrErr = $objFormParam->checkError();
 
@@ -307,12 +307,11 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
             return $objErr->arrErr;
         }
 
-        $objErr->doFunc(array('ポイントを使用する', 'point_check'), array('EXIST_CHECK'));
+        $objErr->doFunc(['ポイントを使用する', 'point_check'], ['EXIST_CHECK']);
 
         if ($arrForm['point_check'] == '1'
-            && SC_Utils_Ex::isBlank($objErr->arrErr['use_point'])) {
-
-            $objErr->doFunc(array('ポイント', 'use_point'), array('EXIST_CHECK'));
+            && SC_Utils_Ex::isBlank($objErr->arrErr['use_point'] ?? '')) {
+            $objErr->doFunc(['ポイント', 'use_point'], ['EXIST_CHECK']);
             if ($max_point == '') {
                 $max_point = 0;
             }
@@ -343,7 +342,9 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
     public function saveShippings(&$objFormParam, $arrDelivTime)
     {
         // ダウンロード商品の場合は配送先が存在しない
-        if ($this->is_download) return;
+        if ($this->is_download) {
+            return;
+        }
 
         $deliv_id = $objFormParam->getValue('deliv_id');
         /* TODO
@@ -352,21 +353,26 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
          */
         foreach (array_keys($_SESSION['shipping']) as $key) {
             $shipping_id = $_SESSION['shipping'][$key]['shipping_id'];
-            $time_id = $objFormParam->getValue('deliv_time_id' . $shipping_id);
+            $time_id = $objFormParam->getValue('deliv_time_id'.$shipping_id);
             $_SESSION['shipping'][$key]['deliv_id'] = $deliv_id;
             $_SESSION['shipping'][$key]['time_id'] = $time_id;
-            $_SESSION['shipping'][$key]['shipping_time'] = $arrDelivTime[$time_id];
-            $_SESSION['shipping'][$key]['shipping_date'] = $objFormParam->getValue('deliv_date' . $shipping_id);
+            if (isset($arrDelivTime[$time_id])) {
+                $_SESSION['shipping'][$key]['shipping_time'] = $arrDelivTime[$time_id];
+            } else {
+                $_SESSION['shipping'][$key]['shipping_time'] = '';
+            }
+            $_SESSION['shipping'][$key]['shipping_date'] = $objFormParam->getValue('deliv_date'.$shipping_id);
         }
     }
 
     /**
      * 受注一時テーブルへ登録を行う.
      *
-     * @param  integer            $uniqid      受注一時テーブルのユニークID
+     * @param  int            $uniqid      受注一時テーブルのユニークID
      * @param  array              $arrForm     フォームの入力値
      * @param  SC_Helper_Purchase $objPurchase SC_Helper_Purchase インスタンス
      * @param  array              $arrPayment  お支払い方法の配列
+     *
      * @return void
      */
     public function lfRegistData($uniqid, $arrForm, &$objPurchase, $arrPayment)
@@ -383,7 +389,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
             return $arrForm['deliv_id'] == $delivery['deliv_id'];
         });
         if (empty($validDelivery)) {
-            trigger_error('無効な配送方法: ' . var_export($arrForm['deliv_id'], true), E_USER_ERROR);
+            trigger_error('無効な配送方法: '.var_export($arrForm['deliv_id'], true), E_USER_ERROR);
         }
 
         $find = false;
@@ -396,7 +402,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
             }
         }
         if (!$find) {
-            trigger_error('無効な支払方法: ' . var_export($arrForm['payment_id'], true), E_USER_ERROR);
+            trigger_error('無効な支払方法: '.var_export($arrForm['payment_id'], true), E_USER_ERROR);
         }
 
         $objPurchase->saveOrderTemp($uniqid, $arrForm);
@@ -411,19 +417,20 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
      * - 'img_show' - 支払い方法の画像の有無
      *
      * @param  SC_CartSession $objCartSess SC_CartSession インスタンス
-     * @param  integer        $deliv_id    配送業者ID
+     * @param  int        $deliv_id    配送業者ID
+     *
      * @return array          支払い方法, お届け時間を格納した配列
      */
     public function getSelectedDeliv(&$objCartSess, $deliv_id)
     {
-        $arrResults = array();
-        if (strval($deliv_id) === strval(intval($deliv_id))) {
+        $arrResults = [];
+        if ((string) $deliv_id === (string) ((int) $deliv_id)) {
             $arrResults['arrDelivTime'] = SC_Helper_Delivery_Ex::getDelivTime($deliv_id);
             $total = $objCartSess->getAllProductsTotal($objCartSess->getKey());
             $payments_deliv = SC_Helper_Delivery_Ex::getPayments($deliv_id);
             $objPayment = new SC_Helper_Payment_Ex();
             $payments_total = $objPayment->getByPrice($total);
-            $arrPayment = array();
+            $arrPayment = [];
             foreach ($payments_total as $payment) {
                 if (in_array($payment['payment_id'], $payments_deliv)) {
                     $arrPayment[] = $payment;
@@ -432,6 +439,7 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
             $arrResults['arrPayment'] = $arrPayment;
             $arrResults['img_show'] = $this->hasPaymentImage($arrResults['arrPayment']);
         }
+
         return $arrResults;
     }
 
@@ -439,7 +447,8 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
      * 支払い方法の画像があるかどうか.
      *
      * @param  array   $arrPayment 支払い方法の配列
-     * @return boolean 支払い方法の画像がある場合 true
+     *
+     * @return bool 支払い方法の画像がある場合 true
      */
     public function hasPaymentImage($arrPayment)
     {
@@ -456,7 +465,8 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
      * 配送業者が1社のみかどうか.
      *
      * @param  array   $arrDeliv 配送業者の配列
-     * @return boolean 配送業者が1社のみの場合 true
+     *
+     * @return bool 配送業者が1社のみの場合 true
      */
     public function isSingleDeliv($arrDeliv)
     {
@@ -470,8 +480,9 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
     /**
      * モバイル用テンプレートのパスを取得する.
      *
-     * @param  boolean $is_single_deliv 配送業者が1社の場合 true
+     * @param  bool $is_single_deliv 配送業者が1社の場合 true
      * @param  string  $mode            フォームパラメーター 'mode' の文字列
+     *
      * @return string  モバイル用テンプレートのパス
      */
     public function getMobileMainpage($is_single_deliv = true, $mode = null)

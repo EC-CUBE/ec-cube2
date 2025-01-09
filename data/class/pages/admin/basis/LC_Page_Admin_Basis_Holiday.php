@@ -21,12 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 /**
  * 定休日管理のページクラス.
  *
- * @package Page
  * @author EC-CUBE CO.,LTD.
+ *
  * @version $Id$
  */
 class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
@@ -89,7 +88,7 @@ class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
             // 編集処理
             case 'edit':
                 $this->arrErr = $this->lfCheckError($objFormParam, $objHoliday);
-                if (!SC_Utils_Ex::isBlank($this->arrErr['holiday_id'])) {
+                if (!SC_Utils_Ex::isBlank($this->arrErr['holiday_id'] ?? '')) {
                     trigger_error('', E_USER_ERROR);
 
                     return;
@@ -100,7 +99,7 @@ class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
                     $arrParam = $objFormParam->getHashArray();
                     // 登録実行
                     $res_holiday_id = $this->doRegist($holiday_id, $arrParam, $objHoliday);
-                    if ($res_holiday_id !== FALSE) {
+                    if ($res_holiday_id !== false) {
                         // 完了メッセージ
                         $holiday_id = $res_holiday_id;
                         $this->tpl_onload = "alert('登録が完了しました。');";
@@ -110,11 +109,11 @@ class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
                 $this->tpl_holiday_id = $holiday_id;
 
                 break;
-            // 削除
+                // 削除
             case 'delete':
                 $objHoliday->delete($holiday_id);
                 break;
-            // 編集前処理
+                // 編集前処理
             case 'pre_edit':
                 // 編集項目を取得する。
                 $arrHolidayData = $objHoliday->get($holiday_id);
@@ -147,9 +146,10 @@ class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
     /**
      * 登録処理を実行.
      *
-     * @param  integer  $holiday_id
+     * @param  int  $holiday_id
      * @param  array    $sqlval
      * @param  SC_Helper_Holiday_Ex   $objHoliday
+     *
      * @return multiple
      */
     public function doRegist($holiday_id, $sqlval, SC_Helper_Holiday_Ex $objHoliday)
@@ -169,16 +169,16 @@ class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
         switch ($mode) {
             case 'edit':
             case 'pre_edit':
-                $objFormParam->addParam('タイトル', 'title', STEXT_LEN, 'KVa', array('EXIST_CHECK','SPTAB_CHECK','MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('月', 'month', INT_LEN, 'n', array('SELECT_CHECK','SPTAB_CHECK','MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('日', 'day', INT_LEN, 'n', array('SELECT_CHECK','SPTAB_CHECK','MAX_LENGTH_CHECK'));
-                $objFormParam->addParam('定休日ID', 'holiday_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('タイトル', 'title', STEXT_LEN, 'KVa', ['EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('月', 'month', INT_LEN, 'n', ['SELECT_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('日', 'day', INT_LEN, 'n', ['SELECT_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK']);
+                $objFormParam->addParam('定休日ID', 'holiday_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
                 break;
             case 'delete':
             case 'down':
             case 'up':
             default:
-                $objFormParam->addParam('定休日ID', 'holiday_id', INT_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
+                $objFormParam->addParam('定休日ID', 'holiday_id', INT_LEN, 'n', ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
                 break;
         }
     }
@@ -188,6 +188,7 @@ class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
      *
      * @param  SC_FormParam_Ex $objFormParam
      * @param  SC_Helper_Holiday_Ex $objHoliday
+     *
      * @return array
      */
     public function lfCheckError(&$objFormParam, SC_Helper_Holiday_Ex &$objHoliday)
@@ -200,7 +201,11 @@ class LC_Page_Admin_Basis_Holiday extends LC_Page_Admin_Ex
         if ($arrForm['month'] == 2 && $arrForm['day'] == 29) {
             $valid_date = true;
         } else {
-            $valid_date = checkdate($arrForm['month'], $arrForm['day'], date('Y'));
+            if (SC_Utils_Ex::isBlank($arrForm['month']) || SC_Utils_Ex::isBlank($arrForm['day'])) {
+                $valid_date = false;
+            } else {
+                $valid_date = checkdate($arrForm['month'], $arrForm['day'], date('Y'));
+            }
         }
         if (!$valid_date) {
             $arrErr['date'] = '※ 妥当な日付ではありません。<br />';

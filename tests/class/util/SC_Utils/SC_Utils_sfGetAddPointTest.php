@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/Common_TestCase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/Common_TestCase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,49 +27,46 @@ require_once($HOME . "/tests/class/Common_TestCase.php");
 /**
  * SC_Utils::sfGetAddPoint()のテストクラス.
  *
- *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Utils_sfGetAddPointTest extends Common_TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
-  protected function setUp()
-  {
-    parent::setUp();
-  }
+    // ///////////////////////////////////////
+    public function testSfGetAddPoint計算結果が正になる場合値がそのまま返る()
+    {
+        $totalpoint = 100;
+        $use_point = 2000;
+        $point_rate = 4;
 
-  protected function tearDown()
-  {
-    parent::tearDown();
-  }
+        $this->expected = 20;
+        $this->actual = SC_Utils::sfGetAddPoint($totalpoint, $use_point, $point_rate);
 
-  /////////////////////////////////////////
-  public function testSfGetAddPoint_計算結果が正になる場合_値がそのまま返る()
-  {
-    $totalpoint = 100;
-    $use_point = 2000;
-    $point_rate = 4;
+        $this->verify();
+    }
 
-    $this->expected = 20;
-    $this->actual = SC_Utils::sfGetAddPoint($totalpoint, $use_point, $point_rate);
+    public function testSfGetAddPoint計算結果が負になる場合0が返る()
+    {
+        $totalpoint = 70;
+        $use_point = 2000;
+        $point_rate = 4;
 
-    $this->verify();
-  }
+        $this->expected = 0;
+        $this->actual = SC_Utils::sfGetAddPoint($totalpoint, $use_point, $point_rate);
 
-  public function testSfGetAddPoint_計算結果が負になる場合_0が返る()
-  {
-    $totalpoint = 70;
-    $use_point = 2000;
-    $point_rate = 4;
+        $this->verify();
+    }
 
-    $this->expected = 0;
-    $this->actual = SC_Utils::sfGetAddPoint($totalpoint, $use_point, $point_rate);
-
-    $this->verify();
-  }
-
-  //////////////////////////////////////////
+    // ////////////////////////////////////////
 }
-

@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestProducts_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -31,20 +31,20 @@ require_once($HOME . "/tests/class/helper/SC_Helper_BestProducts/SC_Helper_BestP
  */
 class SC_Helper_BestProducts_getByRankTest extends SC_Helper_BestProducts_TestBase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpBestProducts();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
     /**　rankが存在しない場合、空を返す。
      */
-    public function testGetByRank_ランクが存在しない場合_空を返す()
+    public function testGetByRankランクが存在しない場合空を返す()
     {
         $rank = '9999';
 
@@ -55,34 +55,34 @@ class SC_Helper_BestProducts_getByRankTest extends SC_Helper_BestProducts_TestBa
     }
 
     // $rankが存在する場合、対応した結果を取得できる。
-    public function testGetByRank_ランクが存在する場合_対応した結果を取得できる(){
-
+    public function testGetByRankランクが存在する場合対応した結果を取得できる()
+    {
         $rank = '1';
 
-        $this->expected = array(
+        $this->expected = [
             'best_id' => '1001',
             'category_id' => '0',
             'title' => 'タイトルですよ',
             'comment' => 'コメントですよ',
-            'del_flg' => '0'
-        );
+            'del_flg' => '0',
+        ];
 
         $result = SC_Helper_BestProducts_Ex::getByRank($rank);
         $this->actual = Test_Utils::mapArray($result,
-            array(
+            [
                 'best_id',
                 'category_id',
                 'title',
                 'comment',
-                'del_flg'
-            ));
+                'del_flg',
+            ]);
 
         $this->verify();
     }
 
     // rankが存在するが、del_flg=1の場合、空が帰る。
-    public function testGetByRank_ランクが存在かつ_削除の場合_空が返る(){
-
+    public function testGetByRankランクが存在かつ削除の場合空が返る()
+    {
         $rank = '2';
 
         $this->expected = null;
@@ -92,29 +92,28 @@ class SC_Helper_BestProducts_getByRankTest extends SC_Helper_BestProducts_TestBa
     }
 
     // rankが存在するが、del_flg=1の場合、かつ。$has_deleted=trueを指定
-    public function testGetByRank_ランクが存在かつ_has_deletedの場合_対応した結果が返る(){
-
+    public function testGetByRankランクが存在かつHasDeletedの場合対応した結果が返る()
+    {
         $rank = '2';
 
-        $this->expected = array(
+        $this->expected = [
             'best_id' => '1002',
             'category_id' => '0',
             'title' => 'タイトルですよ',
             'comment' => 'コメントですよ',
-            'del_flg' => '1'
-        );
+            'del_flg' => '1',
+        ];
 
-        $result = SC_Helper_BestProducts_Ex::getByRank($rank,true);
+        $result = SC_Helper_BestProducts_Ex::getByRank($rank, true);
         $this->actual = Test_Utils::mapArray($result,
-            array(
+            [
                 'best_id',
                 'category_id',
                 'title',
                 'comment',
-                'del_flg'
-            ));
+                'del_flg',
+            ]);
 
         $this->verify();
     }
 }
-

@@ -1,7 +1,7 @@
 <?php
 
-$HOME = realpath(dirname(__FILE__)) . "/../../../..";
-require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php");
+$HOME = realpath(__DIR__).'/../../../..';
+require_once $HOME.'/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,23 +28,23 @@ require_once($HOME . "/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php
  * SC_Helper_DB::sfColumnExists()のテストクラス.
  *
  * @author Hiroko Tamagawa
+ *
  * @version $Id$
  */
 class SC_Helper_DB_sfColumnExists extends SC_Helper_DB_TestBase
 {
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->helper = new SC_Helper_DB_sfColumnExistsMock();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
     }
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
     public function testSfColumnExists_指定のカラムが存在する場合_TRUEを返す()
     {
         $tableName = 'dtb_news';
@@ -78,7 +78,8 @@ class SC_Helper_DB_sfColumnExists extends SC_Helper_DB_TestBase
 
 class SC_Helper_DB_sfColumnExistsMock extends SC_Helper_DB_Ex
 {
-    static function sfColumnAdd($tableName, $colName, $colType) {
+    public static function sfColumnAdd($tableName, $colName, $colType)
+    {
         return true;
     }
 }

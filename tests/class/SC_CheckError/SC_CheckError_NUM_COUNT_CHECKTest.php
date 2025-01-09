@@ -5,13 +5,13 @@ class SC_CheckError_NUM_COUNT_CHECKTest extends SC_CheckError_AbstractTestCase
     /** @var int */
     protected $length;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->target_func = 'NUM_COUNT_CHECK';
     }
 
-    public function testNUM_COUNT_CHECK()
+    public function testNUMCOUNTCHECK()
     {
         $this->length = 5;
         $this->arrForm = [self::FORM_NAME => 123456];
@@ -21,7 +21,7 @@ class SC_CheckError_NUM_COUNT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_COUNT_CHECKWithMin()
+    public function testNUMCOUNTCHECKWithMin()
     {
         $this->length = 5;
         $this->arrForm = [self::FORM_NAME => 3456];
@@ -31,8 +31,7 @@ class SC_CheckError_NUM_COUNT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-
-    public function testNUM_COUNT_CHECKWithNoError()
+    public function testNUMCOUNTCHECKWithNoError()
     {
         $this->length = 5;
         $this->arrForm = [self::FORM_NAME => 12345];
@@ -42,7 +41,7 @@ class SC_CheckError_NUM_COUNT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_COUNT_CHECKWithEmpty()
+    public function testNUMCOUNTCHECKWithEmpty()
     {
         $this->length = 5;
         $this->arrForm = [self::FORM_NAME => ''];
@@ -52,7 +51,7 @@ class SC_CheckError_NUM_COUNT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_COUNT_CHECKWithNull()
+    public function testNUMCOUNTCHECKWithNull()
     {
         $this->length = 5;
         $this->arrForm = [self::FORM_NAME => null];
@@ -62,7 +61,7 @@ class SC_CheckError_NUM_COUNT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testNUM_COUNT_CHECKWithString()
+    public function testNUMCOUNTCHECKWithString()
     {
         $this->length = 5;
         $this->arrForm = [self::FORM_NAME => '02345'];
@@ -82,4 +81,3 @@ class SC_CheckError_NUM_COUNT_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->objErr->doFunc(['dummy', self::FORM_NAME, $this->length], [$this->target_func]);
     }
 }
-
