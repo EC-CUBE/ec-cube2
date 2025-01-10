@@ -285,7 +285,7 @@ class LC_Page_Admin_Mail extends LC_Page_Admin_Ex
                 $dtb_send_customer['customer_id'] = $line['customer_id'];
                 $dtb_send_customer['send_id'] = $send_id;
                 $dtb_send_customer['email'] = $line[$emailtype];
-                $dtb_send_customer['name'] = $line['name01'].' '.$line['name02'];
+                $dtb_send_customer['name'] = SC_Utils_Ex::formatName($line);
                 $objQuery->insert('dtb_send_customer', $dtb_send_customer);
             }
         }

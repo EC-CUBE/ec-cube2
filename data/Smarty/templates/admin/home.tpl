@@ -122,7 +122,7 @@
                 <!--{section name=i loop=$arrNewOrder}-->
                 <tr>
                     <td><!--{$arrNewOrder[i].create_date}--></td>
-                    <td><!--{$arrNewOrder[i].name01|h}--> <!--{$arrNewOrder[i].name02|h}--></td>
+                    <td><!--{$arrNewOrder[i]|format_name|h}--></td>
                     <td><!--{$arrNewOrder[i].product_name|h}--></td>
                     <td><!--{$arrNewOrder[i].payment_method|h}--></td>
                     <td class="right"><!--{$arrNewOrder[i].total|n2s}-->円</td>

@@ -48,7 +48,7 @@
                 <div class="block_body clearfix">
                     <!--{if $tpl_login}-->
                         <p class="btn">
-                            ようこそ <span class="user_name"><!--{$tpl_name1|h}--> <!--{$tpl_name2|h}--> 様</span>
+                            ようこそ <span class="user_name"><!--{$arrCustomer|format_name|h}--> 様</span>
                             <!--{if $smarty.const.USE_POINT !== false}-->
                                 / 所持ポイント: <span class="point"> <!--{$tpl_user_point|n2s|default:0}--> pt</span>&nbsp;&nbsp;
                             <!--{/if}-->

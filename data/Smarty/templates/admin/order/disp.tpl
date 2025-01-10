@@ -68,11 +68,11 @@
         </tr>
         <tr>
             <th>お名前</th>
-            <td><!--{$arrForm.order_name01.value|h}-->　<!--{$arrForm.order_name02.value|h}--></td>
+            <td><!--{$arrForm|format_name:'order_name'|h}--></td>
         </tr>
         <tr>
             <th>お名前(カナ)</th>
-            <td><!--{$arrForm.order_kana01.value|h}-->　<!--{$arrForm.order_kana02.value|h}--></td>
+            <td><!--{$arrForm|format_name:'order_kana'|h}--></td>
         </tr>
         <tr>
             <th>会社名</th>
@@ -277,17 +277,13 @@
             <tr>
                 <th>お名前</th>
                 <td>
-                    <!--{assign var=key1 value="shipping_name01"}-->
-                    <!--{assign var=key2 value="shipping_name02"}-->
-                    <!--{$arrShipping[$key1]|h}-->　<!--{$arrShipping[$key2]|h}-->
+                    <!--{$arrShipping|format_name:'shipping_name'|h}-->
                 </td>
             </tr>
             <tr>
                 <th>お名前(カナ)</th>
                 <td>
-                    <!--{assign var=key1 value="shipping_kana01"}-->
-                    <!--{assign var=key2 value="shipping_kana02"}-->
-                    <!--{$arrShipping[$key1]|h}-->　<!--{$arrShipping[$key2]|h}-->
+                    <!--{$arrShipping|format_name:'shipping_kana'|h}-->
                 </td>
             </tr>
             <tr>

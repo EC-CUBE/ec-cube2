@@ -71,11 +71,11 @@ function func_return(){
             </tr>
             <tr>
                 <th>お名前</th>
-                <td><!--{$arrForm.name01|h}--><!--{$arrForm.name02|h}-->　様</td>
+                <td><!--{$arrForm|format_name|h}--> 様</td>
             </tr>
             <tr>
                 <th>お名前(フリガナ)</th>
-                <td><!--{$arrForm.kana01|h}--><!--{$arrForm.kana02|h}-->　様</td>
+                <td><!--{$arrForm|format_name:'kana'|h}--> 様</td>
             </tr>
             <tr>
                 <th>会社名</th>
