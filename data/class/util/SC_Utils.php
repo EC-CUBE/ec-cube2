@@ -913,6 +913,13 @@ class SC_Utils
      */
     public static function sfMultiply($num1, $num2)
     {
+        if (strlen($num1) == 0) {
+            return '';
+        }
+        if (strlen($num2) == 0) {
+            return '';
+        }
+
         return $num1 * $num2;
     }
 
