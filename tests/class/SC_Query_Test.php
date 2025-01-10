@@ -318,7 +318,7 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         return;
     }
 
-    protected function setTestData($column1, $column2, $column3)
+    protected function setTestData($column1 = null, $column2 = null, $column3 = null)
     {
         $fields_values = [$column1, $column2, $column3];
         $sql = 'INSERT INTO test_table (column1, column2, column3) VALUES (?, ?, ?)';
@@ -328,5 +328,127 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         }
 
         return $result;
+    }
+
+    /**
+     * SC_Query::setLimit() のテストケース.
+     */
+    public function testSetLimit()
+    {
+        $this->createTestTable();
+        $this->setTestData(1);
+        $this->setTestData(2);
+        $this->setTestData(3);
+
+        $this->expected = [1, 2];
+        $this->actual = $this->objQuery
+            ->setOrder('column1')
+            ->setLimit(2)
+            ->getCol('column1', 'test_table')
+        ;
+        $this->verify();
+    }
+
+    /**
+     * SC_Query::setLimitOffset() のテストケース.
+     */
+    public function testSetLimitOffset()
+    {
+        $this->createTestTable();
+        $this->setTestData(1);
+        $this->setTestData(2);
+        $this->setTestData(3);
+        $this->setTestData(4);
+
+        $this->expected = [2, 3];
+        $this->actual = $this->objQuery
+            ->setOrder('column1')
+            ->setLimitOffset(2, 1)
+            ->getCol('column1', 'test_table')
+        ;
+        $this->verify();
+    }
+
+    /**
+     * SC_Query::setLimit() SC_Query::setOffset() 併用のテストケース.
+     */
+    public function testSetLimitAndSetOffset()
+    {
+        $this->createTestTable();
+        $this->setTestData(1);
+        $this->setTestData(2);
+        $this->setTestData(3);
+        $this->setTestData(4);
+
+        $this->expected = [2, 3];
+        $this->actual = $this->objQuery
+            ->setOrder('column1')
+            ->setLimit(2)
+            ->setOffset(1)
+            ->getCol('column1', 'test_table')
+        ;
+        $this->verify();
+    }
+
+    /**
+     * SC_Query::setOffset() のテストケース.
+     */
+    public function testSetOffset()
+    {
+        $this->createTestTable();
+        $this->setTestData(1);
+        $this->setTestData(2);
+        $this->setTestData(3);
+
+        $this->expected = [2, 3];
+        $this->actual = $this->objQuery
+            ->setOrder('column1')
+            ->setOffset(1)
+            ->getCol('column1', 'test_table')
+        ;
+        $this->verify();
+    }
+
+    /**
+     * SC_Query::getSql() 経由で SC_Query::resetAdditionalClauses() が呼ばれていることを確認する。
+     */
+    public function testResetAdditionalClausesViaGetSql()
+    {
+        $this->objQuery
+            ->setGroupBy('column1')
+            ->setOrder('column1')
+            ->setLimit(2)
+            ->setOffset(1)
+        ;
+
+        // 最初はプロパティを確認する。
+        // getSql() 実行前
+        $this->assertNotEmpty($this->objQuery->groupby);
+        $this->assertNotEmpty($this->objQuery->order);
+        $this->assertNotNull($this->objQuery->limit);
+        $this->assertNotNull($this->objQuery->offset);
+
+        $sql1 = $this->objQuery->getSql('*');
+
+        // getSql() 実行後
+        $this->assertEmpty($this->objQuery->groupby);
+        $this->assertEmpty($this->objQuery->order);
+        $this->assertNull($this->objQuery->limit);
+        $this->assertNull($this->objQuery->offset);
+
+        $sql2 = $this->objQuery->getSql('*');
+
+        // SQL を確認する。
+        // getSql() 実行前
+        $this->assertStringContainsString(' GROUP BY ', $sql1);
+        $this->assertStringContainsString(' ORDER BY ', $sql1);
+        $this->assertStringContainsString(' LIMIT ', $sql1);
+        $this->assertStringContainsString(' OFFSET ', $sql1);
+
+        // getSql() 実行後
+        $this->assertStringNotContainsString(' GROUP BY ', $sql2);
+        $this->assertStringNotContainsString(' ORDER BY ', $sql2);
+        $this->assertStringNotContainsString(' LIMIT ', $sql2);
+        $this->assertStringNotContainsString(' OFFSET ', $sql2);
     }
 }

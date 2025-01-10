@@ -1,31 +1,26 @@
 <?php
 
-class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
+class SC_DB_DBFactoryTestAbstract extends Common_TestCase
 {
     /**
-     * @var SC_DB_DBFactory_MYSQL
+     * @var SC_DB_DBFactory
      */
     protected $dbFactory;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->dbFactory = new SC_DB_DBFactory_MYSQL_Ex();
-    }
-
-    public function testGetInstance()
-    {
-        $this->assertInstanceOf('SC_DB_DBFactory_MYSQL_Ex', $this->dbFactory);
+        $this->dbFactory = SC_DB_DBFactory_Ex::getInstance();
     }
 
     public function testGetTransactionIsolationLevel()
     {
-        $this->assertEquals(SC_DB_DBFactory_Ex::ISOLATION_LEVEL_REPEATABLE_READ, $this->dbFactory->getTransactionIsolationLevel());
+        $this->assertEquals(SC_DB_DBFactory_Ex::ISOLATION_LEVEL_READ_COMMITTED, $this->dbFactory->getTransactionIsolationLevel());
     }
 
     public function testIsSkipDeleteIfNotExists()
     {
-        $this->assertTrue($this->dbFactory->isSkipDeleteIfNotExists());
+        $this->assertFalse($this->dbFactory->isSkipDeleteIfNotExists());
     }
 
     public function testAddLimitOffset()
@@ -38,7 +33,7 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
         );
 
         $this->assertSame(
-            "{$sql_base} LIMIT 18446744073709551615 OFFSET 3",
+            "{$sql_base} OFFSET 3",
             $this->dbFactory->addLimitOffset($sql_base, null, 3)
         );
 
