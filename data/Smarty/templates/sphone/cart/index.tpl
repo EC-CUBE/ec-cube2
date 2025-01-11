@@ -82,10 +82,6 @@
 
                 <form name="form<!--{$key}-->" id="form<!--{$key}-->" method="post" action="<!--{$smarty.const.CART_URL|h}-->">
                     <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-                    <!--{if 'sfGMOCartDisplay'|function_exists}-->
-                        <!--{'sfGMOCartDisplay'|call_user_func}-->
-                    <!--{/if}-->
-
                     <input type="hidden" name="mode" value="confirm" />
                     <input type="hidden" name="cart_no" value="" />
                     <input type="hidden" name="cartKey" value="<!--{$key|h}-->" />
