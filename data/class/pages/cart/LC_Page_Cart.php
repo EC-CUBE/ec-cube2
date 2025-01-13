@@ -122,12 +122,14 @@ class LC_Page_Cart extends LC_Page_Ex
         if ($objFormParam4OpenCategoryTree->getValue('product_id')) {
             $arrQueryString = [
                 'product_id' => $objFormParam4OpenCategoryTree->getValue(
-                    'product_id'),
+                    'product_id'
+                ),
             ];
         } else {
             $arrQueryString = [
                 'category_id' => $objFormParam4OpenCategoryTree->getValue(
-                    'category_id'),
+                    'category_id'
+                ),
             ];
         }
 
@@ -244,10 +246,20 @@ class LC_Page_Cart extends LC_Page_Ex
     {
         $objFormParam = new SC_FormParam_Ex();
 
-        $objFormParam->addParam('カテゴリID', 'category_id', INT_LEN, 'n',
-            ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
-        $objFormParam->addParam('商品ID', 'product_id', INT_LEN, 'n',
-            ['NUM_CHECK', 'MAX_LENGTH_CHECK']);
+        $objFormParam->addParam(
+            'カテゴリID',
+            'category_id',
+            INT_LEN,
+            'n',
+            ['NUM_CHECK', 'MAX_LENGTH_CHECK']
+        );
+        $objFormParam->addParam(
+            '商品ID',
+            'product_id',
+            INT_LEN,
+            'n',
+            ['NUM_CHECK', 'MAX_LENGTH_CHECK']
+        );
 
         // 値の取得
         $objFormParam->setParam($arrRequest);

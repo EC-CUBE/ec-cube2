@@ -86,9 +86,12 @@ class SC_SessionFactory_UseRequest extends SC_SessionFactory_Ex
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         foreach ($_REQUEST as $key => $value) {
-            $session_id = $objQuery->get('session_id', 'dtb_mobile_ext_session_id',
+            $session_id = $objQuery->get(
+                'session_id',
+                'dtb_mobile_ext_session_id',
                 'param_key = ? AND param_value = ? AND url = ? AND create_date >= ?',
-                [$key, $value, $url, $time]);
+                [$key, $value, $url, $time]
+            );
             if (isset($session_id)) {
                 return $session_id;
             }
@@ -304,9 +307,8 @@ class LC_UseRequest_State
     {
         $namespace = $this->getNameSpace();
 
-        return isset($_SESSION[$namespace][$key])
-            ? $_SESSION[$namespace][$key]
-            : null;
+        return $_SESSION[$namespace][$key]
+            ?? null;
     }
 
     /**
@@ -472,8 +474,12 @@ class LC_UseRequest_State_PC extends LC_UseRequest_State
         if (!empty($_SERVER['HTTP_USER_AGENT']) && $_SERVER['HTTP_USER_AGENT'] === $ua) {
             return true;
         }
-        $msg = sprintf('User agent model mismatch : %s != %s(expected), sid=%s',
-            $_SERVER['HTTP_USER_AGENT'], $ua, substr(sha1(session_id()), 0, 8));
+        $msg = sprintf(
+            'User agent model mismatch : %s != %s(expected), sid=%s',
+            $_SERVER['HTTP_USER_AGENT'],
+            $ua,
+            substr(sha1(session_id()), 0, 8)
+        );
         GC_Utils_Ex::gfPrintLog($msg);
 
         return false;

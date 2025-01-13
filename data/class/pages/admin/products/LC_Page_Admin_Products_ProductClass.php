@@ -137,9 +137,11 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
             case 'complete':
                 $this->tpl_mainpage = 'products/product_class_complete.tpl';
                 $this->doUploadComplete($objFormParam);
-                $this->registerProductClass($objFormParam->getHashArray(),
+                $this->registerProductClass(
+                    $objFormParam->getHashArray(),
                     $objFormParam->getValue('product_id'),
-                    $objFormParam->getValue('total'));
+                    $objFormParam->getValue('total')
+                );
                 break;
 
             default:
@@ -147,8 +149,10 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
         }
 
         // 登録対象の商品名を取得
-        $objFormParam->setValue('product_name',
-            $this->getProductName($objFormParam->getValue('product_id')));
+        $objFormParam->setValue(
+            'product_name',
+            $this->getProductName($objFormParam->getValue('product_id'))
+        );
         $this->arrForm = $objFormParam->getFormParamList();
     }
 
@@ -269,11 +273,18 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
             if (!SC_Utils_Ex::isBlank($arrExists[$arrList['classcategory_id1'][$i]][$arrList['classcategory_id2'][$i]])) {
                 $product_class_id = $arrExists[$arrList['classcategory_id1'][$i]][$arrList['classcategory_id2'][$i]];
                 if ($del_flg == 0 || in_array($product_class_id, $arrOrderExists) == true) {
-                    $objQuery->update('dtb_products_class', $arrPC, 'product_class_id = ?',
-                        [$product_class_id]);
+                    $objQuery->update(
+                        'dtb_products_class',
+                        $arrPC,
+                        'product_class_id = ?',
+                        [$product_class_id]
+                    );
                 } else {
-                    $objQuery->delete('dtb_products_class', 'product_class_id = ?',
-                        [$product_class_id]);
+                    $objQuery->delete(
+                        'dtb_products_class',
+                        'product_class_id = ?',
+                        [$product_class_id]
+                    );
                 }
             } elseif ($del_flg == 0) {
                 $arrPC['product_class_id'] = $objQuery->nextVal('dtb_products_class_product_class_id');
@@ -289,9 +300,12 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
         // 規格無し用の商品規格を非表示に
         $arrBlank['del_flg'] = 1;
         $arrBlank['update_date'] = 'CURRENT_TIMESTAMP';
-        $objQuery->update('dtb_products_class', $arrBlank,
+        $objQuery->update(
+            'dtb_products_class',
+            $arrBlank,
             'product_id = ? AND classcategory_id1 = 0 AND classcategory_id2 = 0',
-            [$product_id]);
+            [$product_id]
+        );
 
         // 件数カウントバッチ実行
         $objDb->sfCountCategory($objQuery);
@@ -696,11 +710,11 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $col = <<< __EOF__
-            T1.class_id AS class_id1,
-            T1.classcategory_id AS classcategory_id1,
-            T1.name AS classcategory_name1,
-            T1.rank AS rank1
-__EOF__;
+                        T1.class_id AS class_id1,
+                        T1.classcategory_id AS classcategory_id1,
+                        T1.name AS classcategory_name1,
+                        T1.rank AS rank1
+            __EOF__;
         $table = '';
         $arrParams = [];
         if (SC_Utils_Ex::isBlank($class_id2)) {
@@ -711,12 +725,12 @@ __EOF__;
             $arrParams = [$class_id1];
         } else {
             $col .= <<< __EOF__
-                ,
-                T2.class_id AS class_id2,
-                T2.classcategory_id AS classcategory_id2,
-                T2.name AS classcategory_name2,
-                T2.rank AS rank2
-__EOF__;
+                                ,
+                                T2.class_id AS class_id2,
+                                T2.classcategory_id AS classcategory_id2,
+                                T2.name AS classcategory_name2,
+                                T2.rank AS rank2
+                __EOF__;
             $table = 'dtb_classcategory AS T1, dtb_classcategory AS T2';
             $objQuery->setWhere('T1.class_id = ? AND T2.class_id = ?');
             $objQuery->setOrder('T1.rank DESC, T2.rank DESC');

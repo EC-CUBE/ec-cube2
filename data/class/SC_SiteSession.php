@@ -29,13 +29,11 @@ class SC_SiteSession
     {
         // 前ページでの登録成功判定を引き継ぐ
         $_SESSION['site']['pre_regist_success'] =
-                isset($_SESSION['site']['regist_success'])
-                    ? $_SESSION['site']['regist_success'] : '';
+                $_SESSION['site']['regist_success'] ?? '';
 
         $_SESSION['site']['regist_success'] = false;
         $_SESSION['site']['pre_page'] =
-                isset($_SESSION['site']['now_page'])
-                    ? $_SESSION['site']['now_page'] : '';
+                $_SESSION['site']['now_page'] ?? '';
 
         $_SESSION['site']['now_page'] = $_SERVER['SCRIPT_NAME'];
     }

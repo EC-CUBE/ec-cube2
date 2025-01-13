@@ -310,7 +310,7 @@ class SC_Helper_DB
                 // ROOTカテゴリIDの取得
                 if (count($category_id) > 0) {
                     $arrRet = $this->sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
-                    $root_id = isset($arrRet[0]) ? $arrRet[0] : '';
+                    $root_id = $arrRet[0] ?? '';
                 } else {
                     $root_id = '';
                 }
@@ -717,10 +717,12 @@ class SC_Helper_DB
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 現在の商品カテゴリを取得
-        $arrCat = $objQuery->select('product_id, category_id, rank',
+        $arrCat = $objQuery->select(
+            'product_id, category_id, rank',
             'dtb_product_categories',
             'category_id = ?',
-            [$category_id]);
+            [$category_id]
+        );
 
         $min = 0;
         foreach ($arrCat as $val) {
@@ -746,8 +748,11 @@ class SC_Helper_DB
     public function removeProductByCategories($category_id, $product_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $objQuery->delete('dtb_product_categories',
-            'category_id = ? AND product_id = ?', [$category_id, $product_id]);
+        $objQuery->delete(
+            'dtb_product_categories',
+            'category_id = ? AND product_id = ?',
+            [$category_id, $product_id]
+        );
     }
 
     /**
@@ -763,10 +768,12 @@ class SC_Helper_DB
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // 現在のカテゴリ情報を取得
-        $arrCurrentCat = $objQuery->getCol('category_id',
+        $arrCurrentCat = $objQuery->getCol(
+            'category_id',
             'dtb_product_categories',
             'product_id = ?',
-            [$product_id]);
+            [$product_id]
+        );
 
         // 登録するカテゴリ情報と比較
         foreach ($arrCurrentCat as $category_id) {
@@ -828,17 +835,17 @@ class SC_Helper_DB
 
         // 各カテゴリ内の商品数を数えて取得
         $sql = <<< __EOS__
-            SELECT T1.category_id, count(*) as product_count
-            FROM dtb_category AS T1
-                INNER JOIN dtb_product_categories AS T2
-                    ON T1.category_id = T2.category_id
-                INNER JOIN $from_alldtl
-                    ON T2.product_id = alldtl.product_id
-                        AND $where_alldtl
-            WHERE T1.del_flg = 0
-            GROUP BY T1.category_id
-            HAVING count(*) <> 0
-__EOS__;
+                        SELECT T1.category_id, count(*) as product_count
+                        FROM dtb_category AS T1
+                            INNER JOIN dtb_product_categories AS T2
+                                ON T1.category_id = T2.category_id
+                            INNER JOIN $from_alldtl
+                                ON T2.product_id = alldtl.product_id
+                                    AND $where_alldtl
+                        WHERE T1.del_flg = 0
+                        GROUP BY T1.category_id
+                        HAVING count(*) <> 0
+            __EOS__;
 
         $arrCategoryCountNew = $objQuery->getAll($sql);
         // 各カテゴリに所属する商品の数を集計。集計対象には子カテゴリを「含む」。
@@ -906,7 +913,7 @@ __EOS__;
         $arrUpdateData = [];
         foreach ($arrTgtCategoryId as $category_id) {
             $arrWhereVal = [];
-            list($tmp_where, $arrTmpVal) = static::sfGetCatWhere($category_id);
+            [$tmp_where, $arrTmpVal] = static::sfGetCatWhere($category_id);
             if ($tmp_where != '') {
                 $where_product_ids = 'product_id IN (SELECT product_id FROM dtb_product_categories WHERE '.$tmp_where.')';
                 $arrWhereVal = $arrTmpVal;
@@ -1350,9 +1357,13 @@ __EOS__;
      *
      * @return void
      */
-    public function sfDeleteRankRecord($table, $colname, $id, $andwhere = '',
-        $delete = false)
-    {
+    public function sfDeleteRankRecord(
+        $table,
+        $colname,
+        $id,
+        $andwhere = '',
+        $delete = false
+    ) {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
         // 削除レコードのランクを取得する。

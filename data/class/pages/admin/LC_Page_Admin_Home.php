@@ -280,21 +280,21 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
         $sql_product_name = $objQuery->dbFactory->addLimitOffset($sql_product_name, 1);
 
         $cols = <<< __EOS__
-            dtb_order.order_id,
-            dtb_order.customer_id,
-            dtb_order.order_name01 AS name01,
-            dtb_order.order_name02 AS name02,
-            dtb_order.total,
-            dtb_order.create_date,
-            ($sql_product_name) AS product_name,
-            (SELECT
-                pay.payment_method
-            FROM
-                dtb_payment AS pay
-            WHERE
-                dtb_order.payment_id = pay.payment_id
-            ) AS payment_method
-__EOS__;
+                        dtb_order.order_id,
+                        dtb_order.customer_id,
+                        dtb_order.order_name01 AS name01,
+                        dtb_order.order_name02 AS name02,
+                        dtb_order.total,
+                        dtb_order.create_date,
+                        ($sql_product_name) AS product_name,
+                        (SELECT
+                            pay.payment_method
+                        FROM
+                            dtb_payment AS pay
+                        WHERE
+                            dtb_order.payment_id = pay.payment_id
+                        ) AS payment_method
+            __EOS__;
         $from = 'dtb_order';
         $where = 'del_flg = 0 AND status <> ?';
         $objQuery->setOrder('create_date DESC');

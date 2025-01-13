@@ -166,8 +166,8 @@ class Net_URL
 
             $this->user = '';
             $this->pass = '';
-            $this->host = !empty($host) ? $host : (isset($HTTP_SERVER_VARS['SERVER_NAME']) ? $HTTP_SERVER_VARS['SERVER_NAME'] : 'localhost');
-            $this->port = !empty($port) ? $port : (isset($HTTP_SERVER_VARS['SERVER_PORT']) ? $HTTP_SERVER_VARS['SERVER_PORT'] : $this->getStandardPort($this->protocol));
+            $this->host = !empty($host) ? $host : ($HTTP_SERVER_VARS['SERVER_NAME'] ?? 'localhost');
+            $this->port = !empty($port) ? $port : ($HTTP_SERVER_VARS['SERVER_PORT'] ?? $this->getStandardPort($this->protocol));
             $this->path = !empty($HTTP_SERVER_VARS['PHP_SELF']) ? $HTTP_SERVER_VARS['PHP_SELF'] : '/';
             $this->querystring = isset($HTTP_SERVER_VARS['QUERY_STRING']) ? $this->_parseRawQuerystring($HTTP_SERVER_VARS['QUERY_STRING']) : null;
             $this->anchor = '';

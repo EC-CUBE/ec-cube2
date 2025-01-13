@@ -337,14 +337,14 @@ class SC_Helper_Delivery
             $pref_id = [$pref_id];
         }
         $sql = <<< __EOS__
-            SELECT T1.fee AS fee
-            FROM dtb_delivfee T1
-                JOIN dtb_deliv T2
-                    ON T1.deliv_id = T2.deliv_id
-            WHERE T1.pref = ?
-                AND T1.deliv_id = ?
-                AND T2.del_flg = 0
-__EOS__;
+                        SELECT T1.fee AS fee
+                        FROM dtb_delivfee T1
+                            JOIN dtb_deliv T2
+                                ON T1.deliv_id = T2.deliv_id
+                        WHERE T1.pref = ?
+                            AND T1.deliv_id = ?
+                            AND T2.del_flg = 0
+            __EOS__;
         $result = 0;
         foreach ($pref_id as $pref) {
             $result += $objQuery->getOne($sql, [$pref, $deliv_id]);

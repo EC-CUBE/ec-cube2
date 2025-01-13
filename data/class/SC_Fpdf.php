@@ -409,7 +409,7 @@ class SC_Fpdf extends SC_Helper_FPDI
             // DBから受注情報を読み込む
             $objPurchase = new SC_Helper_Purchase_Ex();
             $this->arrDisp = $objPurchase->getOrder($order_id);
-            list($point) = SC_Helper_Customer_Ex::sfGetCustomerPoint($order_id, $this->arrDisp['use_point'], $this->arrDisp['add_point']);
+            [$point] = SC_Helper_Customer_Ex::sfGetCustomerPoint($order_id, $this->arrDisp['use_point'], $this->arrDisp['add_point']);
             $this->arrDisp['point'] = $point;
 
             // 受注詳細データの取得

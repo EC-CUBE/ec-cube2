@@ -233,7 +233,7 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
                     $bind[] = '%'.$val.'%';
                     break;
                 case 'search_category_id':
-                    list($tmp_where, $tmp_bind) = $objDb->sfGetCatWhere($val);
+                    [$tmp_where, $tmp_bind] = $objDb->sfGetCatWhere($val);
                     if ($tmp_where != '') {
                         $where .= ' AND alldtl.product_id IN (SELECT product_id FROM dtb_product_categories WHERE '.$tmp_where.')';
                         $bind = array_merge((array) $bind, (array) $tmp_bind);

@@ -274,8 +274,10 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
                 $this->setProductsQuantity($objFormParam);
-                $this->setCustomerTo($objFormParam->getValue('edit_customer_id'),
-                    $objFormParam);
+                $this->setCustomerTo(
+                    $objFormParam->getValue('edit_customer_id'),
+                    $objFormParam
+                );
                 $customer_birth = $objFormParam->getValue('order_birth');
                 // 加算ポイントの計算
                 if (USE_POINT === true && $this->tpl_mode == 'add') {
@@ -650,9 +652,11 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
 
         // ポイントを設定
         if (USE_POINT !== false) {
-            list($db_point, $rollback_point) = SC_Helper_DB_Ex::sfGetRollbackPoint(
-                $order_id, $arrOrder['use_point'],
-                $arrOrder['add_point'], $arrOrder['status']
+            [$db_point, $rollback_point] = SC_Helper_DB_Ex::sfGetRollbackPoint(
+                $order_id,
+                $arrOrder['use_point'],
+                $arrOrder['add_point'],
+                $arrOrder['status']
             );
             $objFormParam->setValue('total_point', $db_point);
             $objFormParam->setValue('point', $rollback_point);
@@ -715,8 +719,10 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             'order_birth_month' => $month,
             'order_birth_day' => $day,
         ]);
-        $objError->doFunc(['生年月日', 'order_birth_year', 'order_birth_month', 'order_birth_day'],
-            ['CHECK_BIRTHDAY']);
+        $objError->doFunc(
+            ['生年月日', 'order_birth_year', 'order_birth_month', 'order_birth_day'],
+            ['CHECK_BIRTHDAY']
+        );
         $arrErrTemp['order_birth_year'] = $objError->arrErr['order_birth_year'];
 
         // 商品の種類数
@@ -871,11 +877,14 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         if (ORDER_DELIV != $arrValues['status']
             && ORDER_CANCEL != $arrValues['status']) {
             foreach ($arrStockData as $stock) {
-                $objQuery->update('dtb_products_class', [],
+                $objQuery->update(
+                    'dtb_products_class',
+                    [],
                     'product_class_id = ?',
                     [$stock['product_class_id']],
                     ['stock' => 'stock + ?'],
-                    [$stock['quantity']]);
+                    [$stock['quantity']]
+                );
             }
         }
 
@@ -891,9 +900,11 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $arrShippingValues[$shipping_index] = $arrShipping;
 
             $arrShippingValues[$shipping_index]['shipping_date']
-                = SC_Utils_Ex::sfGetTimestamp($arrShipping['shipping_date_year'],
+                = SC_Utils_Ex::sfGetTimestamp(
+                    $arrShipping['shipping_date_year'],
                     $arrShipping['shipping_date_month'],
-                    $arrShipping['shipping_date_day']);
+                    $arrShipping['shipping_date_day']
+                );
 
             // 商品単価を複数配送にも反映する
             foreach ($arrDetail as $product_detail) {
@@ -923,8 +934,11 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                         }
                     }
                 }
-                $objPurchase->registerShipmentItem($order_id, $shipping_id,
-                    $arrShipmentValues[$shipping_index]);
+                $objPurchase->registerShipmentItem(
+                    $order_id,
+                    $shipping_id,
+                    $arrShipmentValues[$shipping_index]
+                );
             }
         }
 
@@ -1238,7 +1252,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $arrProductsClass = $objFormParam->getValue('product_class_id');
             $arrQuantity = [];
             foreach ($arrProductsClass as $relation_key => $product_class_id) {
-                $arrQuantity[$relation_key] = isset($arrUpdateQuantity[$product_class_id]) ? $arrUpdateQuantity[$product_class_id] : 0;
+                $arrQuantity[$relation_key] = $arrUpdateQuantity[$product_class_id] ?? 0;
             }
             $objFormParam->setParam(['quantity' => $arrQuantity]);
         }
