@@ -568,14 +568,14 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 
         // 会員集計の取得
         $col = <<< __EOS__
-                        COUNT(order_id) AS order_count,
-                        SUM(total) AS total,
-                        AVG(total) AS total_average,
-                        CASE
-                            WHEN customer_id <> 0 THEN 1
-                            ELSE 0
-                        END AS member,
-                        order_sex
+            COUNT(order_id) AS order_count,
+            SUM(total) AS total,
+            AVG(total) AS total_average,
+            CASE
+                WHEN customer_id <> 0 THEN 1
+                ELSE 0
+            END AS member,
+            order_sex
             __EOS__;
 
         $from = 'dtb_order';
@@ -610,13 +610,13 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         $arrWhereVal += $this->excludeOrderStatuses;
 
         $col = <<< __EOS__
-                            product_id,
-                            product_code,
-                            product_name,
-                            SUM(quantity) AS products_count,
-                            COUNT(dtb_order_detail.order_id) AS order_count,
-                            price,
-                            (price * SUM(quantity)) AS total
+            product_id,
+            product_code,
+            product_name,
+            SUM(quantity) AS products_count,
+            COUNT(dtb_order_detail.order_id) AS order_count,
+            price,
+            (price * SUM(quantity)) AS total
             __EOS__;
 
         $from = 'dtb_order_detail JOIN dtb_order ON dtb_order_detail.order_id = dtb_order.order_id';
@@ -638,10 +638,10 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         [$where, $arrWhereVal] = $this->lfGetWhereMember('dtb_order.create_date', $sdate, $edate, $type);
 
         $col = <<< __EOS__
-                        job,
-                        COUNT(order_id) AS order_count,
-                        SUM(total) AS total,
-                        AVG(total) AS total_average
+            job,
+            COUNT(order_id) AS order_count,
+            SUM(total) AS total,
+            AVG(total) AS total_average
             __EOS__;
 
         $from = 'dtb_order JOIN dtb_customer ON dtb_order.customer_id = dtb_customer.customer_id';

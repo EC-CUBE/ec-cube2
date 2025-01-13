@@ -164,14 +164,14 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $col = <<< __EOS__
-                        pc.down_realfilename AS down_realfilename,
-                        pc.down_filename AS down_filename
+            pc.down_realfilename AS down_realfilename,
+            pc.down_filename AS down_filename
             __EOS__;
 
         $table = <<< __EOS__
-                        dtb_order AS o
-                        JOIN dtb_order_detail AS od USING(order_id)
-                        JOIN dtb_products_class AS pc USING(product_id, product_class_id)
+            dtb_order AS o
+            JOIN dtb_order_detail AS od USING(order_id)
+            JOIN dtb_products_class AS pc USING(product_id, product_class_id)
             __EOS__;
 
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();

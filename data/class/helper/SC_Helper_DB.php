@@ -835,16 +835,16 @@ class SC_Helper_DB
 
         // 各カテゴリ内の商品数を数えて取得
         $sql = <<< __EOS__
-                        SELECT T1.category_id, count(*) as product_count
-                        FROM dtb_category AS T1
-                            INNER JOIN dtb_product_categories AS T2
-                                ON T1.category_id = T2.category_id
-                            INNER JOIN $from_alldtl
-                                ON T2.product_id = alldtl.product_id
-                                    AND $where_alldtl
-                        WHERE T1.del_flg = 0
-                        GROUP BY T1.category_id
-                        HAVING count(*) <> 0
+            SELECT T1.category_id, count(*) as product_count
+            FROM dtb_category AS T1
+                INNER JOIN dtb_product_categories AS T2
+                    ON T1.category_id = T2.category_id
+                INNER JOIN $from_alldtl
+                    ON T2.product_id = alldtl.product_id
+                        AND $where_alldtl
+            WHERE T1.del_flg = 0
+            GROUP BY T1.category_id
+            HAVING count(*) <> 0
             __EOS__;
 
         $arrCategoryCountNew = $objQuery->getAll($sql);

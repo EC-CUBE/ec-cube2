@@ -131,28 +131,28 @@ class SC_Product
     public function lists(&$objQuery, $product_ids = [])
     {
         $col = <<< __EOS__
-                         product_id
-                        ,product_code_min
-                        ,product_code_max
-                        ,name
-                        ,comment1
-                        ,comment2
-                        ,comment3
-                        ,main_list_comment
-                        ,main_image
-                        ,main_list_image
-                        ,price01_min
-                        ,price01_max
-                        ,price02_min
-                        ,price02_max
-                        ,stock_min
-                        ,stock_max
-                        ,stock_unlimited_min
-                        ,stock_unlimited_max
-                        ,deliv_date_id
-                        ,status
-                        ,del_flg
-                        ,update_date
+            product_id
+            ,product_code_min
+            ,product_code_max
+            ,name
+            ,comment1
+            ,comment2
+            ,comment3
+            ,main_list_comment
+            ,main_image
+            ,main_list_image
+            ,price01_min
+            ,price01_max
+            ,price02_min
+            ,price02_max
+            ,stock_min
+            ,stock_max
+            ,stock_unlimited_min
+            ,stock_unlimited_max
+            ,deliv_date_id
+            ,status
+            ,del_flg
+            ,update_date
             __EOS__;
         $res = $objQuery->select($col, static::alldtlSQL('', $product_ids));
 
@@ -363,40 +363,40 @@ class SC_Product
     {
         // 末端の規格を取得
         $col = <<< __EOS__
-                        T1.product_id,
-                        T1.stock,
-                        T1.stock_unlimited,
-                        T1.sale_limit,
-                        T1.price01,
-                        T1.price02,
-                        T1.point_rate,
-                        T1.product_code,
-                        T1.product_class_id,
-                        T1.del_flg,
-                        T1.product_type_id,
-                        T1.down_filename,
-                        T1.down_realfilename,
-                        T3.name AS classcategory_name1,
-                        T3.rank AS rank1,
-                        T4.name AS class_name1,
-                        T4.class_id AS class_id1,
-                        T1.classcategory_id1,
-                        T1.classcategory_id2,
-                        dtb_classcategory2.name AS classcategory_name2,
-                        dtb_classcategory2.rank AS rank2,
-                        dtb_class2.name AS class_name2,
-                        dtb_class2.class_id AS class_id2
+            T1.product_id,
+            T1.stock,
+            T1.stock_unlimited,
+            T1.sale_limit,
+            T1.price01,
+            T1.price02,
+            T1.point_rate,
+            T1.product_code,
+            T1.product_class_id,
+            T1.del_flg,
+            T1.product_type_id,
+            T1.down_filename,
+            T1.down_realfilename,
+            T3.name AS classcategory_name1,
+            T3.rank AS rank1,
+            T4.name AS class_name1,
+            T4.class_id AS class_id1,
+            T1.classcategory_id1,
+            T1.classcategory_id2,
+            dtb_classcategory2.name AS classcategory_name2,
+            dtb_classcategory2.rank AS rank2,
+            dtb_class2.name AS class_name2,
+            dtb_class2.class_id AS class_id2
             __EOS__;
         $table = <<< __EOS__
-                        dtb_products_class T1
-                        LEFT JOIN dtb_classcategory T3
-                            ON T1.classcategory_id1 = T3.classcategory_id
-                        LEFT JOIN dtb_class T4
-                            ON T3.class_id = T4.class_id
-                        LEFT JOIN dtb_classcategory dtb_classcategory2
-                            ON T1.classcategory_id2 = dtb_classcategory2.classcategory_id
-                        LEFT JOIN dtb_class dtb_class2
-                            ON dtb_classcategory2.class_id = dtb_class2.class_id
+            dtb_products_class T1
+            LEFT JOIN dtb_classcategory T3
+                ON T1.classcategory_id1 = T3.classcategory_id
+            LEFT JOIN dtb_class T4
+                ON T3.class_id = T4.class_id
+            LEFT JOIN dtb_classcategory dtb_classcategory2
+                ON T1.classcategory_id2 = dtb_classcategory2.classcategory_id
+            LEFT JOIN dtb_class dtb_class2
+                ON dtb_classcategory2.class_id = dtb_class2.class_id
             __EOS__;
 
         $objQuery->andWhere(' T3.classcategory_id is not null AND dtb_classcategory2.classcategory_id is not null ');
@@ -686,37 +686,37 @@ class SC_Product
             $where_clause = ' WHERE '.$where;
         }
         $sql = <<< __EOS__
-                    (
-                        SELECT dtb_products.*,
-                            dtb_products_class.product_class_id,
-                            dtb_products_class.product_type_id,
-                            dtb_products_class.product_code,
-                            dtb_products_class.stock,
-                            dtb_products_class.stock_unlimited,
-                            dtb_products_class.sale_limit,
-                            dtb_products_class.price01,
-                            dtb_products_class.price02,
-                            dtb_products_class.deliv_fee,
-                            dtb_products_class.point_rate,
-                            dtb_products_class.down_filename,
-                            dtb_products_class.down_realfilename,
-                            dtb_products_class.classcategory_id1 AS classcategory_id, /* 削除 */
-                            dtb_products_class.classcategory_id1,
-                            dtb_products_class.classcategory_id2 AS parent_classcategory_id, /* 削除 */
-                            dtb_products_class.classcategory_id2,
-                            Tcc1.class_id as class_id,
-                            Tcc1.name as classcategory_name,
-                            Tcc2.class_id as parent_class_id,
-                            Tcc2.name as parent_classcategory_name
-                        FROM dtb_products
-                            LEFT JOIN dtb_products_class
-                                ON dtb_products.product_id = dtb_products_class.product_id
-                            LEFT JOIN dtb_classcategory as Tcc1
-                                ON dtb_products_class.classcategory_id1 = Tcc1.classcategory_id
-                            LEFT JOIN dtb_classcategory as Tcc2
-                                ON dtb_products_class.classcategory_id2 = Tcc2.classcategory_id
-                        $where_clause
-                    ) as prdcls
+            (
+                SELECT dtb_products.*,
+                    dtb_products_class.product_class_id,
+                    dtb_products_class.product_type_id,
+                    dtb_products_class.product_code,
+                    dtb_products_class.stock,
+                    dtb_products_class.stock_unlimited,
+                    dtb_products_class.sale_limit,
+                    dtb_products_class.price01,
+                    dtb_products_class.price02,
+                    dtb_products_class.deliv_fee,
+                    dtb_products_class.point_rate,
+                    dtb_products_class.down_filename,
+                    dtb_products_class.down_realfilename,
+                    dtb_products_class.classcategory_id1 AS classcategory_id, /* 削除 */
+                    dtb_products_class.classcategory_id1,
+                    dtb_products_class.classcategory_id2 AS parent_classcategory_id, /* 削除 */
+                    dtb_products_class.classcategory_id2,
+                    Tcc1.class_id as class_id,
+                    Tcc1.name as classcategory_name,
+                    Tcc2.class_id as parent_class_id,
+                    Tcc2.name as parent_classcategory_name
+                FROM dtb_products
+                    LEFT JOIN dtb_products_class
+                        ON dtb_products.product_id = dtb_products_class.product_id
+                    LEFT JOIN dtb_classcategory as Tcc1
+                        ON dtb_products_class.classcategory_id1 = Tcc1.classcategory_id
+                    LEFT JOIN dtb_classcategory as Tcc2
+                        ON dtb_products_class.classcategory_id2 = Tcc2.classcategory_id
+                $where_clause
+            ) as prdcls
             __EOS__;
 
         return $sql;

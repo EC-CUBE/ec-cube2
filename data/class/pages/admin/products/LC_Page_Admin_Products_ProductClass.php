@@ -710,10 +710,10 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $col = <<< __EOF__
-                        T1.class_id AS class_id1,
-                        T1.classcategory_id AS classcategory_id1,
-                        T1.name AS classcategory_name1,
-                        T1.rank AS rank1
+            T1.class_id AS class_id1,
+            T1.classcategory_id AS classcategory_id1,
+            T1.name AS classcategory_name1,
+            T1.rank AS rank1
             __EOF__;
         $table = '';
         $arrParams = [];
@@ -725,11 +725,11 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
             $arrParams = [$class_id1];
         } else {
             $col .= <<< __EOF__
-                                ,
-                                T2.class_id AS class_id2,
-                                T2.classcategory_id AS classcategory_id2,
-                                T2.name AS classcategory_name2,
-                                T2.rank AS rank2
+                ,
+                T2.class_id AS class_id2,
+                T2.classcategory_id AS classcategory_id2,
+                T2.name AS classcategory_name2,
+                T2.rank AS rank2
                 __EOF__;
             $table = 'dtb_classcategory AS T1, dtb_classcategory AS T2';
             $objQuery->setWhere('T1.class_id = ? AND T2.class_id = ?');

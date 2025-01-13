@@ -138,14 +138,14 @@ class SC_DB_DBFactory_PGSQL extends SC_DB_DBFactory
             $downloadable_days = 0;
         }
         $sql = <<< __EOS__
-                        (
-                            SELECT
-                                CASE
-                                    WHEN (SELECT d1.downloadable_days_unlimited FROM dtb_baseinfo d1) = 1 AND $dtb_order_alias.payment_date IS NOT NULL THEN 1
-                                    WHEN DATE(CURRENT_TIMESTAMP) <= DATE($dtb_order_alias.payment_date + interval '$downloadable_days days') THEN 1
-                                    ELSE 0
-                                END
-                        )
+            (
+                SELECT
+                    CASE
+                        WHEN (SELECT d1.downloadable_days_unlimited FROM dtb_baseinfo d1) = 1 AND $dtb_order_alias.payment_date IS NOT NULL THEN 1
+                        WHEN DATE(CURRENT_TIMESTAMP) <= DATE($dtb_order_alias.payment_date + interval '$downloadable_days days') THEN 1
+                        ELSE 0
+                    END
+            )
             __EOS__;
 
         return $sql;

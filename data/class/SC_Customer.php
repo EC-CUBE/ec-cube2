@@ -362,10 +362,10 @@ class SC_Customer
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $col = <<< __EOS__
-                        SUM( payment_total) AS buy_total,
-                        COUNT(order_id) AS buy_times,
-                        MAX( create_date) AS last_buy_date,
-                        MIN(create_date) AS first_buy_date
+            SUM( payment_total) AS buy_total,
+            COUNT(order_id) AS buy_times,
+            MAX( create_date) AS last_buy_date,
+            MIN(create_date) AS first_buy_date
             __EOS__;
         $table = 'dtb_order';
         $where = 'customer_id = ? AND del_flg = 0 AND status <> ?';
