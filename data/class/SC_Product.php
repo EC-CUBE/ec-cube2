@@ -266,14 +266,10 @@ class SC_Product
             $classCats1['__unselected'] = '選択してください';
 
             // 規格1クラス名
-            $this->className1[$productId] =
-                $arrProductClasses[0]['class_name1']
-                ?? '';
+            $this->className1[$productId] = $arrProductClasses[0]['class_name1'] ?? '';
 
             // 規格2クラス名
-            $this->className2[$productId] =
-                $arrProductClasses[0]['class_name2']
-                ?? '';
+            $this->className2[$productId] = $arrProductClasses[0]['class_name2'] ?? '';
 
             // 規格1が設定されている
             $this->classCat1_find[$productId] = $arrProductClasses[0]['classcategory_id1'] > 0; // 要変更ただし、他にも改修が必要となる

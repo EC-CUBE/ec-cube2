@@ -100,8 +100,7 @@ class LC_Page_Upgrade_Base extends LC_Page_Ex
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->select('*', 'dtb_ownersstore_settings');
 
-        return $arrRet[0]['public_key']
-            ?? null;
+        return $arrRet[0]['public_key'] ?? null;
     }
 
     /**

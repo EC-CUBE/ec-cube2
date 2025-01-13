@@ -49,8 +49,7 @@ class LC_Upgrade_Helper_Json
 
         $this->arrData['status'] = OSTORE_STATUS_ERROR;
         $this->arrData['errcode'] = $errCode;
-        $this->arrData['msg'] = $arrOStoreErrMsg[$errCode]
-            ?? $arrOStoreErrMsg[OSTORE_E_UNKNOWN];
+        $this->arrData['msg'] = $arrOStoreErrMsg[$errCode] ?? $arrOStoreErrMsg[OSTORE_E_UNKNOWN];
     }
 
     /**

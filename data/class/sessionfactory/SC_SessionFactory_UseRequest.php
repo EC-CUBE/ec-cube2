@@ -307,8 +307,7 @@ class LC_UseRequest_State
     {
         $namespace = $this->getNameSpace();
 
-        return $_SESSION[$namespace][$key]
-            ?? null;
+        return $_SESSION[$namespace][$key] ?? null;
     }
 
     /**
