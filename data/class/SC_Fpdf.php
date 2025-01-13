@@ -236,9 +236,10 @@ class SC_Fpdf extends SC_Helper_FPDI
 
         $arrTaxableTotal = [];
         $defaultTaxRule = SC_Helper_TaxRule_Ex::getTaxRule();
+        $i = 0;
         // 受注明細情報
         if (isset($this->arrDisp['quantity']) && is_array($this->arrDisp['quantity'])) {
-            for ($i = 0; $i < count($this->arrDisp['quantity']); $i++) {
+            for (; $i < count($this->arrDisp['quantity']); $i++) {
                 // 購入数量
                 $data[0] = $this->arrDisp['quantity'][$i];
 
