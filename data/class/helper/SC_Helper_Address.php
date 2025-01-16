@@ -200,22 +200,17 @@ class SC_Helper_Address
      */
     public function delivErrorCheck($arrParam)
     {
-        // customer_id 要素は必須
-        if (!isset($arrParam['customer_id'])) {
-            return true; // エラー
+        $error_flg = false;
+
+        if (is_null($arrParam['customer_id']) || !is_numeric($arrParam['customer_id']) || !preg_match("/^\d+$/", $arrParam['customer_id'])) {
+            $error_flg = true;
         }
 
-        if (!SC_Utils_Ex::isValidIntId($arrParam['customer_id'])) {
-            return true; // エラー
+        if (isset($arrParam['other_deliv_id']) && $arrParam['other_deliv_id'] !== ''
+            && (!is_numeric($arrParam['other_deliv_id']) || !preg_match("/^\d+$/", $arrParam['other_deliv_id']))) {
+            $error_flg = true;
         }
 
-        // other_deliv_id 要素は任意だが、NULL・空文字はエラーと扱う。
-        if (array_key_exists('other_deliv_id', $arrParam)) {
-            if (!SC_Utils_Ex::isValidIntId($arrParam['other_deliv_id'])) {
-                return true; // エラー
-            }
-        }
-
-        return false; // 正常
+        return $error_flg;
     }
 }
