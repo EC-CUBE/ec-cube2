@@ -203,11 +203,13 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     {
         $this->createTestTable();
 
-        $this->objQuery->insert('test_table',
+        $this->objQuery->insert(
+            'test_table',
             ['id' => '1',
                 'column1' => '1',
                 'column2' => '1',
-                'column3' => 'f', ]);
+                'column3' => 'f', ]
+        );
 
         $this->expected = [['id' => '1',
             'column1' => '1',
@@ -247,14 +249,17 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->createTestTable();
         $this->setTestData(1, '2', 'f');
 
-        $this->objQuery->update('test_table',
+        $this->objQuery->update(
+            'test_table',
             [
                 'id' => '1',
                 'column1' => '2',
                 'column2' => '2',
                 'column3' => 'f',
             ],
-            'id = ?', [1]);
+            'id = ?',
+            [1]
+        );
         $this->expected = [
             [
                 'id' => '1',

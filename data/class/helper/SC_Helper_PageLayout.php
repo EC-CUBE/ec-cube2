@@ -169,11 +169,11 @@ class SC_Helper_PageLayout
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $table = <<< __EOF__
-        dtb_blocposition AS pos
-            JOIN dtb_bloc AS bloc
-                ON bloc.bloc_id = pos.bloc_id
-                    AND bloc.device_type_id = pos.device_type_id
-__EOF__;
+            dtb_blocposition AS pos
+                JOIN dtb_bloc AS bloc
+                    ON bloc.bloc_id = pos.bloc_id
+                        AND bloc.device_type_id = pos.device_type_id
+            __EOF__;
         $where = 'bloc.device_type_id = ? AND ((anywhere = 1 AND pos.page_id != 0) OR pos.page_id = ?)';
         $objQuery->setOrder('target_id, bloc_row');
         $arrBlocs = $objQuery->select('*', $table, $where, [$device_type_id, $page_id]);

@@ -1110,7 +1110,7 @@ class SC_Query
         $pear_property = $bak;
 
         if (PEAR::isError($affected)) {
-            $sql = isset($sth->query) ? $sth->query : '';
+            $sql = $sth->query ?? '';
             $msg = $this->traceError($affected, $sql, $arrVal);
             $this->error($msg);
         }

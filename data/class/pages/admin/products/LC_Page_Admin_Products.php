@@ -150,14 +150,24 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
                             // ページ送りの処理
                             $page_max = SC_Utils_Ex::sfGetSearchPageMax($objFormParam->getValue('search_page_max'));
                             // ページ送りの取得
-                            $objNavi = new SC_PageNavi_Ex($this->arrHidden['search_pageno'],
-                                $this->tpl_linemax, $page_max,
-                                'eccube.moveNaviPage', NAVI_PMAX);
+                            $objNavi = new SC_PageNavi_Ex(
+                                $this->arrHidden['search_pageno'],
+                                $this->tpl_linemax,
+                                $page_max,
+                                'eccube.moveNaviPage',
+                                NAVI_PMAX
+                            );
                             $this->arrPagenavi = $objNavi->arrPagenavi;
 
                             // 検索結果の取得
-                            $this->arrProducts = $this->findProducts($where, $arrWhereVal, $page_max, $objNavi->start_row,
-                                $order, $objProduct);
+                            $this->arrProducts = $this->findProducts(
+                                $where,
+                                $arrWhereVal,
+                                $page_max,
+                                $objNavi->start_row,
+                                $order,
+                                $objProduct
+                            );
 
                             // 各商品ごとのカテゴリIDを取得
                             if (count($this->arrProducts) > 0) {
@@ -172,7 +182,7 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
         }
 
         // カテゴリの読込
-        list($this->arrCatKey, $this->arrCatVal) = $objDb->sfGetLevelCatList(false);
+        [$this->arrCatKey, $this->arrCatVal] = $objDb->sfGetLevelCatList(false);
         $this->arrCatList = $this->lfGetIDName($this->arrCatKey, $this->arrCatVal);
     }
 
@@ -231,8 +241,8 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
         $max = count($arrCatKey);
         $arrRet = [];
         for ($cnt = 0; $cnt < $max; $cnt++) {
-            $key = isset($arrCatKey[$cnt]) ? $arrCatKey[$cnt] : '';
-            $val = isset($arrCatVal[$cnt]) ? $arrCatVal[$cnt] : '';
+            $key = $arrCatKey[$cnt] ?? '';
+            $val = $arrCatVal[$cnt] ?? '';
             $arrRet[$key] = $val;
         }
 
@@ -302,7 +312,7 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
                 break;
                 // カテゴリ
             case 'search_category_id':
-                list($tmp_where, $tmp_Values) = $objDb->sfGetCatWhere($objFormParam->getValue($key));
+                [$tmp_where, $tmp_Values] = $objDb->sfGetCatWhere($objFormParam->getValue($key));
                 if ($tmp_where != '') {
                     $where .= ' AND product_id IN (SELECT product_id FROM dtb_product_categories WHERE '.$tmp_where.')';
                     $arrValues = array_merge((array) $arrValues, (array) $tmp_Values);
@@ -329,17 +339,22 @@ class LC_Page_Admin_Products extends LC_Page_Admin_Ex
                 break;
                 // 登録・更新日(開始)
             case 'search_startyear':
-                $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_startyear'),
+                $date = SC_Utils_Ex::sfGetTimestamp(
+                    $objFormParam->getValue('search_startyear'),
                     $objFormParam->getValue('search_startmonth'),
-                    $objFormParam->getValue('search_startday'));
+                    $objFormParam->getValue('search_startday')
+                );
                 $where .= ' AND update_date >= ?';
                 $arrValues[] = $date;
                 break;
                 // 登録・更新日(終了)
             case 'search_endyear':
-                $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_endyear'),
+                $date = SC_Utils_Ex::sfGetTimestamp(
+                    $objFormParam->getValue('search_endyear'),
                     $objFormParam->getValue('search_endmonth'),
-                    $objFormParam->getValue('search_endday'), true);
+                    $objFormParam->getValue('search_endday'),
+                    true
+                );
                 $where .= ' AND update_date <= ?';
                 $arrValues[] = $date;
                 break;

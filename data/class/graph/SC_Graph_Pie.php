@@ -186,7 +186,7 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
             $end = $start + $rad;
             // 前面のみ
             if ($end > 90 && $end < 270) {
-                list($ax, $ay) = $this->lfGetArcPos($x, $y, $w, $h, $end);
+                [$ax, $ay] = $this->lfGetArcPos($x, $y, $w, $h, $end);
                 // ラインのずれを補正する
                 if ($end > 180) {
                     ++$ax;
@@ -209,8 +209,8 @@ class SC_Graph_Pie extends SC_Graph_Base_Ex
         foreach ($arrRad as $key => $rad) {
             $center = $start + ($rad / 2);
             $end = $start + $rad;
-            list($sx, $sy) = $this->lfGetArcPos($this->cx, $this->cy, $this->cw / 1.5, $this->ch / 1.5, $center);
-            list($ex, $ey) = $this->lfGetArcPos($this->cx, $this->cy, $this->cw * 1.5, $this->ch * 1.5, $center);
+            [$sx, $sy] = $this->lfGetArcPos($this->cx, $this->cy, $this->cw / 1.5, $this->ch / 1.5, $center);
+            [$ex, $ey] = $this->lfGetArcPos($this->cx, $this->cy, $this->cw * 1.5, $this->ch * 1.5, $center);
             // 指示線の描画
             imageline($this->image, $sx, $sy, $ex + 2, $ey - PIE_LABEL_UP, $this->flame_color);
             $this->setText(FONT_SIZE, $ex - 10, $ey - PIE_LABEL_UP - FONT_SIZE, $this->arrLabel[$key], null, 0, true);

@@ -713,14 +713,16 @@ class HTTP_Request
             return PEAR::raiseError('No URL given', HTTP_REQUEST_ERROR_URL);
         }
 
-        $host = isset($this->_proxy_host) ? $this->_proxy_host : $this->_url->host;
-        $port = isset($this->_proxy_port) ? $this->_proxy_port : $this->_url->port;
+        $host = $this->_proxy_host ?? $this->_url->host;
+        $port = $this->_proxy_port ?? $this->_url->port;
 
         if (strcasecmp($this->_url->protocol, 'https') == 0) {
             // Bug #14127, don't try connecting to HTTPS sites without OpenSSL
             if (version_compare(PHP_VERSION, '4.3.0', '<') || !extension_loaded('openssl')) {
-                return PEAR::raiseError('Need PHP 4.3.0 or later with OpenSSL support for https:// requests',
-                    HTTP_REQUEST_ERROR_URL);
+                return PEAR::raiseError(
+                    'Need PHP 4.3.0 or later with OpenSSL support for https:// requests',
+                    HTTP_REQUEST_ERROR_URL
+                );
             } elseif (isset($this->_proxy_host)) {
                 return PEAR::raiseError('HTTPS proxies are not supported', HTTP_REQUEST_ERROR_PROXY);
             }
@@ -863,7 +865,7 @@ class HTTP_Request
      */
     public function getResponseCode()
     {
-        return isset($this->_response->_code) ? $this->_response->_code : false;
+        return $this->_response->_code ?? false;
     }
 
     /**
@@ -873,7 +875,7 @@ class HTTP_Request
      */
     public function getResponseReason()
     {
-        return isset($this->_response->_reason) ? $this->_response->_reason : false;
+        return $this->_response->_reason ?? false;
     }
 
     /**
@@ -887,11 +889,11 @@ class HTTP_Request
     public function getResponseHeader($headername = null)
     {
         if (!isset($headername)) {
-            return isset($this->_response->_headers) ? $this->_response->_headers : [];
+            return $this->_response->_headers ?? [];
         } else {
             $headername = strtolower($headername);
 
-            return isset($this->_response->_headers[$headername]) ? $this->_response->_headers[$headername] : false;
+            return $this->_response->_headers[$headername] ?? false;
         }
     }
 
@@ -902,7 +904,7 @@ class HTTP_Request
      */
     public function getResponseBody()
     {
-        return isset($this->_response->_body) ? $this->_response->_body : false;
+        return $this->_response->_body ?? false;
     }
 
     /**
@@ -912,7 +914,7 @@ class HTTP_Request
      */
     public function getResponseCookies()
     {
-        return isset($this->_response->_cookies) ? $this->_response->_cookies : false;
+        return $this->_response->_cookies ?? false;
     }
 
     /**
@@ -1321,7 +1323,7 @@ class HTTP_Response
         if (!str_contains($header, ':')) {
             return;
         }
-        list($headername, $headervalue) = explode(':', $header, 2);
+        [$headername, $headervalue] = explode(':', $header, 2);
         $headername = strtolower($headername);
         $headervalue = ltrim($headervalue);
 
@@ -1368,7 +1370,7 @@ class HTTP_Response
                     $elName = trim($elements[$i]);
                     $elValue = null;
                 } else {
-                    list($elName, $elValue) = array_map('trim', explode('=', $elements[$i]));
+                    [$elName, $elValue] = array_map('trim', explode('=', $elements[$i]));
                 }
                 $elName = strtolower($elName);
                 if ('secure' == $elName) {

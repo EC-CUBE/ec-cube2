@@ -121,7 +121,8 @@ class SC_Plugin_Installer
                 // ディレクトリコピー -> HTML配下とDATA配下を別関数にする
                 SC_Utils::copyDirectory(
                     PLUGIN_UPLOAD_REALDIR.$plugin_code.DIRECTORY_SEPARATOR.$directory['src'],
-                    PLUGIN_HTML_REALDIR.$plugin_code.DIRECTORY_SEPARATOR.$directory['dist']);
+                    PLUGIN_HTML_REALDIR.$plugin_code.DIRECTORY_SEPARATOR.$directory['dist']
+                );
             }
         }
 
@@ -132,8 +133,10 @@ class SC_Plugin_Installer
             foreach ($arrCopyFiles as $file) {
                 $this->log('exec file copy: '.$file['src'].' -> '.$file['dist']);
                 // ファイルコピー
-                copy(PLUGIN_UPLOAD_REALDIR.$plugin_code.DIRECTORY_SEPARATOR.$file['src'],
-                    PLUGIN_HTML_REALDIR.$plugin_code.DIRECTORY_SEPARATOR.$file['dist']);
+                copy(
+                    PLUGIN_UPLOAD_REALDIR.$plugin_code.DIRECTORY_SEPARATOR.$file['src'],
+                    PLUGIN_HTML_REALDIR.$plugin_code.DIRECTORY_SEPARATOR.$file['dist']
+                );
             }
         }
 
