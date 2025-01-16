@@ -73,7 +73,8 @@ class SC_Helper_Purchase_registerShippingTest extends SC_Helper_Purchase_TestBas
                                                  'order_id,shipping_id,shipping_name01,shipping_date,create_date,update_date',
                                                  'dtb_shipping',
                                                  '',
-                                                 [$order_id]);
+                                                 [$order_id]
+                                             );
         $this->actual['content'] = $this->result[0];
         unset($this->actual['content']['create_date']);
         unset($this->actual['content']['update_date']);
@@ -110,7 +111,8 @@ class SC_Helper_Purchase_registerShippingTest extends SC_Helper_Purchase_TestBas
                                                   'order_id,shipping_id,shipping_name01,shipping_date,create_date,update_date',
                                                   'dtb_shipping',
                                                   '',
-                                                  [$order_id]);
+                                                  [$order_id]
+                                              );
         $this->actual['content'] = $this->result[0];
         unset($this->actual['content']['create_date']);
         unset($this->actual['content']['update_date']);
@@ -147,7 +149,8 @@ class SC_Helper_Purchase_registerShippingTest extends SC_Helper_Purchase_TestBas
                                                   'order_id,shipping_id,shipping_name01,shipping_date,create_date,update_date',
                                                   'dtb_shipping',
                                                   '',
-                                                  [$order_id]);
+                                                  [$order_id]
+                                              );
         $this->actual['content'] = $this->result[0];
         unset($this->actual['content']['create_date']);
         unset($this->actual['content']['update_date']);
@@ -184,7 +187,8 @@ class SC_Helper_Purchase_registerShippingTest extends SC_Helper_Purchase_TestBas
                                                   'order_id,shipping_id,shipping_name01,shipping_date,create_date,update_date',
                                                   'dtb_shipping',
                                                   '',
-                                                  [$order_id]);
+                                                  [$order_id]
+                                              );
         $this->actual['content'] = $this->result[0];
         unset($this->actual['content']['create_date']);
         unset($this->actual['content']['update_date']);

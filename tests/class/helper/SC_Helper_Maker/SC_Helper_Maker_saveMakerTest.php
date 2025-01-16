@@ -59,7 +59,8 @@ class SC_Helper_Maker_saveMakerTest extends SC_Helper_Maker_TestBase
 
         $arrRet = $this->objHelperMaker->getMaker('1001');
 
-        $this->actual = Test_Utils::mapArray($arrRet,
+        $this->actual = Test_Utils::mapArray(
+            $arrRet,
             ['name']
         );
 
@@ -90,7 +91,8 @@ class SC_Helper_Maker_saveMakerTest extends SC_Helper_Maker_TestBase
 
         $arrRet = $this->objHelperMaker->getMaker($maker_id);
 
-        $this->actual = Test_Utils::mapArray($arrRet,
+        $this->actual = Test_Utils::mapArray(
+            $arrRet,
             [
                 'name',
                 'rank',

@@ -71,13 +71,13 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
         $objDb = new SC_Helper_DB_Ex();
         $objCategory = new SC_Helper_Category_Ex();
 
-        $this->tpl_pageno = isset($_POST['pageno']) ? $_POST['pageno'] : '';
+        $this->tpl_pageno = $_POST['pageno'] ?? '';
 
         // 通常時は親カテゴリを0に設定する。
         $this->arrForm['parent_category_id'] =
-            isset($_POST['parent_category_id']) ? $_POST['parent_category_id'] : 0;
+            $_POST['parent_category_id'] ?? 0;
         $this->arrForm['product_id'] =
-            isset($_POST['product_id']) ? $_POST['product_id'] : '';
+            $_POST['product_id'] ?? '';
 
         switch ($this->getMode()) {
             case 'up':
@@ -162,7 +162,7 @@ class LC_Page_Admin_Products_ProductRank extends LC_Page_Admin_Ex
                             )
                     ) + 1
             WHERE dtb_product_categories.category_id = ?
-__EOS__;
+            __EOS__;
 
         $arrRet = $objQuery->query($sql, [$parent_category_id]);
 

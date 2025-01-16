@@ -69,8 +69,10 @@ class LC_Page_Entry_EmailMobile extends LC_Page_Ex
             $this->arrErr = $this->lfCheckError($objFormParam);
 
             if (empty($this->arrErr)) {
-                $email_mobile = $this->lfRegistEmailMobile(strtolower($objFormParam->getValue('email_mobile')),
-                    $objCustomer->getValue('customer_id'));
+                $email_mobile = $this->lfRegistEmailMobile(
+                    strtolower($objFormParam->getValue('email_mobile')),
+                    $objCustomer->getValue('customer_id')
+                );
 
                 $objCustomer->setValue('email_mobile', $email_mobile);
                 $this->tpl_mainpage = 'entry/email_mobile_complete.tpl';
@@ -91,8 +93,13 @@ class LC_Page_Entry_EmailMobile extends LC_Page_Ex
      */
     public function lfInitParam(&$objFormParam)
     {
-        $objFormParam->addParam('メールアドレス', 'email_mobile', null, 'a',
-            ['NO_SPTAB', 'EXIST_CHECK', 'CHANGE_LOWER', 'EMAIL_CHAR_CHECK', 'EMAIL_CHECK', 'MOBILE_EMAIL_CHECK']);
+        $objFormParam->addParam(
+            'メールアドレス',
+            'email_mobile',
+            null,
+            'a',
+            ['NO_SPTAB', 'EXIST_CHECK', 'CHANGE_LOWER', 'EMAIL_CHAR_CHECK', 'EMAIL_CHECK', 'MOBILE_EMAIL_CHECK']
+        );
     }
 
     /**
@@ -126,9 +133,12 @@ class LC_Page_Entry_EmailMobile extends LC_Page_Ex
     public function lfRegistEmailMobile($email_mobile, $customer_id)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $objQuery->update('dtb_customer',
+        $objQuery->update(
+            'dtb_customer',
             ['email_mobile' => $email_mobile],
-            'customer_id = ?', [$customer_id]);
+            'customer_id = ?',
+            [$customer_id]
+        );
 
         return $email_mobile;
     }

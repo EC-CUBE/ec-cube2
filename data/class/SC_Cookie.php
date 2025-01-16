@@ -57,6 +57,6 @@ class SC_Cookie
      */
     public function getCookie($key)
     {
-        return isset($_COOKIE[$key]) ? $_COOKIE[$key] : null;
+        return $_COOKIE[$key] ?? null;
     }
 }

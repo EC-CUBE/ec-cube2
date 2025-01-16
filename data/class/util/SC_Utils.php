@@ -834,7 +834,7 @@ class SC_Utils
     /* DBから取り出した日付の文字列を調整する。 */
     public static function sfDispDBDate($dbdate, $time = true)
     {
-        list($y, $m, $d, $H, $M) = preg_split('/[- :]/', $dbdate);
+        [$y, $m, $d, $H, $M] = preg_split('/[- :]/', $dbdate);
 
         if (strlen($y) > 0 && strlen($m) > 0 && strlen($d) > 0) {
             if ($time) {

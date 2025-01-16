@@ -118,7 +118,9 @@ class LC_Page_Shopping_Confirm extends LC_Page_Ex
         // 一時受注テーブルの読込
         $arrOrderTemp = $objPurchase->getOrderTemp($this->tpl_uniqid);
         // カート集計を元に最終計算
-        $arrCalcResults = $objCartSess->calculate($this->cartKey, $objCustomer,
+        $arrCalcResults = $objCartSess->calculate(
+            $this->cartKey,
+            $objCustomer,
             $arrOrderTemp['use_point'],
             $objPurchase->getShippingPref($this->is_multiple),
             $arrOrderTemp['charge'],
@@ -154,8 +156,11 @@ class LC_Page_Shopping_Confirm extends LC_Page_Ex
                 $_SESSION['order_id'] = $this->arrForm['order_id'];
 
                 // 集計結果を受注一時テーブルに反映
-                $objPurchase->saveOrderTemp($this->tpl_uniqid, $this->arrForm,
-                    $objCustomer);
+                $objPurchase->saveOrderTemp(
+                    $this->tpl_uniqid,
+                    $this->arrForm,
+                    $objCustomer
+                );
 
                 // 正常に登録されたことを記録しておく
                 $objSiteSess->setRegistFlag();

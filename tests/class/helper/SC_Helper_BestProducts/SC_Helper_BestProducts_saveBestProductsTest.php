@@ -75,7 +75,8 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
 
         $arrRet = SC_Helper_BestProducts_Ex::getBestProducts('1001');
 
-        $this->actual = Test_Utils::mapArray($arrRet,
+        $this->actual = Test_Utils::mapArray(
+            $arrRet,
             ['product_id',
                 'category_id',
                 'rank',
@@ -120,7 +121,8 @@ class SC_Helper_BestProducts_saveBestProductsTest extends SC_Helper_BestProducts
 
         $arrRet = SC_Helper_BestProducts_Ex::getBestProducts($best_id);
 
-        $this->actual = Test_Utils::mapArray($arrRet,
+        $this->actual = Test_Utils::mapArray(
+            $arrRet,
             ['product_id',
                 'category_id',
                 'rank',

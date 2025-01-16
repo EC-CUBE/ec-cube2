@@ -281,8 +281,12 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
         // 新規登録
         if ($is_new || SC_Utils_Ex::isBlank($arrExists)) {
             $objQuery->setOrder('');
-            $arrValues['page_id'] = 1 + $objQuery->max('page_id', $table, 'device_type_id = ?',
-                [$arrValues['device_type_id']]);
+            $arrValues['page_id'] = 1 + $objQuery->max(
+                'page_id',
+                $table,
+                'device_type_id = ?',
+                [$arrValues['device_type_id']]
+            );
             $arrValues['create_date'] = 'CURRENT_TIMESTAMP';
             $objQuery->insert($table, $arrValues);
         // 更新
@@ -294,8 +298,12 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
                 unset($arrValues['url']);
             }
 
-            $objQuery->update($table, $arrValues, 'page_id = ? AND device_type_id = ?',
-                [$arrValues['page_id'], $arrValues['device_type_id']]);
+            $objQuery->update(
+                $table,
+                $arrValues,
+                'page_id = ? AND device_type_id = ?',
+                [$arrValues['page_id'], $arrValues['device_type_id']]
+            );
         }
 
         return $arrValues['page_id'];
