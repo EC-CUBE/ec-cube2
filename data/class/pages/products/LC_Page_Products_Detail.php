@@ -615,9 +615,12 @@ class LC_Page_Products_Detail extends LC_Page_Ex
      */
     public function doCart()
     {
-        $this->arrErr = $this->lfCheckError($this->mode, $this->objFormParam,
+        $this->arrErr = $this->lfCheckError(
+            $this->mode,
+            $this->objFormParam,
             $this->tpl_classcat_find1,
-            $this->tpl_classcat_find2);
+            $this->tpl_classcat_find2
+        );
         if (count($this->arrErr) == 0) {
             $objCartSess = new SC_CartSession_Ex();
             $product_class_id = $this->objFormParam->getValue('product_class_id');

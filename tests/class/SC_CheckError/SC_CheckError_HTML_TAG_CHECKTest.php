@@ -50,7 +50,10 @@ class SC_CheckError_HTML_TAG_CHECKTest extends SC_CheckError_AbstractTestCase
 
         $this->expected = sprintf(
             '※ %sに許可されていないタグ [%s], [%s] が含まれています。<br />',
-            $this->target_func, $not_allowed_tag, $not_allowed_tag);
+            $this->target_func,
+            $not_allowed_tag,
+            $not_allowed_tag
+        );
         $this->verify();
     }
 
@@ -83,9 +86,13 @@ class SC_CheckError_HTML_TAG_CHECKTest extends SC_CheckError_AbstractTestCase
     protected function scenario()
     {
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
-        $this->objErr->doFunc([$this->target_func, self::FORM_NAME, $this->arrAllowedTag],
-            [$this->target_func]);
-        $this->objErr->doFunc(['dummy', self::FORM_NAME, $this->arrAllowedTag],
-            [$this->target_func]);
+        $this->objErr->doFunc(
+            [$this->target_func, self::FORM_NAME, $this->arrAllowedTag],
+            [$this->target_func]
+        );
+        $this->objErr->doFunc(
+            ['dummy', self::FORM_NAME, $this->arrAllowedTag],
+            [$this->target_func]
+        );
     }
 }

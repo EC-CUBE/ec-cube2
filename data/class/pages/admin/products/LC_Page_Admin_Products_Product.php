@@ -604,7 +604,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
     {
         // カテゴリマスターデータ取得
         $objDb = new SC_Helper_DB_Ex();
-        list($this->arrCatVal, $this->arrCatOut) = $objDb->sfGetLevelCatList(false);
+        [$this->arrCatVal, $this->arrCatOut] = $objDb->sfGetLevelCatList(false);
 
         if (isset($arrForm['category_id']) && !is_array($arrForm['category_id'])) {
             $arrForm['category_id'] = SC_Utils_Ex::jsonDecode($arrForm['category_id']);
@@ -913,7 +913,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
                 FROM dtb_products_class
             ) AS T2
                 ON T1.product_id = T2.product_id_sub
-__EOF__;
+            __EOF__;
         $where = 'product_id = ?';
         $objQuery->setLimit('1');
         $arrProduct = $objQuery->select($col, $table, $where, [$product_id]);
@@ -1019,7 +1019,7 @@ __EOF__;
         $objDb = new SC_Helper_DB_Ex();
         $arrCategoryList = [];
 
-        list($arrCatVal, $arrCatOut) = $objDb->sfGetLevelCatList(false);
+        [$arrCatVal, $arrCatOut] = $objDb->sfGetLevelCatList(false);
         for ($i = 0; $i < count($arrCatVal); $i++) {
             $arrCategoryList[$arrCatVal[$i]] = $arrCatOut[$i];
         }

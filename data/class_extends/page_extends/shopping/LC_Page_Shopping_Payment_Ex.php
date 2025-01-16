@@ -21,47 +21,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- * APIのページクラス.
- *
- * @author EC-CUBE CO.,LTD.
- *
- * @version $Id$
+require_once CLASS_REALDIR.'pages/shopping/LC_Page_Shopping_Payment.php';
+
+/*
+ * 決済モジュールやプラグイン、 user_data 以下の PHP で require されているため削除しないでください
  */
-class LC_Page_Api_Php extends LC_Page_Ex
+
+class LC_Page_Shopping_Payment_Ex extends LC_Page_Shopping_Payment
 {
-    /**
-     * Page を初期化する.
-     *
-     * @return void
-     */
-    public function init()
-    {
-        parent::init();
-    }
-
-    /**
-     * Page のプロセス.
-     *
-     * @return void
-     */
-    public function process()
-    {
-        $this->action();
-        // $this->sendResponse();
-    }
-
-    /**
-     * Page のアクション.
-     *
-     * @return void
-     */
-    public function action()
-    {
-        $arrParam = $_REQUEST;
-
-        [$response_outer, $arrResponse] = SC_Api_Operation_Ex::doApiAction($arrParam);
-        SC_Api_Operation_Ex::sendApiResponse('php', $response_outer, $arrResponse);
-        SC_Response_Ex::actionExit();
-    }
 }

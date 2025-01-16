@@ -194,7 +194,8 @@ class SC_Helper_Address
             $error_flg = true;
         }
 
-        if (isset($arrParam['other_deliv_id']) && (!is_numeric($arrParam['other_deliv_id']) || !preg_match("/^\d+$/", $arrParam['other_deliv_id']))) {
+        if (isset($arrParam['other_deliv_id']) && $arrParam['other_deliv_id'] !== ''
+            && (!is_numeric($arrParam['other_deliv_id']) || !preg_match("/^\d+$/", $arrParam['other_deliv_id']))) {
             $error_flg = true;
         }
 

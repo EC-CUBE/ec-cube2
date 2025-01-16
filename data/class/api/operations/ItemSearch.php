@@ -193,7 +193,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
 
         // カテゴリからのWHERE文字列取得
         if (!SC_Utils_Ex::isBlank($arrSearchData['category_id'])) {
-            list($searchCondition['where_category'], $searchCondition['arrvalCategory']) = SC_Helper_DB_Ex::sfGetCatWhere($arrSearchData['category_id']);
+            [$searchCondition['where_category'], $searchCondition['arrvalCategory']] = SC_Helper_DB_Ex::sfGetCatWhere($arrSearchData['category_id']);
         }
         // ▼対象商品IDの抽出
         // 商品検索条件の作成（未削除、表示）

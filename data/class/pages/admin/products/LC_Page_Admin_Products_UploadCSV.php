@@ -690,8 +690,11 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
             if ($item['product_id'] == '') {
                 $arrErr['product_class_id'] = '※ 商品規格ID指定時には商品IDの指定が必須です。';
             } else {
-                if (!$this->objDb->sfIsRecord('dtb_products_class', 'product_id, product_class_id',
-                    [$item['product_id'], $item['product_class_id']])
+                if (!$this->objDb->sfIsRecord(
+                    'dtb_products_class',
+                    'product_id, product_class_id',
+                    [$item['product_id'], $item['product_class_id']]
+                )
                 ) {
                     $arrErr['product_class_id'] = '※ 指定の商品IDと商品規格IDの組合せは正しくありません。';
                 }

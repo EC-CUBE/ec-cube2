@@ -146,7 +146,7 @@ class SC_DB_DBFactory_PGSQL extends SC_DB_DBFactory
                         ELSE 0
                     END
             )
-__EOS__;
+            __EOS__;
 
         return $sql;
     }

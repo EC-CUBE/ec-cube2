@@ -36,3 +36,6 @@ EC-CUBE2.17.2 までは、 [data/class](../class/) 以下すべてのクラス�
 - [data/class_extends/page_extends/mypage/LC_Page_AbstractMypage_Ex.php](page_extends/mypage/LC_Page_AbstractMypage_Ex.php)
 - [data/class_extends/page_extends/LC_Page_Ex.php](page_extends/LC_Page_Ex.php)
 - [data/class_extends/page_extends/admin/LC_Page_Admin_Ex.php](page_extends/admin/LC_Page_Admin_Ex.php)
+- [data/class_extends/page_extends/shopping/LC_Page_Shopping_Payment_Ex.php](page_extends/shopping/LC_Page_Shopping_Payment_Ex.php)
+- [data/class_extends/page_extends/shopping/LC_Page_Shopping_LoadPaymentModule_Ex.php](page_extends/shopping/LC_Page_Shopping_LoadPaymentModule_Ex.php)
+- [data/class_extends/SC_Display_Ex.php](SC_Display_Ex.php)

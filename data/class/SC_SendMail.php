@@ -65,8 +65,10 @@ class SC_SendMail
         $this->port = SMTP_PORT;
 
         // PEAR::Mailを使ってメール送信オブジェクト作成
-        $this->objMail = &Mail::factory($this->backend,
-            $this->getBackendParams($this->backend));
+        $this->objMail = &Mail::factory(
+            $this->backend,
+            $this->getBackendParams($this->backend)
+        );
         if (PEAR::isError($this->objMail)) {
             // XXX 環境によっては文字エンコードに差異がないか些か心配
             trigger_error($this->objMail->getMessage(), E_USER_ERROR);
