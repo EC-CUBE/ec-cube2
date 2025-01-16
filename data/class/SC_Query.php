@@ -762,7 +762,7 @@ class SC_Query
      * @param  array   $arrWhereVal プレースホルダ配列
      * @param  int $fetchmode   使用するフェッチモード。デフォルトは MDB2_FETCHMODE_ASSOC。
      *
-     * @return array   array('カラム名' => '値', ...)の連想配列
+     * @return array|null   array('カラム名' => '値', ...)の連想配列。一致なしは null。
      */
     public function getRow($col, $table = '', $where = '', $arrWhereVal = [], $fetchmode = MDB2_FETCHMODE_ASSOC)
     {
@@ -1092,7 +1092,8 @@ class SC_Query
      * @param MDB2_Statement_Common プリペアドステートメントインスタンス
      * @param  array       $arrVal プレースホルダに挿入する配列
      *
-     * @return MDB2_Result|int|MDB2_Error MDB2_Result or integer (affected rows).
+     * @return MDB2_Result|int|MDB2_Error|MDB2_Result_pgsql|MDB2_Result_mysql|MDB2_Result_mysqli
+     *     MDB2_Result or integer (affected rows).
      */
     public function execute(&$sth, $arrVal = [])
     {
