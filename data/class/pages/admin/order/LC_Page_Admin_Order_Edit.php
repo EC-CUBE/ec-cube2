@@ -706,7 +706,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 'shipping_date_day' => $day,
             ]);
             $objError->doFunc(['お届け日', 'shipping_date_year', 'shipping_date_month', 'shipping_date_day'], ['CHECK_DATE']);
-            $arrErrDate['shipping_date_year'][$key_index] = isset($objError->arrErr['shipping_date_year']) ? $objError->arrErr['shipping_date_year'] : '';
+            $arrErrDate['shipping_date_year'][$key_index] = $objError->arrErr['shipping_date_year'] ?? '';
         }
         $arrErrTemp = array_merge($arrErrTemp, $arrErrDate);
 
@@ -726,7 +726,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         if (!isset($arrErrTemp['order_birth_year'])) {
             $arrErrTemp['order_birth_year'] = '';
         }
-        $arrErrTemp['order_birth_year'] = isset($objError->arrErr['order_birth_year']) ? $objError->arrErr['order_birth_year'] : '';
+        $arrErrTemp['order_birth_year'] = $objError->arrErr['order_birth_year'] ?? '';
 
         // 商品の種類数
         $max = count($arrValues['quantity']);
@@ -1343,13 +1343,11 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $arrAddProducts = [];
             $arrTax = SC_Helper_TaxRule_Ex::getTaxRule($arrAddProductInfo['product_id']);
 
-            $arrAddProductInfo['product_name'] = isset($arrAddProductInfo['product_name'])
-                ? $arrAddProductInfo['product_name']
-                : $arrAddProductInfo['name'];
+            $arrAddProductInfo['product_name'] ??= 
+                 $arrAddProductInfo['name'];
 
-            $arrAddProductInfo['price'] = isset($arrAddProductInfo['price'])
-                ? $arrAddProductInfo['price']
-                : $arrAddProductInfo['price02'];
+            $arrAddProductInfo['price'] ??= 
+                 $arrAddProductInfo['price02'];
 
             $arrAddProductInfo['quantity'] = 1;
             $arrAddProductInfo['tax_rate'] = ($objFormParam->getValue('order_tax_rate') == '')
