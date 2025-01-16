@@ -1343,17 +1343,12 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             $arrAddProducts = [];
             $arrTax = SC_Helper_TaxRule_Ex::getTaxRule($arrAddProductInfo['product_id']);
 
-            $arrAddProductInfo['product_name'] ??= 
-                 $arrAddProductInfo['name'];
-
-            $arrAddProductInfo['price'] ??= 
-                 $arrAddProductInfo['price02'];
-
+            $arrAddProductInfo['product_name'] ??= $arrAddProductInfo['name'];
+            $arrAddProductInfo['price'] ??= $arrAddProductInfo['price02'];
             $arrAddProductInfo['quantity'] = 1;
             $arrAddProductInfo['tax_rate'] = ($objFormParam->getValue('order_tax_rate') == '')
                 ? $arrTax['tax_rate']
                 : $objFormParam->getValue('order_tax_rate');
-
             $arrAddProductInfo['tax_rule'] = ($objFormParam->getValue('order_tax_rule') == '')
                 ? $arrTax['tax_rule']
                 : $objFormParam->getValue('order_tax_rule');
