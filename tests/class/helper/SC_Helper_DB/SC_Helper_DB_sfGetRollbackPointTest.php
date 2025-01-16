@@ -70,6 +70,6 @@ class SC_Helper_DB_sfGetRollbackPointTest extends SC_Helper_DB_TestBase
 
     protected function secenario($use_point, $add_point, $order_status)
     {
-        list($this->order_point, $this->rollback_point) = SC_Helper_DB_Ex::sfGetRollbackPoint($this->order_id, $use_point, $add_point, $order_status);
+        [$this->order_point, $this->rollback_point] = SC_Helper_DB_Ex::sfGetRollbackPoint($this->order_id, $use_point, $add_point, $order_status);
     }
 }

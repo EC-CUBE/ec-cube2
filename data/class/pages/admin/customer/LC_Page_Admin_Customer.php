@@ -119,16 +119,16 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
         switch ($this->getMode()) {
             case 'delete':
                 $this->is_delete = $this->lfDoDeleteCustomer($objFormParam->getValue('edit_customer_id'));
-                list($this->tpl_linemax, $this->arrData, $this->objNavi) = $this->lfDoSearch($objFormParam->getHashArray());
+                [$this->tpl_linemax, $this->arrData, $this->objNavi] = $this->lfDoSearch($objFormParam->getHashArray());
                 $this->arrPagenavi = $this->objNavi->arrPagenavi;
                 break;
             case 'resend_mail':
                 $this->is_resendmail = $this->lfDoResendMail($objFormParam->getValue('edit_customer_id'));
-                list($this->tpl_linemax, $this->arrData, $this->objNavi) = $this->lfDoSearch($objFormParam->getHashArray());
+                [$this->tpl_linemax, $this->arrData, $this->objNavi] = $this->lfDoSearch($objFormParam->getHashArray());
                 $this->arrPagenavi = $this->objNavi->arrPagenavi;
                 break;
             case 'search':
-                list($this->tpl_linemax, $this->arrData, $this->objNavi) = $this->lfDoSearch($objFormParam->getHashArray());
+                [$this->tpl_linemax, $this->arrData, $this->objNavi] = $this->lfDoSearch($objFormParam->getHashArray());
                 $this->arrPagenavi = $this->objNavi->arrPagenavi;
                 break;
             case 'csv':
@@ -227,7 +227,7 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
 
         $order = 'update_date DESC, customer_id DESC';
 
-        list($where, $arrVal) = $objSelect->getWhere();
+        [$where, $arrVal] = $objSelect->getWhere();
 
         return $objCSV->sfDownloadCsv('2', $where, $arrVal, $order, true);
     }

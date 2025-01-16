@@ -621,8 +621,8 @@ class SC_CheckError
         $keyname2 = $value[2];
         $keyname3 = $value[3];
 
-        $telItemLen = isset($value[4]) ? $value[4] : TEL_ITEM_LEN;
-        $telLen = isset($value[5]) ? $value[5] : TEL_LEN;
+        $telItemLen = $value[4] ?? TEL_ITEM_LEN;
+        $telLen = $value[5] ?? TEL_LEN;
 
         if (isset($this->arrErr[$keyname1])
             || isset($this->arrErr[$keyname2])
@@ -1405,8 +1405,10 @@ class SC_CheckError
         // 年が入力されている。
         if (strlen($this->arrParam[$keyname]) >= 1) {
             // 年の数字チェック、最小数値制限チェック
-            $this->doFunc(["{$disp_name}(年)", $keyname, BIRTH_YEAR],
-                ['NUM_CHECK', 'MIN_CHECK']);
+            $this->doFunc(
+                ["{$disp_name}(年)", $keyname, BIRTH_YEAR],
+                ['NUM_CHECK', 'MIN_CHECK']
+            );
             // 上のチェックでエラーある場合、中断する。
             if (isset($this->arrErr[$keyname])) {
                 return;
@@ -1414,8 +1416,10 @@ class SC_CheckError
 
             // 年の最大数値制限チェック
             $current_year = date('Y');
-            $this->doFunc(["{$disp_name}(年)", $keyname, $current_year],
-                ['MAX_CHECK']);
+            $this->doFunc(
+                ["{$disp_name}(年)", $keyname, $current_year],
+                ['MAX_CHECK']
+            );
             // 上のチェックでエラーある場合、中断する。
             if (isset($this->arrErr[$keyname])) {
                 return;
@@ -1555,12 +1559,24 @@ class SC_CheckError
         if ((strlen($start_year) > 0 && strlen($start_month) > 0 && strlen($start_day) > 0 && strlen($start_hour) > 0)
             && (strlen($end_year) > 0 || strlen($end_month) > 0 || strlen($end_day) > 0 || strlen($end_hour) > 0)
         ) {
-            $date1 = sprintf('%d%02d%02d%02d%02d%02d',
-                $start_year, $start_month, $start_day,
-                $start_hour, $start_minute, $start_second);
-            $date2 = sprintf('%d%02d%02d%02d%02d%02d',
-                $end_year, $end_month, $end_day,
-                $end_hour, $end_minute, $end_second);
+            $date1 = sprintf(
+                '%d%02d%02d%02d%02d%02d',
+                $start_year,
+                $start_month,
+                $start_day,
+                $start_hour,
+                $start_minute,
+                $start_second
+            );
+            $date2 = sprintf(
+                '%d%02d%02d%02d%02d%02d',
+                $end_year,
+                $end_month,
+                $end_day,
+                $end_hour,
+                $end_minute,
+                $end_second
+            );
 
             if ((!isset($this->arrErr[$keyname1]) && !isset($this->arrErr[$keyname2])) && $date1 > $date2) {
                 $this->arrErr[$keyname1] =

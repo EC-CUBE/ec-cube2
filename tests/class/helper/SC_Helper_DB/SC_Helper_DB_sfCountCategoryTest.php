@@ -72,7 +72,9 @@ class SC_Helper_DB_sfCountCategoryTest extends SC_Helper_DB_TestBase
                 'stock' => 0,
                 'stock_unlimited' => 0,
             ],
-            'product_id = ?', [$this->product_id]);
+            'product_id = ?',
+            [$this->product_id]
+        );
         $this->objDb->updateProductCategories($this->category_ids, $this->product_id);
         $this->objDb->sfCountCategory($this->objQuery, true, true);
         $category_counts = $this->objQuery->select('*', 'dtb_category_count');

@@ -122,10 +122,12 @@ class LC_Page_Admin_Mail_TemplateInput extends LC_Page_Admin_Ex
 
         if (SC_Utils_Ex::sfIsInt($template_id)) {
             // 更新時
-            $objQuery->update('dtb_mailmaga_template',
+            $objQuery->update(
+                'dtb_mailmaga_template',
                 $sqlval,
                 'template_id = ?',
-                [$template_id]);
+                [$template_id]
+            );
         } else {
             // 新規登録時
             $sqlval['create_date'] = 'CURRENT_TIMESTAMP';

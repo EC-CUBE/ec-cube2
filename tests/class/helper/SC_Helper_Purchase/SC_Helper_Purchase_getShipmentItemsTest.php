@@ -100,13 +100,15 @@ class SC_Helper_Purchase_getShipmentItemsTest extends SC_Helper_Purchase_TestBas
         $result = SC_Helper_Purchase::getShipmentItems($order_id, $shipping_id);
         $this->actual['count'] = count($result);
 
-        $this->actual['first'] = Test_Utils::mapArray($result[0],
+        $this->actual['first'] = Test_Utils::mapArray(
+            $result[0],
             [
                 'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass',
             ]
         );
         $this->actual['first']['productsClass'] = Test_Utils::mapArray($this->actual['first']['productsClass'], ['product_class_id', 'product_id']);
-        $this->actual['second'] = Test_Utils::mapArray($result[1],
+        $this->actual['second'] = Test_Utils::mapArray(
+            $result[1],
             [
                 'order_id', 'shipping_id', 'product_class_id', 'product_name', 'price', 'productsClass',
             ]
