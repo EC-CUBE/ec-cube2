@@ -8,4 +8,7 @@ export class FakerUtils {
   static dummyImage() {
     return path.join(__dirname, '..', 'fixtures', 'images', 'main.jpg');
   }
+  static createPassword() {
+    return faker.string.uuid();
+  }
 }

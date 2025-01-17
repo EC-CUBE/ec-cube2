@@ -4,6 +4,8 @@ import { ZapClient } from '../../utils/ZapClient';
 export class MypageLoginPage {
   readonly page: Page;
   readonly url: string;
+  readonly email: string;
+  readonly password: string;
 
   readonly loginEmail: Locator;
   readonly loginPass: Locator;
@@ -11,9 +13,11 @@ export class MypageLoginPage {
   readonly logoutButton: Locator;
   zapClient: ZapClient;
 
-  constructor(page: Page) {
+  constructor(page: Page, email: string, password: string) {
     this.page = page;
     this.url = '/mypage/login.php';
+    this.email = email;
+    this.password = password;
 
     this.loginEmail = page.getByRole('textbox', { name: 'メールアドレスを入力して下さい' });
     this.loginPass = page.getByRole('textbox', { name: 'パスワードを入力して下さい' });
@@ -26,9 +30,9 @@ export class MypageLoginPage {
     await this.page.goto(this.url);
   }
 
-  async login(email: string, password: string) {
-    await this.loginEmail.fill(email);
-    await this.loginPass.fill(password);
+  async login() {
+    await this.loginEmail.fill(this.email);
+    await this.loginPass.fill(this.password);
     await this.loginButton.click();
   }
 

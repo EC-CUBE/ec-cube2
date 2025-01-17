@@ -1,6 +1,6 @@
 import { Locator, Page } from '@playwright/test';
 import { PersonalInputPage } from '../personal_input.page';
-import { faker } from '@faker-js/faker/locale/ja';
+import { FakerUtils } from '../../utils/FakerUtils';
 
 export class EntryPage  {
   readonly page: Page;
@@ -14,7 +14,7 @@ export class EntryPage  {
 
   constructor(page: Page, email?: string, password?: string, url?: string) {
     this.page = page;
-    this.password = password ?? faker.string.uuid();
+    this.password = password ?? FakerUtils.createPassword();
     this.url = url ?? '/entry/kiyaku.php';
     this.registerButton = page.locator('[alt=会員登録をする]');
     this.confirmButton = page.locator('[alt=確認ページへ]');

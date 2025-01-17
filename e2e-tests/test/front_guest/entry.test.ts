@@ -2,7 +2,6 @@ import { test, expect, request, APIRequestContext } from '@playwright/test';
 
 import { EntryPage } from '../../pages/entry/entry.page';
 import PlaywrightConfig from '../../../playwright.config';
-import { faker } from '@faker-js/faker/locale/ja';
 import { FakerUtils } from '../../utils/FakerUtils';
 
 const url = '/entry/kiyaku.php';
@@ -24,7 +23,7 @@ test.describe.serial('会員登録のテストをします', () => {
 
   test('会員登録のテストをします', async ({ page }) => {
     await page.goto(url);
-    const password = faker.string.uuid();
+    const password = FakerUtils.createPassword();
     const email = FakerUtils.createEmail();
     const entryPage = new EntryPage(page, email, password, url);
 

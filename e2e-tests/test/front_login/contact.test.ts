@@ -24,7 +24,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
 
   test.describe('テストを実行します[GET] @attack', () => {
     let scanId: number;
-    test('アクティブスキャンを実行します', async () => {
+    test('アクティブスキャンを実行します', async ({ page }) => {
       const contactPage = new ContactPage(page);
       const zapClient = contactPage.getZapClient();
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'GET');
@@ -40,8 +40,8 @@ test.describe.serial('お問い合わせページのテストをします', () =
     await page.goto(url);
     await expect(page.locator('#header')).toContainText('ようこそ');
     inputNames.forEach(async (name) => expect(page.locator(`input[name=${ name }]`)).not.toBeEmpty());
-    await expect(page.locator('input[name=email]')).toHaveValue('zap_user@example.com');
-    await expect(page.locator('input[name=email02]')).toHaveValue('zap_user@example.com');
+    await expect(page.locator('input[name=email]')).toHaveValue(mypageLoginPage.email);
+    await expect(page.locator('input[name=email02]')).toHaveValue(mypageLoginPage.email);
   });
 
   let confirmMessage: HttpMessage;
@@ -64,7 +64,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
       await expect(page.locator(`input[name=${ name }]`)).not.toBeEmpty();
     });
     await expect(page.locator('input[name=email]')).toBeHidden();
-    await expect(page.locator('input[name=email]')).toHaveValue('zap_user@example.com');
+    await expect(page.locator('input[name=email]')).toHaveValue(mypageLoginPage.email);
     await expect(page.locator('input[name=contents]')).toBeHidden();
     await expect(page.locator('input[name=contents]')).toHaveValue('お問い合わせ入力');
 
@@ -79,7 +79,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
     await expect(page.locator('#form1 >> tr:nth-child(5) > td')).toContainText(await page.locator('input[name=tel01]').inputValue());
     await expect(page.locator('#form1 >> tr:nth-child(5) > td')).toContainText(await page.locator('input[name=tel02]').inputValue());
     await expect(page.locator('#form1 >> tr:nth-child(5) > td')).toContainText(await page.locator('input[name=tel03]').inputValue());
-    await expect(page.locator('#form1 >> tr:nth-child(6) > td')).toContainText('zap_user@example.com');
+    await expect(page.locator('#form1 >> tr:nth-child(6) > td')).toContainText(mypageLoginPage.email);
     await expect(page.locator('#form1 >> tr:nth-child(7) > td')).toContainText('お問い合わせ入力');
 
     // お問い合わせ内容を送信します
@@ -112,7 +112,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
   test.describe('テストを実行します[POST][確認→完了] @attack', () => {
     let requestBody: string;
 
-    test('アクティブスキャンを実行します', async () => {
+    test('アクティブスキャンを実行します', async ({ page }) => {
 
       // transactionid を取得し直します
       await page.goto(url);
