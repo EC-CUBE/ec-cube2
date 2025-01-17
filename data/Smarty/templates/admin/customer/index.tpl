@@ -136,7 +136,7 @@
                     <tr>
                         <td class="center" rowspan="2"><!--{if $row.status eq 1}-->仮<!--{else}-->本<!--{/if}--></td>
                         <td><!--{$row.customer_id|h}--></td>
-                        <td rowspan="2"><!--{$row.name01|h}--> <!--{$row.name02|h}--><br />(<!--{$row.kana01|h}--> <!--{$row.kana02|h}-->)</td>
+                        <td rowspan="2"><!--{$row|format_name|h}--><br />(<!--{$row|format_name:'kana'|h}-->)</td>
                         <td class="center" rowspan="2"><!--{$arrSex[$row.sex]|h}--></td>
                         <td><!--{$row.tel01|h}-->-<!--{$row.tel02|h}-->-<!--{$row.tel03|h}--></td>
                         <td class="center" rowspan="2"><span class="icon_edit"><a href="#" onclick="return fnEdit('<!--{$row.customer_id|h}-->');">編集</a></span></td>
