@@ -319,7 +319,12 @@ class LC_Page
                 $device_type_id = DEVICE_TYPE_PC;
             }
 
-            $layout->sfGetPageLayout($this, false, $_SERVER['SCRIPT_NAME'], $device_type_id);
+            $layout->sfGetPageLayout(
+                $this,
+                false,
+                $_SERVER['SCRIPT_NAME'],
+                $device_type_id
+            );
         }
 
         // スーパーフックポイントを実行.

@@ -69,7 +69,7 @@ class SC_FormParam
         // TODO: debug_backtrace以外にいい方法があれば良いが、一旦これで
         $backtraces = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS, 2);
         // 呼び出し元のクラスを取得
-        $class = $backtraces[1]['class'];
+        $class = $backtraces[1]['class'] ?? null;
         $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance();
         if (is_object($objPlugin)) {
             $objPlugin->doAction('SC_FormParam_construct', [$class, $this]);
@@ -234,8 +234,13 @@ class SC_FormParam
                     case 'FILE_NAME_CHECK_BY_NOUPLOAD':
                     case 'NUM_POINT_CHECK':
                     case 'PREF_CHECK':
-                        $this->recursionCheck($this->disp_name[$index], $func,
-                            $value, $arrErr[$key], $this->length[$index]);
+                        $this->recursionCheck(
+                            $this->disp_name[$index],
+                            $func,
+                            $value,
+                            $arrErr[$key],
+                            $this->length[$index]
+                        );
                         if (SC_Utils_Ex::isBlank($arrErr[$key])) {
                             unset($arrErr[$key]);
                         }
@@ -284,14 +289,23 @@ class SC_FormParam
      *
      * @return void
      */
-    public function recursionCheck($disp_name, $func, $value, &$arrErr,
+    public function recursionCheck(
+        $disp_name,
+        $func,
+        $value,
+        &$arrErr,
         $length = 0
     ) {
         // 配列の場合は、再帰実行
         if (is_array($value)) {
             foreach ($value as $key => $in) {
-                $this->recursionCheck($disp_name, $func, $in, $arrErr[$key],
-                    $length);
+                $this->recursionCheck(
+                    $disp_name,
+                    $func,
+                    $in,
+                    $arrErr[$key],
+                    $length
+                );
                 if (SC_Utils_Ex::isBlank($arrErr[$key])) {
                     unset($arrErr[$key]);
                 }
@@ -436,7 +450,7 @@ class SC_FormParam
     {
         $ret = null;
         if (in_array($keyname, $this->keyname)) {
-            $ret = isset($this->arrValue[$keyname]) ? $this->arrValue[$keyname] : $this->arrDefault[$keyname];
+            $ret = $this->arrValue[$keyname] ?? $this->arrDefault[$keyname];
         }
 
         if (is_array($ret)) {

@@ -829,13 +829,17 @@ class SC_Query
      * @param string $where       WHERE句
      * @param array  $arrWhereVal プレースホルダ
      *
-     * @return
+     * @return int|MDB2_Error 削除件数
      */
     public function delete($table, $where = '', $arrWhereVal = [])
     {
-        // 空deleteは実行しない
-        if ($this->count($table, $where, $arrWhereVal) == 0) {
-            return;
+        // デッドロックを生じ得る条件の場合、空 DELETE を避ける
+        if (
+            $this->dbFactory->isSkipDeleteIfNotExists()
+            && $this->inTransaction()
+            && !$this->exists($table, $where, $arrWhereVal)
+        ) {
+            return 0;
         }
 
         if (strlen($where) <= 0) {
@@ -908,7 +912,7 @@ class SC_Query
      * @param  mixed   $types        プレースホルダの型指定 デフォルトnull = string
      * @param  mixed   $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)
      *
-     * @return array   SQL の実行結果の配列
+     * @return MDB2_Result|int|MDB2_Error   SQL の実行結果
      */
     public function query($n, $arr = [], $ignore_err = false, $types = null, $result_types = MDB2_PREPARE_RESULT)
     {
@@ -1069,7 +1073,7 @@ class SC_Query
      * @param  mixed                 $types        プレースホルダの型指定 デフォルト null
      * @param  mixed                 $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)、nullは指定無し
      *
-     * @return MDB2_Statement_Common プリペアドステートメントインスタンス
+     * @return MDB2_Statement_Common|MDB2_Error プリペアドステートメントインスタンス
      */
     public function prepare($sql, $types = null, $result_types = MDB2_PREPARE_RESULT)
     {
@@ -1088,7 +1092,7 @@ class SC_Query
      * @param MDB2_Statement_Common プリペアドステートメントインスタンス
      * @param  array       $arrVal プレースホルダに挿入する配列
      *
-     * @return MDB2_Result 結果セットのインスタンス
+     * @return MDB2_Result|int|MDB2_Error MDB2_Result or integer (affected rows).
      */
     public function execute(&$sth, $arrVal = [])
     {
@@ -1106,7 +1110,7 @@ class SC_Query
         $pear_property = $bak;
 
         if (PEAR::isError($affected)) {
-            $sql = isset($sth->query) ? $sth->query : '';
+            $sql = $sth->query ?? '';
             $msg = $this->traceError($affected, $sql, $arrVal);
             $this->error($msg);
         }

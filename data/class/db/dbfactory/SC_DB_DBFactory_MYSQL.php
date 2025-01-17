@@ -157,15 +157,15 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
     public function getDownloadableDaysWhereSql($dtb_order_alias = 'dtb_order')
     {
         $sql = <<< __EOS__
-        (
-            SELECT
-                IF (
-                    (SELECT d1.downloadable_days_unlimited FROM dtb_baseinfo d1) = 1 AND $dtb_order_alias.payment_date IS NOT NULL,
-                    1,
-                    IF( DATE(CURRENT_TIMESTAMP) <= DATE(DATE_ADD($dtb_order_alias.payment_date, INTERVAL (SELECT downloadable_days FROM dtb_baseinfo) DAY)), 1, 0)
-                )
-        )
-__EOS__;
+            (
+                SELECT
+                    IF (
+                        (SELECT d1.downloadable_days_unlimited FROM dtb_baseinfo d1) = 1 AND $dtb_order_alias.payment_date IS NOT NULL,
+                        1,
+                        IF( DATE(CURRENT_TIMESTAMP) <= DATE(DATE_ADD($dtb_order_alias.payment_date, INTERVAL (SELECT downloadable_days FROM dtb_baseinfo) DAY)), 1, 0)
+                    )
+            )
+            __EOS__;
 
         return $sql;
     }
@@ -388,5 +388,16 @@ __EOS__;
             $objQuery->exec('SET SESSION storage_engine = InnoDB');
         }
         $objQuery->exec("SET SESSION sql_mode = 'ANSI'");
+    }
+
+    public function getTransactionIsolationLevel()
+    {
+        // TODO: デフォルトを返している。実際のレベルを返すのが望ましい。しかし、毎回 `SELECT @@session.transaction_isolation` などを実行するのは避けたい。
+        return static::ISOLATION_LEVEL_REPEATABLE_READ;
+    }
+
+    public function isSkipDeleteIfNotExists()
+    {
+        return $this->getTransactionIsolationLevel() >= static::ISOLATION_LEVEL_REPEATABLE_READ;
     }
 }

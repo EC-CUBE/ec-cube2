@@ -102,8 +102,10 @@ class LC_Page_Admin_System_Parameter extends LC_Page_Admin_Ex
         }
 
         // コメント, 値の配列を生成
-        $this->arrComments = SC_Utils_Ex::getHash2Array($masterData->getDBMasterData('mtb_constants',
-            ['id', 'remarks', 'rank']));
+        $this->arrComments = SC_Utils_Ex::getHash2Array($masterData->getDBMasterData(
+            'mtb_constants',
+            ['id', 'remarks', 'rank']
+        ));
     }
 
     /**
@@ -145,7 +147,8 @@ class LC_Page_Admin_System_Parameter extends LC_Page_Admin_Ex
                     $arrForm[$arrKeys[$i]
                     ],
                 ],
-                ['EXIST_CHECK_REVERSE', 'EVAL_CHECK']);
+                ['EXIST_CHECK_REVERSE', 'EVAL_CHECK']
+            );
         }
 
         return $objErr->arrErr;

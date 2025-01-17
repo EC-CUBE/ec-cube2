@@ -362,7 +362,7 @@ class SC_UploadFile
                     $width = 0;
                     $height = 0;
                     if (is_file($arrRet[$val]['real_filepath'])) {
-                        list($width, $height) = getimagesize($arrRet[$val]['real_filepath']);
+                        [$width, $height] = getimagesize($arrRet[$val]['real_filepath']);
                     }
                     // ファイル横幅
                     $arrRet[$val]['width'] = $width;
@@ -426,7 +426,7 @@ class SC_UploadFile
             if (isset($this->temp_file[$cnt]) && $this->temp_file[$cnt] != '') {
                 $dbFileList[$val] = $this->temp_file[$cnt];
             } else {
-                $dbFileList[$val] = isset($this->save_file[$cnt]) ? $this->save_file[$cnt] : '';
+                $dbFileList[$val] = $this->save_file[$cnt] ?? '';
             }
             $cnt++;
         }

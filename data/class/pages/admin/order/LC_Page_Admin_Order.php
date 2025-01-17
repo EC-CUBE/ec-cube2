@@ -142,8 +142,13 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
                             // 全件削除(ADMIN_MODE)
                         case 'delete_all':
                             $page_max = 0;
-                            $arrResults = $this->findOrders($where, $arrWhereVal,
-                                $page_max, 0, $order);
+                            $arrResults = $this->findOrders(
+                                $where,
+                                $arrWhereVal,
+                                $page_max,
+                                0,
+                                $order
+                            );
                             foreach ($arrResults as $element) {
                                 $objPurchase->cancelOrder($element['order_id'], ORDER_CANCEL, true);
                             }
@@ -156,14 +161,23 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
                             // ページ送りの処理
                             $page_max = SC_Utils_Ex::sfGetSearchPageMax($objFormParam->getValue('search_page_max'));
                             // ページ送りの取得
-                            $objNavi = new SC_PageNavi_Ex($this->arrHidden['search_pageno'],
-                                $this->tpl_linemax, $page_max,
-                                'eccube.moveNaviPage', NAVI_PMAX);
+                            $objNavi = new SC_PageNavi_Ex(
+                                $this->arrHidden['search_pageno'],
+                                $this->tpl_linemax,
+                                $page_max,
+                                'eccube.moveNaviPage',
+                                NAVI_PMAX
+                            );
                             $this->arrPagenavi = $objNavi->arrPagenavi;
 
                             // 検索結果の取得
-                            $this->arrResults = $this->findOrders($where, $arrWhereVal,
-                                $page_max, $objNavi->start_row, $order);
+                            $this->arrResults = $this->findOrders(
+                                $where,
+                                $arrWhereVal,
+                                $page_max,
+                                $objNavi->start_row,
+                                $order
+                            );
                             break;
                     }
                 }
@@ -346,44 +360,59 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
                 $arrValues[] = sprintf('%d', $objFormParam->getValue($key));
                 break;
             case 'search_sorderyear':
-                $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_sorderyear'),
+                $date = SC_Utils_Ex::sfGetTimestamp(
+                    $objFormParam->getValue('search_sorderyear'),
                     $objFormParam->getValue('search_sordermonth'),
-                    $objFormParam->getValue('search_sorderday'));
+                    $objFormParam->getValue('search_sorderday')
+                );
                 $where .= ' AND create_date >= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_eorderyear':
-                $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_eorderyear'),
+                $date = SC_Utils_Ex::sfGetTimestamp(
+                    $objFormParam->getValue('search_eorderyear'),
                     $objFormParam->getValue('search_eordermonth'),
-                    $objFormParam->getValue('search_eorderday'), true);
+                    $objFormParam->getValue('search_eorderday'),
+                    true
+                );
                 $where .= ' AND create_date <= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_supdateyear':
-                $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_supdateyear'),
+                $date = SC_Utils_Ex::sfGetTimestamp(
+                    $objFormParam->getValue('search_supdateyear'),
                     $objFormParam->getValue('search_supdatemonth'),
-                    $objFormParam->getValue('search_supdateday'));
+                    $objFormParam->getValue('search_supdateday')
+                );
                 $where .= ' AND update_date >= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_eupdateyear':
-                $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_eupdateyear'),
+                $date = SC_Utils_Ex::sfGetTimestamp(
+                    $objFormParam->getValue('search_eupdateyear'),
                     $objFormParam->getValue('search_eupdatemonth'),
-                    $objFormParam->getValue('search_eupdateday'), true);
+                    $objFormParam->getValue('search_eupdateday'),
+                    true
+                );
                 $where .= ' AND update_date <= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_sbirthyear':
-                $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_sbirthyear'),
+                $date = SC_Utils_Ex::sfGetTimestamp(
+                    $objFormParam->getValue('search_sbirthyear'),
                     $objFormParam->getValue('search_sbirthmonth'),
-                    $objFormParam->getValue('search_sbirthday'));
+                    $objFormParam->getValue('search_sbirthday')
+                );
                 $where .= ' AND order_birth >= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_ebirthyear':
-                $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_ebirthyear'),
+                $date = SC_Utils_Ex::sfGetTimestamp(
+                    $objFormParam->getValue('search_ebirthyear'),
                     $objFormParam->getValue('search_ebirthmonth'),
-                    $objFormParam->getValue('search_ebirthday'), true);
+                    $objFormParam->getValue('search_ebirthday'),
+                    true
+                );
                 $where .= ' AND order_birth <= ?';
                 $arrValues[] = $date;
                 break;

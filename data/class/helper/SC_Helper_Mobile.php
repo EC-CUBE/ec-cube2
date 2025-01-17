@@ -141,9 +141,12 @@ class SC_Helper_Mobile
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         foreach ($_REQUEST as $key => $value) {
-            $session_id = $objQuery->get('session_id', 'dtb_mobile_ext_session_id',
+            $session_id = $objQuery->get(
+                'session_id',
+                'dtb_mobile_ext_session_id',
                 'param_key = ? AND param_value = ? AND url = ? AND create_date >= ?',
-                [$key, $value, $url, $time]);
+                [$key, $value, $url, $time]
+            );
             if (isset($session_id)) {
                 return $session_id;
             }
@@ -362,9 +365,11 @@ class SC_Helper_Mobile
 
         // GC
         $time = date('Y-m-d H:i:s', time() - MOBILE_SESSION_LIFETIME);
-        $objQuery->delete('dtb_mobile_kara_mail',
+        $objQuery->delete(
+            'dtb_mobile_kara_mail',
             '(email IS NULL AND create_date < ?) OR (email IS NOT NULL AND receive_date < ?)',
-            [$time, $time]);
+            [$time, $time]
+        );
 
         $kara_mail_id = $objQuery->get('kara_mail_id', 'dtb_mobile_kara_mail', 'token = ?', [$token]);
         if (!isset($kara_mail_id)) {
@@ -406,7 +411,7 @@ class SC_Helper_Mobile
 
         $objQuery->delete('dtb_mobile_kara_mail', 'token = ?', [$token]);
 
-        list($session_id, $next_url, $email) = $arrRow;
+        [$session_id, $next_url, $email] = $arrRow;
         $objURL = new Net_URL(HTTP_URL.$next_url);
         $objURL->addQueryString(session_name(), $session_id);
         $url = $objURL->getURL();

@@ -223,8 +223,11 @@ class LC_Page_Admin_Design_Template extends LC_Page_Admin_Ex
         } else {
             $objQuery = SC_Query_Ex::getSingletonInstance();
             $objQuery->begin();
-            $objQuery->delete('dtb_templates', 'template_code = ? AND device_type_id = ?',
-                [$template_code, $device_type_id]);
+            $objQuery->delete(
+                'dtb_templates',
+                'template_code = ? AND device_type_id = ?',
+                [$template_code, $device_type_id]
+            );
 
             $error = '※ テンプレートの削除ができませんでした<br />';
             // テンプレート削除

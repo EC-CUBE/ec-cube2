@@ -85,7 +85,7 @@ class SC_Batch_Update extends SC_Batch
                 $suffix = pathinfo($path, PATHINFO_EXTENSION);
 
                 // distinfo の変数定義
-                $distinfo = isset($distinfo) ? $distinfo : '';
+                $distinfo ??= '';
 
                 // distinfo.php を読み込む
                 if ($fileName == 'distinfo.php') {

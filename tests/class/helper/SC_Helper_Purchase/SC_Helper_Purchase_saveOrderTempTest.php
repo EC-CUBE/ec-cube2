@@ -59,7 +59,8 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
     // ///////////////////////////////////////
     public function testSaveOrderTemp受注一時情報IDが空の場合何もしない()
     {
-        $this->helper->saveOrderTemp(null,
+        $this->helper->saveOrderTemp(
+            null,
             [
                 'customer_id' => '1003',
                 'order_name01' => '受注情報03',
@@ -75,7 +76,8 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
 
     public function testSaveOrderTemp既存の情報がない場合情報が新規登録される()
     {
-        $this->helper->saveOrderTemp('1003',
+        $this->helper->saveOrderTemp(
+            '1003',
             [
                 'customer_id' => '1003',
                 'order_name01' => '受注情報03',
@@ -94,14 +96,18 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
         $this->actual['count'] = $this->objQuery->count('dtb_order_temp');
         $this->actual['content'] = $this->objQuery->select(
             'order_temp_id, customer_id, order_name01',
-            'dtb_order_temp', 'order_temp_id = ?', ['1003']);
+            'dtb_order_temp',
+            'order_temp_id = ?',
+            ['1003']
+        );
 
         $this->verify('件数が一件増える');
     }
 
     public function testSaveOrderTemp既存の情報がある場合情報が更新される()
     {
-        $this->helper->saveOrderTemp($this->order_temp_ids[0],
+        $this->helper->saveOrderTemp(
+            $this->order_temp_ids[0],
             [
                 'customer_id' => '2002',
                 'order_name01' => '受注情報92',
@@ -120,14 +126,18 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
         $this->actual['count'] = $this->objQuery->count('dtb_order_temp');
         $this->actual['content'] = $this->objQuery->select(
             'order_temp_id, customer_id, order_name01',
-            'dtb_order_temp', 'order_temp_id = ?', [$this->order_temp_ids[0]]);
+            'dtb_order_temp',
+            'order_temp_id = ?',
+            [$this->order_temp_ids[0]]
+        );
 
         $this->verify('件数が変わらず更新される');
     }
 
     public function testSaveOrderTemp注文者情報がある場合情報がコピーされる()
     {
-        $this->helper->saveOrderTemp('1003',
+        $this->helper->saveOrderTemp(
+            '1003',
             [
                 'order_temp_id' => '1003',
                 'customer_id' => '1003',
@@ -151,9 +161,12 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
 
 class SC_Helper_Purchase_saveOrderTempMock extends SC_Helper_Purchase
 {
-    public static function copyFromCustomer(&$sqlval, &$objCustomer, $prefix = 'order',
-        $keys = [])
-    {
+    public static function copyFromCustomer(
+        &$sqlval,
+        &$objCustomer,
+        $prefix = 'order',
+        $keys = []
+    ) {
         echo 'COPY_FROM_CUSTOMER';
     }
 }

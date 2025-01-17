@@ -69,8 +69,7 @@ class SC_CartSession
     // 商品購入中の変更があったかをチェックする。
     public function getCancelPurchase($product_type_id)
     {
-        $ret = isset($this->cartSession[$product_type_id]['cancel_purchase'])
-            ? $this->cartSession[$product_type_id]['cancel_purchase'] : '';
+        $ret = $this->cartSession[$product_type_id]['cancel_purchase'] ?? '';
         $this->cartSession[$product_type_id]['cancel_purchase'] = false;
 
         return $ret;
@@ -332,7 +331,7 @@ class SC_CartSession
      */
     public function getPrevURL()
     {
-        return isset($_SESSION['prev_url']) ? $_SESSION['prev_url'] : '';
+        return $_SESSION['prev_url'] ?? '';
     }
 
     // キーが一致した商品の削除

@@ -415,12 +415,12 @@
                     <td class="center">
                         <!--{assign var=key value="price"}-->
                         <span class="attention"><!--{$arrErr[$key][$product_index]}--></span>
-                        <input type="text" name="<!--{$key}-->[<!--{$product_index}-->]" value="<!--{$arrForm[$key].value[$product_index]|h}-->" size="6" class="box6" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$product_index]|sfGetErrorColor}-->" id="<!--{$key}-->_<!--{$product_index}-->" /> 円
+                        <input type="number" name="<!--{$key}-->[<!--{$product_index}-->]" value="<!--{$arrForm[$key].value[$product_index]|h}-->" size="6" class="box6" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$product_index]|sfGetErrorColor}-->" id="<!--{$key}-->_<!--{$product_index}-->" /> 円
                     </td>
                     <td class="center">
                         <!--{assign var=key value="quantity"}-->
                         <span class="attention"><!--{$arrErr[$key][$product_index]}--></span>
-                        <input type="text" name="<!--{$key}-->[<!--{$product_index}-->]" value="<!--{$arrForm[$key].value[$product_index]|h}-->" size="3" class="box3" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$product_index]|sfGetErrorColor}-->" id="<!--{$key}-->_<!--{$product_index}-->"  onChange="quantityCopyForSingleShipping('<!--{$product_index}-->')" />
+                        <input type="number" name="<!--{$key}-->[<!--{$product_index}-->]" value="<!--{$arrForm[$key].value[$product_index]|h}-->" size="3" class="box3" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$product_index]|sfGetErrorColor}-->" id="<!--{$key}-->_<!--{$product_index}-->"  onChange="quantityCopyForSingleShipping('<!--{$product_index}-->')" />
                     </td>
                     <!--{assign var=price value="`$arrForm.price.value[$product_index]`"}-->
                     <!--{assign var=quantity value="`$arrForm.quantity.value[$product_index]`"}-->
@@ -432,7 +432,7 @@
                         <!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|n2s}--> 円<br />
                         <!--{assign var=key value="tax_rate"}-->
                         <span class="attention"><!--{$arrErr[$key][$product_index]}--></span>
-                        税率<input type="text" name="<!--{$key}-->[<!--{$product_index}-->]" value="<!--{$arrForm[$key].value[$product_index]|h}-->" size="3" class="box3" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$product_index]|sfGetErrorColor}-->" id="<!--{$key}-->_<!--{$product_index}-->" />%
+                        税率<input type="number" name="<!--{$key}-->[<!--{$product_index}-->]" value="<!--{$arrForm[$key].value[$product_index]|h}-->" size="3" class="box3" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$product_index]|sfGetErrorColor}-->" id="<!--{$key}-->_<!--{$product_index}-->" />%
                     </td>
                     <td class="right"><!--{($price|sfCalcIncTax:$tax_rate:$tax_rule*$quantity)|n2s}-->円</td>
                 </tr>
@@ -446,7 +446,7 @@
                 <td class="right">
                     <!--{assign var=key value="discount"}-->
                     <span class="attention"><!--{$arrErr[$key]}--></span>
-                    <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
+                    <input type="number" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
                     円
                 </td>
             </tr>
@@ -455,7 +455,7 @@
                 <td class="right">
                     <!--{assign var=key value="deliv_fee"}-->
                     <span class="attention"><!--{$arrErr[$key]}--></span>
-                    <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
+                    <input type="number" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
                     円
                 </td>
             </tr>
@@ -464,7 +464,7 @@
                 <td class="right">
                     <!--{assign var=key value="charge"}-->
                     <span class="attention"><!--{$arrErr[$key]}--></span>
-                    <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
+                    <input type="number" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
                     円
                 </td>
             </tr>
@@ -489,7 +489,7 @@
                     <td class="right">
                         <!--{assign var=key value="use_point"}-->
                         <span class="attention"><!--{$arrErr[$key]}--></span>
-                        <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|default:0|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
+                        <input type="number" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|default:0|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
                         pt
                     </td>
                 </tr>
