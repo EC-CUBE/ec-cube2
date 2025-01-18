@@ -151,7 +151,7 @@ class SC_CheckError
             return;
         }
 
-        // $this->createParam($value);
+        $this->createParam($value, [0]);
 
         if (strlen($this->arrParam[$keyname]) == 0) {
             $this->arrErr[$keyname] =
@@ -301,7 +301,7 @@ class SC_CheckError
             return;
         }
 
-        // $this->createParam($value);
+        $this->createParam($value, [2, 3]);
 
         // 文字数の取得
         if (($this->arrParam[$keyname1] ?? '') !== ($this->arrParam[$keyname2] ?? '')) {
@@ -335,7 +335,7 @@ class SC_CheckError
             return;
         }
 
-        // $this->createParam($value);
+        $this->createParam($value, [2, 3]);
 
         // 文字数の取得
         if (($this->arrParam[$keyname1] ?? '') == ($this->arrParam[$keyname2] ?? '')) {
@@ -372,7 +372,7 @@ class SC_CheckError
             return;
         }
 
-        // $this->createParam($value);
+        $this->createParam($value, [2, 3]);
 
         // 文字数の取得
         $input_var1 = $this->arrParam[$keyname1] ?? '';
@@ -631,7 +631,7 @@ class SC_CheckError
             return;
         }
 
-        $this->createParam($value);
+        $this->createParam($value, [1, 2, 3]);
 
         $cnt = 0;
         for ($i = 1; $i <= 3; $i++) {
@@ -675,14 +675,12 @@ class SC_CheckError
 
     /* 関連項目が完全に満たされているか判定
         value[0]    : 項目名
-        value[1]    : 判定対象要素名
+        value[1..]    : 判定対象要素名
     */
     public function FULL_EXIST_CHECK($value)
     {
         $disp_name = $value[0];
         $keyname = $value[1];
-
-        $this->createParam($value);
 
         // 既に該当項目にエラーがある場合は、判定しない。
         $max = count($value);
@@ -691,6 +689,8 @@ class SC_CheckError
                 return;
             }
         }
+
+        $this->createParam($value, range(1, $max));
 
         // 全ての項目が入力されていない場合はエラーとする。
         $blank = false;
@@ -709,7 +709,7 @@ class SC_CheckError
 
     /* 関連項目が全て満たされているか判定
         value[0]    : 項目名
-        value[1]    : 判定対象要素名
+        value[1..]    : 判定対象要素名
     */
     public function ALL_EXIST_CHECK($value)
     {
@@ -723,6 +723,8 @@ class SC_CheckError
                 return;
             }
         }
+
+        $this->createParam($value, range(1, $max));
 
         $blank = false;
         $input = false;
@@ -744,14 +746,12 @@ class SC_CheckError
 
     /* 関連項目がどれか一つ満たされているか判定
         value[0]    : 項目名
-        value[1]    : 判定対象要素名
+        value[1..]    : 判定対象要素名
     */
     public function ONE_EXIST_CHECK($value)
     {
         $disp_name = $value[0];
         $keyname = $value[1];
-
-        $this->createParam($value);
 
         // 既に該当項目にエラーがある場合は、判定しない。
         $max = count($value);
@@ -760,6 +760,8 @@ class SC_CheckError
                 return;
             }
         }
+
+        $this->createParam($value, range(1, $max));
 
         $input = false;
 
@@ -778,14 +780,12 @@ class SC_CheckError
 
     /* 上位の項目が満たされているか判定
         value[0]    : 項目名
-        value[1]    : 判定対象要素名
+        value[1..]    : 判定対象要素名
     */
     public function TOP_EXIST_CHECK($value)
     {
         $disp_name = $value[0];
         $keyname = $value[1];
-
-        $this->createParam($value);
 
         // 既に該当項目にエラーがある場合は、判定しない。
         $max = count($value);
@@ -794,6 +794,8 @@ class SC_CheckError
                 return;
             }
         }
+
+        $this->createParam($value, range(1, $max));
 
         $blank = false;
         $error = false;
@@ -1175,7 +1177,7 @@ class SC_CheckError
             return;
         }
 
-        // $this->createParam($value);
+        $this->createParam($value);
 
         if ($target_dir != '') {
             $dir = $target_dir;
@@ -1300,7 +1302,7 @@ class SC_CheckError
             return;
         }
 
-        $this->createParam($value);
+        $this->createParam($value, [1, 2, 3]);
 
         $input_year = $this->arrParam[$value[1]];
         $input_month = $this->arrParam[$value[2]];
@@ -1334,7 +1336,7 @@ class SC_CheckError
             return;
         }
 
-        $this->createParam($value);
+        $this->createParam($value, [1, 2, 3, 4, 5]);
 
         $input_year = $this->arrParam[$value[1]];
         $input_month = $this->arrParam[$value[2]];
@@ -1369,7 +1371,7 @@ class SC_CheckError
             return;
         }
 
-        $this->createParam($value);
+        $this->createParam($value, [1, 2]);
 
         $input_year = $this->arrParam[$value[1]];
         $input_month = $this->arrParam[$value[2]];
@@ -1400,7 +1402,7 @@ class SC_CheckError
             return;
         }
 
-        $this->createParam($value);
+        $this->createParam($value, [1, 2, 3]);
 
         // 年が入力されている。
         if (strlen($this->arrParam[$keyname]) >= 1) {
@@ -1459,7 +1461,7 @@ class SC_CheckError
             return;
         }
 
-        // $this->createParam($value);
+        $this->createParam($value, range(2, 7));
 
         $start_year = $this->arrParam[$value[2]];
         $start_month = $this->arrParam[$value[3]];
@@ -1530,7 +1532,7 @@ class SC_CheckError
             return;
         }
 
-        // $this->createParam($value);
+        $this->createParam($value, range(2, 13));
 
         $start_year = $this->arrParam[$value[2]];
         $start_month = $this->arrParam[$value[3]];
@@ -1616,7 +1618,7 @@ class SC_CheckError
             return;
         }
 
-        // $this->createParam($value);
+        $this->createParam($value, range(2, 5));
 
         $start_year = $this->arrParam[$value[2]];
         $start_month = $this->arrParam[$value[3]];
@@ -1672,6 +1674,8 @@ class SC_CheckError
         if (isset($this->arrErr[$keyname])) {
             return;
         }
+
+        $this->createParam($value);
 
         $input_var = $this->arrParam[$keyname];
         $pattern = "/^\.[^.]+\..+/i";
@@ -1784,7 +1788,7 @@ class SC_CheckError
             return;
         }
 
-        // $this->createParam($value);
+        $this->createParam($value, [0]);
 
         if ($this->evalCheck($input_var) === false) {
             $this->arrErr[$keyname] =
@@ -1820,10 +1824,14 @@ class SC_CheckError
      *
      * @return void
      */
-    public function createParam($value)
+    public function createParam($value, $arrKeyNameIndexes = [1])
     {
-        foreach ($value as $val_key => $key) {
-            if ($val_key != 0 && (is_string($key) || is_int($key))) {
+        foreach ($value as $index => $key) {
+            // 判定対象配列キー以外は処理しない。
+            if (!in_array($index, $arrKeyNameIndexes)) {
+                continue;
+            }
+            if (is_string($key) || is_int($key)) {
                 if (!is_numeric($key) && preg_match('/^[a-z0-9_]+$/i', $key)) {
                     if (!isset($this->arrParam[$key])) {
                         $this->arrParam[$key] = '';
@@ -1870,6 +1878,8 @@ class SC_CheckError
         if (strlen($pref_id ?? '') === 0) {
             return;
         }
+
+        $this->createParam($value);
 
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $exists = $objQuery->exists('mtb_pref', 'id = ?', [$pref_id]);
