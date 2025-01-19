@@ -1748,24 +1748,23 @@ class SC_CheckError
     /**
      * パラメーターとして適切な文字列かチェックする.
      *
-     * @param  array $value [0] => 表示名, [1] => 評価する文字列
+     * @param  array $value [0] => 表示名, [1] => 判定対象配列キー
      *
      * @return void
      */
     public function EVAL_CHECK($value)
     {
-        $keyname = $value[0];
-        $input_var = $value[1];
+        $disp_name = $value[0];
+        $keyname = $value[1];
 
         if (isset($this->arrErr[$keyname])) {
             return;
         }
 
-        $this->createParam($value, [0]);
+        $this->createParam($value);
 
-        if ($this->evalCheck($input_var) === false) {
-            $this->arrErr[$keyname] =
-                "※ {$keyname} の形式が不正です。<br />";
+        if ($this->evalCheck($this->arrParam[$keyname]) === false) {
+            $this->arrErr[$keyname] = "※ {$disp_name} の形式が不正です。<br />";
         }
     }
 
