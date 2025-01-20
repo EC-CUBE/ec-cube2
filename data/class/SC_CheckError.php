@@ -1833,7 +1833,7 @@ class SC_CheckError
                         $this->arrErr[$value[1]] = '※ '.$value[0].'に禁止された記号の並びまたは制御文字が入っています。<br />';
                     }
                 } elseif (preg_match('/[^a-z0-9_]/i', $key)) {
-                    trigger_error('', E_USER_ERROR);
+                    trigger_error("判定対象配列キーに使用不可文字を含む: {$key}", E_USER_ERROR);
                 }
             }
         }
