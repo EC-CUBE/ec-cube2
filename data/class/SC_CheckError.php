@@ -1831,18 +1831,18 @@ class SC_CheckError
             if (!in_array($index, $arrKeyNameIndexes)) {
                 continue;
             }
-            if (is_string($key) || is_int($key)) {
-                if (!is_numeric($key) && preg_match('/^[a-z0-9_]+$/i', $key)) {
-                    if (!isset($this->arrParam[$key])) {
-                        $this->arrParam[$key] = '';
-                    }
-                    if (!is_array($this->arrParam[$key]) && strlen($this->arrParam[$key]) > 0
-                          && (preg_match('/^[[:alnum:]\-\_]*[\.\/\\\\]*\.\.(\/|\\\\)/', $this->arrParam[$key]) || !preg_match('/\A[^\x00-\x08\x0b\x0c\x0e-\x1f\x7f]+\z/u', $this->arrParam[$key]))) {
-                        $this->arrErr[$value[1]] = '※ '.$value[0].'に禁止された記号の並びまたは制御文字が入っています。<br />';
-                    }
-                } elseif (preg_match('/[^a-z0-9_]/i', $key)) {
-                    trigger_error("判定対象配列キーに使用不可文字を含む: {$key}", E_USER_ERROR);
-                }
+            if (get_debug_type($key) !== 'string') {
+                trigger_error('$key='.var_export($key, true).var_export($index, true), E_USER_ERROR);
+            }
+            if (preg_match('/[^a-z0-9_]/i', $key)) {
+                trigger_error("判定対象配列キーに使用不可文字を含む: {$key}", E_USER_ERROR);
+            }
+            if (!isset($this->arrParam[$key])) {
+                $this->arrParam[$key] = '';
+            }
+            if (!is_array($this->arrParam[$key]) && strlen($this->arrParam[$key]) > 0
+                    && (preg_match('/^[[:alnum:]\-\_]*[\.\/\\\\]*\.\.(\/|\\\\)/', $this->arrParam[$key]) || !preg_match('/\A[^\x00-\x08\x0b\x0c\x0e-\x1f\x7f]+\z/u', $this->arrParam[$key]))) {
+                $this->arrErr[$value[1]] = '※ '.$value[0].'に禁止された記号の並びまたは制御文字が入っています。<br />';
             }
         }
     }
