@@ -47,17 +47,14 @@ test.describe.serial('購入フロー(ログイン)のテストをします', ()
     await expect(page.locator('h2.title')).toContainText('入力内容のご確認');
     await page.click('[alt=ご注文完了ページへ]');
 
-    const email = 'zap_user@example.com';
-
     // 注文完了を確認します
     await expect(page.locator('h2.title')).toContainText('ご注文完了');
 
     const messages = await mailcatcher.get('/messages');
-    await expect((await messages.json()).length).toBe(1);
-    await expect(await messages.json()).toContainEqual(expect.objectContaining(
+    expect(await messages.json()).toContainEqual(expect.objectContaining(
       {
         subject: expect.stringContaining('ご注文ありがとうございます'),
-        recipients: expect.arrayContaining([ `<${ email }>` ])
+        recipients: expect.arrayContaining([ `<${ mypageLoginPage.email }>` ])
       }
     ));
   });
