@@ -465,13 +465,11 @@ class SC_FormParamTest extends Common_TestCase
 
         foreach ($arrCheck as $key => $check) {
             $this->objFormParam->addParam($check, $check.'_key', STEXT_LEN, 'aKV', [$check]);
-
             $this->objFormParam->setValue($check.'_key', $key);
         }
 
         $this->expected = [
             'EMAIL_CHECK_key' => '※ EMAIL_CHECKの形式が不正です。',
-            'ALNUM_CHECK_key' => '※ ALNUM_CHECKは英数字で入力してください。',
             'KANA_CHECK_key' => '※ KANA_CHECKはカタカナで入力してください。',
             'URL_CHECK_key' => '※ URL_CHECKを正しく入力してください。',
             'IP_CHECK_key' => '※ IP_CHECKに正しい形式のIPアドレスを入力してください。',

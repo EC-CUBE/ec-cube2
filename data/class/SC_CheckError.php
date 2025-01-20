@@ -1812,6 +1812,8 @@ class SC_CheckError
             }
             if (!isset($this->arrParam[$key])) {
                 $this->arrParam[$key] = '';
+            } elseif (is_int($this->arrParam[$key])) {
+                $this->arrParam[$key] = (string) $this->arrParam[$key];
             }
             if (!is_array($this->arrParam[$key])
                 && strlen($this->arrParam[$key]) > 0
