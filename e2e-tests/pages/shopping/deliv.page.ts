@@ -15,7 +15,7 @@ export class ShoppingDelivPage {
   }
 
   async goto() {
-    await this.page.goto(`${ PlaywrightConfig.use.baseURL }/shopping/deliv.php`);
+    await this.page.goto(`${ PlaywrightConfig?.use?.baseURL }/shopping/deliv.php`);
   }
 
   async gotoNext() {
@@ -28,5 +28,9 @@ export class ShoppingDelivPage {
 
   async gotoSendToMultiple() {
     await this.sendToMultipleButton.click();
+  }
+
+  async choiceDeliveryAddress(label: '会員登録住所' | '追加登録住所') {
+    await this.page.getByRole('row', { name: label }).getByRole('radio').check();
   }
 }

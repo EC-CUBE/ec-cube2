@@ -17,7 +17,7 @@ export class ProductsDetailPage {
   }
 
   async goto(productId: number) {
-    await this.page.goto(`${ PlaywrightConfig.use.baseURL }/products/detail.php?product_id=${ productId }`);
+    await this.page.goto(`${ PlaywrightConfig?.use?.baseURL }/products/detail.php?product_id=${ productId }`);
   }
 
   async cartIn(quantity?: number, classCategory1?: string, classCategory2?: string) {

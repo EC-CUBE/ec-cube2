@@ -1,12 +1,16 @@
 import { test, expect } from '../../fixtures/mypage_login.fixture';
 import { Page, request, APIRequestContext } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
+import { ProductsDetailPage } from '../../pages/products/detail.page';
+import { CartPage } from '../../pages/cart.page';
+import { ShoppingDelivPage } from '../../pages/shopping/deliv.page';
+import { ShoppingPaymentPage } from '../../pages/shopping/payment.page';
 import { MypageDeliveryAddrPage } from '../../pages/mypage/delivery_addr.page';
+import { faker } from '@faker-js/faker/locale/ja';
 
 const url = '/products/detail.php?product_id=1';
 
 test.describe.serial('購入フロー(ログイン)のテストをします', () => {
-  let page: Page;
   let mailcatcher: APIRequestContext;
   test.beforeAll(async () => {
     mailcatcher = await request.newContext({
@@ -20,51 +24,64 @@ test.describe.serial('購入フロー(ログイン)のテストをします', ()
     await page.goto(url);
     await expect(page.locator('#detailrightbloc > h2')).toContainText('アイスクリーム');
 
-    // 商品をカートに入れます
-    await page.selectOption('select[name=classcategory_id1]', { label: '抹茶' });
-    await page.selectOption('select[name=classcategory_id2]', { label: 'S' });
-    await page.fill('input[name=quantity]', '2');
-    await page.click('[alt=カゴに入れる]');
+    await test.step('商品をカートに入れます', async () => {
+      const productsDetailPage = new ProductsDetailPage(page);
+      await productsDetailPage.cartIn(
+        2,
+        faker.helpers.arrayElement(['抹茶', 'チョコ', 'バニラ']),
+        faker.helpers.arrayElement(['S', 'M', 'L'])
+      );
+    });
 
-    // カートの内容を確認します
-    await expect(page.locator('h2.title')).toContainText('現在のカゴの中');
-    await expect(page.locator('table[summary=商品情報] >> tr >> nth=1')).toContainText('アイスクリーム');
-    await page.click('[alt=購入手続きへ]');
+    await test.step('カートの中身を確認します', async () => {
+      await expect(page.locator('h2.title')).toContainText('現在のカゴの中');
+      await expect(page.locator('table[summary=商品情報] >> tr >> nth=1')).toContainText('アイスクリーム');
+      const cartPage = new CartPage(page);
+      await cartPage.gotoNext();
+    });
 
-    // お届け先の指定をします
-    await expect(page.locator('h2.title')).toContainText('お届け先の指定');
-    const popupPromise = page.waitForEvent('popup');
-    await page.getByRole('link', { name: '新しいお届け先を追加する' }).click();
-    const popup = await popupPromise;
-    const mypageDeliveryAddrPage = new MypageDeliveryAddrPage(popup);
-    await mypageDeliveryAddrPage.fill();
-    await mypageDeliveryAddrPage.register();
+    await test.step('お届け先の指定をします', async () => {
+      await expect(page.locator('h2.title')).toContainText('お届け先の指定');
+      const shoppingDelivPage = new ShoppingDelivPage(page);
+      const popupPromise = page.waitForEvent('popup');
+      await shoppingDelivPage.gotoAddNewDeliveryAddress();
+      const popup = await popupPromise;
+      const mypageDeliveryAddrPage = new MypageDeliveryAddrPage(popup);
+      await mypageDeliveryAddrPage.fill();
+      await mypageDeliveryAddrPage.register();
 
-    await page.getByRole('row', { name: '追加登録住所' }).getByRole('radio').check();
-    await page.click('[alt=選択したお届け先に送る]');
+      await shoppingDelivPage.choiceDeliveryAddress('追加登録住所');
+      await shoppingDelivPage.gotoNext();
+    });
 
-    // お支払い方法・お届け時間の指定をします
-    await page.click('text=代金引換');
-    await page.selectOption('select[name^=deliv_date]', { index: 2 });
-    await page.selectOption('select[name^=deliv_time_id]', { label: '午後' });
-    await page.check('#point_on');
-    await page.fill('input[name=use_point]', '1');
-    await page.fill('textarea[name=message]', 'お問い合わせ');
-    await page.click('[alt=次へ]');
+    await test.step('お支払い方法・お届け時間の指定をします', async () => {
+      const shoppingPaymentPage = new ShoppingPaymentPage(page);
+      await shoppingPaymentPage.selectPaymentMethod(faker.helpers.arrayElement(['郵便振替', '現金書留', '銀行振込', '代金引換']));
+      await shoppingPaymentPage.selectDeliveryDate(faker.number.int({ min: 0, max: 5 }));
+      await shoppingPaymentPage.selectDeliveryTime(faker.number.int({ min: 0, max: 2 }));
+      await shoppingPaymentPage.chooseToUsePoint();
+      await shoppingPaymentPage.fillUsePoint(1);
+      await shoppingPaymentPage.fillMessage(faker.lorem.sentence());
+      await shoppingPaymentPage.gotoNext();
+    });
 
-    // 入力内容の確認をします
-    await expect(page.locator('h2.title')).toContainText('入力内容のご確認');
-    await page.click('[alt=ご注文完了ページへ]');
+    await test.step('入力内容の確認をします', async () => {
+      await expect(page.locator('h2.title')).toContainText('入力内容のご確認');
+      await page.click('[alt=ご注文完了ページへ]');
+    });
 
-    // 注文完了を確認します
-    await expect(page.locator('h2.title')).toContainText('ご注文完了');
+    await test.step('ご注文完了画面を確認します', async () => {
+      await expect(page.locator('h2.title')).toContainText('ご注文完了');
+    });
 
-    const messages = await mailcatcher.get('/messages');
-    expect(await messages.json()).toContainEqual(expect.objectContaining(
-      {
-        subject: expect.stringContaining('ご注文ありがとうございます'),
-        recipients: expect.arrayContaining([ `<${ mypageLoginPage.email }>` ])
-      }
-    ));
+    await test.step('メールが送信されていることを確認します', async () => {
+      const messages = await mailcatcher.get('/messages');
+      expect(await messages.json()).toContainEqual(expect.objectContaining(
+        {
+          subject: expect.stringContaining('ご注文ありがとうございます'),
+          recipients: expect.arrayContaining([ `<${ mypageLoginPage.email }>` ])
+        }
+      ));
+    });
   });
 });

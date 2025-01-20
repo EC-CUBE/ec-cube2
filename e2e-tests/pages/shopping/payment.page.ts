@@ -18,8 +18,8 @@ export class ShoppingPaymentPage {
     this.page = page;
     this.nextButton = page.locator('[alt=次へ]');
     this.paymentMethod = page.locator('#payment');
-    this.deliveryDate = page.locator('#deliv_date0');
-    this.deliveryTime = page.locator('#deliv_time_id0');
+    this.deliveryDate = page.locator('select[name^=deliv_date]');
+    this.deliveryTime = page.locator('select[name^=deliv_time_id]');
     this.enablePoint = page.locator('#point_on');
     this.disablePoint = page.locator('#point_off');
     this.usePoint = page.locator('input[name=use_point]');
