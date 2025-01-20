@@ -166,13 +166,13 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
         $col = <<< __EOS__
             pc.down_realfilename AS down_realfilename,
             pc.down_filename AS down_filename
-__EOS__;
+            __EOS__;
 
         $table = <<< __EOS__
             dtb_order AS o
             JOIN dtb_order_detail AS od USING(order_id)
             JOIN dtb_products_class AS pc USING(product_id, product_class_id)
-__EOS__;
+            __EOS__;
 
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
         $where = 'o.customer_id = ? AND o.order_id = ? AND od.product_class_id = ?';
@@ -243,7 +243,7 @@ __EOS__;
         $fp = fopen($realpath, 'r');
         if (isset($_SERVER['HTTP_RANGE'])) {
             // 二回目以降のリクエスト
-            list($range_offset, $range_limit) = sscanf($_SERVER['HTTP_RANGE'], 'bytes=%d-%d');
+            [$range_offset, $range_limit] = sscanf($_SERVER['HTTP_RANGE'], 'bytes=%d-%d');
             $content_range = sprintf('bytes %d-%d/%d', $range_offset, $range_limit, $file_size);
             $content_length = $range_limit - $range_offset + 1;
             fseek($fp, $range_offset, SEEK_SET);
@@ -278,9 +278,9 @@ __EOS__;
         // HTTP_RANGEがセットされていた場合
         if (isset($_SERVER['HTTP_RANGE'])) {
             // 二回目以降のリクエスト
-            list($a, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
-            list($range) = explode(',', $range, 2);
-            list($range, $range_end) = explode('-', $range);
+            [$a, $range] = explode('=', $_SERVER['HTTP_RANGE'], 2);
+            [$range] = explode(',', $range, 2);
+            [$range, $range_end] = explode('-', $range);
             $range = (int) $range;
 
             if (!$range_end) {

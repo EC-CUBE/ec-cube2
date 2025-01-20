@@ -308,8 +308,12 @@ class LC_Page
 
         if (!$this->skip_load_page_layout) {
             $layout = new SC_Helper_PageLayout_Ex();
-            $layout->sfGetPageLayout($this, false, $_SERVER['SCRIPT_NAME'],
-                $this->objDisplay->detectDevice());
+            $layout->sfGetPageLayout(
+                $this,
+                false,
+                $_SERVER['SCRIPT_NAME'],
+                $this->objDisplay->detectDevice()
+            );
         }
 
         // スーパーフックポイントを実行.

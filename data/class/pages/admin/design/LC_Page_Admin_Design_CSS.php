@@ -98,8 +98,13 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
                 if (!$is_error) {
                     $this->arrErr = array_merge($this->arrErr, $this->lfCheckError($objFormParam, $this->arrErr));
                     if (SC_Utils_Ex::isBlank($this->arrErr)) {
-                        if ($this->doRegister($css_dir, $this->css_name, $this->old_css_name, $css_path,
-                            $objFormParam->getValue('css_data'))) {
+                        if ($this->doRegister(
+                            $css_dir,
+                            $this->css_name,
+                            $this->old_css_name,
+                            $css_path,
+                            $objFormParam->getValue('css_data')
+                        )) {
                             $this->tpl_onload = "alert('登録が完了しました。');";
                         }
                     }

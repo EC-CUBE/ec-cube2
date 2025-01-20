@@ -284,8 +284,15 @@ class SC_CustomerList extends SC_SelectSql_Ex
         }
         if ((strlen($this->arrSql['search_b_start_year']) > 0 && strlen($this->arrSql['search_b_start_month']) > 0 && strlen($this->arrSql['search_b_start_day']) > 0)
             || strlen($this->arrSql['search_b_end_year']) > 0 && strlen($this->arrSql['search_b_end_month']) > 0 && strlen($this->arrSql['search_b_end_day']) > 0) {
-            $arrBirth = $this->selectTermRange($this->arrSql['search_b_start_year'], $this->arrSql['search_b_start_month'], $this->arrSql['search_b_start_day'],
-                $this->arrSql['search_b_end_year'], $this->arrSql['search_b_end_month'], $this->arrSql['search_b_end_day'], 'birth');
+            $arrBirth = $this->selectTermRange(
+                $this->arrSql['search_b_start_year'],
+                $this->arrSql['search_b_start_month'],
+                $this->arrSql['search_b_start_day'],
+                $this->arrSql['search_b_end_year'],
+                $this->arrSql['search_b_end_month'],
+                $this->arrSql['search_b_end_day'],
+                'birth'
+            );
             foreach ($arrBirth as $data) {
                 $this->arrVal[] = $data;
             }
@@ -321,8 +328,15 @@ class SC_CustomerList extends SC_SelectSql_Ex
         }
         if ((strlen($this->arrSql['search_start_year']) > 0 && strlen($this->arrSql['search_start_month']) > 0 && strlen($this->arrSql['search_start_day']) > 0)
                 || (strlen($this->arrSql['search_end_year']) > 0 && strlen($this->arrSql['search_end_month']) > 0 && strlen($this->arrSql['search_end_day']) > 0)) {
-            $arrRegistTime = $this->selectTermRange($this->arrSql['search_start_year'], $this->arrSql['search_start_month'], $this->arrSql['search_start_day'],
-                $this->arrSql['search_end_year'], $this->arrSql['search_end_month'], $this->arrSql['search_end_day'], $regdate_col);
+            $arrRegistTime = $this->selectTermRange(
+                $this->arrSql['search_start_year'],
+                $this->arrSql['search_start_month'],
+                $this->arrSql['search_start_day'],
+                $this->arrSql['search_end_year'],
+                $this->arrSql['search_end_month'],
+                $this->arrSql['search_end_day'],
+                $regdate_col
+            );
             foreach ($arrRegistTime as $data) {
                 $this->arrVal[] = $data;
             }
@@ -350,8 +364,15 @@ class SC_CustomerList extends SC_SelectSql_Ex
 
         if ((strlen($this->arrSql['search_buy_start_year']) > 0 && strlen($this->arrSql['search_buy_start_month']) > 0 && strlen($this->arrSql['search_buy_start_day']) > 0)
                 || (strlen($this->arrSql['search_buy_end_year']) > 0 && strlen($this->arrSql['search_buy_end_month']) > 0 && strlen($this->arrSql['search_buy_end_day']) > 0)) {
-            $arrRegistTime = $this->selectTermRange($this->arrSql['search_buy_start_year'], $this->arrSql['search_buy_start_month'], $this->arrSql['search_buy_start_day'],
-                $this->arrSql['search_buy_end_year'], $this->arrSql['search_buy_end_month'], $this->arrSql['search_buy_end_day'], 'last_buy_date');
+            $arrRegistTime = $this->selectTermRange(
+                $this->arrSql['search_buy_start_year'],
+                $this->arrSql['search_buy_start_month'],
+                $this->arrSql['search_buy_start_day'],
+                $this->arrSql['search_buy_end_year'],
+                $this->arrSql['search_buy_end_month'],
+                $this->arrSql['search_buy_end_day'],
+                'last_buy_date'
+            );
             foreach ($arrRegistTime as $data) {
                 $this->arrVal[] = $data;
             }
@@ -383,7 +404,7 @@ class SC_CustomerList extends SC_SelectSql_Ex
         }
         if (strlen($this->arrSql['search_category_id']) > 0) {
             // カテゴリで絞込検索を行うSQL文生成
-            list($tmp_where, $tmp_arrval) = $objDb->sfGetCatWhere($this->arrSql['search_category_id']);
+            [$tmp_where, $tmp_arrval] = $objDb->sfGetCatWhere($this->arrSql['search_category_id']);
 
             // カテゴリで絞込みが可能の場合
             if ($tmp_where != '') {

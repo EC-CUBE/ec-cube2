@@ -391,18 +391,22 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
             } else {
                 $sqlval['create_date'] = $arrList['update_date'];
                 // 新規登録
-                $this->registerCategory($sqlval['parent_category_id'],
+                $this->registerCategory(
+                    $sqlval['parent_category_id'],
                     $sqlval['category_name'],
                     $_SESSION['member_id'],
-                    $sqlval['category_id']);
+                    $sqlval['category_id']
+                );
             }
             $category_id = $sqlval['category_id'];
         // TODO: 削除時処理
         } else {
             // 新規登録
-            $category_id = $this->registerCategory($sqlval['parent_category_id'],
+            $category_id = $this->registerCategory(
+                $sqlval['parent_category_id'],
                 $sqlval['category_name'],
-                $_SESSION['member_id']);
+                $_SESSION['member_id']
+            );
         }
 
         return $category_id;
@@ -498,7 +502,8 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
                 $parent_category_id = (string) '0';
             }
             $where = 'parent_category_id = ? AND category_id <> ? AND category_name = ?';
-            $exists = $objQuery->exists('dtb_category',
+            $exists = $objQuery->exists(
+                'dtb_category',
                 $where,
                 [
                     $parent_category_id,

@@ -98,9 +98,12 @@ class LC_Page_Sitemap extends LC_Page_Ex
 
         // TOPページを処理
         $arrTopPagesList = $this->getTopPage($this->arrPageList);
-        $this->createSitemap($arrTopPagesList[0]['url'],
+        $this->createSitemap(
+            $arrTopPagesList[0]['url'],
             $this->date2W3CDatetime($arrTopPagesList[0]['update_date']),
-            'daily', 1.0);
+            'daily',
+            1.0
+        );
 
         // 静的なページを処理
         foreach ($this->staticURL as $url) {
@@ -110,8 +113,10 @@ class LC_Page_Sitemap extends LC_Page_Ex
         // 編集可能ページを処理
         $arrEditablePagesList = $this->getEditablePage($this->arrPageList);
         foreach ($arrEditablePagesList as $arrEditablePage) {
-            $this->createSitemap($arrEditablePage['url'],
-                $this->date2W3CDatetime($arrEditablePage['update_date']));
+            $this->createSitemap(
+                $arrEditablePage['url'],
+                $this->date2W3CDatetime($arrEditablePage['update_date'])
+            );
         }
 
         // 商品一覧ページを処理
@@ -123,8 +128,10 @@ class LC_Page_Sitemap extends LC_Page_Ex
         // 商品詳細ページを処理
         $arrDetailPagesList = $this->getAllDetail();
         foreach ($arrDetailPagesList as $arrDetailPage) {
-            $this->createSitemap($arrDetailPage['url'],
-                $this->date2W3CDatetime($arrDetailPage['update_date']));
+            $this->createSitemap(
+                $arrDetailPage['url'],
+                $this->date2W3CDatetime($arrDetailPage['update_date'])
+            );
         }
 
         echo '</urlset>'."\n";
@@ -310,7 +317,14 @@ class LC_Page_Sitemap extends LC_Page_Ex
         preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})/', $date, $arr);
 
         // :TODO: time zone も取得するべき...
-        return sprintf('%04d-%02d-%02dT%02d:%02d:%02d+09:00',
-            $arr[1], $arr[2], $arr[3], $arr[4], $arr[5], $arr[6]);
+        return sprintf(
+            '%04d-%02d-%02dT%02d:%02d:%02d+09:00',
+            $arr[1],
+            $arr[2],
+            $arr[3],
+            $arr[4],
+            $arr[5],
+            $arr[6]
+        );
     }
 }
