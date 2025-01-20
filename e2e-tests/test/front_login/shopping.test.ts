@@ -1,6 +1,7 @@
 import { test, expect } from '../../fixtures/mypage_login.fixture';
 import { Page, request, APIRequestContext } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
+import { MypageDeliveryAddrPage } from '../../pages/mypage/delivery_addr.page';
 
 const url = '/products/detail.php?product_id=1';
 
@@ -32,12 +33,20 @@ test.describe.serial('購入フロー(ログイン)のテストをします', ()
 
     // お届け先の指定をします
     await expect(page.locator('h2.title')).toContainText('お届け先の指定');
+    const popupPromise = page.waitForEvent('popup');
+    await page.getByRole('link', { name: '新しいお届け先を追加する' }).click();
+    const popup = await popupPromise;
+    const mypageDeliveryAddrPage = new MypageDeliveryAddrPage(popup);
+    await mypageDeliveryAddrPage.fill();
+    await mypageDeliveryAddrPage.register();
+
+    await page.getByRole('row', { name: '追加登録住所' }).getByRole('radio').check();
     await page.click('[alt=選択したお届け先に送る]');
 
     // お支払い方法・お届け時間の指定をします
     await page.click('text=代金引換');
-    await page.selectOption('select[name=deliv_date0]', { index: 2 });
-    await page.selectOption('select[name=deliv_time_id0]', { label: '午後' });
+    await page.selectOption('select[name^=deliv_date]', { index: 2 });
+    await page.selectOption('select[name^=deliv_time_id]', { label: '午後' });
     await page.check('#point_on');
     await page.fill('input[name=use_point]', '1');
     await page.fill('textarea[name=message]', 'お問い合わせ');
