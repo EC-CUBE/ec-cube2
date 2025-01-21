@@ -39,12 +39,12 @@ export class ShoppingPaymentPage {
     await this.paymentMethod.locator(`text=${ label }`).click();
   }
 
-  async selectDeliveryDate(index: number) {
-    await this.deliveryDate.selectOption({ index: index });
+  async selectDeliveryDate(index: number, nth?: number) {
+    await this.deliveryDate.nth(nth ?? 0).selectOption({ index: index });
   }
 
-  async selectDeliveryTime(index: number) {
-    await this.deliveryTime.selectOption({ index: index });
+  async selectDeliveryTime(index: number, nth?: number) {
+    await this.deliveryTime.nth(nth ?? 0).selectOption({ index: index });
   }
 
   async chooseToUsePoint() {
