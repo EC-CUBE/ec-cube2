@@ -1166,7 +1166,7 @@ class SC_CheckError
         $path = str_replace('//', '/', $path);
 
         if ($this->arrParam[$keyname] != '' && !file_exists($path)) {
-            $this->arrErr[$keyname] = "※ {$path}が見つかりません。<br />";
+            $this->arrErr[$keyname] = "※ {$disp_name}が見つかりません。<br />";
         }
     }
 

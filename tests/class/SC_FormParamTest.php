@@ -482,7 +482,7 @@ class SC_FormParamTest extends Common_TestCase
             'EXIST_CHECK_key' => '※ EXIST_CHECKが入力されていません。',
             'FILE_EXISTS_key' => '※ FILE_EXISTSのファイルが存在しません。',
             'FILE_NAME_CHECK_BY_NOUPLOAD_key' => '※ FILE_NAME_CHECK_BY_NOUPLOADのファイル名には、英数字、記号（_ - .）のみを入力して下さい。',
-            'FIND_FILE_key' => '※ 50/\aが見つかりません。',
+            'FIND_FILE_key' => '※ FIND_FILEが見つかりません。',
             'GRAPH_CHECK_key' => '※ GRAPH_CHECKは英数記号で入力してください。',
             'IP_CHECK_key' => '※ IP_CHECKに正しい形式のIPアドレスを入力してください。',
             'KANA_CHECK_key' => '※ KANA_CHECKはカタカナで入力してください。',
