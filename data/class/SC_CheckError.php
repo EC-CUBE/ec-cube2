@@ -1861,9 +1861,8 @@ class SC_CheckError
 
         $this->createParam($value);
 
-        $objQuery = SC_Query_Ex::getSingletonInstance();
-        $exists = $objQuery->exists('mtb_pref', 'id = ?', [$pref_id]);
-        if (!$exists) {
+        $arrPref = (new SC_DB_MasterData_Ex())->getMasterData('mtb_pref');
+        if (!isset($arrPref[$pref_id])) {
             $this->arrErr[$key] = '※ '.$disp.'が不正な値です。<br />';
         }
     }
