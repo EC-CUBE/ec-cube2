@@ -80,6 +80,7 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
       await mypageDeliveryAddrPage.register();
 
       const shoppingMultiplePage = new ShoppingMultiplePage(page);
+      await page.waitForTimeout(100);
       await shoppingMultiplePage.assignDeliveryAddress(0, 2);
       await shoppingMultiplePage.assignDeliveryAddress(1, 3);
       await shoppingMultiplePage.gotoNext();
