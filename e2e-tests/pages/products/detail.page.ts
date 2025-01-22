@@ -7,6 +7,7 @@ export class ProductsDetailPage {
   readonly classCategoryId2: Locator;
   readonly quantity: Locator;
   readonly cartInButton: Locator;
+  readonly addFavoriteButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -14,6 +15,7 @@ export class ProductsDetailPage {
     this.classCategoryId2 = page.locator('select[name=classcategory_id2]');
     this.quantity = page.locator('input[name=quantity]');
     this.cartInButton = page.locator('[alt=カゴに入れる]');
+    this.addFavoriteButton = page.locator('[alt=お気に入りに追加]');
   }
 
   async goto(productId: number) {
@@ -29,5 +31,9 @@ export class ProductsDetailPage {
       }
     }
     await this.cartInButton.click();
+  }
+
+  async addToFavorite() {
+    await this.addFavoriteButton.click();
   }
 }
