@@ -8,6 +8,18 @@ import "jquery-colorbox";
 import "jquery-colorbox/example2/colorbox.css";
 import "jquery-easing";
 
+import "jquery-ui/ui/widget"
+import "jquery-ui/ui/data"
+import "jquery-ui/ui/scroll-parent"
+import "jquery-ui/ui/position"
+import "jquery-ui/ui/widgets/mouse"
+import "jquery-ui/ui/widgets/tooltip"
+import "jquery-ui/ui/widgets/sortable"
+import "jquery-ui/themes/base/core.css";
+import "jquery-ui/themes/base/tooltip.css";
+import "jquery-ui/themes/base/theme.css";
+import "jquery-ui/themes/base/sortable.css";
+
 import "slick-carousel";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
