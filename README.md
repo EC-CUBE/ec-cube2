@@ -137,11 +137,13 @@ docker compose -f docker-compose.yml -f docker-compose.mysql.yml -f docker-compo
 ```
 
 ## 2系拡張子ファイル制限の方法について
+
 EC-CUBEのJCA申告書対応の一環として、セキュリティ向上のために以下の対策を推奨します。
 * 公開ディレクトリには、重要なファイルを配置しない。(特定のディレクトリを非公開にする。公開ディレクトリ以外に重要なファイルを配置する。)
 * WebサーバやWebアプリケーションでアップロード可能なファイルの拡張子を制限する
 
 ### 対象ファイル
+
 対象ファイルは以下の通りです。
 ```
 data/class/pages/admin/contents/LC_Page_Admin_Contents_FileManager.php
@@ -149,9 +151,11 @@ data/class/pages/admin/contents/LC_Page_Admin_Contents_FileManager.php
 このファイル内の `lfInitFile` メソッドを編集することで、アップロード可能なファイルの種類を制限できます。
 
 ### 注意事項
+
 - 互換性を維持するため、EC-CUBE本体では拡張子の制限を設けていません。必要に応じて、拡張子の制限を設定してください。
 
 ### 設定方法
+
 以下のコードを編集し、アップロード可能な拡張子を指定します。
 ```php
 public function lfInitFile(&$objUpFile)
@@ -168,12 +172,12 @@ $objUpFile->addFile('ファイル', 'upload_file', [], FILE_SIZE, true, 0, 0, fa
 この設定により、不要なファイルのアップロードを防ぎ、セキュリティを向上させることができます。
 
 ### 許可する拡張子の推奨リスト
+
 | 種別 | 許可拡張子 |
 |--------------------|--------------------------------|
 | 画像ファイル | jpg, jpeg, png, gif, webp, svg, ico |
 | Web関連ファイル | html, htm, js, css |
 | ドキュメント | txt, pdf |
-
 
 ## E2Eテストの実行方法
 
