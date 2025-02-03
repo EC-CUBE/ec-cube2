@@ -13,7 +13,7 @@ test.describe.serial('お気に入りのテストをします', () => {
       const productsDetailPage = new ProductsDetailPage(page);
       await productsDetailPage.goto(2);
       await productsDetailPage.addToFavorite();
-      await expect(page.getByTitle('お気に入りに登録済み')).toBeVisible();
+      await expect(page.getByAltText('お気に入りに登録済み')).toBeVisible();
     });
 
     await test.step('お気に入り一覧を確認します', async () => {
