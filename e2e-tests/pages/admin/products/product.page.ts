@@ -32,21 +32,10 @@ export class AdminProductsProductPage {
   readonly subTitles: Locator[] = [];
   readonly subComments: Locator[] = [];
   readonly subLargeImages: Locator[] = [];
-  // readonly subTitle1: Locator;
-  // readonly subComment1: Locator;
-  // readonly subLargeImage1: Locator;
-  // readonly subTitle2: Locator;
-  // readonly subComment2: Locator;
-  // readonly subLargeImage2: Locator;
-  // readonly subTitle3: Locator;
-  // readonly subComment3: Locator;
-  // readonly subLargeImage3: Locator;
-  // readonly subTitle4: Locator;
-  // readonly subComment4: Locator;
-  // readonly subLargeImage4: Locator;
-  // readonly subTitle5: Locator;
-  // readonly subComment5: Locator;
-  // readonly subLargeImage5: Locator;
+
+  readonly recommendChangeButtons: Locator[] = [];
+  readonly recommendDeletes: Locator[] = [];
+  readonly recommendComments: Locator[] = [];
 
   readonly confirmButton: Locator;
   readonly registerButton: Locator;
@@ -83,6 +72,11 @@ export class AdminProductsProductPage {
       this.subComments[i] = page.getByRole('row', { name: `詳細-サブコメント( ${i})` }).getByRole('textbox');
       this.subLargeImages[i] = page.getByRole('row', { name: `詳細-サブ拡大画像( ${i})` }).getByRole('link', { name: 'アップロード' });
     }
+    for (let i = 1; i <= 6; i++) {
+      this.recommendChangeButtons[i] = page.getByRole('row', { name: `関連商品( ${i})` }).getByRole('link', { name: '変更' });
+      this.recommendDeletes[i] = page.getByRole('row', { name: `関連商品( ${i})` }).locator(`input[name=recommend_delete${i}]`);
+      this.recommendComments[i] = page.getByRole('row', { name: `関連商品( ${i})` }).getByRole('textbox');
+    }
   }
 
   async goto() {
@@ -111,7 +105,7 @@ export class AdminProductsProductPage {
     await this.fillSaleLimit();
     await this.fillComment3();
     await this.note.fill(faker.lorem.text());
-    await this.mainListComment.fill(faker.lorem.text());
+    await this.mainListComment.fill(faker.lorem.paragraph());
     this.mainComment.fill(faker.lorem.text());
     await this.uploadMainLargeImage();
   }
@@ -219,5 +213,25 @@ export class AdminProductsProductPage {
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(filepath ?? path.join(__dirname, '..', '..', '..', 'fixtures', 'images', 'main.jpg'));
     await this.subLargeImages[index].click();
+  }
+
+  async fillRecommends(): Promise<void> {
+    if (await this.recommendChangeButtons[1].isHidden()) {
+      await this.page.getByRole('link', { name: '関連商品表示/非表示' }).click();
+    }
+    await this.fillRecommend(1, 'おなべ');
+    await this.fillRecommend(2, 'おなべレシピ');
+    await this.fillRecommend(3, 'アイスクリーム');
+    await this.recommendDeletes[2].check();
+  }
+
+  async fillRecommend(index: number, productName: string): Promise<void> {
+    const popupPromise = this.page.waitForEvent('popup');
+    await this.recommendChangeButtons[index].click();
+    const popup = await popupPromise;
+    await popup.getByRole('row', { name: '商品名' }).getByRole('textbox').fill(productName);
+    await popup.getByRole('link', { name: '検索を開始' }).click();
+    await popup.locator('table.list').getByRole('row').nth(1).getByRole('link', { name: '決定' }).click();
+    await this.recommendComments[index].fill(faker.lorem.sentence());
   }
 }
