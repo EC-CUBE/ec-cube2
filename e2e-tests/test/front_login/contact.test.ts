@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/mypage_login.fixture';
+import { test, expect } from '../../fixtures/front_login/mypage_login.fixture';
 import { Page } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
 import { ZapClient, Mode, ContextType, Risk, HttpMessage } from '../../utils/ZapClient';

@@ -1,12 +1,12 @@
 import { test as base, expect } from "@playwright/test";
-import { MypageLoginPage } from "../pages/mypage/login.page";
-import { EntryPage } from "../pages/entry/entry.page";
-import { AdminLoginPage } from "../pages/admin/login.page";
-import { Mode, ContextType } from '../utils/ZapClient';
-import PlaywrightConfig from '../../playwright.config';
-import { ECCUBE_ADMIN_USER, ECCUBE_ADMIN_PASS, ADMIN_DIR } from "../config/default.config";
+import { MypageLoginPage } from "../../pages/mypage/login.page";
+import { EntryPage } from "../../pages/entry/entry.page";
+import { AdminLoginPage } from "../../pages/admin/login.page";
+import { Mode, ContextType } from '../../utils/ZapClient';
+import PlaywrightConfig from '../../../playwright.config';
+import { ECCUBE_ADMIN_USER, ECCUBE_ADMIN_PASS, ADMIN_DIR } from "../../config/default.config";
 import { faker } from '@faker-js/faker/locale/ja';
-import { FakerUtils } from "../utils/FakerUtils";
+import { FakerUtils } from "../../utils/FakerUtils";
 
 type MypageLoginFixtures = {
   mypageLoginPage: MypageLoginPage;

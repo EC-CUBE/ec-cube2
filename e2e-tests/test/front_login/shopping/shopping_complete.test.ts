@@ -6,7 +6,7 @@ const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/shopping/complete.php`;
 import { ShoppingPaymentPage } from '../../../pages/shopping/payment.page';
 
 // ご注文確認画面へ進むフィクスチャ
-import { test, expect } from '../../../fixtures/shopping_payment.fixture';
+import { test, expect } from '../../../fixtures/front_login/shopping_payment.fixture';
 
 test.describe.serial('ご注文完了画面のテストをします', () => {
 

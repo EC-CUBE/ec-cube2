@@ -1,7 +1,7 @@
-import { test as base } from '../fixtures/mypage_login.fixture';
-import PlaywrightConfig from '../../playwright.config';
-import { ProductsDetailPage } from '../pages/products/detail.page';
-import { CartPage } from '../pages/cart.page';
+import { test as base } from './mypage_login.fixture';
+import PlaywrightConfig from '../../../playwright.config';
+import { ProductsDetailPage } from '../../pages/products/detail.page';
+import { CartPage } from '../../pages/cart.page';
 
 type CartLoginFixtures = {
   cartLoginPage: CartPage;

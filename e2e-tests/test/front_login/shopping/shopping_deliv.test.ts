@@ -5,7 +5,7 @@ import { intervalRepeater } from '../../../utils/Progress';
 const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/shopping/deliv.php`;
 
 // 商品をカートに入れて購入手続きへ進むフィクスチャ
-import { test, expect } from '../../../fixtures/cartin.fixture';
+import { test, expect } from '../../../fixtures/front_login/cartin.fixture';
 import { CartPage } from '../../../pages/cart.page';
 
 test.describe.serial('お届け先指定画面のテストをします', () => {

@@ -1,4 +1,4 @@
-import { test, expect } from '../../../fixtures/admin_login.fixture';
+import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { AdminProductsProductPage } from '../../../pages/admin/products/product.page';
 import { ADMIN_DIR } from '../../../config/default.config';
 

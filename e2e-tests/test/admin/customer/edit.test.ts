@@ -1,4 +1,4 @@
-import { test, expect } from '../../../fixtures/admin_login.fixture';
+import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 
 const url = `/${ ADMIN_DIR }/customer/edit.php`;

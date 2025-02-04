@@ -1,4 +1,4 @@
-import { test } from '../../fixtures/admin_login.fixture';
+import { test } from '../../fixtures/admin/admin_login.fixture';
 import { EndpointReader } from '../../utils/EndpointReader';
 import { endpointTests } from '../../utils/EndpointTests';
 

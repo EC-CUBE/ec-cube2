@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/mypage_login.fixture';
+import { test, expect } from '../../fixtures/front_login/mypage_login.fixture';
 import { chromium, Page } from '@playwright/test';
 
 const url = '/products/detail.php?product_id=3';

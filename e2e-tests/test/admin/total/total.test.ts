@@ -1,4 +1,4 @@
-import { test, expect } from '../../../fixtures/admin_login.fixture';
+import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { Page } from '@playwright/test';
 import { toZonedTime } from 'date-fns-tz';
 

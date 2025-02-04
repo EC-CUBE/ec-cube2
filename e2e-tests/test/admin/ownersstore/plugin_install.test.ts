@@ -1,4 +1,4 @@
-import { test, expect } from '../../../fixtures/admin_login.fixture';
+import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { Page } from '@playwright/test';
 import * as tar from 'tar';
 import path from 'path';

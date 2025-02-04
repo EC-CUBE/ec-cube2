@@ -1,4 +1,4 @@
-import { test, expect } from '../../../fixtures/admin_login.fixture';
+import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 import path from 'path';

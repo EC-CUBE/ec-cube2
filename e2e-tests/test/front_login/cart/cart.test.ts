@@ -7,7 +7,7 @@ const url = `${ PlaywrightConfig.use?.baseURL ?? "" }/cart/index.php`;
 import { CartPage } from '../../../pages/cart.page';
 
 // 商品をカートに入れて購入手続きへ進むフィクスチャ
-import { test, expect } from '../../../fixtures/cartin.fixture';
+import { test, expect } from '../../../fixtures/front_login/cartin.fixture';
 
 test.describe.serial('カートページのテストをします', () => {
   test('カートの内容を確認します', async ( { cartLoginPage, page } ) => {

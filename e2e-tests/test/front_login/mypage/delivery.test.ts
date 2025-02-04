@@ -1,4 +1,4 @@
-import { test, expect } from '../../../fixtures/mypage_login.fixture';
+import { test, expect } from '../../../fixtures/front_login/mypage_login.fixture';
 import PlaywrightConfig from '../../../../playwright.config';
 import { MypageDeliveryAddrPage } from '../../../pages/mypage/delivery_addr.page';
 

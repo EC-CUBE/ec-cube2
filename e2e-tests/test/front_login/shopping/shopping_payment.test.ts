@@ -8,7 +8,7 @@ import { CartPage } from '../../../pages/cart.page';
 import { ShoppingPaymentPage } from '../../../pages/shopping/payment.page';
 
 // お支払い方法・お届け時間の指定へ進むフィクスチャ
-import { test, expect } from '../../../fixtures/shopping_deliv.fixture';
+import { test, expect } from '../../../fixtures/front_login/shopping_deliv.fixture';
 
 test.describe.serial('お支払方法・お届け時間等の指定画面のテストをします', () => {
 

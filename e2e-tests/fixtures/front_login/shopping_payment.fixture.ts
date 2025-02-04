@@ -1,5 +1,5 @@
 import { test as base } from './shopping_deliv.fixture';
-import { ShoppingPaymentPage } from '../pages/shopping/payment.page';
+import { ShoppingPaymentPage } from '../../pages/shopping/payment.page';
 
 type ShoppingPaymentLoginFixtures = {
   shoppingPaymentLoginPage: ShoppingPaymentPage;

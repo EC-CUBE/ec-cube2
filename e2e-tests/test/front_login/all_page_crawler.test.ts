@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/mypage_login.fixture';
+import { test, expect } from '../../fixtures/front_login/mypage_login.fixture';
 import { EndpointReader } from '../../utils/EndpointReader';
 import { endpointTests } from '../../utils/EndpointTests';
 

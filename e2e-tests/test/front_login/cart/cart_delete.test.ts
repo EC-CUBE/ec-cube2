@@ -3,7 +3,7 @@ import { Risk } from '../../../utils/ZapClient';
 import { intervalRepeater } from '../../../utils/Progress';
 
 // 商品をカートに入れて購入手続きへ進むフィクスチャ
-import { test, expect } from '../../../fixtures/cartin.fixture';
+import { test, expect } from '../../../fixtures/front_login/cartin.fixture';
 
 const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/cart/index.php`;
 import { CartPage } from '../../../pages/cart.page';
