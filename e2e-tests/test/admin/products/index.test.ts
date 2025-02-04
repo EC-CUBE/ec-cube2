@@ -63,4 +63,23 @@ test.describe('商品マスターのテストをします', () => {
     });
     await expect(page.locator('table.list').getByText(`${adminProductsProductPage.productName}のコピー`)).toBeVisible();
   });
+
+  test('商品規格登録のテストをします', async ({ page, adminProductsProductPage }) => {
+    await page.goto(url);
+    await page.getByRole('row', { name: '商品名' }).getByRole('textbox').nth(1).fill(adminProductsProductPage.productName);
+    await page.getByRole('link', { name: 'この条件で検索する' }).click();
+    await page.locator('table.list').getByRole('row').nth(2).getByRole('link', { name: '規格' }).click();
+
+    await test.step('規格の組み合わせを表示します', async () => {
+      await page.getByRole('row', { name: '規格1' }).locator('select[name=class_id1]').selectOption({ label: '大きさ' });
+      await page.getByRole('row', { name: '規格2' }).locator('select[name=class_id2]').selectOption({ label: '味' });
+      await page.getByRole('link', { name: '表示する' }).click();
+      await page.locator('id=allCheck').check();
+    });
+
+    await page.getByRole('link', { name: '確認ページへ' }).click();
+    await expect(page.getByRole('heading', { name: '確認' })).toBeVisible();
+    await page.getByRole('link', { name: 'この内容で登録する' }).click();
+    await expect(page.getByText('登録が完了致しました')).toBeVisible();
+  });
 });
