@@ -36,4 +36,13 @@ test.describe('商品マスターのテストをします', () => {
     const popup = await popupPromise;
     await expect(popup.getByRole('heading', { name: adminProductsProductPage.productName })).toBeVisible();
   });
+
+  test('商品削除のテストをします', async ({ page, adminProductsProductPage }) => {
+    page.on('dialog', dialog => dialog.accept());
+    await page.goto(url);
+    await page.getByRole('row', { name: '商品名' }).getByRole('textbox').nth(1).fill(adminProductsProductPage.productName);
+    await page.getByRole('link', { name: 'この条件で検索する' }).click();
+    await page.locator('table.list').getByRole('row').nth(2).getByRole('link', { name: '削除' }).click();
+    await expect(page.locator('table.list').getByText(adminProductsProductPage.productName)).not.toBeVisible();
+  });
 });
