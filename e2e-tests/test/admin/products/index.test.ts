@@ -26,4 +26,14 @@ test.describe('商品マスターのテストをします', () => {
     });
     await expect(page.locator('table.list').getByText(`${adminProductsProductPage.productName}を編集`)).toBeVisible();
   });
+
+  test('商品確認のテストをします', async ({ page, adminProductsProductPage }) => {
+    await page.goto(url);
+    await page.getByRole('row', { name: '商品名' }).getByRole('textbox').nth(1).fill(adminProductsProductPage.productName);
+    await page.getByRole('link', { name: 'この条件で検索する' }).click();
+    const popupPromise = page.waitForEvent('popup');
+    await page.locator('table.list').getByRole('row').nth(2).getByRole('link', { name: '確認' }).click();
+    const popup = await popupPromise;
+    await expect(popup.getByRole('heading', { name: adminProductsProductPage.productName })).toBeVisible();
+  });
 });
