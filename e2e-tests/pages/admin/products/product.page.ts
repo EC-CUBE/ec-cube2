@@ -7,6 +7,7 @@ type Category = { readonly label: string, value?: string };
 export class AdminProductsProductPage {
   readonly page: Page;
   readonly url: string;
+  readonly productName: string;
   readonly name: Locator;
   readonly categoryIdUnselect: Locator;
   readonly categoryId: Locator;
@@ -40,7 +41,7 @@ export class AdminProductsProductPage {
   readonly confirmButton: Locator;
   readonly registerButton: Locator;
 
-  constructor(page: Page) {
+  constructor(page: Page, productName?: string) {
     this.page = page;
     this.url = `/${ ADMIN_DIR }products/product.php`;
     this.name = page.getByRole('row', { name: '商品名' }).getByRole('textbox');
@@ -77,6 +78,8 @@ export class AdminProductsProductPage {
       this.recommendDeletes[i] = page.getByRole('row', { name: `関連商品( ${i})` }).locator(`input[name=recommend_delete${i}]`);
       this.recommendComments[i] = page.getByRole('row', { name: `関連商品( ${i})` }).getByRole('textbox');
     }
+
+    this.productName = productName ?? faker.company.name();
   }
 
   async goto() {
@@ -84,7 +87,7 @@ export class AdminProductsProductPage {
   }
 
   async fill() {
-    await this.name.fill(faker.company.name());
+    await this.name.fill(this.productName);
     const selectCategories = await this.selectCategories();
     const unselectCategory = await this.unselectCategory(selectCategories);
     await this.categoryIdUnselect.selectOption(selectCategories);
