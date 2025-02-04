@@ -69,6 +69,9 @@ class SC_View
         $this->_smarty->registerPlugin('modifier', 'is_numeric', 'is_numeric');
         $this->_smarty->registerPlugin('modifier', 'php_uname', 'php_uname');
         $this->_smarty->registerPlugin('modifier', 'array_key_exists', 'array_key_exists');
+        $this->_smarty->registerPlugin('modifier', 'key', 'key');
+        $this->_smarty->registerPlugin('modifier', 'strpos', 'strpos');
+        $this->_smarty->registerPlugin('modifier', 'current', 'current');
         // XXX register_function で登録すると if で使用できないのではないか？
         $this->_smarty->registerPlugin('function', 'sfIsHTTPS', ['SC_Utils_Ex', 'sfIsHTTPS']);
         $this->_smarty->registerPlugin('function', 'sfSetErrorStyle', ['SC_Utils_Ex', 'sfSetErrorStyle']);
