@@ -47,7 +47,6 @@ test.describe('SHOPマスターのテストをします', () => {
     await page.getByRole('row', { name: '送料無料条件' }).getByRole('textbox').fill(String(faker.number.int({ min: 1000, max: 10000 })));
     const downloadable_days = await page.getByRole('row', { name: 'ダウンロード可能日数' }).getByRole('textbox').inputValue();
     await page.getByRole('row', { name: 'ダウンロード可能日数' }).locator('input[name=downloadable_days_unlimited]').check();
-    await page.pause();
     await page.getByRole('link', { name: '確認ページへ' }).click();
     await page.getByRole('link', { name: 'この内容で登録する' }).click();
 
