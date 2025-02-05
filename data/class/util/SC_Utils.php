@@ -2245,4 +2245,29 @@ class SC_Utils
 
         return date('Y-m-d H:i:s').'.'.substr($micro_string[1], 0, 5);
     }
+
+    /**
+     * int 型の ID 値の妥当性チェック
+     *
+     * - ゼロは適合と扱う。
+     *     - dtb_pagelayout.page_id で使われるため。
+     * - 負の数は不適合と扱う。
+     * - NULL・空文字は不適合と扱う。
+     * - smallint 型のカラムには適用を想定していない。
+     *
+     * @param int|string $id
+     *
+     * @return bool 妥当か
+     */
+    public static function isValidIntId($id)
+    {
+        if (!is_string($id) && !is_int($id)) {
+            return false;
+        }
+
+        // 文字列として評価する。
+        $id = (string) $id;
+
+        return strlen($id) <= INT_LEN && ctype_digit($id);
+    }
 }
