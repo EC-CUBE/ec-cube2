@@ -1,5 +1,7 @@
 import { test, expect } from '../../../fixtures/admin/register_product.fixture.ts';
 import { ADMIN_DIR } from '../../../config/default.config';
+import fs from 'fs/promises';
+import iconv from 'iconv-lite';
 
 const url = `${ADMIN_DIR}/products/index.php`;
 test.describe('商品マスターのテストをします', () => {
@@ -81,5 +83,21 @@ test.describe('商品マスターのテストをします', () => {
     await expect(page.getByRole('heading', { name: '確認' })).toBeVisible();
     await page.getByRole('link', { name: 'この内容で登録する' }).click();
     await expect(page.getByText('登録が完了致しました')).toBeVisible();
+  });
+
+  test('CSVダウンロードのテストをします', async ({ page, adminProductsProductPage }) => {
+    await page.goto(url);
+    await page.getByRole('row', { name: '商品名' }).getByRole('textbox').nth(1).fill(adminProductsProductPage.productName);
+    await page.getByRole('link', { name: 'この条件で検索する' }).click();
+    const downloadPromise = page.waitForEvent('download');
+    await page.getByRole('link', { name: 'CSV ダウンロード' }).click()
+    const download = await downloadPromise;
+    await test.step('CSVファイルに商品名が含まれていることを確認します', async () => {
+      await download.path()
+        .then(path =>  fs.readFile(path))
+        .then(file => Buffer.from(file))
+        .then(buf => iconv.decode(buf, 'Windows-31J'))
+        .then(file => expect(file).toMatch(adminProductsProductPage.productName));
+    });
   });
 });
