@@ -132,6 +132,8 @@ class LC_Page_Admin extends LC_Page_Ex
     public $arrTitle;
     /** @var int */
     public $tpl_pagemax;
+    /** @var bool */
+    public $tpl_is_responsive;
 
     /**
      * Page を初期化する.
@@ -183,6 +185,8 @@ class LC_Page_Admin extends LC_Page_Ex
         if ($class_name != $parent_class_name) {
             $objPlugin->doAction($class_name.'_action_before', [$this]);
         }
+
+        $this->tpl_is_responsive = SC_Helper_PageLayout_Ex::isResponsive();
     }
 
     /**

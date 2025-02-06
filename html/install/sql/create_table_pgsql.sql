@@ -826,7 +826,7 @@ CREATE TABLE dtb_templates (
     template_name text,
     create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     update_date timestamp NOT NULL,
-    PRIMARY KEY (template_code)
+    PRIMARY KEY (template_code, device_type_id)
 );
 
 CREATE TABLE dtb_maker (
