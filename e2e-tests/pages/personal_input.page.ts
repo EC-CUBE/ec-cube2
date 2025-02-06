@@ -141,10 +141,10 @@ export class PersonalInputPage {
   fillPersonalInfo(sex?:number, job?:number, birth?:Date): Promise<void>;
   async fillPersonalInfo(sex?:number, job?:number, birth?:Date) {
     sex = sex ?? faker.number.int({ min: 1, max: 2 });
-    await this.sex.and(this.page.locator(`[value="${String(sex)}"]`)).check();
+    await this.sex.and(this.page.locator(`[value="${ String(sex) }"]`)).check();
     job = job ?? faker.number.int({ min: 1, max: 18 });
     await this.job.selectOption({ value: String(job) });
-    birth = birth ?? faker.date.past({ years:20, refDate: addYears(new Date(), -20).toISOString() });
+    birth = birth ?? faker.date.past({ years: 20, refDate: addYears(new Date(), -20).toISOString() });
     await this.birthYear.selectOption({ value: String(birth.getFullYear()) });
     await this.birthMonth.selectOption({ value: String(birth.getMonth() + 1) });
     await this.birthDay.selectOption({ value: String(birth.getDate()) });
@@ -163,6 +163,6 @@ export class PersonalInputPage {
   fillMailmagaFlg(mailmagaFlg: number): Promise<void>;
   async fillMailmagaFlg(mailmagaFlg?: number) {
     mailmagaFlg = mailmagaFlg ?? faker.number.int({ min: 1, max: 3 });
-    await this.mailmagaFlg.and(this.page.locator(`[value="${String(mailmagaFlg)}"]`)).check();
+    await this.mailmagaFlg.and(this.page.locator(`[value="${ String(mailmagaFlg) }"]`)).check();
   }
 }

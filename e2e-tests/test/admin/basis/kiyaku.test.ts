@@ -28,7 +28,7 @@ test.describe.serial('会員規約設定のテストをします', () => {
     await page.getByRole('row', { name: '規約内容' }).locator('textarea').fill(kiyaku);
     await page.getByRole('link', { name: 'この内容で登録する' }).click();
 
-    await test.step('会員規約の編集を確認します' , async () => {
+    await test.step('会員規約の編集を確認します', async () => {
       await test.step('登録直後は編集中表示', async () => {
         await expect(page.locator('table.list').getByRole('row').nth(1).getByText('編集中')).toBeVisible();
       });

@@ -12,7 +12,7 @@ export class AdminProductsProductPage {
   readonly categoryIdUnselect: Locator;
   readonly categoryId: Locator;
   readonly categoryRegisterButton: Locator;
-  readonly categoryDeleteButton: Locator
+  readonly categoryDeleteButton: Locator;
   readonly status: Locator;
   readonly productStatus: Locator;
   readonly productType: Locator;
@@ -64,19 +64,19 @@ export class AdminProductsProductPage {
     this.note = page.getByRole('row', { name: '備考欄(SHOP専用)' }).getByRole('textbox');
     this.mainListComment = page.getByRole('row', { name: '一覧-メインコメント' }).getByRole('textbox');
     this.mainComment = page.getByRole('row', { name: '詳細-メインコメント' }).getByRole('textbox');
-    this.mainLargeImage = page.getByRole('row', { name: '詳細-メイン拡大画像' }).getByRole('link', { name: 'アップロード' })
+    this.mainLargeImage = page.getByRole('row', { name: '詳細-メイン拡大画像' }).getByRole('link', { name: 'アップロード' });
 
     this.confirmButton = page.getByRole('link', { name: '確認ページへ' });
     this.registerButton = page.getByRole('link', { name: 'この内容で登録する' });
     for (let i = 1; i <= 5; i++) {
-      this.subTitles[i] = page.getByRole('row', { name: `詳細-サブタイトル( ${i})` }).getByRole('textbox');
-      this.subComments[i] = page.getByRole('row', { name: `詳細-サブコメント( ${i})` }).getByRole('textbox');
-      this.subLargeImages[i] = page.getByRole('row', { name: `詳細-サブ拡大画像( ${i})` }).getByRole('link', { name: 'アップロード' });
+      this.subTitles[ i ] = page.getByRole('row', { name: `詳細-サブタイトル( ${ i })` }).getByRole('textbox');
+      this.subComments[ i ] = page.getByRole('row', { name: `詳細-サブコメント( ${ i })` }).getByRole('textbox');
+      this.subLargeImages[ i ] = page.getByRole('row', { name: `詳細-サブ拡大画像( ${ i })` }).getByRole('link', { name: 'アップロード' });
     }
     for (let i = 1; i <= 6; i++) {
-      this.recommendChangeButtons[i] = page.getByRole('row', { name: `関連商品( ${i})` }).getByRole('link', { name: '変更' });
-      this.recommendDeletes[i] = page.getByRole('row', { name: `関連商品( ${i})` }).locator(`input[name=recommend_delete${i}]`);
-      this.recommendComments[i] = page.getByRole('row', { name: `関連商品( ${i})` }).getByRole('textbox');
+      this.recommendChangeButtons[ i ] = page.getByRole('row', { name: `関連商品( ${ i })` }).getByRole('link', { name: '変更' });
+      this.recommendDeletes[ i ] = page.getByRole('row', { name: `関連商品( ${ i })` }).locator(`input[name=recommend_delete${ i }]`);
+      this.recommendComments[ i ] = page.getByRole('row', { name: `関連商品( ${ i })` }).getByRole('textbox');
     }
 
     this.productName = productName ?? faker.company.name();
@@ -93,7 +93,7 @@ export class AdminProductsProductPage {
     await this.categoryIdUnselect.selectOption(selectCategories);
     await this.categoryRegisterButton.click();
     if (selectCategories.length > 1) {
-      await this.categoryId.selectOption(faker.helpers.arrayElement([unselectCategory]));
+      await this.categoryId.selectOption(faker.helpers.arrayElement([ unselectCategory ]));
       await this.categoryDeleteButton.click();
     }
     await this.fillStatus();
@@ -145,7 +145,7 @@ export class AdminProductsProductPage {
 
   async fillProductStatus(): Promise<void>;
   async fillProductStatus(productStatus?: string[]) {
-    productStatus = productStatus ?? faker.helpers.arrayElements(['NEW', '残りわずか', 'ポイント２倍', 'オススメ', '限定品']);
+    productStatus = productStatus ?? faker.helpers.arrayElements([ 'NEW', '残りわずか', 'ポイント２倍', 'オススメ', '限定品' ]);
     for (const status of productStatus) {
       await this.productStatus.getByLabel(status, { exact: true }).click();
     }
@@ -174,7 +174,7 @@ export class AdminProductsProductPage {
 
   async fillDelivDate(): Promise<void>;
   async fillDelivDate(delivDate?: '即日' | '1～2日後' | '3～4日後' | '1週間以降' | '2週間以降' | '3週間以降' | '1ヶ月以降' | '2ヶ月以降' | 'お取り寄せ(商品入荷後)') {
-    delivDate = delivDate ?? faker.helpers.arrayElement(['即日', '1～2日後', '3～4日後', '1週間以降', '2週間以降', '3週間以降', '1ヶ月以降', '2ヶ月以降', 'お取り寄せ(商品入荷後)']);
+    delivDate = delivDate ?? faker.helpers.arrayElement([ '即日', '1～2日後', '3～4日後', '1週間以降', '2週間以降', '3週間以降', '1ヶ月以降', '2ヶ月以降', 'お取り寄せ(商品入荷後)' ]);
     await this.delivDate.selectOption({ label: delivDate });
   }
 
@@ -200,41 +200,41 @@ export class AdminProductsProductPage {
   }
 
   async fillSubComments(): Promise<void> {
-    if (await this.subTitles[1].isHidden()) {
+    if (await this.subTitles[ 1 ].isHidden()) {
       await this.page.getByRole('link', { name: 'サブ情報表示/非表示' }).click();
     }
     for (let i = 1; i <= 5; i++) {
-      await this.subTitles[i].fill(faker.lorem.words(3));
-      await this.subComments[i].fill(faker.lorem.sentence());
+      await this.subTitles[ i ].fill(faker.lorem.words(3));
+      await this.subComments[ i ].fill(faker.lorem.sentence());
       await this.uploadSubLargeImage(i);
     }
   }
 
   async uploadSubLargeImage(index: number, filepath?: string): Promise<void> {
     const fileChooserPromise = this.page.waitForEvent('filechooser');
-    await this.page.locator(`input[name=sub_large_image${index}]`).click();
+    await this.page.locator(`input[name=sub_large_image${ index }]`).click();
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(filepath ?? path.join(__dirname, '..', '..', '..', 'fixtures', 'images', 'main.jpg'));
-    await this.subLargeImages[index].click();
+    await this.subLargeImages[ index ].click();
   }
 
   async fillRecommends(): Promise<void> {
-    if (await this.recommendChangeButtons[1].isHidden()) {
+    if (await this.recommendChangeButtons[ 1 ].isHidden()) {
       await this.page.getByRole('link', { name: '関連商品表示/非表示' }).click();
     }
     await this.fillRecommend(1, 'おなべ');
     await this.fillRecommend(2, 'おなべレシピ');
     await this.fillRecommend(3, 'アイスクリーム');
-    await this.recommendDeletes[2].check();
+    await this.recommendDeletes[ 2 ].check();
   }
 
   async fillRecommend(index: number, productName: string): Promise<void> {
     const popupPromise = this.page.waitForEvent('popup');
-    await this.recommendChangeButtons[index].click();
+    await this.recommendChangeButtons[ index ].click();
     const popup = await popupPromise;
     await popup.getByRole('row', { name: '商品名' }).getByRole('textbox').fill(productName);
     await popup.getByRole('link', { name: '検索を開始' }).click();
     await popup.locator('table.list').getByRole('row').nth(1).getByRole('link', { name: '決定' }).click();
-    await this.recommendComments[index].fill(faker.lorem.sentence());
+    await this.recommendComments[ index ].fill(faker.lorem.sentence());
   }
 }

@@ -22,7 +22,7 @@ test.describe.serial('購入履歴のテストをします', () => {
       const shoppingDelivPage = new ShoppingDelivPage(page);
       await shoppingDelivPage.gotoNext();
       const shoppingPaymentPage = new ShoppingPaymentPage(page);
-      await shoppingPaymentPage.selectPaymentMethod(faker.helpers.arrayElement(['郵便振替', '現金書留', '銀行振込', '代金引換']));
+      await shoppingPaymentPage.selectPaymentMethod(faker.helpers.arrayElement([ '郵便振替', '現金書留', '銀行振込', '代金引換' ]));
       await shoppingPaymentPage.selectDeliveryDate(faker.number.int({ min: 0, max: 5 }));
       await shoppingPaymentPage.selectDeliveryTime(faker.number.int({ min: 0, max: 2 }));
       await shoppingPaymentPage.fillMessage(faker.lorem.sentence());
@@ -40,7 +40,7 @@ test.describe.serial('購入履歴のテストをします', () => {
 
     await test.step('メールの送信履歴を確認します', async () => {
       const popupPromise = page.waitForEvent('popup');
-      await page.getByRole('link', {name: 'ご注文ありがとうございます' }).click();
+      await page.getByRole('link', { name: 'ご注文ありがとうございます' }).click();
       const popup = await popupPromise;
       await expect(popup.getByText('ご注文ありがとうございます')).toBeVisible();
     });

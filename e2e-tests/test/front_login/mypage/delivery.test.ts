@@ -20,7 +20,7 @@ test.describe.serial('お届け先追加のテストをします', () => {
         const name01 = await mypageDeliveryAddrPage.personalInputPage.name01.inputValue();
         const name02 = await mypageDeliveryAddrPage.personalInputPage.name02.inputValue();
         await mypageDeliveryAddrPage.register();
-        await expect(page.getByRole('row', {name: `${name01} ${name02}`})).toBeVisible();
+        await expect(page.getByRole('row', { name: `${ name01 } ${ name02 }` })).toBeVisible();
       });
     }
 
@@ -30,21 +30,21 @@ test.describe.serial('お届け先追加のテストをします', () => {
 
     await test.step('お届け先の変更を確認します', async () => {
       const popupPromise = page.waitForEvent('popup');
-      await page.locator('table[summary=お届け先]').getByRole('row').nth(1).getByRole('link', {name: '変更'}).click();
+      await page.locator('table[summary=お届け先]').getByRole('row').nth(1).getByRole('link', { name: '変更' }).click();
       const popup = await popupPromise;
       const mypageDeliveryAddrPage = new MypageDeliveryAddrPage(popup);
       await mypageDeliveryAddrPage.personalInputPage.fillName();
       const name01 = await mypageDeliveryAddrPage.personalInputPage.name01.inputValue();
       const name02 = await mypageDeliveryAddrPage.personalInputPage.name02.inputValue();
       await mypageDeliveryAddrPage.register();
-      await expect(page.getByRole('row', {name: `${name01} ${name02}`})).toBeVisible();
+      await expect(page.getByRole('row', { name: `${ name01 } ${ name02 }` })).toBeVisible();
     });
 
     page.on('dialog', dialog => dialog.accept());
     await test.step('お届け先の削除を確認します', async () => {
       const name = await page.locator('table[summary=お届け先]').getByRole('row').nth(1).getByRole('cell').nth(2).textContent() ?? '';
-      await page.locator('table[summary=お届け先]').getByRole('row').nth(1).getByRole('link', {name: '削除'}).click();
-      await expect(page.locator('table[summary=お届け先]').getByRole('row', {name: name})).not.toBeVisible();
+      await page.locator('table[summary=お届け先]').getByRole('row').nth(1).getByRole('link', { name: '削除' }).click();
+      await expect(page.locator('table[summary=お届け先]').getByRole('row', { name: name })).not.toBeVisible();
     });
   });
 });

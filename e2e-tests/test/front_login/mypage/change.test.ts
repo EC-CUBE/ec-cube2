@@ -14,7 +14,7 @@ test.describe.serial('会員登録内容変更画面のテストをします', (
     await entryPage.confirm();
     await page.locator('id=complete').click();
     await expect(page).toHaveTitle(/会員登録内容変更\(完了ページ\)/);
-    await expect(page.locator('id=header_login_area'), '名前が変更されているのを確認').toContainText(`${name01} ${name02}`);
+    await expect(page.locator('id=header_login_area'), '名前が変更されているのを確認').toContainText(`${ name01 } ${ name02 }`);
   });
 
   test('LC_Page_Mypage_Change_Ex クラスのテストをします @extends', async ( { page }) => {

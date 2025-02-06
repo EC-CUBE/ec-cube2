@@ -67,6 +67,7 @@ test.describe.serial('会員登録のテストをします', () => {
       await expect(page.locator('#form1 >> tr:nth-child(7) > td')).toContainText(await page.locator('input[name=fax02]').inputValue());
       await expect(page.locator('#form1 >> tr:nth-child(7) > td')).toContainText(await page.locator('input[name=fax03]').inputValue());
       await expect(page.locator('#form1 >> tr:nth-child(8) > td')).toContainText(await page.locator('input[name=email]').inputValue());
+
       // TODO 性別、職業、パスワードを忘れた時のヒント等の Type を作成する
       await entryPage.register();
     });

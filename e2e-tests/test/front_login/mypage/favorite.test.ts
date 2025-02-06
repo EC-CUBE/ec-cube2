@@ -20,11 +20,11 @@ test.describe.serial('お気に入りのテストをします', () => {
       await page.goto(url);
       await expect(page).toHaveTitle(/お気に入り一覧/);
       await expect(page.getByText('1件のお気に入りがあります')).toBeVisible();
-      await expect(page.locator('table[summary=お気に入り]').getByRole('row', {name: 'おなべ'})).toBeVisible();
+      await expect(page.locator('table[summary=お気に入り]').getByRole('row', { name: 'おなべ' })).toBeVisible();
     });
 
     await test.step('お気に入りを削除します', async () => {
-      await page.locator('table[summary=お気に入り]').getByRole('row', {name: 'おなべ'}).getByRole('link', {name: '削除'}).click();
+      await page.locator('table[summary=お気に入り]').getByRole('row', { name: 'おなべ' }).getByRole('link', { name: '削除' }).click();
       await expect(page.getByText('お気に入りが登録されておりません')).toBeVisible();
     });
   });

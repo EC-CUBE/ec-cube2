@@ -26,6 +26,6 @@ export class ShoppingMultiplePage {
   }
 
   async assignDeliveryAddress(rowIndex: number, addressIndex: number) {
-    await this.page.locator(`select[name="shipping\\[${rowIndex}\\]"]`).selectOption({ index: addressIndex });
+    await this.page.locator(`select[name="shipping\\[${ rowIndex }\\]"]`).selectOption({ index: addressIndex });
   }
 }

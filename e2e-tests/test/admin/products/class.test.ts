@@ -3,7 +3,7 @@ import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 
 
-const url = `${ADMIN_DIR}/products/class.php`;
+const url = `${ ADMIN_DIR }/products/class.php`;
 test.describe('規格管理画面のテストをします', () => {
   test('規格管理画面のテストをします', async ({ page, adminProductsProductPage }) => {
     page.on('dialog', dialog => dialog.accept());
@@ -46,13 +46,13 @@ test.describe('規格管理画面のテストをします', () => {
       await test.step('規格分類を編集をします', async () => {
         await page.getByRole('row', { name: classCategoryName1 }).getByRole('link', { name: '編集' }).click();
         await expect(page.getByRole('row', { name: '分類名' }).first().getByRole('textbox')).toHaveValue(classCategoryName1);
-        await page.getByRole('row', { name: '分類名' }).first().getByRole('textbox').fill(`${classCategoryName1}を編集`);
+        await page.getByRole('row', { name: '分類名' }).first().getByRole('textbox').fill(`${ classCategoryName1 }を編集`);
         await page.getByRole('link', { name: 'この内容で登録する' }).click();
       });
 
       await test.step('規格分類を削除します', async () => {
-        await page.getByRole('row', { name: `${classCategoryName1}を編集` }).getByRole('link', { name: '削除' }).click();
-        await expect(page.getByRole('row', { name: `${classCategoryName1}を編集` })).toBeHidden();
+        await page.getByRole('row', { name: `${ classCategoryName1 }を編集` }).getByRole('link', { name: '削除' }).click();
+        await expect(page.getByRole('row', { name: `${ classCategoryName1 }を編集` })).toBeHidden();
 
         await page.getByRole('row', { name: classCategoryName2 }).getByRole('link', { name: '削除' }).click();
         await expect(page.getByRole('row', { name: classCategoryName2 })).toBeHidden();

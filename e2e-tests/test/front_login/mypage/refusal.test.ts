@@ -7,7 +7,7 @@ test.describe.serial('退会手続きのテストをします', () => {
     await page.goto(url);
     await page.getByAltText('会員退会を行う').click();
     await page.getByAltText('はい、退会します').click();
-    await expect(page.getByRole('heading', {name: '退会手続き(完了ページ)'})).toBeVisible();
+    await expect(page.getByRole('heading', { name: '退会手続き(完了ページ)' })).toBeVisible();
 
     await test.step('退会しログアウトしたことを確認します', async () => {
       await page.goto('/');

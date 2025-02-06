@@ -19,6 +19,6 @@ export class EndpointReader {
   }
 
   filter(prefix: string) {
-    return this.endpoints.filter(line => line.match(new RegExp(`^${prefix}`)));
+    return this.endpoints.filter(line => line.match(new RegExp(`^${ prefix }`)));
   }
 }

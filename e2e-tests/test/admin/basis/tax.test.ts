@@ -7,7 +7,7 @@ test.describe.serial('税率設定のテストをします', () => {
   test('商品別税率のテストをします', async ( { adminLoginPage, page } ) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);
-    await page.getByRole('row', { name: '商品別税率機能' }).getByLabel('有効').check();;
+    await page.getByRole('row', { name: '商品別税率機能' }).getByLabel('有効').check();
     await page.getByRole('link', { name: 'この内容で登録する' }).first().click();
 
     // XXX 何故か GitHUb Actions で変更が反映されないのでコメントアウト
@@ -18,7 +18,7 @@ test.describe.serial('税率設定のテストをします', () => {
     // });
 
     await page.goto(url);
-    await page.getByRole('row', { name: '商品別税率機能' }).getByLabel('無効').check();;
+    await page.getByRole('row', { name: '商品別税率機能' }).getByLabel('無効').check();
     await page.getByRole('link', { name: 'この内容で登録する' }).first().click();
   });
 
@@ -27,7 +27,7 @@ test.describe.serial('税率設定のテストをします', () => {
     await page.goto(url);
     const taxRate = String(faker.number.int({ min: 1, max: 999 }));
     await page.getByRole('row', { name: '消費税率' }).getByRole('textbox').fill(taxRate);
-    await page.getByRole('row', { name: '課税規則' }).getByLabel(faker.helpers.arrayElement(['切り捨て', '四捨五入', '切り上げ'])).check();
+    await page.getByRole('row', { name: '課税規則' }).getByLabel(faker.helpers.arrayElement([ '切り捨て', '四捨五入', '切り上げ' ])).check();
     const applyDate = faker.date.future({ years: 2 });
     await page.locator('select[name="apply_date_year"]').selectOption({ value: String(applyDate.getFullYear()) });
     await page.locator('select[name="apply_date_month"]').selectOption({ value: String(applyDate.getMonth() + 1) });

@@ -3,7 +3,7 @@ import { ADMIN_DIR } from '../../../config/default.config';
 import fs from 'fs/promises';
 import iconv from 'iconv-lite';
 
-const url = `${ADMIN_DIR}/products/index.php`;
+const url = `${ ADMIN_DIR }/products/index.php`;
 test.describe('商品マスターのテストをします', () => {
   test('商品名で検索します', async ({ page, adminProductsProductPage }) => {
     await page.goto(url);
@@ -20,13 +20,13 @@ test.describe('商品マスターのテストをします', () => {
     await expect(page.getByRole('row', { name: '商品名' }).locator('input[name=name]')).toHaveValue(adminProductsProductPage.productName);
 
     await test.step('商品名を編集します', async () => {
-      await adminProductsProductPage.name.first().fill(`${adminProductsProductPage.productName}を編集`);
+      await adminProductsProductPage.name.first().fill(`${ adminProductsProductPage.productName }を編集`);
       await adminProductsProductPage.gotoConfirm();
       await adminProductsProductPage.register();
       await expect(page.getByText('登録が完了致しました')).toBeVisible();
       await page.getByRole('link', { name: '検索結果へ戻る' }).click();
     });
-    await expect(page.locator('table.list').getByText(`${adminProductsProductPage.productName}を編集`)).toBeVisible();
+    await expect(page.locator('table.list').getByText(`${ adminProductsProductPage.productName }を編集`)).toBeVisible();
   });
 
   test('商品確認のテストをします', async ({ page, adminProductsProductPage }) => {
@@ -57,13 +57,13 @@ test.describe('商品マスターのテストをします', () => {
     await expect(page.getByRole('row', { name: '商品名' }).locator('input[name=name]')).toHaveValue(adminProductsProductPage.productName);
 
     await test.step('商品名を編集します', async () => {
-      await adminProductsProductPage.name.first().fill(`${adminProductsProductPage.productName}のコピー`);
+      await adminProductsProductPage.name.first().fill(`${ adminProductsProductPage.productName }のコピー`);
       await adminProductsProductPage.gotoConfirm();
       await adminProductsProductPage.register();
       await expect(page.getByText('登録が完了致しました')).toBeVisible();
       await page.getByRole('link', { name: '検索結果へ戻る' }).click();
     });
-    await expect(page.locator('table.list').getByText(`${adminProductsProductPage.productName}のコピー`)).toBeVisible();
+    await expect(page.locator('table.list').getByText(`${ adminProductsProductPage.productName }のコピー`)).toBeVisible();
   });
 
   test('商品規格登録のテストをします', async ({ page, adminProductsProductPage }) => {
@@ -90,7 +90,7 @@ test.describe('商品マスターのテストをします', () => {
     await page.getByRole('row', { name: '商品名' }).getByRole('textbox').nth(1).fill(adminProductsProductPage.productName);
     await page.getByRole('link', { name: 'この条件で検索する' }).click();
     const downloadPromise = page.waitForEvent('download');
-    await page.getByRole('link', { name: 'CSV ダウンロード' }).click()
+    await page.getByRole('link', { name: 'CSV ダウンロード' }).click();
     const download = await downloadPromise;
     await test.step('CSVファイルに商品名が含まれていることを確認します', async () => {
       await download.path()

@@ -2,7 +2,7 @@ import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 import path from 'path';
 
-const url = `${ADMIN_DIR}/products/upload_csv.php`;
+const url = `${ ADMIN_DIR }/products/upload_csv.php`;
 test.describe('商品登録CSV画面のテストをします', () => {
   test('商品登録CSV画面のテストをします', async ({ page, adminLoginPage }) => {
     await page.goto(url);
