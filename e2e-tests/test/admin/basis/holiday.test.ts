@@ -12,7 +12,7 @@ test.describe('定休日管理画面のテストをします', () => {
 
   test('エラーハンドリングのテストをします', async ( { adminLoginPage, page }) => {
     await page.goto(url);
-    expect(page.getByRole('row', { name: 'タイトル' }).getByRole('textbox')).toBeEmpty();
+    await expect(page.getByRole('row', { name: 'タイトル' }).getByRole('textbox')).toBeEmpty();
     await expect(page.getByRole('row', { name: '日付' }).locator('select[name=month]')).toHaveValue('');
     await expect(page.getByRole('row', { name: '日付' }).locator('select[name=day]')).toHaveValue('');
     await page.getByRole('link', { name: 'この内容で登録する' }).click();

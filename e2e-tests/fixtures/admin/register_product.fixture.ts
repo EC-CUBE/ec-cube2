@@ -6,6 +6,7 @@ type RegisterProductFixtures = {
 };
 
 export const test = base.extend<RegisterProductFixtures>({
+
   adminProductsProductPage: async ({ adminLoginPage, page }, use) => {
     const productPage = new AdminProductsProductPage(page);
     await productPage.goto();

@@ -25,7 +25,7 @@ test.describe.serial('お届け先追加のテストをします', () => {
     }
 
     await test.step('お届け先の最大件数を確認します', async () => {
-      await expect(page.getByAltText('新しいお届け先を追加')).not.toBeVisible();
+      await expect(page.getByAltText('新しいお届け先を追加')).toBeHidden();
     });
 
     await test.step('お届け先の変更を確認します', async () => {
@@ -44,7 +44,7 @@ test.describe.serial('お届け先追加のテストをします', () => {
     await test.step('お届け先の削除を確認します', async () => {
       const name = await page.locator('table[summary=お届け先]').getByRole('row').nth(1).getByRole('cell').nth(2).textContent() ?? '';
       await page.locator('table[summary=お届け先]').getByRole('row').nth(1).getByRole('link', { name: '削除' }).click();
-      await expect(page.locator('table[summary=お届け先]').getByRole('row', { name: name })).not.toBeVisible();
+      await expect(page.locator('table[summary=お届け先]').getByRole('row', { name: name })).toBeHidden();
     });
   });
 });

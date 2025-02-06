@@ -18,7 +18,7 @@ test.describe('商品詳細のテストをします', () => {
 
   test('システムエラーが出ていないのを確認します', async ( { mypageLoginPage, page } ) => {
     await page.goto(url);
-    await expect(page.locator('.error')).not.toBeVisible();
+    await expect(page.locator('.error')).toBeHidden();
   });
 
   test('異常系を確認します', async ( { mypageLoginPage, page } ) => {

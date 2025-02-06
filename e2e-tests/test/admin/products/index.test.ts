@@ -45,7 +45,7 @@ test.describe('商品マスターのテストをします', () => {
     await page.getByRole('row', { name: '商品名' }).getByRole('textbox').nth(1).fill(adminProductsProductPage.productName);
     await page.getByRole('link', { name: 'この条件で検索する' }).click();
     await page.locator('table.list').getByRole('row').nth(2).getByRole('link', { name: '削除' }).click();
-    await expect(page.locator('table.list').getByText(adminProductsProductPage.productName)).not.toBeVisible();
+    await expect(page.locator('table.list').getByText(adminProductsProductPage.productName)).toBeHidden();
   });
 
   test('商品複製のテストをします', async ({ page, adminProductsProductPage }) => {

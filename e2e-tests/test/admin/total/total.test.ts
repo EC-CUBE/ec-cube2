@@ -21,15 +21,15 @@ test.describe('売上集計画面を確認をします', () => {
 
     test('日付の初期値を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(`${ url }?page=${ method }`);
-      expect(await page.inputValue('select[name=search_startyear_m]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_startmonth_m]')).toBe(String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_startyear_m]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_startmonth_m]', String(current.getMonth() + 1));
 
-      expect(await page.inputValue('select[name=search_startyear]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_startmonth]')).toBe(String(current.getMonth() + 1));
-      expect(await page.inputValue('select[name=search_startday]')).toBe(String(current.getDate()));
-      expect(await page.inputValue('select[name=search_endyear]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_endmonth]')).toBe(String(current.getMonth() + 1));
-      expect(await page.inputValue('select[name=search_endday]')).toBe(String(current.getDate()));
+      await expect(page).toHaveValue('select[name=search_startyear]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_startmonth]', String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_startday]', String(current.getDate()));
+      await expect(page).toHaveValue('select[name=search_endyear]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_endmonth]', String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_endday]', String(current.getDate()));
     });
 
     test('月度集計の確認をします', async ( { adminLoginPage, page } ) => {
@@ -100,15 +100,15 @@ test.describe('売上集計画面を確認をします', () => {
 
     test('日付の初期値を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(`${ url }?page=${ method }`);
-      expect(await page.inputValue('select[name=search_startyear_m]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_startmonth_m]')).toBe(String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_startyear_m]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_startmonth_m]', String(current.getMonth() + 1));
 
-      expect(await page.inputValue('select[name=search_startyear]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_startmonth]')).toBe(String(current.getMonth() + 1));
-      expect(await page.inputValue('select[name=search_startday]')).toBe(String(current.getDate()));
-      expect(await page.inputValue('select[name=search_endyear]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_endmonth]')).toBe(String(current.getMonth() + 1));
-      expect(await page.inputValue('select[name=search_endday]')).toBe(String(current.getDate()));
+      await expect(page).toHaveValue('select[name=search_startyear]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_startmonth]', String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_startday]', String(current.getDate()));
+      await expect(page).toHaveValue('select[name=search_endyear]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_endmonth]', String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_endday]', String(current.getDate()));
     });
 
     test('月度集計の確認をします', async ( { adminLoginPage, page } ) => {
@@ -163,15 +163,15 @@ test.describe('売上集計画面を確認をします', () => {
 
     test('日付の初期値を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(`${ url }?page=${ method }`);
-      expect(await page.inputValue('select[name=search_startyear_m]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_startmonth_m]')).toBe(String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_startyear_m]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_startmonth_m]', String(current.getMonth() + 1));
 
-      expect(await page.inputValue('select[name=search_startyear]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_startmonth]')).toBe(String(current.getMonth() + 1));
-      expect(await page.inputValue('select[name=search_startday]')).toBe(String(current.getDate()));
-      expect(await page.inputValue('select[name=search_endyear]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_endmonth]')).toBe(String(current.getMonth() + 1));
-      expect(await page.inputValue('select[name=search_endday]')).toBe(String(current.getDate()));
+      await expect(page).toHaveValue('select[name=search_startyear]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_startmonth]', String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_startday]', String(current.getDate()));
+      await expect(page).toHaveValue('select[name=search_endyear]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_endmonth]', String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_endday]', String(current.getDate()));
     });
 
     test('月度集計の確認をします', async ( { adminLoginPage, page } ) => {
@@ -226,15 +226,15 @@ test.describe('売上集計画面を確認をします', () => {
 
     test('日付の初期値を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(`${ url }?page=${ method }`);
-      expect(await page.inputValue('select[name=search_startyear_m]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_startmonth_m]')).toBe(String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_startyear_m]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_startmonth_m]', String(current.getMonth() + 1));
 
-      expect(await page.inputValue('select[name=search_startyear]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_startmonth]')).toBe(String(current.getMonth() + 1));
-      expect(await page.inputValue('select[name=search_startday]')).toBe(String(current.getDate()));
-      expect(await page.inputValue('select[name=search_endyear]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_endmonth]')).toBe(String(current.getMonth() + 1));
-      expect(await page.inputValue('select[name=search_endday]')).toBe(String(current.getDate()));
+      await expect(page).toHaveValue('select[name=search_startyear]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_startmonth]', String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_startday]', String(current.getDate()));
+      await expect(page).toHaveValue('select[name=search_endyear]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_endmonth]', String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_endday]', String(current.getDate()));
     });
 
     test('月度集計の確認をします', async ( { adminLoginPage, page } ) => {
@@ -273,15 +273,15 @@ test.describe('売上集計画面を確認をします', () => {
 
     test('日付の初期値を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(`${ url }?page=${ method }`);
-      expect(await page.inputValue('select[name=search_startyear_m]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_startmonth_m]')).toBe(String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_startyear_m]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_startmonth_m]', String(current.getMonth() + 1));
 
-      expect(await page.inputValue('select[name=search_startyear]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_startmonth]')).toBe(String(current.getMonth() + 1));
-      expect(await page.inputValue('select[name=search_startday]')).toBe(String(current.getDate()));
-      expect(await page.inputValue('select[name=search_endyear]')).toBe(String(current.getFullYear()));
-      expect(await page.inputValue('select[name=search_endmonth]')).toBe(String(current.getMonth() + 1));
-      expect(await page.inputValue('select[name=search_endday]')).toBe(String(current.getDate()));
+      await expect(page).toHaveValue('select[name=search_startyear]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_startmonth]', String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_startday]', String(current.getDate()));
+      await expect(page).toHaveValue('select[name=search_endyear]', String(current.getFullYear()));
+      await expect(page).toHaveValue('select[name=search_endmonth]', String(current.getMonth() + 1));
+      await expect(page).toHaveValue('select[name=search_endday]', String(current.getDate()));
     });
 
     test('月度集計の確認をします', async ( { adminLoginPage, page } ) => {
