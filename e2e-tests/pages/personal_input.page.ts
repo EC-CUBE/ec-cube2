@@ -74,7 +74,6 @@ export class PersonalInputPage {
   }
 
   fillName(): Promise<void>;
-  fillName(name01: string, name02: string, kana01: string, kana02: string): Promise<void>;
   async fillName(name01?: string, name02?: string, kana01?: string, kana02?: string) {
     name01 = name01 ?? faker.person.lastName();
     name02 = name02 ?? faker.person.firstName();
@@ -87,14 +86,12 @@ export class PersonalInputPage {
   }
 
   fillCompany(): Promise<void>;
-  fillCompany(companyName: string): Promise<void>;
   async fillCompany(companyName?: string) {
     companyName = companyName ?? faker.company.name();
     await this.companyName.fill(companyName);
   }
 
   fillAddress(): Promise<void>;
-  fillAddress(zip01: number, zip02: number, pref: string, addr01: string, addr02: string): Promise<void>;
   async fillAddress(zip01?: number, zip02?: number, pref?: string, addr01?: string, addr02?: string) {
     await this.zip01.fill(String(zip01 ?? faker.location.zipCode('###')));
     await this.zip02.fill(String(zip02 ?? faker.location.zipCode('####')));
@@ -104,8 +101,6 @@ export class PersonalInputPage {
   }
 
   fillTel(): Promise<void>;
-  fillTel(tel: string): Promise<void>;
-  fillTel(tel01: number, tel02: number, tel03: number): Promise<void>;
   async fillTel(tel01?: number | string, tel02?: number, tel03?: number) {
     await this.tel01.fill(String(tel01 ?? faker.string.numeric(3)));
     await this.tel02.fill(String(tel02 ?? faker.string.numeric(3)));
@@ -113,8 +108,6 @@ export class PersonalInputPage {
   }
 
   fillFax(): Promise<void>;
-  fillFax(fax: string): Promise<void>;
-  fillFax(fax01: number, fax02: number, fax03: number): Promise<void>;
   async fillFax(fax01?: number | string, fax02?: number, fax03?: number) {
     await this.fax01.fill(String(fax01 ?? faker.string.numeric(3)));
     await this.fax02.fill(String(fax02 ?? faker.string.numeric(3)));
@@ -122,7 +115,6 @@ export class PersonalInputPage {
   }
 
   fillEmail(): Promise<void>;
-  fillEmail(emailAddress: string): Promise<void>;
   async fillEmail(emailAddress?: string) {
     emailAddress = emailAddress ?? this.emailAddress;
     await this.email.fill(emailAddress);
@@ -130,7 +122,6 @@ export class PersonalInputPage {
   }
 
   fillPassword(): Promise<void>;
-  fillPassword(password: string): Promise<void>;
   async fillPassword(password?: string) {
     password = password ?? ECCUBE_DEFAULT_PASS;
     await this.password.fill(password);
@@ -138,7 +129,6 @@ export class PersonalInputPage {
   }
 
   fillPersonalInfo(): Promise<void>;
-  fillPersonalInfo(sex?:number, job?:number, birth?:Date): Promise<void>;
   async fillPersonalInfo(sex?:number, job?:number, birth?:Date) {
     sex = sex ?? faker.number.int({ min: 1, max: 2 });
     await this.sex.and(this.page.locator(`[value="${ String(sex) }"]`)).check();
@@ -151,7 +141,6 @@ export class PersonalInputPage {
   }
 
   fillReminder(): Promise<void>;
-  fillReminder(reminder?: number, reminderAnswer?: string): Promise<void>;
   async fillReminder(reminder?: number, reminderAnswer?: string) {
     reminder = reminder ?? faker.number.int({ min: 1, max: 7 });
     await this.reminder.selectOption({ value: String(reminder) });
@@ -160,7 +149,6 @@ export class PersonalInputPage {
   }
 
   fillMailmagaFlg(): Promise<void>;
-  fillMailmagaFlg(mailmagaFlg: number): Promise<void>;
   async fillMailmagaFlg(mailmagaFlg?: number) {
     mailmagaFlg = mailmagaFlg ?? faker.number.int({ min: 1, max: 3 });
     await this.mailmagaFlg.and(this.page.locator(`[value="${ String(mailmagaFlg) }"]`)).check();

@@ -5,6 +5,7 @@ import path from 'path';
 
 const url = `/${ ADMIN_DIR }/basis/payment.php`;
 test.describe.serial('支払方法設定のテストをします', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('支払方法一覧のテストをします', async ( { adminLoginPage, page }) => {
     await page.goto(url);
     await expect(page.locator('h1')).toContainText(/支払方法設定/);
@@ -22,6 +23,7 @@ test.describe.serial('支払方法設定のテストをします', () => {
     });
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('支払方法を登録するテストをします', async ( { adminLoginPage, page }) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);

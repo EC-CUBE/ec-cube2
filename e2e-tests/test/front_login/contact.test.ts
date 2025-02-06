@@ -1,7 +1,6 @@
 import { test, expect } from '../../fixtures/front_login/mypage_login.fixture';
-import { Page } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
-import { ZapClient, Mode, ContextType, Risk, HttpMessage } from '../../utils/ZapClient';
+import { Risk, HttpMessage } from '../../utils/ZapClient';
 import { intervalRepeater } from '../../utils/Progress';
 import { ContactPage } from '../../pages/contact.page';
 
@@ -13,8 +12,8 @@ const inputNames = [
 const url = `${ PlaywrightConfig?.use?.baseURL ?? '' }/contact/index.php`;
 
 test.describe.serial('お問い合わせページのテストをします', () => {
-  let page: Page;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('お問い合わせページを表示します', async ( { mypageLoginPage, page } ) => {
     const contactPage = new ContactPage(page);
     await contactPage.goto();
@@ -28,7 +27,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
       const contactPage = new ContactPage(page);
       const zapClient = contactPage.getZapClient();
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'GET');
-      await intervalRepeater(async ( { page } ) => await zapClient.getActiveScanStatus(scanId), 5000, page);
+      await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
 
       await zapClient.getAlerts(url, 0, 1, Risk.High)
         .then(alerts => expect(alerts).toEqual([]));

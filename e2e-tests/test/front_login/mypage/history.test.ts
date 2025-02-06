@@ -8,6 +8,8 @@ import { faker } from '@faker-js/faker/locale/ja';
 
 const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/mypage/index.php`;
 test.describe.serial('購入履歴のテストをします', () => {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('購入履歴のテストをします', async ( { mypageLoginPage, page }) => {
     await page.goto(url);
     await expect(page).toHaveTitle(/購入履歴一覧/);

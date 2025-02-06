@@ -5,6 +5,8 @@ import { MypageDeliveryAddrPage } from '../../../pages/mypage/delivery_addr.page
 const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/mypage/delivery.php`;
 const DELIV_ADDR_MAX = 20;
 test.describe.serial('お届け先追加のテストをします', () => {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('お届け先追加のテストをします', async ( { mypageLoginPage, page }) => {
     await page.goto(url);
     await expect(page).toHaveTitle(/お届け先追加･変更/);

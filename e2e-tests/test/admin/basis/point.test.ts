@@ -1,9 +1,10 @@
-import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
+import { test } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 
 const url = `/${ ADMIN_DIR }/basis/point.php`;
 test.describe('ポイント設定のテストをします', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('ポイント設定のテストをします', async ( { adminLoginPage, page }) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);

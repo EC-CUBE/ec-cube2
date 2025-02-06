@@ -1,4 +1,4 @@
-import { test, expect, chromium, Page, request, APIRequestContext } from '@playwright/test';
+import { test, expect, request, APIRequestContext } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
 import { ProductsDetailPage } from '../../pages/products/detail.page';
 import { CartPage } from '../../pages/cart.page';

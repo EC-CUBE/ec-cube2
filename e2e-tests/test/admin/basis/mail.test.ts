@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker/locale/ja';
 
 const url = `/${ ADMIN_DIR }/basis/mail.php`;
 test.describe('メール設定のテストをします', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('メール設定のテストをします', async ( { adminLoginPage, page }) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);

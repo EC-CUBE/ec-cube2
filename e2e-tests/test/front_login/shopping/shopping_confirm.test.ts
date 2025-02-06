@@ -10,6 +10,7 @@ import { test, expect } from '../../../fixtures/front_login/shopping_payment.fix
 
 test.describe.serial('ご注文確認画面のテストをします', () => {
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('ご注文確認画面へ遷移します', async ({ shoppingPaymentLoginPage, page }) => {
     await expect(page.locator('h2.title')).toContainText('入力内容のご確認');
     await expect(page).toHaveURL(/confirm\.php/);
@@ -30,6 +31,7 @@ test.describe.serial('ご注文確認画面のテストをします', () => {
     });
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('注文完了ページへ遷移します', async ({ shoppingPaymentLoginPage, page }) => {
     await page.click('[alt=ご注文完了ページへ]');
     await expect(page.locator('h2.title')).toContainText('ご注文完了');

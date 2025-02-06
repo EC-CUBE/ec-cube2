@@ -5,8 +5,8 @@ import { ADMIN_DIR } from '../../../config/default.config';
 const url = `/${ ADMIN_DIR }contents/recommend.php`;
 
 test.describe('おすすめ商品管理を確認します', () => {
-  let page: Page;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('おすすめ商品管理画面を確認します', async ( { adminLoginPage, page } ) => {
     await page.goto(url);
     await expect(page.locator('h1')).toContainText('コンテンツ管理＞おすすめ商品管理');
@@ -15,6 +15,8 @@ test.describe('おすすめ商品管理を確認します', () => {
   test.describe('カテゴリ検索を確認します', () => {
     let popup: Page;
     const nth = 0;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('おすすめ商品(1)の編集を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(url);
       page.on('dialog', dialog => dialog.accept());
@@ -24,6 +26,7 @@ test.describe('おすすめ商品管理を確認します', () => {
       ]);
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('カテゴリ検索を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(url);
       page.on('dialog', dialog => dialog.accept());
@@ -46,6 +49,8 @@ test.describe('おすすめ商品管理を確認します', () => {
   test.describe('商品コード検索を確認します', () => {
     let popup: Page;
     const nth = 1;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('おすすめ商品(2)の編集を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(url);
       page.on('dialog', dialog => dialog.accept());
@@ -55,6 +60,7 @@ test.describe('おすすめ商品管理を確認します', () => {
       ]);
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('商品コード検索を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(url);
       page.on('dialog', dialog => dialog.accept());

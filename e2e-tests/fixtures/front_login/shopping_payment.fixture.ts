@@ -6,6 +6,7 @@ type ShoppingPaymentLoginFixtures = {
 };
 
 export const test = base.extend<ShoppingPaymentLoginFixtures>({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   shoppingPaymentLoginPage: async ({ shoppingDelivLoginPage, page }, use) => {
     const paymentPage = new ShoppingPaymentPage(page);
     await paymentPage.goto();

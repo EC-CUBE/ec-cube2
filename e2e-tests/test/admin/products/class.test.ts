@@ -2,9 +2,9 @@ import { test, expect } from '../../../fixtures/admin/register_product.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 
-
 const url = `${ ADMIN_DIR }/products/class.php`;
 test.describe('規格管理画面のテストをします', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('規格管理画面のテストをします', async ({ page, adminProductsProductPage }) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);

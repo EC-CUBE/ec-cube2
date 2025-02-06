@@ -9,6 +9,7 @@ type CartLoginFixtures = {
 
 /** 商品をカートに入れて購入手続きへ進むフィクスチャ. */
 export const test = base.extend<CartLoginFixtures>({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   cartLoginPage: async ({ mypageLoginPage, page }, use) => {
     await page.goto(PlaywrightConfig.use?.baseURL ?? "/"); // トップへ遷移しないと、スキャン後にカートが空になってしまう
     const productsDetailPage = new ProductsDetailPage(page);

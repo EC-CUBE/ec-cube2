@@ -1,5 +1,4 @@
 import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
-import { Page } from '@playwright/test';
 import * as tar from 'tar';
 import path from 'path';
 import fs from 'fs';
@@ -14,12 +13,11 @@ const pluginPath = path.join(__dirname, '..', '..', '..', '..', 'tests', 'class'
 const pluginFile = path.join(__dirname, 'PrefilterTransformPlugin.tar.gz');
 
 test.describe.serial('プラグイン管理の確認をします', () => {
-  let page: Page;
-
   test.afterAll(async () => {
     await fs.promises.unlink(pluginFile);
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('プラグイン管理画面を確認します', async ({ adminLoginPage, page }) => {
     await page.goto(url);
     page.on('dialog', dialog => dialog.accept());

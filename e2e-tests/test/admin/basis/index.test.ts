@@ -5,6 +5,8 @@ import { faker as fakerEn } from '@faker-js/faker/locale/en';
 
 const url = `/${ ADMIN_DIR }/basis/index.php`;
 test.describe('SHOPマスターのテストをします', () => {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('SHOPマスターのテストをします', async ( { adminLoginPage, page }) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);

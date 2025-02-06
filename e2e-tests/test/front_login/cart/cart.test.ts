@@ -10,6 +10,8 @@ import { CartPage } from '../../../pages/cart.page';
 import { test, expect } from '../../../fixtures/front_login/cartin.fixture';
 
 test.describe.serial('カートページのテストをします', () => {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('カートの内容を確認します', async ( { cartLoginPage, page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();
@@ -41,6 +43,7 @@ test.describe.serial('カートページのテストをします', () => {
     return await zapClient.getLastMessage(url);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('カートの数量を加算します', async ( { cartLoginPage, page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();
@@ -66,6 +69,7 @@ test.describe.serial('カートページのテストをします', () => {
     });
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('カートの数量を減算します', async ( { cartLoginPage, page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();

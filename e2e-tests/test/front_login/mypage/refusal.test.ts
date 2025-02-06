@@ -3,6 +3,8 @@ import PlaywrightConfig from '../../../../playwright.config';
 
 const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/mypage/refusal.php`;
 test.describe.serial('退会手続きのテストをします', () => {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('退会手続きのテストをします', async ( { mypageLoginPage, page }) => {
     await page.goto(url);
     await page.getByAltText('会員退会を行う').click();

@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker/locale/ja';
 
 const url = `/${ ADMIN_DIR }/basis/tax.php`;
 test.describe.serial('税率設定のテストをします', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('商品別税率のテストをします', async ( { adminLoginPage, page } ) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);
@@ -22,6 +23,7 @@ test.describe.serial('税率設定のテストをします', () => {
     await page.getByRole('link', { name: 'この内容で登録する' }).first().click();
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('共通税率設定のテストをします', async ( { adminLoginPage, page }) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);

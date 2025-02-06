@@ -4,6 +4,8 @@ import { faker } from '@faker-js/faker/locale/ja';
 
 const url = `/${ ADMIN_DIR }/basis/kiyaku.php`;
 test.describe.serial('会員規約設定のテストをします', () => {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('ソートのテストをします', async ( { adminLoginPage, page } ) => {
     await page.goto(url);
     await test.step('下へ移動するテストをします', async () => {
@@ -19,6 +21,7 @@ test.describe.serial('会員規約設定のテストをします', () => {
     });
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('会員規約設定のテストをします', async ( { adminLoginPage, page }) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);

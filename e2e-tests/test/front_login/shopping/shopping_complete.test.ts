@@ -10,6 +10,7 @@ import { test, expect } from '../../../fixtures/front_login/shopping_payment.fix
 
 test.describe.serial('ご注文完了画面のテストをします', () => {
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('ご注文完了画面へ遷移します', async ({ shoppingPaymentLoginPage, page }) => {
     await page.click('[alt=ご注文完了ページへ]');
     await expect(page.locator('h2.title')).toContainText('ご注文完了');

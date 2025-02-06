@@ -4,6 +4,8 @@ import PlaywrightConfig from '../../../../playwright.config';
 
 const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/mypage/change.php`;
 test.describe.serial('会員登録内容変更画面のテストをします', () => {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('会員登録内容変更画面のテストをします', async ( { mypageLoginPage, page }) => {
     await page.goto(url);
     await expect(page).toHaveTitle(/会員登録内容変更/);

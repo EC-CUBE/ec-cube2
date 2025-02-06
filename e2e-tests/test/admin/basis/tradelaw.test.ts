@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker/locale/ja';
 
 const url = `/${ ADMIN_DIR }/basis/tradelaw.php`;
 test.describe('特定商取引法のテストをします', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('特定商取引法のテストをします', async ( { adminLoginPage, page }) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);

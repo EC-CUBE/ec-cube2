@@ -4,6 +4,7 @@ import path from 'path';
 
 const url = `${ ADMIN_DIR }/products/upload_csv.php`;
 test.describe('商品登録CSV画面のテストをします', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('商品登録CSV画面のテストをします', async ({ page, adminLoginPage }) => {
     await page.goto(url);
     const fileChooserPromise = page.waitForEvent('filechooser');

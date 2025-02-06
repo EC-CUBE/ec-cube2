@@ -1,4 +1,4 @@
-import { test as base, expect } from "./admin_login.fixture";
+import { test as base } from "./admin_login.fixture";
 import { AdminProductsProductPage } from "../../pages/admin/products/product.page";
 
 type RegisterProductFixtures = {
@@ -6,7 +6,7 @@ type RegisterProductFixtures = {
 };
 
 export const test = base.extend<RegisterProductFixtures>({
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   adminProductsProductPage: async ({ adminLoginPage, page }, use) => {
     const productPage = new AdminProductsProductPage(page);
     await productPage.goto();

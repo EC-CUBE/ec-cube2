@@ -12,6 +12,7 @@ import { test, expect } from '../../../fixtures/front_login/shopping_deliv.fixtu
 
 test.describe.serial('お支払方法・お届け時間等の指定画面のテストをします', () => {
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('お支払方法・お届け時間等の指定画面へ遷移します', async ({ shoppingDelivLoginPage, page }) => {
     await expect(page.locator('h2.title')).toContainText('お支払方法・お届け時間等の指定');
     await page.goto(url);
@@ -31,6 +32,7 @@ test.describe.serial('お支払方法・お届け時間等の指定画面のテ�
     });
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('注文確認画面へ遷移します', async ({ shoppingDelivLoginPage, page }) => {
     const paymentPage = new ShoppingPaymentPage(page);
     await paymentPage.goto();

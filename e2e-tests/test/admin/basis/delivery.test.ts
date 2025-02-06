@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker/locale/ja';
 
 const url = `/${ ADMIN_DIR }/basis/delivery.php`;
 test.describe('配送方法設定のテストをします', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('配送方法一覧のテストをします', async ( { adminLoginPage, page }) => {
     await page.goto(url);
     await expect(page.locator('h1')).toContainText(/配送方法設定/);
@@ -21,6 +22,7 @@ test.describe('配送方法設定のテストをします', () => {
     });
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('配送方法を登録するテストをします', async ( { adminLoginPage, page }) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);

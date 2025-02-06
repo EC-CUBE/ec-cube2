@@ -11,6 +11,8 @@ import { CartPage } from '../../../pages/cart.page';
 // zap/patches/0009-cart_delete.patch を適用する必要があります
 test.describe.serial('カートページのテストをします', () => {
   const detailURL = `${ PlaywrightConfig.use?.baseURL ?? '' }/products/detail.php?product_id=1`;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('カートの削除をテストします', async ( { cartLoginPage, page } ) => {
     await page.goto(detailURL);
     await expect(page.locator('#detailrightbloc > h2')).toContainText('アイスクリーム');
@@ -39,11 +41,9 @@ test.describe.serial('カートページのテストをします', () => {
       const result = await zapClient.getMessages(url, await zapClient.getNumberOfMessages(url) - 1, 1);
       const message = result.pop();
 
-      let scanId: number;
-
       // アクティブスキャンを実行します
       expect(message?.requestBody).toContain('mode=delete');
-      scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', message?.requestBody);
+      const scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', message?.requestBody);
       await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
 
       // 結果を確認します

@@ -1,5 +1,5 @@
 import { test, expect } from '../../fixtures/front_login/mypage_login.fixture';
-import { Page, request, APIRequestContext } from '@playwright/test';
+import { request, APIRequestContext } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
 import { ProductsDetailPage } from '../../pages/products/detail.page';
 import { CartPage } from '../../pages/cart.page';

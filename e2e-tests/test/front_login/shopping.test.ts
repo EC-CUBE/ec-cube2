@@ -1,5 +1,5 @@
 import { test, expect } from '../../fixtures/front_login/mypage_login.fixture';
-import { Page, request, APIRequestContext } from '@playwright/test';
+import { request, APIRequestContext } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
 import { ProductsDetailPage } from '../../pages/products/detail.page';
 import { CartPage } from '../../pages/cart.page';
@@ -20,6 +20,7 @@ test.describe.serial('購入フロー(ログイン)のテストをします', ()
     await mailcatcher.delete('/messages');
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('商品を購入します', async ({ mypageLoginPage, page }) => {
     await page.goto(url);
     await expect(page.locator('#detailrightbloc > h2')).toContainText('アイスクリーム');
