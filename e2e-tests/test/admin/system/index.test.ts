@@ -57,9 +57,9 @@ test.describe.serial('システム設定＞メンバー管理画面を確認を�
       page.click('table.list >> tr >> nth=1 >> text=編集')
     ]);
     edit.on('dialog', dialog => dialog.accept());
-    await expect(edit).toHaveValue('input[name=name]', name);
+    await expect(edit.locator('input[name=name]')).toHaveValue(name);
     await edit.fill('input[name=department]', `${ department } 変更`);
-    await expect(edit).toHaveValue('input[name=login_id]', user);
+    await expect(edit.locator('input[name=login_id]')).toHaveValue(user);
     await edit.fill('input[name=password]', password);
     await edit.fill('input[name=password02]', password);
     await edit.click('text=この内容で登録する');

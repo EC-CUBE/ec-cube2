@@ -21,15 +21,15 @@ test.describe('売上集計画面を確認をします', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('日付の初期値を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(`${ url }?page=${ method }`);
-      await expect(page).toHaveValue('select[name=search_startyear_m]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_startmonth_m]', String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_startyear_m]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_startmonth_m]')).toHaveValue(String(current.getMonth() + 1));
 
-      await expect(page).toHaveValue('select[name=search_startyear]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_startmonth]', String(current.getMonth() + 1));
-      await expect(page).toHaveValue('select[name=search_startday]', String(current.getDate()));
-      await expect(page).toHaveValue('select[name=search_endyear]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_endmonth]', String(current.getMonth() + 1));
-      await expect(page).toHaveValue('select[name=search_endday]', String(current.getDate()));
+      await expect(page.locator('select[name=search_startyear]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_startmonth]')).toHaveValue(String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_startday]')).toHaveValue(String(current.getDate()));
+      await expect(page.locator('select[name=search_endyear]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_endmonth]')).toHaveValue(String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_endday]')).toHaveValue(String(current.getDate()));
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -110,15 +110,15 @@ test.describe('売上集計画面を確認をします', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('日付の初期値を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(`${ url }?page=${ method }`);
-      await expect(page).toHaveValue('select[name=search_startyear_m]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_startmonth_m]', String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_startyear_m]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_startmonth_m]')).toHaveValue(String(current.getMonth() + 1));
 
-      await expect(page).toHaveValue('select[name=search_startyear]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_startmonth]', String(current.getMonth() + 1));
-      await expect(page).toHaveValue('select[name=search_startday]', String(current.getDate()));
-      await expect(page).toHaveValue('select[name=search_endyear]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_endmonth]', String(current.getMonth() + 1));
-      await expect(page).toHaveValue('select[name=search_endday]', String(current.getDate()));
+      await expect(page.locator('select[name=search_startyear]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_startmonth]')).toHaveValue(String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_startday]')).toHaveValue(String(current.getDate()));
+      await expect(page.locator('select[name=search_endyear]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_endmonth]')).toHaveValue(String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_endday]')).toHaveValue(String(current.getDate()));
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -180,15 +180,15 @@ test.describe('売上集計画面を確認をします', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('日付の初期値を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(`${ url }?page=${ method }`);
-      await expect(page).toHaveValue('select[name=search_startyear_m]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_startmonth_m]', String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_startyear_m]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_startmonth_m]')).toHaveValue(String(current.getMonth() + 1));
 
-      await expect(page).toHaveValue('select[name=search_startyear]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_startmonth]', String(current.getMonth() + 1));
-      await expect(page).toHaveValue('select[name=search_startday]', String(current.getDate()));
-      await expect(page).toHaveValue('select[name=search_endyear]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_endmonth]', String(current.getMonth() + 1));
-      await expect(page).toHaveValue('select[name=search_endday]', String(current.getDate()));
+      await expect(page.locator('select[name=search_startyear]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_startmonth]')).toHaveValue(String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_startday]')).toHaveValue(String(current.getDate()));
+      await expect(page.locator('select[name=search_endyear]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_endmonth]')).toHaveValue(String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_endday]')).toHaveValue(String(current.getDate()));
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -251,15 +251,15 @@ test.describe('売上集計画面を確認をします', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('日付の初期値を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(`${ url }?page=${ method }`);
-      await expect(page).toHaveValue('select[name=search_startyear_m]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_startmonth_m]', String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_startyear_m]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_startmonth_m]')).toHaveValue(String(current.getMonth() + 1));
 
-      await expect(page).toHaveValue('select[name=search_startyear]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_startmonth]', String(current.getMonth() + 1));
-      await expect(page).toHaveValue('select[name=search_startday]', String(current.getDate()));
-      await expect(page).toHaveValue('select[name=search_endyear]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_endmonth]', String(current.getMonth() + 1));
-      await expect(page).toHaveValue('select[name=search_endday]', String(current.getDate()));
+      await expect(page.locator('select[name=search_startyear]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_startmonth]')).toHaveValue(String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_startday]')).toHaveValue(String(current.getDate()));
+      await expect(page.locator('select[name=search_endyear]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_endmonth]')).toHaveValue(String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_endday]')).toHaveValue(String(current.getDate()));
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -303,15 +303,15 @@ test.describe('売上集計画面を確認をします', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('日付の初期値を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(`${ url }?page=${ method }`);
-      await expect(page).toHaveValue('select[name=search_startyear_m]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_startmonth_m]', String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_startyear_m]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_startmonth_m]')).toHaveValue(String(current.getMonth() + 1));
 
-      await expect(page).toHaveValue('select[name=search_startyear]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_startmonth]', String(current.getMonth() + 1));
-      await expect(page).toHaveValue('select[name=search_startday]', String(current.getDate()));
-      await expect(page).toHaveValue('select[name=search_endyear]', String(current.getFullYear()));
-      await expect(page).toHaveValue('select[name=search_endmonth]', String(current.getMonth() + 1));
-      await expect(page).toHaveValue('select[name=search_endday]', String(current.getDate()));
+      await expect(page.locator('select[name=search_startyear]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_startmonth]')).toHaveValue(String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_startday]')).toHaveValue(String(current.getDate()));
+      await expect(page.locator('select[name=search_endyear]')).toHaveValue(String(current.getFullYear()));
+      await expect(page.locator('select[name=search_endmonth]')).toHaveValue(String(current.getMonth() + 1));
+      await expect(page.locator('select[name=search_endday]')).toHaveValue(String(current.getDate()));
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
