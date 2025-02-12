@@ -40,7 +40,7 @@ class SC_View
 
     public function init()
     {
-        $this->_smarty = new \Smarty\Smarty();
+        $this->_smarty = new SC_SmartyBc();
         $this->_smarty->setLeftDelimiter('<!--{');
         $this->_smarty->setRightDelimiter('}-->');
         $this->_smarty->registerPlugin('modifier', 'sfDispDBDate', function ($dbdate, $time = true) { return SC_Utils_Ex::sfDispDBDate($dbdate, $time); });
