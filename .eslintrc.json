@@ -19,13 +19,17 @@
     "@typescript-eslint/no-var-requires": "off",
     "camelcase": "off",
     "space-in-parens": "off",
+    "array-bracket-spacing": ["error", "never"],
+    "template-curly-spacing": ["error", "never"],
+    "computed-property-spacing": ["error", "never"],
+    "comma-dangle": "off",
     "quotes": "off",
     "no-shadow-restricted-names": "off",
     "no-prototype-builtins": "off",
     "max-len": ["warn", {"code": 120}],
     "space-before-function-paren": ["error", {
-      "anonymous": "never",
-      "named": "never",
+      "anonymous": "always",
+      "named": "always",
       "asyncArrow": "always"
     }]
   }
