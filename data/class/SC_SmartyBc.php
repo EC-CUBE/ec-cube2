@@ -55,8 +55,8 @@ class SC_SmartyBc extends \Smarty\Smarty
      */
     public function assign_by_ref($tpl_var, &$value)
     {
-        trigger_error('assign_by_ref is obsolete, use assignByRef instead', E_USER_WARNING);
-        $this->assignByRef($tpl_var, $value);
+        trigger_error('assign_by_ref is obsolete, use assign instead', E_USER_WARNING);
+        $this->assign($tpl_var, $value);
     }
 
     /**
@@ -68,8 +68,8 @@ class SC_SmartyBc extends \Smarty\Smarty
      */
     public function append_by_ref($tpl_var, &$value, $merge = false)
     {
-        trigger_error('append_by_ref is obsolete, use appendByRef instead', E_USER_WARNING);
-        $this->appendByRef($tpl_var, $value, $merge);
+        trigger_error('append_by_ref is obsolete, use append instead', E_USER_WARNING);
+        $this->append($tpl_var, $value, $merge);
     }
 
     /**
@@ -96,7 +96,7 @@ class SC_SmartyBc extends \Smarty\Smarty
     public function register_function($function, $function_impl, $cacheable = true, $cache_attrs = null)
     {
         trigger_error('register_function is obsolete, use registerPlugin instead', E_USER_WARNING);
-        $this->registerPlugin('function', $function, $function_impl, $cacheable, $cache_attrs);
+        $this->registerPlugin('function', $function, $function_impl, $cacheable);
     }
 
     /**
@@ -160,7 +160,7 @@ class SC_SmartyBc extends \Smarty\Smarty
     public function register_block($block, $block_impl, $cacheable = true, $cache_attrs = null)
     {
         trigger_error('register_block is obsolete, use registerPlugin instead', E_USER_WARNING);
-        $this->registerPlugin('block', $block, $block_impl, $cacheable, $cache_attrs);
+        $this->registerPlugin('block', $block, $block_impl, $cacheable);
     }
 
     /**
@@ -468,7 +468,7 @@ class SC_SmartyBc extends \Smarty\Smarty
     public function config_load($file, $section = null, $scope = 'global')
     {
         trigger_error('config_load is obsolete, use ConfigLoad instead', E_USER_WARNING);
-        $this->ConfigLoad($file, $section, $scope);
+        $this->configLoad($file, $section);
     }
 
     /**
