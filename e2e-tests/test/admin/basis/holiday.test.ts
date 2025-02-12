@@ -2,7 +2,7 @@ import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 
-const url = `/${ ADMIN_DIR }/basis/holiday.php`;
+const url = `/${ADMIN_DIR}/basis/holiday.php`;
 test.describe('定休日管理画面のテストをします', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('定休日管理画面のテストをします', async ( { adminLoginPage, page }) => {
@@ -47,18 +47,18 @@ test.describe('定休日管理画面のテストをします', () => {
     await test.step('編集をします', async () => {
       await page.goto(url);
       await page.getByRole('row', { name: title }).getByRole('link', { name: '編集' }).click();
-      await page.getByRole('row', { name: 'タイトル' }).getByRole('textbox').fill(`${ title }を編集`);
+      await page.getByRole('row', { name: 'タイトル' }).getByRole('textbox').fill(`${title}を編集`);
       await page.getByRole('row', { name: '日付' }).locator('select[name=month]').selectOption({ value: String(faker.number.int({ min: 1, max: 12 })) });
       await page.getByRole('row', { name: '日付' }).locator('select[name=day]').selectOption({ value: String(faker.number.int({ min: 1, max: 28 })) });
 
       await page.getByRole('link', { name: 'この内容で登録する' }).click();
-      await expect(page.locator('table.list')).toContainText(`${ title }を編集`);
+      await expect(page.locator('table.list')).toContainText(`${title}を編集`);
     });
 
     await test.step('削除をします', async () => {
       await page.goto(url);
-      await page.getByRole('row', { name: `${ title }を編集` }).getByRole('link', { name: '削除' }).click();
-      await expect(page.locator('table.list')).not.toContainText(`${ title }を編集`);
+      await page.getByRole('row', { name: `${title}を編集` }).getByRole('link', { name: '削除' }).click();
+      await expect(page.locator('table.list')).not.toContainText(`${title}を編集`);
     });
   });
 });

@@ -6,7 +6,7 @@ import { ShoppingDelivPage } from '../../../pages/shopping/deliv.page';
 import { ShoppingPaymentPage } from '../../../pages/shopping/payment.page';
 import { faker } from '@faker-js/faker/locale/ja';
 
-const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/mypage/index.php`;
+const url = `${PlaywrightConfig.use?.baseURL ?? ''}/mypage/index.php`;
 test.describe.serial('購入履歴のテストをします', () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -24,7 +24,7 @@ test.describe.serial('購入履歴のテストをします', () => {
       const shoppingDelivPage = new ShoppingDelivPage(page);
       await shoppingDelivPage.gotoNext();
       const shoppingPaymentPage = new ShoppingPaymentPage(page);
-      await shoppingPaymentPage.selectPaymentMethod(faker.helpers.arrayElement([ '郵便振替', '現金書留', '銀行振込', '代金引換' ]));
+      await shoppingPaymentPage.selectPaymentMethod(faker.helpers.arrayElement(['郵便振替', '現金書留', '銀行振込', '代金引換']));
       await shoppingPaymentPage.selectDeliveryDate(faker.number.int({ min: 0, max: 5 }));
       await shoppingPaymentPage.selectDeliveryTime(faker.number.int({ min: 0, max: 2 }));
       await shoppingPaymentPage.fillMessage(faker.lorem.sentence());

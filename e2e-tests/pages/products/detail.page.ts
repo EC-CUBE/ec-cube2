@@ -9,7 +9,7 @@ export class ProductsDetailPage {
   readonly cartInButton: Locator;
   readonly addFavoriteButton: Locator;
 
-  constructor(page: Page) {
+  constructor (page: Page) {
     this.page = page;
     this.classCategoryId1 = page.locator('select[name=classcategory_id1]');
     this.classCategoryId2 = page.locator('select[name=classcategory_id2]');
@@ -18,11 +18,11 @@ export class ProductsDetailPage {
     this.addFavoriteButton = page.locator('[alt=お気に入りに追加]');
   }
 
-  async goto(productId: number) {
-    await this.page.goto(`${ PlaywrightConfig?.use?.baseURL }/products/detail.php?product_id=${ productId }`);
+  async goto (productId: number) {
+    await this.page.goto(`${PlaywrightConfig?.use?.baseURL}/products/detail.php?product_id=${productId}`);
   }
 
-  async cartIn(quantity?: number, classCategory1?: string, classCategory2?: string) {
+  async cartIn (quantity?: number, classCategory1?: string, classCategory2?: string) {
     await this.quantity.fill(String(quantity ?? 1));
     if (classCategory1 !== undefined) {
       await this.classCategoryId1.selectOption({ label: classCategory1 });
@@ -33,7 +33,7 @@ export class ProductsDetailPage {
     await this.cartInButton.click();
   }
 
-  async addToFavorite() {
+  async addToFavorite () {
     await this.addFavoriteButton.click();
   }
 }

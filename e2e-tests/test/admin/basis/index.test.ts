@@ -3,7 +3,7 @@ import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 import { faker as fakerEn } from '@faker-js/faker/locale/en';
 
-const url = `/${ ADMIN_DIR }/basis/index.php`;
+const url = `/${ADMIN_DIR}/basis/index.php`;
 test.describe('SHOPマスターのテストをします', () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars

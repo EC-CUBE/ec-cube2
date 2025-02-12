@@ -2,7 +2,7 @@ import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 
-const url = `/${ ADMIN_DIR }/basis/tradelaw.php`;
+const url = `/${ADMIN_DIR}/basis/tradelaw.php`;
 test.describe('特定商取引法のテストをします', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('特定商取引法のテストをします', async ( { adminLoginPage, page }) => {
@@ -58,10 +58,10 @@ test.describe('特定商取引法のテストをします', () => {
       await page.goto(`/order/index.php`);
       await expect(page.getByRole('row', { name: '販売業者' })).toContainText(law_company);
       await expect(page.getByRole('row', { name: '運営責任者' })).toContainText(law_manager);
-      await expect(page.getByRole('row', { name: '住所' })).toContainText(`${ zip01 }-${ zip02 }`);
-      await expect(page.getByRole('row', { name: '住所' })).toContainText(`${ law_pref }${ law_addr01 }${ law_addr02 }`);
-      await expect(page.getByRole('row', { name: '電話番号' })).toContainText(`${ tel01 }-${ tel02 }-${ tel03 }`);
-      await expect(page.getByRole('row', { name: 'FAX番号' })).toContainText(`${ fax01 }-${ fax02 }-${ fax03 }`);
+      await expect(page.getByRole('row', { name: '住所' })).toContainText(`${zip01}-${zip02}`);
+      await expect(page.getByRole('row', { name: '住所' })).toContainText(`${law_pref}${law_addr01}${law_addr02}`);
+      await expect(page.getByRole('row', { name: '電話番号' })).toContainText(`${tel01}-${tel02}-${tel03}`);
+      await expect(page.getByRole('row', { name: 'FAX番号' })).toContainText(`${fax01}-${fax02}-${fax03}`);
       await expect(page.getByRole('row', { name: 'メールアドレス' })).toContainText(law_email);
       await expect(page.getByRole('row', { name: 'URL' })).toContainText(law_url);
       await expect(page.getByRole('row', { name: '商品以外の必要代金' })).toContainText(law_term01);

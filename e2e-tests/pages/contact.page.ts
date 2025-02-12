@@ -26,9 +26,9 @@ export class ContactPage {
   zapClient: ZapClient;
 
   //   'name01', 'name02', 'kana01', 'kana02', 'zip01', 'zip02', 'addr01', 'addr02',  'tel01', 'tel02', 'tel03'
-  constructor(page: Page) {
+  constructor (page: Page) {
     this.page = page;
-    this.url = `${ PlaywrightConfig.use?.baseURL ?? "" }/contact/index.php`;
+    this.url = `${PlaywrightConfig.use?.baseURL ?? ""}/contact/index.php`;
     this.confirmButton = page.locator('input[name=confirm][alt=確認ページへ]');
     this.submitButton = page.locator('input[name=send][alt=送信]');
     this.name01 = page.locator('input[name=name01]');
@@ -48,26 +48,26 @@ export class ContactPage {
     this.zapClient = new ZapClient();
   }
 
-  async goto() {
+  async goto () {
     await this.page.goto(this.url);
   }
 
-  async confirm() {
+  async confirm () {
     await this.confirmButton.click();
   }
 
-  async submit() {
+  async submit () {
     await this.submitButton.click();
   }
 
-  async expectConfirmPage() {
+  async expectConfirmPage () {
     this.getInputFields().forEach(async (fieled) => {
       await expect(fieled).toBeHidden();
       await expect(fieled).not.toBeEmpty();
     });
   }
 
-  private getInputFields(): Locator[] {
+  private getInputFields (): Locator[] {
     return [
       this.name01,
       this.name02,
@@ -84,7 +84,7 @@ export class ContactPage {
       this.emailConfirm
     ];
   }
-  getZapClient() {
+  getZapClient () {
     return this.zapClient;
   }
 }

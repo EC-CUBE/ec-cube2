@@ -13,7 +13,7 @@ export class MypageLoginPage {
   readonly logoutButton: Locator;
   zapClient: ZapClient;
 
-  constructor(page: Page, email: string, password: string) {
+  constructor (page: Page, email: string, password: string) {
     this.page = page;
     this.url = '/mypage/login.php';
     this.email = email;
@@ -26,22 +26,22 @@ export class MypageLoginPage {
     this.zapClient = new ZapClient();
   }
 
-  async goto() {
+  async goto () {
     await this.page.goto(this.url);
   }
 
-  async login() {
+  async login () {
     await this.loginEmail.fill(this.email);
     await this.loginPass.fill(this.password);
     await this.loginButton.click();
   }
 
-  async logout() {
+  async logout () {
     await this.goto();
     await this.logoutButton.click();
   }
 
-  getZapClient() {
+  getZapClient () {
     return this.zapClient;
   }
 }

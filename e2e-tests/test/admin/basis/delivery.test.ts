@@ -2,7 +2,7 @@ import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 
-const url = `/${ ADMIN_DIR }/basis/delivery.php`;
+const url = `/${ADMIN_DIR}/basis/delivery.php`;
 test.describe('配送方法設定のテストをします', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('配送方法一覧のテストをします', async ( { adminLoginPage, page }) => {
@@ -49,7 +49,7 @@ test.describe('配送方法設定のテストをします', () => {
     await page.getByRole('row', { name: 'お届け時間15' }).getByRole('cell').nth(1).getByRole('textbox').fill(faker.lorem.sentence());
     await page.getByRole('row', { name: 'お届け時間16' }).getByRole('cell').nth(3).getByRole('textbox').fill(faker.lorem.sentence());
     await page.getByRole('row', { name: '商品種別' }).getByLabel('通常商品').check();
-    await page.getByRole('row', { name: '支払方法' }).getByLabel(faker.helpers.arrayElement([ '郵便振替', '現金書留', '銀行振込', '代金引換' ])).check();
+    await page.getByRole('row', { name: '支払方法' }).getByLabel(faker.helpers.arrayElement(['郵便振替', '現金書留', '銀行振込', '代金引換'])).check();
     await page.locator('input[name=fee_all]').fill(String(faker.number.int({ min: 100, max: 9999 })));
     await page.getByRole('link', { name: '反映' }).click();
     await page.getByRole('link', { name: 'この内容で登録する' }).click();

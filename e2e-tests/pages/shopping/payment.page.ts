@@ -14,7 +14,7 @@ export class ShoppingPaymentPage {
   readonly message: Locator;
   zapClient: ZapClient;
 
-  constructor(page: Page) {
+  constructor (page: Page) {
     this.page = page;
     this.nextButton = page.locator('[alt=次へ]');
     this.paymentMethod = page.locator('#payment');
@@ -27,43 +27,43 @@ export class ShoppingPaymentPage {
     this.zapClient = new ZapClient();
   }
 
-  async goto() {
-    await this.page.goto(`${ PlaywrightConfig.use?.baseURL }/shopping/payment.php`);
+  async goto () {
+    await this.page.goto(`${PlaywrightConfig.use?.baseURL}/shopping/payment.php`);
   }
 
-  async gotoNext() {
+  async gotoNext () {
     await this.nextButton.click();
   }
 
-  async selectPaymentMethod(label: string) {
-    await this.paymentMethod.locator(`text=${ label }`).click();
+  async selectPaymentMethod (label: string) {
+    await this.paymentMethod.locator(`text=${label}`).click();
   }
 
-  async selectDeliveryDate(index: number, nth?: number) {
+  async selectDeliveryDate (index: number, nth?: number) {
     await this.deliveryDate.nth(nth ?? 0).selectOption({ index: index });
   }
 
-  async selectDeliveryTime(index: number, nth?: number) {
+  async selectDeliveryTime (index: number, nth?: number) {
     await this.deliveryTime.nth(nth ?? 0).selectOption({ index: index });
   }
 
-  async chooseToUsePoint() {
+  async chooseToUsePoint () {
     await this.enablePoint.check();
   }
 
-  async doNotChooseToUsePoint() {
+  async doNotChooseToUsePoint () {
     await this.disablePoint.check();
   }
 
-  async fillUsePoint(point: number) {
+  async fillUsePoint (point: number) {
     await this.usePoint.fill(String(point));
   }
 
-  async fillMessage(message: string) {
+  async fillMessage (message: string) {
     await this.message.fill(message);
   }
 
-  async fillOut(paymentMethod?: string, deliveryDateIndex?: number, deliveryTimeIndex?:number, message?: string, usePoint?: number) {
+  async fillOut (paymentMethod?: string, deliveryDateIndex?: number, deliveryTimeIndex?:number, message?: string, usePoint?: number) {
     await this.selectPaymentMethod(paymentMethod ?? '銀行振込');
     await this.selectDeliveryDate(deliveryDateIndex ?? 1);
     await this.selectDeliveryTime(deliveryTimeIndex ?? 1);
@@ -75,7 +75,7 @@ export class ShoppingPaymentPage {
     }
   }
 
-  getZapClient() {
+  getZapClient () {
     return this.zapClient;
   }
 }

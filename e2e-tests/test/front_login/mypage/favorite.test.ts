@@ -2,7 +2,7 @@ import { test, expect } from '../../../fixtures/front_login/mypage_login.fixture
 import PlaywrightConfig from '../../../../playwright.config';
 import { ProductsDetailPage } from '../../../pages/products/detail.page';
 
-const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/mypage/favorite.php`;
+const url = `${PlaywrightConfig.use?.baseURL ?? ''}/mypage/favorite.php`;
 test.describe.serial('お気に入りのテストをします', () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars

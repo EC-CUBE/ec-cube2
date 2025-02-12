@@ -25,20 +25,20 @@ test.describe('商品一覧のテストをします', () => {
 
 
     if (all_products < 50) {
-      await expect(page.locator('#undercolumn > div > span.attention')).toContainText(`${ all_products }件`);
+      await expect(page.locator('#undercolumn > div > span.attention')).toContainText(`${all_products}件`);
     } else {
       const hasPager = await page.locator('#page_navi_top .navi > strong').isVisible();
       if (hasPager) {
-        await expect(page.locator('#undercolumn > div > span.attention')).not.toContainText(`${ all_products }件`);
+        await expect(page.locator('#undercolumn > div > span.attention')).not.toContainText(`${all_products}件`);
       } else {
-        await expect(page.locator('#undercolumn > div > span.attention')).toContainText(`${ all_products }件`);
+        await expect(page.locator('#undercolumn > div > span.attention')).toContainText(`${all_products}件`);
       }
     }
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('食品のカテゴリを確認します', async ( { mypageLoginPage, page } ) => {
-    await page.goto(`${ url }?category_id=3`);
+    await page.goto(`${url}?category_id=3`);
     await page.selectOption('#page_navi_top select', { label: '50件' });
     await page.waitForSelector('#undercolumn > form > div > div.listrightbloc > h3 > a');
     const all_products = await page.locator('#undercolumn > form > div > div.listrightbloc > h3 > a').count();
@@ -49,13 +49,13 @@ test.describe('商品一覧のテストをします', () => {
     await expect(page.locator('#undercolumn > form > div > div.listrightbloc > h3 > a')).not.toContainText('おなべ');
 
     if (all_products < 50) {
-      await expect(page.locator('#undercolumn > div > span.attention')).toContainText(`${ all_products }件`);
+      await expect(page.locator('#undercolumn > div > span.attention')).toContainText(`${all_products}件`);
     } else {
       const hasPager = await page.locator('#page_navi_top .navi > strong').isVisible();
       if (hasPager) {
-        await expect(page.locator('#undercolumn > div > span.attention')).not.toContainText(`${ all_products }件`);
+        await expect(page.locator('#undercolumn > div > span.attention')).not.toContainText(`${all_products}件`);
       } else {
-        await expect(page.locator('#undercolumn > div > span.attention')).toContainText(`${ all_products }件`);
+        await expect(page.locator('#undercolumn > div > span.attention')).toContainText(`${all_products}件`);
       }
     }
   });

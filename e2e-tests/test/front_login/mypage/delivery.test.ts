@@ -2,7 +2,7 @@ import { test, expect } from '../../../fixtures/front_login/mypage_login.fixture
 import PlaywrightConfig from '../../../../playwright.config';
 import { MypageDeliveryAddrPage } from '../../../pages/mypage/delivery_addr.page';
 
-const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/mypage/delivery.php`;
+const url = `${PlaywrightConfig.use?.baseURL ?? ''}/mypage/delivery.php`;
 const DELIV_ADDR_MAX = 20;
 test.describe.serial('お届け先追加のテストをします', () => {
 
@@ -22,7 +22,7 @@ test.describe.serial('お届け先追加のテストをします', () => {
         const name01 = await mypageDeliveryAddrPage.personalInputPage.name01.inputValue();
         const name02 = await mypageDeliveryAddrPage.personalInputPage.name02.inputValue();
         await mypageDeliveryAddrPage.register();
-        await expect(page.getByRole('row', { name: `${ name01 } ${ name02 }` })).toBeVisible();
+        await expect(page.getByRole('row', { name: `${name01} ${name02}` })).toBeVisible();
       });
     }
 
@@ -39,7 +39,7 @@ test.describe.serial('お届け先追加のテストをします', () => {
       const name01 = await mypageDeliveryAddrPage.personalInputPage.name01.inputValue();
       const name02 = await mypageDeliveryAddrPage.personalInputPage.name02.inputValue();
       await mypageDeliveryAddrPage.register();
-      await expect(page.getByRole('row', { name: `${ name01 } ${ name02 }` })).toBeVisible();
+      await expect(page.getByRole('row', { name: `${name01} ${name02}` })).toBeVisible();
     });
 
     page.on('dialog', dialog => dialog.accept());

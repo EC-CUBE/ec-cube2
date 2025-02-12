@@ -1,6 +1,7 @@
 import $ from "jquery";
 
 import "jquery-migrate";
+
 /* 警告を無効にする */
 $.migrateMute = true;
 
@@ -35,6 +36,7 @@ import "slick-carousel/slick/slick-theme.css";
  */
 
 (function (window, undefined) {
+
   // 名前空間の重複を防ぐ
   if (window.eccube === undefined) {
     window.eccube = {};
@@ -128,6 +130,7 @@ import "slick-carousel/slick/slick-theme.css";
   // 郵便番号から検索した住所を渡す.
   eccube.putAddress = function (input1, input2, state, city, town) {
     if (state !== "") {
+
       // 項目に値を入力する.
       document.form1[input1].selectedIndex = state;
       document.form1[input2].value = city + town;
@@ -373,11 +376,13 @@ import "slick-carousel/slick/slick-theme.css";
     for (let i = 0; i < len; i++) {
       if (document.form1[list[i]]) {
         if (color === "") {
+
           // 有効にする。
           document.form1[list[i]].removeAttribute("disabled");
           document.form1[list[i]].style.backgroundColor =
             eccube.savedColor[list[i]];
         } else {
+
           // 無効にする。
           document.form1[list[i]].setAttribute("disabled", "disabled");
           eccube.savedColor[list[i]] =
@@ -425,6 +430,7 @@ import "slick-carousel/slick/slick-theme.css";
 
   // 親ウィンドウのページを変更する.
   eccube.changeParentUrl = function (url) {
+
     // 親ウィンドウの存在確認
     if (eccube.isOpener()) {
       window.opener.location.href = url;
@@ -468,6 +474,7 @@ import "slick-carousel/slick/slick-theme.css";
     if ($sele1 && $sele1.length) {
       const classcat_id1 = $sele1.val() ? $sele1.val() : "";
       if ($sele2 && $sele2.length) {
+
         // 規格2の選択肢をクリア
         $sele2.children().remove();
 
@@ -477,6 +484,7 @@ import "slick-carousel/slick/slick-theme.css";
         if (eccube.hasOwnProperty("productsClassCategories")) {
           classcat2 = eccube.productsClassCategories[product_id][classcat_id1];
         } else {
+
           // 詳細表示時
           classcat2 = eccube.classCategories[classcat_id1];
         }
@@ -520,6 +528,7 @@ import "slick-carousel/slick/slick-theme.css";
           `#${classcat_id2}`
         ];
     } else {
+
       // 詳細表示時
       classcat2 = eccube.classCategories[classcat_id1][`#${classcat_id2}`];
     }
@@ -612,6 +621,7 @@ import "slick-carousel/slick/slick-theme.css";
    * Initialize.
    */
   $(() => {
+
     // 規格1選択時
     $("select[name=classcategory_id1]").on("change", function () {
       const $form = $(this).parents("form");

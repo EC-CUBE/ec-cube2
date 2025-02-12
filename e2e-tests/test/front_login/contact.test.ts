@@ -9,7 +9,7 @@ const inputNames = [
   'tel01', 'tel02', 'tel03'
 ] as const;
 
-const url = `${ PlaywrightConfig?.use?.baseURL ?? '' }/contact/index.php`;
+const url = `${PlaywrightConfig?.use?.baseURL ?? ''}/contact/index.php`;
 
 test.describe.serial('お問い合わせページのテストをします', () => {
 
@@ -38,7 +38,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
     await page.goto(PlaywrightConfig.use?.baseURL ?? '/');       // ログアウトしてしまう場合があるので一旦トップへ遷移する
     await page.goto(url);
     await expect(page.locator('#header')).toContainText('ようこそ');
-    inputNames.forEach(async (name) => expect(page.locator(`input[name=${ name }]`)).not.toBeEmpty());
+    inputNames.forEach(async (name) => expect(page.locator(`input[name=${name}]`)).not.toBeEmpty());
     await expect(page.locator('input[name=email]')).toHaveValue(mypageLoginPage.email);
     await expect(page.locator('input[name=email02]')).toHaveValue(mypageLoginPage.email);
   });
@@ -59,8 +59,8 @@ test.describe.serial('お問い合わせページのテストをします', () =
     // 入力内容を確認します
     await expect(page.locator('h2.title')).toContainText('お問い合わせ(確認ページ)');
     inputNames.forEach(async (name) => {
-      await expect(page.locator(`input[name=${ name }]`)).toBeHidden();
-      await expect(page.locator(`input[name=${ name }]`)).not.toBeEmpty();
+      await expect(page.locator(`input[name=${name}]`)).toBeHidden();
+      await expect(page.locator(`input[name=${name}]`)).not.toBeEmpty();
     });
     await expect(page.locator('input[name=email]')).toBeHidden();
     await expect(page.locator('input[name=email]')).toHaveValue(mypageLoginPage.email);
@@ -98,7 +98,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
       // transactionid を取得し直します
       await page.goto(url);
       const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
-      requestBody = confirmMessage.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${ transactionid }`);
+      requestBody = confirmMessage.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
       expect(requestBody).toContain('mode=confirm');
       const scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', requestBody);
       await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);
@@ -118,7 +118,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
       const contactPage = new ContactPage(page);
       const zapClient = contactPage.getZapClient();
       const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
-      requestBody = completeMessage.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${ transactionid }`);
+      requestBody = completeMessage.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
       expect(completeMessage.responseHeader).toContain('HTTP/1.1 302 Found');
       expect(requestBody).toContain('mode=complete');
       const scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', requestBody);

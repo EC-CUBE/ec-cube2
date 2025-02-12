@@ -2,7 +2,7 @@ import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 
-const url = `/${ ADMIN_DIR }/basis/kiyaku.php`;
+const url = `/${ADMIN_DIR}/basis/kiyaku.php`;
 test.describe.serial('会員規約設定のテストをします', () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars

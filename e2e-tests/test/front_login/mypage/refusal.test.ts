@@ -1,7 +1,7 @@
 import { test, expect } from '../../../fixtures/front_login/mypage_login.fixture';
 import PlaywrightConfig from '../../../../playwright.config';
 
-const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/mypage/refusal.php`;
+const url = `${PlaywrightConfig.use?.baseURL ?? ''}/mypage/refusal.php`;
 test.describe.serial('退会手続きのテストをします', () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars

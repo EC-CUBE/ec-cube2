@@ -29,9 +29,9 @@ export const test = base.extend<MypageLoginFixtures>({
 
       // 購入フローのテストでポイント利用するため、ポイントを加算する
       const adminLoginPage = new AdminLoginPage(page);
-      await page.goto(`/${ ADMIN_DIR }`);
+      await page.goto(`/${ADMIN_DIR}`);
       await adminLoginPage.login(ECCUBE_ADMIN_USER, ECCUBE_ADMIN_PASS);
-      await page.goto(`/${ ADMIN_DIR }/customer/index.php`);
+      await page.goto(`/${ADMIN_DIR}/customer/index.php`);
       await page.locator('input[name=search_email]').fill(email);
       await page.getByRole('link', { name: 'この条件で検索する' }).click();
       await page.getByRole('link', { name: '編集' }).click();

@@ -2,7 +2,7 @@ import PlaywrightConfig from '../../../../playwright.config';
 import { Risk } from '../../../utils/ZapClient';
 import { intervalRepeater } from '../../../utils/Progress';
 
-const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/shopping/confirm.php`;
+const url = `${PlaywrightConfig.use?.baseURL ?? ''}/shopping/confirm.php`;
 import { ShoppingPaymentPage } from '../../../pages/shopping/payment.page';
 
 // ご注文確認画面へ進むフィクスチャ
@@ -44,7 +44,7 @@ test.describe.serial('ご注文確認画面のテストをします', () => {
       const paymentPage = new ShoppingPaymentPage(page);
       const zapClient = paymentPage.getZapClient();
       const message = await zapClient.getLastMessage(url);
-      expect(message.requestHeader).toContain(`POST ${ url }`);
+      expect(message.requestHeader).toContain(`POST ${url}`);
       expect(message.responseHeader).toContain('HTTP/1.1 302 Found');
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', message.requestBody);
       await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);

@@ -3,7 +3,7 @@ import PlaywrightConfig from '../../../../playwright.config';
 import { Risk } from '../../../utils/ZapClient';
 import { intervalRepeater } from '../../../utils/Progress';
 
-const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/shopping/payment.php`;
+const url = `${PlaywrightConfig.use?.baseURL ?? ''}/shopping/payment.php`;
 import { CartPage } from '../../../pages/cart.page';
 import { ShoppingPaymentPage } from '../../../pages/shopping/payment.page';
 
@@ -47,8 +47,8 @@ test.describe.serial('お支払方法・お届け時間等の指定画面のテ�
     const zapClient = cartPage.getZapClient();
     const message = await zapClient.getLastMessage(url);
     const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
-    const requestBody = message.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${ transactionid }`);
-    await zapClient.sendRequest(`${ message.requestHeader }${ requestBody }&mode_confirm=dummy`);
+    const requestBody = message.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
+    await zapClient.sendRequest(`${message.requestHeader}${requestBody}&mode_confirm=dummy`);
     return await zapClient.getLastMessage(url);
   };
 
@@ -63,7 +63,7 @@ test.describe.serial('お支払方法・お届け時間等の指定画面のテ�
       const zapClient = paymentPage.getZapClient();
 
       const message = await getMessage(page);
-      expect(message.requestHeader).toContain(`POST ${ url }`);
+      expect(message.requestHeader).toContain(`POST ${url}`);
       expect(message.responseHeader).toContain('HTTP/1.1 302 Found');
       scanId = await zapClient.activeScanAsUser(url, 2, 110, false, null, 'POST', message.requestBody);
       await intervalRepeater(async () => await zapClient.getActiveScanStatus(scanId), 5000, page);

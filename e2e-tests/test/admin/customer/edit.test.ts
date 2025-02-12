@@ -1,7 +1,7 @@
 import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 
-const url = `/${ ADMIN_DIR }/customer/edit.php`;
+const url = `/${ADMIN_DIR}/customer/edit.php`;
 test.describe('会員登録画面のテストをします', () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars

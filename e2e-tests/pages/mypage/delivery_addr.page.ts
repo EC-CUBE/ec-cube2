@@ -5,12 +5,12 @@ export class MypageDeliveryAddrPage {
   readonly personalInputPage: PersonalInputPage;
   readonly registerButton: Locator;
 
-  constructor(page: Page) {
+  constructor (page: Page) {
     this.personalInputPage = new PersonalInputPage(page);
     this.registerButton = page.locator('[alt=登録する]');
   }
 
-  async fill() {
+  async fill () {
     await this.personalInputPage.fillName();
     await this.personalInputPage.fillCompany();
     await this.personalInputPage.fillAddress();
@@ -18,7 +18,7 @@ export class MypageDeliveryAddrPage {
     await this.personalInputPage.fillFax();
   }
 
-  async register() {
+  async register () {
     await this.registerButton.click();
   }
 }

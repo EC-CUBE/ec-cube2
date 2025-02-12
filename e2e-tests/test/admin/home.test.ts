@@ -1,7 +1,7 @@
 import { test, expect } from '../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../config/default.config';
 
-const url = `/${ ADMIN_DIR }/home.php`;
+const url = `/${ADMIN_DIR}/home.php`;
 
 test.describe('管理画面Homeの確認をします', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars

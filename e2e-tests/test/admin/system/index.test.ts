@@ -5,7 +5,7 @@ import { faker as fakerEn } from '@faker-js/faker/locale/en';
 
 import { ADMIN_DIR } from '../../../config/default.config';
 
-const url = `/${ ADMIN_DIR }system/index.php`;
+const url = `/${ADMIN_DIR}system/index.php`;
 
 test.describe.serial('システム設定＞メンバー管理画面を確認をします', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -18,7 +18,7 @@ test.describe.serial('システム設定＞メンバー管理画面を確認を�
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('メンバー登録画面を開きます', async ( { adminLoginPage, page } ) => {
     await page.goto(url);
-    [ popup ] = await Promise.all([
+    [popup] = await Promise.all([
       page.waitForEvent('popup'),
       page.click('text=メンバーを新規入力')
     ]);
@@ -35,7 +35,7 @@ test.describe.serial('システム設定＞メンバー管理画面を確認を�
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('メンバー登録を確認します', async ( { adminLoginPage, page } ) => {
     await page.goto(url);
-    [ popup ] = await Promise.all([
+    [popup] = await Promise.all([
       page.waitForEvent('popup'),
       page.click('text=メンバーを新規入力')
     ]);
@@ -52,19 +52,19 @@ test.describe.serial('システム設定＞メンバー管理画面を確認を�
 
     await expect(page.locator('table.list >> tr >> nth=1')).toContainText(name);
 
-    [ edit ] = await Promise.all([
+    [edit] = await Promise.all([
       page.waitForEvent('popup'),
       page.click('table.list >> tr >> nth=1 >> text=編集')
     ]);
     edit.on('dialog', dialog => dialog.accept());
     await expect(edit.locator('input[name=name]')).toHaveValue(name);
-    await edit.fill('input[name=department]', `${ department } 変更`);
+    await edit.fill('input[name=department]', `${department} 変更`);
     await expect(edit.locator('input[name=login_id]')).toHaveValue(user);
     await edit.fill('input[name=password]', password);
     await edit.fill('input[name=password02]', password);
     await edit.click('text=この内容で登録する');
 
-    await expect(page.locator('table.list >> tr >> nth=1')).toContainText(`${ department } 変更`);
+    await expect(page.locator('table.list >> tr >> nth=1')).toContainText(`${department} 変更`);
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars

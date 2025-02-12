@@ -5,7 +5,7 @@ import fs from 'fs';
 
 import { ADMIN_DIR } from '../../../config/default.config';
 
-const url = `/${ ADMIN_DIR }ownersstore/index.php`;
+const url = `/${ADMIN_DIR}ownersstore/index.php`;
 
 const pluginPath = path.join(__dirname, '..', '..', '..', '..', 'tests', 'class',
                              'fixtures', 'plugin', 'PrefilterTransformPlugin');
@@ -29,7 +29,7 @@ test.describe.serial('プラグイン管理の確認をします', () => {
         file: pluginFile,
         cwd: pluginPath
       },
-      [ 'PrefilterTransformPlugin.php', 'plugin_info.php' ]
+      ['PrefilterTransformPlugin.php', 'plugin_info.php']
     );
 
     // プラグインをインストールします

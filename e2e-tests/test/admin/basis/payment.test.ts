@@ -3,7 +3,7 @@ import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 import path from 'path';
 
-const url = `/${ ADMIN_DIR }/basis/payment.php`;
+const url = `/${ADMIN_DIR}/basis/payment.php`;
 test.describe.serial('支払方法設定のテストをします', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('支払方法一覧のテストをします', async ( { adminLoginPage, page }) => {

@@ -4,11 +4,11 @@ import * as path from "path";
 export class EndpointReader {
   endpoints: Array<string>;
 
-  constructor() {
+  constructor () {
     this.read();
   }
 
-  read() {
+  read () {
     const excludes = fs.readFileSync(path.join(__dirname, '..', 'endpoints', 'exclude_endpoints.csv'), 'utf8').split('\n');
     this.endpoints = fs.readFileSync(path.join(__dirname, '..', 'endpoints', 'endpoints.csv'), 'utf8')
       .split('\n')
@@ -18,7 +18,7 @@ export class EndpointReader {
     return this.endpoints;
   }
 
-  filter(prefix: string) {
-    return this.endpoints.filter(line => line.match(new RegExp(`^${ prefix }`)));
+  filter (prefix: string) {
+    return this.endpoints.filter(line => line.match(new RegExp(`^${prefix}`)));
   }
 }

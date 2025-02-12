@@ -29,8 +29,8 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
       const productsDetailPage = new ProductsDetailPage(page);
       await productsDetailPage.cartIn(
         2,
-        faker.helpers.arrayElement([ '抹茶', 'チョコ', 'バニラ' ]),
-        faker.helpers.arrayElement([ 'S', 'M', 'L' ])
+        faker.helpers.arrayElement(['抹茶', 'チョコ', 'バニラ']),
+        faker.helpers.arrayElement(['S', 'M', 'L'])
       );
     });
 
@@ -72,7 +72,7 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
 
     await test.step('お支払い方法・お届け時間の指定をします', async () => {
       const shoppingPaymentPage = new ShoppingPaymentPage(page);
-      await shoppingPaymentPage.selectPaymentMethod(faker.helpers.arrayElement([ '郵便振替', '現金書留', '銀行振込', '代金引換' ]));
+      await shoppingPaymentPage.selectPaymentMethod(faker.helpers.arrayElement(['郵便振替', '現金書留', '銀行振込', '代金引換']));
       await shoppingPaymentPage.selectDeliveryDate(faker.number.int({ min: 0, max: 5 }));
       await shoppingPaymentPage.selectDeliveryTime(faker.number.int({ min: 0, max: 2 }));
       await shoppingPaymentPage.fillMessage(faker.lorem.sentence());
@@ -93,7 +93,7 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
       expect(await messages.json()).toContainEqual(expect.objectContaining(
         {
           subject: expect.stringContaining('ご注文ありがとうございます'),
-          recipients: expect.arrayContaining([ `<${ email }>` ])
+          recipients: expect.arrayContaining([`<${email}>`])
         }
       ));
     });

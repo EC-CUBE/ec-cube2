@@ -2,7 +2,7 @@ import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 
-const url = `/${ ADMIN_DIR }/basis/tax.php`;
+const url = `/${ADMIN_DIR}/basis/tax.php`;
 test.describe.serial('税率設定のテストをします', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('商品別税率のテストをします', async ( { adminLoginPage, page } ) => {
@@ -29,7 +29,7 @@ test.describe.serial('税率設定のテストをします', () => {
     await page.goto(url);
     const taxRate = String(faker.number.int({ min: 1, max: 999 }));
     await page.getByRole('row', { name: '消費税率' }).getByRole('textbox').fill(taxRate);
-    await page.getByRole('row', { name: '課税規則' }).getByLabel(faker.helpers.arrayElement([ '切り捨て', '四捨五入', '切り上げ' ])).check();
+    await page.getByRole('row', { name: '課税規則' }).getByLabel(faker.helpers.arrayElement(['切り捨て', '四捨五入', '切り上げ'])).check();
     const applyDate = faker.date.future({ years: 2 });
     await page.locator('select[name="apply_date_year"]').selectOption({ value: String(applyDate.getFullYear()) });
     await page.locator('select[name="apply_date_month"]').selectOption({ value: String(applyDate.getMonth() + 1) });

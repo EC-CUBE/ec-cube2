@@ -12,7 +12,7 @@ export class EntryPage  {
   readonly confirmButton: Locator;
   readonly registerButton: Locator;
 
-  constructor(page: Page, email?: string, password?: string, url?: string) {
+  constructor (page: Page, email?: string, password?: string, url?: string) {
     this.page = page;
     this.password = password ?? FakerUtils.createPassword();
     this.url = url ?? '/entry/kiyaku.php';
@@ -23,15 +23,15 @@ export class EntryPage  {
     this.email = email ?? this.personalInputPage.emailAddress;
   }
 
-  async goto() {
+  async goto () {
     await this.page.goto(this.url);
   }
 
-  async agree() {
+  async agree () {
     await this.agreeButton.click();
   }
 
-  async fill() {
+  async fill () {
     await this.personalInputPage.fillName();
     await this.personalInputPage.fillCompany();
     await this.personalInputPage.fillAddress();
@@ -44,11 +44,11 @@ export class EntryPage  {
     await this.personalInputPage.fillMailmagaFlg();
   }
 
-  async confirm() {
+  async confirm () {
     await this.confirmButton.click();
   }
 
-  async register() {
+  async register () {
     await this.registerButton.click();
   }
 }

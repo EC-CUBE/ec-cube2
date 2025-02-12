@@ -5,12 +5,12 @@ import { intervalRepeater } from '../../../utils/Progress';
 // 商品をカートに入れて購入手続きへ進むフィクスチャ
 import { test, expect } from '../../../fixtures/front_login/cartin.fixture';
 
-const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/cart/index.php`;
+const url = `${PlaywrightConfig.use?.baseURL ?? ''}/cart/index.php`;
 import { CartPage } from '../../../pages/cart.page';
 
 // zap/patches/0009-cart_delete.patch を適用する必要があります
 test.describe.serial('カートページのテストをします', () => {
-  const detailURL = `${ PlaywrightConfig.use?.baseURL ?? '' }/products/detail.php?product_id=1`;
+  const detailURL = `${PlaywrightConfig.use?.baseURL ?? ''}/products/detail.php?product_id=1`;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('カートの削除をテストします', async ( { cartLoginPage, page } ) => {

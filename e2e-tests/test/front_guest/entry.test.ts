@@ -82,7 +82,7 @@ test.describe.serial('会員登録のテストをします', () => {
       expect(await messages.json()).toContainEqual(expect.objectContaining(
         {
           subject: expect.stringContaining('会員登録のご完了'),
-          recipients: expect.arrayContaining([ `<${ email }>` ])
+          recipients: expect.arrayContaining([`<${email}>`])
         }
       ));
     });

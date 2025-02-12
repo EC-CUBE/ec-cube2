@@ -7,30 +7,30 @@ export class ShoppingDelivPage {
   readonly addNewDeliveryAddressButton: Locator;
   readonly sendToMultipleButton: Locator;
 
-  constructor(page: Page) {
+  constructor (page: Page) {
     this.page = page;
     this.nextButton = page.locator('input[alt=選択したお届け先に送る]');
     this.addNewDeliveryAddressButton = page.locator('[alt=新しいお届け先を追加する]');
     this.sendToMultipleButton = page.locator('[alt=お届け先を複数指定する]');
   }
 
-  async goto() {
-    await this.page.goto(`${ PlaywrightConfig?.use?.baseURL }/shopping/deliv.php`);
+  async goto () {
+    await this.page.goto(`${PlaywrightConfig?.use?.baseURL}/shopping/deliv.php`);
   }
 
-  async gotoNext() {
+  async gotoNext () {
     await this.nextButton.click();
   }
 
-  async gotoAddNewDeliveryAddress() {
+  async gotoAddNewDeliveryAddress () {
     await this.addNewDeliveryAddressButton.click();
   }
 
-  async gotoSendToMultiple() {
+  async gotoSendToMultiple () {
     await this.sendToMultipleButton.click();
   }
 
-  async choiceDeliveryAddress(label: '会員登録住所' | '追加登録住所') {
+  async choiceDeliveryAddress (label: '会員登録住所' | '追加登録住所') {
     await this.page.getByRole('row', { name: label }).getByRole('radio').check();
   }
 }
