@@ -40,7 +40,7 @@ class SC_SmartyBc extends \Smarty\Smarty
      *
      * @var array
      */
-    public $trusted_dir = array();
+    public $trusted_dir = [];
 
     public function __construct()
     {
@@ -64,7 +64,7 @@ class SC_SmartyBc extends \Smarty\Smarty
      *
      * @param string  $tpl_var the template variable name
      * @param mixed   &$value  the referenced value to append
-     * @param boolean $merge   flag if array elements shall be merged
+     * @param bool $merge   flag if array elements shall be merged
      */
     public function append_by_ref($tpl_var, &$value, $merge = false)
     {
@@ -116,22 +116,23 @@ class SC_SmartyBc extends \Smarty\Smarty
      * @param string  $object        name of template object
      * @param object  $object_impl   the referenced PHP object to register
      * @param array   $allowed       list of allowed methods (empty = all)
-     * @param boolean $smarty_args   smarty argument format, else traditional
+     * @param bool $smarty_args   smarty argument format, else traditional
      * @param array   $block_methods list of methods that are block format
      *
      * @throws   SmartyException
+     *
      * @internal param array $block_functs list of methods that are block format
      */
     public function register_object(
         $object,
         $object_impl,
-        $allowed = array(),
+        $allowed = [],
         $smarty_args = true,
-        $block_methods = array()
+        $block_methods = []
     ) {
         trigger_error('register_object is obsolete, use registerObject instead', E_USER_WARNING);
-        settype($allowed, 'array');
-        settype($smarty_args, 'boolean');
+        $allowed = (array) $allowed;
+        $smarty_args = (bool) $smarty_args;
         $this->registerObject($object, $object_impl, $allowed, $smarty_args, $block_methods);
     }
 
@@ -344,11 +345,12 @@ class SC_SmartyBc extends \Smarty\Smarty
      * @param string $compile_id name of compile_id
      * @param string $exp_time   expiration time
      *
-     * @return boolean
+     * @return bool
      */
     public function clear_cache($tpl_file = null, $cache_id = null, $compile_id = null, $exp_time = null)
     {
         trigger_error('clear_cache is obsolete, use clearCache instead', E_USER_WARNING);
+
         return $this->clearCache($tpl_file, $cache_id, $compile_id, $exp_time);
     }
 
@@ -357,11 +359,12 @@ class SC_SmartyBc extends \Smarty\Smarty
      *
      * @param string $exp_time expire time
      *
-     * @return boolean
+     * @return bool
      */
     public function clear_all_cache($exp_time = null)
     {
         trigger_error('clear_all_cache is obsolete, use clearCache instead', E_USER_WARNING);
+
         return $this->clearCache(null, null, null, $exp_time);
     }
 
@@ -373,12 +376,14 @@ class SC_SmartyBc extends \Smarty\Smarty
      * @param string $compile_id
      *
      * @return bool
+     *
      * @throws \Exception
      * @throws \SmartyException
      */
     public function is_cached($tpl_file, $cache_id = null, $compile_id = null)
     {
         trigger_error('is_cached is obsolete, use isCached instead', E_USER_WARNING);
+
         return $this->isCached($tpl_file, $cache_id, $compile_id);
     }
 
@@ -400,11 +405,12 @@ class SC_SmartyBc extends \Smarty\Smarty
      * @param string $compile_id
      * @param string $exp_time
      *
-     * @return boolean results of {@link smarty_core_rm_auto()}
+     * @return bool results of {@link smarty_core_rm_auto()}
      */
     public function clear_compiled_tpl($tpl_file = null, $compile_id = null, $exp_time = null)
     {
         trigger_error('clear_compiled_tpl is obsolete, use clearCompiledTemplate instead', E_USER_WARNING);
+
         return $this->clearCompiledTemplate($tpl_file, $compile_id, $exp_time);
     }
 
@@ -414,11 +420,13 @@ class SC_SmartyBc extends \Smarty\Smarty
      * @param string $tpl_file
      *
      * @return bool
+     *
      * @throws \SmartyException
      */
     public function template_exists($tpl_file)
     {
         trigger_error('template_exists is obsolete, use templateExists instead', E_USER_WARNING);
+
         return $this->templateExists($tpl_file);
     }
 
@@ -432,6 +440,7 @@ class SC_SmartyBc extends \Smarty\Smarty
     public function get_template_vars($name = null)
     {
         trigger_error('get_template_vars is obsolete, use getTemplateVars instead', E_USER_WARNING);
+
         return $this->getTemplateVars($name);
     }
 
@@ -445,6 +454,7 @@ class SC_SmartyBc extends \Smarty\Smarty
     public function get_config_vars($name = null)
     {
         trigger_error('get_config_vars is obsolete, use getConfigVars instead', E_USER_WARNING);
+
         return $this->getConfigVars($name);
     }
 
@@ -471,6 +481,7 @@ class SC_SmartyBc extends \Smarty\Smarty
     public function get_registered_object($name)
     {
         trigger_error('get_registered_object is obsolete, use getRegisteredObject instead', E_USER_WARNING);
+
         return $this->getRegisteredObject($name);
     }
 
@@ -489,7 +500,7 @@ class SC_SmartyBc extends \Smarty\Smarty
      * trigger Smarty error
      *
      * @param string  $error_msg
-     * @param integer $error_type
+     * @param int $error_type
      */
     public function trigger_error($error_msg, $error_type = E_USER_WARNING)
     {
