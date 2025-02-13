@@ -1,6 +1,8 @@
 import { test, expect } from '../../../fixtures/admin/register_product.fixture.ts';
 import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
+import fs from 'fs/promises';
+import iconv from 'iconv-lite';
 
 const url = `${ADMIN_DIR}/products/category.php`;
 const maxCategoryDepth = 5;
@@ -59,6 +61,20 @@ test.describe.serial('カテゴリ登録画面のテストをします', () => {
       await page.getByRole('row', { name: '商品名' }).getByRole('textbox').nth(1).fill(adminProductsProductPage.productName);
       await page.getByRole('link', { name: 'この条件で検索する' }).click();
       await page.locator('table.list').getByRole('row').nth(2).getByRole('link', { name: '削除' }).click();
+    });
+
+    await test.step('CSVダウンロードを確認します', async () => {
+      await page.goto(url);
+      const downloadPromise = page.waitForEvent('download');
+      await page.getByRole('link', { name: 'CSV ダウンロード' }).click();
+      const download = await downloadPromise;
+      await test.step('CSVファイルにカテゴリ名が含まれていることを確認します', async () => {
+      await download.path()
+        .then(path =>  fs.readFile(path))
+        .then(file => Buffer.from(file))
+        .then(buf => iconv.decode(buf, 'Windows-31J'))
+        .then(file => expect(file).toMatch(categoryName));
+      });
     });
 
     await test.step('最大階層から順にカテゴリを削除します', async () => {
