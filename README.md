@@ -1,4 +1,4 @@
-# EC-CUBE 2.17系
+# EC-CUBE 2.25系
 
 [![CI/CD for EC-CUBE](https://github.com/EC-CUBE/ec-cube2/actions/workflows/main.yml/badge.svg)](https://github.com/EC-CUBE/ec-cube2/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/EC-CUBE/ec-cube2/branch/master/graph/badge.svg?token=4oNLGhIQwy)](https://codecov.io/gh/EC-CUBE/ec-cube2)
@@ -24,7 +24,7 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 
 本リポジトリでは、以下方針で開発を行っています。
 
-### 2.17系
+### 2.25系
 
 * EC-CUBE 2.13 系の PHP7 及び PHP8 対応バージョンです。
 * `master` ブランチで開発を行っています。
