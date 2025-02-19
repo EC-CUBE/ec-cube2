@@ -40,3 +40,4 @@ EC-CUBE2.17.2 までは、 [data/class](../class/) 以下すべてのクラス�
 - [data/class_extends/page_extends/shopping/LC_Page_Shopping_LoadPaymentModule_Ex.php](page_extends/shopping/LC_Page_Shopping_LoadPaymentModule_Ex.php)
 - [data/class_extends/SC_Display_Ex.php](SC_Display_Ex.php)
 - [data/class_extends/SC_Response_Ex.php](SC_Response_Ex.php)
+- [data/class_extends/page_extends/cart/LC_Page_Cart_Ex.php](LC_Page_Cart_Ex.php)
