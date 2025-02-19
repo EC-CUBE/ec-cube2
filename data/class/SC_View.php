@@ -72,6 +72,7 @@ class SC_View
         $this->_smarty->registerPlugin('modifier', 'key', 'key');
         $this->_smarty->registerPlugin('modifier', 'strpos', 'strpos');
         $this->_smarty->registerPlugin('modifier', 'current', 'current');
+        $this->_smarty->registerPlugin('modifier', 'var_dump', 'var_dump');
         $this->_smarty->registerPlugin('modifier', 'preg_match', 'preg_match');
         $this->_smarty->registerPlugin('modifier', 'unserialize', 'unserialize');
         $this->_smarty->registerPlugin('modifier', 'realpath', 'realpath');
