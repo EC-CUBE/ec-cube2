@@ -44,7 +44,10 @@ const config: PlaywrightTestConfig = {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     baseURL: process.env.HTTP_PROXY ? 'https://ec-cube' : 'https://localhost:4430',
     trace: 'off',
-    screenshot: 'only-on-failure',
+    screenshot: {
+      mode: 'only-on-failure',
+      fullPage: true,
+    },
     video: 'retain-on-failure',
     ignoreHTTPSErrors: true,
     acceptDownloads: true,
