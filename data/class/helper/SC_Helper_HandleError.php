@@ -88,14 +88,18 @@ class SC_Helper_HandleError
      */
     public static function handle_warning($errno, $errstr, $errfile, $errline)
     {
+        // テスト中の E_USER_ERROR は例外をスローする。それにより、TestCase::expectException() を使える。
+        if (defined('TEST_FUNCTION') && TEST_FUNCTION === true && $errno === E_USER_ERROR) {
+            throw new Error(strlen($errstr) >= 1 ? $errstr : 'for phpunit');
+        }
+
         // error_reporting 設定に含まれていないエラーコードは処理しない
         if (!(error_reporting() & $errno)) {
             return;
         }
 
         // パラメーターが読み込まれるまでは、PHP 標準のエラー処理とする。
-        // - phpunit の実行中に Warning が出力されることでテストが失敗するテストケースがあっため、除外している。
-        if (!defined('ERROR_LOG_REALFILE') && !(defined('TEST_FUNCTION') && TEST_FUNCTION === true)) {
+        if (!defined('ERROR_LOG_REALFILE')) {
             return false;
         }
 
