@@ -73,27 +73,10 @@
                 <!--{/if}-->
                 <!--{* ▲TOP COLUMN*}-->
 
-                <!--{* ▼LEFT COLUMN *}-->
-                <!--{if !empty($arrPageLayout.LeftNavi)}-->
-                    <div id="leftcolumn" class="side_column">
-                        <!--{* ▼左ナビ *}-->
-                        <!--{foreach key=LeftNaviKey item=LeftNaviItem from=$arrPageLayout.LeftNavi}-->
-                            <!-- ▼<!--{$LeftNaviItem.bloc_name}--> -->
-                            <!--{if $LeftNaviItem.php_path != ""}-->
-                                <!--{include_php_ex file=$LeftNaviItem.php_path items=$LeftNaviItem}-->
-                            <!--{else}-->
-                                <!--{include file=$LeftNaviItem.tpl_path items=$LeftNaviItem}-->
-                            <!--{/if}-->
-                            <!-- ▲<!--{$LeftNaviItem.bloc_name}--> -->
-                        <!--{/foreach}-->
-                        <!--{* ▲左ナビ *}-->
-                    </div>
-                <!--{/if}-->
-                <!--{* ▲LEFT COLUMN *}-->
-
+                <div id="main_column_frame">
                 <!--{* ▼CENTER COLUMN *}-->
                 <div id="main_column" <!--{**}-->
-                    class="colnum<!--{$tpl_column_num|h}-->
+                    class="colnum_order colnum<!--{$tpl_column_num|h}-->
                         <!--{if $tpl_column_num == 2}-->
                             <!--{" "}--><!--{if empty($arrPageLayout.LeftNavi)}-->left<!--{else}-->right<!--{/if}-->
                         <!--{/if}-->
@@ -133,9 +116,27 @@
                 </div>
                 <!--{* ▲CENTER COLUMN *}-->
 
+                <!--{* ▼LEFT COLUMN *}-->
+                <!--{if !empty($arrPageLayout.LeftNavi)}-->
+                    <div id="leftcolumn" class="colnum_order side_column">
+                        <!--{* ▼左ナビ *}-->
+                        <!--{foreach key=LeftNaviKey item=LeftNaviItem from=$arrPageLayout.LeftNavi}-->
+                            <!-- ▼<!--{$LeftNaviItem.bloc_name}--> -->
+                            <!--{if $LeftNaviItem.php_path != ""}-->
+                                <!--{include_php_ex file=$LeftNaviItem.php_path items=$LeftNaviItem}-->
+                            <!--{else}-->
+                                <!--{include file=$LeftNaviItem.tpl_path items=$LeftNaviItem}-->
+                            <!--{/if}-->
+                            <!-- ▲<!--{$LeftNaviItem.bloc_name}--> -->
+                        <!--{/foreach}-->
+                        <!--{* ▲左ナビ *}-->
+                    </div>
+                <!--{/if}-->
+                <!--{* ▲LEFT COLUMN *}-->
+
                 <!--{* ▼RIGHT COLUMN *}-->
                 <!--{if !empty($arrPageLayout.RightNavi)}-->
-                    <div id="rightcolumn" class="side_column">
+                    <div id="rightcolumn" class="colnum_order side_column">
                         <!--{* ▼右ナビ *}-->
                         <!--{foreach key=RightNaviKey item=RightNaviItem from=$arrPageLayout.RightNavi}-->
                             <!-- ▼<!--{$RightNaviItem.bloc_name}--> -->
@@ -150,6 +151,7 @@
                     </div>
                 <!--{/if}-->
                 <!--{* ▲RIGHT COLUMN *}-->
+                </div>
 
                 <!--{* ▼BOTTOM COLUMN*}-->
                 <!--{if !empty($arrPageLayout.BottomNavi)}-->

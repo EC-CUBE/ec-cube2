@@ -20,7 +20,7 @@ if (!file_exists($autoload) && !is_readable($autoload)) {
 require_once $autoload;
 
 // bufferを初期化する
-while (ob_get_level() > 0 && ob_get_level() > 0) {
+while (ob_get_level() > 0) {
     ob_end_clean();
 }
 
