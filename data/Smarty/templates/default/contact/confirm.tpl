@@ -38,11 +38,11 @@
                 <col width="70%" />
                 <tr>
                     <th>お名前</th>
-                    <td><!--{$arrForm.name01.value|h}-->　<!--{$arrForm.name02.value|h}--></td>
+                    <td><!--{$arrForm|format_name|h}--></td>
                 </tr>
                 <tr>
                     <th>お名前(フリガナ)</th>
-                    <td><!--{$arrForm.kana01.value|h}-->　<!--{$arrForm.kana02.value|h}--></td>
+                    <td><!--{$arrForm|format_name:'kana'|h}--></td>
                 </tr>
                 <tr>
                     <th>郵便番号</th>
