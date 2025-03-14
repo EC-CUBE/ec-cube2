@@ -1,6 +1,13 @@
 <?php
-
-class SC_DB_DBFactoryTest extends Common_TestCase
+/**
+ * SC_DB_DBFactoryTest のテストクラス
+ *
+ * このクラスでは生成パターン (Factory) に関するテストを行う。
+ * MDBS 機能面に対応したテストは、基本的なケース (即ち SC_DB_DBFactory に関するもの) を SC_DB_DBFactoryTestAbstract に記述し (継承によりこの Test クラスでも実行される)、MDBS 毎に差がある部分を SC_DB_DBFactory_*Test に記述する。
+ *
+ * @author Seasoft 塚田将久 (新規作成)
+ */
+class SC_DB_DBFactoryTest extends SC_DB_DBFactoryTestAbstract
 {
     /**
      * @var SC_DB_DBFactory_PGSQL
@@ -24,7 +31,7 @@ class SC_DB_DBFactoryTest extends Common_TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
+        Common_TestCase::setUp();
         $this->dbFactoryPgsql = SC_DB_DBFactory_Ex::getInstance('pgsql');
         $this->dbFactoryMysql = SC_DB_DBFactory_Ex::getInstance('mysql');
         $this->dbFactoryMysqli = SC_DB_DBFactory_Ex::getInstance('mysqli');
@@ -65,15 +72,5 @@ class SC_DB_DBFactoryTest extends Common_TestCase
         $this->assertNotInstanceOf('SC_DB_DBFactory_MYSQL_Ex', $this->dbFactory);
         $this->assertNotInstanceOf('SC_DB_DBFactory_PGSQL', $this->dbFactory);
         $this->assertNotInstanceOf('SC_DB_DBFactory_PGSQL_Ex', $this->dbFactory);
-    }
-
-    public function testGetTransactionIsolationLevel()
-    {
-        $this->assertEquals(SC_DB_DBFactory_Ex::ISOLATION_LEVEL_READ_COMMITTED, $this->dbFactory->getTransactionIsolationLevel());
-    }
-
-    public function testIsSkipDeleteIfNotExists()
-    {
-        $this->assertFalse($this->dbFactory->isSkipDeleteIfNotExists());
     }
 }
