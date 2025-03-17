@@ -1,5 +1,5 @@
 import { test as base } from './cartin.fixture';
-import { CartPage } from '../pages/cart.page';
+import { CartPage } from '../../pages/cart.page';
 
 type ShoppingDelivLoginFixtures = {
   shoppingDelivLoginPage: CartPage;
