@@ -347,10 +347,10 @@
                             <p class="subphotoimg">
                                 <!--{if $arrProduct[$lkey]|strlen >= 1}-->
                                     <a class="expansion" href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct[$lkey]|h}-->" target="_blank">
-                                        <img src="<!--{$arrFile[$key].filepath}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$key].width/$sub_image_factor}-->" height="<!--{$arrFile[$key].height/$sub_image_factor}-->" />
+                                        <img src="<!--{$arrFile[$key].filepath|h}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$key].width/$sub_image_factor}-->" height="<!--{$arrFile[$key].height/$sub_image_factor}-->" />
                                     </a>
                                 <!--{else}-->
-                                    <img src="<!--{$arrFile[$key].filepath}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$key].width/$sub_image_factor}-->" height="<!--{$arrFile[$key].height/$sub_image_factor}-->" />
+                                    <img src="<!--{$arrFile[$key].filepath|h}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$key].width/$sub_image_factor}-->" height="<!--{$arrFile[$key].height/$sub_image_factor}-->" />
                                 <!--{/if}-->
                             </p>
                         <!--{/if}-->
