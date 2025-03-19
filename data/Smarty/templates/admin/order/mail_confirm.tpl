@@ -27,7 +27,13 @@
     <input type="hidden" name="mode" value="send" />
     <input type="hidden" name="order_id_array" value="<!--{$order_id_array|h}-->" />
     <!--{foreach key=key item=item from=$arrForm}-->
-    <input type="hidden" name="<!--{$key}-->" value="<!--{$item.value|h}-->" />
+        <!--{if is_array($item.value)}-->
+            <!--{foreach item=c_item from=$item.value}-->
+                <input type="hidden" name="<!--{$key|h}-->[]" value="<!--{$c_item|h}-->" />
+            <!--{/foreach}-->
+        <!--{else}-->
+            <input type="hidden" name="<!--{$key}-->" value="<!--{$item.value|h}-->" />
+        <!--{/if}-->
     <!--{/foreach}-->
     <!--{foreach key=key item=item from=$arrSearchHidden}-->
         <!--{if is_array($item)}-->
