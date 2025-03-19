@@ -37,6 +37,8 @@
     "eslint-config-jquery": "^3.0.2",
     "eslint-plugin-import": "^2.31.0",
     "expose-loader": "^5.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
     "tar": "^7.4.3",
     "typescript": "^5.7.2",
     "webpack-cli": "^6.0.1",
@@ -48,7 +50,13 @@
     "test:e2e": "playwright test --grep-invert '(@attack|@extends)'",
     "test:e2e-extends": "playwright test --grep @extends",
     "test:attack": "playwright test --grep-invert @extends",
-    "dev": "npx webpack --mode development --watch"
+    "dev": "npx webpack --mode development --watch",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix --ext .ts"
+    ]
   },
   "packageManager": "yarn@1.22.22"
 }
