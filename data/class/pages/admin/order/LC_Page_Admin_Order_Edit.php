@@ -161,6 +161,10 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $objFormParam->setParam($_REQUEST);
         $objFormParam->convParam();
         $order_id = $objFormParam->getValue('order_id');
+        if (($order_id ?? '') !== '' && filter_var($order_id, FILTER_VALIDATE_INT) === false) {
+            trigger_error("不正な注文番号が指定されました。(注文番号: $order_id)", E_USER_ERROR);
+        }
+
         $arrValuesBefore = [];
 
         // DBから受注情報を読み込む
