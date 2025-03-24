@@ -81,7 +81,7 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
         $arrProducts = [];
 
         // 2.13系, 2.17系のモジュールもバージョンチェック対象とする
-        foreach(['2.13.99', '2.17.99', ECCUBE_VERSION] as $version) {
+        foreach (['2.13.99', '2.17.99', ECCUBE_VERSION] as $version) {
             // リクエストを開始
             $objLog->log('* http request start');
             $arrPostData = [
