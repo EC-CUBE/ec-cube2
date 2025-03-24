@@ -78,78 +78,22 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
             return;
         }
 
-        // リクエストを開始
-        $objLog->log('* http request start');
-        $arrPostData = [
-            'eccube_url' => HTTP_URL,
-            'public_key' => sha1($public_key.$sha1_key),
-            'sha1_key' => $sha1_key,
-            'ver' => ECCUBE_VERSION,
-        ];
-        $objReq = $this->request('products_list', $arrPostData);
+        $arrProducts = [];
 
-        // リクエストチェック
-        $objLog->log('* http request check start');
-        if (PEAR::isError($objReq)) {
-            $objJson->setError(OSTORE_E_C_HTTP_REQ);
-            $objJson->display();
-            $objLog->error(OSTORE_E_C_HTTP_REQ, $objReq);
-
-            return;
-        }
-
-        // レスポンスチェック
-        $objLog->log('* http response check start');
-        if ($objReq->getResponseCode() !== 200) {
-            $objJson->setError(OSTORE_E_C_HTTP_RESP);
-            $objJson->display();
-            $objLog->error(OSTORE_E_C_HTTP_RESP, $objReq);
-
-            return;
-        }
-
-        $body = $objReq->getResponseBody();
-        $objRet = $objJson->decode($body);
-
-        // JSONデータのチェック
-        $objLog->log('* json deta check start');
-        if (empty($objRet)) {
-            $objJson->setError(OSTORE_E_C_FAILED_JSON_PARSE);
-            $objJson->display();
-            $objLog->error(OSTORE_E_C_FAILED_JSON_PARSE, $objReq);
-
-            return;
-        }
-
-        // ステータスチェック
-        $objLog->log('* json status check start');
-        if ($objRet->status === OSTORE_STATUS_SUCCESS) {
-            $objLog->log('* get products list ok');
-
-            $arrProducts = [];
-
-            foreach ($objRet->data as $product) {
-                $tmp = get_object_vars($product);
-
-                if ($tmp['download_flg'] == 1) {
-                    $arrProducts[$tmp['product_id']] = $tmp;
-                }
-            }
-
-            // todo 苦肉の策
-
-            // 再度リクエストを開始
+        // 2.13系, 2.17系のモジュールもバージョンチェック対象とする
+        foreach(['2.13.99', '2.17.99', ECCUBE_VERSION] as $version) {
+            // リクエストを開始
             $objLog->log('* http request start');
             $arrPostData = [
                 'eccube_url' => HTTP_URL,
                 'public_key' => sha1($public_key.$sha1_key),
                 'sha1_key' => $sha1_key,
-                'ver' => '2.13.17', // 2.13系も取得する
+                'ver' => $version,
             ];
             $objReq = $this->request('products_list', $arrPostData);
 
             // リクエストチェック
-            $objLog->log('* http request check start');
+            $objLog->log('* http request check start: '.$version);
             if (PEAR::isError($objReq)) {
                 $objJson->setError(OSTORE_E_C_HTTP_REQ);
                 $objJson->display();
@@ -159,7 +103,7 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
             }
 
             // レスポンスチェック
-            $objLog->log('* http response check start');
+            $objLog->log('* http response check start: '.$version);
             if ($objReq->getResponseCode() !== 200) {
                 $objJson->setError(OSTORE_E_C_HTTP_RESP);
                 $objJson->display();
@@ -172,7 +116,7 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
             $objRet = $objJson->decode($body);
 
             // JSONデータのチェック
-            $objLog->log('* json deta check start');
+            $objLog->log('* json deta check start: '.$version);
             if (empty($objRet)) {
                 $objJson->setError(OSTORE_E_C_FAILED_JSON_PARSE);
                 $objJson->display();
@@ -181,45 +125,50 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
                 return;
             }
 
+            // ステータスチェック
+            $objLog->log('* json status check start: '.$version);
             if ($objRet->status === OSTORE_STATUS_SUCCESS) {
-                $objLog->log('* get products list ok');
+                $objLog->log('* get products list ok: '.$version);
 
                 foreach ($objRet->data as $product) {
                     $tmp = get_object_vars($product);
                     $this->detectInstalledFlagByHostState($tmp);
-                    if (!isset($arrProducts[$tmp['product_id']])) {
-                        if ($tmp['download_flg'] == 1) {
-                            $tmp['status'] = '2.13系のモジュールは十分に動作確認できてない場合があります';
+                    if ($tmp['download_flg'] == 1) {
+                        // 2.13, 2.17のモジュールは警告を表示する
+                        if ($version != ECCUBE_VERSION) {
+                            $tmp['status'] = str_replace('.99', '', $version).'系のモジュールは十分に動作確認できてない場合があります';
                         }
                         $arrProducts[$tmp['product_id']] = $tmp;
+                    } else {
+                        // 2.13, 2.17, 2.25 以外のモジュールも表示する
+                        if (!isset($arrProducts[$tmp['product_id']])) {
+                            $arrProducts[$tmp['product_id']] = $tmp;
+                        }
                     }
                 }
+            } else {
+                // 配信サーバー側でエラーを補足
+                echo $body;
+                $objLog->error($objRet->errcode, $objReq);
+
+                return;
             }
-
-            $objView = new SC_AdminView_Ex();
-            $objView->assign('arrProducts', $arrProducts);
-
-            $template = 'ownersstore/products_list.tpl';
-
-            if (!$objView->_smarty->templateExists($template)) {
-                $objLog->log('* template not exist, use default template');
-                // デフォルトテンプレートを使用
-                $template = DATA_REALDIR.'Smarty/templates/default/admin/'.$template;
-            }
-
-            $html = $objView->fetch('ownersstore/products_list.tpl');
-            $objJson->setSuccess([], $html);
-            $objJson->display();
-            $objLog->end();
-
-            return;
-        } else {
-            // 配信サーバー側でエラーを補足
-            echo $body;
-            $objLog->error($objRet->errcode, $objReq);
-
-            return;
         }
+
+        $objView = new SC_AdminView_Ex();
+        $objView->assign('arrProducts', $arrProducts);
+        $template = 'ownersstore/products_list.tpl';
+
+        if (!$objView->_smarty->templateExists($template)) {
+            $objLog->log('* template not exist, use default template');
+            // デフォルトテンプレートを使用
+            $template = DATA_REALDIR.'Smarty/templates/default/admin/'.$template;
+        }
+
+        $html = $objView->fetch('ownersstore/products_list.tpl');
+        $objJson->setSuccess([], $html);
+        $objJson->display();
+        $objLog->end();
     }
 
     /**
