@@ -200,7 +200,6 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
         if ($diff > 0) {
             $fp = fopen(CONFIG_REALFILE, 'w');
             $installData = implode("\n", $installData);
-            echo $installData;
             fwrite($fp, $installData);
             fclose($fp);
         }

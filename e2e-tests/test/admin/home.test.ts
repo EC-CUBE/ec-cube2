@@ -7,7 +7,7 @@ test.describe('管理画面Homeの確認をします', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('システム情報を確認します', async ({ adminLoginPage, page }) => {
     await page.goto(url);
-    await expect(page.locator('.shop-info >> nth=0 >> tr >> nth=0 >> td')).toContainText('2.17');
+    await expect(page.locator('.shop-info >> nth=0 >> tr >> nth=0 >> td')).toContainText('2.25');
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
