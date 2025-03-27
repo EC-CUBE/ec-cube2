@@ -3,13 +3,15 @@ import PlaywrightConfig from '../../../../playwright.config';
 import { Risk } from '../../../utils/ZapClient';
 import { intervalRepeater } from '../../../utils/Progress';
 
-const url = `${ PlaywrightConfig.use?.baseURL ?? "" }/cart/index.php`;
+const url = `${PlaywrightConfig.use?.baseURL ?? ""}/cart/index.php`;
 import { CartPage } from '../../../pages/cart.page';
 
 // 商品をカートに入れて購入手続きへ進むフィクスチャ
-import { test, expect } from '../../../fixtures/cartin.fixture';
+import { test, expect } from '../../../fixtures/front_login/cartin.fixture';
 
 test.describe.serial('カートページのテストをします', () => {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('カートの内容を確認します', async ( { cartLoginPage, page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();
@@ -36,11 +38,12 @@ test.describe.serial('カートページのテストをします', () => {
     const result = await zapClient.getMessages(url, await zapClient.getNumberOfMessages(url) - 1, 1);
     const message = result.pop();
     const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
-    const requestBody = message?.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${ transactionid }`);
-    await zapClient.sendRequest(`${ message?.requestHeader }${ requestBody }${ additionParams }`);
+    const requestBody = message?.requestBody.replace(/transactionid=[a-z0-9]+/, `transactionid=${transactionid}`);
+    await zapClient.sendRequest(`${message?.requestHeader}${requestBody}${additionParams}`);
     return await zapClient.getLastMessage(url);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('カートの数量を加算します', async ( { cartLoginPage, page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();
@@ -66,6 +69,7 @@ test.describe.serial('カートページのテストをします', () => {
     });
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('カートの数量を減算します', async ( { cartLoginPage, page } ) => {
     const cartPage = new CartPage(page);
     await cartPage.goto();
@@ -86,7 +90,7 @@ test.describe.serial('カートページのテストをします', () => {
         await(async () => {
           const searchParams = data => {
             const params = new URLSearchParams();
-            Object.keys(data).forEach(key => params.append(key, data[ key ]));
+            Object.keys(data).forEach(key => params.append(key, data[key]));
             return params;
           };
           const response = await fetch('/cart/index.php', {

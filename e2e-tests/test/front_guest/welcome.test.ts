@@ -20,7 +20,7 @@ test.describe.serial('トップページのテストをします', () => {
   });
 
   test('システムエラーが出ていないのを確認します', async () => {
-    await expect(page.locator('.error')).not.toBeVisible();
+    await expect(page.locator('.error')).toBeHidden();
   });
 
   test('LC_Page_Index_Ex クラスのテストをします @extends', async ( { page }) => {

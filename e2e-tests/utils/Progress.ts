@@ -5,7 +5,7 @@ export const intervalRepeater = async (callback: any, interval: number, page: Pa
   console.log('\n::group::Active Scan progress...');
   while (progress < 100) {
     progress = await callback();
-    console.log(`${ progress }%`);
+    console.log(`${progress}%`);
     await page.waitForTimeout(interval);
   }
   console.log('::endgroup::');
