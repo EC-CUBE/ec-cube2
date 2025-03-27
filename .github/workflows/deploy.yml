@@ -42,7 +42,7 @@ jobs:
           tag: ${{ env.TAG_NAME }}
           name: ${{ env.TAG_NAME }}
           body: |
-            EC-CUBE 2.17系の Weekly build🚀 です。毎週の改善内容を反映しております。
+            EC-CUBE 2.25系の Weekly build🚀 です。毎週の改善内容を反映しております。
             常に安定して動作するよう努めていますが、思わぬ不具合を取り込んでしまっている場合もあります。十分に検証の上ご利用ください。
 
             <table>

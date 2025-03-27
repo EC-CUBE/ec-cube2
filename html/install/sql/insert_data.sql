@@ -1077,7 +1077,7 @@ INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('OPTION_PRODUCT_DELI
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('OPTION_DELIV_FEE', '1', 60, '配送業者ごとの配送料を加算する(有効:1 無効:0)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('OPTION_RECOMMEND', '1', 61, 'おすすめ商品登録(有効:1 無効:0)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('OPTION_CLASS_REGIST', '1', 62, '商品規格登録(有効:1 無効:0)');
-INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('DEFAULT_PASSWORD', '"******"', 66, '会員登録変更(マイページ)パスワード用');
+INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('DEFAULT_PASSWORD', '"********"', 66, '会員登録変更(マイページ)パスワード用');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('DELIV_ADDR_MAX', '20', 67, '別のお届け先最大登録数');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ORDER_STATUS_MAX', '50', 70, '対応状況管理画面の一覧表示件数');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('REVIEW_REGIST_MAX', '5', 71, 'フロントレビュー書き込み最大数');
