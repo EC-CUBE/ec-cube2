@@ -287,6 +287,20 @@ class SC_Customer
     }
 
     /**
+     * パラメーターを配列で取得する
+     *
+     * @return array パラメータの値の配列
+     */
+    public function getValues()
+    {
+        if (!isset($_SESSION['customer']) || !is_array($_SESSION['customer'])) {
+            throw new Exception();
+        }
+
+        return $_SESSION['customer'];
+    }
+
+    /**
      * パラメーターのセット
      *
      * @param string $keyname
