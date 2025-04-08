@@ -68,13 +68,15 @@ class SC_Helper_BestProducts_getBestProductsTest extends SC_Helper_BestProducts_
         ];
 
         $result = SC_Helper_BestProducts_Ex::getBestProducts($best_id);
-        $this->actual = Test_Utils::mapArray($result,
+        $this->actual = Test_Utils::mapArray(
+            $result,
             ['category_id',
                 'rank',
                 'title',
                 'comment',
                 'del_flg',
-            ]);
+            ]
+        );
 
         $this->verify();
     }
@@ -104,13 +106,15 @@ class SC_Helper_BestProducts_getBestProductsTest extends SC_Helper_BestProducts_
         ];
 
         $result = SC_Helper_BestProducts_Ex::getBestProducts($best_id, true);
-        $this->actual = Test_Utils::mapArray($result,
+        $this->actual = Test_Utils::mapArray(
+            $result,
             ['category_id',
                 'rank',
                 'title',
                 'comment',
                 'del_flg',
-            ]);
+            ]
+        );
 
         $this->verify();
     }

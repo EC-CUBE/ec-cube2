@@ -85,13 +85,15 @@ class LC_Page_Mypage extends LC_Page_AbstractMypage_Ex
         $customer_id = $objCustomer->getValue('customer_id');
 
         // ページ送り用
-        $this->objNavi = new SC_PageNavi_Ex($_REQUEST['pageno'] ?? 1,
+        $this->objNavi = new SC_PageNavi_Ex(
+            $_REQUEST['pageno'] ?? 1,
             $this->lfGetOrderHistory($customer_id),
             SEARCH_PMAX,
             'eccube.movePage',
             NAVI_PMAX,
             'pageno=#page#',
-            SC_Display_Ex::detectDevice() !== DEVICE_TYPE_MOBILE);
+            SC_Display_Ex::detectDevice() !== DEVICE_TYPE_MOBILE
+        );
 
         $this->arrOrder = $this->lfGetOrderHistory($customer_id, $this->objNavi->start_row);
 

@@ -285,7 +285,7 @@
                         <dl>
                             <dt>数量</dt>
                             <dd>
-                                <input type="number" name="quantity" class="quantitybox" value="<!--{$arrForm.quantity.value|default:1|h}-->" max="<!--{9|str_repeat:$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->" />
+                                <input type="number" name="quantity" class="quantitybox ui-input-text" value="<!--{$arrForm.quantity.value|default:1|h}-->" max="<!--{9|str_repeat:$smarty.const.INT_LEN}-->" style="<!--{$arrErr.quantity|sfGetErrorColor}-->" />
                                 <!--{if $arrErr.quantity != ""}-->
                                     <br /><span class="attention"><!--{$arrErr.quantity}--></span>
                                 <!--{/if}-->
@@ -347,10 +347,10 @@
                             <p class="subphotoimg">
                                 <!--{if $arrProduct[$lkey]|strlen >= 1}-->
                                     <a class="expansion" href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct[$lkey]|h}-->" target="_blank">
-                                        <img src="<!--{$arrFile[$key].filepath}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$key].width/$sub_image_factor}-->" height="<!--{$arrFile[$key].height/$sub_image_factor}-->" />
+                                        <img src="<!--{$arrFile[$key].filepath|h}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$key].width/$sub_image_factor}-->" height="<!--{$arrFile[$key].height/$sub_image_factor}-->" />
                                     </a>
                                 <!--{else}-->
-                                    <img src="<!--{$arrFile[$key].filepath}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$key].width/$sub_image_factor}-->" height="<!--{$arrFile[$key].height/$sub_image_factor}-->" />
+                                    <img src="<!--{$arrFile[$key].filepath|h}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$key].width/$sub_image_factor}-->" height="<!--{$arrFile[$key].height/$sub_image_factor}-->" />
                                 <!--{/if}-->
                             </p>
                         <!--{/if}-->

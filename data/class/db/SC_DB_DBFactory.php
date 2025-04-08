@@ -285,7 +285,7 @@ class SC_DB_DBFactory
         $sql = <<< __EOS__
             (
                 SELECT
-                     dtb_products.*
+                        dtb_products.*
                     ,T4.product_code_min
                     ,T4.product_code_max
                     ,T4.price01_min
@@ -322,7 +322,7 @@ class SC_DB_DBFactory
                     LEFT JOIN dtb_maker
                         ON dtb_products.maker_id = dtb_maker.maker_id
             ) AS alldtl
-__EOS__;
+            __EOS__;
 
         return $sql;
     }

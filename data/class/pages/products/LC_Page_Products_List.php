@@ -380,7 +380,7 @@ class LC_Page_Products_List extends LC_Page_Ex
 
         // カテゴリからのWHERE文字列取得
         if ($arrSearchData['category_id'] != 0) {
-            list($searchCondition['where_category'], $searchCondition['arrvalCategory']) = SC_Helper_DB_Ex::sfGetCatWhere($arrSearchData['category_id']);
+            [$searchCondition['where_category'], $searchCondition['arrvalCategory']] = SC_Helper_DB_Ex::sfGetCatWhere($arrSearchData['category_id']);
         }
         // ▼対象商品IDの抽出
         // 商品検索条件の作成（未削除、表示）
