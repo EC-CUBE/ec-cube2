@@ -137,7 +137,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
     await page.goto(PlaywrightConfig?.use?.baseURL ?? '/');       // ログアウトしてしまう場合があるので一旦トップへ遷移する
     await page.goto(url);
     await page.click('input[name=confirm]');
-    await expect(page.locator('span.attention >> nth=13')).toContainText('※ お問い合わせ内容が入力されていません。');
+    await expect(page.locator('table[summary="お問い合わせ"] span.attention >> nth=12')).toContainText('※ お問い合わせ内容が入力されていません。');
     await expect(page.locator('textarea[name=contents]')).toHaveAttribute('style', 'background-color:#ffe8e8; ime-mode: active;');
   });
 });

@@ -23,6 +23,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
 <meta http-equiv="Content-Type" content="text/html; charset=<!--{$smarty.const.CHAR_CODE}-->" />
 <title><!--{$arrSiteInfo.shop_name|h}--><!--{if $tpl_subtitle|strlen >= 1}--> / <!--{$tpl_subtitle|h}--><!--{elseif $tpl_title|strlen >= 1}--> / <!--{$tpl_title|h}--><!--{/if}--></title>
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
@@ -70,6 +71,9 @@
     <!--{/if}-->
     <!--{* ▲Head COLUMN*}-->
 <!--{/strip}-->
+
+<script type="text/javascript" src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
+<script type="text/javascript" src="/js/plg_ajaxzip3.js"></script
 </head>
 
 <!-- ▼BODY部 スタート -->
