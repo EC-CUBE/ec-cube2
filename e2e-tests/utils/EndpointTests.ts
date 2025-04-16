@@ -8,6 +8,6 @@ export const endpointTests = async (page:Page, endpoint:string, title:string|nul
     }
 
     await expect(page.locator('body'), 'ページの表示を確認').toBeVisible();
-    await expect(page.locator('.error'), 'システムエラーの無いのを確認').not.toBeVisible();
+    await expect(page.locator('.error'), 'システムエラーの無いのを確認').toBeHidden();
   });
 };

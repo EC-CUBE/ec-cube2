@@ -9,42 +9,42 @@ export class CartPage {
   readonly nextButton: Locator;
   zapClient: ZapClient;
 
-  constructor(page: Page) {
+  constructor (page: Page) {
     this.page = page;
-    this.url = `${ PlaywrightConfig.use?.baseURL ?? "" }/cart/index.php`;
+    this.url = `${PlaywrightConfig.use?.baseURL ?? ""}/cart/index.php`;
     this.nextButton = page.locator('input[name=confirm][alt=購入手続きへ]');
     this.zapClient = new ZapClient();
   }
 
-  async goto() {
+  async goto () {
     await this.page.goto(this.url);
   }
 
-  async gotoNext() {
+  async gotoNext () {
     await this.nextButton.click();
   }
 
-  getAdditionButton(row?: number) {
-    return this.page.locator(`table[summary=商品情報] >> tr >> nth=${ row ?? 1 } >> td >> nth=4 >> [alt="＋"]`);
+  getAdditionButton (row?: number) {
+    return this.page.locator(`table[summary=商品情報] >> tr >> nth=${row ?? 1} >> td >> nth=4 >> [alt="＋"]`);
   }
 
-  getSubtructionButton(row?: number) {
-    return this.page.locator(`table[summary=商品情報] >> tr >> nth=${ row ?? 1 } >> td >> nth=4 >> [alt="-"]`);
+  getSubtructionButton (row?: number) {
+    return this.page.locator(`table[summary=商品情報] >> tr >> nth=${row ?? 1} >> td >> nth=4 >> [alt="-"]`);
   }
 
-  getQuantity(row?: number) {
-    return this.page.locator(`table[summary=商品情報] >> tr >> nth=${ row ?? 1 } >> td >> nth=4`);
+  getQuantity (row?: number) {
+    return this.page.locator(`table[summary=商品情報] >> tr >> nth=${row ?? 1} >> td >> nth=4`);
   }
 
-  async addition(row?: number) {
+  async addition (row?: number) {
     await this.getAdditionButton(row).click();
   }
 
-  async subtruction(row?: number) {
+  async subtruction (row?: number) {
     await this.getSubtructionButton(row).click();
   }
 
-  getZapClient() {
+  getZapClient () {
     return this.zapClient;
   }
 }
