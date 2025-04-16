@@ -68,6 +68,6 @@ class SC_MobileEmoji
             $arrMap = @include_once __DIR__."/../include/mobile_emoji_map_$carrier.inc";
         }
 
-        return isset($arrMap[$index]) ? $arrMap[$index] : MOBILE_EMOJI_SUBSTITUTE;
+        return $arrMap[$index] ?? MOBILE_EMOJI_SUBSTITUTE;
     }
 }

@@ -140,7 +140,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
                 $this->arrErr = $this->lfCheckError($objFormParam);
                 if (empty($this->arrErr)) {
                     // 日付
-                    list($sdate, $edate) = $this->lfSetStartEndDate($objFormParam);
+                    [$sdate, $edate] = $this->lfSetStartEndDate($objFormParam);
 
                     // ページ
                     $page = ($objFormParam->getValue('page')) ? $objFormParam->getValue('page') : 'term';
@@ -150,16 +150,18 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 
                     $this->tpl_page_type = 'total/page_'.$page.'.tpl';
                     // FIXME 可読性が低いので call_user_func_array を使わない (またはメソッド名を1つの定数値とする) 実装に。
-                    list($this->arrResults, $this->tpl_image) = call_user_func_array([$this, 'lfGetOrder'.$page],
-                        [$type, $sdate, $edate]);
+                    [$this->arrResults, $this->tpl_image] = call_user_func_array(
+                        [$this, 'lfGetOrder'.$page],
+                        [$type, $sdate, $edate]
+                    );
                     if ($this->getMode() == 'csv') {
                         // CSV出力タイトル行の取得
-                        list($arrTitleCol, $arrDataCol) = $this->lfGetCSVColum($page);
+                        [$arrTitleCol, $arrDataCol] = $this->lfGetCSVColum($page);
                         $head = SC_Utils_Ex::sfGetCSVList($arrTitleCol);
                         $data = $this->lfGetDataColCSV($this->arrResults, $arrDataCol);
 
                         // CSVを送信する。
-                        list($fime_name, $data) = SC_Utils_Ex::sfGetCSVData($head.$data);
+                        [$fime_name, $data] = SC_Utils_Ex::sfGetCSVData($head.$data);
 
                         $this->sendResponseCSV($fime_name, $data);
                         SC_Response_Ex::actionExit();
@@ -185,7 +187,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         $month = date('n');
         $day = date('j');
 
-        $list = isset($_SESSION['total']) ? $_SESSION['total'] : [];
+        $list = $_SESSION['total'] ?? [];
 
         // セッション情報に開始月度が保存されていない。
         if (empty($_SESSION['total']['startyear_m'])) {
@@ -301,9 +303,11 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         $edate = null;
         // 月度集計
         if ($arrRet['search_form'] == 1) {
-            list($sdate, $edate) = SC_Utils_Ex::sfTermMonth($arrRet['search_startyear_m'],
+            [$sdate, $edate] = SC_Utils_Ex::sfTermMonth(
+                $arrRet['search_startyear_m'],
                 $arrRet['search_startmonth_m'],
-                CLOSE_DAY);
+                CLOSE_DAY
+            );
         // 期間集計
         } elseif ($arrRet['search_form'] == 2) {
             $sdate = $arrRet['search_startyear'].'/'.$arrRet['search_startmonth'].'/'.$arrRet['search_startday'];
@@ -357,8 +361,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $objGraphLine->setYTitle($ytitle);
 
             // メインタイトル作成
-            list($sy, $sm, $sd) = preg_split('|[/ ]|', $sdate);
-            list($ey, $em, $ed) = preg_split('|[/ ]|', $edate);
+            [$sy, $sm, $sd] = preg_split('|[/ ]|', $sdate);
+            [$ey, $em, $ed] = preg_split('|[/ ]|', $edate);
             $start_date = $sy.'年'.$sm.'月'.$sd.'日';
             $end_date = $ey.'年'.$em.'月'.$ed.'日';
             $objGraphLine->drawTitle('集計期間：'.$start_date.' - '.$end_date);
@@ -391,9 +395,13 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         // 結果が0行以上ある場合のみグラフを生成する。
         if (count($arrResults) > 0 && $this->install_GD) {
             // グラフの生成
-            $arrList = SC_Utils_Ex::sfArrKeyValue($arrResults, $keyname,
-                'total', GRAPH_PIE_MAX,
-                GRAPH_LABEL_MAX);
+            $arrList = SC_Utils_Ex::sfArrKeyValue(
+                $arrResults,
+                $keyname,
+                'total',
+                GRAPH_PIE_MAX,
+                GRAPH_LABEL_MAX
+            );
 
             // 一時ファイル名の取得
             $pngname = $this->lfGetGraphPng($type);
@@ -407,8 +415,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $objGraphPie->setLegend(array_keys($arrList));
 
             // メインタイトル作成
-            list($sy, $sm, $sd) = preg_split('|[/ ]|', $sdate);
-            list($ey, $em, $ed) = preg_split('|[/ ]|', $edate);
+            [$sy, $sm, $sd] = preg_split('|[/ ]|', $sdate);
+            [$ey, $em, $ed] = preg_split('|[/ ]|', $edate);
             $start_date = $sy.'年'.$sm.'月'.$sd.'日';
             $end_date = $ey.'年'.$em.'月'.$ed.'日';
             $objGraphPie->drawTitle('集計期間：'.$start_date.' - '.$end_date);
@@ -465,8 +473,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 
             // メインタイトル作成
             $arrKey = array_keys($arrList);
-            list($sy, $sm, $sd) = preg_split('|[/ ]|', $sdate);
-            list($ey, $em, $ed) = preg_split('|[/ ]|', $edate);
+            [$sy, $sm, $sd] = preg_split('|[/ ]|', $sdate);
+            [$ey, $em, $ed] = preg_split('|[/ ]|', $edate);
             $start_date = $sy.'年'.$sm.'月'.$sd.'日';
             $end_date = $ey.'年'.$em.'月'.$ed.'日';
             $objGraphBar->drawTitle('集計期間：'.$start_date.' - '.$end_date);
@@ -554,7 +562,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, $type);
+        [$where, $arrWhereVal] = $this->lfGetWhereMember('create_date', $sdate, $edate, $type);
         $where .= ' AND del_flg = 0 AND status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
         $arrWhereVal += $this->excludeOrderStatuses;
 
@@ -568,7 +576,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
                 ELSE 0
             END AS member,
             order_sex
-__EOS__;
+            __EOS__;
 
         $from = 'dtb_order';
 
@@ -596,20 +604,20 @@ __EOS__;
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, $type);
+        [$where, $arrWhereVal] = $this->lfGetWhereMember('create_date', $sdate, $edate, $type);
 
         $where .= ' AND dtb_order.del_flg = 0 AND dtb_order.status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
         $arrWhereVal += $this->excludeOrderStatuses;
 
         $col = <<< __EOS__
-                product_id,
-                product_code,
-                product_name,
-                SUM(quantity) AS products_count,
-                COUNT(dtb_order_detail.order_id) AS order_count,
-                price,
-                (price * SUM(quantity)) AS total
-__EOS__;
+            product_id,
+            product_code,
+            product_name,
+            SUM(quantity) AS products_count,
+            COUNT(dtb_order_detail.order_id) AS order_count,
+            price,
+            (price * SUM(quantity)) AS total
+            __EOS__;
 
         $from = 'dtb_order_detail JOIN dtb_order ON dtb_order_detail.order_id = dtb_order.order_id';
 
@@ -627,14 +635,14 @@ __EOS__;
     public function lfGetOrderJob($type, $sdate, $edate)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        list($where, $arrWhereVal) = $this->lfGetWhereMember('dtb_order.create_date', $sdate, $edate, $type);
+        [$where, $arrWhereVal] = $this->lfGetWhereMember('dtb_order.create_date', $sdate, $edate, $type);
 
         $col = <<< __EOS__
             job,
             COUNT(order_id) AS order_count,
             SUM(total) AS total,
             AVG(total) AS total_average
-__EOS__;
+            __EOS__;
 
         $from = 'dtb_order JOIN dtb_customer ON dtb_order.customer_id = dtb_customer.customer_id';
 
@@ -665,7 +673,7 @@ __EOS__;
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, $type);
+        [$where, $arrWhereVal] = $this->lfGetWhereMember('create_date', $sdate, $edate, $type);
 
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
         $col = $dbFactory->getOrderTotalAgeColSql().' AS age';
@@ -702,7 +710,7 @@ __EOS__;
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        list($where, $arrWhereVal) = $this->lfGetWhereMember('create_date', $sdate, $edate, null, null);
+        [$where, $arrWhereVal] = $this->lfGetWhereMember('create_date', $sdate, $edate, null, null);
         $where .= ' AND del_flg = 0 AND status NOT IN ('.SC_Utils_Ex::repeatStrWithSeparator('?', count($this->excludeOrderStatuses)).')';
         $arrWhereVal += $this->excludeOrderStatuses;
         $xincline = false;
@@ -864,7 +872,7 @@ __EOS__;
         $arrRet = [];
         for ($i = 0; $i < $max; $i++) {
             foreach ($arrDataCol as $val) {
-                $arrRet[$i][$val] = isset($arrData[$i][$val]) ? $arrData[$i][$val] : '0';
+                $arrRet[$i][$val] = $arrData[$i][$val] ?? '0';
             }
             // 期間別集計の合計行の「期間」項目に不要な値が表示されてしまわない様、'合計'と表示する
             if (($i === $max - 1) && isset($arrRet[$i]['str_date'])) {

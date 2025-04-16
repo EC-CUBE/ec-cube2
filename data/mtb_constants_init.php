@@ -68,7 +68,7 @@ define('OPTION_RECOMMEND', 1);
 /** 商品規格登録(有効:1 無効:0) */
 define('OPTION_CLASS_REGIST', 1);
 /** 会員登録変更(マイページ)パスワード用 */
-define('DEFAULT_PASSWORD', "******");
+define('DEFAULT_PASSWORD', "********");
 /** 別のお届け先最大登録数 */
 define('DELIV_ADDR_MAX', 20);
 /** 対応状況管理画面の一覧表示件数 */

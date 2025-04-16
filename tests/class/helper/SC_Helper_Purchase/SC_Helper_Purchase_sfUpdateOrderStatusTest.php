@@ -76,9 +76,16 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
-            'dtb_order', 'order_id = ?', [$order_id]));
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        ));
         $this->actual['customer'] = array_shift($this->objQuery->select(
-            'point', 'dtb_customer', 'customer_id = ?', $this->customer_ids[0]));
+            'point',
+            'dtb_customer',
+            'customer_id = ?',
+            $this->customer_ids[0]
+        ));
 
         $this->verify();
 
@@ -97,7 +104,10 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         $order_id = $this->order_ids[0];
         $old_dates = $this->objQuery->select(
             'update_date, commit_date, payment_date',
-            'dtb_order', 'order_id = ?', [$order_id]);
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        );
         $customer_point = $this->objQuery->get('point', 'dtb_customer', 'customer_id = ?', [$this->customer_ids[0]]);
 
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = false;
@@ -116,15 +126,25 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
-            'dtb_order', 'order_id = ?', [$order_id]));
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        ));
         $this->actual['customer'] = array_shift($this->objQuery->select(
-            'point', 'dtb_customer', 'customer_id = ?', $this->customer_ids[0]));
+            'point',
+            'dtb_customer',
+            'customer_id = ?',
+            $this->customer_ids[0]
+        ));
 
         $this->verify();
 
         $new_dates = $this->objQuery->select(
             'update_date, commit_date, payment_date',
-            'dtb_order', 'order_id = ?', [$order_id]);
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        );
         $this->assertUpdate($new_dates, $old_dates, 'update_date', '受注情報');
         $this->assertUpdate($new_dates, $old_dates, 'commit_date', '発送日');
         $this->assertUpdate($new_dates, $old_dates, 'payment_date', '入金日', false);
@@ -135,7 +155,10 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         $order_id = $this->order_ids[1];
         $old_dates = $this->objQuery->select(
             'update_date, commit_date, payment_date',
-            'dtb_order', 'order_id = ?', [$order_id]);
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        );
 
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = false;
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = false;
@@ -150,13 +173,19 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
-            'dtb_order', 'order_id = ?', [$order_id]));
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        ));
 
         $this->verify();
 
         $new_dates = $this->objQuery->select(
             'update_date, commit_date, payment_date',
-            'dtb_order', 'order_id = ?', [$order_id]);
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        );
         $this->assertUpdate($new_dates, $old_dates, 'update_date', '受注情報');
         $this->assertUpdate($new_dates, $old_dates, 'commit_date', '発送日', false);
         $this->assertUpdate($new_dates, $old_dates, 'payment_date', '入金日');
@@ -167,7 +196,10 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         $order_id = $this->order_ids[1];
         $old_dates = $this->objQuery->select(
             'update_date, commit_date, payment_date',
-            'dtb_order', 'order_id = ?', [$order_id]);
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        );
         $customer_point = $this->objQuery->get('point', 'dtb_customer', 'customer_id = ?', [$this->customer_ids[1]]);
 
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = null;
@@ -186,9 +218,16 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
-            'dtb_order', 'order_id = ?', [$order_id]));
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        ));
         $this->actual['customer'] = array_shift($this->objQuery->select(
-            'point', 'dtb_customer', 'customer_id = ?', [$this->customer_ids[1]]));
+            'point',
+            'dtb_customer',
+            'customer_id = ?',
+            [$this->customer_ids[1]]
+        ));
 
         $this->verify();
     }
@@ -198,7 +237,10 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         $order_id = $this->order_ids[0];
         $old_dates = $this->objQuery->select(
             'update_date, commit_date, payment_date',
-            'dtb_order', 'order_id = ?', [$order_id]);
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        );
 
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = null;
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = null;
@@ -216,9 +258,16 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
-            'dtb_order', 'order_id = ?', [$order_id]));
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        ));
         $this->actual['customer'] = array_shift($this->objQuery->select(
-            'point', 'dtb_customer', 'customer_id = ?', [$this->customer_ids[0]]));
+            'point',
+            'dtb_customer',
+            'customer_id = ?',
+            [$this->customer_ids[0]]
+        ));
 
         $this->verify();
     }
@@ -228,7 +277,10 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         $order_id = $this->order_ids[1];
         $old_dates = $this->objQuery->select(
             'update_date, commit_date, payment_date',
-            'dtb_order', 'order_id = ?', [$order_id]);
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        );
 
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = null;
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = false; // 使用対象は強制的にfalseにしておく
@@ -246,9 +298,16 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
-            'dtb_order', 'order_id = ?', [$order_id]));
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        ));
         $this->actual['customer'] = array_shift($this->objQuery->select(
-            'point', 'dtb_customer', 'customer_id = ?', [$this->customer_ids[1]]));
+            'point',
+            'dtb_customer',
+            'customer_id = ?',
+            [$this->customer_ids[1]]
+        ));
 
         $this->verify();
     }
@@ -258,7 +317,10 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         $order_id = $this->order_ids[0];
         $old_dates = $this->objQuery->select(
             'update_date, commit_date, payment_date',
-            'dtb_order', 'order_id = ?', [$order_id]);
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        );
 
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = null;
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = null;
@@ -276,9 +338,16 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
-            'dtb_order', 'order_id = ?', [$order_id]));
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        ));
         $this->actual['customer'] = array_shift($this->objQuery->select(
-            'point', 'dtb_customer', 'customer_id = ?', [$this->customer_ids[0]]));
+            'point',
+            'dtb_customer',
+            'customer_id = ?',
+            [$this->customer_ids[0]]
+        ));
 
         $this->verify();
     }
@@ -288,7 +357,10 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         $order_id = $this->order_ids[0];
         $old_dates = $this->objQuery->select(
             'update_date, commit_date, payment_date',
-            'dtb_order', 'order_id = ?', [$order_id]);
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        );
 
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = true;
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = true;
@@ -306,9 +378,16 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
-            'dtb_order', 'order_id = ?', [$order_id]));
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        ));
         $this->actual['customer'] = array_shift($this->objQuery->select(
-            'point', 'dtb_customer', 'customer_id = ?', $this->customer_ids[0]));
+            'point',
+            'dtb_customer',
+            'customer_id = ?',
+            $this->customer_ids[0]
+        ));
 
         $this->verify();
     }
@@ -318,7 +397,10 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         $order_id = $this->order_ids[0];
         $old_dates = $this->objQuery->select(
             'update_date, commit_date, payment_date',
-            'dtb_order', 'order_id = ?', [$order_id]);
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        );
 
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$usePoint = true;
         SC_Helper_Purchase_sfUpdateOrderStatusMock::$addPoint = true;
@@ -336,9 +418,16 @@ class SC_Helper_Purchase_sfUpdateOrderStatusTest extends SC_Helper_Purchase_Test
         ];
         $this->actual['order'] = array_shift($this->objQuery->select(
             'status, use_point, add_point',
-            'dtb_order', 'order_id = ?', [$order_id]));
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
+        ));
         $this->actual['customer'] = array_shift($this->objQuery->select(
-            'point', 'dtb_customer', 'customer_id = ?', $this->customer_ids[0]));
+            'point',
+            'dtb_customer',
+            'customer_id = ?',
+            $this->customer_ids[0]
+        ));
         $this->verify();
     }
 

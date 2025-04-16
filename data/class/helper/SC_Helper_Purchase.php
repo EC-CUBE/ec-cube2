@@ -330,7 +330,7 @@ class SC_Helper_Purchase
         $exists = SC_Helper_Purchase_Ex::getOrderTemp($uniqId);
 
         // 国ID追加
-        $sqlval['order_country_id'] = isset($sqlval['order_country_id']) ? $sqlval['order_country_id'] : DEFAULT_COUNTRY_ID;
+        $sqlval['order_country_id'] ??= DEFAULT_COUNTRY_ID;
 
         if (SC_Utils_Ex::isBlank($exists)) {
             $sqlval['order_temp_id'] = $uniqId;
@@ -716,7 +716,7 @@ class SC_Helper_Purchase
             for ($i = $start_day; $i < $max_day; $i++) {
                 // 基本時間から日数を追加していく
                 $tmp_time = $now_time + ($i * 24 * 3600);
-                list($y, $m, $d, $w) = explode(' ', date('Y m d w', $tmp_time));
+                [$y, $m, $d, $w] = explode(' ', date('Y m d w', $tmp_time));
                 $val = sprintf('%04d/%02d/%02d(%s)', $y, $m, $d, $arrWDAY[$w]);
                 $arrDate[$val] = $val;
             }
@@ -783,7 +783,7 @@ class SC_Helper_Purchase
             FROM dtb_delivtime
             WHERE time_id = dtb_shipping.time_id
             AND deliv_id = (SELECT dtb_order.deliv_id FROM dtb_order WHERE order_id = dtb_shipping.order_id)
- __EOS__;
+            __EOS__;
         $objQuery->update(
             'dtb_shipping',
             [],
@@ -1065,7 +1065,7 @@ class SC_Helper_Purchase
             T2.point_rate,
             T2.tax_rate,
             T2.tax_rule,
-__EOS__;
+            __EOS__;
         if ($has_order_status) {
             $col .= 'T1.status AS status, T1.payment_date AS payment_date,';
         }
@@ -1080,7 +1080,7 @@ __EOS__;
                 THEN '1'
                 ELSE '0'
             END AS enable,
-__EOS__;
+            __EOS__;
         $col .= $dbFactory->getDownloadableDaysWhereSql('T1').' AS effective';
         $from = <<< __EOS__
             dtb_order T1
@@ -1088,7 +1088,7 @@ __EOS__;
                 ON T1.order_id = T2.order_id
             LEFT JOIN dtb_products_class T3
                 ON T2.product_class_id = T3.product_class_id
-__EOS__;
+            __EOS__;
         $objQuery->setOrder('T2.order_detail_id');
 
         return $objQuery->select($col, $from, 'T1.order_id = ?', [$order_id]);

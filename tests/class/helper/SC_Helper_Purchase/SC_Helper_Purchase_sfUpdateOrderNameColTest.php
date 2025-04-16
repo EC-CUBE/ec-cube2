@@ -74,14 +74,23 @@ class SC_Helper_Purchase_sfUpdateOrderNameColTest extends SC_Helper_Purchase_Tes
         $this->expected['order_temp'] = [['payment_method' => '支払方法0002']]; // 変更されていない
 
         $this->actual['shipping'] = $this->objQuery->select(
-            'shipping_time', 'dtb_shipping', 'order_id = ?', [$order_id]
+            'shipping_time',
+            'dtb_shipping',
+            'order_id = ?',
+            [$order_id]
         );
 
         $this->actual['order'] = $this->objQuery->select(
-            'payment_method', 'dtb_order', 'order_id = ?', [$order_id]
+            'payment_method',
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
         );
         $this->actual['order_temp'] = $this->objQuery->select(
-            'payment_method', 'dtb_order_temp', 'order_id = ?', [$order_id]
+            'payment_method',
+            'dtb_order_temp',
+            'order_id = ?',
+            [$order_id]
         );
         $this->verify();
     }
@@ -102,13 +111,22 @@ class SC_Helper_Purchase_sfUpdateOrderNameColTest extends SC_Helper_Purchase_Tes
         $this->expected['order_temp'] = [['payment_method' => $arrPayment['payment_method']]]; // 変更されている
 
         $this->actual['shipping'] = $this->objQuery->select(
-            'shipping_time', 'dtb_shipping', 'order_id = ?', [$order_id]
+            'shipping_time',
+            'dtb_shipping',
+            'order_id = ?',
+            [$order_id]
         );
         $this->actual['order'] = $this->objQuery->select(
-            'payment_method', 'dtb_order', 'order_id = ?', [$order_id]
+            'payment_method',
+            'dtb_order',
+            'order_id = ?',
+            [$order_id]
         );
         $this->actual['order_temp'] = $this->objQuery->select(
-            'payment_method', 'dtb_order_temp', 'order_temp_id = ?', [$this->order_temp_ids[1]]
+            'payment_method',
+            'dtb_order_temp',
+            'order_temp_id = ?',
+            [$this->order_temp_ids[1]]
         );
         $this->verify();
     }

@@ -30,7 +30,8 @@ class SC_Helper_TaxRule_setTaxRuleTest extends SC_Helper_TaxRule_TestBase
         $this->objTaxRule->setTaxRule(
             $this->expected['calc_rule'],
             $this->expected['tax_rate'],
-            $this->expected['apply_date']);
+            $this->expected['apply_date']
+        );
 
         $result = $this->objQuery->select(
             'apply_date, calc_rule, tax_rate',
