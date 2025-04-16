@@ -29,7 +29,7 @@
     <!--{else}-->
         <!--{assign var=key value="main_image"}-->
     <!--{/if}-->
-    <center><img src="<!--{$arrFile[$key].filepath}-->"></center>
+    <center><img src="<!--{$arrFile[$key].filepath|h}-->"></center>
     <br>
 
     <!--★商品サブ画像★-->

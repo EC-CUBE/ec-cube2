@@ -17,7 +17,7 @@ class LoadClassFileChangeCustomDirTest extends Common_TestCase
             'plugin_code' => 'FixturePlugin',
             'class_name' => 'FixturePlugin',
             'plugin_version' => '0.0.0',
-            'compliant_version' => '2.17',
+            'compliant_version' => '2.25',
             'enable' => 1,
             'create_date' => 'CURRENT_TIMESTAMP',
             'update_date' => 'CURRENT_TIMESTAMP',
