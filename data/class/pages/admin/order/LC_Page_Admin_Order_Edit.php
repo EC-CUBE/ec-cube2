@@ -161,6 +161,10 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $objFormParam->setParam($_REQUEST);
         $objFormParam->convParam();
         $order_id = $objFormParam->getValue('order_id');
+        if (($order_id ?? '') !== '' && filter_var($order_id, FILTER_VALIDATE_INT) === false) {
+            trigger_error("不正な注文番号が指定されました。(注文番号: $order_id)", E_USER_ERROR);
+        }
+
         $arrValuesBefore = [];
 
         // DBから受注情報を読み込む
@@ -774,7 +778,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
         $arrValues['add_point'] = SC_Helper_DB_Ex::sfGetAddPoint($totalpoint, $arrValues['use_point']) + $arrValues['birth_point'];
 
         // 最終保持ポイント
-        $arrValues['total_point'] = $objFormParam->getValue('point') - $arrValues['use_point'];
+        $arrValues['total_point'] = ((int) $objFormParam->getValue('point')) - $arrValues['use_point'];
 
         if ($arrValues['total'] < 0) {
             $arrErr['total'] = '合計額がマイナス表示にならないように調整して下さい。<br />';

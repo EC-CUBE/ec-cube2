@@ -388,4 +388,14 @@ class SC_Helper_PageLayout
 
         return $col_num;
     }
+
+    /**
+     * レスポンシブWebデザイン表示か
+     *
+     * @return bool
+     */
+    public static function isResponsive()
+    {
+        return SMARTPHONE_TEMPLATE_NAME === TEMPLATE_NAME;
+    }
 }
