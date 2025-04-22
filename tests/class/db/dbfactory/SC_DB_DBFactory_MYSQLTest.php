@@ -27,4 +27,33 @@ class SC_DB_DBFactory_MYSQLTest extends Common_TestCase
     {
         $this->assertTrue($this->dbFactory->isSkipDeleteIfNotExists());
     }
+
+    public function testSfChangeReservedWords☛WithRank()
+    {
+        $sql = <<< __EOS__
+            SELECT rank, (rank), RANK, Rank, rank, RANK() OVER (ORDER BY rank), RANK
+                \t() OVER (ORDER BY foorank), rank.rank, (SELECT MAX(rankfoo) AS rank FROM rank) AS rankbar
+                ,rank+1, rank-(1)
+            FROM rank
+            ORDER BY rank
+            __EOS__;
+
+        $expected = <<< __EOS__
+            SELECT `rank`, (`rank`), `RANK`, `Rank`, `rank`, RANK() OVER (ORDER BY `rank`), RANK
+                \t() OVER (ORDER BY foorank), rank.rank, (SELECT MAX(rankfoo) AS `rank` FROM `rank`) AS rankbar
+                ,`rank`+1, `rank`-(1)
+            FROM `rank`
+            ORDER BY `rank`
+            __EOS__;
+
+        $this->assertSame($expected, $this->dbFactory->sfChangeReservedWords($sql));
+    }
+
+    public function testSfChangeReservedWords☛WithRank末尾空白()
+    {
+        $sql = 'ORDER BY rank ';
+        $expected = 'ORDER BY `rank` ';
+
+        $this->assertSame($expected, $this->dbFactory->sfChangeReservedWords($sql));
+    }
 }
