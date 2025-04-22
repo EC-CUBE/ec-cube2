@@ -31,9 +31,11 @@ class SC_DB_DBFactory_MYSQLTest extends Common_TestCase
     public function testSfChangeReservedWords☛WithRank()
     {
         $sql = <<< __EOS__
-            SELECT rank, (rank), RANK, Rank, rank, RANK() OVER (ORDER BY rank), RANK
+            SELECT rank, (rank), RANK, Rank, `rank`, RANK() OVER (ORDER BY rank), RANK
                 \t() OVER (ORDER BY foorank), rank.rank, (SELECT MAX(rankfoo) AS rank FROM rank) AS rankbar
-                ,rank+1, rank-(1)
+                ,rank+1, rank-(1), \$rank\$,
+                -- 以下はSQL文としては無効だが確認のため
+                #rank#
             FROM rank
             ORDER BY rank
             __EOS__;
@@ -41,7 +43,9 @@ class SC_DB_DBFactory_MYSQLTest extends Common_TestCase
         $expected = <<< __EOS__
             SELECT `rank`, (`rank`), `RANK`, `Rank`, `rank`, RANK() OVER (ORDER BY `rank`), RANK
                 \t() OVER (ORDER BY foorank), rank.rank, (SELECT MAX(rankfoo) AS `rank` FROM `rank`) AS rankbar
-                ,`rank`+1, `rank`-(1)
+                ,`rank`+1, `rank`-(1), \$rank\$,
+                -- 以下はSQL文としては無効だが確認のため
+                #`rank`#
             FROM `rank`
             ORDER BY `rank`
             __EOS__;
