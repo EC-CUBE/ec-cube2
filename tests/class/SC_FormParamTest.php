@@ -427,65 +427,79 @@ class SC_FormParamTest extends Common_TestCase
         $this->verify();
     }
 
-    public function testCheckErrorWithArrCHeck()
+    public function testCheckErrorWithArrCheck()
     {
-        $arrCheck = [
-            'EXIST_CHECK',
-            'NUM_CHECK',
-            'EMAIL_CHECK',
-            'EMAIL_CHAR_CHECK',
-            'ALNUM_CHECK',
-            'GRAPH_CHECK',
-            'KANA_CHECK',
-            'URL_CHECK',
-            'IP_CHECK',
-            'SPTAB_CHECK',
-            'ZERO_CHECK',
-            'ALPHA_CHECK',
-            'ZERO_START',
-            'FIND_FILE',
-            'NO_SPTAB',
-            'DIR_CHECK',
-            'DOMAIN_CHECK',
-            'FILE_NAME_CHECK',
-            'MOBILE_EMAIL_CHECK',
-            'MAX_LENGTH_CHECK',
-            'MIN_LENGTH_CHECK',
-            'NUM_COUNT_CHECK',
-            'KANABLANK_CHECK',
-            'SELECT_CHECK',
-            'FILE_NAME_CHECK_BY_NOUPLOAD',
-            'NUM_POINT_CHECK',
-            'PREF_CHECK',
-            'CHANGE_LOWER',
-            'FILE_EXISTS',
-            'DOWN_FILE_EXISTS',
-            'XXXXXXXXXX',
+        $arrPatterns = [
+            ['ALNUM_CHECK'],
+            ['ALPHA_CHECK'],
+            ['CHANGE_LOWER'], // XXX エラーを返さない。
+            ['DIR_CHECK'],
+            ['DOMAIN_CHECK'],
+            ['DOWN_FILE_EXISTS'],
+            ['EMAIL_CHAR_CHECK'],
+            ['EMAIL_CHECK'],
+            ['EXIST_CHECK', ''],
+            ['FILE_EXISTS'],
+            ['FILE_NAME_CHECK_BY_NOUPLOAD'],
+            ['FILE_NAME_CHECK'], // XXX エラーを起こすには、$_FILES を書き換える必要がある。
+            ['FIND_FILE'],
+            ['GRAPH_CHECK', "\x13"], // XXX GRAPH_CHECK は \a(\x0a) を通してしまう。多分、望ましくない。
+            ['IP_CHECK'],
+            ['KANA_CHECK'],
+            ['KANABLANK_CHECK'],
+            ['MAX_LENGTH_CHECK', str_repeat('a', 51)],
+            ['MIN_LENGTH_CHECK'],
+            ['MOBILE_EMAIL_CHECK'],
+            ['NO_SPTAB', 'a a'],
+            ['NUM_CHECK'],
+            ['NUM_COUNT_CHECK'],
+            ['NUM_POINT_CHECK'],
+            ['PREF_CHECK'],
+            ['SELECT_CHECK', ''],
+            ['SPTAB_CHECK'], // XXX SC_FormParam::getValue() の仕様上、エラーを起こせない。default もセットすればできなくもないか。
+            ['URL_CHECK'],
+            ['XXXXXXXXXX'],
+            ['ZERO_CHECK', '0'],
+            ['ZERO_START', '01'],
         ];
 
-        foreach ($arrCheck as $key => $check) {
-            $this->objFormParam->addParam($check, $check.'_key', STEXT_LEN, 'aKV', [$check]);
-
-            $this->objFormParam->setValue($check.'_key', $key);
+        foreach ($arrPatterns as $arrPattern) {
+            $check = $arrPattern[0];
+            $key = $arrPattern[0].'_key';
+            $value = $arrPattern[1] ?? "\a";
+            $this->objFormParam->addParam($check, $key, STEXT_LEN, 'aKV', [$check]);
+            $this->objFormParam->setValue($key, $value);
         }
 
         $this->expected = [
-            'EMAIL_CHECK_key' => '※ EMAIL_CHECKの形式が不正です。',
             'ALNUM_CHECK_key' => '※ ALNUM_CHECKは英数字で入力してください。',
-            'KANA_CHECK_key' => '※ KANA_CHECKはカタカナで入力してください。',
-            'URL_CHECK_key' => '※ URL_CHECKを正しく入力してください。',
-            'IP_CHECK_key' => '※ IP_CHECKに正しい形式のIPアドレスを入力してください。',
             'ALPHA_CHECK_key' => '※ ALPHA_CHECKは半角英字で入力してください。',
-            'FIND_FILE_key' => '※ 50/13が見つかりません。',
             'DIR_CHECK_key' => '※ 指定したDIR_CHECKは存在しません。',
             'DOMAIN_CHECK_key' => '※ DOMAIN_CHECKの形式が不正です。',
-            'MOBILE_EMAIL_CHECK_key' => '※ MOBILE_EMAIL_CHECKは携帯電話のものではありません。',
-            'MIN_LENGTH_CHECK_key' => '※ MIN_LENGTH_CHECKは50字以上で入力してください。',
-            'KANABLANK_CHECK_key' => '※ KANABLANK_CHECKはカタカナで入力してください。',
-            'FILE_EXISTS_key' => '※ FILE_EXISTSのファイルが存在しません。',
             'DOWN_FILE_EXISTS_key' => '※ DOWN_FILE_EXISTSのファイルが存在しません。',
-            'XXXXXXXXXX_key' => '※※　エラーチェック形式(XXXXXXXXXX)には対応していません　※※ ',
+            'EMAIL_CHAR_CHECK_key' => '※ EMAIL_CHAR_CHECKに使用する文字を正しく入力してください。',
+            'EMAIL_CHECK_key' => '※ EMAIL_CHECKの形式が不正です。',
+            'EXIST_CHECK_key' => '※ EXIST_CHECKが入力されていません。',
+            'FILE_EXISTS_key' => '※ FILE_EXISTSのファイルが存在しません。',
+            'FILE_NAME_CHECK_BY_NOUPLOAD_key' => '※ FILE_NAME_CHECK_BY_NOUPLOADのファイル名には、英数字、記号（_ - .）のみを入力して下さい。',
+            'FIND_FILE_key' => '※ FIND_FILEが見つかりません。',
+            'GRAPH_CHECK_key' => '※ GRAPH_CHECKは英数記号で入力してください。',
+            'IP_CHECK_key' => '※ IP_CHECKに正しい形式のIPアドレスを入力してください。',
+            'KANA_CHECK_key' => '※ KANA_CHECKはカタカナで入力してください。',
+            'KANABLANK_CHECK_key' => '※ KANABLANK_CHECKはカタカナで入力してください。',
+            'MAX_LENGTH_CHECK_key' => '※ MAX_LENGTH_CHECKは50字以下で入力してください。',
+            'MIN_LENGTH_CHECK_key' => '※ MIN_LENGTH_CHECKは50字以上で入力してください。',
+            'MOBILE_EMAIL_CHECK_key' => '※ MOBILE_EMAIL_CHECKは携帯電話のものではありません。',
+            'NO_SPTAB_key' => '※ NO_SPTABにスペース、タブ、改行は含めないで下さい。',
+            'NUM_CHECK_key' => '※ NUM_CHECKは数字で入力してください。',
             'NUM_COUNT_CHECK_key' => '※ NUM_COUNT_CHECKは50桁で入力して下さい。',
+            'NUM_POINT_CHECK_key' => '※ NUM_POINT_CHECKは数字で入力してください。',
+            'PREF_CHECK_key' => '※ PREF_CHECKが不正な値です。',
+            'SELECT_CHECK_key' => '※ SELECT_CHECKが選択されていません。',
+            'URL_CHECK_key' => '※ URL_CHECKを正しく入力してください。',
+            'XXXXXXXXXX_key' => '※※　エラーチェック形式(XXXXXXXXXX)には対応していません　※※ ',
+            'ZERO_CHECK_key' => '※ ZERO_CHECKは1以上を入力してください。',
+            'ZERO_START_key' => '※ ZERO_STARTに0で始まる数値が入力されています。',
         ];
         $this->actual = @$this->objFormParam->checkError(false);
         $this->verify();
