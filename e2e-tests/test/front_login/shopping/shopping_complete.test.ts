@@ -2,14 +2,15 @@ import PlaywrightConfig from '../../../../playwright.config';
 import { Risk } from '../../../utils/ZapClient';
 import { intervalRepeater } from '../../../utils/Progress';
 
-const url = `${ PlaywrightConfig.use?.baseURL ?? '' }/shopping/complete.php`;
+const url = `${PlaywrightConfig.use?.baseURL ?? ''}/shopping/complete.php`;
 import { ShoppingPaymentPage } from '../../../pages/shopping/payment.page';
 
 // ご注文確認画面へ進むフィクスチャ
-import { test, expect } from '../../../fixtures/shopping_payment.fixture';
+import { test, expect } from '../../../fixtures/front_login/shopping_payment.fixture';
 
 test.describe.serial('ご注文完了画面のテストをします', () => {
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('ご注文完了画面へ遷移します', async ({ shoppingPaymentLoginPage, page }) => {
     await page.click('[alt=ご注文完了ページへ]');
     await expect(page.locator('h2.title')).toContainText('ご注文完了');

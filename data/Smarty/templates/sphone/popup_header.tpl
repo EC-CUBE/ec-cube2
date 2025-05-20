@@ -40,11 +40,6 @@
         });
     </script>
 
-    <!--{* jQuery Mobile *}-->
-    <link rel="stylesheet" media="only screen" href="<!--{$TPL_URLPATH}-->js/jquery.mobile/jquery.mobile-1.3.1.min.css" />
-    <script src="<!--{$TPL_URLPATH}-->js/config.js"></script>
-    <script src="<!--{$TPL_URLPATH}-->js/jquery.mobile/jquery.mobile-1.3.1.min.js"></script>
-
     <!--{* スマートフォンカスタマイズ用JS *}-->
     <script src="<!--{$TPL_URLPATH}-->js/jquery.autoResizeTextAreaQ-0.1.js"></script>
 

@@ -23,6 +23,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
 <meta http-equiv="Content-Type" content="text/html; charset=<!--{$smarty.const.CHAR_CODE}-->" />
 <title><!--{$arrSiteInfo.shop_name|h}--><!--{if $tpl_subtitle|strlen >= 1}--> / <!--{$tpl_subtitle|h}--><!--{elseif $tpl_title|strlen >= 1}--> / <!--{$tpl_title|h}--><!--{/if}--></title>
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
@@ -42,11 +43,6 @@
 <link rel="shortcut icon" href="<!--{$TPL_URLPATH}-->img/common/favicon.ico" />
 <link rel="icon" type="image/vnd.microsoft.icon" href="<!--{$TPL_URLPATH}-->img/common/favicon.ico" />
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->style.css" type="text/css" media="all" />
-<!--{if $tpl_page_class_name === "LC_Page_Products_Detail"}-->
-    <link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.ui/theme/jquery.ui.core.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.ui/theme/jquery.ui.tooltip.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.ui/theme/jquery.ui.theme.css" type="text/css" media="all" />
-<!--{/if}-->
 <link rel="alternate" type="application/rss+xml" title="RSS" href="<!--{$smarty.const.HTTP_URL}-->rss/<!--{$smarty.const.DIR_INDEX_PATH}-->" />
 
 <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.js"></script>
@@ -75,6 +71,9 @@
     <!--{/if}-->
     <!--{* ▲Head COLUMN*}-->
 <!--{/strip}-->
+
+<script type="text/javascript" src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
+<script type="text/javascript" src="/js/plg_ajaxzip3.js"></script
 </head>
 
 <!-- ▼BODY部 スタート -->

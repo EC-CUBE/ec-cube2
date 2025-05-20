@@ -136,9 +136,9 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
                 $objProduct->setProductsOrder('create_date', 'dtb_products', 'DESC');
                 break;
 
-                // 新着順
-            case 'releasedate':
-            case 'date':
+                // 登録日時順
+            case '-releasedate':
+            case '-date':
                 $objProduct->setProductsOrder('create_date', 'dtb_products', 'ASC');
                 break;
 
