@@ -236,39 +236,42 @@ class SC_Fpdf extends SC_Helper_FPDI
 
         $arrTaxableTotal = [];
         $defaultTaxRule = SC_Helper_TaxRule_Ex::getTaxRule();
-        // 購入商品情報
-        for ($i = 0; $i < count($this->arrDisp['quantity']); $i++) {
-            // 購入数量
-            $data[0] = $this->arrDisp['quantity'][$i];
+        $i = 0;
+        // 受注明細情報
+        if (isset($this->arrDisp['quantity']) && is_array($this->arrDisp['quantity'])) {
+            for (; $i < count($this->arrDisp['quantity']); $i++) {
+                // 購入数量
+                $data[0] = $this->arrDisp['quantity'][$i];
 
-            // 税込金額（単価）
-            $data[1] = $this->arrDisp['price'][$i] + SC_Helper_TaxRule_Ex::calcTax($this->arrDisp['price'][$i], $this->arrDisp['tax_rate'][$i], $this->arrDisp['tax_rule'][$i]);
+                // 税込金額（単価）
+                $data[1] = $this->arrDisp['price'][$i] + SC_Helper_TaxRule_Ex::calcTax($this->arrDisp['price'][$i], $this->arrDisp['tax_rate'][$i], $this->arrDisp['tax_rule'][$i]);
 
-            // 小計（商品毎）
-            $data[2] = $data[0] * $data[1];
+                // 小計（商品毎）
+                $data[2] = $data[0] * $data[1];
 
-            $arrOrder[$i][0] = $this->arrDisp['product_name'][$i].' / ';
-            $arrOrder[$i][0] .= $this->arrDisp['product_code'][$i].' / ';
-            if ($this->arrDisp['classcategory_name1'][$i]) {
-                $arrOrder[$i][0] .= ' [ '.$this->arrDisp['classcategory_name1'][$i];
-                if ($this->arrDisp['classcategory_name2'][$i] == '') {
-                    $arrOrder[$i][0] .= ' ]';
-                } else {
-                    $arrOrder[$i][0] .= ' * '.$this->arrDisp['classcategory_name2'][$i].' ]';
+                $arrOrder[$i][0] = $this->arrDisp['product_name'][$i].' / ';
+                $arrOrder[$i][0] .= $this->arrDisp['product_code'][$i].' / ';
+                if ($this->arrDisp['classcategory_name1'][$i]) {
+                    $arrOrder[$i][0] .= ' [ '.$this->arrDisp['classcategory_name1'][$i];
+                    if ($this->arrDisp['classcategory_name2'][$i] == '') {
+                        $arrOrder[$i][0] .= ' ]';
+                    } else {
+                        $arrOrder[$i][0] .= ' * '.$this->arrDisp['classcategory_name2'][$i].' ]';
+                    }
                 }
-            }
 
-            // 標準税率より低い税率は軽減税率として※を付与
-            if ($this->arrDisp['tax_rate'][$i] < $defaultTaxRule['tax_rate']) {
-                $arrOrder[$i][0] .= ' ※';
+                // 標準税率より低い税率は軽減税率として※を付与
+                if ($this->arrDisp['tax_rate'][$i] < $defaultTaxRule['tax_rate']) {
+                    $arrOrder[$i][0] .= ' ※';
+                }
+                $arrOrder[$i][1] = number_format($data[0]);
+                $arrOrder[$i][2] = number_format($data[1]).$monetary_unit;
+                $arrOrder[$i][3] = number_format($data[2]).$monetary_unit;
+                if (array_key_exists($this->arrDisp['tax_rate'][$i], $arrTaxableTotal) === false) {
+                    $arrTaxableTotal[$this->arrDisp['tax_rate'][$i]] = 0;
+                }
+                $arrTaxableTotal[$this->arrDisp['tax_rate'][$i]] += $data[2];
             }
-            $arrOrder[$i][1] = number_format($data[0]);
-            $arrOrder[$i][2] = number_format($data[1]).$monetary_unit;
-            $arrOrder[$i][3] = number_format($data[2]).$monetary_unit;
-            if (array_key_exists($this->arrDisp['tax_rate'][$i], $arrTaxableTotal) === false) {
-                $arrTaxableTotal[$this->arrDisp['tax_rate'][$i]] = 0;
-            }
-            $arrTaxableTotal[$this->arrDisp['tax_rate'][$i]] += $data[2];
         }
 
         $arrOrder[$i][0] = '';
@@ -409,7 +412,7 @@ class SC_Fpdf extends SC_Helper_FPDI
             // DBから受注情報を読み込む
             $objPurchase = new SC_Helper_Purchase_Ex();
             $this->arrDisp = $objPurchase->getOrder($order_id);
-            list($point) = SC_Helper_Customer_Ex::sfGetCustomerPoint($order_id, $this->arrDisp['use_point'], $this->arrDisp['add_point']);
+            [$point] = SC_Helper_Customer_Ex::sfGetCustomerPoint($order_id, $this->arrDisp['use_point'], $this->arrDisp['add_point']);
             $this->arrDisp['point'] = $point;
 
             // 受注詳細データの取得

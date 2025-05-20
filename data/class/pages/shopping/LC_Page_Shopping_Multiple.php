@@ -95,9 +95,13 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
                 if (SC_Utils_Ex::isBlank($this->arrErr)) {
                     // フォームの情報を一時保存しておく
                     $_SESSION['multiple_temp'] = $objFormParam->getHashArray();
-                    $this->saveMultipleShippings($this->tpl_uniqid, $objFormParam,
-                        $objCustomer, $objPurchase,
-                        $objAddress);
+                    $this->saveMultipleShippings(
+                        $this->tpl_uniqid,
+                        $objFormParam,
+                        $objCustomer,
+                        $objPurchase,
+                        $objAddress
+                    );
                     $objSiteSess->setRegistFlag();
 
                     SC_Response_Ex::sendRedirect('payment.php');
@@ -320,8 +324,11 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
                         $arrValues[$other_deliv_id]['shipping_'.$key] = $val;
                     }
                 } else {
-                    $objPurchase->copyFromCustomer($arrValues[0], $objCustomer,
-                        'shipping');
+                    $objPurchase->copyFromCustomer(
+                        $arrValues[0],
+                        $objCustomer,
+                        'shipping'
+                    );
                 }
             } else {
                 $arrValues = $objPurchase->getShippingTemp();
@@ -340,9 +347,11 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
                 if ($quantity == 0) {
                     continue;
                 }
-                $objPurchase->setShipmentItemTemp($other_deliv_id,
+                $objPurchase->setShipmentItemTemp(
+                    $other_deliv_id,
                     $product_class_id,
-                    $quantity);
+                    $quantity
+                );
             }
         }
 

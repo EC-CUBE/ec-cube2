@@ -69,7 +69,8 @@ class SC_Helper_Maker_getByNameTest extends SC_Helper_Maker_TestBase
 
         $result = $this->objHelperMaker->getByName('ソニン');
 
-        $this->actual = Test_Utils::mapArray($result,
+        $this->actual = Test_Utils::mapArray(
+            $result,
             ['maker_id',
                 'name',
                 'rank',
@@ -77,7 +78,8 @@ class SC_Helper_Maker_getByNameTest extends SC_Helper_Maker_TestBase
                 'create_date',
                 'update_date',
                 'del_flg',
-            ]);
+            ]
+        );
 
         $this->verify();
     }
@@ -108,7 +110,8 @@ class SC_Helper_Maker_getByNameTest extends SC_Helper_Maker_TestBase
 
         $result = $this->objHelperMaker->getMaker('1002', true);
 
-        $this->actual = Test_Utils::mapArray($result,
+        $this->actual = Test_Utils::mapArray(
+            $result,
             ['maker_id',
                 'name',
                 'rank',
@@ -116,7 +119,8 @@ class SC_Helper_Maker_getByNameTest extends SC_Helper_Maker_TestBase
                 'create_date',
                 'update_date',
                 'del_flg',
-            ]);
+            ]
+        );
 
         $this->verify();
     }

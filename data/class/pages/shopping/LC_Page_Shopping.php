@@ -97,9 +97,14 @@ class LC_Page_Shopping extends LC_Page_Ex
         // ログイン済みの場合は次画面に遷移
         if ($objCustomer->isLoginSuccess(true)) {
             SC_Response_Ex::sendRedirect(
-                $this->getNextlocation($this->cartKey, $this->tpl_uniqid,
-                    $objCustomer, $objPurchase,
-                    $objSiteSess));
+                $this->getNextlocation(
+                    $this->cartKey,
+                    $this->tpl_uniqid,
+                    $objCustomer,
+                    $objPurchase,
+                    $objSiteSess
+                )
+            );
             SC_Response_Ex::actionExit();
         // 非会員かつ, ダウンロード商品の場合はエラー表示
         } else {
@@ -128,8 +133,10 @@ class LC_Page_Shopping extends LC_Page_Ex
 
                 // ログイン判定
                 if (SC_Utils_Ex::isBlank($this->arrErr)
-                    && $objCustomer->doLogin($objFormParam->getValue('login_email'),
-                        $objFormParam->getValue('login_pass'))) {
+                    && $objCustomer->doLogin(
+                        $objFormParam->getValue('login_email'),
+                        $objFormParam->getValue('login_pass')
+                    )) {
                     // クッキー保存判定
                     if ($objFormParam->getValue('login_memory') == '1' && strlen($objFormParam->getValue('login_email')) >= 1) {
                         $objCookie->setCookie('login_email', $objFormParam->getValue('login_email'));
@@ -145,16 +152,25 @@ class LC_Page_Shopping extends LC_Page_Ex
                         }
                     // スマートフォンの場合はログイン成功を返す
                     } elseif (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                        echo SC_Utils_Ex::jsonEncode(['success' => $this->getNextLocation($this->cartKey, $this->tpl_uniqid,
-                            $objCustomer, $objPurchase,
-                            $objSiteSess)]);
+                        echo SC_Utils_Ex::jsonEncode(['success' => $this->getNextLocation(
+                            $this->cartKey,
+                            $this->tpl_uniqid,
+                            $objCustomer,
+                            $objPurchase,
+                            $objSiteSess
+                        )]);
                         SC_Response_Ex::actionExit();
                     }
 
                     SC_Response_Ex::sendRedirect(
-                        $this->getNextLocation($this->cartKey, $this->tpl_uniqid,
-                            $objCustomer, $objPurchase,
-                            $objSiteSess));
+                        $this->getNextLocation(
+                            $this->cartKey,
+                            $this->tpl_uniqid,
+                            $objCustomer,
+                            $objPurchase,
+                            $objSiteSess
+                        )
+                    );
                     SC_Response_Ex::actionExit();
                 // ログインに失敗した場合
                 } else {

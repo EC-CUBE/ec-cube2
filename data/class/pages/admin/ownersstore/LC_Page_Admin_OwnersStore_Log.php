@@ -90,18 +90,18 @@ class LC_Page_Admin_OwnersStore_Log extends LC_Page_Admin_Ex
     public function getLogs()
     {
         $sql = <<<END
-SELECT
-    *
-FROM
-    dtb_module_update_logs JOIN (
-    SELECT
-        module_id,
-        module_name
-    FROM
-        dtb_module
-    ) AS modules ON dtb_module_update_logs.module_id = modules.module_id
-ORDER BY update_date DESC
-END;
+            SELECT
+                *
+            FROM
+                dtb_module_update_logs JOIN (
+                SELECT
+                    module_id,
+                    module_name
+                FROM
+                    dtb_module
+                ) AS modules ON dtb_module_update_logs.module_id = modules.module_id
+            ORDER BY update_date DESC
+            END;
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->getAll($sql);
 
@@ -120,22 +120,22 @@ END;
     public function getLogDetail($log_id)
     {
         $sql = <<<END
-SELECT
-    *
-FROM
-    dtb_module_update_logs JOIN (
-    SELECT
-        module_id,
-        module_name
-    FROM
-        dtb_module
-    ) AS modules ON dtb_module_update_logs.module_id = modules.module_id
-WHERE
-    log_id = ?
-END;
+            SELECT
+                *
+            FROM
+                dtb_module_update_logs JOIN (
+                SELECT
+                    module_id,
+                    module_name
+                FROM
+                    dtb_module
+                ) AS modules ON dtb_module_update_logs.module_id = modules.module_id
+            WHERE
+                log_id = ?
+            END;
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->getAll($sql, [$log_id]);
 
-        return isset($arrRet[0]) ? $arrRet[0] : [];
+        return $arrRet[0] ?? [];
     }
 }

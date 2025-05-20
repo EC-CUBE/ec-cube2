@@ -26,9 +26,13 @@ class SC_Graph_Bar extends SC_Graph_Line_Ex
 {
     // コンストラクタ
     public function __construct(
-        $bgw = BG_WIDTH, $bgh = BG_HEIGHT, $left = LINE_LEFT, $top = LINE_TOP,
-        $area_width = LINE_AREA_WIDTH, $area_height = LINE_AREA_HEIGHT)
-    {
+        $bgw = BG_WIDTH,
+        $bgh = BG_HEIGHT,
+        $left = LINE_LEFT,
+        $top = LINE_TOP,
+        $area_width = LINE_AREA_WIDTH,
+        $area_height = LINE_AREA_HEIGHT
+    ) {
         parent::__construct($bgw, $bgh, $left, $top, $area_width, $area_height);
     }
 

@@ -7,7 +7,7 @@ if (php_sapi_name() !== 'cli') {
 $rules = [
     '@Symfony' => true,
     '@Symfony:risky' => true,
-    // '@PHP83Migration' => true,
+    '@PHP74Migration' => true,
 
     // @Symfony のうち、以下のルールを無効化
     'phpdoc_align' => false, // phpdoc の内容が削除されてしまう場合がある

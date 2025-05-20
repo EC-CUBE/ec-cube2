@@ -89,7 +89,7 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
 
                 // ぶった斬りポイント==================================================================
                 // ページ送りの処理
-                $page_max = SC_Utils_Ex::sfGetSearchPageMax($_POST['search_page_max']);
+                $page_max = SC_Utils_Ex::sfGetSearchPageMax($_POST['search_page_max'] ?? 0);
 
                 // ページ送りの取得
                 $objNavi = new SC_PageNavi_Ex($_POST['search_pageno'], $this->tpl_linemax, $page_max, 'eccube.moveSearchPage', NAVI_PMAX);
@@ -233,7 +233,7 @@ class LC_Page_Admin_Order_ProductSelect extends LC_Page_Admin_Ex
                     $bind[] = '%'.$val.'%';
                     break;
                 case 'search_category_id':
-                    list($tmp_where, $tmp_bind) = $objDb->sfGetCatWhere($val);
+                    [$tmp_where, $tmp_bind] = $objDb->sfGetCatWhere($val);
                     if ($tmp_where != '') {
                         $where .= ' AND alldtl.product_id IN (SELECT product_id FROM dtb_product_categories WHERE '.$tmp_where.')';
                         $bind = array_merge((array) $bind, (array) $tmp_bind);

@@ -344,7 +344,7 @@ class SC_Helper_Delivery
             WHERE T1.pref = ?
                 AND T1.deliv_id = ?
                 AND T2.del_flg = 0
-__EOS__;
+            __EOS__;
         $result = 0;
         foreach ($pref_id as $pref) {
             $result += $objQuery->getOne($sql, [$pref, $deliv_id]);

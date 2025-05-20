@@ -128,7 +128,7 @@ class SC_Customer
         // 携帯端末IDが一致し、本登録された会員を検索する。
         $sql = 'SELECT * FROM dtb_customer WHERE mobile_phone_id = ? AND del_flg = 0 AND status = 2';
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        @list($data) = $objQuery->getAll($sql, [$_SESSION['mobile']['phone_id']]);
+        @[$data] = $objQuery->getAll($sql, [$_SESSION['mobile']['phone_id']]);
 
         // パスワードが合っている場合は、会員情報をcustomer_dataに格納してtrueを返す。
         if (SC_Utils_Ex::sfIsMatchHashPassword($pass, $data['password'], $data['salt'])) {
@@ -177,7 +177,7 @@ class SC_Customer
         $sql = 'SELECT * FROM dtb_customer WHERE (email = ? OR email_mobile = ?) AND del_flg = 0 AND status = 2';
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $result = $objQuery->getAll($sql, [$email, $email]);
-        $data = isset($result[0]) ? $result[0] : [];
+        $data = $result[0] ?? [];
         $this->customer_data = $data;
         $this->startSession();
     }
@@ -191,7 +191,7 @@ class SC_Customer
         $customer_id = $this->getValue('customer_id');
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = $objQuery->getAll($sql, [$customer_id]);
-        $this->customer_data = isset($arrRet[0]) ? $arrRet[0] : [];
+        $this->customer_data = $arrRet[0] ?? [];
         $_SESSION['customer'] = $this->customer_data;
     }
 
@@ -223,8 +223,11 @@ class SC_Customer
         $objSiteSess->unsetUniqId();
 
         // ログに記録する
-        $log = sprintf("logout : user=%d\tip=%s",
-            $customer_id, $this->getRemoteHost());
+        $log = sprintf(
+            "logout : user=%d\tip=%s",
+            $customer_id,
+            $this->getRemoteHost()
+        );
         GC_Utils_Ex::gfPrintLog($log, CUSTOMER_LOG_REALFILE, false);
     }
 
@@ -279,7 +282,7 @@ class SC_Customer
 
             return $point;
         } else {
-            return isset($_SESSION['customer'][$keyname]) ? $_SESSION['customer'][$keyname] : '';
+            return $_SESSION['customer'][$keyname] ?? '';
         }
     }
 
@@ -377,7 +380,7 @@ class SC_Customer
             COUNT(order_id) AS buy_times,
             MAX( create_date) AS last_buy_date,
             MIN(create_date) AS first_buy_date
-__EOS__;
+            __EOS__;
         $table = 'dtb_order';
         $where = 'customer_id = ? AND del_flg = 0 AND status <> ?';
         $arrWhereVal = [$customer_id, ORDER_CANCEL];
