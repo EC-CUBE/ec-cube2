@@ -200,11 +200,11 @@
                 <tbody>
                     <tr>
                         <th class="alignL">お名前</th>
-                        <td><!--{$shippingItem.shipping_name01|h}-->&nbsp;<!--{$shippingItem.shipping_name02|h}--></td>
+                        <td><!--{$shippingItem|format_name:'shipping_name'|h}--></td>
                     </tr>
                     <tr>
                         <th class="alignL">お名前(フリガナ)</th>
-                        <td><!--{$shippingItem.shipping_kana01|h}-->&nbsp;<!--{$shippingItem.shipping_kana02|h}--></td>
+                        <td><!--{$shippingItem|format_name:'shipping_kana'|h}--></td>
                     </tr>
                     <tr>
                         <th class="alignL">会社名</th>

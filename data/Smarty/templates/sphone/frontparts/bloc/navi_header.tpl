@@ -30,7 +30,7 @@
 <div class="popup_mypage">
     <!--{if $tpl_login}-->
         <p><span class="mini">ようこそ</span><br />
-        <a href="<!--{$smarty.const.HTTPS_URL}-->mypage/login.php"><!--{$tpl_name1|h}--> <!--{$tpl_name2|h}-->さん</a></p>
+        <a href="<!--{$smarty.const.HTTPS_URL}-->mypage/login.php"><!--{$arrCustomer|format_name|h}--> 様</a></p>
         <!--{if $smarty.const.USE_POINT !== false}-->
             <p>所持ポイント<!--{$tpl_user_point|n2s|default:0}-->pt</p>
         <!--{/if}-->
