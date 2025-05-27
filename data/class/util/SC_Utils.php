@@ -2287,7 +2287,7 @@ class SC_Utils
         /** @var string 名 */
         $name02 = $fncGetPart($arr, "{$prefix}02");
 
-        $return = implode(' ', array_filter([$name01, $name02], fn($part) => $part !== ''));
+        $return = implode(' ', array_filter([$name01, $name02], fn ($part) => $part !== ''));
 
         return $return;
     }
