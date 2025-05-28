@@ -164,6 +164,9 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
         $objMailText = new SC_SiteView_Ex();
         $objMailText->setPage($this);
         $objMailText->assign('CONF', $CONF);
+        $objMailText->assign('arrCustomer', $arrCustomerData);
+
+        // 旧テンプレート互換
         $objMailText->assign('name01', $arrCustomerData['name01']);
         $objMailText->assign('name02', $arrCustomerData['name02']);
 
@@ -185,7 +188,7 @@ class LC_Page_Mypage_Refusal extends LC_Page_AbstractMypage_Ex
             $CONF['email04'],       // Errors_to
             $CONF['email01']        // Bcc
         );
-        $objMail->setTo($arrCustomerData['email'], $arrCustomerData['name01'].$arrCustomerData['name02'].' 様');
+        $objMail->setTo($arrCustomerData['email'], SC_Utils_Ex::formatName($arrCustomerData).' 様');
 
         $objMail->sendMail();
     }

@@ -207,7 +207,7 @@
                 <!--{assign var=index value=$shippingItem.shipping_id}-->
                 <div class="delivdate top">
                     <!--{if $is_multiple}-->
-                        <span class="st">▼<!--{$shippingItem.shipping_name01}--><!--{$shippingItem.shipping_name02}-->
+                        <span class="st">▼<!--{$shippingItem|format_name:'shipping_name'}-->
                         <!--{$arrPref[$shippingItem.shipping_pref]}--><!--{$shippingItem.shipping_addr01}--><!--{$shippingItem.shipping_addr02}--></span><br/>
                     <!--{/if}-->
                     <!--★お届け日★-->
@@ -245,7 +245,7 @@
                             使用する場合は、「ポイントを使用する」にチェックを入れた後、使用するポイントをご記入ください。
                         </p>
                         <div class="point_announce">
-                            <p><span class="user_name"><!--{$name01|h}--> <!--{$name02|h}-->様</span>の、現在の所持ポイントは「<span class="point"><!--{$tpl_user_point|default:0|n2s}-->Pt</span>」です。<br />
+                            <p><span class="user_name"><!--{$arrCustomer|format_name|h}--> 様</span>の、現在の所持ポイントは「<span class="point"><!--{$tpl_user_point|default:0|n2s}-->Pt</span>」です。<br />
                                 今回ご購入合計金額：<span class="price"><!--{$arrPrices.subtotal|n2s}-->円</span> <span class="attention">(送料、手数料を含みません。)</span>
                             </p>
                             <ul>

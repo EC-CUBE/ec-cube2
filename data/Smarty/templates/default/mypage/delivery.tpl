@@ -67,7 +67,7 @@
                                 <!--{/if}-->
                                 〒<!--{$arrOtherDeliv[cnt].zip01}-->-<!--{$arrOtherDeliv[cnt].zip02}--><br />
                                 <!--{$arrPref[$OtherPref]|h}--><!--{$arrOtherDeliv[cnt].addr01|h}--><!--{$arrOtherDeliv[cnt].addr02|h}--><br />
-                                <!--{$arrOtherDeliv[cnt].company_name|h}-->&nbsp;<!--{$arrOtherDeliv[cnt].name01|h}-->&nbsp;<!--{$arrOtherDeliv[cnt].name02|h}-->
+                                <!--{$arrOtherDeliv[cnt].company_name|h}--> <!--{$arrOtherDeliv[cnt]|format_name|h}-->
                             </td>
                             <td class="alignC">
                                 <a href="./delivery_addr.php" onclick="eccube.openWindow('./delivery_addr.php?other_deliv_id=<!--{$arrOtherDeliv[cnt].other_deliv_id|h}-->','deliv_disp','600','640'); return false;">変更</a>

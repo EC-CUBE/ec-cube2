@@ -27,7 +27,7 @@
             <input type="hidden" name="mode" value="logout" />
             <input type="hidden" name="url" value="<!--{$smarty.server.SCRIPT_NAME|h}-->" />
         </form>
-        <p>ようこそ <a href="<!--{$smarty.const.HTTPS_URL}-->mypage/login.php" data-transition="slideup"><!--{$tpl_name1|h}--> <!--{$tpl_name2|h}-->さん</a></p>
+        <p>ようこそ <a href="<!--{$smarty.const.HTTPS_URL}-->mypage/login.php" data-transition="slideup"><!--{$arrCustomer|format_name|h}--> 様</a></p>
         <!--{if $smarty.const.USE_POINT !== false}-->
             <p>所持ポイント<!--{$tpl_user_point|n2s|default:0}-->pt</p>
         <!--{/if}-->

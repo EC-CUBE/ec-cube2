@@ -72,8 +72,11 @@ class LC_Page_FrontParts_Bloc_Login extends LC_Page_FrontParts_Bloc_Ex
         if ($objCustomer->isLoginSuccess()) {
             $this->tpl_login = true;
             $this->tpl_user_point = $objCustomer->getValue('point');
-            $this->tpl_name1 = $objCustomer->getValue('name01');
-            $this->tpl_name2 = $objCustomer->getValue('name02');
+            $this->arrCustomer = $objCustomer->getValues();
+
+            // 旧テンプレート互換
+            $this->tpl_name1 = $this->arrCustomer['name01'] ?? '';
+            $this->tpl_name2 = $this->arrCustomer['name02'] ?? '';
         } else {
             // クッキー判定
             $this->tpl_login_email = $objCookie->getCookie('login_email');
