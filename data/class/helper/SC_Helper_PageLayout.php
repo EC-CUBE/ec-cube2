@@ -361,7 +361,7 @@ class SC_Helper_PageLayout
         foreach ($arrBlocs as $key => $value) {
             $arrBloc = &$arrBlocs[$key];
             $arrBloc['php_path'] = SC_Utils_Ex::isBlank($arrBloc['php_path']) ? '' : HTML_REALDIR.$arrBloc['php_path'];
-            $bloc_dir = $this->getTemplatePath($device_type_id).BLOC_DIR;
+            $bloc_dir = static::getTemplatePath($device_type_id).BLOC_DIR;
             $arrBloc['tpl_path'] = SC_Utils_Ex::isBlank($arrBloc['tpl_path']) ? '' : $bloc_dir.$arrBloc['tpl_path'];
         }
     }
