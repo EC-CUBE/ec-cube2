@@ -65,7 +65,7 @@ class SC_Response
             header($name.': '.$head);
         }
         if (strlen($this->statusCode) >= 1) {
-            $this->sendHttpStatus($this->statusCode);
+            static::sendHttpStatus($this->statusCode);
         }
     }
 
