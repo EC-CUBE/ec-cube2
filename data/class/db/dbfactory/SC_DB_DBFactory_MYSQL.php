@@ -357,8 +357,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      */
     public function sfChangeReservedWords($sql)
     {
-        $changesql = preg_replace('/(^|[^\w])RANK([^\w]|$)/i', '$1`RANK`$2', $sql);
-        $changesql = preg_replace('/``/i', '`', $changesql); // 2重エスケープ問題の対処
+        $changesql = preg_replace('/(^|[^\w$`"\.])(rank)([^\w$`"\.\s(]|\s+[^\s(]|\s*$)/i', '$1`$2`$3', $sql);
 
         return $changesql;
     }

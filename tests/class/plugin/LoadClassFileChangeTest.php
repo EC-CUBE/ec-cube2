@@ -70,7 +70,7 @@ class LoadClassFileChangeTest extends Common_TestCase
                 static \$PLUGIN_NAME        = 'AutoloadingPlugin';
                 static \$CLASS_NAME         = 'AutoloadingPlugin';
                 static \$PLUGIN_VERSION     = '0.0.0';
-                static \$COMPLIANT_VERSION  = '2.17';
+                static \$COMPLIANT_VERSION  = '2.25';
                 static \$AUTHOR             = 'dummy';
                 static \$DESCRIPTION        = 'dummy';
                 static \$HOOK_POINTS        = 'loadClassFileChange';
@@ -121,7 +121,7 @@ class LoadClassFileChangeTest extends Common_TestCase
             'plugin_code' => 'AutoloadingPlugin',
             'class_name' => 'AutoloadingPlugin',
             'plugin_version' => '0.0.0',
-            'compliant_version' => '2.17',
+            'compliant_version' => '2.25',
             'enable' => 1,
             'create_date' => 'CURRENT_TIMESTAMP',
             'update_date' => 'CURRENT_TIMESTAMP',

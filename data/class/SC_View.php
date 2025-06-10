@@ -40,7 +40,7 @@ class SC_View
 
     public function init()
     {
-        $this->_smarty = new \Smarty\Smarty();
+        $this->_smarty = new SC_SmartyBc();
         $this->_smarty->setLeftDelimiter('<!--{');
         $this->_smarty->setRightDelimiter('}-->');
         $this->_smarty->registerPlugin('modifier', 'sfDispDBDate', function ($dbdate, $time = true) { return SC_Utils_Ex::sfDispDBDate($dbdate, $time); });
@@ -69,6 +69,13 @@ class SC_View
         $this->_smarty->registerPlugin('modifier', 'is_numeric', 'is_numeric');
         $this->_smarty->registerPlugin('modifier', 'php_uname', 'php_uname');
         $this->_smarty->registerPlugin('modifier', 'array_key_exists', 'array_key_exists');
+        $this->_smarty->registerPlugin('modifier', 'key', 'key');
+        $this->_smarty->registerPlugin('modifier', 'strpos', 'strpos');
+        $this->_smarty->registerPlugin('modifier', 'current', 'current');
+        $this->_smarty->registerPlugin('modifier', 'var_dump', 'var_dump');
+        $this->_smarty->registerPlugin('modifier', 'preg_match', 'preg_match');
+        $this->_smarty->registerPlugin('modifier', 'unserialize', 'unserialize');
+        $this->_smarty->registerPlugin('modifier', 'realpath', 'realpath');
         // XXX register_function で登録すると if で使用できないのではないか？
         $this->_smarty->registerPlugin('function', 'sfIsHTTPS', ['SC_Utils_Ex', 'sfIsHTTPS']);
         $this->_smarty->registerPlugin('function', 'sfSetErrorStyle', ['SC_Utils_Ex', 'sfSetErrorStyle']);
@@ -288,8 +295,8 @@ class SC_View
      */
     public function lower_compatibility_smarty($tpl_source, $smarty)
     {
-        $pattern = ["/\|smarty:nodefaults/", '/include_php /', '/=`(.+?)`/'];
-        $replace = [' ', 'include_php_ex ', '=$1'];
+        $pattern = ["/\|smarty:nodefaults/", '/include_php /', '/=`(.+?)`/', '/html_checkboxes_ex /', '/html_radios_ex /'];
+        $replace = [' ', 'include_php_ex ', '=$1', 'html_checkboxes ', 'html_radios '];
 
         return preg_replace($pattern, $replace, $tpl_source);
     }

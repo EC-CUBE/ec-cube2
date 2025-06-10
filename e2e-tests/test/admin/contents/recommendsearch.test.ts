@@ -1,12 +1,12 @@
-import { test, expect } from '../../../fixtures/admin_login.fixture';
+import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { Page } from '@playwright/test';
 import { ADMIN_DIR } from '../../../config/default.config';
 
-const url = `/${ ADMIN_DIR }contents/recommend.php`;
+const url = `/${ADMIN_DIR}contents/recommend.php`;
 
 test.describe('おすすめ商品管理を確認します', () => {
-  let page: Page;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('おすすめ商品管理画面を確認します', async ( { adminLoginPage, page } ) => {
     await page.goto(url);
     await expect(page.locator('h1')).toContainText('コンテンツ管理＞おすすめ商品管理');
@@ -15,21 +15,24 @@ test.describe('おすすめ商品管理を確認します', () => {
   test.describe('カテゴリ検索を確認します', () => {
     let popup: Page;
     const nth = 0;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('おすすめ商品(1)の編集を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(url);
       page.on('dialog', dialog => dialog.accept());
-      [ popup ] = await Promise.all([
+      [popup] = await Promise.all([
         page.waitForEvent('popup'),
-        page.click(`.recommend-product >> nth=${ nth } >> a >> text=編集`)
+        page.click(`.recommend-product >> nth=${nth} >> a >> text=編集`)
       ]);
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('カテゴリ検索を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(url);
       page.on('dialog', dialog => dialog.accept());
-      [ popup ] = await Promise.all([
+      [popup] = await Promise.all([
         page.waitForEvent('popup'),
-        page.click(`.recommend-product >> nth=${ nth } >> a >> text=編集`)
+        page.click(`.recommend-product >> nth=${nth} >> a >> text=編集`)
       ]);
       await popup.waitForLoadState('load');
       await expect(popup.locator('#popup-container')).toContainText('カテゴリ');
@@ -38,29 +41,32 @@ test.describe('おすすめ商品管理を確認します', () => {
       await expect(popup.locator('#recommend-search-results >> tr >> nth=1')).toContainText('アイスクリーム');
 
       await popup.click('#recommend-search-results >> tr >> nth=1 >> text=決定');
-      await expect(page.locator(`.recommend-product >> nth=${ nth }`)).toContainText('アイスクリーム');
-      await page.click(`.recommend-product >> nth=${ nth } >> text=この内容で登録する`);
+      await expect(page.locator(`.recommend-product >> nth=${nth}`)).toContainText('アイスクリーム');
+      await page.click(`.recommend-product >> nth=${nth} >> text=この内容で登録する`);
     });
   });
 
   test.describe('商品コード検索を確認します', () => {
     let popup: Page;
     const nth = 1;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('おすすめ商品(2)の編集を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(url);
       page.on('dialog', dialog => dialog.accept());
-      [ popup ] = await Promise.all([
+      [popup] = await Promise.all([
         page.waitForEvent('popup'),
-        page.click(`.recommend-product >> nth=${ nth } >> a >> text=編集`)
+        page.click(`.recommend-product >> nth=${nth} >> a >> text=編集`)
       ]);
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     test('商品コード検索を確認します', async ( { adminLoginPage, page } ) => {
       await page.goto(url);
       page.on('dialog', dialog => dialog.accept());
-      [ popup ] = await Promise.all([
+      [popup] = await Promise.all([
         page.waitForEvent('popup'),
-        page.click(`.recommend-product >> nth=${ nth } >> a >> text=編集`)
+        page.click(`.recommend-product >> nth=${nth} >> a >> text=編集`)
       ]);
       await popup.waitForLoadState('load');
       await expect(popup.locator('#popup-container')).toContainText('商品コード');
@@ -69,8 +75,8 @@ test.describe('おすすめ商品管理を確認します', () => {
       await expect(popup.locator('#recommend-search-results >> tr >> nth=1')).toContainText('おなべレシピ');
 
       await popup.click('#recommend-search-results >> tr >> nth=1 >> text=決定');
-      await expect(page.locator(`.recommend-product >> nth=${ nth }`)).toContainText('おなべレシピ');
-      await page.click(`.recommend-product >> nth=${ nth } >> text=この内容で登録する`);
+      await expect(page.locator(`.recommend-product >> nth=${nth}`)).toContainText('おなべレシピ');
+      await page.click(`.recommend-product >> nth=${nth} >> text=この内容で登録する`);
     });
   });
 });
