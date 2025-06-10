@@ -141,7 +141,7 @@ class LC_Page_Admin_System_Parameter extends LC_Page_Admin_Ex
     {
         $objErr = new SC_CheckError_Ex($arrForm);
         foreach ($arrKeys as $key) {
-            $objErr->doFunc([$key, $key], ['EXIST_CHECK', 'EVAL_CHECK']);
+            $objErr->doFunc([$key, $arrForm[$key]], ['EXIST_CHECK', 'EVAL_CHECK']);
         }
 
         return $objErr->arrErr;
