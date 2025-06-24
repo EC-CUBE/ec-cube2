@@ -1,5 +1,13 @@
 # 開発ドキュメント
 
+## プラグイン開発
+
+### フックポイント一覧
+
+EC-CUBE2でプラグイン開発を行う際に利用可能なすべてのフックポイントの完全なリファレンスです。
+
+[plugin-hook-points.md](plugin-hook-points.md) をご確認ください。
+
 ## テーブル定義書
 
 [k1LoW/tbls](https://github.com/k1LoW/tbls) を使用して、テーブル定義書の自動出力に対応しています。
