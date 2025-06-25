@@ -80,6 +80,7 @@ class SC_View
         $this->_smarty->registerPlugin('function', 'sfIsHTTPS', ['SC_Utils_Ex', 'sfIsHTTPS']);
         $this->_smarty->registerPlugin('function', 'sfSetErrorStyle', ['SC_Utils_Ex', 'sfSetErrorStyle']);
         $this->_smarty->registerPlugin('function', 'printXMLDeclaration', ['GC_Utils_Ex', 'printXMLDeclaration']);
+        $this->_smarty->registerPlugin('modifier', 'format_name', 'smarty_modifier_format_name');
         $this->_smarty->muteUndefinedOrNullWarnings();
         $this->_smarty->default_modifiers = ['script_escape'];
 

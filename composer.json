@@ -61,6 +61,7 @@
         "files": [
             "data/smarty_extends/function.from_to.php",
             "data/smarty_extends/function.include_php_ex.php",
+            "data/smarty_extends/modifier.format_name.php",
             "data/smarty_extends/modifier.h.php",
             "data/smarty_extends/modifier.n2s.php",
             "data/smarty_extends/modifier.nl2br_html.php",
