@@ -85,7 +85,7 @@ class SC_Helper_FPDI extends PDF_Japanese
                     $align = 'R';
                 }
                 $y_before = $this->y;
-                $h = $this->SJISMultiCell($w[$i], $h, $col, 1, $align, $fill);
+                $this->SJISMultiCell($w[$i], $h, $col, 1, $align, $fill);
                 $h = $this->y - $y_before;
                 $this->y = $y_before;
                 $x += $w[$i];
