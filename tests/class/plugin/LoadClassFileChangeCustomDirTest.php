@@ -8,7 +8,7 @@ class LoadClassFileChangeCustomDirTest extends Common_TestCase
     protected function setUp(): void
     {
         // ATTENTION プラグインをロードする前にオートローディングが実行されると、 loadClassFileChange が無効になってしまうため parent::setUp() は実行しない
-        $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);
+        $this->objQuery = SC_Query_Ex::getSingletonInstance();
         $this->objQuery->begin();
         $plugin_id = $this->objQuery->nextVal('dtb_plugin_plugin_id');
         $pluginValues = [
@@ -17,7 +17,7 @@ class LoadClassFileChangeCustomDirTest extends Common_TestCase
             'plugin_code' => 'FixturePlugin',
             'class_name' => 'FixturePlugin',
             'plugin_version' => '0.0.0',
-            'compliant_version' => '2.17',
+            'compliant_version' => '2.25',
             'enable' => 1,
             'create_date' => 'CURRENT_TIMESTAMP',
             'update_date' => 'CURRENT_TIMESTAMP',

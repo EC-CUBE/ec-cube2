@@ -52,7 +52,7 @@
             //cursorAt: { top: 2, left: 2 },
             //opacity: 0.8,
             //helper: 'clone',
-            appendTo: 'body',
+            appendTo: 'parent',
             //placeholder: 'clone',
             placeholder: 'placeholder',
             connectWith: els,

@@ -27,15 +27,11 @@ class SC_Helper_FPDI extends PDF_Japanese
 
     public function SJISMultiCell($w, $h, $txt, $border = 0, $align = 'L', $fill = false)
     {
-        $arrArg = func_get_args();
-
-        // $text
-        $arrArg[2] = $this->lfConvSjis($arrArg[2]);
+        $txt = $this->lfConvSjis($txt);
 
         $bak = $this->enable_conv_sjis;
         $this->enable_conv_sjis = false;
 
-        list($w, $h, $txt, $border, $align, $fill) = $arrArg;
         parent::SJISMulticell($w, $h, $txt, $border, $align, $fill);
 
         $this->enable_conv_sjis = $bak;
@@ -89,7 +85,7 @@ class SC_Helper_FPDI extends PDF_Japanese
                     $align = 'R';
                 }
                 $y_before = $this->y;
-                $h = $this->SJISMultiCell($w[$i], $h, $col, 1, $align, $fill, 0);
+                $this->SJISMultiCell($w[$i], $h, $col, 1, $align, $fill);
                 $h = $this->y - $y_before;
                 $this->y = $y_before;
                 $x += $w[$i];

@@ -157,15 +157,15 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
     public function getDownloadableDaysWhereSql($dtb_order_alias = 'dtb_order')
     {
         $sql = <<< __EOS__
-        (
-            SELECT
-                IF (
-                    (SELECT d1.downloadable_days_unlimited FROM dtb_baseinfo d1) = 1 AND $dtb_order_alias.payment_date IS NOT NULL,
-                    1,
-                    IF( DATE(CURRENT_TIMESTAMP) <= DATE(DATE_ADD($dtb_order_alias.payment_date, INTERVAL (SELECT downloadable_days FROM dtb_baseinfo) DAY)), 1, 0)
-                )
-        )
-__EOS__;
+            (
+                SELECT
+                    IF (
+                        (SELECT d1.downloadable_days_unlimited FROM dtb_baseinfo d1) = 1 AND $dtb_order_alias.payment_date IS NOT NULL,
+                        1,
+                        IF( DATE(CURRENT_TIMESTAMP) <= DATE(DATE_ADD($dtb_order_alias.payment_date, INTERVAL (SELECT downloadable_days FROM dtb_baseinfo) DAY)), 1, 0)
+                    )
+            )
+            __EOS__;
 
         return $sql;
     }
@@ -357,8 +357,7 @@ __EOS__;
      */
     public function sfChangeReservedWords($sql)
     {
-        $changesql = preg_replace('/(^|[^\w])RANK([^\w]|$)/i', '$1`RANK`$2', $sql);
-        $changesql = preg_replace('/``/i', '`', $changesql); // 2重エスケープ問題の対処
+        $changesql = preg_replace('/(^|[^\w$`"\.])(rank)([^\w$`"\.\s(]|\s+[^\s(]|\s*$)/i', '$1`$2`$3', $sql);
 
         return $changesql;
     }

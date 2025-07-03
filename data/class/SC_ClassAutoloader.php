@@ -51,7 +51,11 @@ class SC_ClassAutoloader
             if ($count <= 5 && $arrClassNamePart[2] === 'Admin' && !in_array($arrClassNamePart[3], ['Home', 'Index', 'Logout'])) {
                 $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -1))).'/';
             } else {
-                $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -2))).'/';
+                if ($count === 4 && $arrClassNamePart[2] != 'Index' && $arrClassNamePart[3] === 'Ex') {
+                    $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -1))).'/';
+                } else {
+                    $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -2))).'/';
+                }
             }
         } elseif ($arrClassNamePart[0] === 'SC' && $is_ex === false && $count >= 3) {
             $classpath .= strtolower(implode('/', array_slice($arrClassNamePart, 1, -1))).'/';

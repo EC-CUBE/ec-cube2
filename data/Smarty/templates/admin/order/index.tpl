@@ -377,7 +377,7 @@
                         <tr style="background:<!--{$arrORDERSTATUS_COLOR[$status]}-->;">
                             <td class="center"><!--{$arrResults[cnt].create_date|sfDispDBDate}--></td>
                             <td class="center"><!--{$arrResults[cnt].order_id}--></td>
-                            <td class="center"><!--{$arrResults[cnt].order_name01|h}--> <!--{$arrResults[cnt].order_name02|h}--></td>
+                            <td class="center"><!--{$arrResults[cnt]|format_name:'order_name'|h}--></td>
                             <td class="center"><!--{$arrResults[cnt].payment_method|h}--></td>
                             <td class="right"><!--{$arrResults[cnt].total|n2s}--></td>
                             <td class="center"><!--{$arrResults[cnt].commit_date|sfDispDBDate|default:"未発送"}--></td>

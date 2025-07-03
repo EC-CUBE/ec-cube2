@@ -58,7 +58,8 @@ class SC_Utils_sfGetCommaListTest extends Common_TestCase
         $this->actual = SC_Utils::sfGetCommaList(
             ['りんご', 'ミカン', 'バナナ'],
             true,
-            []);
+            []
+        );
 
         $this->verify('連結済みの文字列');
     }
@@ -69,7 +70,8 @@ class SC_Utils_sfGetCommaListTest extends Common_TestCase
         $this->actual = SC_Utils::sfGetCommaList(
             ['りんご', 'ミカン', 'バナナ'],
             false,
-            []);
+            []
+        );
 
         $this->verify('連結済みの文字列');
     }
@@ -81,7 +83,8 @@ class SC_Utils_sfGetCommaListTest extends Common_TestCase
         $this->actual = SC_Utils::sfGetCommaList(
             ['りんご', 'ミカン', 'バナナ'],
             true,
-            ['梨', 'ミカン', '柿']);
+            ['梨', 'ミカン', '柿']
+        );
 
         $this->verify('連結済みの文字列');
     }

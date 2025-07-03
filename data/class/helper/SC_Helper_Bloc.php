@@ -130,14 +130,22 @@ class SC_Helper_Bloc
         // 新規登録
         if ($is_new || SC_Utils_Ex::isBlank($arrExists)) {
             $objQuery->setOrder('');
-            $arrValues['bloc_id'] = 1 + $objQuery->max('bloc_id', $table, 'device_type_id = ?',
-                [$arrValues['device_type_id']]);
+            $arrValues['bloc_id'] = 1 + $objQuery->max(
+                'bloc_id',
+                $table,
+                'device_type_id = ?',
+                [$arrValues['device_type_id']]
+            );
             $arrValues['create_date'] = 'CURRENT_TIMESTAMP';
             $objQuery->insert($table, $arrValues);
         // 更新
         } else {
-            $objQuery->update($table, $arrValues, 'bloc_id = ? AND device_type_id = ?',
-                [$arrValues['bloc_id'], $arrValues['device_type_id']]);
+            $objQuery->update(
+                $table,
+                $arrValues,
+                'bloc_id = ? AND device_type_id = ?',
+                [$arrValues['bloc_id'], $arrValues['device_type_id']]
+            );
         }
 
         $bloc_path = $bloc_dir.$arrValues['tpl_path'];
@@ -167,10 +175,16 @@ class SC_Helper_Bloc
         $arrExists = $this->getWhere('bloc_id = ? AND deletable_flg = 1', [$bloc_id]);
         $is_error = false;
         if (!SC_Utils_Ex::isBlank($arrExists)) {
-            $objQuery->delete('dtb_bloc', 'bloc_id = ? AND device_type_id = ?',
-                [$arrExists[0]['bloc_id'], $arrExists[0]['device_type_id']]);
-            $objQuery->delete('dtb_blocposition', 'bloc_id = ? AND device_type_id = ?',
-                [$arrExists[0]['bloc_id'], $arrExists[0]['device_type_id']]);
+            $objQuery->delete(
+                'dtb_bloc',
+                'bloc_id = ? AND device_type_id = ?',
+                [$arrExists[0]['bloc_id'], $arrExists[0]['device_type_id']]
+            );
+            $objQuery->delete(
+                'dtb_blocposition',
+                'bloc_id = ? AND device_type_id = ?',
+                [$arrExists[0]['bloc_id'], $arrExists[0]['device_type_id']]
+            );
 
             $bloc_dir = SC_Helper_PageLayout_Ex::getTemplatePath($this->device_type_id).BLOC_DIR;
             $exists_file = $bloc_dir.$arrExists[0]['filename'].'.tpl';

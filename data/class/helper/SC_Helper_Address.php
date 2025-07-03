@@ -35,15 +35,16 @@ class SC_Helper_Address
      *
      * @param  array   $sqlval
      *
-     * @return array()
+     * @return bool 登録したか
      */
     public function registAddress($sqlval)
     {
-        if (self::delivErrorCheck($sqlval)) {
+        $objQuery = SC_Query_Ex::getSingletonInstance();
+
+        if (!SC_Utils_Ex::isValidIntId($sqlval['customer_id'])) {
             return false;
         }
 
-        $objQuery = SC_Query_Ex::getSingletonInstance();
         $customer_id = $sqlval['customer_id'];
         $other_deliv_id = $sqlval['other_deliv_id'];
 
@@ -84,11 +85,14 @@ class SC_Helper_Address
      *
      * @param int $other_deliv_id
      *
-     * @return array()
+     * @return array|false|null 受け取り側は false を不正と判定している様子。しかし、型を比較せず、一致なしの null も同一視する箇所もありそう。
      */
-    public function getAddress($other_deliv_id, $customer_id = '')
+    public function getAddress($other_deliv_id, $customer_id)
     {
-        if (self::delivErrorCheck(['customer_id' => $customer_id, 'other_deliv_id' => $other_deliv_id])) {
+        if (!SC_Utils_Ex::isValidIntId($other_deliv_id)) {
+            return false;
+        }
+        if (!SC_Utils_Ex::isValidIntId($customer_id)) {
             return false;
         }
 
@@ -109,11 +113,12 @@ class SC_Helper_Address
      * @param  int $customer_id
      * @param  int $startno
      *
-     * @return array
+     * @return array|false
+     *     - XXX: 不正時に false を返しているが、受け取り側は考慮していなそう。
      */
     public function getList($customer_id, $startno = '')
     {
-        if (self::delivErrorCheck(['customer_id' => $customer_id])) {
+        if (!SC_Utils_Ex::isValidIntId($customer_id)) {
             return false;
         }
 
@@ -135,11 +140,14 @@ class SC_Helper_Address
     /**
      * お届け先の削除
      *
-     * @return void
+     * @return bool 削除したか。空削除も true を返す。
      */
-    public function deleteAddress($other_deliv_id, $customer_id = '')
+    public function deleteAddress($other_deliv_id, $customer_id)
     {
-        if (self::delivErrorCheck(['customer_id' => $customer_id, 'other_deliv_id' => $other_deliv_id])) {
+        if (!SC_Utils_Ex::isValidIntId($other_deliv_id)) {
+            return false;
+        }
+        if (!SC_Utils_Ex::isValidIntId($customer_id)) {
             return false;
         }
 
@@ -149,7 +157,9 @@ class SC_Helper_Address
         $where = 'customer_id = ? AND other_deliv_id = ?';
         $arrVal = [$customer_id, $other_deliv_id];
 
-        return $objQuery->delete($from, $where, $arrVal);
+        $objQuery->delete($from, $where, $arrVal);
+
+        return true;
     }
 
     /**
@@ -182,6 +192,8 @@ class SC_Helper_Address
     /**
      * お届け先エラーチェック
      *
+     * @deprecated 本体で使用していない。
+     *
      * @param array $arrParam
      *
      * @return bool / false
@@ -194,7 +206,8 @@ class SC_Helper_Address
             $error_flg = true;
         }
 
-        if (isset($arrParam['other_deliv_id']) && (!is_numeric($arrParam['other_deliv_id']) || !preg_match("/^\d+$/", $arrParam['other_deliv_id']))) {
+        if (isset($arrParam['other_deliv_id']) && $arrParam['other_deliv_id'] !== ''
+            && (!is_numeric($arrParam['other_deliv_id']) || !preg_match("/^\d+$/", $arrParam['other_deliv_id']))) {
             $error_flg = true;
         }
 

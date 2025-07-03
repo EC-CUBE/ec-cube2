@@ -175,10 +175,12 @@ class SC_Helper_Customer
             return 3;
         }
 
-        $arrRet = $objQuery->select('email, update_date, del_flg',
+        $arrRet = $objQuery->select(
+            'email, update_date, del_flg',
             'dtb_customer',
             'email = ? OR email_mobile = ? ORDER BY del_flg',
-            [$email, $email]);
+            [$email, $email]
+        );
 
         if (count($arrRet) > 0) {
             // 会員である場合
@@ -217,9 +219,12 @@ class SC_Helper_Customer
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $arrResults = $objQuery->getRow('email, email_mobile',
-            'dtb_customer', 'customer_id = ?',
-            [$customer_id]);
+        $arrResults = $objQuery->getRow(
+            'email, email_mobile',
+            'dtb_customer',
+            'customer_id = ?',
+            [$customer_id]
+        );
         $return
             = strlen($arrResults['email']) >= 1 && $email === $arrResults['email']
             || strlen($arrResults['email_mobile']) >= 1 && $email === $arrResults['email_mobile']
@@ -256,7 +261,7 @@ class SC_Helper_Customer
         // 誕生日を年月日に分ける
         if (isset($arrForm['birth'])) {
             $birth = explode(' ', $arrForm['birth']);
-            list($arrForm['year'], $arrForm['month'], $arrForm['day']) = array_map('intval', explode('-', $birth[0]));
+            [$arrForm['year'], $arrForm['month'], $arrForm['day']] = array_map('intval', explode('-', $birth[0]));
         }
 
         if ($mask_flg) {
@@ -401,7 +406,7 @@ class SC_Helper_Customer
             $objFormParam->addParam('郵便番号1', $prefix.'zip01', ZIP01_LEN, 'n', ['EXIST_CHECK', 'SPTAB_CHECK', 'NUM_CHECK', 'NUM_COUNT_CHECK']);
             $objFormParam->addParam('郵便番号2', $prefix.'zip02', ZIP02_LEN, 'n', ['EXIST_CHECK', 'SPTAB_CHECK', 'NUM_CHECK', 'NUM_COUNT_CHECK']);
             $objFormParam->addParam('国', $prefix.'country_id', INT_LEN, 'n', ['NUM_CHECK']);
-            $objFormParam->addParam('都道府県', $prefix.'pref', INT_LEN, 'n', ['PREF_CHECK', 'EXIST_CHECK', 'NUM_CHECK']);
+            $objFormParam->addParam('都道府県', $prefix.'pref', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'PREF_CHECK']);
         } else {
             $objFormParam->addParam('お名前(フリガナ・姓)', $prefix.'kana01', STEXT_LEN, 'CKV', ['NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'KANA_CHECK']);
             $objFormParam->addParam('お名前(フリガナ・名)', $prefix.'kana02', STEXT_LEN, 'CKV', ['NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'KANA_CHECK']);
@@ -697,11 +702,13 @@ class SC_Helper_Customer
         $linemax = $objQuery->getOne($objSelect->getListCount(), $objSelect->arrVal);
 
         // ページ送りの取得
-        $objNavi = new SC_PageNavi_Ex($arrParam['search_pageno'],
+        $objNavi = new SC_PageNavi_Ex(
+            $arrParam['search_pageno'],
             $linemax,
             $page_max,
             'eccube.moveSearchPage',
-            NAVI_PMAX);
+            NAVI_PMAX
+        );
 
         return [$linemax, $arrData, $objNavi];
     }

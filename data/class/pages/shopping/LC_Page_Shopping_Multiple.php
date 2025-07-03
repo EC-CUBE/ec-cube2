@@ -95,9 +95,13 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
                 if (SC_Utils_Ex::isBlank($this->arrErr)) {
                     // フォームの情報を一時保存しておく
                     $_SESSION['multiple_temp'] = $objFormParam->getHashArray();
-                    $this->saveMultipleShippings($this->tpl_uniqid, $objFormParam,
-                        $objCustomer, $objPurchase,
-                        $objAddress);
+                    $this->saveMultipleShippings(
+                        $this->tpl_uniqid,
+                        $objFormParam,
+                        $objCustomer,
+                        $objPurchase,
+                        $objAddress
+                    );
                     $objSiteSess->setRegistFlag();
 
                     SC_Response_Ex::sendRedirect('payment.php');
@@ -212,14 +216,14 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
             $arrAddrs = array_merge($addr, $objAddress->getList($objCustomer->getValue('customer_id')));
             foreach ($arrAddrs as $val) {
                 $other_deliv_id = SC_Utils_Ex::isBlank($val['other_deliv_id']) ? 0 : $val['other_deliv_id'];
-                $arrResults[$other_deliv_id] = $val['name01'].$val['name02']
+                $arrResults[$other_deliv_id] = SC_Utils_Ex::formatName($val)
                     .' '.$arrPref[$val['pref']].$val['addr01'].$val['addr02'];
             }
         // 非会員
         } else {
             $arrShippings = $objPurchase->getShippingTemp();
             foreach ($arrShippings as $shipping_id => $val) {
-                $arrResults[$shipping_id] = $val['shipping_name01'].$val['shipping_name02']
+                $arrResults[$shipping_id] = SC_Utils_Ex::formatName($val, 'shipping_name')
                     .' '.$arrPref[$val['shipping_pref']]
                     .$val['shipping_addr01'].$val['shipping_addr02'];
             }
@@ -320,8 +324,11 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
                         $arrValues[$other_deliv_id]['shipping_'.$key] = $val;
                     }
                 } else {
-                    $objPurchase->copyFromCustomer($arrValues[0], $objCustomer,
-                        'shipping');
+                    $objPurchase->copyFromCustomer(
+                        $arrValues[0],
+                        $objCustomer,
+                        'shipping'
+                    );
                 }
             } else {
                 $arrValues = $objPurchase->getShippingTemp();
@@ -340,9 +347,11 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
                 if ($quantity == 0) {
                     continue;
                 }
-                $objPurchase->setShipmentItemTemp($other_deliv_id,
+                $objPurchase->setShipmentItemTemp(
+                    $other_deliv_id,
                     $product_class_id,
-                    $quantity);
+                    $quantity
+                );
             }
         }
 

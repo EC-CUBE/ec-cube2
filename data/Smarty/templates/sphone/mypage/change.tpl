@@ -40,9 +40,6 @@
         <dl class="form_entry">
             <!--{include file="`$smarty.const.SMARTPHONE_TEMPLATE_REALDIR`frontparts/form_personal_input.tpl" flgFields=3 emailMobile=true prefix=""}-->
         </dl>
-        <!--{if 'sfGMOMypageDisplay'|function_exists}-->
-            <!--{'sfGMOMypageDisplay'|call_user_func}-->
-        <!--{/if}-->
         <div class="btn_area">
             <p><input type="submit" class="btn data-role-none" value="確認ページへ" name="refusal" id="refusal" /></p>
         </div>

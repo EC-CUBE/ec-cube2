@@ -8,7 +8,7 @@ class LoadClassFileChangeTest extends Common_TestCase
     protected function setUp(): void
     {
         // ATTENTION プラグインをロードする前にオートローディングが実行されると、 loadClassFileChange が無効になってしまうため parent::setUp() は実行しない
-        $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);
+        $this->objQuery = SC_Query_Ex::getSingletonInstance();
         $this->objQuery->begin();
         $this->createPlugin();
     }
@@ -64,41 +64,41 @@ class LoadClassFileChangeTest extends Common_TestCase
     {
         $realdir = str_replace('\\', '/', PLUGIN_UPLOAD_REALDIR); // Normalize of PATH_SEPARATOR
         $plugin_info = <<< __EOS__
-<?php
-class plugin_info {
-    static \$PLUGIN_CODE        = 'AutoloadingPlugin';
-    static \$PLUGIN_NAME        = 'AutoloadingPlugin';
-    static \$CLASS_NAME         = 'AutoloadingPlugin';
-    static \$PLUGIN_VERSION     = '0.0.0';
-    static \$COMPLIANT_VERSION  = '2.17';
-    static \$AUTHOR             = 'dummy';
-    static \$DESCRIPTION        = 'dummy';
-    static \$HOOK_POINTS        = 'loadClassFileChange';
-}
-__EOS__;
+            <?php
+            class plugin_info {
+                static \$PLUGIN_CODE        = 'AutoloadingPlugin';
+                static \$PLUGIN_NAME        = 'AutoloadingPlugin';
+                static \$CLASS_NAME         = 'AutoloadingPlugin';
+                static \$PLUGIN_VERSION     = '0.0.0';
+                static \$COMPLIANT_VERSION  = '2.25';
+                static \$AUTHOR             = 'dummy';
+                static \$DESCRIPTION        = 'dummy';
+                static \$HOOK_POINTS        = 'loadClassFileChange';
+            }
+            __EOS__;
         $autoloadingPlugin = <<< __EOS__
-<?php
-class AutoloadingPlugin extends SC_Plugin_Base
-{
-    public function loadClassFileChange(&\$classname, &\$classpath) {
-        if (\$classname === "SC_Product_Ex") {
-            \$classpath = "{$realdir}AutoloadingPlugin/Autoloading_SC_Product.php";
-            \$classname = "Autoloading_SC_Product";
-        }
-    }
-}
-__EOS__;
+            <?php
+            class AutoloadingPlugin extends SC_Plugin_Base
+            {
+                public function loadClassFileChange(&\$classname, &\$classpath) {
+                    if (\$classname === "SC_Product_Ex") {
+                        \$classpath = "{$realdir}AutoloadingPlugin/Autoloading_SC_Product.php";
+                        \$classname = "Autoloading_SC_Product";
+                    }
+                }
+            }
+            __EOS__;
         $Autoloading_SC_Product = <<< __EOS__
-<?php
-class Autoloading_SC_Product extends SC_Product
-{
-    const AUTOLOAD = true;
-    public \$autoloaded = true;
-    public function isExtended() {
-        return true;
-    }
-}
-__EOS__;
+            <?php
+            class Autoloading_SC_Product extends SC_Product
+            {
+                const AUTOLOAD = true;
+                public \$autoloaded = true;
+                public function isExtended() {
+                    return true;
+                }
+            }
+            __EOS__;
 
         $files = [
             'plugin_info' => $plugin_info,
@@ -121,7 +121,7 @@ __EOS__;
             'plugin_code' => 'AutoloadingPlugin',
             'class_name' => 'AutoloadingPlugin',
             'plugin_version' => '0.0.0',
-            'compliant_version' => '2.17',
+            'compliant_version' => '2.25',
             'enable' => 1,
             'create_date' => 'CURRENT_TIMESTAMP',
             'update_date' => 'CURRENT_TIMESTAMP',

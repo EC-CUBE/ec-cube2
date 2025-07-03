@@ -90,6 +90,7 @@ class LC_Page_Admin_Design_Template extends LC_Page_Admin_Ex
                 $this->arrErr = $objFormParam->checkError();
                 if (SC_Utils_Ex::isBlank($this->arrErr)) {
                     if ($this->doRegister($template_code, $this->device_type_id)) {
+                        // FIXME: PRGする。(レスポンシブWebデザインの有効・無効が変わった場合の操作可能メニューが即時反映されない不具合を抱えている。)
                         $this->tpl_select = $template_code;
                         $this->tpl_onload = "alert('登録が完了しました。');";
                     }
@@ -222,8 +223,11 @@ class LC_Page_Admin_Design_Template extends LC_Page_Admin_Ex
         } else {
             $objQuery = SC_Query_Ex::getSingletonInstance();
             $objQuery->begin();
-            $objQuery->delete('dtb_templates', 'template_code = ? AND device_type_id = ?',
-                [$template_code, $device_type_id]);
+            $objQuery->delete(
+                'dtb_templates',
+                'template_code = ? AND device_type_id = ?',
+                [$template_code, $device_type_id]
+            );
 
             $error = '※ テンプレートの削除ができませんでした<br />';
             // テンプレート削除

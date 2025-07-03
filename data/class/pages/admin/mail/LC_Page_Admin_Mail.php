@@ -117,7 +117,7 @@ class LC_Page_Admin_Mail extends LC_Page_Admin_Ex
             // 配信先検索
             case 'search':
             case 'back':
-                list($this->tpl_linemax, $this->arrResults, $this->objNavi) = SC_Helper_Customer_Ex::sfGetSearchData($objFormParam->getHashArray());
+                [$this->tpl_linemax, $this->arrResults, $this->objNavi] = SC_Helper_Customer_Ex::sfGetSearchData($objFormParam->getHashArray());
                 $this->arrPagenavi = $this->objNavi->arrPagenavi;
                 break;
                 // input:検索結果画面「配信内容を設定する」押下後
@@ -257,7 +257,7 @@ class LC_Page_Admin_Mail extends LC_Page_Admin_Ex
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        list($linemax, $arrSendCustomer, $objNavi) = SC_Helper_Customer_Ex::sfGetSearchData($objFormParam->getHashArray(), 'All');
+        [$linemax, $arrSendCustomer, $objNavi] = SC_Helper_Customer_Ex::sfGetSearchData($objFormParam->getHashArray(), 'All');
         $send_customer_cnt = count($arrSendCustomer);
 
         $send_id = $objQuery->nextVal('dtb_send_history_send_id');
@@ -285,7 +285,7 @@ class LC_Page_Admin_Mail extends LC_Page_Admin_Ex
                 $dtb_send_customer['customer_id'] = $line['customer_id'];
                 $dtb_send_customer['send_id'] = $send_id;
                 $dtb_send_customer['email'] = $line[$emailtype];
-                $dtb_send_customer['name'] = $line['name01'].' '.$line['name02'];
+                $dtb_send_customer['name'] = SC_Utils_Ex::formatName($line);
                 $objQuery->insert('dtb_send_customer', $dtb_send_customer);
             }
         }

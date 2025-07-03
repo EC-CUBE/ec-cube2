@@ -162,7 +162,7 @@ class SC_Helper_Mail
         $customer_id = $arrOrder['customer_id'];
         $objQuery->setOrder('customer_id');
         $arrRet = $objQuery->select('point', 'dtb_customer', 'customer_id = ?', [$customer_id]);
-        $arrCustomer = isset($arrRet[0]) ? $arrRet[0] : '';
+        $arrCustomer = $arrRet[0] ?? '';
 
         $arrTplVar->arrCustomer = $arrCustomer;
         $arrTplVar->arrOrder = $arrOrder;
@@ -208,7 +208,7 @@ class SC_Helper_Mail
         $tosubject = $this->sfMakeSubject($tmp_subject, $objMailView);
 
         $objSendMail->setItem('', $tosubject, $body, $from, $arrInfo['shop_name'], $from, $error, $error, $bcc);
-        $objSendMail->setTo($arrOrder['order_email'], $arrOrder['order_name01'].' '.$arrOrder['order_name02'].' 様');
+        $objSendMail->setTo($arrOrder['order_email'], SC_Utils_Ex::formatName($arrOrder, 'order_name').' 様');
 
         // 送信フラグ:trueの場合は、送信する。
         if ($send) {
@@ -419,7 +419,7 @@ class SC_Helper_Mail
         } else {
             $to_addr = $arrCustomerData['email'];
         }
-        $objMail->setTo($to_addr, $arrCustomerData['name01'].$arrCustomerData['name02'].' 様');
+        $objMail->setTo($to_addr, SC_Utils_Ex::formatName($arrCustomerData).' 様');
 
         $objMail->sendMail();
 
@@ -560,17 +560,21 @@ class SC_Helper_Mail
             }
 
             // 送信結果情報を更新
-            $objQuery->update('dtb_send_customer',
+            $objQuery->update(
+                'dtb_send_customer',
                 ['send_flag' => $sendFlag],
                 'send_id = ? AND customer_id = ?',
-                [$send_id, $arrDestination['customer_id']]);
+                [$send_id, $arrDestination['customer_id']]
+            );
         }
 
         // メール全件送信完了後の処理
-        $objQuery->update('dtb_send_history',
+        $objQuery->update(
+            'dtb_send_history',
             ['end_date' => 'CURRENT_TIMESTAMP', 'complete_count' => $complete_count],
             'send_id = ?',
-            [$send_id]);
+            [$send_id]
+        );
 
         // 送信完了　報告メール
         $compSubject = date('Y年m月d日H時i分').'  下記メールの配信が完了しました。';

@@ -112,7 +112,7 @@ class LC_Page_Admin_Contents extends LC_Page_Admin_Ex
 
             case 'pre_edit':
                 $news = $objNews->getNews($news_id);
-                list($news['year'], $news['month'], $news['day']) = $this->splitNewsDate($news['cast_news_date']);
+                [$news['year'], $news['month'], $news['day']] = $this->splitNewsDate($news['cast_news_date']);
                 $objFormParam->setParam($news);
 
                 // POSTデータを引き継ぐ

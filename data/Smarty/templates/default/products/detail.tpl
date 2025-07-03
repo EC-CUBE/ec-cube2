@@ -255,10 +255,6 @@
                                 <a href="javascript:eccube.changeAction('?product_id=<!--{$arrProduct.product_id|h}-->'); eccube.setModeAndSubmit('add_favorite','favorite_product_id','<!--{$arrProduct.product_id|h}-->');"><img class="hover_change_image" src="<!--{$TPL_URLPATH}-->img/button/btn_add_favorite.jpg" alt="お気に入りに追加" /></a>
                             <!--{else}-->
                                 <img src="<!--{$TPL_URLPATH}-->img/button/btn_add_favorite_on.jpg" title="お気に入りに登録済み" alt="お気に入りに登録済み" id="add_favorite_product" />
-                                <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.ui/jquery.ui.core.min.js"></script>
-                                <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.ui/jquery.ui.widget.min.js"></script>
-                                <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.ui/jquery.ui.position.min.js"></script>
-                                <script type="text/javascript" src="<!--{$smarty.const.ROOT_URLPATH}-->js/jquery.ui/jquery.ui.tooltip.min.js"></script>
                                 <script type="text/javascript">
                                     var favoriteButton = $("#add_favorite_product");
                                     favoriteButton.tooltip();
@@ -297,7 +293,7 @@
                         <!--{if $arrProduct[$lkey]|strlen >= 1}-->
                             <a href="<!--{$smarty.const.IMAGE_SAVE_URLPATH}--><!--{$arrProduct[$lkey]|h}-->" class="expansion" target="_blank" >
                         <!--{/if}-->
-                        <img src="<!--{$arrFile[$ikey].filepath}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$ikey].width}-->" height="<!--{$arrFile[$ikey].height}-->" />
+                        <img src="<!--{$arrFile[$ikey].filepath|h}-->" alt="<!--{$arrProduct.name|h}-->" width="<!--{$arrFile[$ikey].width}-->" height="<!--{$arrFile[$ikey].height}-->" />
                         <!--{if $arrProduct[$lkey]|strlen >= 1}-->
                             </a>
                             <span class="mini">

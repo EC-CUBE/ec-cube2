@@ -296,7 +296,7 @@ class LC_Page_Admin_Home extends LC_Page_Admin_Ex
             WHERE
                 dtb_order.payment_id = pay.payment_id
             ) AS payment_method
-__EOS__;
+            __EOS__;
         $from = 'dtb_order';
         $where = 'del_flg = 0 AND status <> ?';
         $objQuery->setOrder('create_date DESC');

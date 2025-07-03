@@ -107,7 +107,7 @@ class LC_Page_Admin_Products_Review extends LC_Page_Admin_Ex
             case 'search':
             case 'csv':
                 // 検索条件を取得
-                list($where, $arrWhereVal) = $this->lfGetWhere($this->arrForm);
+                [$where, $arrWhereVal] = $this->lfGetWhere($this->arrForm);
                 // 検索結果を取得
                 $this->arrReview = $this->lfGetReview($this->arrForm, $where, $arrWhereVal);
 
@@ -354,11 +354,16 @@ class LC_Page_Admin_Products_Review extends LC_Page_Admin_Ex
         $linemax = $objQuery->count($from, $where, $arrWhereVal);
         $this->tpl_linemax = $linemax;
 
-        $this->tpl_pageno = isset($arrForm['search_pageno']) ? $arrForm['search_pageno'] : '';
+        $this->tpl_pageno = $arrForm['search_pageno'] ?? '';
 
         // ページ送りの取得
-        $objNavi = new SC_PageNavi_Ex($this->tpl_pageno, $linemax, $page_max,
-            'eccube.moveNaviPage', NAVI_PMAX);
+        $objNavi = new SC_PageNavi_Ex(
+            $this->tpl_pageno,
+            $linemax,
+            $page_max,
+            'eccube.moveNaviPage',
+            NAVI_PMAX
+        );
         $this->arrPagenavi = $objNavi->arrPagenavi;
         $startno = $objNavi->start_row;
 

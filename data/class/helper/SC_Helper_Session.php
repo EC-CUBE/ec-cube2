@@ -25,12 +25,14 @@ class SC_Helper_Session
     {
         $this->objDb = new SC_Helper_DB_Ex();
         if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_set_save_handler([&$this, 'sfSessOpen'],
+            session_set_save_handler(
+                [&$this, 'sfSessOpen'],
                 [&$this, 'sfSessClose'],
                 [&$this, 'sfSessRead'],
                 [&$this, 'sfSessWrite'],
                 [&$this, 'sfSessDestroy'],
-                [&$this, 'sfSessGc']);
+                [&$this, 'sfSessGc']
+            );
         }
 
         // 通常よりも早い段階(オブジェクトが破棄される前)でセッションデータを書き込んでセッションを終了する

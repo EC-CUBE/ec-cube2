@@ -208,7 +208,7 @@
             <td>
                 <!--{assign var=key value="main_list_image"}-->
                 <!--{if $arrForm.arrFile[$key].filepath != ""}-->
-                    <img src="<!--{$arrForm.arrFile[$key].filepath}-->" alt="<!--{$arrForm.name|h}-->" /><br />
+                    <img src="<!--{$arrForm.arrFile[$key].filepath|h}-->" alt="<!--{$arrForm.name|h}-->" /><br />
                 <!--{/if}-->
             </td>
         </tr>
@@ -217,7 +217,7 @@
             <td>
                 <!--{assign var=key value="main_image"}-->
                 <!--{if $arrForm.arrFile[$key].filepath != ""}-->
-                    <img src="<!--{$arrForm.arrFile[$key].filepath}-->" alt="<!--{$arrForm.name|h}-->" /><br />
+                    <img src="<!--{$arrForm.arrFile[$key].filepath|h}-->" alt="<!--{$arrForm.name|h}-->" /><br />
                 <!--{/if}-->
             </td>
         </tr>
@@ -226,7 +226,7 @@
             <td>
                 <!--{assign var=key value="main_large_image"}-->
                 <!--{if $arrForm.arrFile[$key].filepath != ""}-->
-                    <img src="<!--{$arrForm.arrFile[$key].filepath}-->" alt="<!--{$arrForm.name|h}-->" /><br />
+                    <img src="<!--{$arrForm.arrFile[$key].filepath|h}-->" alt="<!--{$arrForm.name|h}-->" /><br />
                 <!--{/if}-->
             </td>
         </tr>
@@ -252,7 +252,7 @@
                 <td>
                     <!--{assign var=key value="sub_image`$smarty.section.cnt.iteration`"}-->
                     <!--{if $arrForm.arrFile[$key].filepath != ""}-->
-                        <img src="<!--{$arrForm.arrFile[$key].filepath}-->" alt="<!--{$arrForm.name|h}-->" /><br />
+                        <img src="<!--{$arrForm.arrFile[$key].filepath|h}-->" alt="<!--{$arrForm.name|h}-->" /><br />
                     <!--{/if}-->
                 </td>
             </tr>
@@ -261,7 +261,7 @@
                 <td>
                     <!--{assign var=key value="sub_large_image`$smarty.section.cnt.iteration`"}-->
                     <!--{if $arrForm.arrFile[$key].filepath != ""}-->
-                        <img src="<!--{$arrForm.arrFile[$key].filepath}-->" alt="<!--{$arrForm.name|h}-->" /><br />
+                        <img src="<!--{$arrForm.arrFile[$key].filepath|h}-->" alt="<!--{$arrForm.name|h}-->" /><br />
                     <!--{/if}-->
                 </td>
             </tr>

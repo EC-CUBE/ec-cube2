@@ -923,7 +923,8 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
         if (method_exists($class_name, $exec_func) === true) {
             $ret = call_user_func_array(
                 [$class_name, $exec_func],
-                [$obj, $objPluginInstaller]);
+                [$obj, $objPluginInstaller]
+            );
             if (!(is_null($ret) || $ret === true)) {
                 $arrErr[$obj['plugin_code']] = $ret;
             }

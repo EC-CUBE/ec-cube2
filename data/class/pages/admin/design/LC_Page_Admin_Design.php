@@ -266,8 +266,11 @@ class LC_Page_Admin_Design extends LC_Page_Admin_Ex
         $bloc_cnt = $objFormParam->getValue('bloc_cnt');
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->begin();
-        $objQuery->delete('dtb_blocposition', 'page_id = ? AND device_type_id = ?',
-            [$page_id, $device_type_id]);
+        $objQuery->delete(
+            'dtb_blocposition',
+            'page_id = ? AND device_type_id = ?',
+            [$page_id, $device_type_id]
+        );
         $arrTargetFlip = array_flip($this->arrTarget);
         for ($i = 1; $i <= $bloc_cnt; $i++) {
             // bloc_id が取得できない場合は INSERT しない
@@ -284,8 +287,11 @@ class LC_Page_Admin_Design extends LC_Page_Admin_Ex
             // 他のページに anywhere が存在する場合は INSERT しない
             $arrParams['anywhere'] = (int) $objFormParam->getValue('anywhere_'.$i);
             if ($arrParams['anywhere'] == 1) {
-                $exists = $objQuery->exists('dtb_blocposition', 'anywhere = 1 AND bloc_id = ? AND device_type_id = ?',
-                    [$id, $device_type_id]);
+                $exists = $objQuery->exists(
+                    'dtb_blocposition',
+                    'anywhere = 1 AND bloc_id = ? AND device_type_id = ?',
+                    [$id, $device_type_id]
+                );
                 if ($exists) {
                     continue;
                 }
