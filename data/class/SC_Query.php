@@ -368,6 +368,7 @@ class SC_Query
      * @param  string $from        SELECT 文に含めるテーブル名
      * @param  string $where       SELECT 文に含める WHERE 句
      * @param  mixed  $arrWhereVal プレースホルダ(参照)
+     * @param  bool   $preserve_additional_clauses 句に関わる設定を維持するか。(デフォルトは維持しない。リセットする。)
      *
      * @return string 構築済みの SELECT 文
      */
