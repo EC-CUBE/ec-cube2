@@ -31,7 +31,9 @@ class SC_DB_DBFactoryTest extends SC_DB_DBFactoryTestAbstract
 
     protected function setUp(): void
     {
+        // インスタンスの取得が (DBMS 毎の) テストと異なるため、parent を使わない。(後述の TODO を実装する際には、parent を使うのが妥当かもしれない。)
         Common_TestCase::setUp();
+
         $this->dbFactoryPgsql = SC_DB_DBFactory_Ex::getInstance('pgsql');
         $this->dbFactoryMysql = SC_DB_DBFactory_Ex::getInstance('mysql');
         $this->dbFactoryMysqli = SC_DB_DBFactory_Ex::getInstance('mysqli');
