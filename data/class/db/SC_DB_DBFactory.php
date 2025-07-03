@@ -236,8 +236,8 @@ class SC_DB_DBFactory
      * SQL 文に OFFSET, LIMIT を付加する。
      *
      * @param string 元の SQL 文
-     * @param int|string|null LIMIT
-     * @param int|string|null OFFSET
+     * @param int|string|null $limit LIMIT 句に設定する値
+     * @param int|string|null $offset OFFSET 句に設定する値
      *
      * @return string 付加後の SQL 文
      */
