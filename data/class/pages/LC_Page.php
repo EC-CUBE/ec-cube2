@@ -289,6 +289,8 @@ class LC_Page
     public $tpl_mypageno;
     /** @var int */
     public $tpl_addrmax;
+    /** @var array ログイン中の会員情報 */
+    public $arrCustomer;
 
     /**
      * Page を初期化する.

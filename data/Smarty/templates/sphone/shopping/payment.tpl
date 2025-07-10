@@ -188,7 +188,7 @@
                                     お届け先<!--{$smarty.foreach.shippingItem.iteration}-->
                                 </div>
                                 <div class="innerBox">
-                                    <!--{$shippingItem.shipping_name01}--><!--{$shippingItem.shipping_name02}--><br />
+                                    <!--{$shippingItem|format_name:'shipping_name'}--><br />
                                     <span class="mini"><!--{$arrPref[$shippingItem.shipping_pref]}--><!--{$shippingItem.shipping_addr01}--><!--{$shippingItem.shipping_addr02}--></span>
                                 </div>
                         <!--{else}-->
