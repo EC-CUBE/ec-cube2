@@ -30,6 +30,10 @@
  */
 class LC_Page_Products_Detail extends LC_Page_Ex
 {
+    /**
+     * @var mixed[]
+     */
+    public $arrClassCat2;
     /** 商品ステータス */
     public $arrSTATUS;
 
