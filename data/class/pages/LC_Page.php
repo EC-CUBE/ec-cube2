@@ -289,6 +289,8 @@ class LC_Page
     public $tpl_mypageno;
     /** @var int */
     public $tpl_addrmax;
+    /** @var array ログイン中の会員情報 */
+    public $arrCustomer;
 
     /**
      * Page を初期化する.
@@ -308,11 +310,22 @@ class LC_Page
 
         if (!$this->skip_load_page_layout) {
             $layout = new SC_Helper_PageLayout_Ex();
+
+            $device_type_id = $this->objDisplay->detectDevice();
+
+            // スマートフォン端末アクセス時、レスポンシブWebデザイン表示の場合、PCの情報を取得する。
+            // @see https://github.com/EC-CUBE/ec-cube2/issues/1065
+            if ($device_type_id == DEVICE_TYPE_SMARTPHONE
+                && SC_Helper_PageLayout_Ex::isResponsive()
+            ) {
+                $device_type_id = DEVICE_TYPE_PC;
+            }
+
             $layout->sfGetPageLayout(
                 $this,
                 false,
                 $_SERVER['SCRIPT_NAME'],
-                $this->objDisplay->detectDevice()
+                $device_type_id
             );
         }
 

@@ -1,18 +1,19 @@
-import { test, expect } from '../../../fixtures/admin_login.fixture';
+import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
 
-const url = `/${ ADMIN_DIR }/basis/holiday.php`;
+const url = `/${ADMIN_DIR}/basis/holiday.php`;
 test.describe('定休日管理画面のテストをします', () => {
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('定休日管理画面のテストをします', async ( { adminLoginPage, page }) => {
     await page.goto(url);
     await expect(page.locator('h1')).toContainText(/定休日管理/);
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('エラーハンドリングのテストをします', async ( { adminLoginPage, page }) => {
     await page.goto(url);
-    expect(page.getByRole('row', { name: 'タイトル' }).getByRole('textbox')).toBeEmpty();
+    await expect(page.getByRole('row', { name: 'タイトル' }).getByRole('textbox')).toBeEmpty();
     await expect(page.getByRole('row', { name: '日付' }).locator('select[name=month]')).toHaveValue('');
     await expect(page.getByRole('row', { name: '日付' }).locator('select[name=day]')).toHaveValue('');
     await page.getByRole('link', { name: 'この内容で登録する' }).click();
@@ -20,6 +21,7 @@ test.describe('定休日管理画面のテストをします', () => {
     await expect(page.getByText('妥当な日付ではありません。')).toBeVisible();
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   test('定休日の登録をします', async ( { adminLoginPage, page }) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);

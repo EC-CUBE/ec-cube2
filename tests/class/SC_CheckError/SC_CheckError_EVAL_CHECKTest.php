@@ -2,9 +2,6 @@
 
 class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
 {
-    /** @var string */
-    protected $evaluation;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -13,7 +10,9 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
 
     public function testEVALCHECK()
     {
-        $this->evaluation = "define('AAA', 'BBB')";
+        $this->arrForm = [
+            self::FORM_NAME => "define('AAA', 'BBB')",
+        ];
         $this->expected = '';
 
         $this->scenario();
@@ -22,10 +21,12 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
 
     public function testEVALCHECKWithInvalid()
     {
+        $this->arrForm = [
+            self::FORM_NAME => "define('AAA')",
+        ];
         if (PHP_VERSION_ID >= 80000) {
             $this->markTestSkipped('ArgumentCountError in PHP8');
         }
-        $this->evaluation = "define('AAA')";
         $this->expected = '※ form の形式が不正です。<br />';
 
         $this->scenario();
@@ -75,6 +76,6 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
     public function scenario()
     {
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
-        $this->objErr->doFunc([self::FORM_NAME, $this->evaluation], [$this->target_func]);
+        $this->objErr->doFunc([self::FORM_NAME, self::FORM_NAME], [$this->target_func]);
     }
 }

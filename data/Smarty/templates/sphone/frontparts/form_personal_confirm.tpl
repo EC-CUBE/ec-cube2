@@ -25,17 +25,11 @@
 <!--{strip}-->
     <dt>お名前</dt>
     <dd>
-        <!--{assign var=key1 value="`$prefix`name01"}-->
-        <!--{assign var=key2 value="`$prefix`name02"}-->
-        <!--{$arrForm[$key1].value|h}-->&nbsp;
-        <!--{$arrForm[$key2].value|h}-->
+        <!--{$arrForm|format_name:"`$prefix`name"|h}-->
     </dd>
     <dt>お名前(フリガナ)</dt>
     <dd>
-        <!--{assign var=key1 value="`$prefix`kana01"}-->
-        <!--{assign var=key2 value="`$prefix`kana02"}-->
-        <!--{$arrForm[$key1].value|h}-->&nbsp;
-        <!--{$arrForm[$key2].value|h}-->
+        <!--{$arrForm|format_name:"`$prefix`kana"|h}-->
     </dd>
     <dt>会社名</dt>
     <dd>

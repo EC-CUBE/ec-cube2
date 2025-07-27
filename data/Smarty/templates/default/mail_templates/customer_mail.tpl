@@ -33,7 +33,7 @@
 　ご連絡いただければ幸いです。
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
-<!--{$arrCustomer.name01}--> <!--{$arrCustomer.name02}--> 様
+<!--{$arrCustomer|format_name}--> 様
 
 <!--{$CONF.shop_name}-->でございます。
 
