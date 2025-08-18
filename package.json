@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",
-    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-env": "^7.28.3",
     "@faker-js/faker": "^9.8.0",
     "@playwright/test": "^1.52.0",
     "@types/date-fns": "^2.6.3",
