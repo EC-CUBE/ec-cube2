@@ -78,10 +78,10 @@ jobs:
 
       - name: Checkout code
         if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'prereleased' )
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Checkout code
         if: github.event_name == 'schedule' && env.DEPLOY == 1
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ env.TAG_NAME }}
 
