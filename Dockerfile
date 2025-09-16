@@ -30,7 +30,7 @@ RUN apt-get update \
         libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
         libpq-dev \
         libzip-dev zlib1g-dev \
-        libpcre3-dev \
+        libpcre2-dev \
         ssl-cert \
         mariadb-client postgresql-client \
     && apt-get clean \
