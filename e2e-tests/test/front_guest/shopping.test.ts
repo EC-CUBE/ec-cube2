@@ -7,7 +7,7 @@ import { ShoppingPaymentPage } from '../../pages/shopping/payment.page';
 import { faker } from '@faker-js/faker/locale/ja';
 import { FakerUtils } from '../../utils/FakerUtils';
 
-const url = '/products/list.php?category_id=3';
+const url = '/products/list.php?mode=search&name=アイスクリーム';
 
 test.describe.serial('購入フロー(ゲスト)のテストをします', () => {
   let mailcatcher: APIRequestContext;
