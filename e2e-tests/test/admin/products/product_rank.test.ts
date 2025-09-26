@@ -12,11 +12,11 @@ test.describe('商品並び替えのテストをします', () => {
     const productName = await page.locator('id=categoryTable').getByRole('row').nth(1).getByRole('cell').nth(1).textContent() ?? '';
     await test.step('下へ移動するテストをします', async () => {
       await page.getByRole('row', { name: productName }).getByRole('link', { name: '下へ' }).click();
-      await expect(page.locator('id=categoryTable').getByRole('row').nth(2)).toContainText(productName);
+      await expect(page.locator('id=categoryTable').getByRole('row').nth(2).getByRole('cell').nth(1)).toContainText(productName);
     });
     await test.step('上へ移動するテストをします', async () => {
       await page.getByRole('row', { name: productName }).getByRole('link', { name: '上へ' }).click();
-      await expect(page.locator('id=categoryTable').getByRole('row').nth(1)).toContainText(productName);
+      await expect(page.locator('id=categoryTable').getByRole('row').nth(1).getByRole('cell').nth(1)).toContainText(productName);
     });
     // XXX クリックに失敗する場合があるためコメントアウト
     // await test.step('2番目へ移動するテストをします', async () => {
