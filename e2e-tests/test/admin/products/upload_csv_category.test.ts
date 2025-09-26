@@ -17,7 +17,7 @@ test.describe('カテゴリ登録CSV画面のテストをします', () => {
 
     await test.step('カテゴリを削除します', async () => {
       await page.goto(`${ADMIN_DIR}/products/category.php`);
-      await page.locator('id=categoryTable').getByRole('row', { name: 'CSVアップロードカテゴリ' }).getByRole('link', { name: '削除' }).click();
+      await page.locator('id=categoryTable').getByRole('row', { name: 'CSVアップロードカテゴリ' }).first().getByRole('link', { name: '削除' }).click();
     });
   });
 });

@@ -1,6 +1,6 @@
 import { test, expect, request, APIRequestContext } from '@playwright/test';
 import PlaywrightConfig from '../../../playwright.config';
-import { ProductsDetailPage } from '../../pages/products/detail.page';
+import { ProductsListPage } from '../../pages/products/list.page';
 import { CartPage } from '../../pages/cart.page';
 import { PersonalInputPage } from '../../pages/personal_input.page';
 import { ShoppingMultiplePage } from '../../pages/shopping/multiple.page';
@@ -28,8 +28,8 @@ test.describe.serial('購入フロー(ゲスト)のテストをします', () =>
     });
 
     await test.step('商品をカートに入れます', async () => {
-      const productsDetailPage = new ProductsDetailPage(page);
-      await productsDetailPage.cartIn(
+      const productsListPage = new ProductsListPage(page);
+      await productsListPage.cartIn(
         2,
         faker.helpers.arrayElement(['抹茶', 'チョコ', 'バニラ']),
         faker.helpers.arrayElement(['S', 'M', 'L'])
