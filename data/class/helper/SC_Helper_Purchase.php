@@ -93,20 +93,20 @@ class SC_Helper_Purchase
         }
 
         $uniqId = $objSiteSession->getUniqId();
-        $this->verifyChangeCart($uniqId, $objCartSession);
+        static::verifyChangeCart($uniqId, $objCartSession);
 
-        $orderTemp = $this->getOrderTemp($uniqId);
+        $orderTemp = static::getOrderTemp($uniqId);
 
         $orderTemp['status'] = $orderStatus;
         $cartkey = $objCartSession->getKey();
         $order_id = $this->registerOrderComplete($orderTemp, $objCartSession, $cartkey);
         $isMultiple = self::isMultiple();
-        $shippingTemp = &$this->getShippingTemp($isMultiple);
+        $shippingTemp = &static::getShippingTemp($isMultiple);
         foreach ($shippingTemp as $shippingId => $val) {
-            $this->registerShipmentItem($order_id, $shippingId, $val['shipment_item']);
+            static::registerShipmentItem($order_id, $shippingId, $val['shipment_item']);
         }
 
-        $this->registerShipping($order_id, $shippingTemp);
+        static::registerShipping($order_id, $shippingTemp);
         $objQuery->commit();
 
         // 会員情報の最終購入日、購入合計を更新
@@ -114,7 +114,7 @@ class SC_Helper_Purchase
             SC_Customer_Ex::updateOrderSummary($customerId);
         }
 
-        $this->cleanupSession($order_id, $objCartSession, $objCustomer, $cartkey);
+        static::cleanupSession($order_id, $objCartSession, $objCustomer, $cartkey);
 
         GC_Utils_Ex::gfPrintLog('order complete. order_id='.$order_id);
     }
@@ -888,7 +888,7 @@ class SC_Helper_Purchase
         $orderParams['create_date'] = 'CURRENT_TIMESTAMP';
         $orderParams['update_date'] = 'CURRENT_TIMESTAMP';
 
-        $this->registerOrder($orderParams['order_id'], $orderParams);
+        static::registerOrder($orderParams['order_id'], $orderParams);
 
         // 詳細情報を取得
         $cartItems = $objCartSession->getCartList($cartKey, $orderParams['order_pref'] ?? 0, $orderParams['order_country_id'] ?? 0);
@@ -920,7 +920,7 @@ class SC_Helper_Purchase
             }
             $i++;
         }
-        $this->registerOrderDetail($orderParams['order_id'], $arrDetail);
+        static::registerOrderDetail($orderParams['order_id'], $arrDetail);
 
         $objQuery->update(
             'dtb_order_temp',
@@ -1155,7 +1155,7 @@ class SC_Helper_Purchase
         if ($has_items) {
             foreach ($arrResults as $shipping_id => $value) {
                 $arrResults[$shipping_id]['shipment_item']
-                    = &$this->getShipmentItems($order_id, $shipping_id);
+                    = &static::getShipmentItems($order_id, $shipping_id);
             }
         }
 
@@ -1524,7 +1524,7 @@ class SC_Helper_Purchase
             if (!SC_Utils_Ex::isBlank($arrOrders)) {
                 foreach ($arrOrders as $arrOrder) {
                     $order_id = $arrOrder['order_id'];
-                    SC_Helper_Purchase_Ex::cancelOrder($order_id, ORDER_CANCEL, true);
+                    (new SC_Helper_Purchase_Ex())->cancelOrder($order_id, ORDER_CANCEL, true);
                     GC_Utils_Ex::gfPrintLog('order cancel.(time expire) order_id='.$order_id);
                 }
             }
@@ -1553,10 +1553,10 @@ class SC_Helper_Purchase
                             $target_time = strtotime('-'.$term.' sec');
                             $create_time = strtotime($arrOrder['create_date']);
                             if (SC_Utils_Ex::isBlank($cartKeys) && $target_time < $create_time) {
-                                SC_Helper_Purchase_Ex::rollbackOrder($order_id, ORDER_CANCEL, true);
+                                (new SC_Helper_Purchase_Ex())->rollbackOrder($order_id, ORDER_CANCEL, true);
                                 GC_Utils_Ex::gfPrintLog('order rollback.(my pending) order_id='.$order_id);
                             } else {
-                                SC_Helper_Purchase_Ex::cancelOrder($order_id, ORDER_CANCEL, true);
+                                (new SC_Helper_Purchase_Ex())->cancelOrder($order_id, ORDER_CANCEL, true);
                                 if ($target_time > $create_time) {
                                     GC_Utils_Ex::gfPrintLog('order cancel.(my pending and time expire) order_id='.$order_id);
                                 } else {
@@ -1565,7 +1565,7 @@ class SC_Helper_Purchase
                             }
                         }
                     } else {
-                        SC_Helper_Purchase_Ex::cancelOrder($order_id, ORDER_CANCEL, true);
+                        (new SC_Helper_Purchase_Ex())->cancelOrder($order_id, ORDER_CANCEL, true);
                         GC_Utils_Ex::gfPrintLog('order cancel.(my old pending) order_id='.$order_id);
                     }
                 }
@@ -1592,10 +1592,10 @@ class SC_Helper_Purchase
             $objCartSess = new SC_CartSession_Ex();
             $cartKeys = $objCartSess->getKeys();
             if (SC_Utils_Ex::isBlank($cartKeys)) {
-                SC_Helper_Purchase_Ex::rollbackOrder($order_id, ORDER_CANCEL, true);
+                (new SC_Helper_Purchase_Ex())->rollbackOrder($order_id, ORDER_CANCEL, true);
                 GC_Utils_Ex::gfPrintLog('order rollback.(session pending) order_id='.$order_id);
             } else {
-                SC_Helper_Purchase_Ex::cancelOrder($order_id, ORDER_CANCEL, true);
+                (new SC_Helper_Purchase_Ex())->cancelOrder($order_id, ORDER_CANCEL, true);
                 GC_Utils_Ex::gfPrintLog('order rollback.(session pending and set card) order_id='.$order_id);
             }
         }

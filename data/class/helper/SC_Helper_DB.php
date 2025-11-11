@@ -309,7 +309,7 @@ class SC_Helper_DB
                 $category_id = SC_Helper_DB_Ex::sfGetCategoryId($_GET['product_id'], $_GET['category_id']);
                 // ROOTカテゴリIDの取得
                 if (count($category_id) > 0) {
-                    $arrRet = $this->sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
+                    $arrRet = static::sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
                     $root_id = $arrRet[0] ?? '';
                 } else {
                     $root_id = '';
@@ -344,7 +344,7 @@ class SC_Helper_DB
             $rollback_point = $arrRet['point'];
 
             // 対応状況がポイント利用対象の場合、使用ポイント分を戻す
-            if (SC_Helper_Purchase_Ex::isUsePoint($order_status)) {
+            if ((new SC_Helper_Purchase_Ex())->isUsePoint($order_status)) {
                 $rollback_point += $use_point;
             }
 
@@ -500,7 +500,7 @@ class SC_Helper_DB
     {
         // 商品が属するカテゴリIDを縦に取得
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $arrCatID = $this->sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
+        $arrCatID = static::sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
         $ConbName = '';
 
         // カテゴリ名称を取得する
@@ -530,7 +530,7 @@ class SC_Helper_DB
         // 商品が属するカテゴリIDを縦に取得
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrRet = [];
-        $arrCatID = $this->sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
+        $arrCatID = static::sfGetParentsArray('dtb_category', 'parent_category_id', 'category_id', $category_id);
         $arrRet['id'] = $arrCatID[0];
 
         // カテゴリ名称を取得する
@@ -1565,9 +1565,9 @@ class SC_Helper_DB
             $this->g_maker_on = true;
             $maker_id = (int) $maker_id;
             $product_id = (int) $product_id;
-            if (SC_Utils_Ex::sfIsInt($maker_id) && $maker_id != 0 && $this->sfIsRecord('dtb_maker', 'maker_id', $maker_id)) {
+            if (SC_Utils_Ex::sfIsInt($maker_id) && $maker_id != 0 && static::sfIsRecord('dtb_maker', 'maker_id', $maker_id)) {
                 $this->g_maker_id = [$maker_id];
-            } elseif (SC_Utils_Ex::sfIsInt($product_id) && $product_id != 0 && $this->sfIsRecord('dtb_products', 'product_id', $product_id, $status)) {
+            } elseif (SC_Utils_Ex::sfIsInt($product_id) && $product_id != 0 && static::sfIsRecord('dtb_products', 'product_id', $product_id, $status)) {
                 $objQuery = SC_Query_Ex::getSingletonInstance();
                 $maker_id = $objQuery->getCol('maker_id', 'dtb_products', 'product_id = ?', [$product_id]);
                 $this->g_maker_id = $maker_id;

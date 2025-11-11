@@ -57,13 +57,13 @@ class SC_Helper_Delivery
         $arrDeliv = $arrRet[0];
 
         // お届け時間の取得
-        $arrDeliv['deliv_time'] = $this->getDelivTime($deliv_id);
+        $arrDeliv['deliv_time'] = static::getDelivTime($deliv_id);
 
         // 配送料金の取得
-        $arrDeliv['deliv_fee'] = $this->getDelivFeeList($deliv_id);
+        $arrDeliv['deliv_fee'] = static::getDelivFeeList($deliv_id);
 
         // 支払方法
-        $arrDeliv['payment_ids'] = $this->getPayments($deliv_id);
+        $arrDeliv['payment_ids'] = static::getPayments($deliv_id);
 
         return $arrDeliv;
     }
