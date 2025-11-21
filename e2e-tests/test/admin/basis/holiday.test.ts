@@ -1,6 +1,7 @@
 import { test, expect } from '../../../fixtures/admin/admin_login.fixture';
 import { ADMIN_DIR } from '../../../config/default.config';
 import { faker } from '@faker-js/faker/locale/ja';
+import type { Page } from '@playwright/test';
 
 const url = `/${ADMIN_DIR}/basis/holiday.php`;
 test.describe('定休日管理画面のテストをします', () => {
@@ -29,16 +30,9 @@ test.describe('定休日管理画面のテストをします', () => {
     const title = faker.lorem.sentence();
     await test.step('登録処理をします', async () => {
       await page.getByRole('row', { name: 'タイトル' }).getByRole('textbox').fill(title);
-      await page.getByRole('row', { name: '日付' }).locator('select[name=month]').selectOption({ value: String(faker.number.int({ min: 1, max: 12 })) });
-      await page.getByRole('row', { name: '日付' }).locator('select[name=day]').selectOption({ value: String(faker.number.int({ min: 1, max: 28 })) });
-
-      await page.getByRole('link', { name: 'この内容で登録する' }).click();
-      await expect(page.locator('table.list')).toContainText(title);
-    });
-    await test.step('登録処理をします', async () => {
-      await page.getByRole('row', { name: 'タイトル' }).getByRole('textbox').fill(title);
-      await page.getByRole('row', { name: '日付' }).locator('select[name=month]').selectOption({ value: String(faker.number.int({ min: 1, max: 12 })) });
-      await page.getByRole('row', { name: '日付' }).locator('select[name=day]').selectOption({ value: String(faker.number.int({ min: 1, max: 28 })) });
+      const { month, day } = await findAvailableHolidayDate(page);
+      await page.getByRole('row', { name: '日付' }).locator('select[name=month]').selectOption({ value: month });
+      await page.getByRole('row', { name: '日付' }).locator('select[name=day]').selectOption({ value: day });
 
       await page.getByRole('link', { name: 'この内容で登録する' }).click();
       await expect(page.locator('table.list')).toContainText(title);
@@ -48,8 +42,9 @@ test.describe('定休日管理画面のテストをします', () => {
       await page.goto(url);
       await page.getByRole('row', { name: title }).getByRole('link', { name: '編集' }).click();
       await page.getByRole('row', { name: 'タイトル' }).getByRole('textbox').fill(`${title}を編集`);
-      await page.getByRole('row', { name: '日付' }).locator('select[name=month]').selectOption({ value: String(faker.number.int({ min: 1, max: 12 })) });
-      await page.getByRole('row', { name: '日付' }).locator('select[name=day]').selectOption({ value: String(faker.number.int({ min: 1, max: 28 })) });
+      const { month, day } = await findAvailableHolidayDate(page);
+      await page.getByRole('row', { name: '日付' }).locator('select[name=month]').selectOption({ value: month });
+      await page.getByRole('row', { name: '日付' }).locator('select[name=day]').selectOption({ value: day });
 
       await page.getByRole('link', { name: 'この内容で登録する' }).click();
       await expect(page.locator('table.list')).toContainText(`${title}を編集`);
@@ -61,4 +56,16 @@ test.describe('定休日管理画面のテストをします', () => {
       await expect(page.locator('table.list')).not.toContainText(`${title}を編集`);
     });
   });
+
+  const findAvailableHolidayDate = async (page: Page): Promise<{ month: string; day: string }> => {
+    for (;;) {
+      const month = String(faker.number.int({ min: 1, max: 12 }));
+      const day = String(faker.number.int({ min: 1, max: 28 }));
+      const rowsText = await page.locator('table.list tr').allTextContents();
+      const existsInList = rowsText.some(text => text.includes(`${month}月${day}日`) && !text.includes('編集中'));
+      if (!existsInList) {
+        return { month, day };
+      }
+    }
+  };
 });
