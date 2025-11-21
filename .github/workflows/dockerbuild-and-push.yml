@@ -28,9 +28,21 @@ jobs:
         run: |
           echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}-php" >> ${GITHUB_ENV}
 
-      - run: |
+      - name: Set build arguments (PHP < 8.5)
+        if: ${{ matrix.php < '8.5' }}
+        run: |
           echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
           echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
+          echo "APCU=apcu" >>  ${GITHUB_ENV}
+          echo "FORCE_YES=" >>  ${GITHUB_ENV}
+          echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
+          echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
+
+      - name: Set build arguments (PHP >= 8.5)
+        if: ${{ matrix.php >= '8.5' }}
+        run: |
+          echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
+          echo "EXT_INSTALL_ARGS=gd zip mysqli" >> ${GITHUB_ENV}
           echo "APCU=apcu" >>  ${GITHUB_ENV}
           echo "FORCE_YES=" >>  ${GITHUB_ENV}
           echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
