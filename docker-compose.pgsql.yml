@@ -34,12 +34,15 @@ services:
       PASSWORD_HASH_ALGOS: sha256
 
   postgres:
-    image: postgres:17
+    image: postgres:18
     environment:
       - TZ=Asia/Tokyo
       - POSTGRES_DB=eccube_db
       - POSTGRES_USER=eccube_db_user
       - POSTGRES_PASSWORD=password
+      # PostgreSQL 18+では /var/lib/postgresql/data が非推奨のため明示的に指定
+      # 参考: https://github.com/docker-library/postgres/pull/1259
+      - PGDATA=/var/lib/postgresql/data
       # 古いクライアント用の設定
       # - POSTGRES_HOST_AUTH_METHOD=md5
       # - POSTGRES_INITDB_ARGS=--auth-host=md5
