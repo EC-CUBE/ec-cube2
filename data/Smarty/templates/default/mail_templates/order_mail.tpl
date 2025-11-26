@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
-<!--{$arrOrder.order_name01}--> <!--{$arrOrder.order_name02}--> 様
+<!--{$arrOrder|format_name:'order_name'}--> 様
 
 <!--{$tpl_header}-->
 
@@ -69,7 +69,7 @@
 ************************************************
 　ご注文者情報
 ************************************************
-　お名前　：<!--{$arrOrder.order_name01}--> <!--{$arrOrder.order_name02}-->　様
+　お名前　：<!--{$arrOrder|format_name:'order_name'}--> 様
 <!--{if $arrOrder.order_company_name != ""}-->
 　会社名　：<!--{$arrOrder.order_company_name}-->
 <!--{/if}-->
@@ -92,7 +92,7 @@
 <!--{foreach item=shipping name=shipping from=$arrShipping}-->
 ◎お届け先<!--{if count($arrShipping) > 1}--><!--{$smarty.foreach.shipping.iteration}--><!--{/if}-->
 
-　お名前　：<!--{$shipping.shipping_name01}--> <!--{$shipping.shipping_name02}-->　様
+　お名前　：<!--{$shipping|format_name:'shipping_name'}--> 様
 <!--{if $shipping.shipping_company_name != ""}-->
 　会社名　：<!--{$shipping.shipping_company_name}-->
 <!--{/if}-->

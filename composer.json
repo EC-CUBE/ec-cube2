@@ -30,6 +30,7 @@
         "phpdocumentor/reflection-docblock": "~5.6.1",
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^9.6",
+        "react/promise": "^3.3",
         "symfony/yaml": "^5.4 || ^6.4"
     },
     "require": {
@@ -61,6 +62,7 @@
         "files": [
             "data/smarty_extends/function.from_to.php",
             "data/smarty_extends/function.include_php_ex.php",
+            "data/smarty_extends/modifier.format_name.php",
             "data/smarty_extends/modifier.h.php",
             "data/smarty_extends/modifier.n2s.php",
             "data/smarty_extends/modifier.nl2br_html.php",

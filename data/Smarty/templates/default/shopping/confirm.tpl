@@ -174,11 +174,11 @@
                 <tbody>
                     <tr>
                         <th scope="row">お名前</th>
-                        <td><!--{$arrForm.order_name01|h}--> <!--{$arrForm.order_name02|h}--></td>
+                        <td><!--{$arrForm|format_name:'order_name'|h}--></td>
                     </tr>
                     <tr>
                         <th scope="row">お名前(フリガナ)</th>
-                        <td><!--{$arrForm.order_kana01|h}--> <!--{$arrForm.order_kana02|h}--></td>
+                        <td><!--{$arrForm|format_name:'order_kana'|h}--></td>
                     </tr>
                     <tr>
                         <th scope="row">会社名</th>
@@ -282,11 +282,11 @@
                     <tbody>
                         <tr>
                             <th scope="row">お名前</th>
-                            <td><!--{$shippingItem.shipping_name01|h}--> <!--{$shippingItem.shipping_name02|h}--></td>
+                            <td><!--{$shippingItem|format_name:'shipping_name'|h}--></td>
                         </tr>
                         <tr>
                             <th scope="row">お名前(フリガナ)</th>
-                            <td><!--{$shippingItem.shipping_kana01|h}--> <!--{$shippingItem.shipping_kana02|h}--></td>
+                            <td><!--{$shippingItem|format_name:'shipping_kana'|h}--></td>
                         </tr>
                         <tr>
                             <th scope="row">会社名</th>

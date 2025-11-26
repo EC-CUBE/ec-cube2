@@ -77,7 +77,7 @@
                         <dd <!--{if $smarty.section.cnt.last && !($tpl_addrmax < $smarty.const.DELIV_ADDR_MAX)}-->class="end"<!--{/if}-->>
                             <!--{assign var=key value=$arrAddr[cnt].pref}-->
                             <!--{$arrPref[$key]}--><!--{$arrAddr[cnt].addr01|h}--><!--{$arrAddr[cnt].addr02|h}--><br />
-                            <!--{$arrAddr[cnt].name01|h}--> <!--{$arrAddr[cnt].name02|h}-->
+                            <!--{$arrAddr[cnt].company_name|h}--> <!--{$arrAddr[cnt]|format_name|h}-->
                         </dd>
                     </dl>
                 <!--{/section}-->
