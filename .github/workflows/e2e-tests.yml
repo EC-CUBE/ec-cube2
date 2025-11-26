@@ -115,13 +115,13 @@ jobs:
 
     - name: Upload evidence
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-evidence
         path: 'test-results/'
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-logs
         path: data/logs
@@ -223,13 +223,13 @@ jobs:
       run: yarn test:e2e e2e-tests/test/installer/installer.test.ts
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: html/install/temp/install.log*
     - name: Upload evidence
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-evidence
         path: 'test-results/'
