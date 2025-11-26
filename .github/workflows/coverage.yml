@@ -51,7 +51,7 @@ jobs:
           - 1025:1025
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Get Composer Cache Directory
       id: composer-cache
