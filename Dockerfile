@@ -48,7 +48,8 @@ RUN echo '#!/bin/bash\nmariadb --skip-ssl "$@"' > /usr/local/bin/mysql \
     && echo '#!/bin/bash\nmariadb-dump "$@"' > /usr/local/bin/mysqldump \
     && chmod +x /usr/local/bin/mysqldump
 
-RUN docker-php-ext-configure gd ${GD_OPTIONS} && docker-php-ext-install -j$(nproc) ${EXT_INSTALL_ARGS}
+RUN docker-php-ext-install pgsql \
+    && docker-php-ext-configure gd ${GD_OPTIONS} && docker-php-ext-install -j$(nproc) ${EXT_INSTALL_ARGS}
 RUN if [[ ${APCU} ]]; then  pecl install ${APCU} && docker-php-ext-enable apcu; fi
 
 # composer
