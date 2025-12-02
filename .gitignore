@@ -8,6 +8,9 @@
 /data/config/config.php
 /data/downloads/KEN_ALL_utf-8.CSV
 /data/logs/*
+/data/upload/*
+!/data/upload/csv/
+/data/upload/csv/*
 /data/vendor/*
 /html/install/temp/*
 /html/plugin/*
