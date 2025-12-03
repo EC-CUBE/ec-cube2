@@ -45,8 +45,8 @@ test.describe('商品一覧のテストをします', () => {
     expect(all_products).toBeLessThanOrEqual(50);
 
     // see https://github.com/EC-CUBE/ec-cube2/pull/273
-    await expect(page.locator('#undercolumn > form > div > div.listrightbloc > h3 > a')).toContainText('アイスクリーム');
-    await expect(page.locator('#undercolumn > form > div > div.listrightbloc > h3 > a')).not.toContainText('おなべ');
+    await expect(page.locator('#undercolumn > form > div > div.listrightbloc > h3 > a').filter({ hasText: 'アイスクリーム' })).toBeVisible();
+    await expect(page.locator('#undercolumn > form > div > div.listrightbloc > h3 > a').filter({ hasText: 'おなべ' })).not.toBeVisible();
 
     if (all_products < 50) {
       await expect(page.locator('#undercolumn > div > span.attention')).toContainText(`${all_products}件`);
