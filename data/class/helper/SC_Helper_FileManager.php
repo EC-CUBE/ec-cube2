@@ -429,7 +429,7 @@ class SC_Helper_FileManager
      * 指定されたパスの配下を再帰的に削除.
      *
      * @param  string  $path       削除対象のディレクトリまたはファイルのパス
-     * @param  bool $del_myself $pathそのものを削除するか. true なら削除する.
+     * @param  bool $del_myself $pathにディレクトリが指定された場合、$pathそのものを削除するか. true なら削除する.
      *
      * @return bool
      */
@@ -450,13 +450,20 @@ class SC_Helper_FileManager
                     continue;
                 }
                 $cur_path = $path.'/'.$item;
+
+                // ディレクトリの場合、再帰処理
                 if (is_dir($cur_path)) {
-                    // ディレクトリの場合、再帰処理
                     $flg = SC_Helper_FileManager_Ex::deleteFile($cur_path);
-                } else {
-                    // ファイルの場合、unlink
-                    $flg = @unlink($cur_path);
+                    continue;
                 }
+
+                // ディレクトリを削除しない場合、.gitkeep は削除しない。
+                if (!$del_myself && $item === '.gitkeep') {
+                    continue;
+                }
+
+                // ファイルを削除
+                $flg = @unlink($cur_path);
             }
             closedir($handle);
             // ディレクトリを削除
