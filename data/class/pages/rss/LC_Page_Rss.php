@@ -65,9 +65,6 @@ class LC_Page_Rss extends LC_Page_Ex
         // 新着情報を取得
         $arrNews = $this->lfGetNews();
 
-        // キャッシュしない(念のため)
-        header('pragma: no-cache');
-
         // XMLテキスト(これがないと正常にRSSとして認識してくれないツールがあるため)
         header('Content-type: application/xml');
 
