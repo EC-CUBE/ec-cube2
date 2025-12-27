@@ -51,14 +51,10 @@
    - **この認証局によるウェブサイトの識別を信頼する** にチェックを入れ、 OK をクリック、設定を閉じます
 1. Firefox で `https://ec-cube/` へアクセスし、プロキシー経由で EC-CUBE にアクセスできるのを確認します。
 1. コンテキストをインポートします。
-    ```shell
-    ## 管理画面用
-    docker compose exec zap zap-cli -p 8090 context import /zap/wrk/admin.context
-    ## フロント(ログイン用)
-    docker compose exec zap zap-cli -p 8090 context import /zap/wrk/front_login.context
-    ## フロント(ゲスト用)
-    docker compose exec zap zap-cli -p 8090 context import /zap/wrk/front_guest.context
-    ```
+   - OWASP ZAP のファイル→コンテキストをインポートから、各画面用のコンテキストをインポートします。
+     - 管理画面用: [admin.context](./admin.context)
+     - フロント(ログイン用): [front_login.context](./front_login.context)
+     - フロント(ゲスト用): [front_guest.context](./front_guest.context)
    **Note:** *複数のコンテキストを同時にインポートすると、セッションが競合してログインできなくなる場合があるため注意*
    {: .notice--warning}
 1. OWASP ZAP のツールバーにある [Forced User Mode On/Off ボタン](https://www.zaproxy.org/docs/desktop/ui/tltoolbar/#--forced-user-mode-on--off) を ON にすると、OWASP ZAP の自動ログインが有効になり、ユーザーログイン中のテストが有効になります

@@ -41,7 +41,7 @@ class Common_TestCase extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->objQuery = SC_Query_Ex::getSingletonInstance('', true);
+        $this->objQuery = SC_Query_Ex::getSingletonInstance();
         $this->objQuery->begin();
         $this->objGenerator = new \Eccube2\Tests\Fixture\Generator($this->objQuery);
         if (!defined('TEST_MAILCATCHER_URL')) {

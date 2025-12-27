@@ -101,8 +101,11 @@ class LC_Page_Shopping_Payment extends LC_Page_Ex
         if ($objCustomer->isLoginSuccess(true)) {
             $this->tpl_login = '1';
             $this->tpl_user_point = $objCustomer->getValue('point');
-            $this->name01 = $objCustomer->getValue('name01');
-            $this->name02 = $objCustomer->getValue('name02');
+            $this->arrCustomer = $objCustomer->getValues();
+
+            // 旧テンプレート互換
+            $this->name01 = $this->arrCustomer['name01'] ?? '';
+            $this->name02 = $this->arrCustomer['name02'] ?? '';
         }
 
         // 戻り URL の設定

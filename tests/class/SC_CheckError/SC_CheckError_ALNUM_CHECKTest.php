@@ -22,15 +22,11 @@ class SC_CheckError_ALNUM_CHECKTest extends SC_CheckError_AbstractTestCase
 
     /**
      * 数値型入力のテスト.
-     *
-     * フォームからの入力で数値型(int)が入力されることは無いが
-     * 入力があるとエラーになってしまう
      */
     public function testALNUMCHECKWithNumber()
     {
-        $this->markTestIncomplete('数値型はサポートされていません');
         $this->arrForm = [self::FORM_NAME => 5];
-        $this->expected = '※ ALNUM_CHECKは英数字で入力してください。<br />';
+        $this->expected = '';
 
         $this->scenario();
         $this->verify();

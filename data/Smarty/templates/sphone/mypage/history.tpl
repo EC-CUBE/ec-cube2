@@ -67,8 +67,8 @@
                     <!--{/foreach}-->
             <!--{/if}-->
 
-            <em>お名前</em>：&nbsp;<!--{$shippingItem.shipping_name01|h}-->&nbsp;<!--{$shippingItem.shipping_name02|h}--><br />
-            <em>お名前(フリガナ)</em>：&nbsp;<!--{$shippingItem.shipping_kana01|h}-->&nbsp;<!--{$shippingItem.shipping_kana02|h}--><br />
+            <em>お名前</em>：&nbsp;<!--{$shippingItem|format_name:'shipping_name'|h}--><br />
+            <em>お名前(フリガナ)</em>：&nbsp;<!--{$shippingItem|format_name:'shipping_kana'|h}--><br />
             <em>会社名</em>：&nbsp;<!--{$shippingItem.shipping_company_name|h}--><br />
             <!--{if $smarty.const.FORM_COUNTRY_ENABLE}-->
                 <em>国</em>：&nbsp;<!--{$arrCountry[$shippingItem.shipping_country_id]|h}--><br />
