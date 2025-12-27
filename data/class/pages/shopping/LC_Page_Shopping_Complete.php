@@ -39,7 +39,6 @@ class LC_Page_Shopping_Complete extends LC_Page_Ex
     {
         parent::init();
         $this->tpl_title = 'ご注文完了';
-        $this->httpCacheControl('nocache');
     }
 
     /**

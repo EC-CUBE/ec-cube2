@@ -53,7 +53,6 @@ class LC_Page_Mypage_History extends LC_Page_AbstractMypage_Ex
         parent::init();
         $this->tpl_mypageno = 'index';
         $this->tpl_subtitle = '購入履歴詳細';
-        $this->httpCacheControl('nocache');
 
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrMAILTEMPLATE = $masterData->getMasterData('mtb_mail_template');

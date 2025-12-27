@@ -76,8 +76,6 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex
         // カテゴリ一覧設定
         $objDb = new SC_Helper_DB_Ex();
         $this->arrCatList = $objDb->sfGetCategoryList();
-
-        $this->httpCacheControl('nocache');
     }
 
     /**

@@ -75,8 +75,6 @@ class LC_Page_Admin_Mail extends LC_Page_Admin_Ex
 
         // テンプレート一覧設定
         $this->arrTemplate = $this->lfGetMailTemplateList(SC_Helper_Mail_Ex::sfGetMailmagaTemplate());
-
-        $this->httpCacheControl('nocache');
     }
 
     /**
