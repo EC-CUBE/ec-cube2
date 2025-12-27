@@ -39,7 +39,6 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
     {
         parent::init();
         $this->tpl_mainpage = 'login.tpl';
-        $this->httpCacheControl('nocache');
     }
 
     /**
