@@ -42,7 +42,6 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
     {
         parent::init();
         $this->tpl_title = 'お届け先の複数指定';
-        $this->httpCacheControl('nocache');
     }
 
     /**

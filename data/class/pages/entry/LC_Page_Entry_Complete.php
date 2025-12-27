@@ -41,7 +41,6 @@ class LC_Page_Entry_Complete extends LC_Page_Ex
     public function init()
     {
         parent::init();
-        $this->httpCacheControl('nocache');
     }
 
     /**
