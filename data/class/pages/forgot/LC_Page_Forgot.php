@@ -57,7 +57,6 @@ class LC_Page_Forgot extends LC_Page_Ex
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrReminder = $masterData->getMasterData('mtb_reminder');
         $this->device_type = SC_Display_Ex::detectDevice();
-        $this->httpCacheControl('nocache');
         // デフォルトログインアドレスロード
         $objCookie = new SC_Cookie_Ex();
         $this->tpl_login_email = $objCookie->getCookie('login_email');

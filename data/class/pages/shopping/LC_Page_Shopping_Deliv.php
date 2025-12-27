@@ -45,7 +45,6 @@ class LC_Page_Shopping_Deliv extends LC_Page_Ex
         $this->arrPref = $masterData->getMasterData('mtb_pref');
         $this->arrCountry = $masterData->getMasterData('mtb_country');
         $this->tpl_title = 'お届け先の指定';
-        $this->httpCacheControl('nocache');
     }
 
     /**
