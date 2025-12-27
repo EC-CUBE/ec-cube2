@@ -236,20 +236,20 @@ class SC_DB_DBFactory
      * SQL 文に OFFSET, LIMIT を付加する。
      *
      * @param string 元の SQL 文
-     * @param int LIMIT
-     * @param int OFFSET
+     * @param int|string|null $limit LIMIT 句に設定する値
+     * @param int|string|null $offset OFFSET 句に設定する値
      *
      * @return string 付加後の SQL 文
      */
-    public function addLimitOffset($sql, $limit = 0, $offset = 0)
+    public function addLimitOffset($sql, $limit = null, $offset = null)
     {
-        if ($limit != 0) {
+        // 以下の is_numeric() は、`!is_null()` と `!== ''` の評価と、SQL インジェクション対策を兼ねる。
+        if (is_numeric($limit)) {
             $sql .= " LIMIT $limit";
         }
-        if (strlen($offset) === 0) {
-            $offset = 0;
+        if (is_numeric($offset)) {
+            $sql .= " OFFSET $offset";
         }
-        $sql .= " OFFSET $offset";
 
         return $sql;
     }

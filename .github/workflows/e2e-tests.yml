@@ -30,7 +30,7 @@ jobs:
           - 'test/front_login'
           - 'test/front_guest'
           - 'test/admin'
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5' ]
         db: [ mysql, pgsql ]
     steps:
     - name: Checkout
@@ -132,7 +132,7 @@ jobs:
       fail-fast: false
       matrix:
         db: [ 'pgsql', 'mysql' ]
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5' ]
         include:
           - db: mysql
             dbport: '3306'

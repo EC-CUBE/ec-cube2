@@ -1,6 +1,6 @@
 <?php
 
-class SC_DB_DBFactory_MYSQLTest extends Common_TestCase
+class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
 {
     /**
      * @var SC_DB_DBFactory_MYSQL
@@ -59,5 +59,25 @@ class SC_DB_DBFactory_MYSQLTest extends Common_TestCase
         $expected = 'ORDER BY `rank` ';
 
         $this->assertSame($expected, $this->dbFactory->sfChangeReservedWords($sql));
+    }
+
+    public function testAddLimitOffset()
+    {
+        $sql_base = 'SELECT foo FROM bar ORDER BY boo';
+
+        $this->assertSame(
+            "{$sql_base} LIMIT 2",
+            $this->dbFactory->addLimitOffset($sql_base, 2)
+        );
+
+        $this->assertSame(
+            "{$sql_base} LIMIT 18446744073709551615 OFFSET 3",
+            $this->dbFactory->addLimitOffset($sql_base, null, 3)
+        );
+
+        $this->assertSame(
+            "{$sql_base} LIMIT 2 OFFSET 3",
+            $this->dbFactory->addLimitOffset($sql_base, 2, 3)
+        );
     }
 }

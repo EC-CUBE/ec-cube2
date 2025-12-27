@@ -54,7 +54,6 @@ class LC_Page_Products_Review extends LC_Page_Ex
         $this->arrSex = $masterData->getMasterData('mtb_sex');
         $this->arrReviewDenyURL = $masterData->getMasterData('mtb_review_deny_url');
         $this->tpl_mainpage = 'products/review.tpl';
-        $this->httpCacheControl('nocache');
     }
 
     /**
