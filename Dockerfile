@@ -30,13 +30,26 @@ RUN apt-get update \
         libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
         libpq-dev \
         libzip-dev zlib1g-dev \
-        libpcre3-dev \
+        libpcre2-dev \
         ssl-cert \
         mariadb-client postgresql-client \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-configure gd ${GD_OPTIONS} && docker-php-ext-install -j$(nproc) ${EXT_INSTALL_ARGS}
+# Create mysql command wrapper that uses mariadb with --skip-ssl
+# This wrapper is needed because:
+# 1. MariaDB client 10.10+ enables SSL by default, causing connection errors with non-SSL MySQL servers
+# 2. Oracle MySQL client packages are not available for Debian Trixie (used in newer PHP images)
+# 3. Copying MySQL binaries from mysql:8.4 image causes architecture compatibility issues (ARM64 vs x86_64)
+# 4. eccube_install.sh requires 'mysql' command, so we can't simply use 'mariadb' directly
+# The wrapper ensures compatibility across different architectures and MySQL/MariaDB versions
+RUN echo '#!/bin/bash\nmariadb --skip-ssl "$@"' > /usr/local/bin/mysql \
+    && chmod +x /usr/local/bin/mysql \
+    && echo '#!/bin/bash\nmariadb-dump "$@"' > /usr/local/bin/mysqldump \
+    && chmod +x /usr/local/bin/mysqldump
+
+RUN docker-php-ext-install pgsql \
+    && docker-php-ext-configure gd ${GD_OPTIONS} && docker-php-ext-install -j$(nproc) ${EXT_INSTALL_ARGS}
 RUN if [[ ${APCU} ]]; then  pecl install ${APCU} && docker-php-ext-enable apcu; fi
 
 # composer

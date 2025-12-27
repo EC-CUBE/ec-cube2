@@ -53,7 +53,6 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
         $this->tpl_subno = 'settings';
         $this->tpl_maintitle = 'オーナーズストア';
         $this->tpl_subtitle = '認証キー設定';
-        $this->httpCacheControl('nocache');
     }
 
     /**
