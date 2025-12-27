@@ -357,8 +357,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      */
     public function sfChangeReservedWords($sql)
     {
-        $changesql = preg_replace('/(^|[^\w])RANK([^\w]|$)/i', '$1`RANK`$2', $sql);
-        $changesql = preg_replace('/``/i', '`', $changesql); // 2重エスケープ問題の対処
+        $changesql = preg_replace('/(^|[^\w$`"\.])(rank)([^\w$`"\.\s(]|\s+[^\s(]|\s*$)/i', '$1`$2`$3', $sql);
 
         return $changesql;
     }
@@ -399,5 +398,15 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
     public function isSkipDeleteIfNotExists()
     {
         return $this->getTransactionIsolationLevel() >= static::ISOLATION_LEVEL_REPEATABLE_READ;
+    }
+
+    public function addLimitOffset($sql, $limit = null, $offset = null)
+    {
+        // MySQL は OFFSET のみの指定はできないため、LIMIT が指定されていない場合は最大値を指定する。
+        if (!is_numeric($limit) && is_numeric($offset)) {
+            $limit = '18446744073709551615';
+        }
+
+        return parent::addLimitOffset($sql, $limit, $offset);
     }
 }

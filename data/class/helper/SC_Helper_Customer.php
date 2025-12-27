@@ -406,7 +406,7 @@ class SC_Helper_Customer
             $objFormParam->addParam('郵便番号1', $prefix.'zip01', ZIP01_LEN, 'n', ['EXIST_CHECK', 'SPTAB_CHECK', 'NUM_CHECK', 'NUM_COUNT_CHECK']);
             $objFormParam->addParam('郵便番号2', $prefix.'zip02', ZIP02_LEN, 'n', ['EXIST_CHECK', 'SPTAB_CHECK', 'NUM_CHECK', 'NUM_COUNT_CHECK']);
             $objFormParam->addParam('国', $prefix.'country_id', INT_LEN, 'n', ['NUM_CHECK']);
-            $objFormParam->addParam('都道府県', $prefix.'pref', INT_LEN, 'n', ['PREF_CHECK', 'EXIST_CHECK', 'NUM_CHECK']);
+            $objFormParam->addParam('都道府県', $prefix.'pref', INT_LEN, 'n', ['EXIST_CHECK', 'NUM_CHECK', 'PREF_CHECK']);
         } else {
             $objFormParam->addParam('お名前(フリガナ・姓)', $prefix.'kana01', STEXT_LEN, 'CKV', ['NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'KANA_CHECK']);
             $objFormParam->addParam('お名前(フリガナ・名)', $prefix.'kana02', STEXT_LEN, 'CKV', ['NO_SPTAB', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'KANA_CHECK']);

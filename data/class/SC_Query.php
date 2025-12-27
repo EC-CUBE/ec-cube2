@@ -43,6 +43,24 @@ class SC_Query
     /** @var SC_DB_DBFactory */
     public $dbFactory;
 
+    /**
+     * LIMIT 句 の値
+     *
+     * string は、uint64 対策。
+     *
+     * @var int|string|null
+     */
+    public $limit;
+
+    /**
+     * OFFSET 句 の値
+     *
+     * string は、uint64 対策。
+     *
+     * @var int|string|null
+     */
+    public $offset;
+
     /** シングルトン動作のためのインスタンスプール配列。キーは DSN の識別情報。 */
     public static $arrPoolInstance = [];
 
@@ -350,10 +368,11 @@ class SC_Query
      * @param  string $from        SELECT 文に含めるテーブル名
      * @param  string $where       SELECT 文に含める WHERE 句
      * @param  mixed  $arrWhereVal プレースホルダ(参照)
+     * @param  bool   $preserve_additional_clauses 句に関わる設定を維持するか。(デフォルトは維持しない。リセットする。)
      *
      * @return string 構築済みの SELECT 文
      */
-    public function getSql($cols, $from = '', $where = '', &$arrWhereVal = null)
+    public function getSql($cols, $from = '', $where = '', &$arrWhereVal = null, $preserve_additional_clauses = false)
     {
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
 
@@ -377,7 +396,14 @@ class SC_Query
             }
         }
 
-        $sqlse .= ' '.$this->groupby.' '.$this->order.' '.$this->option;
+        $sqlse .= ' '.$this->groupby;
+        $sqlse .= ' '.$this->order;
+        $sqlse = $this->dbFactory->addLimitOffset($sqlse, $this->limit, $this->offset);
+        $sqlse .= ' '.$this->option;
+
+        if (!$preserve_additional_clauses) {
+            $this->resetAdditionalClauses();
+        }
 
         return $sqlse;
     }
@@ -403,16 +429,15 @@ class SC_Query
      *
      * この関数で設定した値は SC_Query::getSql() で使用されます.
      *
-     * @param  int  $limit  LIMIT 句に付与する値
-     * @param  int  $offset OFFSET 句に付与する値
+     * @param  int|string|null  $limit  LIMIT 句に付与する値
+     * @param  int|string|null  $offset OFFSET 句に付与する値
      *
      * @return SC_Query 自分自身のインスタンス
      */
-    public function setLimitOffset($limit, $offset = 0)
+    public function setLimitOffset($limit = null, $offset = null)
     {
-        if (is_numeric($limit) && is_numeric($offset)) {
-            $this->conn->setLimit($limit, $offset);
-        }
+        $this->limit = $limit;
+        $this->offset = $offset;
 
         return $this;
     }
@@ -426,7 +451,7 @@ class SC_Query
      *
      * @return SC_Query 自分自身のインスタンス
      */
-    public function setGroupBy($str)
+    public function setGroupBy($str = '')
     {
         if (strlen($str) == 0) {
             $this->groupby = '';
@@ -504,7 +529,7 @@ class SC_Query
      *
      * @return SC_Query 自分自身のインスタンス
      */
-    public function setOrder($str)
+    public function setOrder($str = '')
     {
         if (strlen($str) == 0) {
             $this->order = '';
@@ -520,15 +545,13 @@ class SC_Query
      *
      * この関数で設定した値は SC_Query::getSql() で使用されます.
      *
-     * @param  int  $limit LIMIT 句に設定する値
+     * @param  int|string|null  $limit LIMIT 句に設定する値
      *
      * @return SC_Query 自分自身のインスタンス
      */
-    public function setLimit($limit)
+    public function setLimit($limit = null)
     {
-        if (is_numeric($limit)) {
-            $this->conn->setLimit($limit);
-        }
+        $this->limit = $limit;
 
         return $this;
     }
@@ -544,9 +567,7 @@ class SC_Query
      */
     public function setOffset($offset)
     {
-        if (is_numeric($offset)) {
-            $this->conn->setLimit($this->conn->limit, $offset);
-        }
+        $this->offset = $offset;
 
         return $this;
     }
@@ -762,7 +783,7 @@ class SC_Query
      * @param  array   $arrWhereVal プレースホルダ配列
      * @param  int $fetchmode   使用するフェッチモード。デフォルトは MDB2_FETCHMODE_ASSOC。
      *
-     * @return array   array('カラム名' => '値', ...)の連想配列
+     * @return array|null   array('カラム名' => '値', ...)の連想配列。一致なしは null。
      */
     public function getRow($col, $table = '', $where = '', $arrWhereVal = [], $fetchmode = MDB2_FETCHMODE_ASSOC)
     {
@@ -1092,7 +1113,8 @@ class SC_Query
      * @param MDB2_Statement_Common プリペアドステートメントインスタンス
      * @param  array       $arrVal プレースホルダに挿入する配列
      *
-     * @return MDB2_Result|int|MDB2_Error MDB2_Result or integer (affected rows).
+     * @return MDB2_Result|int|MDB2_Error|MDB2_Result_pgsql|MDB2_Result_mysql|MDB2_Result_mysqli
+     *     MDB2_Result or integer (affected rows).
      */
     public function execute(&$sth, $arrVal = [])
     {
@@ -1292,5 +1314,19 @@ class SC_Query
         if (isset(SC_Query_Ex::$arrPoolInstance[$key_str])) {
             return SC_Query_Ex::$arrPoolInstance[$key_str];
         }
+    }
+
+    /**
+     * 句に関わる設定をリセットする。
+     *
+     * TODO: WHERE 句に関しても扱うべきか検討する。
+     *
+     * @return void
+     */
+    public function resetAdditionalClauses()
+    {
+        $this->setGroupBy();
+        $this->setOrder();
+        $this->setLimitOffset();
     }
 }
