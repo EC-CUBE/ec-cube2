@@ -39,7 +39,8 @@ class LC_Page_Admin_System_ParameterTest extends Common_TestCase
      * errorCheck()メソッドが日本語を含むパラメータ値でも正常に動作することを確認
      *
      * PR #1157 によるデグレ対策テスト
-     * 引数の順序が正しく、日本語を含む値が表示名として扱われることを確認
+     * 引数の順序が正しく、日本語を含む値でもFatal Errorを発生させないことを確認
+     * （表示名には定数名が使われ、チェック対象は実際の値）
      */
     public function testErrorCheck_日本語を含むパラメータ値でFatalErrorが発生しない()
     {
@@ -51,7 +52,7 @@ class LC_Page_Admin_System_ParameterTest extends Common_TestCase
 
         $arrErr = $this->objPage->errorCheck($arrKeys, $arrForm);
 
-        // エラーが返されないことを確認（日本語を含む値でもFatal errorにならない）
+        // 日本語を含む値でもFatal errorが発生せず、エラーが返されないことを確認
         $this->assertIsArray($arrErr);
         $this->assertEmpty($arrErr);
     }
