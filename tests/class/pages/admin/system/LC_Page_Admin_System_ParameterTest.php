@@ -42,7 +42,7 @@ class LC_Page_Admin_System_ParameterTest extends Common_TestCase
      * 引数の順序が正しく、日本語を含む値でもFatal Errorを発生させないことを確認
      * （表示名には定数名が使われ、チェック対象は実際の値）
      */
-    public function testErrorCheck_日本語を含むパラメータ値でFatalErrorが発生しない()
+    public function testErrorCheckWithJapaneseCharactersDoesNotCauseFatalError()
     {
         $arrKeys = ['SAMPLE_ADDRESS', 'SAMPLE_CITY'];
         $arrForm = [
@@ -60,7 +60,7 @@ class LC_Page_Admin_System_ParameterTest extends Common_TestCase
     /**
      * errorCheck()メソッドが空の値に対して正しくエラーを返すことを確認
      */
-    public function testErrorCheck_空の値に対してエラーを返す()
+    public function testErrorCheckReturnsErrorForEmptyValue()
     {
         $arrKeys = ['EMPTY_PARAM'];
         $arrForm = [
@@ -77,7 +77,7 @@ class LC_Page_Admin_System_ParameterTest extends Common_TestCase
     /**
      * errorCheck()メソッドが正常な値に対してエラーを返さないことを確認
      */
-    public function testErrorCheck_正常な値に対してエラーを返さない()
+    public function testErrorCheckDoesNotReturnErrorForValidValue()
     {
         $arrKeys = ['VALID_PARAM'];
         $arrForm = [
@@ -93,7 +93,7 @@ class LC_Page_Admin_System_ParameterTest extends Common_TestCase
     /**
      * errorCheck()メソッドが不正なPHPコードに対してエラーを返すことを確認
      */
-    public function testErrorCheck_不正なPHPコードに対してエラーを返す()
+    public function testErrorCheckReturnsErrorForInvalidPHPCode()
     {
         $arrKeys = ['INVALID_PHP_CODE'];
         $arrForm = [
@@ -110,7 +110,7 @@ class LC_Page_Admin_System_ParameterTest extends Common_TestCase
     /**
      * errorCheck()メソッドが複数のパラメータを正しく処理することを確認
      */
-    public function testErrorCheck_複数のパラメータを正しく処理()
+    public function testErrorCheckProcessesMultipleParametersCorrectly()
     {
         $arrKeys = ['PARAM1', 'PARAM2', 'PARAM3'];
         $arrForm = [
@@ -131,7 +131,7 @@ class LC_Page_Admin_System_ParameterTest extends Common_TestCase
     /**
      * errorCheck()メソッドが記号を含むパラメータ値でも正常に動作することを確認
      */
-    public function testErrorCheck_記号を含むパラメータ値で正常に動作()
+    public function testErrorCheckWorksWithSymbolsInParameterValue()
     {
         $arrKeys = ['PARAM_WITH_SYMBOLS'];
         $arrForm = [
@@ -149,7 +149,7 @@ class LC_Page_Admin_System_ParameterTest extends Common_TestCase
      *
      * Issue #1297: PHP 8.3でシングルクォートを入力するとFatal errorが発生する問題
      */
-    public function testErrorCheck_シングルクォートでFatalErrorが発生しない()
+    public function testErrorCheckDoesNotCauseFatalErrorWithSingleQuote()
     {
         $arrKeys = ['PARAM_WITH_QUOTE'];
         $arrForm = [
@@ -166,7 +166,7 @@ class LC_Page_Admin_System_ParameterTest extends Common_TestCase
     /**
      * errorCheck()メソッドが構文エラーを引き起こす値でFatal Errorを発生させないことを確認
      */
-    public function testErrorCheck_構文エラーでFatalErrorが発生しない()
+    public function testErrorCheckDoesNotCauseFatalErrorWithSyntaxError()
     {
         $arrKeys = ['PARAM_WITH_SYNTAX_ERROR'];
         $arrForm = [

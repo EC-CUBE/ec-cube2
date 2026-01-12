@@ -86,7 +86,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
      * 引数の順序が [表示名, 判定対象配列キー] の場合、
      * 表示名に日本語を含んでも正常に動作することを確認
      */
-    public function testEVALCHECK日本語を含む表示名でも正常に動作()
+    public function testEVALCHECKWorksWithJapaneseDisplayName()
     {
         $this->arrForm = [self::FORM_NAME => 'invalid syntax ;;;'];
         $disp_name = '市区町村名 (例：千代田区神田神保町)';
@@ -103,7 +103,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
     /**
      * 日本語を含む表示名で正常な値の場合はエラーにならないことを確認
      */
-    public function testEVALCHECK日本語を含む表示名で正常な値はエラーにならない()
+    public function testEVALCHECKDoesNotReturnErrorForValidValueWithJapaneseDisplayName()
     {
         $this->arrForm = [self::FORM_NAME => '"valid value"'];
         $disp_name = '都道府県名 (例：東京都) #設定項目';
@@ -123,7 +123,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
      * PHP 8.3で構文エラーが発生する入力値でもバリデーションエラーとして
      * 処理され、Fatal Errorにならないことを確認
      */
-    public function testEVALCHECKシングルクォートでFatalErrorが発生しない()
+    public function testEVALCHECKDoesNotCauseFatalErrorWithSingleQuote()
     {
         $this->arrForm = [self::FORM_NAME => "'"];
         $this->expected = '※ form の形式が不正です。<br />';
@@ -135,7 +135,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
     /**
      * 構文エラーを引き起こす値でFatal Errorが発生しないことを確認
      */
-    public function testEVALCHECK構文エラーでFatalErrorが発生しない()
+    public function testEVALCHECKDoesNotCauseFatalErrorWithUnclosedString()
     {
         $this->arrForm = [self::FORM_NAME => '"unclosed string'];
         $this->expected = '※ form の形式が不正です。<br />';
@@ -147,7 +147,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
     /**
      * 複数のシングルクォートでFatal Errorが発生しないことを確認
      */
-    public function testEVALCHECK複数のシングルクォートでFatalErrorが発生しない()
+    public function testEVALCHECKDoesNotCauseFatalErrorWithMultipleSingleQuotes()
     {
         $this->arrForm = [self::FORM_NAME => "'''"];
         $this->expected = '※ form の形式が不正です。<br />';

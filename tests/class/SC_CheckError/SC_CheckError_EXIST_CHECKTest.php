@@ -144,7 +144,7 @@ class SC_CheckError_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
      * 引数の順序が [表示名, 判定対象配列キー] の場合、
      * 表示名に日本語を含んでも正常に動作することを確認
      */
-    public function testEXISTCHECK日本語を含む表示名でも正常に動作()
+    public function testEXISTCHECKWorksWithJapaneseDisplayName()
     {
         $this->arrForm = [self::FORM_NAME => ''];
         $disp_name = '市区町村名 (例：千代田区神田神保町)';
@@ -161,7 +161,7 @@ class SC_CheckError_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
     /**
      * 日本語・記号を含む表示名が値として正しく処理されることを確認
      */
-    public function testEXISTCHECK日本語と記号を含む表示名で正常に動作()
+    public function testEXISTCHECKWorksWithJapaneseAndSymbolsInDisplayName()
     {
         $this->arrForm = [self::FORM_NAME => 'test value'];
         $disp_name = '都道府県名 (例：東京都) #必須項目';
