@@ -136,4 +136,42 @@ class SC_CheckError_EXIST_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->scenario();
         $this->verify();
     }
+
+    /**
+     * 日本語を含む表示名でも正常に動作することを確認
+     *
+     * PR #1157 によるデグレ対策テスト
+     * 引数の順序が [表示名, 判定対象配列キー] の場合、
+     * 表示名に日本語を含んでも正常に動作することを確認
+     */
+    public function testEXISTCHECK日本語を含む表示名でも正常に動作()
+    {
+        $this->arrForm = [self::FORM_NAME => ''];
+        $disp_name = '市区町村名 (例：千代田区神田神保町)';
+
+        $objErr = new SC_CheckError_Ex($this->arrForm);
+        $objErr->doFunc([$disp_name, self::FORM_NAME], [$this->target_func]);
+
+        $this->expected = "※ {$disp_name}が入力されていません。<br />";
+        $this->actual = $objErr->arrErr[self::FORM_NAME] ?? null;
+
+        $this->verify('日本語を含む表示名でも正常にエラーメッセージが生成される');
+    }
+
+    /**
+     * 日本語・記号を含む表示名が値として正しく処理されることを確認
+     */
+    public function testEXISTCHECK日本語と記号を含む表示名で正常に動作()
+    {
+        $this->arrForm = [self::FORM_NAME => 'test value'];
+        $disp_name = '都道府県名 (例：東京都) #必須項目';
+
+        $objErr = new SC_CheckError_Ex($this->arrForm);
+        $objErr->doFunc([$disp_name, self::FORM_NAME], [$this->target_func]);
+
+        $this->expected = '';
+        $this->actual = $objErr->arrErr[self::FORM_NAME] ?? null;
+
+        $this->verify('日本語・記号を含む表示名でも値がある場合はエラーにならない');
+    }
 }
