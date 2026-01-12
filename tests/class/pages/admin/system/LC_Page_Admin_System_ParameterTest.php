@@ -143,4 +143,40 @@ class LC_Page_Admin_System_ParameterTest extends Common_TestCase
         // エラーが返されないことを確認
         $this->assertEmpty($arrErr);
     }
+
+    /**
+     * errorCheck()メソッドがシングルクォートでFatal Errorを発生させないことを確認
+     *
+     * Issue #1297: PHP 8.3でシングルクォートを入力するとFatal errorが発生する問題
+     */
+    public function testErrorCheck_シングルクォートでFatalErrorが発生しない()
+    {
+        $arrKeys = ['PARAM_WITH_QUOTE'];
+        $arrForm = [
+            'PARAM_WITH_QUOTE' => "'",
+        ];
+
+        $arrErr = $this->objPage->errorCheck($arrKeys, $arrForm);
+
+        // Fatal Errorにならず、バリデーションエラーが返されることを確認
+        $this->assertArrayHasKey('PARAM_WITH_QUOTE', $arrErr);
+        $this->assertStringContainsString('形式が不正です', $arrErr['PARAM_WITH_QUOTE']);
+    }
+
+    /**
+     * errorCheck()メソッドが構文エラーを引き起こす値でFatal Errorを発生させないことを確認
+     */
+    public function testErrorCheck_構文エラーでFatalErrorが発生しない()
+    {
+        $arrKeys = ['PARAM_WITH_SYNTAX_ERROR'];
+        $arrForm = [
+            'PARAM_WITH_SYNTAX_ERROR' => '"unclosed string',
+        ];
+
+        $arrErr = $this->objPage->errorCheck($arrKeys, $arrForm);
+
+        // Fatal Errorにならず、バリデーションエラーが返されることを確認
+        $this->assertArrayHasKey('PARAM_WITH_SYNTAX_ERROR', $arrErr);
+        $this->assertStringContainsString('形式が不正です', $arrErr['PARAM_WITH_SYNTAX_ERROR']);
+    }
 }
