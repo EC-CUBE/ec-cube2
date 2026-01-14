@@ -101,12 +101,18 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
             $tables = $objQuery->listTables();
 
             // テストテーブルが元の大文字小文字で含まれることを確認
-            $this->assertContains($testTableName, $tables,
-                'listTables() should preserve table name case sensitivity');
+            $this->assertContains(
+                $testTableName,
+                $tables,
+                'listTables() should preserve table name case sensitivity'
+            );
 
             // 全て大文字のテーブル名が含まれていないことを確認
-            $this->assertNotContains(strtoupper($testTableName), $tables,
-                'listTables() should not uppercase table names');
+            $this->assertNotContains(
+                strtoupper($testTableName),
+                $tables,
+                'listTables() should not uppercase table names'
+            );
         } finally {
             // テストテーブルを削除
             $objQuery->query("DROP TABLE IF EXISTS {$testTableName}");
@@ -128,7 +134,7 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
         // EC-CUBEのテーブルが含まれることを確認
         $hasDtbTable = false;
         foreach ($tables as $table) {
-            if (strpos($table, 'dtb_') === 0) {
+            if (str_starts_with($table, 'dtb_')) {
                 $hasDtbTable = true;
                 break;
             }
@@ -165,8 +171,11 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
             $tables = $objQuery->listTables();
 
             // プラグインテーブルが含まれることを確認
-            $this->assertContains($pluginTableName, $tables,
-                'Plugin tables (plg_*) should be included in the list');
+            $this->assertContains(
+                $pluginTableName,
+                $tables,
+                'Plugin tables (plg_*) should be included in the list'
+            );
         } finally {
             $objQuery->query("DROP TABLE IF EXISTS {$pluginTableName}");
         }

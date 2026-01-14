@@ -417,6 +417,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      * PORTABILITY_FIX_CASE設定によりテーブル名が大文字に変換される問題を回避する。
      *
      * @param SC_Query $objQuery
+     *
      * @return array テーブル名の配列
      */
     public function listTables(SC_Query &$objQuery)
