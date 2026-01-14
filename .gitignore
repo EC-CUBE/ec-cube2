@@ -1,3 +1,5 @@
+/CLAUDE.md
+/.claude/settings.local.json
 /.idea/*
 /.vagrant/*
 /.vscode/*
@@ -24,6 +26,8 @@
 /reports/*
 /test-results/*
 /tests/tmp/*
+/tests/bootstrap_local.php
+/tests/config_mysql_local.php
 /vagrant/*
 /videos/*
 composer.phar

@@ -19,27 +19,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
-<!--{include file="`$smarty.const.TEMPLATE_REALDIR`popup_header.tpl" subtitle="パスワードを忘れた方(完了ページ)"}-->
+<!--{include file="`$smarty.const.TEMPLATE_REALDIR`popup_header.tpl" subtitle="パスワード再設定メール送信完了"}-->
 
 <div id="window_area">
-    <h2 class="title">パスワード変更完了</h2>
+    <h2 class="title">パスワード再設定メール送信完了</h2>
     <p class="information">
-        パスワードの変更が完了いたしました。<br />
-        新しいパスワードでログインしてください。<br />
+        パスワード再設定用のメールを送信しました。<br />
+        メールに記載されたリンクをクリックして、新しいパスワードを設定してください。<br />
+        <span class="attention">※リンクの有効期限は24時間です。</span><br />
         <br />
-        確認のため、パスワード変更完了のメールをお送りしました。
+        メールが届かない場合は、迷惑メールフォルダをご確認ください。
     </p>
-    <form action="?" method="post" name="form1">
-        <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-        <div id="forgot">
-            <p>新しいパスワードでログインできます。</p>
-        </div>
-        <div class="btn_area">
-            <ul>
-                <li><a href="javascript:window.close()"><img class="hover_change_image" src="<!--{$TPL_URLPATH}-->img/button/btn_close.jpg" alt="閉じる" /></a></li>
-            </ul>
-        </div>
-    </form>
+    <div class="btn_area">
+        <ul>
+            <li><a href="javascript:window.close()"><img class="hover_change_image" src="<!--{$TPL_URLPATH}-->img/button/btn_close.jpg" alt="閉じる" /></a></li>
+        </ul>
+    </div>
 </div>
 
 <!--{include file="`$smarty.const.TEMPLATE_REALDIR`popup_footer.tpl"}-->

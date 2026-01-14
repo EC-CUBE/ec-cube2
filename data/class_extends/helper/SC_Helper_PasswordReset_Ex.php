@@ -1,4 +1,4 @@
-<!--{*
+<?php
 /*
  * This file is part of EC-CUBE
  *
@@ -20,9 +20,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-*}-->
-パスワードを変更いたしました。
 
-新しいパスワード：<!--{$new_password}-->
-
-このパスワードは一時的なものですので、お早めにご変更下さい。
+/**
+ * パスワード再発行トークン管理ヘルパー拡張クラス
+ *
+ * SC_Helper_PasswordReset クラスの拡張クラスです。
+ * カスタマイズが必要な場合はこのクラスを編集してください。
+ *
+ * @author EC-CUBE CO.,LTD.
+ *
+ * @version $Id$
+ */
+class SC_Helper_PasswordReset_Ex extends SC_Helper_PasswordReset
+{
+}

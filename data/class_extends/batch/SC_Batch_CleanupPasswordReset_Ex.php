@@ -1,4 +1,4 @@
-<!--{*
+<?php
 /*
  * This file is part of EC-CUBE
  *
@@ -20,11 +20,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-*}-->
 
-パスワードの変更が完了いたしました。<br>
-新しいパスワードでログインしてください。<br>
-<br>
-確認のため、パスワード変更完了のメールをお送りしました。<br>
-<br>
-新しいパスワードでログインできます。
+/**
+ * パスワードリセットトークンクリーンアップバッチ拡張クラス
+ *
+ * SC_Batch_CleanupPasswordReset クラスの拡張クラスです。
+ * カスタマイズが必要な場合はこのクラスを編集してください。
+ *
+ * @author  EC-CUBE CO.,LTD.
+ *
+ * @version $Id$
+ */
+class SC_Batch_CleanupPasswordReset_Ex extends SC_Batch_CleanupPasswordReset
+{
+}

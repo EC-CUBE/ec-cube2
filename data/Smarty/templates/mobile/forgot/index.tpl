@@ -23,7 +23,7 @@
 *}-->
 
 <!--{strip}-->
-    <font color="#ff0000">※新しくパスワードを発行いたしますので、お忘れになったパスワードはご利用できなくなります。</font>
+    <font color="#ff0000">※リンクの有効期限は24時間です。</font>
     <br>
     <br>
 
@@ -31,19 +31,16 @@
         <font color="#ff0000"><!--{$errmsg}--></font><br>
     <!--{/if}-->
 
-    ご登録時のメールアドレスとお名前を入力して「次へ」ボタンをクリックしてください。<br>
+    ご登録時のメールアドレスを入力して「次へ」ボタンをクリックしてください。<br>
+    パスワード再設定用のリンクをメールでお送りします。<br>
     <br>
 
     <form action="?" method="post">
-        <input type="hidden" name="mode" value="mail_check">
+        <input type="hidden" name="mode" value="request">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
 
         メールアドレス：<font color="#FF0000"><!--{$arrErr.email}--></font><br>
         <input type="text" name="email" value="<!--{$arrForm.email|default:$tpl_login_email|h}-->" size="50" istyle="3"><br>
-        <br>
-        お名前：<font color="#FF0000"><!--{$arrErr.name01}--><!--{$arrErr.name02}--></font><br>
-        姓<input type="text" name="name01" value="<!--{$arrForm.name01|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" istyle="1"><br>
-        名<input type="text" name="name02" value="<!--{$arrForm.name02|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" istyle="1"><br>
 
         <br>
         <center><input type="submit" value="次へ" name="next"></center>
