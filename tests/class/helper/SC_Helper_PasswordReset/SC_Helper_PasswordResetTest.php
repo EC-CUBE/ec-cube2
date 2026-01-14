@@ -12,68 +12,11 @@ class SC_Helper_PasswordResetTest extends Common_TestCase
     {
         parent::setUp();
         $this->faker = Faker\Factory::create('ja_JP');
-
-        // Create dtb_password_reset table for testing
-        $this->createPasswordResetTable();
     }
 
     protected function tearDown(): void
     {
-        // Drop test table
-        $this->objQuery->query('DROP TABLE IF EXISTS dtb_password_reset');
-
         parent::tearDown();
-    }
-
-    /**
-     * Create dtb_password_reset table for testing
-     */
-    private function createPasswordResetTable()
-    {
-        $dbFactory = SC_DB_DBFactory_Ex::getInstance();
-        $db_type = DB_TYPE;
-
-        if ($db_type === 'mysql' || $db_type === 'mysqli') {
-            $sql = '
-                CREATE TABLE IF NOT EXISTS dtb_password_reset (
-                    password_reset_id int NOT NULL,
-                    email text NOT NULL,
-                    token_hash text NOT NULL,
-                    customer_id int,
-                    status smallint NOT NULL DEFAULT 0,
-                    expire_date timestamp NOT NULL,
-                    ip_address text,
-                    user_agent text,
-                    used_date timestamp NULL,
-                    create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                    update_date timestamp NOT NULL,
-                    PRIMARY KEY (password_reset_id)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8
-            ';
-        } else {
-            // PostgreSQL
-            $sql = '
-                CREATE TABLE IF NOT EXISTS dtb_password_reset (
-                    password_reset_id int NOT NULL,
-                    email text NOT NULL,
-                    token_hash text NOT NULL,
-                    customer_id int,
-                    status smallint NOT NULL DEFAULT 0,
-                    expire_date timestamp NOT NULL,
-                    ip_address text,
-                    user_agent text,
-                    used_date timestamp,
-                    create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                    update_date timestamp NOT NULL,
-                    PRIMARY KEY (password_reset_id)
-                )
-            ';
-            $this->objQuery->query($sql);
-
-            return;
-        }
-
-        $this->objQuery->query($sql);
     }
 
     /**
