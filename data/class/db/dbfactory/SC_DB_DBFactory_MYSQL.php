@@ -409,4 +409,22 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
 
         return parent::addLimitOffset($sql, $limit, $offset);
     }
+
+    /**
+     * テーブル一覧を取得する
+     *
+     * MDB2_Driver_Manager_mysql#listTables の不具合回避を目的として独自実装している。
+     * PORTABILITY_FIX_CASE設定によりテーブル名が大文字に変換される問題を回避する。
+     *
+     * @param SC_Query $objQuery
+     * @return array テーブル名の配列
+     */
+    public function listTables(SC_Query &$objQuery)
+    {
+        $col = 'TABLE_NAME';
+        $from = 'information_schema.TABLES';
+        $where = "TABLE_SCHEMA = DATABASE() AND TABLE_TYPE = 'BASE TABLE'";
+
+        return $objQuery->getCol($col, $from, $where);
+    }
 }
