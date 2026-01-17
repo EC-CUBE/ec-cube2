@@ -107,8 +107,12 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                     if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
                         echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
                         SC_Response_Ex::actionExit();
+                    } else {
+                        // PC・モバイルの場合はエラーメッセージをセッションに保存してリダイレクト
+                        $_SESSION['login_error'] = $this->arrErr['login'];
+                        SC_Response_Ex::sendRedirect($url);
+                        SC_Response_Ex::actionExit();
                     }
-                // PC・モバイルの場合はログインページを表示（後続の処理でテンプレートが表示される）
                 } else {
                     // バリデーション
                     $arrErr = $objFormParam->checkError();
@@ -117,9 +121,17 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                         // バリデーションエラーの場合
                         $this->arrErr['login'] = 'メールアドレスもしくはパスワードが正しくありません。';
 
+                        // バリデーションエラーも失敗として記録
+                        SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
+
                         // スマートフォンの場合はJSON返却
                         if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
                             echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
+                            SC_Response_Ex::actionExit();
+                        } else {
+                            // PC・モバイルの場合はエラーメッセージをセッションに保存してリダイレクト
+                            $_SESSION['login_error'] = $this->arrErr['login'];
+                            SC_Response_Ex::sendRedirect($url);
                             SC_Response_Ex::actionExit();
                         }
                     } else {
@@ -179,8 +191,12 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                             if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
                                 echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
                                 SC_Response_Ex::actionExit();
+                            } else {
+                                // PC・モバイルの場合はエラーメッセージをセッションに保存してリダイレクト
+                                $_SESSION['login_error'] = $this->arrErr['login'];
+                                SC_Response_Ex::sendRedirect($url);
+                                SC_Response_Ex::actionExit();
                             }
-                            // PC・モバイルの場合はログインページを表示（後続の処理でテンプレートが表示される）
                         }
                     }
                 }

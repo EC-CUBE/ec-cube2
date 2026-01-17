@@ -55,16 +55,23 @@ class SC_Helper_LoginRateLimit
     public static function checkRateLimit($login_id, $ip_address)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $one_hour_ago = date('Y-m-d H:i:s', strtotime('-1 hour'));
+
+        // データベースタイプに応じて1時間前の時刻を取得
+        if (DB_TYPE == 'pgsql') {
+            $interval_clause = "create_date > NOW() - INTERVAL '1 hour'";
+        } else {
+            // MySQL
+            $interval_clause = 'create_date > NOW() - INTERVAL 1 HOUR';
+        }
 
         // 同一メールアドレスの失敗回数をチェック
         $email_count = $objQuery->count(
             'dtb_login_attempt',
-            'login_id = ? AND result = 0 AND create_date > ?',
-            [$login_id, $one_hour_ago]
+            "login_id = ? AND result = 0 AND {$interval_clause}",
+            [$login_id]
         );
 
-        if ($email_count >= 5) {
+        if ($email_count >= 6) {
             return [
                 'allowed' => false,
                 'reason' => 'email',
@@ -76,11 +83,11 @@ class SC_Helper_LoginRateLimit
         // 同一IPアドレスの失敗回数をチェック
         $ip_count = $objQuery->count(
             'dtb_login_attempt',
-            'ip_address = ? AND result = 0 AND create_date > ?',
-            [$ip_address, $one_hour_ago]
+            "ip_address = ? AND result = 0 AND {$interval_clause}",
+            [$ip_address]
         );
 
-        if ($ip_count >= 10) {
+        if ($ip_count >= 11) {
             return [
                 'allowed' => false,
                 'reason' => 'ip',
@@ -151,12 +158,18 @@ class SC_Helper_LoginRateLimit
     public static function cleanupOldAttempts($days = 30)
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
-        $threshold_date = date('Y-m-d H:i:s', strtotime("-{$days} days"));
+
+        // データベースタイプに応じて削除条件を設定
+        if (DB_TYPE == 'pgsql') {
+            $where = "create_date < NOW() - INTERVAL '{$days} days'";
+        } else {
+            // MySQL
+            $where = "create_date < NOW() - INTERVAL {$days} DAY";
+        }
 
         $count = $objQuery->delete(
             'dtb_login_attempt',
-            'create_date < ?',
-            [$threshold_date]
+            $where
         );
 
         return $count;
