@@ -33,6 +33,9 @@
             <div class="login_area">
                 <h3>会員登録がお済みのお客様</h3>
                 <p class="inputtext">会員の方は、登録時に入力されたメールアドレスとパスワードでログインしてください。</p>
+                <!--{if $arrErr.login}-->
+                <div class="attention" style="margin-bottom: 10px;"><!--{$arrErr.login|h|nl2br}--></div>
+                <!--{/if}-->
                 <div class="inputbox">
                     <dl class="formlist clearfix">
                         <!--{assign var=key value="login_email"}-->

@@ -141,6 +141,7 @@ dtb_plugin_hookpoint_plugin_hookpoint_id_seq
 dtb_api_config_api_config_id_seq
 dtb_api_account_api_account_id_seq
 dtb_tax_rule_tax_rule_id_seq
+dtb_login_attempt_attempt_id_seq
 "
 
     comb_sql="";

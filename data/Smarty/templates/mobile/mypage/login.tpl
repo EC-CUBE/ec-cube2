@@ -27,6 +27,9 @@
         <input type="hidden" name="mode" value="login">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
         <input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->">
+        <!--{if $arrErr.login}-->
+        <font color="#FF0000"><!--{$arrErr.login|h|nl2br}--></font><br>
+        <!--{/if}-->
         <!--{if !$tpl_valid_phone_id}-->
             ●メールアドレス<br>
             <!--{assign var=key value="login_email"}-->

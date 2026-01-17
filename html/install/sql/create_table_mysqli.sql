@@ -1243,3 +1243,15 @@ CREATE INDEX dtb_mobile_ext_session_id_param_value_key ON dtb_mobile_ext_session
 CREATE INDEX dtb_mobile_ext_session_id_url_key ON dtb_mobile_ext_session_id (url(255));
 CREATE INDEX dtb_mobile_ext_session_id_create_date_key ON dtb_mobile_ext_session_id (create_date);
 CREATE INDEX dtb_session_update_date_key ON dtb_session (update_date);
+
+CREATE TABLE dtb_login_attempt (
+    attempt_id int NOT NULL AUTO_INCREMENT,
+    login_id text NOT NULL,
+    ip_address text,
+    user_agent text,
+    result smallint NOT NULL,
+    create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (attempt_id),
+    INDEX idx_login_id_create_date (login_id(255), create_date),
+    INDEX idx_ip_create_date (ip_address(255), create_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ログイン試行記録';

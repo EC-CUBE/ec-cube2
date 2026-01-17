@@ -88,92 +88,101 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                 // 入力値のエラーチェック
                 $objFormParam->trimParam();
                 $objFormParam->toLower('login_email');
-                $arrErr = $objFormParam->checkError();
 
-                // エラーの場合はエラー画面に遷移
-                if (count($arrErr) > 0) {
+                $login_email = $objFormParam->getValue('login_email');
+                $login_pass = $objFormParam->getValue('login_pass');
+                $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
+                $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+
+                // レート制限チェック
+                $rate_limit = SC_Helper_LoginRateLimit_Ex::checkRateLimit($login_email, $ip_address);
+
+                if (!$rate_limit['allowed']) {
+                    // レート制限超過時のエラーメッセージ
+                    $this->arrErr['login'] = '短時間に複数のログイン試行が検出されました。しばらく時間をおいてから再度お試しください。';
+                    // 失敗として記録
+                    SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
+
+                    // スマートフォンの場合はJSON返却
                     if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                        echo $this->lfGetErrorMessage(TEMP_LOGIN_ERROR);
-                        SC_Response_Ex::actionExit();
-                    } else {
-                        SC_Utils_Ex::sfDispSiteError(TEMP_LOGIN_ERROR);
+                        echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
                         SC_Response_Ex::actionExit();
                     }
-                }
-
-                // 入力チェック後の値を取得
-                $arrForm = $objFormParam->getHashArray();
-
-                // クッキー保存判定
-                if ($arrForm['login_memory'] == '1' && $arrForm['login_email'] != '') {
-                    $objCookie->setCookie('login_email', $arrForm['login_email']);
+                // PC・モバイルの場合はログインページを表示（後続の処理でテンプレートが表示される）
                 } else {
-                    $objCookie->setCookie('login_email', '');
-                }
+                    // バリデーション
+                    $arrErr = $objFormParam->checkError();
 
-                // 遷移先の制御
-                if (count($arrErr) == 0) {
-                    // ログイン処理
-                    if ($objCustomer->doLogin($arrForm['login_email'], $arrForm['login_pass'])) {
-                        if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_MOBILE) {
-                            // ログインが成功した場合は携帯端末IDを保存する。
-                            $objCustomer->updateMobilePhoneId();
+                    if (count($arrErr) > 0) {
+                        // バリデーションエラーの場合
+                        $this->arrErr['login'] = 'メールアドレスもしくはパスワードが正しくありません。';
 
-                            /*
-                             * email がモバイルドメインでは無く,
-                             * 携帯メールアドレスが登録されていない場合
-                             */
-                            $objMobile = new SC_Helper_Mobile_Ex();
-                            if (!$objMobile->gfIsMobileMailAddress($objCustomer->getValue('email'))) {
-                                if (!$objCustomer->hasValue('email_mobile')) {
-                                    SC_Response_Ex::sendRedirectFromUrlPath('entry/email_mobile.php');
-                                    SC_Response_Ex::actionExit();
+                        // スマートフォンの場合はJSON返却
+                        if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
+                            echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
+                            SC_Response_Ex::actionExit();
+                        }
+                    } else {
+                        // 入力チェック後の値を取得
+                        $arrForm = $objFormParam->getHashArray();
+
+                        // クッキー保存判定
+                        if ($arrForm['login_memory'] == '1' && $arrForm['login_email'] != '') {
+                            $objCookie->setCookie('login_email', $arrForm['login_email']);
+                        } else {
+                            $objCookie->setCookie('login_email', '');
+                        }
+
+                        // ログイン処理
+                        if ($objCustomer->doLogin($login_email, $login_pass)) {
+                            // ログイン成功を記録
+                            SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 1);
+
+                            if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_MOBILE) {
+                                // ログインが成功した場合は携帯端末IDを保存する。
+                                $objCustomer->updateMobilePhoneId();
+
+                                /*
+                                 * email がモバイルドメインでは無く,
+                                 * 携帯メールアドレスが登録されていない場合
+                                 */
+                                $objMobile = new SC_Helper_Mobile_Ex();
+                                if (!$objMobile->gfIsMobileMailAddress($objCustomer->getValue('email'))) {
+                                    if (!$objCustomer->hasValue('email_mobile')) {
+                                        SC_Response_Ex::sendRedirectFromUrlPath('entry/email_mobile.php');
+                                        SC_Response_Ex::actionExit();
+                                    }
                                 }
                             }
-                        }
 
-                        // --- ログインに成功した場合
-                        if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                            echo SC_Utils_Ex::jsonEncode(['success' => $url]);
-                        } else {
-                            SC_Response_Ex::sendRedirect($url);
-                        }
-                        SC_Response_Ex::actionExit();
-                    } else {
-                        // --- ログインに失敗した場合
-
-                        // ブルートフォースアタック対策
-                        // ログイン失敗時に遅延させる
-                        sleep(LOGIN_RETRY_INTERVAL);
-
-                        $arrForm['login_email'] = strtolower($arrForm['login_email']);
-                        $objQuery = SC_Query_Ex::getSingletonInstance();
-                        $where = '(email = ? OR email_mobile = ?) AND status = 1 AND del_flg = 0';
-                        $exists = $objQuery->exists('dtb_customer', $where, [$arrForm['login_email'], $arrForm['login_email']]);
-                        // ログインエラー表示 TODO リファクタリング
-                        if ($exists) {
+                            // --- ログインに成功した場合
                             if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                                echo $this->lfGetErrorMessage(TEMP_LOGIN_ERROR);
-                                SC_Response_Ex::actionExit();
+                                echo SC_Utils_Ex::jsonEncode(['success' => $url]);
                             } else {
-                                SC_Utils_Ex::sfDispSiteError(TEMP_LOGIN_ERROR);
+                                SC_Response_Ex::sendRedirect($url);
+                            }
+                            SC_Response_Ex::actionExit();
+                        } else {
+                            // --- ログインに失敗した場合
+
+                            // ログイン失敗を記録
+                            SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
+
+                            // 仮登録の場合
+                            if (SC_Helper_Customer_Ex::checkTempCustomer($login_email)) {
+                                $this->arrErr['login'] = "メールアドレスもしくはパスワードが正しくありません。\n本登録がお済みでない場合は、仮登録メールに記載されているURLより本登録を行ってください。";
+                            } else {
+                                $this->arrErr['login'] = 'メールアドレスもしくはパスワードが正しくありません。';
+                            }
+
+                            // スマートフォンの場合はJSON返却
+                            if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
+                                echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
                                 SC_Response_Ex::actionExit();
                             }
-                        } else {
-                            if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                                echo $this->lfGetErrorMessage(SITE_LOGIN_ERROR);
-                                SC_Response_Ex::actionExit();
-                            } else {
-                                SC_Utils_Ex::sfDispSiteError(SITE_LOGIN_ERROR);
-                                SC_Response_Ex::actionExit();
-                            }
+                            // PC・モバイルの場合はログインページを表示（後続の処理でテンプレートが表示される）
                         }
                     }
-                } else {
-                    // XXX 到達しない？
-                    // 入力エラーの場合、元のアドレスに戻す。
-                    SC_Response_Ex::sendRedirect($url);
-                    SC_Response_Ex::actionExit();
                 }
 
                 break;
