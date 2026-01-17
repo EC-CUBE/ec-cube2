@@ -46,6 +46,9 @@
                 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
                 <input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->" />
                 <div class="block_body clearfix">
+                    <!--{if $arrErr.login}-->
+                        <div class="attention" style="margin: 5px 10px; padding: 5px; background-color: #ffe6e6; border: 1px solid #ff9999;"><!--{$arrErr.login|h|nl2br}--></div>
+                    <!--{/if}-->
                     <!--{if $tpl_login}-->
                         <p class="btn">
                             ようこそ <span class="user_name"><!--{$arrCustomer|format_name|h}--> 様</span>

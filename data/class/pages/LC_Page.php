@@ -305,6 +305,12 @@ class LC_Page
 
         $this->tpl_authority = $_SESSION['authority'] ?? null;
 
+        // Issue #1301: ヘッダーログインエラーメッセージの取得
+        if (isset($_SESSION['login_error'])) {
+            $this->arrErr['login'] = $_SESSION['login_error'];
+            unset($_SESSION['login_error']);
+        }
+
         // ディスプレイクラス生成
         $this->objDisplay = new SC_Display_Ex();
 
