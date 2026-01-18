@@ -156,6 +156,7 @@ jobs:
         path: data/logs
   installer:
     name: Installer test
+    needs: [ run-on-linux ]
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false

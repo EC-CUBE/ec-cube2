@@ -45,7 +45,7 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ dockerbuild ]
+    needs: [ php-cs-fixer, phpstan ]
     uses: ./.github/workflows/unit-tests.yml
   e2e-tests:
     with:
@@ -53,7 +53,7 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ dockerbuild ]
+    needs: [ unit-tests ]
     uses: ./.github/workflows/e2e-tests.yml
   success:
     needs:
