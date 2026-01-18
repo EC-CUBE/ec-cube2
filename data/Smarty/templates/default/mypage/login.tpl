@@ -22,10 +22,49 @@
  */
 *}-->
 
+<script type="text/javascript">
+    function ajaxMyPageLogin() {
+        var checkLogin = eccube.checkLoginFormInputted('login_mypage');
+
+        if (checkLogin == false) {
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "<!--{$smarty.const.ROOT_URLPATH}-->frontparts/login_check.php",
+            data: $('#login_mypage').serialize(),
+            cache: false,
+            dataType: "json",
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.error('AJAX Error Details:');
+                console.error('  Status:', XMLHttpRequest.status);
+                console.error('  Status Text:', XMLHttpRequest.statusText);
+                console.error('  Text Status:', textStatus);
+                console.error('  Error Thrown:', errorThrown);
+                console.error('  Response Text:', XMLHttpRequest.responseText);
+                console.error('  Ready State:', XMLHttpRequest.readyState);
+                alert('通信エラーが発生しました。詳細はコンソールを確認してください。\nStatus: ' + XMLHttpRequest.status + '\nText: ' + textStatus);
+            },
+            success: function(result) {
+                console.log('AJAX Success:', result);
+                if (result.success) {
+                    location.href = result.success;
+                } else if (result.error) {
+                    // エラーメッセージを表示
+                    $('#login_error_area').html(result.error.replace(/\n/g, '<br>')).show();
+                }
+            }
+        });
+
+        return false;
+    }
+</script>
+
 <div id="undercolumn">
     <h2 class="title"><!--{$tpl_title|h}--></h2>
     <div id="undercolumn_login">
-        <form name="login_mypage" id="login_mypage" method="post" action="<!--{$smarty.const.HTTPS_URL}-->frontparts/login_check.php" onsubmit="return eccube.checkLoginFormInputted('login_mypage')">
+        <form name="login_mypage" id="login_mypage" method="post" action="?" onsubmit="return ajaxMyPageLogin()">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
             <input type="hidden" name="mode" value="login" />
             <input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->" />
@@ -33,9 +72,7 @@
             <div class="login_area">
                 <h3>会員登録がお済みのお客様</h3>
                 <p class="inputtext">会員の方は、登録時に入力されたメールアドレスとパスワードでログインしてください。</p>
-                <!--{if $arrErr.login}-->
-                <div class="attention" style="margin-bottom: 10px;"><!--{$arrErr.login|h|nl2br}--></div>
-                <!--{/if}-->
+                <div id="login_error_area" class="attention" style="margin-bottom: 10px;<!--{if !$arrErr.login}--> display: none;<!--{/if}-->"><!--{$arrErr.login|h|nl2br}--></div>
                 <div class="inputbox">
                     <dl class="formlist clearfix">
                         <!--{assign var=key value="login_email"}-->

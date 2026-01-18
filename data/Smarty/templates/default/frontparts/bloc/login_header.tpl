@@ -25,7 +25,7 @@
                 }
             });
 
-        $('#header_login_form').submit(function() {
+        $('#header_login_form').submit(function(e) {
             if (!$login_email.val()
                 || $login_email.val() == 'メールアドレス') {
                 if ($('#header_login_area input[name=login_pass]').val()) {
@@ -33,7 +33,29 @@
                 }
                 return false;
             }
-            return true;
+
+            // AJAX対応
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "<!--{$smarty.const.ROOT_URLPATH}-->frontparts/login_check.php",
+                data: $('#header_login_form').serialize(),
+                cache: false,
+                dataType: "json",
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert('通信エラーが発生しました。');
+                },
+                success: function(result) {
+                    if (result.success) {
+                        location.href = result.success;
+                    } else if (result.error) {
+                        // エラーメッセージをalertで表示（ヘッダーブロックは狭いため）
+                        alert(result.error);
+                    }
+                }
+            });
+
+            return false;
         });
     });
 //]]></script>
@@ -46,9 +68,7 @@
                 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
                 <input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->" />
                 <div class="block_body clearfix">
-                    <!--{if $arrErr.login}-->
-                        <div class="attention" style="margin: 5px 10px; padding: 5px; background-color: #ffe6e6; border: 1px solid #ff9999;"><!--{$arrErr.login|h|nl2br}--></div>
-                    <!--{/if}-->
+                    <div id="header_login_error_area" class="attention" style="margin: 5px 10px; padding: 5px; background-color: #ffe6e6; border: 1px solid #ff9999;<!--{if !$arrErr.login}--> display: none;<!--{/if}-->"><!--{$arrErr.login|h|nl2br}--></div>
                     <!--{if $tpl_login}-->
                         <p class="btn">
                             ようこそ <span class="user_name"><!--{$arrCustomer|format_name|h}--> 様</span>

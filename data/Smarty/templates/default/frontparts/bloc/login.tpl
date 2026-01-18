@@ -20,6 +20,42 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
 
+<!--{if !$tpl_login}-->
+<script type="text/javascript">//<![CDATA[
+    $(function(){
+        $('#login_form').submit(function(e) {
+            var checkLogin = eccube.checkLoginFormInputted('login_form');
+            if (checkLogin == false) {
+                return false;
+            }
+
+            // AJAX対応
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "<!--{$smarty.const.ROOT_URLPATH}-->frontparts/login_check.php",
+                data: $('#login_form').serialize(),
+                cache: false,
+                dataType: "json",
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert('通信エラーが発生しました。');
+                },
+                success: function(result) {
+                    if (result.success) {
+                        location.href = result.success;
+                    } else if (result.error) {
+                        // エラーメッセージをalertで表示（サイドバーブロックも狭いため）
+                        alert(result.error);
+                    }
+                }
+            });
+
+            return false;
+        });
+    });
+//]]></script>
+<!--{/if}-->
+
 <!--{strip}-->
     <div class="block_outer">
         <div id="login_area">
@@ -29,9 +65,7 @@
                 <input type="hidden" name="mode" value="login" />
                 <input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->" />
                 <div class="block_body">
-                    <!--{if $arrErr.login}-->
-                        <div class="attention" style="margin: 5px; padding: 5px; background-color: #ffe6e6; border: 1px solid #ff9999;"><!--{$arrErr.login|h|nl2br}--></div>
-                    <!--{/if}-->
+                    <div id="login_error_area" class="attention" style="margin: 5px; padding: 5px; background-color: #ffe6e6; border: 1px solid #ff9999;<!--{if !$arrErr.login}--> display: none;<!--{/if}-->"><!--{$arrErr.login|h|nl2br}--></div>
                     <!--{if $tpl_login}-->
                         <p>ようこそ<br />
                             <span class="user_name"><!--{$arrCustomer|format_name|h}--> 様</span><br />

@@ -45,8 +45,8 @@
                 success: function(result){
                     if (result.success) {
                         location.href = '<!--{$smarty.const.ROOT_URLPATH}-->shopping/' + result.success;
-                    } else {
-                        alert(result.login_error);
+                    } else if (result.error) {
+                        alert(result.error);
                     }
                 }
             });
@@ -56,7 +56,7 @@
 
 <section id="slidewindow">
     <h2 class="title"><!--{$tpl_title|h}--></h2>
-    <form name="member_form" id="member_form" method="post" action="javascript:;" onSubmit="return ajaxLogin()">
+    <form name="member_form" id="member_form" method="post" action="?" onSubmit="return ajaxLogin()">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
         <input type="hidden" name="mode" value="login" />
         <div class="login_area">

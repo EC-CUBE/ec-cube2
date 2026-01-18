@@ -52,14 +52,16 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
       await page.locator('#login_mypage input[name="login_email"]').fill(validEmail);
       await page.locator('#login_mypage input[name="login_pass"]').fill('wrongpassword');
       await page.locator('#login_mypage input[type="image"][name="log"]').click();
-      await page.waitForLoadState('domcontentloaded');
+
+      // AJAX処理完了を待つためエラーメッセージが表示されるまで待機
+      await page.locator('#undercolumn_login #login_error_area').waitFor({ state: 'visible', timeout: 10000 });
     });
 
     await test.step('エラーメッセージが同一ページに表示されることを確認します', async () => {
       // リダイレクトされずにログインページに留まっている
       await expect(page).toHaveURL(/\/mypage\/login\.php/);
-      // エラーメッセージが表示されている
-      await expect(page.locator('div.attention').first()).toContainText('メールアドレスもしくはパスワードが正しくありません');
+      // エラーメッセージが表示されている（#login_error_area を指定）
+      await expect(page.locator('#undercolumn_login #login_error_area')).toContainText('メールアドレスもしくはパスワードが正しくありません');
     });
   });
 
@@ -78,12 +80,14 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
       await page.locator('#login_mypage input[name="login_email"]').fill('invalid-email');
       await page.locator('#login_mypage input[name="login_pass"]').fill('password');
       await page.locator('#login_mypage input[type="image"][name="log"]').click();
-      await page.waitForLoadState('networkidle');
+
+      // AJAX処理完了を待つためエラーメッセージが表示されるまで待機
+      await page.locator('#undercolumn_login #login_error_area').waitFor({ state: 'visible', timeout: 10000 });
     });
 
     await test.step('エラーメッセージが同一ページに表示されることを確認します', async () => {
       await expect(page).toHaveURL(/\/mypage\/login\.php/);
-      await expect(page.locator('div.attention').first()).toContainText('メールアドレスもしくはパスワードが正しくありません');
+      await expect(page.locator('#undercolumn_login #login_error_area')).toContainText('メールアドレスもしくはパスワードが正しくありません');
     });
   });
 
@@ -113,14 +117,16 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
       await page.locator('#member_form input[name="login_email"]').fill(validEmail);
       await page.locator('#member_form input[name="login_pass"]').fill('wrongpassword');
       await page.locator('#member_form input[type="image"][name="log"]').click();
-      await page.waitForLoadState('domcontentloaded');
+
+      // AJAX処理完了を待つためエラーメッセージが表示されるまで待機
+      await page.locator('#undercolumn_login #login_error_area').waitFor({ state: 'visible', timeout: 10000 });
     });
 
     await test.step('エラーメッセージが同一ページに表示されることを確認します', async () => {
       // リダイレクトされずにログインページに留まっている
       await expect(page).toHaveURL(/\/shopping\//);
       // エラーメッセージが表示されている
-      await expect(page.locator('div.attention').first()).toContainText('メールアドレスもしくはパスワードが正しくありません');
+      await expect(page.locator('#undercolumn_login #login_error_area')).toContainText('メールアドレスもしくはパスワードが正しくありません');
     });
   });
 
@@ -136,16 +142,14 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
         await page.locator('#login_mypage input[name="login_email"]').fill(rateLimitEmail);
         await page.locator('#login_mypage input[name="login_pass"]').fill('wrongpassword');
         await page.locator('#login_mypage input[type="image"][name="log"]').click();
-        await page.waitForLoadState('domcontentloaded');
 
-        // IPベースのレート制限の影響を考慮
-        const errorText = await page.locator('div.attention').first().textContent();
+        // AJAX処理完了を待つためエラーメッセージが表示されるまで待機
+        await page.locator('#undercolumn_login #login_error_area').waitFor({ state: 'visible', timeout: 10000 });
 
         // 6回目まではメールアドレスベースのエラーまたはIPベースのレート制限エラー
-        if (i < 5) {
-          // いずれかのエラーメッセージが表示されていればOK
-          expect(errorText).toMatch(/メールアドレスもしくはパスワードが正しくありません|短時間に複数のログイン試行が検出されました/);
-        }
+        const errorText = await page.locator('#undercolumn_login #login_error_area').textContent();
+        // いずれかのエラーメッセージが表示されていればOK
+        expect(errorText).toMatch(/メールアドレスもしくはパスワードが正しくありません|短時間に複数のログイン試行が検出されました/);
       }
     });
 
@@ -153,11 +157,13 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
       await page.locator('#login_mypage input[name="login_email"]').fill(rateLimitEmail);
       await page.locator('#login_mypage input[name="login_pass"]').fill('wrongpassword');
       await page.locator('#login_mypage input[type="image"][name="log"]').click();
-      await page.waitForLoadState('domcontentloaded');
+
+      // AJAX処理完了を待つためエラーメッセージが表示されるまで待機
+      await page.locator('#undercolumn_login #login_error_area').waitFor({ state: 'visible', timeout: 10000 });
 
       // レート制限エラーメッセージが表示される（メールベースまたはIPベース）
-      await expect(page.locator('div.attention').first()).toContainText('短時間に複数のログイン試行が検出されました');
-      await expect(page.locator('div.attention').first()).toContainText('しばらく時間をおいてから再度お試しください');
+      await expect(page.locator('#undercolumn_login #login_error_area')).toContainText('短時間に複数のログイン試行が検出されました');
+      await expect(page.locator('#undercolumn_login #login_error_area')).toContainText('しばらく時間をおいてから再度お試しください');
     });
   });
 
@@ -220,20 +226,27 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
     });
 
     await test.step('誤ったパスワードでログインを試みます', async () => {
+      // alertダイアログを処理するためのリスナーを設定
+      let alertMessage = '';
+      page.once('dialog', async dialog => {
+        alertMessage = dialog.message();
+        await dialog.accept();
+      });
+
       await page.locator('#header_login_area input[name="login_email"]').fill(headerTestEmail);
       await page.locator('#header_login_area input[name="login_pass"]').fill('wrongpassword');
       await page.locator('#header_login_area input[type="image"]').click();
-      await page.waitForLoadState('domcontentloaded');
+
+      // AJAX処理完了を待つためalertが表示されるまで待機
+      await page.waitForTimeout(2000);
+
+      // alertメッセージを確認
+      expect(alertMessage).toMatch(/メールアドレスもしくはパスワードが正しくありません|短時間に複数のログイン試行が検出されました/);
     });
 
-    await test.step('エラーメッセージがブロック内に表示されることを確認します', async () => {
-      // トップページにリダイレクトされている
+    await test.step('エラーメッセージがalertで表示されることを確認します', async () => {
+      // トップページに留まっている
       await expect(page).toHaveURL(/\/$/);
-      // ヘッダーログインブロック内のエラーメッセージを確認
-      const errorMessage = page.locator('#header_login_area div.attention');
-      await expect(errorMessage).toBeVisible();
-      // レート制限の影響を受けている可能性があるため、いずれかのエラーメッセージを期待
-      await expect(errorMessage).toContainText(/メールアドレスもしくはパスワードが正しくありません|短時間に複数のログイン試行が検出されました/);
     });
   });
 
@@ -250,20 +263,27 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
     });
 
     await test.step('誤ったパスワードでログインを試みます', async () => {
+      // alertダイアログを処理するためのリスナーを設定
+      let alertMessage = '';
+      page.once('dialog', async dialog => {
+        alertMessage = dialog.message();
+        await dialog.accept();
+      });
+
       await page.locator('#login_area input[name="login_email"]').fill(sidebarTestEmail);
       await page.locator('#login_area input[name="login_pass"]').fill('wrongpassword');
       await page.locator('#login_area input[type="image"]').click();
-      await page.waitForLoadState('domcontentloaded');
+
+      // AJAX処理完了を待つためalertが表示されるまで待機
+      await page.waitForTimeout(2000);
+
+      // alertメッセージを確認
+      expect(alertMessage).toMatch(/メールアドレスもしくはパスワードが正しくありません|短時間に複数のログイン試行が検出されました/);
     });
 
-    await test.step('エラーメッセージがブロック内に表示されることを確認します', async () => {
-      // トップページにリダイレクトされている
+    await test.step('エラーメッセージがalertで表示されることを確認します', async () => {
+      // トップページに留まっている
       await expect(page).toHaveURL(/\/$/);
-      // サイドバーログインブロック内のエラーメッセージを確認
-      const errorMessage = page.locator('#login_area div.attention');
-      await expect(errorMessage).toBeVisible();
-      // レート制限の影響を受けている可能性があるため、いずれかのエラーメッセージを期待
-      await expect(errorMessage).toContainText(/メールアドレスもしくはパスワードが正しくありません|短時間に複数のログイン試行が検出されました/);
     });
   });
 

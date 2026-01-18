@@ -158,11 +158,9 @@ class LC_Page_Shopping extends LC_Page_Ex
                         // バリデーションエラーも失敗として記録
                         SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
 
-                        // スマートフォンの場合はJSON返却
-                        if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                            echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
-                            SC_Response_Ex::actionExit();
-                        }
+                        // AJAX対応: JSON返却
+                        echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
+                        SC_Response_Ex::actionExit();
                     } else {
                         // ログイン判定
                         if ($objCustomer->doLogin($login_email, $login_pass)) {
@@ -182,27 +180,17 @@ class LC_Page_Shopping extends LC_Page_Ex
                                     SC_Response_Ex::sendRedirectFromUrlPath('entry/email_mobile.php');
                                     SC_Response_Ex::actionExit();
                                 }
-                            // スマートフォンの場合はログイン成功を返す
-                            } elseif (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                                echo SC_Utils_Ex::jsonEncode(['success' => $this->getNextLocation(
-                                    $this->cartKey,
-                                    $this->tpl_uniqid,
-                                    $objCustomer,
-                                    $objPurchase,
-                                    $objSiteSess
-                                )]);
-                                SC_Response_Ex::actionExit();
                             }
 
-                            SC_Response_Ex::sendRedirect(
-                                $this->getNextLocation(
-                                    $this->cartKey,
-                                    $this->tpl_uniqid,
-                                    $objCustomer,
-                                    $objPurchase,
-                                    $objSiteSess
-                                )
+                            // AJAX対応: JSON返却（モバイル以外）
+                            $nextLocation = $this->getNextLocation(
+                                $this->cartKey,
+                                $this->tpl_uniqid,
+                                $objCustomer,
+                                $objPurchase,
+                                $objSiteSess
                             );
+                            echo SC_Utils_Ex::jsonEncode(['success' => $nextLocation]);
                             SC_Response_Ex::actionExit();
                         } else {
                             // ログイン失敗を記録
@@ -215,11 +203,9 @@ class LC_Page_Shopping extends LC_Page_Ex
                                 $this->arrErr['login'] = 'メールアドレスもしくはパスワードが正しくありません。';
                             }
 
-                            // スマートフォンの場合はJSON返却
-                            if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                                echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
-                                SC_Response_Ex::actionExit();
-                            }
+                            // AJAX対応: JSON返却
+                            echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
+                            SC_Response_Ex::actionExit();
                         }
                     }
                 }

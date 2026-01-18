@@ -103,16 +103,9 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                     // 失敗として記録
                     SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
 
-                    // スマートフォンの場合はJSON返却
-                    if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                        echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
-                        SC_Response_Ex::actionExit();
-                    } else {
-                        // PC・モバイルの場合はエラーメッセージをセッションに保存してリダイレクト
-                        $_SESSION['login_error'] = $this->arrErr['login'];
-                        SC_Response_Ex::sendRedirect($url);
-                        SC_Response_Ex::actionExit();
-                    }
+                    // AJAX対応: JSON返却
+                    echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
+                    SC_Response_Ex::actionExit();
                 } else {
                     // バリデーション
                     $arrErr = $objFormParam->checkError();
@@ -124,16 +117,9 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                         // バリデーションエラーも失敗として記録
                         SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
 
-                        // スマートフォンの場合はJSON返却
-                        if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                            echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
-                            SC_Response_Ex::actionExit();
-                        } else {
-                            // PC・モバイルの場合はエラーメッセージをセッションに保存してリダイレクト
-                            $_SESSION['login_error'] = $this->arrErr['login'];
-                            SC_Response_Ex::sendRedirect($url);
-                            SC_Response_Ex::actionExit();
-                        }
+                        // AJAX対応: JSON返却
+                        echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
+                        SC_Response_Ex::actionExit();
                     } else {
                         // 入力チェック後の値を取得
                         $arrForm = $objFormParam->getHashArray();
@@ -168,11 +154,8 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                             }
 
                             // --- ログインに成功した場合
-                            if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                                echo SC_Utils_Ex::jsonEncode(['success' => $url]);
-                            } else {
-                                SC_Response_Ex::sendRedirect($url);
-                            }
+                            // AJAX対応: JSON返却
+                            echo SC_Utils_Ex::jsonEncode(['success' => $url]);
                             SC_Response_Ex::actionExit();
                         } else {
                             // --- ログインに失敗した場合
@@ -187,16 +170,9 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                                 $this->arrErr['login'] = 'メールアドレスもしくはパスワードが正しくありません。';
                             }
 
-                            // スマートフォンの場合はJSON返却
-                            if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                                echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
-                                SC_Response_Ex::actionExit();
-                            } else {
-                                // PC・モバイルの場合はエラーメッセージをセッションに保存してリダイレクト
-                                $_SESSION['login_error'] = $this->arrErr['login'];
-                                SC_Response_Ex::sendRedirect($url);
-                                SC_Response_Ex::actionExit();
-                            }
+                            // AJAX対応: JSON返却
+                            echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
+                            SC_Response_Ex::actionExit();
                         }
                     }
                 }
