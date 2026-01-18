@@ -29,6 +29,9 @@
                 <input type="hidden" name="mode" value="login" />
                 <input type="hidden" name="url" value="<!--{$smarty.server.REQUEST_URI|h}-->" />
                 <div class="block_body">
+                    <!--{if $arrErr.login}-->
+                        <div class="attention" style="margin: 5px; padding: 5px; background-color: #ffe6e6; border: 1px solid #ff9999;"><!--{$arrErr.login|h|nl2br}--></div>
+                    <!--{/if}-->
                     <!--{if $tpl_login}-->
                         <p>ようこそ<br />
                             <span class="user_name"><!--{$arrCustomer|format_name|h}--> 様</span><br />

@@ -25,11 +25,4 @@ require_once '../require.php';
 
 $objPage = new LC_Page_Mypage_Login_Ex();
 $objPage->init();
-
-// セッションからログインエラーメッセージを取得
-if (isset($_SESSION['login_error'])) {
-    $objPage->arrErr['login'] = $_SESSION['login_error'];
-    unset($_SESSION['login_error']);
-}
-
 $objPage->process();

@@ -151,63 +151,75 @@ class LC_Page_Shopping extends LC_Page_Ex
                     // バリデーション
                     $this->arrErr = $objFormParam->checkError();
 
-                    // ログイン判定
-                    if (SC_Utils_Ex::isBlank($this->arrErr)
-                        && $objCustomer->doLogin($login_email, $login_pass)) {
-                        // ログイン成功を記録
-                        SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 1);
+                    if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                        // バリデーションエラーの場合
+                        $this->arrErr['login'] = 'メールアドレスもしくはパスワードが正しくありません。';
 
-                        // クッキー保存判定
-                        if ($objFormParam->getValue('login_memory') == '1' && strlen($login_email) >= 1) {
-                            $objCookie->setCookie('login_email', $login_email);
-                        } else {
-                            $objCookie->setCookie('login_email', '');
-                        }
-
-                        // モバイルサイトで携帯アドレスの登録が無い場合、携帯アドレス登録ページへ遷移
-                        if (SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE) {
-                            if (!$objCustomer->hasValue('email_mobile')) {
-                                SC_Response_Ex::sendRedirectFromUrlPath('entry/email_mobile.php');
-                                SC_Response_Ex::actionExit();
-                            }
-                        // スマートフォンの場合はログイン成功を返す
-                        } elseif (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                            echo SC_Utils_Ex::jsonEncode(['success' => $this->getNextLocation(
-                                $this->cartKey,
-                                $this->tpl_uniqid,
-                                $objCustomer,
-                                $objPurchase,
-                                $objSiteSess
-                            )]);
-                            SC_Response_Ex::actionExit();
-                        }
-
-                        SC_Response_Ex::sendRedirect(
-                            $this->getNextLocation(
-                                $this->cartKey,
-                                $this->tpl_uniqid,
-                                $objCustomer,
-                                $objPurchase,
-                                $objSiteSess
-                            )
-                        );
-                        SC_Response_Ex::actionExit();
-                    // ログインに失敗した場合
-                    } elseif (SC_Utils_Ex::isBlank($this->arrErr)) {
-                        // ログイン失敗を記録
+                        // バリデーションエラーも失敗として記録
                         SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
-
-                        // 仮登録の場合
-                        if (SC_Helper_Customer_Ex::checkTempCustomer($login_email)) {
-                            $this->arrErr['login'] = "メールアドレスもしくはパスワードが正しくありません。\n本登録がお済みでない場合は、仮登録メールに記載されているURLより本登録を行ってください。";
-                        } else {
-                            $this->arrErr['login'] = 'メールアドレスもしくはパスワードが正しくありません。';
-                        }
 
                         // スマートフォンの場合はJSON返却
                         if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
                             echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
                             SC_Response_Ex::actionExit();
+                        }
+                    } else {
+                        // ログイン判定
+                        if ($objCustomer->doLogin($login_email, $login_pass)) {
+                            // ログイン成功を記録
+                            SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 1);
+
+                            // クッキー保存判定
+                            if ($objFormParam->getValue('login_memory') == '1' && strlen($login_email) >= 1) {
+                                $objCookie->setCookie('login_email', $login_email);
+                            } else {
+                                $objCookie->setCookie('login_email', '');
+                            }
+
+                            // モバイルサイトで携帯アドレスの登録が無い場合、携帯アドレス登録ページへ遷移
+                            if (SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE) {
+                                if (!$objCustomer->hasValue('email_mobile')) {
+                                    SC_Response_Ex::sendRedirectFromUrlPath('entry/email_mobile.php');
+                                    SC_Response_Ex::actionExit();
+                                }
+                            // スマートフォンの場合はログイン成功を返す
+                            } elseif (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
+                                echo SC_Utils_Ex::jsonEncode(['success' => $this->getNextLocation(
+                                    $this->cartKey,
+                                    $this->tpl_uniqid,
+                                    $objCustomer,
+                                    $objPurchase,
+                                    $objSiteSess
+                                )]);
+                                SC_Response_Ex::actionExit();
+                            }
+
+                            SC_Response_Ex::sendRedirect(
+                                $this->getNextLocation(
+                                    $this->cartKey,
+                                    $this->tpl_uniqid,
+                                    $objCustomer,
+                                    $objPurchase,
+                                    $objSiteSess
+                                )
+                            );
+                            SC_Response_Ex::actionExit();
+                        } else {
+                            // ログイン失敗を記録
+                            SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
+
+                            // 仮登録の場合
+                            if (SC_Helper_Customer_Ex::checkTempCustomer($login_email)) {
+                                $this->arrErr['login'] = "メールアドレスもしくはパスワードが正しくありません。\n本登録がお済みでない場合は、仮登録メールに記載されているURLより本登録を行ってください。";
+                            } else {
+                                $this->arrErr['login'] = 'メールアドレスもしくはパスワードが正しくありません。';
+                            }
+
+                            // スマートフォンの場合はJSON返却
+                            if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
+                                echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
+                                SC_Response_Ex::actionExit();
+                            }
                         }
                     }
                 }

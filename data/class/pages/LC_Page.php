@@ -305,10 +305,29 @@ class LC_Page
 
         $this->tpl_authority = $_SESSION['authority'] ?? null;
 
+        // arrErrを配列として初期化
+        if (!is_array($this->arrErr)) {
+            $this->arrErr = [];
+        }
+
         // Issue #1301: ヘッダーログインエラーメッセージの取得
+        // 複数のブロックで表示されるため、セッションに保持したまま表示
         if (isset($_SESSION['login_error'])) {
             $this->arrErr['login'] = $_SESSION['login_error'];
-            unset($_SESSION['login_error']);
+        }
+
+        // 前回リクエストで表示済みのエラーをクリーンアップ
+        // （同じリクエスト内では削除しない）
+        if (isset($_SESSION['login_error_shown_at'])) {
+            // 前回表示したリクエストと異なる場合のみクリーンアップ
+            $current_request_id = $_SERVER['REQUEST_TIME'].$_SERVER['REQUEST_URI'];
+            if ($_SESSION['login_error_shown_at'] !== $current_request_id) {
+                unset($_SESSION['login_error']);
+                unset($_SESSION['login_error_shown_at']);
+            }
+        } elseif (isset($_SESSION['login_error'])) {
+            // 今回のリクエストIDを記録（次のリクエストでクリーンアップするため）
+            $_SESSION['login_error_shown_at'] = $_SERVER['REQUEST_TIME'].$_SERVER['REQUEST_URI'];
         }
 
         // ディスプレイクラス生成
