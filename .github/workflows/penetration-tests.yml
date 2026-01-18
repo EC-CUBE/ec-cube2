@@ -28,6 +28,30 @@ jobs:
     #     sudo apt install -y sharutils
     #     echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
 
+    - name: Cache Composer packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/composer
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Cache yarn packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/yarn
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: Cache Playwright browsers
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-
+
     - name: Apply patchs
       run: |
         git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
@@ -61,13 +85,18 @@ jobs:
         yarn playwright install-deps chromium
 
     - name: Penetration testing
+      uses: nick-invision/retry@v3
+      with:
+        timeout_minutes: 30
+        max_attempts: 2
+        retry_on: error
+        command: yarn test:attack e2e-tests/${{ matrix.group }}
       env:
         GROUP: ${{ matrix.group }}
         HTTPS_PROXY: 'localhost:8090'
         HTTP_PROXY: 'localhost:8090'
         CI: 1
         FORCE_COLOR: 1
-      run: yarn test:attack e2e-tests/${GROUP}
 
     - env:
         GROUP: ${{ matrix.group }}

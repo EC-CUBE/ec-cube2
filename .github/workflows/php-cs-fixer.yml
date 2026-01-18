@@ -29,6 +29,14 @@ jobs:
       with:
         php-version: '8.4'
 
+    - name: Cache Composer packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/composer
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
     - name: Setup environment
       env:
         REF_NAME: ${{ inputs.ref_name }}
