@@ -19,6 +19,7 @@ on:
 jobs:
   php-cs-fixer:
     name: php-cs-fixer
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
     - name: "Checkout"

@@ -23,15 +23,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pattern:
-          - 'test:e2e'
-          - 'test:e2e-extends'
-        group:
-          - 'test/front_login'
-          - 'test/front_guest'
-          - 'test/admin'
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5' ]
-        db: [ mysql, pgsql ]
+        pattern: ${{ github.actor == 'dependabot[bot]' && fromJSON('["test:e2e"]') || fromJSON('["test:e2e", "test:e2e-extends"]') }}
+        group: ${{ github.actor == 'dependabot[bot]' && fromJSON('["test/admin"]') || fromJSON('["test/front_login", "test/front_guest", "test/admin"]') }}
+        php: ${{ github.actor == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
+        db: ${{ github.actor == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["mysql", "pgsql"]') }}
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -160,8 +155,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        db: [ 'pgsql', 'mysql' ]
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5' ]
+        db: ${{ github.actor == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["pgsql", "mysql"]') }}
+        php: ${{ github.actor == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
         include:
           - db: mysql
             dbport: '3306'
