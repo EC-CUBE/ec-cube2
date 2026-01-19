@@ -57,5 +57,5 @@ jobs:
         fi
     - run: |
         docker compose up -d --wait
-        docker compose exec -T ec-cube composer install
+        docker compose exec -T ec-cube composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
     - run: docker compose exec -T -e PHP_CS_FIXER_IGNORE_ENV=1 ec-cube php data/vendor/bin/php-cs-fixer fix --diff --dry-run --allow-risky=yes
