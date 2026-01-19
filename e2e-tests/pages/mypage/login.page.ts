@@ -33,7 +33,11 @@ export class MypageLoginPage {
   async login () {
     await this.loginEmail.fill(this.email);
     await this.loginPass.fill(this.password);
+
+    // AJAX対応: クリック後、画面遷移を待つ
     await this.loginButton.click();
+    // ログインページから離れるのを待つ（AJAX成功後のリダイレクト）
+    await this.page.waitForURL(url => !url.pathname.includes('/mypage/login.php'), { timeout: 10000 });
   }
 
   async logout () {
