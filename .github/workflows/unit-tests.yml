@@ -36,6 +36,14 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
 
+    - name: Cache Composer dependencies
+      uses: actions/cache@v4
+      with:
+        path: data/vendor
+        key: ${{ runner.os }}-php${{ matrix.php }}-vendor-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php${{ matrix.php }}-vendor-
+
     - name: Create ADMIN_DIR
       run: |
         sudo apt install -y sharutils

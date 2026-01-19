@@ -55,13 +55,6 @@ RUN if [[ ${APCU} ]]; then  pecl install ${APCU} && docker-php-ext-enable apcu; 
 # composer
 COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 
-# Node.js (LTS) - E2Eテスト用
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g yarn \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
 ENV APACHE_DOCUMENT_ROOT /var/www/app/html
 ENV ECCUBE_PREFIX /var/www/app
 ENV APACHE_RUN_DIR /var/run/apache2
@@ -91,17 +84,7 @@ RUN chmod +x /wait-for-*.sh
 COPY composer.json ${ECCUBE_PREFIX}/composer.json
 COPY composer.lock ${ECCUBE_PREFIX}/composer.lock
 
-# CI環境で必要な dev dependencies も含めてインストール
-# 本番環境では docker-compose.override.yml などで制御可能
-RUN composer install --no-scripts --no-autoloader -d ${ECCUBE_PREFIX}
-
-# E2Eテスト用の Node.js 依存関係をインストール
-COPY package.json yarn.lock ${ECCUBE_PREFIX}/
-RUN yarn install --frozen-lockfile --production=false
-
-# Playwright ブラウザバイナリのみインストール
-# システム依存関係は CI で `playwright install-deps` を実行
-RUN npx playwright install chromium
+RUN composer install --no-scripts --no-autoloader --no-dev -d ${ECCUBE_PREFIX}
 
 COPY . ${ECCUBE_PREFIX}
 RUN composer dumpautoload -o
