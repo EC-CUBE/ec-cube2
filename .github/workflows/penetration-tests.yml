@@ -52,6 +52,18 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-playwright-
 
+    - name: Restore vendor to docker volume
+      run: |
+        if [ -d "data/vendor" ] && [ "$(ls -A data/vendor 2>/dev/null)" ]; then
+          echo "Restoring cached vendor to docker volume"
+          # Get the volume name from docker-compose
+          VOLUME_NAME=$(docker compose config --format json | jq -r '.volumes.vendor.name // "workspace-ec-cube2_vendor"')
+          docker volume create $VOLUME_NAME
+          docker run --rm -v ${VOLUME_NAME}:/target -v $(pwd)/data/vendor:/source alpine sh -c "cp -rp /source/. /target/"
+        else
+          echo "No cached vendor found, will install from scratch"
+        fi
+
     - name: Apply patchs
       run: |
         git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
@@ -77,6 +89,14 @@ jobs:
         docker compose exec -T ec-cube composer update 'symfony/*' -W --no-progress --no-interaction --prefer-dist
         docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
         docker compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
+
+    - name: Save vendor from docker volume for caching
+      if: always()
+      run: |
+        echo "Saving vendor from docker volume to host for caching"
+        VOLUME_NAME=$(docker compose config --format json | jq -r '.volumes.vendor.name // "workspace-ec-cube2_vendor"')
+        rm -rf data/vendor
+        docker run --rm -v ${VOLUME_NAME}:/source -v $(pwd)/data/vendor:/target alpine sh -c "cp -rp /source/. /target/"
 
     - run: sleep 1
     - run: |
