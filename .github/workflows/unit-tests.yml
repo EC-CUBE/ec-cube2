@@ -36,26 +36,6 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
 
-    - name: Cache Composer dependencies
-      uses: actions/cache@v4
-      with:
-        path: data/vendor
-        key: ${{ runner.os }}-php${{ matrix.php }}-vendor-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php${{ matrix.php }}-vendor-
-
-    - name: Restore vendor to docker volume
-      run: |
-        if [ -d "data/vendor" ] && [ "$(ls -A data/vendor 2>/dev/null)" ]; then
-          echo "Restoring cached vendor to docker volume"
-          # Get the volume name from docker-compose
-          VOLUME_NAME=$(docker compose config --format json | jq -r '.volumes.vendor.name // "workspace-ec-cube2_vendor"')
-          docker volume create $VOLUME_NAME
-          docker run --rm -v ${VOLUME_NAME}:/target -v $(pwd)/data/vendor:/source alpine sh -c "cp -rp /source/. /target/"
-        else
-          echo "No cached vendor found, will install from scratch"
-        fi
-
     - name: Create ADMIN_DIR
       run: |
         sudo apt install -y sharutils
@@ -90,15 +70,6 @@ jobs:
         done
         cat data/config/config.php
         docker compose exec -T ec-cube composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
-
-    - name: Save vendor from docker volume for caching
-      if: always()
-      run: |
-        echo "Saving vendor from docker volume to host for caching"
-        VOLUME_NAME=$(docker compose config --format json | jq -r '.volumes.vendor.name // "workspace-ec-cube2_vendor"')
-        rm -rf data/vendor
-        docker run --rm -v ${VOLUME_NAME}:/source -v $(pwd)/data/vendor:/target alpine sh -c "cp -rp /source/. /target/"
-
     - name: Run to PHPUnit
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --exclude-group classloader,mysql_prepare
     - name: Run to PHPUnit classloader

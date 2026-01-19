@@ -30,26 +30,6 @@ jobs:
       with:
         php-version: '8.3'
 
-    - name: Cache Composer dependencies
-      uses: actions/cache@v4
-      with:
-        path: data/vendor
-        key: ${{ runner.os }}-php8.3-vendor-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php8.3-vendor-
-
-    - name: Restore vendor to docker volume
-      run: |
-        if [ -d "data/vendor" ] && [ "$(ls -A data/vendor 2>/dev/null)" ]; then
-          echo "Restoring cached vendor to docker volume"
-          # Get the volume name from docker-compose
-          VOLUME_NAME=$(docker compose config --format json | jq -r '.volumes.vendor.name // "workspace-ec-cube2_vendor"')
-          docker volume create $VOLUME_NAME
-          docker run --rm -v ${VOLUME_NAME}:/target -v $(pwd)/data/vendor:/source alpine sh -c "cp -rp /source/. /target/"
-        else
-          echo "No cached vendor found, will install from scratch"
-        fi
-
     - name: Setup environment
       env:
         REF_NAME: ${{ inputs.ref_name }}
@@ -71,13 +51,4 @@ jobs:
     - run: |
         docker compose up -d --wait
         docker compose exec -T ec-cube composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
-
-    - name: Save vendor from docker volume for caching
-      if: always()
-      run: |
-        echo "Saving vendor from docker volume to host for caching"
-        VOLUME_NAME=$(docker compose config --format json | jq -r '.volumes.vendor.name // "workspace-ec-cube2_vendor"')
-        rm -rf data/vendor
-        docker run --rm -v ${VOLUME_NAME}:/source -v $(pwd)/data/vendor:/target alpine sh -c "cp -rp /source/. /target/"
-
     - run: docker compose exec -T ec-cube php data/vendor/bin/phpstan --memory-limit=512M --no-progress analyze data/ --error-format=github
