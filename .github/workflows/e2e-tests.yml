@@ -86,6 +86,8 @@ jobs:
         docker compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
 
     - run: sleep 1
+    - name: Install Playwright system dependencies
+      run: npx playwright install-deps chromium
 
     - name: Run to E2E testing
       uses: nick-invision/retry@v3
@@ -199,6 +201,9 @@ jobs:
         chmod o+w data/smarty_extends
         chmod o+w data/upload
         chmod o+w data/upload/csv
+
+    - name: Install Playwright system dependencies
+      run: npx playwright install-deps chromium
 
     - name: Run to E2E testing
       uses: nick-invision/retry@v3

@@ -99,9 +99,9 @@ RUN composer install --no-scripts --no-autoloader -d ${ECCUBE_PREFIX}
 COPY package.json yarn.lock ${ECCUBE_PREFIX}/
 RUN yarn install --frozen-lockfile --production=false
 
-# Playwright ブラウザとシステム依存関係をインストール
-# --with-deps でシステム依存関係も含める（apt-get install）
-RUN npx playwright install --with-deps chromium
+# Playwright ブラウザバイナリのみインストール
+# システム依存関係は CI で `playwright install-deps` を実行
+RUN npx playwright install chromium
 
 COPY . ${ECCUBE_PREFIX}
 RUN composer dumpautoload -o
