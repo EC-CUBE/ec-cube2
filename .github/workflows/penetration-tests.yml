@@ -28,21 +28,21 @@ jobs:
     #     sudo apt install -y sharutils
     #     echo "ADMIN_DIR=$(head -c 10 < /dev/random | uuencode -m - | tail -n 2 |head -n 1 |  sed 's,[/+],_,g' | head -c10)/" >> $GITHUB_ENV
 
-    - name: Cache Composer packages
+    - name: Cache Composer dependencies
       uses: actions/cache@v4
       with:
-        path: ~/.cache/composer
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        path: data/vendor
+        key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-composer-
+          ${{ runner.os }}-vendor-
 
-    - name: Cache yarn packages
+    - name: Cache yarn dependencies
       uses: actions/cache@v4
       with:
-        path: ~/.cache/yarn
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
-          ${{ runner.os }}-yarn-
+          ${{ runner.os }}-node_modules-
 
     - name: Cache Playwright browsers
       uses: actions/cache@v4

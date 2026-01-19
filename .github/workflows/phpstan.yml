@@ -29,13 +29,13 @@ jobs:
       with:
         php-version: '8.3'
 
-    - name: Cache Composer packages
+    - name: Cache Composer dependencies
       uses: actions/cache@v4
       with:
-        path: ~/.cache/composer
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        path: data/vendor
+        key: ${{ runner.os }}-php8.3-vendor-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-composer-
+          ${{ runner.os }}-php8.3-vendor-
 
     - name: Setup environment
       env:
