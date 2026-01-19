@@ -67,15 +67,6 @@ class LC_Page_FrontParts_Bloc_Login extends LC_Page_FrontParts_Bloc_Ex
         // クッキー管理クラス
         $objCookie = new SC_Cookie_Ex();
 
-        // Issue #1301: ログインエラーメッセージをセッションから取得
-        // ログインエラーがある場合のみ処理
-        if (isset($_SESSION['login_error'])) {
-            if (!is_array($this->arrErr)) {
-                $this->arrErr = [];
-            }
-            $this->arrErr['login'] = $_SESSION['login_error'];
-        }
-
         // ログイン判定
         if ($objCustomer->isLoginSuccess()) {
             $this->tpl_login = true;

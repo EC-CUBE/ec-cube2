@@ -30,6 +30,41 @@ npm run test:e2e
 - CI環境（GitHub Actions）では `https://localhost:4430` を使用
 - `BASE_URL`環境変数が設定されている場合、playwright.config.tsの設定よりも優先されます
 
+## ローカル開発環境のセットアップ
+
+### データベースの初期化
+
+Docker環境でEC-CUBEのデータベースを初期化する場合：
+
+```bash
+# PostgreSQL環境の場合
+docker compose exec -e DBSERVER=postgres -e DBUSER=eccube_db_user -e DBPASS=password ec-cube ./eccube_install.sh pgsql
+```
+
+**重要な環境変数:**
+- `DBSERVER=postgres` - Dockerコンテナ内のPostgreSQLサービス名
+- `DBUSER=eccube_db_user` - データベースユーザー名
+- `DBPASS=password` - データベースパスワード
+
+### config.phpの設定
+
+ローカル開発環境でE2Eテストを実行する場合、`data/config/config.php`のURL設定を修正してください：
+
+```php
+// ❌ CI環境のデフォルト設定（ローカルでは動作しない）
+defined('HTTP_URL') or define('HTTP_URL', 'https://localhost:4430/');
+defined('HTTPS_URL') or define('HTTPS_URL', 'https://localhost:4430/');
+
+// ✅ ローカル開発環境用の設定
+defined('HTTP_URL') or define('HTTP_URL', 'http://localhost:8080/');
+defined('HTTPS_URL') or define('HTTPS_URL', 'http://localhost:8080/');
+```
+
+**注意:**
+- eccube_install.shを実行すると、config.phpが自動生成されます
+- デフォルトでは `https://localhost:4430/` に設定されるため、手動で修正が必要です
+- 修正後は `docker compose restart ec-cube` で反映してください
+
 ## テストメソッド名の文字化け問題
 
 ### 問題
