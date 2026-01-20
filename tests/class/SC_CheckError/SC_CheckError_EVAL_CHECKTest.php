@@ -78,4 +78,43 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->objErr = new SC_CheckError_Ex($this->arrForm);
         $this->objErr->doFunc([self::FORM_NAME, self::FORM_NAME], [$this->target_func]);
     }
+
+    /**
+     * シングルクォートのみの入力でFatal Errorが発生しないことを確認 (Issue #1297)
+     *
+     * PHP 8.3で構文エラーが発生する入力値でもバリデーションエラーとして
+     * 処理され、Fatal Errorにならないことを確認
+     */
+    public function testEVALCHECKDoesNotCauseFatalErrorWithSingleQuote()
+    {
+        $this->arrForm = [self::FORM_NAME => "'"];
+        $this->expected = '※ form の形式が不正です。<br />';
+
+        $this->scenario();
+        $this->verify('シングルクォートのみの入力でもFatal Errorにならず、バリデーションエラーになる');
+    }
+
+    /**
+     * 構文エラーを引き起こす値でFatal Errorが発生しないことを確認
+     */
+    public function testEVALCHECKDoesNotCauseFatalErrorWithUnclosedString()
+    {
+        $this->arrForm = [self::FORM_NAME => '"unclosed string'];
+        $this->expected = '※ form の形式が不正です。<br />';
+
+        $this->scenario();
+        $this->verify('閉じられていない文字列でもFatal Errorにならず、バリデーションエラーになる');
+    }
+
+    /**
+     * 複数のシングルクォートでFatal Errorが発生しないことを確認
+     */
+    public function testEVALCHECKDoesNotCauseFatalErrorWithMultipleSingleQuotes()
+    {
+        $this->arrForm = [self::FORM_NAME => "'''"];
+        $this->expected = '※ form の形式が不正です。<br />';
+
+        $this->scenario();
+        $this->verify('複数のシングルクォートでもFatal Errorにならず、バリデーションエラーになる');
+    }
 }
