@@ -30,7 +30,7 @@ class SC_CartSessionTest extends Common_TestCase
         // バックアップからデータを復元
         foreach (['products', 'products_class', 'deliv', 'baseinfo', 'tax_rule'] as $table) {
             $tableName = 'dtb_'.$table;
-            $this->objQuery->delete($tableName);
+            $this->objQuery->delete($tableName, '1=1');
             foreach ($this->backupData[$table] as $row) {
                 $this->objQuery->insert($tableName, $row);
             }

@@ -47,7 +47,7 @@ class SC_Helper_Purchase_TestBase extends Common_TestCase
     protected function tearDown(): void
     {
         // バックアップからデータを復元
-        $this->objQuery->delete('dtb_tax_rule');
+        $this->objQuery->delete('dtb_tax_rule', '1=1');
         foreach ($this->backupData['tax_rule'] as $row) {
             $this->objQuery->insert('dtb_tax_rule', $row);
         }
