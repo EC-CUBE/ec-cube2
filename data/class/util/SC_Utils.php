@@ -1288,6 +1288,8 @@ class SC_Utils
                         $mess .= $des.$data."：ファイルが存在します\n";
                     } else {
                         if (@copy($data_, $des.$data)) {
+                            // コピー後にパーミッションを設定（インストーラーのパーミッションチェック対策）
+                            @chmod($des.$data, 0666);
                             $mess .= $des.$data."：コピー成功\n";
                         } else {
                             $mess .= $des.$data."：コピー失敗\n";
