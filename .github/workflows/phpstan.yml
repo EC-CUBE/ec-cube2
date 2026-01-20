@@ -48,7 +48,5 @@ jobs:
         else
           echo "TAG=8.3-apache-${REF_NAME}" >> $GITHUB_ENV
         fi
-    - run: |
-        docker compose up -d --wait
-        docker compose exec -T ec-cube composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
+    - run: docker compose up -d --wait
     - run: docker compose exec -T ec-cube php data/vendor/bin/phpstan --memory-limit=512M --no-progress analyze data/ --error-format=github

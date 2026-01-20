@@ -69,7 +69,6 @@ jobs:
             sleep 1
         done
         cat data/config/config.php
-        docker compose exec -T ec-cube composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
     - name: Run to PHPUnit
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --exclude-group classloader,mysql_prepare
     - name: Run to PHPUnit classloader
