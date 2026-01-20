@@ -7,14 +7,34 @@ class SC_CartSessionTest extends Common_TestCase
      */
     protected $objCartSession;
 
+    /**
+     * @var array テスト前のデータバックアップ
+     */
+    protected $backupData = [];
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->objCartSession = new SC_CartSession_Ex();
+
+        // テストで変更される可能性のあるテーブルをバックアップ
+        $this->backupData['products'] = $this->objQuery->getAll('SELECT * FROM dtb_products');
+        $this->backupData['products_class'] = $this->objQuery->getAll('SELECT * FROM dtb_products_class');
+        $this->backupData['deliv'] = $this->objQuery->getAll('SELECT * FROM dtb_deliv');
+        $this->backupData['baseinfo'] = $this->objQuery->getAll('SELECT * FROM dtb_baseinfo');
     }
 
     protected function tearDown(): void
     {
+        // バックアップからデータを復元
+        foreach (['products', 'products_class', 'deliv', 'baseinfo'] as $table) {
+            $tableName = 'dtb_'.$table;
+            $this->objQuery->delete($tableName);
+            foreach ($this->backupData[$table] as $row) {
+                $this->objQuery->insert($tableName, $row);
+            }
+        }
+
         parent::tearDown();
         $objDb = new SC_Helper_DB_Ex();
         $objDb->sfGetBasisData(true);
