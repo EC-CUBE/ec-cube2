@@ -55,13 +55,6 @@ RUN if [[ ${APCU} ]]; then  pecl install ${APCU} && docker-php-ext-enable apcu; 
 # composer
 COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
 
-# Node.js (LTS) - E2Eテスト用
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g yarn \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
 ENV APACHE_DOCUMENT_ROOT /var/www/app/html
 ENV ECCUBE_PREFIX /var/www/app
 ENV APACHE_RUN_DIR /var/run/apache2
@@ -93,10 +86,6 @@ COPY composer.lock ${ECCUBE_PREFIX}/composer.lock
 
 # CI環境で必要な dev dependencies も含めてインストール
 RUN composer install --no-scripts --no-autoloader -d ${ECCUBE_PREFIX}
-
-# E2Eテスト用の Node.js 依存関係をインストール
-COPY package.json yarn.lock ${ECCUBE_PREFIX}/
-RUN yarn install --frozen-lockfile --production=false
 
 COPY . ${ECCUBE_PREFIX}
 RUN composer dumpautoload -o

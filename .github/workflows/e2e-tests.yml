@@ -36,6 +36,14 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
 
+    - name: Cache yarn dependencies
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-node_modules-
+
     - name: Cache Playwright browsers
       uses: actions/cache@v4
       with:
@@ -93,10 +101,12 @@ jobs:
         docker compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
 
     - run: sleep 1
-    - name: Install Playwright browsers and system dependencies
+    - name: Install dependencies
       run: |
+        yarn install --frozen-lockfile --prefer-offline
         npx playwright install chromium
-        npx playwright install-deps chromium
+    - name: Install Playwright system dependencies
+      run: npx playwright install-deps chromium
 
     - name: Run to E2E testing
       uses: nick-invision/retry@v3
@@ -158,6 +168,14 @@ jobs:
       uses: ./.github/actions/dockerbuild
       with:
         php-version: ${{ matrix.php }}
+
+    - name: Cache yarn dependencies
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-node_modules-
 
     - name: Cache Playwright browsers
       uses: actions/cache@v4
