@@ -22,12 +22,13 @@ class SC_CartSessionTest extends Common_TestCase
         $this->backupData['products_class'] = $this->objQuery->getAll('SELECT * FROM dtb_products_class');
         $this->backupData['deliv'] = $this->objQuery->getAll('SELECT * FROM dtb_deliv');
         $this->backupData['baseinfo'] = $this->objQuery->getAll('SELECT * FROM dtb_baseinfo');
+        $this->backupData['tax_rule'] = $this->objQuery->getAll('SELECT * FROM dtb_tax_rule');
     }
 
     protected function tearDown(): void
     {
         // バックアップからデータを復元
-        foreach (['products', 'products_class', 'deliv', 'baseinfo'] as $table) {
+        foreach (['products', 'products_class', 'deliv', 'baseinfo', 'tax_rule'] as $table) {
             $tableName = 'dtb_'.$table;
             $this->objQuery->delete($tableName);
             foreach ($this->backupData[$table] as $row) {
