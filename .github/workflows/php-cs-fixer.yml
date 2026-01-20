@@ -47,7 +47,5 @@ jobs:
         else
           echo "TAG=8.4-apache-${REF_NAME}" >> $GITHUB_ENV
         fi
-    - run: |
-        docker compose up -d --wait
-        docker compose exec -T ec-cube composer install
+    - run: docker compose up -d --wait
     - run: docker compose exec -T -e PHP_CS_FIXER_IGNORE_ENV=1 ec-cube php data/vendor/bin/php-cs-fixer fix --diff --dry-run --allow-risky=yes
