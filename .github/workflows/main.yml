@@ -57,6 +57,7 @@ jobs:
     uses: ./.github/workflows/e2e-tests.yml
   success:
     needs:
+      - php-cs-fixer
       - phpstan
       - unit-tests
       - e2e-tests
