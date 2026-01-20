@@ -19,7 +19,7 @@
     "slick-carousel": "^1.8.1",
     "style-loader": "^4.0.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.97.1"
+    "webpack": "^5.99.8"
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",
@@ -38,7 +38,7 @@
     "eslint-config-jquery": "^3.0.2",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-playwright": "^2.2.0",
-    "expose-loader": "^5.0.0",
+    "expose-loader": "^5.0.1",
     "tar": "^7.4.3",
     "typescript": "^5.8.3",
     "webpack-cli": "^6.0.1",
