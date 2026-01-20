@@ -35,10 +35,13 @@ export class MypageLoginPage {
     await this.loginEmail.fill(this.email);
     await this.loginPass.fill(this.password);
 
-    // AJAX対応: クリック後、ログイン成功を待つ
-    await this.loginButton.click();
-    // ログイン成功後、ログアウトボタンが表示されるのを待つ
-    await this.logoutButton.waitFor({ state: 'visible', timeout: 10000 });
+    // AJAX対応: クリック後、ページ遷移を待つ
+    await Promise.all([
+      // ページ遷移を待つ（AJAX成功時にリダイレクトされる）
+      this.page.waitForURL(url => url.pathname.includes('/mypage/index.php') || url.pathname.includes('/mypage/'), { timeout: 10000 }),
+      // ログインボタンをクリック
+      this.loginButton.click()
+    ]);
   }
 
   async logout () {

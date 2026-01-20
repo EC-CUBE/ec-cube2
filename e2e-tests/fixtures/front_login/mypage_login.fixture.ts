@@ -39,7 +39,7 @@ export const test = base.extend<MypageLoginFixtures>({
       await page.getByRole('link', { name: '確認ページへ' }).click();
       await page.getByRole('link', { name: 'この内容で登録する' }).click();
 
-      await page.goto(`/`);
+      await loginPage.goto();
       await loginPage.login();
     } else {
       const zapClient = loginPage.getZapClient();
