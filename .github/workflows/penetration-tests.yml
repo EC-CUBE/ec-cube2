@@ -62,14 +62,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node_modules-
 
-    - name: Cache Playwright browsers
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-playwright-
-
     - run: sleep 1
     - name: Install dependencies
       run: |
