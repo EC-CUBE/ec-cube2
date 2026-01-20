@@ -84,7 +84,8 @@ RUN chmod +x /wait-for-*.sh
 COPY composer.json ${ECCUBE_PREFIX}/composer.json
 COPY composer.lock ${ECCUBE_PREFIX}/composer.lock
 
-RUN composer install --no-scripts --no-autoloader --no-dev -d ${ECCUBE_PREFIX}
+# CI環境で必要な dev dependencies も含めてインストール
+RUN composer install --no-scripts --no-autoloader -d ${ECCUBE_PREFIX}
 
 COPY . ${ECCUBE_PREFIX}
 RUN composer dumpautoload -o
