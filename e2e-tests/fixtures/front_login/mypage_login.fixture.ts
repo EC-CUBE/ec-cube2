@@ -41,6 +41,8 @@ export const test = base.extend<MypageLoginFixtures>({
 
       await loginPage.goto();
       await loginPage.login();
+      // ログイン後のページ読み込みが完全に完了するまで待機
+      await page.waitForLoadState('networkidle').catch(() => {});
     } else {
       const zapClient = loginPage.getZapClient();
       await zapClient.setMode(Mode.Protect);

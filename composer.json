@@ -37,6 +37,7 @@
         "php": "^7.4 || ^8.0",
         "ext-gd": "*",
         "ext-mbstring": "*",
+        "ec-cube2/cli": "dev-master@dev",
         "mobiledetect/mobiledetectlib": "^3.74",
         "nanasess/mdb2": "^2.5",
         "nanasess/php8-compat": "^1.0",
