@@ -31,4 +31,3 @@ composer.phar
 *.log
 *.tpl.php
 !.gitkeep
-CLAUDE.md
