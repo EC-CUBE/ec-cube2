@@ -87,6 +87,7 @@ jobs:
             printf "."
             sleep 1
         done
+        docker compose exec -T ec-cube composer dumpautoload
         docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
 
     - if: ${{ matrix.db == 'pgsql' }}
