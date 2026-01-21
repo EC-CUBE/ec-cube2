@@ -52,7 +52,7 @@ abstract class SC_Helper_TaxRule_TestBase extends Common_TestCase
     protected function tearDown(): void
     {
         // 税ルールを元に戻す
-        $this->objQuery->delete('dtb_tax_rule');
+        $this->objQuery->delete('dtb_tax_rule', '1=1');
         foreach ($this->originalTaxRules as $rule) {
             $this->objQuery->insert('dtb_tax_rule', $rule);
         }
