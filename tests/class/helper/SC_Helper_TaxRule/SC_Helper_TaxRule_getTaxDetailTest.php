@@ -368,7 +368,7 @@ class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
 
     protected function setUpTaxRule(array $taxs = [])
     {
-        $this->objQuery->delete('dtb_tax_rule', '1=1');
+        $this->objQuery->delete('dtb_tax_rule');
         foreach ($taxs as $key => $item) {
             $this->objQuery->insert('dtb_tax_rule', $item);
         }
