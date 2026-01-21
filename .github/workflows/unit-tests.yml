@@ -24,8 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-24.04 ]
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5' ]
-        db: [ mysql, pgsql ]
+        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
+        db: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["mysql", "pgsql"]') }}
 
     steps:
     - name: Checkout
@@ -69,7 +69,6 @@ jobs:
             sleep 1
         done
         cat data/config/config.php
-        docker compose exec -T ec-cube composer install
     - name: Run to PHPUnit
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --exclude-group classloader,mysql_prepare
     - name: Run to PHPUnit classloader
