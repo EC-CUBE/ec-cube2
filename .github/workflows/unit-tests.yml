@@ -24,8 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-24.04 ]
-        php: ${{ github.actor == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
-        db: ${{ github.actor == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["mysql", "pgsql"]') }}
+        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
+        db: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["mysql", "pgsql"]') }}
 
     steps:
     - name: Checkout
