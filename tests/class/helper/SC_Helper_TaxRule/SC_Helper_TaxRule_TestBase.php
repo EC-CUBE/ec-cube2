@@ -122,7 +122,7 @@ abstract class SC_Helper_TaxRule_TestBase extends Common_TestCase
             ],
         ];
 
-        $this->objQuery->delete('dtb_tax_rule');
+        $this->objQuery->delete('dtb_tax_rule', '1=1');
         foreach ($taxs as $key => $item) {
             $this->objQuery->insert('dtb_tax_rule', $item);
         }
