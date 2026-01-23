@@ -32,52 +32,17 @@ class SC_Helper_Delivery_TestBase extends Common_TestCase
     /** @var SC_Helper_Delivery */
     protected $objHelper;
 
-    /** @var array テスト前のデータバックアップ */
-    protected $backupData = [];
-
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->objHelper = new SC_Helper_Delivery_Ex();
 
-        // テストで変更される可能性のあるテーブルをバックアップ
-        $this->backupData['dtb_deliv'] = $this->objQuery->select('*', 'dtb_deliv');
-        $this->backupData['dtb_delivtime'] = $this->objQuery->select('*', 'dtb_delivtime');
-        $this->backupData['dtb_delivfee'] = $this->objQuery->select('*', 'dtb_delivfee');
-        $this->backupData['dtb_payment_options'] = $this->objQuery->select('*', 'dtb_payment_options');
-
-        // テーブルをクリア
+        // テーブルをクリア（トランザクション内なので自動的にロールバックされる）
         $this->objQuery->delete('dtb_payment_options');
         $this->objQuery->delete('dtb_delivfee');
         $this->objQuery->delete('dtb_delivtime');
         $this->objQuery->delete('dtb_deliv');
-    }
-
-    protected function tearDown(): void
-    {
-        // バックアップからデータを復元
-        $this->objQuery->delete('dtb_payment_options');
-        foreach ($this->backupData['dtb_payment_options'] as $row) {
-            $this->objQuery->insert('dtb_payment_options', $row);
-        }
-
-        $this->objQuery->delete('dtb_delivfee');
-        foreach ($this->backupData['dtb_delivfee'] as $row) {
-            $this->objQuery->insert('dtb_delivfee', $row);
-        }
-
-        $this->objQuery->delete('dtb_delivtime');
-        foreach ($this->backupData['dtb_delivtime'] as $row) {
-            $this->objQuery->insert('dtb_delivtime', $row);
-        }
-
-        $this->objQuery->delete('dtb_deliv');
-        foreach ($this->backupData['dtb_deliv'] as $row) {
-            $this->objQuery->insert('dtb_deliv', $row);
-        }
-
-        parent::tearDown();
     }
 
     /**
