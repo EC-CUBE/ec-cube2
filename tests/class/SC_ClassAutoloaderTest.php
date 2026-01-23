@@ -129,11 +129,12 @@ class SC_ClassAutoloaderTest extends Common_TestCase
 
         // 既知の不整合をログに記録（テストは成功）
         if (!empty($mismatches)) {
-            $this->addWarning(sprintf(
-                '既知の不整合（issue #1268）が %d 個検出されました: %s',
+            $message = sprintf(
+                "既知の不整合（issue #1268）が %d 個検出されました: %s\n",
                 count($mismatches),
                 implode(', ', array_column($mismatches, 'class'))
-            ));
+            );
+            fwrite(STDERR, $message);
         }
 
         $this->assertTrue(
