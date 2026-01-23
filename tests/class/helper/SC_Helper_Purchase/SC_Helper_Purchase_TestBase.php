@@ -32,25 +32,13 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
  */
 class SC_Helper_Purchase_TestBase extends Common_TestCase
 {
-    /**
-     * @var array テスト前のデータバックアップ
-     */
-    protected $backupData = [];
-
     protected function setUp(): void
     {
         parent::setUp();
-        // テストで変更される可能性のあるテーブルをバックアップ
-        $this->backupData['tax_rule'] = $this->objQuery->getAll('SELECT * FROM dtb_tax_rule');
     }
 
     protected function tearDown(): void
     {
-        // バックアップからデータを復元
-        $this->objQuery->delete('dtb_tax_rule', '1=1');
-        foreach ($this->backupData['tax_rule'] as $row) {
-            $this->objQuery->insert('dtb_tax_rule', $row);
-        }
         parent::tearDown();
     }
 
