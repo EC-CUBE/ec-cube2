@@ -81,6 +81,8 @@ class SC_Helper_CSV_TestBase extends Common_TestCase
         foreach ($columns as $column) {
             $sqlval = array_merge([
                 'csv_id' => $csv_id,
+                'create_date' => 'CURRENT_TIMESTAMP',
+                'update_date' => 'CURRENT_TIMESTAMP',
             ], $column);
 
             $this->objQuery->insert('dtb_csv', $sqlval);
