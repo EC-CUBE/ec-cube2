@@ -33,10 +33,10 @@
 class SC_Helper_Mailmaga
 {
     /** トークンの有効期限（日数） */
-    const TOKEN_EXPIRE_DAYS = 90;
+    public const TOKEN_EXPIRE_DAYS = 90;
 
     /** トークンの長さ */
-    const TOKEN_LENGTH = 64;
+    public const TOKEN_LENGTH = 64;
 
     /**
      * ワンクリック登録解除用トークンを生成

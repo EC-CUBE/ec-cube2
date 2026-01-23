@@ -76,7 +76,7 @@ class LC_Page_Mailmaga_Unsubscribe extends LC_Page_Ex
     public function action()
     {
         // トークンの取得
-        $token = isset($_REQUEST['token']) ? $_REQUEST['token'] : '';
+        $token = $_REQUEST['token'] ?? '';
 
         // トークンの検証
         if (empty($token)) {
@@ -107,7 +107,7 @@ class LC_Page_Mailmaga_Unsubscribe extends LC_Page_Ex
                 exit;
             } else {
                 // 通常のフォーム送信（確認ページからの送信）
-                $mode = isset($_POST['mode']) ? $_POST['mode'] : '';
+                $mode = $_POST['mode'] ?? '';
 
                 if ($mode === 'confirm') {
                     $this->processUnsubscribe($arrToken, $token);

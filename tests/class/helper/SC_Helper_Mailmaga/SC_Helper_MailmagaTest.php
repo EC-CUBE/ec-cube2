@@ -39,7 +39,7 @@ class SC_Helper_MailmagaTest extends Common_TestCase
         $this->assertStringStartsWith('https://', $url);
     }
 
-    public function testValidateToken_ValidToken()
+    public function testValidateTokenValidToken()
     {
         // トークンを生成
         $token = SC_Helper_Mailmaga::generateUnsubscribeToken(1, 1, 'test@example.com');
@@ -52,14 +52,14 @@ class SC_Helper_MailmagaTest extends Common_TestCase
         $this->assertEquals('test@example.com', $arrToken['email']);
     }
 
-    public function testValidateToken_InvalidToken()
+    public function testValidateTokenInvalidToken()
     {
         $result = SC_Helper_Mailmaga::validateToken('invalid-token');
 
         $this->assertFalse($result);
     }
 
-    public function testValidateToken_UsedToken()
+    public function testValidateTokenUsedToken()
     {
         // トークンを生成
         $token = SC_Helper_Mailmaga::generateUnsubscribeToken(1, 1, 'test@example.com');
@@ -73,7 +73,7 @@ class SC_Helper_MailmagaTest extends Common_TestCase
         $this->assertFalse($result);
     }
 
-    public function testValidateToken_ExpiredToken()
+    public function testValidateTokenExpiredToken()
     {
         // トークンを生成
         $token = SC_Helper_Mailmaga::generateUnsubscribeToken(1, 1, 'test@example.com');
