@@ -75,7 +75,7 @@ class SC_Helper_CSV_sfGetCsvOutputTest extends SC_Helper_CSV_TestBase
         $this->assertEquals('product_name', $result[1]['col']);
     }
 
-    public function testSfGetCsvOutput存在しないCSV_IDの場合()
+    public function testSfGetCsvOutput存在しないCSVIDの場合()
     {
         $result = $this->objHelper->sfGetCsvOutput(9999);
 

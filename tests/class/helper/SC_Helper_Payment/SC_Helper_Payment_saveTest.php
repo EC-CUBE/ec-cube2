@@ -63,7 +63,7 @@ class SC_Helper_Payment_saveTest extends SC_Helper_Payment_TestBase
         $this->assertEquals(200, $result['charge']);
     }
 
-    public function testSave更新時にcreator_idとcreate_dateは変更されない()
+    public function testSave更新時にcreatorIdとcreateDateは変更されない()
     {
         $this->createPaymentData([
             'payment_id' => 1,

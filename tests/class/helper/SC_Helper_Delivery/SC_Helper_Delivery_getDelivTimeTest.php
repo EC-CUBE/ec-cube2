@@ -40,7 +40,7 @@ class SC_Helper_Delivery_getDelivTimeTest extends SC_Helper_Delivery_TestBase
         $this->assertEmpty($result, '配送時間が存在しない場合は空配列');
     }
 
-    public function testGetDelivTimeソート順がtime_id昇順()
+    public function testGetDelivTimeソート順がtimeId昇順()
     {
         $result = SC_Helper_Delivery::getDelivTime(1);
 

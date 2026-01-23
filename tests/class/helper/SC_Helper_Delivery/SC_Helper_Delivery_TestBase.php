@@ -49,6 +49,7 @@ class SC_Helper_Delivery_TestBase extends Common_TestCase
      * テスト用の配送方法データを作成
      *
      * @param array $override 上書きするフィールド
+     *
      * @return array
      */
     protected function createDelivData($override = [])

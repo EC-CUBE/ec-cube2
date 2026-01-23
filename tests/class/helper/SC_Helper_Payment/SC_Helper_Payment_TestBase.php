@@ -46,6 +46,7 @@ class SC_Helper_Payment_TestBase extends Common_TestCase
      * テスト用の支払方法データを作成
      *
      * @param array $override 上書きするフィールド
+     *
      * @return array
      */
     protected function createPaymentData($override = [])

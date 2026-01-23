@@ -91,6 +91,7 @@ class SC_Helper_CSV_TestBase extends Common_TestCase
      * テスト用の一時CSVファイルを作成
      *
      * @param array $data CSV データ（2次元配列）
+     *
      * @return string 一時ファイルのパス
      */
     protected function createTempCsvFile($data)
