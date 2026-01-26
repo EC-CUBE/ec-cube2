@@ -78,6 +78,7 @@ EXPOSE 443
 
 WORKDIR ${ECCUBE_PREFIX}
 
+# Copy entrypoint scripts for MySQL, PostgreSQL, and SQLite3
 COPY dockerbuild/wait-for-*.sh /
 RUN chmod +x /wait-for-*.sh
 
