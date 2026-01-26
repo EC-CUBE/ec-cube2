@@ -339,6 +339,73 @@ class SC_DB_DBFactory_SQLITE3 extends SC_DB_DBFactory
     }
 
     /**
+     * 売上集計の期間別集計のSQLを返す
+     *
+     * @param  mixed  $type
+     *
+     * @return string 検索条件のSQL
+     */
+    public function getOrderTotalDaysWhereSql($type)
+    {
+        switch ($type) {
+            case 'month':
+                $format = '%Y-%m';
+                break;
+            case 'year':
+                $format = '%Y';
+                break;
+            case 'wday':
+                // SQLite3 には曜日略称のフォーマットがないため CASE 式で変換する
+                $dateExpr = "CASE CAST(strftime('%w', create_date) AS INTEGER)"
+                    ." WHEN 0 THEN 'Sun' WHEN 1 THEN 'Mon' WHEN 2 THEN 'Tue'"
+                    ." WHEN 3 THEN 'Wed' WHEN 4 THEN 'Thu' WHEN 5 THEN 'Fri'"
+                    ." WHEN 6 THEN 'Sat' END";
+
+                return $dateExpr." AS str_date,
+            COUNT(order_id) AS total_order,
+            SUM(CASE WHEN order_sex = 1 THEN 1 ELSE 0 END) AS men,
+            SUM(CASE WHEN order_sex = 2 THEN 1 ELSE 0 END) AS women,
+            SUM(CASE WHEN customer_id <> 0 AND order_sex = 1 THEN 1 ELSE 0 END) AS men_member,
+            SUM(CASE WHEN customer_id <> 0 AND order_sex = 2 THEN 1 ELSE 0 END) AS women_member,
+            SUM(CASE WHEN customer_id = 0 AND order_sex = 1 THEN 1 ELSE 0 END) AS men_nonmember,
+            SUM(CASE WHEN customer_id = 0 AND order_sex = 2 THEN 1 ELSE 0 END) AS women_nonmember,
+            SUM(total) AS total,
+            AVG(total) AS total_average";
+            case 'hour':
+                $format = '%H';
+                break;
+            default:
+                $format = '%Y-%m-%d';
+                break;
+        }
+
+        return "strftime('".$format."', create_date) AS str_date,
+            COUNT(order_id) AS total_order,
+            SUM(CASE WHEN order_sex = 1 THEN 1 ELSE 0 END) AS men,
+            SUM(CASE WHEN order_sex = 2 THEN 1 ELSE 0 END) AS women,
+            SUM(CASE WHEN customer_id <> 0 AND order_sex = 1 THEN 1 ELSE 0 END) AS men_member,
+            SUM(CASE WHEN customer_id <> 0 AND order_sex = 2 THEN 1 ELSE 0 END) AS women_member,
+            SUM(CASE WHEN customer_id = 0 AND order_sex = 1 THEN 1 ELSE 0 END) AS men_nonmember,
+            SUM(CASE WHEN customer_id = 0 AND order_sex = 2 THEN 1 ELSE 0 END) AS women_nonmember,
+            SUM(total) AS total,
+            AVG(total) AS total_average";
+    }
+
+    /**
+     * 売上集計の年代別集計の年代抽出部分のSQLを返す
+     *
+     * @return string 年代抽出部分の SQL
+     */
+    public function getOrderTotalAgeColSql()
+    {
+        // 注文時の年齢を算出し、10の位で切り捨て（20代、30代...）
+        return "CAST(("
+            ."(CAST(strftime('%Y', create_date) AS INTEGER) - CAST(strftime('%Y', order_birth) AS INTEGER))"
+            ." - (strftime('%m-%d', create_date) < strftime('%m-%d', order_birth))"
+            .") / 10 AS INTEGER) * 10";
+    }
+
+    /**
      * ダウンロード販売の検索条件の SQL を返す.
      *
      * @param  string $dtb_order_alias
