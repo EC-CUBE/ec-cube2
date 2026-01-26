@@ -81,6 +81,13 @@ case "${DBTYPE}" in
     DBPORT=${DBPORT:-"3306"}
     DB=mysqli;
 ;;
+"sqlite3" )
+    # SQLite3: ファイルベースDB
+    DBNAME=${DBNAME:-"/tmp/eccube_test.db"}
+    DBSERVER=""
+    DBPORT=""
+    DB=$DBTYPE;
+;;
 * ) echo "ERROR:: argument is invaid"
 exit
 ;;
@@ -158,6 +165,14 @@ dtb_tax_rule_tax_rule_id_seq
                     INSERT INTO ${S} VALUES (10000);
                     UNLOCK TABLES;")
             ;;
+            sqlite3 )
+                # SQLite3: MDB2が自動作成するためスキップ
+                # またはシーケンステーブルを明示的に作成
+                sql=$(echo "CREATE TABLE IF NOT EXISTS ${S} (
+                        sequence INTEGER PRIMARY KEY DEFAULT 0 NOT NULL
+                    );
+                    INSERT INTO ${S} (sequence) VALUES (10000);")
+            ;;
         esac
 
         comb_sql=${comb_sql}${sql}
@@ -169,6 +184,9 @@ dtb_tax_rule_tax_rule_id_seq
         ;;
         mysql)
             echo ${comb_sql} | ${MYSQL} -h ${DBSERVER} -P ${DBPORT} -u ${DBUSER} ${PASSOPT} ${DBNAME}
+        ;;
+        sqlite3)
+            echo ${comb_sql} | sqlite3 ${DBNAME}
         ;;
     esac
 }
@@ -279,6 +297,24 @@ case "${DBTYPE}" in
     create_sequence_tables
     echo "execute optional SQL..."
     get_optional_sql | sed -e 's/rank/`rank`/g' | ${MYSQL} -u ${DBUSER} -h ${DBSERVER} -P ${DBPORT} ${PASSOPT} ${DBNAME}
+;;
+"sqlite3" )
+    # SQLite3
+    echo "remove old database..."
+    rm -f ${DBNAME}
+    echo "create database file..."
+    touch ${DBNAME}
+    echo "create table..."
+    sqlite3 ${DBNAME} < ${SQL_DIR}/create_table_sqlite3.sql
+    echo "insert data..."
+    cat ${SQL_DIR}/insert_data.sql | \
+        sed -e 's/`rank`/rank/g' \
+            -e 's/`//g' | \
+        sqlite3 ${DBNAME}
+    echo "create sequence table..."
+    create_sequence_tables
+    echo "execute optional SQL..."
+    get_optional_sql | sed -e 's/`rank`/rank/g' -e 's/`//g' | sqlite3 ${DBNAME}
 ;;
 esac
 
