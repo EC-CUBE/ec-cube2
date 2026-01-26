@@ -415,6 +415,76 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * dtb_products_class の listTableFields で REAL 型カラムが返されることを確認する.
+     */
+    public function testListTableFieldsProductsClass()
+    {
+        $fields = $this->objQuery->listTableFields('dtb_products_class');
+
+        $expectedCols = [
+            'product_class_id',
+            'product_id',
+            'classcategory_id1',
+            'classcategory_id2',
+            'product_type_id',
+            'product_code',
+            'stock',
+            'stock_unlimited',
+            'sale_limit',
+            'price01',
+            'price02',
+            'deliv_fee',
+            'point_rate',
+            'creator_id',
+            'create_date',
+            'update_date',
+            'down_filename',
+            'down_realfilename',
+            'del_flg',
+        ];
+        $this->assertEquals($expectedCols, $fields);
+    }
+
+    /**
+     * dtb_products_class の extractOnlyColsOf で REAL 型カラムが除外されないことを確認する.
+     */
+    public function testExtractOnlyColsOfProductsClass()
+    {
+        $params = [
+            'product_class_id' => 99999,
+            'product_id' => 99999,
+            'classcategory_id1' => 0,
+            'classcategory_id2' => 0,
+            'product_code' => 'TEST_CODE',
+            'product_type_id' => 1,
+            'stock_unlimited' => 0,
+            'stock' => 50,
+            'price01' => 2000,
+            'price02' => 1800,
+            'point_rate' => 10,
+            'creator_id' => 2,
+            'create_date' => 'CURRENT_TIMESTAMP',
+            'update_date' => 'CURRENT_TIMESTAMP',
+            'del_flg' => 0,
+            'nonexistent_col' => 'should_be_removed',
+        ];
+
+        $result = $this->objQuery->extractOnlyColsOf('dtb_products_class', $params);
+
+        // REAL 型カラムが残っていること
+        $this->assertArrayHasKey('stock', $result);
+        $this->assertArrayHasKey('price01', $result);
+        $this->assertArrayHasKey('price02', $result);
+        $this->assertArrayHasKey('point_rate', $result);
+
+        // 存在しないカラムが除外されていること
+        $this->assertArrayNotHasKey('nonexistent_col', $result);
+
+        // 全体の件数確認（nonexistent_col のみ除外）
+        $this->assertCount(count($params) - 1, $result);
+    }
+
+    /**
      * SC_Query::getSql() 経由で SC_Query::resetAdditionalClauses() が呼ばれていることを確認する。
      */
     public function testResetAdditionalClausesViaGetSql()
