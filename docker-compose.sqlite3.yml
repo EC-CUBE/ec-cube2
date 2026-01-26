@@ -1,6 +1,7 @@
 services:
   ec-cube:
     command: apache2-foreground
+    entrypoint: /wait-for-sqlite3.sh
     environment:
       TZ: Asia/Tokyo
       PHP_POST_MAX_SIZE: 10M
