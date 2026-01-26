@@ -98,7 +98,62 @@ if ($needsInit) {
 }
 
 echo "========================================\n";
+
+// DB接続テスト
+echo "  [INFO] Testing MDB2 connection...\n";
+require_once __DIR__ . '/../data/vendor/nanasess/mdb2/MDB2.php';
+
+$testDsn = [
+    'phptype' => 'sqlite3',
+    'username' => '',
+    'password' => '',
+    'protocol' => 'tcp',
+    'hostspec' => '',
+    'port' => '',
+    'database' => DB_NAME,
+];
+
+$testConn = MDB2::connect($testDsn);
+if (PEAR::isError($testConn)) {
+    echo "  [ERROR] MDB2 connection failed!\n";
+    echo "  Error: " . $testConn->getMessage() . "\n";
+    echo "  Debug: " . $testConn->getDebugInfo() . "\n";
+    exit(1);
+}
+
+echo "  [INFO] MDB2 connected successfully!\n";
+
+// 簡単なクエリテスト
+$result = $testConn->query('SELECT COUNT(*) FROM dtb_member');
+if (PEAR::isError($result)) {
+    echo "  [ERROR] Query failed: " . $result->getMessage() . "\n";
+} else {
+    $row = $result->fetchRow();
+    echo "  [INFO] dtb_member count: " . $row[0] . "\n";
+}
+
+$testConn->disconnect();
+echo "========================================\n";
 echo "\n";
 
-// 通常のbootstrap読み込み
+// 通常のbootstrap読み込み（必要な定数も定義される）
 require_once __DIR__.'/require.php';
+
+// SC_Query経由のテスト
+echo "\n";
+echo "========================================\n";
+echo "  Testing SC_Query with SQLite3...\n";
+echo "========================================\n";
+
+$objQuery = SC_Query_Ex::getSingletonInstance();
+echo "  [INFO] SC_Query instance created\n";
+
+try {
+    $count = $objQuery->count('dtb_member');
+    echo "  [INFO] SC_Query test passed! dtb_member count: $count\n";
+} catch (Exception $e) {
+    echo "  [ERROR] SC_Query test failed: " . $e->getMessage() . "\n";
+}
+
+echo "========================================\n";
+echo "\n";

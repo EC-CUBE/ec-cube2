@@ -166,12 +166,13 @@ dtb_tax_rule_tax_rule_id_seq
                     UNLOCK TABLES;")
             ;;
             sqlite3 )
-                # SQLite3: MDB2が自動作成するためスキップ
-                # またはシーケンステーブルを明示的に作成
+                # SQLite3: AUTOINCREMENT付きテーブルを作成し、初期値を9999に設定
+                # 次のINSERTでsequence=10000から始まる
                 sql=$(echo "CREATE TABLE IF NOT EXISTS ${S} (
-                        sequence INTEGER PRIMARY KEY DEFAULT 0 NOT NULL
+                        sequence INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL
                     );
-                    INSERT INTO ${S} (sequence) VALUES (10000);")
+                    INSERT INTO ${S} (sequence) VALUES (9999);
+                    DELETE FROM ${S};")
             ;;
         esac
 
