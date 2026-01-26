@@ -1164,7 +1164,7 @@ class SC_Query
             // メモリ使用量を抑えるため、巨大な配列の場合は要約表示
             $valSize = is_array($arrVal) ? count($arrVal) : (is_string($arrVal) ? strlen($arrVal) : 0);
             if ($valSize > 100 || ($valSize > 0 && memory_get_usage() > 100 * 1024 * 1024)) {
-                $err .= 'PlaceHolder: [large array/string - ' . $valSize . ' elements/bytes]' . "\n";
+                $err .= 'PlaceHolder: [large array/string - '.$valSize.' elements/bytes]'."\n";
             } else {
                 $err .= 'PlaceHolder: ['.var_export($arrVal, true)."]\n";
             }
@@ -1175,12 +1175,12 @@ class SC_Query
         try {
             $userInfo = $error->getUserInfo();
             if (is_string($userInfo) && strlen($userInfo) > 1000) {
-                $err .= substr($userInfo, 0, 1000) . "... (truncated)\n";
+                $err .= substr($userInfo, 0, 1000)."... (truncated)\n";
             } else {
                 $err .= rtrim($userInfo)."\n";
             }
         } catch (\Throwable $e) {
-            $err .= "[getUserInfo() failed: " . $e->getMessage() . "]\n";
+            $err .= '[getUserInfo() failed: '.$e->getMessage()."]\n";
         }
 
         // PEAR::MDB2 内部のスタックトレースを出力する場合、下記のコメントを外す。
