@@ -88,6 +88,19 @@ jobs:
             sleep 1
         done
         docker compose exec -T ec-cube composer dumpautoload
+        docker compose exec -T ec-cube php -r '
+          require_once "/var/www/app/html/require.php";
+          require_once "/var/www/app/data/vendor/autoload.php";
+          $q = SC_Query_Ex::getSingletonInstance();
+          $fields = $q->listTableFields("dtb_products_class");
+          echo "=== listTableFields(dtb_products_class) ===\n";
+          echo "count: " . count($fields) . "\n";
+          echo implode(", ", $fields) . "\n";
+          $realCols = ["stock","sale_limit","price01","price02","deliv_fee","point_rate"];
+          foreach ($realCols as $c) {
+            echo $c . ": " . (in_array($c, $fields) ? "OK" : "MISSING") . "\n";
+          }
+        '
         docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
 
     - if: ${{ matrix.db == 'pgsql' }}
