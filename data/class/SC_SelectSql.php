@@ -127,15 +127,15 @@ class SC_SelectSql
         $return = [];
 
         // 開始期間の構築
-        $date1 = $from_year.'/'.$from_month.'/'.$from_day;
+        $date1 = $from_year.'-'.$from_month.'-'.$from_day;
 
         // 終了期間の構築
         // @see http://svn.ec-cube.net/open_trac/ticket/328
         // FIXME とりあえずintvalで対策...
         $date2 = mktime(0, 0, 0, (int) $to_month, (int) $to_day, (int) $to_year);
         $date2 += 86400;
-        // SQL文のdate関数に与えるフォーマットは、yyyy/mm/ddで指定する。
-        $date2 = date('Y/m/d', $date2);
+        // SQL文のdate関数に与えるフォーマットは、yyyy-mm-ddで指定する。
+        $date2 = date('Y-m-d', $date2);
 
         // 開始期間だけ指定の場合
         if (($from_year != '') && ($from_month != '') && ($from_day != '') && ($to_year == '') && ($to_month == '') && ($to_day == '')) {

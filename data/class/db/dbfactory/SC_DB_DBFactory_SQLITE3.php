@@ -69,6 +69,13 @@ class SC_DB_DBFactory_SQLITE3 extends SC_DB_DBFactory
 
         // RANDOM()はそのまま使える（SQLite3でサポート済み）
 
+        // CURRENT_TIMESTAMP をローカルタイムに変換する
+        // SQLite3の CURRENT_TIMESTAMP は UTC を返すため、ローカルタイムに変換する
+        $sql = $this->sfChangeCurrentTimestamp($sql);
+
+        // EXTRACT(field FROM column) を strftime に変換する
+        $sql = $this->sfChangeExtract($sql);
+
         // ILIKE検索をLIKE検索に変換する（SQLite3はデフォルトで大文字小文字区別しない）
         $sql = $this->sfChangeILIKE($sql);
 
@@ -145,6 +152,61 @@ class SC_DB_DBFactory_SQLITE3 extends SC_DB_DBFactory
     }
 
     /**
+     * CURRENT_TIMESTAMP を datetime('now', 'localtime') に変換する.
+     *
+     * SQLite3 の CURRENT_TIMESTAMP は UTC を返すため、
+     * ローカルタイムゾーンの日時を使用するように変換する。
+     *
+     * @param  string $sql SQL文
+     *
+     * @return string 変換後の SQL 文
+     */
+    public function sfChangeCurrentTimestamp($sql)
+    {
+        // Now() を datetime('now','localtime') に変換
+        $sql = preg_replace('/\bNow\s*\(\s*\)/i', "datetime('now','localtime')", $sql);
+        // CURRENT_TIMESTAMP を datetime('now','localtime') に変換
+        $sql = preg_replace('/\bcurrent_timestamp\b/i', "datetime('now','localtime')", $sql);
+
+        return $sql;
+    }
+
+    /**
+     * EXTRACT(field FROM column) を SQLite3 の strftime に変換する.
+     *
+     * @param  string $sql SQL文
+     *
+     * @return string 変換後の SQL 文
+     */
+    public function sfChangeExtract($sql)
+    {
+        $formatMap = [
+            'year' => '%Y',
+            'month' => '%m',
+            'day' => '%d',
+            'hour' => '%H',
+            'minute' => '%M',
+            'second' => '%S',
+        ];
+
+        $sql = preg_replace_callback(
+            '/\bEXTRACT\s*\(\s*(\w+)\s+FROM\s+([^)]+)\)/i',
+            function ($matches) use ($formatMap) {
+                $field = strtolower($matches[1]);
+                $column = trim($matches[2]);
+                if (isset($formatMap[$field])) {
+                    return "CAST(strftime('".$formatMap[$field]."', ".$column.') AS INTEGER)';
+                }
+
+                return $matches[0];
+            },
+            $sql
+        );
+
+        return $sql;
+    }
+
+    /**
      * 擬似表を表すSQL文(FROM 句)を取得する
      *
      * SQLite3では不要なのでnullを返す
@@ -196,10 +258,10 @@ class SC_DB_DBFactory_SQLITE3 extends SC_DB_DBFactory
         }
 
         if (is_numeric($limit)) {
-            $sql .= " LIMIT $limit";
+            $sql .= ' LIMIT '.(int) $limit;
         }
         if (is_numeric($offset)) {
-            $sql .= " OFFSET $offset";
+            $sql .= ' OFFSET '.(int) $offset;
         }
 
         return $sql;
@@ -217,6 +279,114 @@ class SC_DB_DBFactory_SQLITE3 extends SC_DB_DBFactory
     {
         // SQLite3はAUTOINCREMENTを使用するため、シーケンス更新は不要
         return;
+    }
+
+    /**
+     * 昨日の売上高・売上件数を算出する SQL を返す.
+     *
+     * @param  string $method SUM または COUNT
+     *
+     * @return string 昨日の売上高・売上件数を算出する SQL
+     */
+    public function getOrderYesterdaySql($method)
+    {
+        return 'SELECT '.$method.'(total) FROM dtb_order '
+               .'WHERE del_flg = 0 '
+               ."AND date(create_date) = date('now', 'localtime', '-1 day') "
+               .'AND status <> '.ORDER_CANCEL;
+    }
+
+    /**
+     * 当月の売上高・売上件数を算出する SQL を返す.
+     *
+     * @param  string $method SUM または COUNT
+     *
+     * @return string 当月の売上高・売上件数を算出する SQL
+     */
+    public function getOrderMonthSql($method)
+    {
+        return 'SELECT '.$method.'(total) FROM dtb_order '
+               .'WHERE del_flg = 0 '
+               ."AND strftime('%Y/%m', create_date) = ? "
+               ."AND date(create_date) <> date('now', 'localtime') "
+               .'AND status <> '.ORDER_CANCEL;
+    }
+
+    /**
+     * 昨日のレビュー書き込み件数を算出する SQL を返す.
+     *
+     * @return string 昨日のレビュー書き込み件数を算出する SQL
+     */
+    public function getReviewYesterdaySql()
+    {
+        return 'SELECT COUNT(*) FROM dtb_review AS A '
+               .'LEFT JOIN dtb_products AS B '
+               .'ON A.product_id = B.product_id '
+               .'WHERE A.del_flg = 0 '
+               .'AND B.del_flg = 0 '
+               ."AND date(A.create_date) = date('now', 'localtime', '-1 day') "
+               ."AND date(A.create_date) != date('now', 'localtime')";
+    }
+
+    /**
+     * メール送信履歴の start_date の検索条件の SQL を返す.
+     *
+     * @return string 検索条件の SQL
+     */
+    public function getSendHistoryWhereStartdateSql()
+    {
+        return "start_date BETWEEN datetime('now', 'localtime', '-5 minutes') AND datetime('now', 'localtime', '+5 minutes')";
+    }
+
+    /**
+     * ダウンロード販売の検索条件の SQL を返す.
+     *
+     * @param  string $dtb_order_alias
+     *
+     * @return string 検索条件の SQL
+     */
+    public function getDownloadableDaysWhereSql($dtb_order_alias = 'dtb_order')
+    {
+        $baseinfo = SC_Helper_DB_Ex::sfGetBasisData();
+        $downloadable_days = $baseinfo['downloadable_days'];
+        if ($downloadable_days == null || $downloadable_days == '') {
+            $downloadable_days = 0;
+        }
+        $sql = <<< __EOS__
+            (
+                SELECT
+                    CASE
+                        WHEN (SELECT d1.downloadable_days_unlimited FROM dtb_baseinfo d1) = 1 AND $dtb_order_alias.payment_date IS NOT NULL THEN 1
+                        WHEN date('now', 'localtime') <= date($dtb_order_alias.payment_date, '+$downloadable_days days') THEN 1
+                        ELSE 0
+                    END
+            )
+            __EOS__;
+
+        return $sql;
+    }
+
+    /**
+     * 文字列連結を行う.
+     *
+     * @param  string[]  $columns 連結を行うカラム名
+     *
+     * @return string 連結後の SQL 文
+     */
+    public function concatColumn($columns)
+    {
+        $sql = '';
+        $i = 0;
+        $total = count($columns);
+        foreach ($columns as $column) {
+            $sql .= $column;
+            if ($i < $total - 1) {
+                $sql .= ' || ';
+            }
+            $i++;
+        }
+
+        return $sql;
     }
 
     /**
