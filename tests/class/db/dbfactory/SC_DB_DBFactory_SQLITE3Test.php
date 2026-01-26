@@ -67,7 +67,7 @@ class SC_DB_DBFactory_SQLITE3Test extends SC_DB_DBFactoryTestAbstract
 
     public function testSfChangeMySQLはNowをローカルタイムに変換する()
     {
-        $sql = "UPDATE dtb_member SET update_date = Now() WHERE member_id = 1";
+        $sql = 'UPDATE dtb_member SET update_date = Now() WHERE member_id = 1';
         $result = $this->dbFactory->sfChangeMySQL($sql);
 
         $this->assertStringNotContainsString('Now()', $result);
