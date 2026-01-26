@@ -85,6 +85,11 @@ jobs:
         git checkout eccube-2.17.2-p2 data/Smarty/templates/default/mail_templates
         docker compose exec -T ec-cube php data/vendor/bin/phpunit tests/class/helper/SC_Helper_Mail/
 
+    - name: Print container logs on failure
+      if: failure()
+      continue-on-error: true
+      run: docker compose logs ec-cube
+
     - name: Print error log
       if: always()
       continue-on-error: true
