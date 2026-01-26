@@ -73,7 +73,8 @@ class SC_ClassAutoloader
         // プラグイン向けフックポイント
         // MEMO: プラグインのローダーがDB接続を必要とするため、SC_Queryがロードされた後のみ呼び出される。
         //       プラグイン情報のキャッシュ化が行われれば、全部にフックさせることを可能に？
-        $objPlugin = SC_Helper_Plugin_Ex::getSingletonInstance(true, $plugin_upload_realdir);
+        // テスト実行時はプラグイン読み込みをスキップ（SQLite3など、プラグインテーブルが初期化されていない場合のため）
+        $objPlugin = defined('TEST_FUNCTION') ? null : SC_Helper_Plugin_Ex::getSingletonInstance(true, $plugin_upload_realdir);
         if (is_object($objPlugin)) {
             // 元の設定を一時保存
             $plugin_class = $class;
