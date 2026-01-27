@@ -19,6 +19,10 @@ then
     '
 fi
 
+# Ensure the database file and its directory are writable by Apache (www-data)
+chmod o+w "$DB_NAME"
+chmod o+w "$(dirname "$DB_NAME")"
+
 >&2 echo "SQLite3 Ready"
 
 exec docker-php-entrypoint "$@"
