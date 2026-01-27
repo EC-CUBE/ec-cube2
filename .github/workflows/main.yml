@@ -39,6 +39,8 @@ jobs:
       owner: ${{ github.repository_owner }}
     needs: [ dockerbuild ]
     uses: ./.github/workflows/phpstan.yml
+  dependency-review:
+    uses: ./.github/workflows/dependency-review.yml
   unit-tests:
     with:
       ref_name: ${{ github.ref_name }}
@@ -59,6 +61,7 @@ jobs:
     needs:
       - php-cs-fixer
       - phpstan
+      - dependency-review
       - unit-tests
       - e2e-tests
     uses: ./.github/workflows/success.yml
