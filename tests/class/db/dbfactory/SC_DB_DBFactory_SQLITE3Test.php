@@ -255,4 +255,152 @@ class SC_DB_DBFactory_SQLITE3Test extends SC_DB_DBFactoryTestAbstract
         $this->assertStringContainsString('T1.payment_date', $sql);
         $this->assertStringContainsString("date('now', 'localtime')", $sql);
     }
+
+    // ============================================================
+    // 集計SQL の実行テスト（DB実行レベルの検証）
+    // ============================================================
+
+    /**
+     * getOrderTotalDaysWhereSql で生成した SQL が実際に実行可能であることを確認する.
+     *
+     * @dataProvider orderTotalDaysTypeProvider
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/1318
+     */
+    public function testGetOrderTotalDaysWhereSqlを実行できる($type)
+    {
+        if (DB_TYPE !== 'sqlite3') {
+            $this->markTestSkipped('SQLite3 環境でのみ実行');
+        }
+
+        $col = $this->dbFactory->getOrderTotalDaysWhereSql($type);
+        $this->objQuery->setGroupBy('str_date');
+        $this->objQuery->setOrder('str_date');
+        $result = $this->objQuery->select($col, 'dtb_order', 'del_flg = 0');
+
+        $this->assertIsArray($result, "getOrderTotalDaysWhereSql('{$type}') の実行結果が配列であること");
+    }
+
+    public static function orderTotalDaysTypeProvider()
+    {
+        return [
+            'day' => ['day'],
+            'month' => ['month'],
+            'year' => ['year'],
+            'wday' => ['wday'],
+            'hour' => ['hour'],
+        ];
+    }
+
+    /**
+     * getOrderTotalAgeColSql で生成した SQL が実際に実行可能であることを確認する.
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/1318
+     */
+    public function testGetOrderTotalAgeColSqlを実行できる()
+    {
+        if (DB_TYPE !== 'sqlite3') {
+            $this->markTestSkipped('SQLite3 環境でのみ実行');
+        }
+
+        $col = $this->dbFactory->getOrderTotalAgeColSql().' AS age';
+        $col .= ',COUNT(order_id) AS order_count';
+        $col .= ',SUM(total) AS total';
+        $col .= ',AVG(total) AS total_average';
+
+        $this->objQuery->setGroupBy('age');
+        $this->objQuery->setOrder('age DESC');
+        $result = $this->objQuery->select($col, 'dtb_order', 'del_flg = 0');
+
+        $this->assertIsArray($result, 'getOrderTotalAgeColSql の実行結果が配列であること');
+    }
+
+    /**
+     * 商品別集計の SQL が実際に実行可能であることを確認する.
+     *
+     * LC_Page_Admin_Total::lfGetOrderProducts() と同等のクエリ.
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/1318
+     */
+    public function test商品別集計SQLを実行できる()
+    {
+        if (DB_TYPE !== 'sqlite3') {
+            $this->markTestSkipped('SQLite3 環境でのみ実行');
+        }
+
+        $col = 'product_id, product_code, product_name, SUM(quantity) AS products_count, COUNT(dtb_order_detail.order_id) AS order_count, price, (price * SUM(quantity)) AS total';
+        $from = 'dtb_order_detail JOIN dtb_order ON dtb_order_detail.order_id = dtb_order.order_id';
+        $where = 'dtb_order.del_flg = 0';
+
+        $this->objQuery->setGroupBy('product_id, product_name, product_code, price');
+        $this->objQuery->setOrder('total DESC');
+        $result = $this->objQuery->select($col, $from, $where);
+
+        $this->assertIsArray($result, '商品別集計SQLの実行結果が配列であること');
+    }
+
+    /**
+     * 会員別集計の SQL が実際に実行可能であることを確認する.
+     *
+     * LC_Page_Admin_Total::lfGetOrderMember() と同等のクエリ.
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/1318
+     */
+    public function test会員別集計SQLを実行できる()
+    {
+        if (DB_TYPE !== 'sqlite3') {
+            $this->markTestSkipped('SQLite3 環境でのみ実行');
+        }
+
+        $col = "COUNT(order_id) AS order_count, SUM(total) AS total, AVG(total) AS total_average, CASE WHEN customer_id <> 0 THEN 1 ELSE 0 END AS member, order_sex";
+        $this->objQuery->setGroupBy('member, order_sex');
+        $result = $this->objQuery->select($col, 'dtb_order', 'del_flg = 0');
+
+        $this->assertIsArray($result, '会員別集計SQLの実行結果が配列であること');
+    }
+
+    /**
+     * 職業別集計の SQL が実際に実行可能であることを確認する.
+     *
+     * LC_Page_Admin_Total::lfGetOrderJob() と同等のクエリ.
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/1318
+     */
+    public function test職業別集計SQLを実行できる()
+    {
+        if (DB_TYPE !== 'sqlite3') {
+            $this->markTestSkipped('SQLite3 環境でのみ実行');
+        }
+
+        $col = 'job, COUNT(order_id) AS order_count, SUM(total) AS total, AVG(total) AS total_average';
+        $from = 'dtb_order JOIN dtb_customer ON dtb_order.customer_id = dtb_customer.customer_id';
+        $this->objQuery->setGroupBy('job');
+        $this->objQuery->setOrder('total DESC');
+        $result = $this->objQuery->select($col, $from, 'dtb_order.del_flg = 0');
+
+        $this->assertIsArray($result, '職業別集計SQLの実行結果が配列であること');
+    }
+
+    /**
+     * SQLite3 の date() 関数にスラッシュ区切りの日付を渡すと NULL になることを確認する.
+     *
+     * LC_Page_Admin_Total::lfGetWhereMember() は date('Y/m/d') を使用しており、
+     * SQLite3 の date() 関数は ISO 8601 形式 (YYYY-MM-DD) のみ受け付ける.
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/1318
+     */
+    public function testSQLiteDateFunctionはスラッシュ区切りを受け付けない()
+    {
+        if (DB_TYPE !== 'sqlite3') {
+            $this->markTestSkipped('SQLite3 環境でのみ実行');
+        }
+
+        // ハイフン区切り → 正常
+        $result = $this->objQuery->getOne("SELECT date('2026-01-28')");
+        $this->assertSame('2026-01-28', $result, 'ハイフン区切りは正常');
+
+        // スラッシュ区切り → NULL（SQLite3 の制約）
+        $result = $this->objQuery->getOne("SELECT date('2026/01/28')");
+        $this->assertNull($result, 'スラッシュ区切りは NULL になる（SQLite3 の制約）');
+    }
 }
