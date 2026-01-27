@@ -127,7 +127,7 @@ class SC_SelectSql
         $return = [];
 
         // 開始期間の構築
-        $date1 = $from_year.'-'.$from_month.'-'.$from_day;
+        $date1 = sprintf('%04d-%02d-%02d', $from_year, $from_month, $from_day);
 
         // 終了期間の構築
         // @see http://svn.ec-cube.net/open_trac/ticket/328

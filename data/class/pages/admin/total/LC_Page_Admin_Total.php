@@ -310,8 +310,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             );
         // 期間集計
         } elseif ($arrRet['search_form'] == 2) {
-            $sdate = $arrRet['search_startyear'].'-'.$arrRet['search_startmonth'].'-'.$arrRet['search_startday'];
-            $edate = $arrRet['search_endyear'].'-'.$arrRet['search_endmonth'].'-'.$arrRet['search_endday'];
+            $sdate = sprintf('%04d-%02d-%02d', $arrRet['search_startyear'], $arrRet['search_startmonth'], $arrRet['search_startday']);
+            $edate = sprintf('%04d-%02d-%02d', $arrRet['search_endyear'], $arrRet['search_endmonth'], $arrRet['search_endday']);
         }
 
         return [$sdate, $edate];

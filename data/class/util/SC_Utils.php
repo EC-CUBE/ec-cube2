@@ -266,7 +266,7 @@ class SC_Utils
             } else {
                 $time = '00:00:00';
             }
-            $date = $year.'-'.$month.'-'.$day.' '.$time;
+            $date = sprintf('%04d-%02d-%02d', $year, $month, $day).' '.$time;
         } else {
             $date = '';
         }
@@ -290,7 +290,7 @@ class SC_Utils
             } else {
                 $time = $hour.':'.$minutes.':00';
             }
-            $date = $year.'-'.$month.'-'.$day.' '.$time;
+            $date = sprintf('%04d-%02d-%02d', $year, $month, $day).' '.$time;
         } else {
             $date = '';
         }
