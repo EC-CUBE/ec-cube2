@@ -1106,8 +1106,8 @@ class SC_Utils
         $start_day = date('d', mktime(0, 0, 0, $tmp_month, $tmp_day + 1, $tmp_year));
 
         // 日付の作成
-        $start_date = sprintf('%d/%d/%d', $start_year, $start_month, $start_day);
-        $end_date = sprintf('%d/%d/%d 23:59:59', $end_year, $end_month, $end_day);
+        $start_date = sprintf('%d-%02d-%02d', $start_year, $start_month, $start_day);
+        $end_date = sprintf('%d-%02d-%02d 23:59:59', $end_year, $end_month, $end_day);
 
         return [$start_date, $end_date];
     }
