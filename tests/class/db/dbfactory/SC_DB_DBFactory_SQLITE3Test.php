@@ -352,7 +352,7 @@ class SC_DB_DBFactory_SQLITE3Test extends SC_DB_DBFactoryTestAbstract
             $this->markTestSkipped('SQLite3 環境でのみ実行');
         }
 
-        $col = "COUNT(order_id) AS order_count, SUM(total) AS total, AVG(total) AS total_average, CASE WHEN customer_id <> 0 THEN 1 ELSE 0 END AS member, order_sex";
+        $col = 'COUNT(order_id) AS order_count, SUM(total) AS total, AVG(total) AS total_average, CASE WHEN customer_id <> 0 THEN 1 ELSE 0 END AS member, order_sex';
         $this->objQuery->setGroupBy('member, order_sex');
         $result = $this->objQuery->select($col, 'dtb_order', 'del_flg = 0');
 
