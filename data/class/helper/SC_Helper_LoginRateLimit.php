@@ -157,6 +157,11 @@ class SC_Helper_LoginRateLimit
      */
     public static function cleanupOldAttempts($days = 30)
     {
+        $days = (int) $days;
+        if ($days < 1) {
+            $days = 30;
+        }
+
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         // データベースタイプに応じて削除条件を設定

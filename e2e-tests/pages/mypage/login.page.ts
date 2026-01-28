@@ -38,7 +38,7 @@ export class MypageLoginPage {
     // AJAX対応: クリック後、ページ遷移を待つ
     await Promise.all([
       // ページ遷移を待つ（AJAX成功時にリダイレクトされる）
-      this.page.waitForURL(url => url.pathname.includes('/mypage/index.php') || url.pathname.includes('/mypage/'), { timeout: 10000 }),
+      this.page.waitForURL(url => url.pathname.endsWith('/mypage/') || url.pathname.endsWith('/mypage/index.php'), { timeout: 10000 }),
       // ログインボタンをクリック
       this.loginButton.click()
     ]);

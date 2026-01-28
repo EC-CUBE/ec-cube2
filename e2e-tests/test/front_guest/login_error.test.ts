@@ -39,7 +39,7 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
   });
 
   test.afterAll(async () => {
-    mailcatcher.dispose();
+    await mailcatcher.dispose();
   });
 
   test('マイページログインエラーが同一ページに表示されます', async ({ page }) => {
