@@ -161,8 +161,8 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
       await page.goto('/mypage/login.php');
     });
 
-    await test.step('6回連続でログインに失敗します', async () => {
-      for (let i = 0; i < 6; i++) {
+    await test.step('5回連続でログインに失敗します', async () => {
+      for (let i = 0; i < 5; i++) {
         await page.locator('#login_mypage input[name="login_email"]').fill(rateLimitEmail);
         await page.locator('#login_mypage input[name="login_pass"]').fill('wrongpassword');
         await page.locator('#login_mypage input[type="image"][name="log"]').click();
@@ -170,14 +170,14 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
         // AJAX処理完了を待つためエラーメッセージが表示されるまで待機
         await page.locator('#undercolumn_login #login_error_area').waitFor({ state: 'visible', timeout: 10000 });
 
-        // 6回目まではメールアドレスベースのエラーまたはIPベースのレート制限エラー
+        // 5回目まではメールアドレスベースのエラーまたはIPベースのレート制限エラー
         const errorText = await page.locator('#undercolumn_login #login_error_area').textContent();
         // いずれかのエラーメッセージが表示されていればOK
         expect(errorText).toMatch(/メールアドレスもしくはパスワードが正しくありません|短時間に複数のログイン試行が検出されました/);
       }
     });
 
-    await test.step('7回目の試行でレート制限エラーが表示されます', async () => {
+    await test.step('6回目の試行でレート制限エラーが表示されます（失敗記録後に即座に表示）', async () => {
       await page.locator('#login_mypage input[name="login_email"]').fill(rateLimitEmail);
       await page.locator('#login_mypage input[name="login_pass"]').fill('wrongpassword');
 

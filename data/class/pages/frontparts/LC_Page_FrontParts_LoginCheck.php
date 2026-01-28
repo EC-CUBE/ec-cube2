@@ -165,6 +165,19 @@ class LC_Page_FrontParts_LoginCheck extends LC_Page_Ex
                             // ログイン失敗を記録
                             SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
 
+                            // 失敗記録後にレート制限チェック（6回目の失敗時点でメッセージ表示）
+                            $rate_limit_after = SC_Helper_LoginRateLimit_Ex::checkRateLimit($login_email, $ip_address);
+
+                            if (!$rate_limit_after['allowed']) {
+                                // レート制限超過時のエラーメッセージ
+                                $this->arrErr['login'] = '短時間に複数のログイン試行が検出されました。しばらく時間をおいてから再度お試しください。';
+
+                                // AJAX対応: JSON返却（401でパスワードマネージャーの誤認を防止）
+                                SC_Response_Ex::sendHttpStatus(401);
+                                echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
+                                SC_Response_Ex::actionExit();
+                            }
+
                             // 仮登録の場合
                             if (SC_Helper_Customer_Ex::checkTempCustomer($login_email)) {
                                 $this->arrErr['login'] = "メールアドレスもしくはパスワードが正しくありません。\n本登録がお済みでない場合は、仮登録メールに記載されているURLより本登録を行ってください。";
