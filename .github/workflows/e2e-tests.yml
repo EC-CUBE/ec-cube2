@@ -36,11 +36,11 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
 
-    - name: Cache yarn dependencies
+    - name: Cache npm dependencies
       uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node_modules-
 
@@ -48,7 +48,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ~/.cache/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-playwright-
 
@@ -105,7 +105,7 @@ jobs:
     - run: sleep 1
     - name: Install dependencies
       run: |
-        yarn install --frozen-lockfile --prefer-offline
+        npm ci
         npx playwright install chromium
     - name: Install Playwright system dependencies
       run: npx playwright install-deps chromium
@@ -116,7 +116,7 @@ jobs:
         timeout_minutes: 30
         max_attempts: 2
         retry_on: error
-        command: yarn ${{ matrix.pattern }} e2e-tests/${{ matrix.group }}
+        command: npm run ${{ matrix.pattern }} -- e2e-tests/${{ matrix.group }}
       env:
         GROUP: ${{ matrix.group }}
         PATTERN: ${{ matrix.pattern }}
@@ -171,11 +171,11 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
 
-    - name: Cache yarn dependencies
+    - name: Cache npm dependencies
       uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node_modules-
 
@@ -183,7 +183,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ~/.cache/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-playwright-
 
@@ -246,7 +246,7 @@ jobs:
         timeout_minutes: 30
         max_attempts: 2
         retry_on: error
-        command: yarn test:e2e e2e-tests/test/installer/installer.test.ts
+        command: npm run test:e2e -- e2e-tests/test/installer/installer.test.ts
       env:
         CI: 1
         FORCE_COLOR: 1
