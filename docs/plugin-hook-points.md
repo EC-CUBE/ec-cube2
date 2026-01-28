@@ -315,21 +315,7 @@ EC-CUBE2では、プラグインシステムを通じてシステムの動作を
 | `LC_Page_Api_Php` | `LC_Page_Api_Php_action_before`<br>`LC_Page_Api_Php_action_after` |
 | `LC_Page_Api_Xml` | `LC_Page_Api_Xml_action_before`<br>`LC_Page_Api_Xml_action_after` |
 
-### API操作クラス
-
-| クラス名 | 利用可能なフックポイント |
-|---------|---------------------|
-| `AddrFromZip` | `AddrFromZip_action_before`<br>`AddrFromZip_action_after` |
-| `BrowseNodeLookup` | `BrowseNodeLookup_action_before`<br>`BrowseNodeLookup_action_after` |
-| `CartAdd` | `CartAdd_action_before`<br>`CartAdd_action_after` |
-| `CartClear` | `CartClear_action_before`<br>`CartClear_action_after` |
-| `CartCreate` | `CartCreate_action_before`<br>`CartCreate_action_after` |
-| `CartGet` | `CartGet_action_before`<br>`CartGet_action_after` |
-| `CartModify` | `CartModify_action_before`<br>`CartModify_action_after` |
-| `Default` | `Default_action_before`<br>`Default_action_after` |
-| `GetVersion` | `GetVersion_action_before`<br>`GetVersion_action_after` |
-| `ItemLookup` | `ItemLookup_action_before`<br>`ItemLookup_action_after` |
-| `ItemSearch` | `ItemSearch_action_before`<br>`ItemSearch_action_after` |
+注意: `API_CartAdd`、`API_ItemSearch` などの操作クラス（`SC_Api_Abstract_Ex` を継承）は、`SC_Api_Operation` によって直接呼び出されるため、プラグインのフックポイントは提供しません。
 
 ## 特殊なフックポイント
 
@@ -360,33 +346,33 @@ modeの値に基づいて動的に生成されるフックポイントの例：
 
 ```php
 <?php
-class MyPlugin extends SC_Plugin_Base
+class MyPlugin
 {
     public function register($objPluginHelper, $priority)
     {
         // 商品詳細ページの前処理
-        $objPluginHelper->addAction('LC_Page_Products_Detail_action_before', 
+        $objPluginHelper->addAction('LC_Page_Products_Detail_action_before',
                                    [$this, 'productDetailBefore'], $priority);
-        
+
         // 全ページの前処理
-        $objPluginHelper->addAction('LC_Page_preProcess', 
+        $objPluginHelper->addAction('LC_Page_preProcess',
                                    [$this, 'allPagePreProcess'], $priority);
-                                   
+
         // カート追加処理
-        $objPluginHelper->addAction('LC_Page_Products_Detail_action_cart', 
+        $objPluginHelper->addAction('LC_Page_Products_Detail_action_cart',
                                    [$this, 'cartAddProcess'], $priority);
     }
-    
+
     public function productDetailBefore($objPage)
     {
         // 商品詳細ページ前のカスタム処理
     }
-    
+
     public function allPagePreProcess($objPage)
     {
         // 全ページ共通のカスタム処理
     }
-    
+
     public function cartAddProcess($objPage)
     {
         // カート追加時のカスタム処理
@@ -398,7 +384,7 @@ class MyPlugin extends SC_Plugin_Base
 
 ```php
 <?php
-class AdvancedPlugin extends SC_Plugin_Base
+class AdvancedPlugin
 {
     public function register($objPluginHelper, $priority)
     {
@@ -407,33 +393,36 @@ class AdvancedPlugin extends SC_Plugin_Base
             'LC_Page_Admin_Order_Edit_action_before' => 'beforeOrderEdit',
             'LC_Page_Admin_Order_Edit_action_after' => 'afterOrderEdit',
             'LC_Page_Shopping_Confirm_action_confirm' => 'onOrderConfirm',
-            'outputfilterTransform' => 'transformOutput'
+            'outputfilterTransform' => 'transformOutput',
         ];
-        
+
         foreach ($hookPoints as $hookPoint => $method) {
             $objPluginHelper->addAction($hookPoint, [$this, $method], $priority);
         }
     }
-    
+
     public function beforeOrderEdit($objPage)
     {
         // 受注編集前の処理
     }
-    
+
     public function afterOrderEdit($objPage)
     {
         // 受注編集後の処理
     }
-    
+
     public function onOrderConfirm($objPage)
     {
         // 注文確認時の処理
     }
-    
-    public function transformOutput($output, $objSmarty)
+
+    public function transformOutput(&$source, $objPage, $filename)
     {
         // テンプレート出力の変換
-        return $output;
+        // $source を直接変更する（returnは不要）
+        if ($filename === 'shopping/confirm.tpl') {
+            $source .= '<!-- カスタム追加コンテンツ -->';
+        }
     }
 }
 ```
@@ -442,7 +431,7 @@ class AdvancedPlugin extends SC_Plugin_Base
 
 - **スーパーフックポイント**: 6個
 - **主要ページクラス**: 135個
-- **API関連クラス**: 13個
+- **APIページクラス**: 4個
 - **理論上利用可能なローカルフックポイント**: 約836個
 - **確認済み使用フックポイント**: 21個
 
