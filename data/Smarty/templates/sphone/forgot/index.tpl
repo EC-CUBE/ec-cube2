@@ -32,7 +32,7 @@
         <div class="window_area clearfix">
             <p>
                 メールアドレス<br />
-                <span class="attention"><!--{$arrErr.email}--><!--{$errmsg}--></span>
+                <span class="attention"><!--{$arrErr.email}--><!--{$errmsg|h}--></span>
                 <input type="email" name="email"
                 value="<!--{$arrForm.email|default:$tpl_login_email|h}-->"
                 style="<!--{$arrErr.email|sfGetErrorColor}-->;"

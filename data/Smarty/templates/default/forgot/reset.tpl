@@ -38,14 +38,14 @@
                     <p class="attention"><!--{$arrErr.password}--></p>
                     <p>
                         新しいパスワード：&nbsp;
-                        <input type="password" name="password" value="<!--{$arrForm.password|h}-->" class="box300" maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" style="<!--{$arrErr.password|sfGetErrorColor}-->; ime-mode: disabled;" />
+                        <input type="password" name="password" class="box300" maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" style="<!--{$arrErr.password|sfGetErrorColor}-->; ime-mode: disabled;" />
                     </p>
                 </div>
                 <div class="password02">
-                    <p class="attention"><!--{$arrErr.password02}--><!--{$errmsg}--></p>
+                    <p class="attention"><!--{$arrErr.password02}--><!--{$errmsg|h}--></p>
                     <p>
                         新しいパスワード（確認）：&nbsp;
-                        <input type="password" name="password02" value="<!--{$arrForm.password02|h}-->" class="box300" maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" style="<!--{$arrErr.password02|sfGetErrorColor}-->; ime-mode: disabled;" />
+                        <input type="password" name="password02" class="box300" maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" style="<!--{$arrErr.password02|sfGetErrorColor}-->; ime-mode: disabled;" />
                     </p>
                 </div>
             </div>

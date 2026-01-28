@@ -34,16 +34,14 @@
                 新しいパスワード<br />
                 <span class="attention"><!--{$arrErr.password}--></span>
                 <input type="password" name="password"
-                value="<!--{$arrForm.password|h}-->"
                 style="<!--{$arrErr.password|sfGetErrorColor}-->;"
                 maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" class="text boxLong data-role-none" />
             </p>
             <hr />
             <p>
                 新しいパスワード（確認）<br />
-                <span class="attention"><!--{$arrErr.password02}--><!--{$errmsg}--></span>
+                <span class="attention"><!--{$arrErr.password02}--><!--{$errmsg|h}--></span>
                 <input type="password" name="password02"
-                value="<!--{$arrForm.password02|h}-->"
                 style="<!--{$arrErr.password02|sfGetErrorColor}-->;"
                 maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" class="text boxLong data-role-none" />
             </p>

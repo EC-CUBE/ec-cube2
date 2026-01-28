@@ -289,9 +289,10 @@ class LC_Page_Forgot extends LC_Page_Ex
             return 'このアカウントは本会員登録が完了していないため、パスワードをリセットできません。';
         }
 
-        // トランザクション開始
-        $objQuery->begin();
-
+        $in_transaction = $objQuery->inTransaction();
+        if (!$in_transaction) {
+            $objQuery->begin();
+        }
         try {
             // パスワード更新
             $sqlval = [];
@@ -304,8 +305,9 @@ class LC_Page_Forgot extends LC_Page_Ex
             // 当該顧客の全トークンを無効化（セキュリティ強化）
             SC_Helper_PasswordReset_Ex::invalidateAllTokensForCustomer($customer['customer_id']);
 
-            // コミット
-            $objQuery->commit();
+            if (!$in_transaction) {
+                $objQuery->commit();
+            }
 
             GC_Utils_Ex::gfPrintLog('パスワードリセット実行: 成功 customer_id='.$customer['customer_id']);
 
@@ -314,7 +316,9 @@ class LC_Page_Forgot extends LC_Page_Ex
 
             return ''; // エラーなし
         } catch (Exception $e) {
-            $objQuery->rollback();
+            if (!$in_transaction) {
+                $objQuery->rollback();
+            }
             GC_Utils_Ex::gfPrintLog('パスワードリセット実行: 例外発生 customer_id='.$customer['customer_id'].' error='.$e->getMessage());
 
             return 'システムエラーが発生しました。しばらく時間をおいてから再度お試しください。';
@@ -345,6 +349,18 @@ class LC_Page_Forgot extends LC_Page_Ex
             $objMailText->assign('customer_name', $customer['name01'].' '.$customer['name02']);
             $objMailText->assign('reset_url', $reset_url);
             $objMailText->assign('expire_hours', PASSWORD_RESET_TOKEN_EXPIRE_HOURS);
+            $objMailText->assign('shop_name', $CONF['shop_name']);
+            $objMailText->assign('zip01', $CONF['zip01']);
+            $objMailText->assign('zip02', $CONF['zip02']);
+            $objMailText->assign('pref', $CONF['pref']);
+            $objMailText->assign('addr01', $CONF['addr01']);
+            $objMailText->assign('addr02', $CONF['addr02']);
+            $objMailText->assign('tel01', $CONF['tel01']);
+            $objMailText->assign('tel02', $CONF['tel02']);
+            $objMailText->assign('tel03', $CONF['tel03']);
+            $objMailText->assign('fax01', $CONF['fax01']);
+            $objMailText->assign('fax02', $CONF['fax02']);
+            $objMailText->assign('fax03', $CONF['fax03']);
             $toCustomerMail = $objMailText->fetch('mail_templates/password_reset_mail.tpl');
 
             $objHelperMail = new SC_Helper_Mail_Ex();
@@ -390,6 +406,23 @@ class LC_Page_Forgot extends LC_Page_Ex
             $objMailText = new SC_SiteView_Ex();
             $objMailText->setPage($this);
             $objMailText->assign('customer_name', $customer['name01'].' '.$customer['name02']);
+            $objMailText->assign('change_date', date('Y/m/d H:i'));
+            $objMailText->assign('shop_email', $CONF['email02']);
+            $login_url = SC_Utils_Ex::sfIsHTTPS() ? HTTPS_URL : HTTP_URL;
+            $login_url .= 'mypage/login.php';
+            $objMailText->assign('login_url', $login_url);
+            $objMailText->assign('shop_name', $CONF['shop_name']);
+            $objMailText->assign('zip01', $CONF['zip01']);
+            $objMailText->assign('zip02', $CONF['zip02']);
+            $objMailText->assign('pref', $CONF['pref']);
+            $objMailText->assign('addr01', $CONF['addr01']);
+            $objMailText->assign('addr02', $CONF['addr02']);
+            $objMailText->assign('tel01', $CONF['tel01']);
+            $objMailText->assign('tel02', $CONF['tel02']);
+            $objMailText->assign('tel03', $CONF['tel03']);
+            $objMailText->assign('fax01', $CONF['fax01']);
+            $objMailText->assign('fax02', $CONF['fax02']);
+            $objMailText->assign('fax03', $CONF['fax03']);
             $toCustomerMail = $objMailText->fetch('mail_templates/password_reset_complete_mail.tpl');
 
             $objHelperMail = new SC_Helper_Mail_Ex();

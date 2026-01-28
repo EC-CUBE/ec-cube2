@@ -24,7 +24,7 @@
 <div id="window_area">
     <h2 class="title">エラー</h2>
     <p class="information">
-        <span class="attention"><!--{$errmsg}--></span><br />
+        <span class="attention"><!--{$errmsg|h}--></span><br />
         <br />
         パスワード再設定リンクが無効または期限切れです。<br />
         お手数ですが、最初からやり直してください。

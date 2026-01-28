@@ -181,7 +181,8 @@ class SC_Helper_PasswordResetTest extends Common_TestCase
             'expire_date' => date('Y-m-d H:i:s', strtotime('-1 hour')),
             'ip_address' => '192.168.1.1',
             'user_agent' => 'Test',
-            'update_date' => 'CURRENT_TIMESTAMP',
+            'create_date' => date('Y-m-d H:i:s'),
+            'update_date' => date('Y-m-d H:i:s'),
         ]);
 
         $result = SC_Helper_PasswordReset_Ex::validateToken($token);
@@ -338,7 +339,8 @@ class SC_Helper_PasswordResetTest extends Common_TestCase
             'expire_date' => date('Y-m-d H:i:s', strtotime('-1 hour')),
             'ip_address' => '192.168.1.1',
             'user_agent' => 'Test',
-            'update_date' => 'CURRENT_TIMESTAMP',
+            'create_date' => date('Y-m-d H:i:s'),
+            'update_date' => date('Y-m-d H:i:s'),
         ]);
 
         $count = SC_Helper_PasswordReset_Ex::cleanupExpiredTokens();

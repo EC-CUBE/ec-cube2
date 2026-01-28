@@ -28,7 +28,7 @@
     <br>
 
     <!--{if $errmsg}-->
-        <font color="#ff0000"><!--{$errmsg}--></font><br>
+        <font color="#ff0000"><!--{$errmsg|h}--></font><br>
     <!--{/if}-->
 
     新しいパスワードを入力して「次へ」ボタンをクリックしてください。<br>
@@ -40,10 +40,10 @@
         <input type="hidden" name="token" value="<!--{$token|h}-->">
 
         新しいパスワード：<font color="#FF0000"><!--{$arrErr.password}--></font><br>
-        <input type="password" name="password" value="<!--{$arrForm.password|h}-->" maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" istyle="4"><br>
+        <input type="password" name="password" maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" istyle="4"><br>
         <br>
         新しいパスワード（確認）：<font color="#FF0000"><!--{$arrErr.password02}--></font><br>
-        <input type="password" name="password02" value="<!--{$arrForm.password02|h}-->" maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" istyle="4"><br>
+        <input type="password" name="password02" maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" istyle="4"><br>
 
         <br>
         <center><input type="submit" value="次へ" name="next"></center>

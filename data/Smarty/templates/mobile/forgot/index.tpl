@@ -28,7 +28,7 @@
     <br>
 
     <!--{if $errmsg}-->
-        <font color="#ff0000"><!--{$errmsg}--></font><br>
+        <font color="#ff0000"><!--{$errmsg|h}--></font><br>
     <!--{/if}-->
 
     ご登録時のメールアドレスを入力して「次へ」ボタンをクリックしてください。<br>

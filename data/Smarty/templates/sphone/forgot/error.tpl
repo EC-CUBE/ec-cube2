@@ -23,7 +23,7 @@
 <section id="windowcolumn">
     <h2 class="title">エラー</h2>
     <div class="intro">
-        <p class="attention"><!--{$errmsg}--></p>
+        <p class="attention"><!--{$errmsg|h}--></p>
     </div>
 
     <div class="window_area clearfix">

@@ -33,7 +33,7 @@
         <div id="forgot">
             <div class="contents">
                 <div class="mailaddres">
-                    <p class="attention"><!--{$arrErr.email}--><!--{$errmsg}--></p>
+                    <p class="attention"><!--{$arrErr.email}--><!--{$errmsg|h}--></p>
                     <p>
                         メールアドレス：&nbsp;
                         <input type="text" name="email" value="<!--{$arrForm.email|default:$tpl_login_email|h}-->" class="box300" style="<!--{$arrErr.email|sfGetErrorColor}-->; ime-mode: disabled;" />

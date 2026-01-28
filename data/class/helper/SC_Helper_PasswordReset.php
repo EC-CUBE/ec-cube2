@@ -74,7 +74,7 @@ class SC_Helper_PasswordReset
     {
         $token = self::generateToken();
         $token_hash = self::hashToken($token);
-        $expire_date = date('Y-m-d H:i:s', strtotime('+24 hours'));
+        $expire_date = date('Y-m-d H:i:s', strtotime('+'.PASSWORD_RESET_TOKEN_EXPIRE_HOURS.' hours'));
 
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
@@ -86,6 +86,7 @@ class SC_Helper_PasswordReset
             'expire_date' => $expire_date,
             'ip_address' => $ip_address,
             'user_agent' => $user_agent,
+            'create_date' => 'CURRENT_TIMESTAMP',
             'update_date' => 'CURRENT_TIMESTAMP',
         ];
 
