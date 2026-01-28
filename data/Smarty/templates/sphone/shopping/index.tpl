@@ -39,14 +39,23 @@
                 data: postData,
                 cache: false,
                 dataType: "json",
-                error: function(XMLHttpRequest, textStatus, errorThrown){
-                    alert(textStatus);
+                error: function(xhr, textStatus, errorThrown){
+                    if (xhr.status === 401) {
+                        try {
+                            var result = JSON.parse(xhr.responseText);
+                            if (result.error) {
+                                alert(result.error);
+                            }
+                        } catch (e) {
+                            alert('通信エラーが発生しました。');
+                        }
+                    } else {
+                        alert('通信エラーが発生しました。');
+                    }
                 },
                 success: function(result){
                     if (result.success) {
                         location.href = '<!--{$smarty.const.ROOT_URLPATH}-->shopping/' + result.success;
-                    } else if (result.error) {
-                        alert(result.error);
                     }
                 }
             });

@@ -34,15 +34,23 @@
             data: $('#member_form').serialize(),
             cache: false,
             dataType: "json",
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                alert('通信エラーが発生しました。');
+            error: function(xhr, textStatus, errorThrown) {
+                if (xhr.status === 401) {
+                    try {
+                        var result = JSON.parse(xhr.responseText);
+                        if (result.error) {
+                            $('#login_error_area').html(result.error).show();
+                        }
+                    } catch (e) {
+                        alert('通信エラーが発生しました。');
+                    }
+                } else {
+                    alert('通信エラーが発生しました。');
+                }
             },
             success: function(result) {
                 if (result.success) {
                     location.href = '<!--{$smarty.const.ROOT_URLPATH}-->shopping/' + result.success;
-                } else if (result.error) {
-                    // エラーメッセージを表示
-                    $('#login_error_area').html(result.error).show();
                 }
             }
         });

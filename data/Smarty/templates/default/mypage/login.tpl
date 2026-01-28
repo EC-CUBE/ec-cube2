@@ -36,23 +36,23 @@
             data: $('#login_mypage').serialize(),
             cache: false,
             dataType: "json",
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                console.error('AJAX Error Details:');
-                console.error('  Status:', XMLHttpRequest.status);
-                console.error('  Status Text:', XMLHttpRequest.statusText);
-                console.error('  Text Status:', textStatus);
-                console.error('  Error Thrown:', errorThrown);
-                console.error('  Response Text:', XMLHttpRequest.responseText);
-                console.error('  Ready State:', XMLHttpRequest.readyState);
-                alert('通信エラーが発生しました。詳細はコンソールを確認してください。\nStatus: ' + XMLHttpRequest.status + '\nText: ' + textStatus);
+            error: function(xhr, textStatus, errorThrown) {
+                if (xhr.status === 401) {
+                    try {
+                        var result = JSON.parse(xhr.responseText);
+                        if (result.error) {
+                            $('#login_error_area').html(result.error.replace(/\n/g, '<br>')).show();
+                        }
+                    } catch (e) {
+                        alert('通信エラーが発生しました。');
+                    }
+                } else {
+                    alert('通信エラーが発生しました。');
+                }
             },
             success: function(result) {
-                console.log('AJAX Success:', result);
                 if (result.success) {
                     location.href = result.success;
-                } else if (result.error) {
-                    // エラーメッセージを表示
-                    $('#login_error_area').html(result.error.replace(/\n/g, '<br>')).show();
                 }
             }
         });

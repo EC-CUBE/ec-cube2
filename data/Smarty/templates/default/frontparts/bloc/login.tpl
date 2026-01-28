@@ -37,15 +37,23 @@
                 data: $('#login_form').serialize(),
                 cache: false,
                 dataType: "json",
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert('通信エラーが発生しました。');
+                error: function(xhr, textStatus, errorThrown) {
+                    if (xhr.status === 401) {
+                        try {
+                            var result = JSON.parse(xhr.responseText);
+                            if (result.error) {
+                                alert(result.error);
+                            }
+                        } catch (e) {
+                            alert('通信エラーが発生しました。');
+                        }
+                    } else {
+                        alert('通信エラーが発生しました。');
+                    }
                 },
                 success: function(result) {
                     if (result.success) {
                         location.href = result.success;
-                    } else if (result.error) {
-                        // エラーメッセージをalertで表示（サイドバーブロックも狭いため）
-                        alert(result.error);
                     }
                 }
             });

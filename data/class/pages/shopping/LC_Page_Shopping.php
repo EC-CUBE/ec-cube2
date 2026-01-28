@@ -142,7 +142,8 @@ class LC_Page_Shopping extends LC_Page_Ex
                     // 失敗として記録
                     SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
 
-                    // AJAX対応: JSON返却
+                    // AJAX対応: JSON返却（401でパスワードマネージャーの誤認を防止）
+                    SC_Response_Ex::sendHttpStatus(401);
                     echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
                     SC_Response_Ex::actionExit();
                 } else {
@@ -156,7 +157,8 @@ class LC_Page_Shopping extends LC_Page_Ex
                         // バリデーションエラーも失敗として記録
                         SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
 
-                        // AJAX対応: JSON返却
+                        // AJAX対応: JSON返却（401でパスワードマネージャーの誤認を防止）
+                        SC_Response_Ex::sendHttpStatus(401);
                         echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
                         SC_Response_Ex::actionExit();
                     } else {
@@ -201,7 +203,8 @@ class LC_Page_Shopping extends LC_Page_Ex
                                 $this->arrErr['login'] = 'メールアドレスもしくはパスワードが正しくありません。';
                             }
 
-                            // AJAX対応: JSON返却
+                            // AJAX対応: JSON返却（401でパスワードマネージャーの誤認を防止）
+                            SC_Response_Ex::sendHttpStatus(401);
                             echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
                             SC_Response_Ex::actionExit();
                         }

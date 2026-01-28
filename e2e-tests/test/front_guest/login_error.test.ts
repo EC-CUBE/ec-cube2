@@ -51,7 +51,15 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
     await test.step('誤ったパスワードでログインを試みます', async () => {
       await page.locator('#login_mypage input[name="login_email"]').fill(validEmail);
       await page.locator('#login_mypage input[name="login_pass"]').fill('wrongpassword');
-      await page.locator('#login_mypage input[type="image"][name="log"]').click();
+
+      // クリックとレスポンスのキャプチャを並行実行
+      const [response] = await Promise.all([
+        page.waitForResponse(resp =>
+          resp.url().includes('login_check.php') && resp.request().method() === 'POST'
+        ),
+        page.locator('#login_mypage input[type="image"][name="log"]').click()
+      ]);
+      expect(response.status()).toBe(401);
 
       // AJAX処理完了を待つためエラーメッセージが表示されるまで待機
       await page.locator('#undercolumn_login #login_error_area').waitFor({ state: 'visible', timeout: 10000 });
@@ -79,7 +87,15 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
 
       await page.locator('#login_mypage input[name="login_email"]').fill('invalid-email');
       await page.locator('#login_mypage input[name="login_pass"]').fill('password');
-      await page.locator('#login_mypage input[type="image"][name="log"]').click();
+
+      // クリックとレスポンスのキャプチャを並行実行
+      const [response] = await Promise.all([
+        page.waitForResponse(resp =>
+          resp.url().includes('login_check.php') && resp.request().method() === 'POST'
+        ),
+        page.locator('#login_mypage input[type="image"][name="log"]').click()
+      ]);
+      expect(response.status()).toBe(401);
 
       // AJAX処理完了を待つためエラーメッセージが表示されるまで待機
       await page.locator('#undercolumn_login #login_error_area').waitFor({ state: 'visible', timeout: 10000 });
@@ -116,7 +132,15 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
     await test.step('誤ったパスワードでログインを試みます', async () => {
       await page.locator('#member_form input[name="login_email"]').fill(validEmail);
       await page.locator('#member_form input[name="login_pass"]').fill('wrongpassword');
-      await page.locator('#member_form input[type="image"][name="log"]').click();
+
+      // クリックとレスポンスのキャプチャを並行実行
+      const [response] = await Promise.all([
+        page.waitForResponse(resp =>
+          resp.url().includes('shopping/index.php') && resp.request().method() === 'POST'
+        ),
+        page.locator('#member_form input[type="image"][name="log"]').click()
+      ]);
+      expect(response.status()).toBe(401);
 
       // AJAX処理完了を待つためエラーメッセージが表示されるまで待機
       await page.locator('#undercolumn_login #login_error_area').waitFor({ state: 'visible', timeout: 10000 });
@@ -156,7 +180,15 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
     await test.step('7回目の試行でレート制限エラーが表示されます', async () => {
       await page.locator('#login_mypage input[name="login_email"]').fill(rateLimitEmail);
       await page.locator('#login_mypage input[name="login_pass"]').fill('wrongpassword');
-      await page.locator('#login_mypage input[type="image"][name="log"]').click();
+
+      // クリックとレスポンスのキャプチャを並行実行
+      const [response] = await Promise.all([
+        page.waitForResponse(resp =>
+          resp.url().includes('login_check.php') && resp.request().method() === 'POST'
+        ),
+        page.locator('#login_mypage input[type="image"][name="log"]').click()
+      ]);
+      expect(response.status()).toBe(401);
 
       // AJAX処理完了を待つためエラーメッセージが表示されるまで待機
       await page.locator('#undercolumn_login #login_error_area').waitFor({ state: 'visible', timeout: 10000 });
@@ -235,7 +267,15 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
 
       await page.locator('#header_login_area input[name="login_email"]').fill(headerTestEmail);
       await page.locator('#header_login_area input[name="login_pass"]').fill('wrongpassword');
-      await page.locator('#header_login_area input[type="image"]').click();
+
+      // クリックとレスポンスのキャプチャを並行実行
+      const [response] = await Promise.all([
+        page.waitForResponse(resp =>
+          resp.url().includes('login_check.php') && resp.request().method() === 'POST'
+        ),
+        page.locator('#header_login_area input[type="image"]').click()
+      ]);
+      expect(response.status()).toBe(401);
 
       // AJAX処理完了を待つためalertが表示されるまで待機
       await page.waitForTimeout(2000);
@@ -272,7 +312,15 @@ test.describe.serial('ログインエラー表示とレート制限のテスト�
 
       await page.locator('#login_area input[name="login_email"]').fill(sidebarTestEmail);
       await page.locator('#login_area input[name="login_pass"]').fill('wrongpassword');
-      await page.locator('#login_area input[type="image"]').click();
+
+      // クリックとレスポンスのキャプチャを並行実行
+      const [response] = await Promise.all([
+        page.waitForResponse(resp =>
+          resp.url().includes('login_check.php') && resp.request().method() === 'POST'
+        ),
+        page.locator('#login_area input[type="image"]').click()
+      ]);
+      expect(response.status()).toBe(401);
 
       // AJAX処理完了を待つためalertが表示されるまで待機
       await page.waitForTimeout(2000);
