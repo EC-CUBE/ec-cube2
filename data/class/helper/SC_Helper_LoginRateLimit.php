@@ -40,8 +40,8 @@ class SC_Helper_LoginRateLimit
      * ログイン試行失敗が制限を超えていないか確認します。
      *
      * レート制限ルール:
-     * - 同一メールアドレス: 1時間に5回まで失敗を許可（6回目でブロック）
-     * - 同一IPアドレス: 1時間に10回まで失敗を許可（11回目でブロック）
+     * - 同一メールアドレス: 1時間に4回まで失敗を許可（5回目の失敗でレート制限メッセージ表示）
+     * - 同一IPアドレス: 1時間に9回まで失敗を許可（10回目の失敗でレート制限メッセージ表示）
      *
      * セキュリティ考慮事項:
      * - アカウント列挙攻撃対策: 存在しないメールアドレスも同様にレート制限
@@ -71,7 +71,7 @@ class SC_Helper_LoginRateLimit
             [$login_id]
         );
 
-        if ($email_count >= 6) {
+        if ($email_count >= 5) {
             return [
                 'allowed' => false,
                 'reason' => 'email',
@@ -87,7 +87,7 @@ class SC_Helper_LoginRateLimit
             [$ip_address]
         );
 
-        if ($ip_count >= 11) {
+        if ($ip_count >= 10) {
             return [
                 'allowed' => false,
                 'reason' => 'ip',

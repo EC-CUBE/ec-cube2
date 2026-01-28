@@ -55,7 +55,28 @@ class SC_Helper_LoginRateLimitTest extends Common_TestCase
         $email = 'test@example.com';
         $ip = '192.168.1.1';
 
-        // 4回の失敗を記録
+        // 3回の失敗を記録
+        for ($i = 0; $i < 3; $i++) {
+            SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($email, $ip, 'TestAgent', 0);
+        }
+
+        $result = SC_Helper_LoginRateLimit_Ex::checkRateLimit($email, $ip);
+
+        $this->assertTrue($result['allowed']);
+        $this->assertEquals(3, $result['email_count']);
+    }
+
+    /**
+     * Test checkRateLimit at email limit boundary
+     *
+     * メールアドレスのレート制限境界値（4回）の場合、allowedを返す
+     */
+    public function testCheckRateLimitAtEmailLimitBoundaryReturnsAllowed()
+    {
+        $email = 'test@example.com';
+        $ip = '192.168.1.1';
+
+        // 4回の失敗を記録（5回目の試行まで許可）
         for ($i = 0; $i < 4; $i++) {
             SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($email, $ip, 'TestAgent', 0);
         }
@@ -67,38 +88,17 @@ class SC_Helper_LoginRateLimitTest extends Common_TestCase
     }
 
     /**
-     * Test checkRateLimit at email limit boundary
-     *
-     * メールアドレスのレート制限境界値（5回）の場合、allowedを返す
-     */
-    public function testCheckRateLimitAtEmailLimitBoundaryReturnsAllowed()
-    {
-        $email = 'test@example.com';
-        $ip = '192.168.1.1';
-
-        // 5回の失敗を記録
-        for ($i = 0; $i < 5; $i++) {
-            SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($email, $ip, 'TestAgent', 0);
-        }
-
-        $result = SC_Helper_LoginRateLimit_Ex::checkRateLimit($email, $ip);
-
-        $this->assertTrue($result['allowed']);
-        $this->assertEquals(5, $result['email_count']);
-    }
-
-    /**
      * Test checkRateLimit exceeds email limit
      *
-     * メールアドレスのレート制限超過（6回以上）の場合、blockedを返す
+     * メールアドレスのレート制限超過（5回以上）の場合、blockedを返す
      */
     public function testCheckRateLimitExceedsEmailLimitReturnsBlocked()
     {
         $email = 'test@example.com';
         $ip = '192.168.1.1';
 
-        // 6回の失敗を記録
-        for ($i = 0; $i < 6; $i++) {
+        // 5回の失敗を記録（5回目の失敗でブロック）
+        for ($i = 0; $i < 5; $i++) {
             SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($email, $ip, 'TestAgent', 0);
         }
 
@@ -106,19 +106,39 @@ class SC_Helper_LoginRateLimitTest extends Common_TestCase
 
         $this->assertFalse($result['allowed']);
         $this->assertEquals('email', $result['reason']);
-        $this->assertEquals(6, $result['email_count']);
+        $this->assertEquals(5, $result['email_count']);
     }
 
     /**
      * Test checkRateLimit within IP limit
      *
-     * IPアドレスのレート制限内（10回未満）の場合、allowedを返す
+     * IPアドレスのレート制限内（9回未満）の場合、allowedを返す
      */
     public function testCheckRateLimitWithinIPLimitReturnsAllowed()
     {
         $ip = '192.168.1.1';
 
-        // 9回の失敗を異なるメールアドレスで記録
+        // 8回の失敗を異なるメールアドレスで記録
+        for ($i = 0; $i < 8; $i++) {
+            SC_Helper_LoginRateLimit_Ex::recordLoginAttempt("test{$i}@example.com", $ip, 'TestAgent', 0);
+        }
+
+        $result = SC_Helper_LoginRateLimit_Ex::checkRateLimit('new@example.com', $ip);
+
+        $this->assertTrue($result['allowed']);
+        $this->assertEquals(8, $result['ip_count']);
+    }
+
+    /**
+     * Test checkRateLimit at IP limit boundary
+     *
+     * IPアドレスのレート制限境界値（9回）の場合、allowedを返す
+     */
+    public function testCheckRateLimitAtIPLimitBoundaryReturnsAllowed()
+    {
+        $ip = '192.168.1.1';
+
+        // 9回の失敗を異なるメールアドレスで記録（10回目の試行まで許可）
         for ($i = 0; $i < 9; $i++) {
             SC_Helper_LoginRateLimit_Ex::recordLoginAttempt("test{$i}@example.com", $ip, 'TestAgent', 0);
         }
@@ -130,36 +150,16 @@ class SC_Helper_LoginRateLimitTest extends Common_TestCase
     }
 
     /**
-     * Test checkRateLimit at IP limit boundary
-     *
-     * IPアドレスのレート制限境界値（10回）の場合、allowedを返す
-     */
-    public function testCheckRateLimitAtIPLimitBoundaryReturnsAllowed()
-    {
-        $ip = '192.168.1.1';
-
-        // 10回の失敗を異なるメールアドレスで記録
-        for ($i = 0; $i < 10; $i++) {
-            SC_Helper_LoginRateLimit_Ex::recordLoginAttempt("test{$i}@example.com", $ip, 'TestAgent', 0);
-        }
-
-        $result = SC_Helper_LoginRateLimit_Ex::checkRateLimit('new@example.com', $ip);
-
-        $this->assertTrue($result['allowed']);
-        $this->assertEquals(10, $result['ip_count']);
-    }
-
-    /**
      * Test checkRateLimit exceeds IP limit
      *
-     * IPアドレスのレート制限超過（11回以上）の場合、blockedを返す
+     * IPアドレスのレート制限超過（10回以上）の場合、blockedを返す
      */
     public function testCheckRateLimitExceedsIPLimitReturnsBlocked()
     {
         $ip = '192.168.1.1';
 
-        // 11回の失敗を異なるメールアドレスで記録
-        for ($i = 0; $i < 11; $i++) {
+        // 10回の失敗を異なるメールアドレスで記録（10回目の失敗でブロック）
+        for ($i = 0; $i < 10; $i++) {
             SC_Helper_LoginRateLimit_Ex::recordLoginAttempt("test{$i}@example.com", $ip, 'TestAgent', 0);
         }
 
@@ -167,7 +167,7 @@ class SC_Helper_LoginRateLimitTest extends Common_TestCase
 
         $this->assertFalse($result['allowed']);
         $this->assertEquals('ip', $result['reason']);
-        $this->assertEquals(11, $result['ip_count']);
+        $this->assertEquals(10, $result['ip_count']);
     }
 
     /**
