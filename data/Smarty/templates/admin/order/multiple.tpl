@@ -112,7 +112,7 @@ $(function() {
 
     // プルダウンを生成
     for (var i = 0; i < shipping_id.length; i++) {
-        var text = $(shipping_name01[i]).val() + $(shipping_name02[i]).val()
+        var text = $(shipping_name01[i]).val() + ' ' + $(shipping_name02[i]).val()
             + ' ' + $(shipping_pref[i]).text()
             + $(shipping_addr01[i]).val() + $(shipping_addr02[i]).val();
 

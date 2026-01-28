@@ -110,7 +110,7 @@
             <!--{section name=i loop=$arrResults}-->
             <tr>
                 <td class="center"><!--{$arrResults[i].customer_id}--></td>
-                <td><!--{$arrResults[i].name01|h}--> <!--{$arrResults[i].name02|h}--></td>
+                <td><!--{$arrResults[i]|format_name|h}--></td>
                 <td><!--{$arrResults[i].email|h}--></td>
                 <!--{assign var="key" value="`$arrResults[i].mailmaga_flg`"}-->
                 <td class="center"><!--{$arrHtmlmail[$key]|default:'なし'}--></td>

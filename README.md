@@ -201,16 +201,16 @@ docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:genera
 docker compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
 
 ## playwright をインストール
-yarn install
-yarn run playwright install --with-deps chromium
-yarn playwright install-deps chromium
+npm install
+npx playwright install --with-deps chromium
+npx playwright install-deps chromium
 
 ## 管理画面の E2E テストを実行
-yarn test:e2e e2e-tests/test/admin
+npm run test:e2e -- e2e-tests/test/admin
 ## フロント(ゲスト)のE2Eテストを実行
-yarn test:e2e --workers=1 e2e-tests/test/front_guest
+npm run test:e2e -- --workers=1 e2e-tests/test/front_guest
 ## フロント(ログイン)のE2Eテストを実行
-yarn test:e2e --workers=1 e2e-tests/test/front_login
+npm run test:e2e -- --workers=1 e2e-tests/test/front_login
 ```
 
 ### MySQL の場合
@@ -231,16 +231,16 @@ docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:genera
 docker compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
 
 ## playwright をインストール
-yarn install
-yarn run playwright install --with-deps chromium
-yarn playwright install-deps chromium
+npm install
+npx playwright install --with-deps chromium
+npx playwright install-deps chromium
 
 ## 管理画面の E2E テストを実行
-yarn test:e2e e2e-tests/test/admin
+npm run test:e2e -- e2e-tests/test/admin
 ## フロント(ゲスト)のE2Eテストを実行
-yarn test:e2e --workers=1 e2e-tests/test/front_guest
+npm run test:e2e -- --workers=1 e2e-tests/test/front_guest
 ## フロント(ログイン)のE2Eテストを実行
-yarn test:e2e --workers=1 e2e-tests/test/front_login
+npm run test:e2e -- --workers=1 e2e-tests/test/front_login
 ```
 
 ---

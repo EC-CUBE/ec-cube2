@@ -99,7 +99,7 @@
                             <!--{$arrCountry[$key2]|h}--><br/>
                             <!--{/if}-->
                             <!--{$arrPref[$key1]|h}--><!--{$arrAddr[cnt].addr01|h}--><!--{$arrAddr[cnt].addr02|h}--><br />
-                            <!--{$arrAddr[cnt].company_name|h}--> <!--{$arrAddr[cnt].name01|h}--> <!--{$arrAddr[cnt].name02|h}-->
+                            <!--{$arrAddr[cnt].company_name|h}--> <!--{$arrAddr[cnt]|format_name|h}-->
                         </td>
                         <td class="alignC">
                             <!--{if !$smarty.section.cnt.first}-->

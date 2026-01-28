@@ -399,4 +399,33 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
     {
         return $this->getTransactionIsolationLevel() >= static::ISOLATION_LEVEL_REPEATABLE_READ;
     }
+
+    public function addLimitOffset($sql, $limit = null, $offset = null)
+    {
+        // MySQL は OFFSET のみの指定はできないため、LIMIT が指定されていない場合は最大値を指定する。
+        if (!is_numeric($limit) && is_numeric($offset)) {
+            $limit = '18446744073709551615';
+        }
+
+        return parent::addLimitOffset($sql, $limit, $offset);
+    }
+
+    /**
+     * テーブル一覧を取得する
+     *
+     * MDB2_Driver_Manager_mysql#listTables の不具合回避を目的として独自実装している。
+     * PORTABILITY_FIX_CASE設定によりテーブル名が大文字に変換される問題を回避する。
+     *
+     * @param SC_Query $objQuery
+     *
+     * @return array テーブル名の配列
+     */
+    public function listTables(SC_Query &$objQuery)
+    {
+        $col = 'TABLE_NAME';
+        $from = 'information_schema.TABLES';
+        $where = "TABLE_SCHEMA = DATABASE() AND TABLE_TYPE = 'BASE TABLE'";
+
+        return $objQuery->getCol($col, $from, $where);
+    }
 }

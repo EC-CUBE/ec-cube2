@@ -1285,9 +1285,13 @@ class SC_Utils
                     $mess = SC_Utils_Ex::sfCopyDir($data_.'/', $des.$data.'/', $mess);
                 } else {
                     if (!$override && file_exists($des.$data)) {
+                        // ファイルが既に存在する場合でもパーミッションを設定（インストーラーのパーミッションチェック対策）
+                        @chmod($des.$data, 0666);
                         $mess .= $des.$data."：ファイルが存在します\n";
                     } else {
                         if (@copy($data_, $des.$data)) {
+                            // コピー後にパーミッションを設定（インストーラーのパーミッションチェック対策）
+                            @chmod($des.$data, 0666);
                             $mess .= $des.$data."：コピー成功\n";
                         } else {
                             $mess .= $des.$data."：コピー失敗\n";
@@ -2244,6 +2248,52 @@ class SC_Utils
         $micro_string = explode('.', $micro[0]);
 
         return date('Y-m-d H:i:s').'.'.substr($micro_string[1], 0, 5);
+    }
+
+    /**
+     * 配列を基にお名前を整形する
+     *
+     * @param array $arr 要素に姓名を含む配列
+     * @param string $prefix 姓名の要素のキーの先頭部分
+     *
+     * @return string
+     */
+    public static function formatName($arr, string $prefix = 'name')
+    {
+        if (!is_array($arr)) {
+            $type = function_exists('get_debug_type') ? get_debug_type($arr) : gettype($arr);
+            trigger_error(__FUNCTION__."() 第1引数に {$type} が渡った。", E_USER_WARNING);
+
+            return '';
+        }
+
+        /** @var callable 配列から姓や名を取り出す */
+        $fncGetPart = function (array $arr, string $key) {
+            if (!isset($arr[$key])) {
+                return '';
+            }
+
+            if (is_array($arr[$key])) {
+                return isset($arr[$key]['value']) && is_string($arr[$key]['value'])
+                    ? $arr[$key]['value']
+                    : ''
+                ;
+            }
+
+            return is_string($arr[$key])
+                ? $arr[$key]
+                : ''
+            ;
+        };
+
+        /** @var string 姓 */
+        $name01 = $fncGetPart($arr, "{$prefix}01");
+        /** @var string 名 */
+        $name02 = $fncGetPart($arr, "{$prefix}02");
+
+        $return = implode(' ', array_filter([$name01, $name02], fn ($part) => $part !== ''));
+
+        return $return;
     }
 
     /**
