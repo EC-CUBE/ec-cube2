@@ -22,6 +22,7 @@
         }
     },
     "require-dev": {
+        "ec-cube2/cli": "dev-master",
         "doctrine/instantiator": "~1.5.0",
         "fakerphp/faker": "^1.23",
         "friendsofphp/php-cs-fixer": "^3.9",
