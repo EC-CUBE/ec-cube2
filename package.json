@@ -53,8 +53,7 @@
     "test:attack": "playwright test --grep-invert @extends",
     "dev": "npx webpack --mode development --watch"
   },
-  "resolutions": {
+  "overrides": {
     "js-yaml": "^4.1.1"
-  },
-  "packageManager": "yarn@1.22.22"
+  }
 }
