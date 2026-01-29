@@ -29,6 +29,7 @@
 /tests/tmp/*
 /vagrant/*
 /videos/*
+/scripts/*
 composer.phar
 *.cache
 *.log
