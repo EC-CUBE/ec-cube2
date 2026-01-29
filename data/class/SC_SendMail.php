@@ -44,6 +44,8 @@ class SC_SendMail
     public $from;
     /** @var string */
     public $reply_to;
+    /** @var array */
+    protected $customHeaders;
 
     /**
      * コンストラクタ
@@ -60,6 +62,7 @@ class SC_SendMail
         $this->bcc = '';
         $this->replay_to = '';
         $this->return_path = '';
+        $this->customHeaders = [];
         $this->backend = MAIL_BACKEND;
         $this->host = SMTP_HOST;
         $this->port = SMTP_PORT;
@@ -142,6 +145,40 @@ class SC_SendMail
     public function setReturnPath($return_path)
     {
         $this->return_path = $return_path;
+    }
+
+    /**
+     * カスタムヘッダーを追加
+     *
+     * @param string $name  ヘッダー名
+     * @param string $value ヘッダー値
+     */
+    public function addCustomHeader($name, $value)
+    {
+        // ヘッダーインジェクション対策
+        if (preg_match('/[\r\n]/', $name) || preg_match('/[\r\n]/', $value)) {
+            trigger_error('ヘッダーに改行文字は使用できません。', E_USER_WARNING);
+
+            return;
+        }
+
+        // 重要なヘッダーの上書きを防止
+        $protectedHeaders = ['From', 'To', 'Subject', 'Cc', 'Bcc', 'Reply-To', 'Return-Path', 'Date', 'MIME-Version', 'Content-Type', 'Content-Transfer-Encoding'];
+        if (in_array($name, $protectedHeaders)) {
+            trigger_error('保護されたヘッダーは上書きできません: '.$name, E_USER_WARNING);
+
+            return;
+        }
+
+        $this->customHeaders[$name] = $value;
+    }
+
+    /**
+     * カスタムヘッダーをクリア
+     */
+    public function clearCustomHeaders()
+    {
+        $this->customHeaders = [];
     }
 
     // 件名の設定
@@ -283,6 +320,11 @@ class SC_SendMail
         }
         $arrHeader['Date'] = date('D, j M Y H:i:s O');
         $arrHeader['Content-Transfer-Encoding'] = '7bit';
+
+        // カスタムヘッダーをマージ
+        foreach ($this->customHeaders as $name => $value) {
+            $arrHeader[$name] = $value;
+        }
 
         return $arrHeader;
     }
