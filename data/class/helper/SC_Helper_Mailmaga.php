@@ -63,7 +63,7 @@ class SC_Helper_Mailmaga
         $sqlval['used_flag'] = 0;
         $sqlval['expire_date'] = date('Y-m-d H:i:s', strtotime('+'.self::TOKEN_EXPIRE_DAYS.' days'));
         $sqlval['create_date'] = 'CURRENT_TIMESTAMP';
-        $sqlval['token_id'] = $objQuery->nextVal('dtb_mailmaga_unsubscribe_token_token_id');
+        $sqlval['mailmaga_unsubscribe_token_id'] = $objQuery->nextVal('dtb_mailmaga_unsubscribe_token_mailmaga_unsubscribe_token_id');
 
         $objQuery->insert('dtb_mailmaga_unsubscribe_token', $sqlval);
 
