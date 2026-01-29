@@ -104,3 +104,7 @@ CREATE INDEX dtb_mobile_ext_session_id_param_value_key ON dtb_mobile_ext_session
 CREATE INDEX dtb_mobile_ext_session_id_url_key ON dtb_mobile_ext_session_id (url);
 CREATE INDEX dtb_mobile_ext_session_id_create_date_key ON dtb_mobile_ext_session_id (create_date);
 CREATE INDEX dtb_session_update_date_key ON dtb_session (update_date);
+CREATE TABLE dtb_password_reset (    password_reset_id INTEGER NOT NULL,    email text NOT NULL,    token_hash text NOT NULL,    customer_id INTEGER,    status INTEGER NOT NULL DEFAULT 0,    expire_date TEXT NOT NULL,    ip_address text,    user_agent text,    used_date TEXT,    create_date TEXT NOT NULL DEFAULT (datetime('now','localtime')),    update_date TEXT NOT NULL,    PRIMARY KEY (password_reset_id));
+CREATE INDEX idx_token_hash ON dtb_password_reset (token_hash);
+CREATE INDEX idx_email_create_date ON dtb_password_reset (email, create_date);
+CREATE INDEX idx_expire_status ON dtb_password_reset (expire_date, status);
