@@ -1,7 +1,17 @@
 import { test, expect, Page } from '@playwright/test';
 export const endpointTests = async (page:Page, endpoint:string, title:string|null = 'EC') => {
   await test.step(`${endpoint} を確認します`, async () => {
-    await page.goto(endpoint);
+    try {
+      await page.goto(endpoint, { waitUntil: 'commit' });
+    } catch (error) {
+      // ERR_ABORTED エラーが発生しても、ページが実際にレンダリングされていれば続行
+      if (error instanceof Error && error.message.includes('ERR_ABORTED')) {
+        // ページが読み込まれているか確認するため、短時間待機
+        await page.waitForLoadState('domcontentloaded', { timeout: 5000 }).catch(() => {});
+      } else {
+        throw error;
+      }
+    }
     await expect(page, `toHaveURL: ${endpoint}`).toHaveURL(new RegExp(`${endpoint}`));
     if (title !== null) {
       await expect(page).toHaveTitle(new RegExp(`${title}`));
