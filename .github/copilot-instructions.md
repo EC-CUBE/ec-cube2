@@ -5,6 +5,9 @@
 - MDB2 による DB 抽象化層を使用（MySQL, PostgreSQL, SQLite3）
 - Smarty テンプレートエンジン使用
 - PSR-4 オートロード未対応（独自クラスローダー）
+- `symfony/polyfill-php80` を使用しているため、以下の PHP 8.0 関数は PHP 7.4 でも使用可能:
+  - `str_contains()`, `str_starts_with()`, `str_ends_with()`
+  - `get_debug_type()`, `get_resource_id()`, `fdiv()`, `preg_last_error_msg()`
 
 ## レビュー優先度（上から順に重視）
 
