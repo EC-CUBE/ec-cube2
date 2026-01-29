@@ -127,8 +127,8 @@ class SC_Helper_LoginRateLimit
             'result' => $result,
         ];
 
-        $attempt_id = $objQuery->nextVal('dtb_login_attempt_attempt_id');
-        $sqlval['attempt_id'] = $attempt_id;
+        $login_attempt_id = $objQuery->nextVal('dtb_login_attempt_login_attempt_id');
+        $sqlval['login_attempt_id'] = $login_attempt_id;
 
         $objQuery->insert('dtb_login_attempt', $sqlval);
 

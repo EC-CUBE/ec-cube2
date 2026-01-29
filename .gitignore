@@ -19,6 +19,7 @@
 /html/upload/temp_image/*
 /html/upload/temp_plugin/*
 /node_modules/*
+/.yarn/*
 /phpunit.xml
 /playwright-report/*
 /reports/*

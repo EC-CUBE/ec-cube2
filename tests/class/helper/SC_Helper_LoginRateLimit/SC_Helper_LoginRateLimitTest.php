@@ -206,9 +206,9 @@ class SC_Helper_LoginRateLimitTest extends Common_TestCase
 
         // 古い試行を直接データベースに挿入
         for ($i = 0; $i < 10; $i++) {
-            $attempt_id = $this->objQuery->nextVal('dtb_login_attempt_attempt_id');
+            $login_attempt_id = $this->objQuery->nextVal('dtb_login_attempt_login_attempt_id');
             $this->objQuery->insert('dtb_login_attempt', [
-                'attempt_id' => $attempt_id,
+                'login_attempt_id' => $login_attempt_id,
                 'login_id' => $email,
                 'ip_address' => $ip,
                 'user_agent' => 'TestAgent',
@@ -274,9 +274,9 @@ class SC_Helper_LoginRateLimitTest extends Common_TestCase
         $ip = '192.168.1.1';
 
         // 31日前の古いレコードを挿入
-        $old_attempt_id = $this->objQuery->nextVal('dtb_login_attempt_attempt_id');
+        $old_login_attempt_id = $this->objQuery->nextVal('dtb_login_attempt_login_attempt_id');
         $this->objQuery->insert('dtb_login_attempt', [
-            'attempt_id' => $old_attempt_id,
+            'login_attempt_id' => $old_login_attempt_id,
             'login_id' => $email,
             'ip_address' => $ip,
             'user_agent' => 'TestAgent',

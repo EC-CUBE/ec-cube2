@@ -1252,13 +1252,13 @@ CREATE INDEX dtb_products_class_deliv_fee_key ON dtb_products_class (product_id,
 CREATE INDEX dtb_session_update_date_key ON dtb_session (update_date);
 
 CREATE TABLE dtb_login_attempt (
-    attempt_id int NOT NULL,
+    login_attempt_id int NOT NULL,
     login_id text NOT NULL,
     ip_address text,
     user_agent text,
     result smallint NOT NULL,
     create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (attempt_id)
+    PRIMARY KEY (login_attempt_id)
 );
 CREATE INDEX idx_login_id_create_date ON dtb_login_attempt (login_id, create_date);
 CREATE INDEX idx_ip_create_date ON dtb_login_attempt (ip_address, create_date);
