@@ -153,7 +153,7 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
     // sfChangeArrayToString
     // ============================================================
 
-    public function testSfChangeArrayToStringはARRAY_TO_STRINGをGROUP_CONCATに変換する()
+    public function testSfChangeArrayToStringはARRAYTOSTRINGをGROUPCONCATに変換する()
     {
         $sql = "SELECT ARRAY_TO_STRING(ARRAY(SELECT name FROM users WHERE id = 1), ',') FROM dual";
         $result = $this->dbFactory->sfChangeArrayToString($sql);
@@ -164,7 +164,7 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
         $this->assertStringContainsString("SEPARATOR ','", $result);
     }
 
-    public function testSfChangeArrayToStringは複数のARRAY_TO_STRINGを変換する()
+    public function testSfChangeArrayToStringは複数のARRAYTOSTRINGを変換する()
     {
         $sql = "SELECT ARRAY_TO_STRING(ARRAY(SELECT name FROM users WHERE id = 1), ','), ARRAY_TO_STRING(ARRAY(SELECT email FROM users WHERE id = 2), ';')";
         $result = $this->dbFactory->sfChangeArrayToString($sql);
@@ -173,7 +173,7 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
         $this->assertEquals(2, substr_count($result, 'GROUP_CONCAT'));
     }
 
-    public function testSfChangeArrayToStringはARRAY_TO_STRINGがない場合はそのまま返す()
+    public function testSfChangeArrayToStringはARRAYTOSTRINGがない場合はそのまま返す()
     {
         $sql = 'SELECT * FROM users WHERE id = 1';
         $result = $this->dbFactory->sfChangeArrayToString($sql);
