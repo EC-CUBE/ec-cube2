@@ -1250,3 +1250,24 @@ CREATE INDEX dtb_products_class_stock_unlimited_key ON dtb_products_class (produ
 CREATE INDEX dtb_products_class_point_rate_key ON dtb_products_class (product_id,point_rate) WHERE del_flg = 0;
 CREATE INDEX dtb_products_class_deliv_fee_key ON dtb_products_class (product_id,deliv_fee) WHERE del_flg = 0;
 CREATE INDEX dtb_session_update_date_key ON dtb_session (update_date);
+
+-- パスワード再発行トークン管理テーブル (Issue #368)
+CREATE TABLE dtb_password_reset (
+    password_reset_id int NOT NULL,
+    email text NOT NULL,
+    token_hash text NOT NULL,
+    customer_id int,
+    status smallint NOT NULL DEFAULT 0,
+    expire_date timestamp NOT NULL,
+    ip_address text,
+    user_agent text,
+    used_date timestamp,
+    create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_date timestamp NOT NULL,
+    PRIMARY KEY (password_reset_id)
+);
+
+-- インデックス作成
+CREATE INDEX idx_password_reset_token_hash ON dtb_password_reset (token_hash);
+CREATE INDEX idx_password_reset_email_create_date ON dtb_password_reset (email, create_date);
+CREATE INDEX idx_password_reset_expire_status ON dtb_password_reset (expire_date, status);

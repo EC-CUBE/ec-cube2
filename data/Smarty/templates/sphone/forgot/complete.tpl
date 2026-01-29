@@ -21,21 +21,18 @@
  *}-->
 
 <section id="windowcolumn">
-    <h2 class="title">パスワードを忘れた方</h2>
+    <h2 class="title">パスワード変更完了</h2>
     <div class="intro">
-        <p>パスワードの発行が完了いたしました。ログインには下記のパスワードをご利用ください。</p>
+        <p>パスワードの変更が完了いたしました。<br />
+        新しいパスワードでログインしてください。</p>
     </div>
     <form action="?" method="post" name="form1">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
 
         <div class="window_area clearfix">
-            <!--{if $smarty.const.FORGOT_MAIL != 1}-->
-                <input id="completebox" type="text" value="<!--{$arrForm.new_password|h}-->" readonly="readonly" />
-            <!--{else}-->
-                <p  class="attention">ご登録メールアドレスに送付致しました。</p>
-            <!--{/if}-->
+            <p>新しいパスワードでログインできます。</p>
             <hr />
-            <p>※パスワードは、MYページの「会員登録内容変更」よりご変更いただけます。</p>
+            <p>確認のため、パスワード変更完了のメールをお送りしました。</p>
         </div>
 
         <div class="btn_area">
