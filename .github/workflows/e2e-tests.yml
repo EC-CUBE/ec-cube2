@@ -130,13 +130,13 @@ jobs:
 
     - name: Upload evidence
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-evidence
         path: 'test-results/'
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-logs
         path: data/logs
@@ -258,13 +258,13 @@ jobs:
         DB_SERVER: ${{ matrix.dbhost }}
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: html/install/temp/install.log*
     - name: Upload evidence
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-evidence
         path: 'test-results/'
