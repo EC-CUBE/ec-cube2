@@ -13,6 +13,11 @@ on:
     paths:
       - '**'
       - '!*.md'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   dockerbuild:
     with:
@@ -32,15 +37,17 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ php-cs-fixer ]
+    needs: [ dockerbuild ]
     uses: ./.github/workflows/phpstan.yml
+  dependency-review:
+    uses: ./.github/workflows/dependency-review.yml
   unit-tests:
     with:
       ref_name: ${{ github.ref_name }}
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ php-cs-fixer ]
+    needs: [ php-cs-fixer, phpstan ]
     uses: ./.github/workflows/unit-tests.yml
   e2e-tests:
     with:
@@ -48,11 +55,13 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ php-cs-fixer ]
+    needs: [ unit-tests ]
     uses: ./.github/workflows/e2e-tests.yml
   success:
     needs:
+      - php-cs-fixer
       - phpstan
+      - dependency-review
       - unit-tests
       - e2e-tests
     uses: ./.github/workflows/success.yml

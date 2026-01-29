@@ -38,13 +38,14 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 | PHP       | PHP          | 7.4.33 or higher                                        |
 | Database  | PostgreSQL   | 9.x or higher                                           |
 | Database  | MySQL        | 5.x / 8.0.x / 8.4.x or higher<br> (InnoDBエンジン 必須) |
+| Database  | SQLite       | 3.x or higher                                           |
 
 
 ##### 必要な PHP Extensions
 
 | 分類           | Extensions                                                                                                                                                                                                                                                                               |
 |----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 必須      | pgsql / mysqli (利用するデータベースに合わせること) <br> pdo_pgsql / pdo_mysql (利用するデータベースに合わせること) <br> pdo <br> mbstring <br> zlib <br> ctype <br> session <br> JSON <br> xml <br> libxml <br> OpenSSL <br> zip <br> cURL <br> gd                                      |
+| 必須      | pgsql / mysqli / sqlite3 (利用するデータベースに合わせること) <br> pdo_pgsql / pdo_mysql / pdo_sqlite (利用するデータベースに合わせること) <br> pdo <br> mbstring <br> zlib <br> ctype <br> session <br> JSON <br> xml <br> libxml <br> OpenSSL <br> zip <br> cURL <br> gd                                      |
 | 推奨      | hash <br> APCu <br> Zend OPcache
 
 ## インストール方法
@@ -112,6 +113,16 @@ docker-compose.mysql.yml を指定します。 data/config/config.php が存在�
 git clone https://github.com/EC-CUBE/ec-cube2.git
 cd ec-cube2
 docker compose -f docker-compose.yml -f docker-compose.mysql.yml up
+```
+
+#### SQLite3 を使用する場合
+
+docker-compose.sqlite3.yml を指定します。 data/config/config.php が存在しない場合は、 EC-CUBE のインストールまで実行します。
+
+```shell
+git clone https://github.com/EC-CUBE/ec-cube2.git
+cd ec-cube2
+docker compose -f docker-compose.yml -f docker-compose.sqlite3.yml up
 ```
 
 #### DB を別途用意する場合
@@ -201,16 +212,16 @@ docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:genera
 docker compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
 
 ## playwright をインストール
-yarn install
-yarn run playwright install --with-deps chromium
-yarn playwright install-deps chromium
+npm install
+npx playwright install --with-deps chromium
+npx playwright install-deps chromium
 
 ## 管理画面の E2E テストを実行
-yarn test:e2e e2e-tests/test/admin
+npm run test:e2e -- e2e-tests/test/admin
 ## フロント(ゲスト)のE2Eテストを実行
-yarn test:e2e --workers=1 e2e-tests/test/front_guest
+npm run test:e2e -- --workers=1 e2e-tests/test/front_guest
 ## フロント(ログイン)のE2Eテストを実行
-yarn test:e2e --workers=1 e2e-tests/test/front_login
+npm run test:e2e -- --workers=1 e2e-tests/test/front_login
 ```
 
 ### MySQL の場合
@@ -231,16 +242,16 @@ docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:genera
 docker compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
 
 ## playwright をインストール
-yarn install
-yarn run playwright install --with-deps chromium
-yarn playwright install-deps chromium
+npm install
+npx playwright install --with-deps chromium
+npx playwright install-deps chromium
 
 ## 管理画面の E2E テストを実行
-yarn test:e2e e2e-tests/test/admin
+npm run test:e2e -- e2e-tests/test/admin
 ## フロント(ゲスト)のE2Eテストを実行
-yarn test:e2e --workers=1 e2e-tests/test/front_guest
+npm run test:e2e -- --workers=1 e2e-tests/test/front_guest
 ## フロント(ログイン)のE2Eテストを実行
-yarn test:e2e --workers=1 e2e-tests/test/front_login
+npm run test:e2e -- --workers=1 e2e-tests/test/front_login
 ```
 
 ---
