@@ -46,7 +46,7 @@ class SC_Utils_sfTermMonthTest extends Common_TestCase
     // ///////////////////////////////////////
     public function testSfTermMonth締め日が月末より早い場合設定した締め日の通りになる()
     {
-        $this->expected = ['2012/9/16', '2012/10/15 23:59:59'];
+        $this->expected = ['2012-09-16', '2012-10-15 23:59:59'];
         $this->actual = SC_Utils::sfTermMonth(2012, 10, 15);
 
         $this->verify();
@@ -54,7 +54,7 @@ class SC_Utils_sfTermMonthTest extends Common_TestCase
 
     public function testSfTermMonth該当月の末日が締め日より早い場合末日に合わせられる()
     {
-        $this->expected = ['2012/9/1', '2012/9/30 23:59:59'];
+        $this->expected = ['2012-09-01', '2012-09-30 23:59:59'];
         $this->actual = SC_Utils::sfTermMonth(2012, 9, 31);
 
         $this->verify();
@@ -62,7 +62,7 @@ class SC_Utils_sfTermMonthTest extends Common_TestCase
 
     public function testSfTermMonth前月の末日が締め日より早い場合末日に合わせられる()
     {
-        $this->expected = ['2012/10/1', '2012/10/31 23:59:59'];
+        $this->expected = ['2012-10-01', '2012-10-31 23:59:59'];
         $this->actual = SC_Utils::sfTermMonth(2012, 10, 31);
 
         $this->verify();
@@ -70,7 +70,7 @@ class SC_Utils_sfTermMonthTest extends Common_TestCase
 
     public function testSfTermMonth年をまたぐ場合前月が前年十二月になる()
     {
-        $this->expected = ['2012/12/16', '2013/1/15 23:59:59'];
+        $this->expected = ['2012-12-16', '2013-01-15 23:59:59'];
         $this->actual = SC_Utils::sfTermMonth(2013, 1, 15);
 
         $this->verify();

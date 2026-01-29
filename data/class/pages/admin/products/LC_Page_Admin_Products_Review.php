@@ -321,7 +321,7 @@ class LC_Page_Admin_Products_Review extends LC_Page_Admin_Ex
                 case 'search_endyear':
                     if (isset($_POST['search_startyear']) && isset($_POST['search_startmonth']) && isset($_POST['search_startday'])) {
                         $date = SC_Utils_Ex::sfGetTimestamp($_POST['search_endyear'], $_POST['search_endmonth'], $_POST['search_endday']);
-                        $end_date = date('Y/m/d', strtotime('1 day', strtotime($date)));
+                        $end_date = date('Y-m-d', strtotime('1 day', strtotime($date)));
                         $where .= " AND A.create_date <= cast('$end_date' as date) ";
                     }
                     break;
