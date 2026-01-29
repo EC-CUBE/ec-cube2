@@ -37,25 +37,13 @@ abstract class SC_Helper_TaxRule_TestBase extends Common_TestCase
      */
     protected $objTaxRule;
 
-    /**
-     * @var array バックアップ用の元の税ルールデータ
-     */
-    protected $originalTaxRules = [];
-
     protected function setUp(): void
     {
         parent::setUp();
-        // 現在の税ルールをバックアップ
-        $this->originalTaxRules = $this->objQuery->getAll('SELECT * FROM dtb_tax_rule');
     }
 
     protected function tearDown(): void
     {
-        // 税ルールを元に戻す
-        $this->objQuery->delete('dtb_tax_rule', '1=1');
-        foreach ($this->originalTaxRules as $rule) {
-            $this->objQuery->insert('dtb_tax_rule', $rule);
-        }
         parent::tearDown();
     }
 
