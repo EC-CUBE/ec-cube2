@@ -38,13 +38,14 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 | PHP       | PHP          | 7.4.33 or higher                                        |
 | Database  | PostgreSQL   | 9.x or higher                                           |
 | Database  | MySQL        | 5.x / 8.0.x / 8.4.x or higher<br> (InnoDBエンジン 必須) |
+| Database  | SQLite       | 3.x or higher                                           |
 
 
 ##### 必要な PHP Extensions
 
 | 分類           | Extensions                                                                                                                                                                                                                                                                               |
 |----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 必須      | pgsql / mysqli (利用するデータベースに合わせること) <br> pdo_pgsql / pdo_mysql (利用するデータベースに合わせること) <br> pdo <br> mbstring <br> zlib <br> ctype <br> session <br> JSON <br> xml <br> libxml <br> OpenSSL <br> zip <br> cURL <br> gd                                      |
+| 必須      | pgsql / mysqli / sqlite3 (利用するデータベースに合わせること) <br> pdo_pgsql / pdo_mysql / pdo_sqlite (利用するデータベースに合わせること) <br> pdo <br> mbstring <br> zlib <br> ctype <br> session <br> JSON <br> xml <br> libxml <br> OpenSSL <br> zip <br> cURL <br> gd                                      |
 | 推奨      | hash <br> APCu <br> Zend OPcache
 
 ## インストール方法
@@ -112,6 +113,16 @@ docker-compose.mysql.yml を指定します。 data/config/config.php が存在�
 git clone https://github.com/EC-CUBE/ec-cube2.git
 cd ec-cube2
 docker compose -f docker-compose.yml -f docker-compose.mysql.yml up
+```
+
+#### SQLite3 を使用する場合
+
+docker-compose.sqlite3.yml を指定します。 data/config/config.php が存在しない場合は、 EC-CUBE のインストールまで実行します。
+
+```shell
+git clone https://github.com/EC-CUBE/ec-cube2.git
+cd ec-cube2
+docker compose -f docker-compose.yml -f docker-compose.sqlite3.yml up
 ```
 
 #### DB を別途用意する場合

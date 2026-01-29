@@ -48,6 +48,7 @@ class SC_Helper_Delivery_saveTest extends SC_Helper_Delivery_TestBase
 
         $deliv_id = $this->objHelper->save($sqlval);
 
+        $this->objQuery->setOrder('time_id');
         $times = $this->objQuery->select('*', 'dtb_delivtime', 'deliv_id = ?', [$deliv_id]);
         $this->assertCount(2, $times);
         $this->assertEquals('午前中', $times[0]['deliv_time']);
@@ -69,6 +70,7 @@ class SC_Helper_Delivery_saveTest extends SC_Helper_Delivery_TestBase
 
         $deliv_id = $this->objHelper->save($sqlval);
 
+        $this->objQuery->setOrder('rank');
         $payments = $this->objQuery->select('*', 'dtb_payment_options', 'deliv_id = ?', [$deliv_id]);
         $this->assertCount(3, $payments);
         $this->assertEquals(1, $payments[0]['payment_id']);
@@ -101,7 +103,7 @@ class SC_Helper_Delivery_saveTest extends SC_Helper_Delivery_TestBase
     public function testSave更新()
     {
         // 既存の配送方法を作成
-        $existing = $this->createDelivData(['deliv_id' => 1, 'service_name' => '既存配送']);
+        $this->createDelivData(['deliv_id' => 1, 'service_name' => '既存配送']);
 
         $sqlval = [
             'deliv_id' => 1,
