@@ -84,7 +84,10 @@ class SC_Helper_Mailtemplate_saveTest extends SC_Helper_Mailtemplate_TestBase
 
         $result = $this->objQuery->getRow('*', 'dtb_mailtemplate', 'template_id = ?', [1]);
         $this->assertEquals(1, $result['creator_id'], 'creator_idは変更されない');
-        $this->assertEquals('2020-01-01 00:00:00', $result['create_date'], 'create_dateは変更されない');
+        // DBバックエンドによってフォーマットが異なる可能性があるため、日時をパースして比較
+        $expectedDate = new DateTime('2020-01-01 00:00:00');
+        $actualDate = new DateTime($result['create_date']);
+        $this->assertEquals($expectedDate, $actualDate, 'create_dateは変更されない');
     }
 
     public function testSave新規登録時にcreatorIdが設定される()

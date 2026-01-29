@@ -415,6 +415,141 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * dtb_products_class の listTableFields で数値型カラムが返されることを確認する.
+     *
+     * SQLite3 では DOUBLE 型のカラムが MDB2 の _getTableColumns で
+     * 正しくパースされない場合、カラムが欠落する問題があった.
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/1318
+     */
+    public function testListTableFieldsProductsClass()
+    {
+        $fields = $this->objQuery->listTableFields('dtb_products_class');
+
+        $numericCols = ['stock', 'sale_limit', 'price01', 'price02', 'deliv_fee', 'point_rate'];
+        foreach ($numericCols as $col) {
+            $this->assertContains($col, $fields, "dtb_products_class に {$col} カラムが存在すること");
+        }
+
+        $this->assertCount(19, $fields, 'dtb_products_class のカラム数');
+    }
+
+    /**
+     * dtb_products_class の extractOnlyColsOf で数値型カラムが除外されないことを確認する.
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/1318
+     */
+    public function testExtractOnlyColsOfProductsClass()
+    {
+        $params = [
+            'product_class_id' => 99999,
+            'product_id' => 99999,
+            'classcategory_id1' => 0,
+            'classcategory_id2' => 0,
+            'product_code' => 'TEST_CODE',
+            'product_type_id' => 1,
+            'stock_unlimited' => 0,
+            'stock' => 50,
+            'price01' => 2000,
+            'price02' => 1800,
+            'point_rate' => 10,
+            'creator_id' => 2,
+            'create_date' => 'CURRENT_TIMESTAMP',
+            'update_date' => 'CURRENT_TIMESTAMP',
+            'del_flg' => 0,
+            'nonexistent_col' => 'should_be_removed',
+        ];
+
+        $result = $this->objQuery->extractOnlyColsOf('dtb_products_class', $params);
+
+        $this->assertArrayHasKey('stock', $result);
+        $this->assertArrayHasKey('price01', $result);
+        $this->assertArrayHasKey('price02', $result);
+        $this->assertArrayHasKey('point_rate', $result);
+        $this->assertArrayNotHasKey('nonexistent_col', $result);
+        $this->assertCount(count($params) - 1, $result);
+    }
+
+    /**
+     * 数値型カラムを持つ主要テーブルで listTableFields が正しくカラムを返すことを確認する.
+     *
+     * @dataProvider numericColumnTablesProvider
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/1318
+     */
+    public function testListTableFieldsNumericColumns($table, $expectedNumericCols)
+    {
+        $fields = $this->objQuery->listTableFields($table);
+
+        foreach ($expectedNumericCols as $col) {
+            $this->assertContains($col, $fields, "{$table} に {$col} カラムが存在すること");
+        }
+    }
+
+    public static function numericColumnTablesProvider()
+    {
+        return [
+            'dtb_baseinfo' => [
+                'dtb_baseinfo',
+                ['free_rule', 'point_rate', 'welcome_point', 'downloadable_days'],
+            ],
+            'dtb_order' => [
+                'dtb_order',
+                ['subtotal', 'discount', 'deliv_fee', 'charge', 'use_point', 'add_point', 'tax', 'total', 'payment_total'],
+            ],
+            'dtb_customer' => [
+                'dtb_customer',
+                ['buy_times', 'buy_total', 'point'],
+            ],
+            'dtb_order_detail' => [
+                'dtb_order_detail',
+                ['price', 'quantity', 'point_rate', 'tax_rate'],
+            ],
+            'dtb_tax_rule' => [
+                'dtb_tax_rule',
+                ['tax_rate', 'tax_adjust'],
+            ],
+        ];
+    }
+
+    /**
+     * extractOnlyColsOf が dtb_order の数値型カラムを保持することを確認する.
+     *
+     * fixture generator が使用する extractOnlyColsOf の挙動を検証する.
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/1318
+     */
+    public function testExtractOnlyColsOfOrder()
+    {
+        $params = [
+            'order_id' => 99999,
+            'customer_id' => 1,
+            'subtotal' => 3000,
+            'discount' => 0,
+            'deliv_fee' => 500,
+            'charge' => 300,
+            'use_point' => 0,
+            'add_point' => 30,
+            'tax' => 300,
+            'total' => 3800,
+            'payment_total' => 3800,
+            'status' => 1,
+            'create_date' => 'CURRENT_TIMESTAMP',
+            'update_date' => 'CURRENT_TIMESTAMP',
+            'del_flg' => 0,
+            'nonexistent_col' => 'should_be_removed',
+        ];
+
+        $result = $this->objQuery->extractOnlyColsOf('dtb_order', $params);
+
+        $numericCols = ['subtotal', 'discount', 'deliv_fee', 'charge', 'use_point', 'add_point', 'tax', 'total', 'payment_total'];
+        foreach ($numericCols as $col) {
+            $this->assertArrayHasKey($col, $result, "dtb_order の {$col} が保持されること");
+        }
+        $this->assertArrayNotHasKey('nonexistent_col', $result);
+    }
+
+    /**
      * SC_Query::getSql() 経由で SC_Query::resetAdditionalClauses() が呼ばれていることを確認する。
      */
     public function testResetAdditionalClausesViaGetSql()
