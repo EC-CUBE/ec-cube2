@@ -305,11 +305,6 @@ class LC_Page
 
         $this->tpl_authority = $_SESSION['authority'] ?? null;
 
-        // arrErrを配列として初期化
-        if (!is_array($this->arrErr)) {
-            $this->arrErr = [];
-        }
-
         // ディスプレイクラス生成
         $this->objDisplay = new SC_Display_Ex();
 
