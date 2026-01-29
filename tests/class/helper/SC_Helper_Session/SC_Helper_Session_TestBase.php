@@ -31,12 +31,13 @@ class SC_Helper_Session_TestBase extends Common_TestCase
     protected function createSessionData($override = [])
     {
         $sess_id = $override['sess_id'] ?? 'test_session_'.uniqid();
+        $now = date('Y-m-d H:i:s');
 
         $data = array_merge([
             'sess_id' => $sess_id,
             'sess_data' => 'test_data',
-            'create_date' => 'CURRENT_TIMESTAMP',
-            'update_date' => 'CURRENT_TIMESTAMP',
+            'create_date' => $now,
+            'update_date' => $now,
         ], $override);
 
         $this->objQuery->insert('dtb_session', $data);

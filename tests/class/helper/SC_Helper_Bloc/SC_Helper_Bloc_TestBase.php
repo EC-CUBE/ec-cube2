@@ -59,7 +59,10 @@ class SC_Helper_Bloc_TestBase extends Common_TestCase
     {
         $bloc_dir = SC_Helper_PageLayout_Ex::getTemplatePath(DEVICE_TYPE_PC).BLOC_DIR;
         $file_path = $bloc_dir.$filename;
-        file_put_contents($file_path, $content);
+        $result = file_put_contents($file_path, $content);
+        if ($result === false) {
+            $this->fail("Failed to create bloc file: {$file_path}");
+        }
     }
 
     /**
