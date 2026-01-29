@@ -30,6 +30,7 @@
 /vagrant/*
 /videos/*
 /scripts/*
+/screenshots/*
 composer.phar
 *.cache
 *.log
