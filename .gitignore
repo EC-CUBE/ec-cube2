@@ -33,4 +33,6 @@ composer.phar
 *.cache
 *.log
 *.tpl.php
+eccube_db
+/data/eccube.db
 !.gitkeep
