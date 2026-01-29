@@ -59,6 +59,8 @@ class SC_Helper_LoginRateLimit
         // データベースタイプに応じて1時間前の時刻を取得
         if (DB_TYPE == 'pgsql') {
             $interval_clause = "create_date > NOW() - INTERVAL '1 hour'";
+        } elseif (DB_TYPE == 'sqlite3') {
+            $interval_clause = "create_date > datetime('now', 'localtime', '-1 hour')";
         } else {
             // MySQL
             $interval_clause = 'create_date > NOW() - INTERVAL 1 HOUR';
@@ -167,6 +169,8 @@ class SC_Helper_LoginRateLimit
         // データベースタイプに応じて削除条件を設定
         if (DB_TYPE == 'pgsql') {
             $where = "create_date < NOW() - INTERVAL '{$days} days'";
+        } elseif (DB_TYPE == 'sqlite3') {
+            $where = "create_date < datetime('now', 'localtime', '-{$days} days')";
         } else {
             // MySQL
             $where = "create_date < NOW() - INTERVAL {$days} DAY";
