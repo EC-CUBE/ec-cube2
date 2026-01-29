@@ -49,7 +49,6 @@
     "lint:javascript": "eslint --fix data/*.js",
     "lint:typescript": "eslint --fix --ext .ts e2e-tests",
     "test:e2e": "playwright test --grep-invert '(@attack|@extends)'",
-    "test:e2e:local": "BASE_URL=http://localhost:8080 playwright test --grep-invert '(@attack|@extends)'",
     "test:e2e-extends": "playwright test --grep @extends",
     "test:attack": "playwright test --grep-invert @extends",
     "dev": "npx webpack --mode development --watch"
