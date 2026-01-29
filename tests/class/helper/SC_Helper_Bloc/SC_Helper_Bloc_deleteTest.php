@@ -50,6 +50,9 @@ class SC_Helper_Bloc_deleteTest extends SC_Helper_Bloc_TestBase
         // データベースの状態確認は困難。ファイルが残っていることを確認
         $bloc_dir = SC_Helper_PageLayout_Ex::getTemplatePath(DEVICE_TYPE_PC).BLOC_DIR;
         $this->assertFileExists($bloc_dir.'non_deletable_bloc.tpl', 'ファイルは削除されていない');
+
+        // tearDown でクリーンアップされないため明示的に削除
+        $this->deleteBlocFile('non_deletable_bloc.tpl');
     }
 
     public function testDelete存在しないブロックIDは削除失敗()

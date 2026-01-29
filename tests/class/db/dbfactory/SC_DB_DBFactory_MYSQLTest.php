@@ -149,6 +149,38 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
         }
     }
 
+    // ============================================================
+    // sfChangeArrayToString
+    // ============================================================
+
+    public function testSfChangeArrayToStringはARRAY_TO_STRINGをGROUP_CONCATに変換する()
+    {
+        $sql = "SELECT ARRAY_TO_STRING(ARRAY(SELECT name FROM users WHERE id = 1), ',') FROM dual";
+        $result = $this->dbFactory->sfChangeArrayToString($sql);
+
+        $this->assertStringNotContainsString('ARRAY_TO_STRING', $result);
+        $this->assertStringNotContainsString('ARRAY(', $result);
+        $this->assertStringContainsString('GROUP_CONCAT', $result);
+        $this->assertStringContainsString("SEPARATOR ','", $result);
+    }
+
+    public function testSfChangeArrayToStringは複数のARRAY_TO_STRINGを変換する()
+    {
+        $sql = "SELECT ARRAY_TO_STRING(ARRAY(SELECT name FROM users WHERE id = 1), ','), ARRAY_TO_STRING(ARRAY(SELECT email FROM users WHERE id = 2), ';')";
+        $result = $this->dbFactory->sfChangeArrayToString($sql);
+
+        $this->assertStringNotContainsString('ARRAY_TO_STRING', $result);
+        $this->assertEquals(2, substr_count($result, 'GROUP_CONCAT'));
+    }
+
+    public function testSfChangeArrayToStringはARRAY_TO_STRINGがない場合はそのまま返す()
+    {
+        $sql = 'SELECT * FROM users WHERE id = 1';
+        $result = $this->dbFactory->sfChangeArrayToString($sql);
+
+        $this->assertSame($sql, $result);
+    }
+
     /**
      * プラグインテーブル（plg_*）を含むことを確認
      */
