@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b623d93c7298bb3a765d84ef5f81bd3c",
+    "content-hash": "a7efa6ad3cdedf04763b65eb96dc8406",
     "packages": [
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -2107,6 +2107,58 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v5.7.0"
             },
             "time": "2025-12-06T11:56:16+00:00"
+        },
+        {
+            "name": "nobuhiko/ec-cube2-migration",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nobuhiko/ec-cube2-migration.git",
+                "reference": "06ef922914528e31a2282e3158a996f2d12b3278"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nobuhiko/ec-cube2-migration/zipball/06ef922914528e31a2282e3158a996f2d12b3278",
+                "reference": "06ef922914528e31a2282e3158a996f2d12b3278",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "symfony/console": "^5.4 || ^6.4 || ^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpunit/phpunit": "^9.6 || ^10.0"
+            },
+            "suggest": {
+                "ec-cube2/cli": "For integration with EC-CUBE 2 CLI"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Eccube2\\Migration\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Nobuhiko Kimoto",
+                    "email": "nobuhiko.kimoto@gmail.com"
+                }
+            ],
+            "description": "Database migration tool for EC-CUBE 2",
+            "support": {
+                "issues": "https://github.com/nobuhiko/ec-cube2-migration/issues",
+                "source": "https://github.com/nobuhiko/ec-cube2-migration/tree/main"
+            },
+            "time": "2026-01-30T13:00:06+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -6203,7 +6255,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ec-cube2/cli": 20
+        "ec-cube2/cli": 20,
+        "nobuhiko/ec-cube2-migration": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -6212,9 +6265,9 @@
         "ext-gd": "*",
         "ext-mbstring": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "7.4.0"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.2.0"
 }

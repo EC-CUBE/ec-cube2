@@ -1243,22 +1243,3 @@ CREATE INDEX dtb_mobile_ext_session_id_param_value_key ON dtb_mobile_ext_session
 CREATE INDEX dtb_mobile_ext_session_id_url_key ON dtb_mobile_ext_session_id (url(255));
 CREATE INDEX dtb_mobile_ext_session_id_create_date_key ON dtb_mobile_ext_session_id (create_date);
 CREATE INDEX dtb_session_update_date_key ON dtb_session (update_date);
-
--- パスワード再発行トークン管理テーブル (Issue #368)
-CREATE TABLE dtb_password_reset (
-    password_reset_id int NOT NULL,
-    email text NOT NULL,
-    token_hash text NOT NULL,
-    customer_id int,
-    status smallint NOT NULL DEFAULT 0 COMMENT '0:未使用, 1:使用済み, 2:期限切れ',
-    expire_date timestamp NOT NULL,
-    ip_address text,
-    user_agent text,
-    used_date timestamp NULL,
-    create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_date timestamp NOT NULL,
-    PRIMARY KEY (password_reset_id),
-    INDEX idx_token_hash (token_hash(255)),
-    INDEX idx_email_create_date (email(255), create_date),
-    INDEX idx_expire_status (expire_date, status)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='パスワード再発行トークン管理';
