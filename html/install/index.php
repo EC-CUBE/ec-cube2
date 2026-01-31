@@ -22,60 +22,59 @@
  */
 // ▼require.php 相当
 // rtrim は PHP バージョン依存対策
-$GLOBALS['_realdir'] = rtrim(realpath(rtrim(realpath(dirname(__FILE__)), '/\\') . '/../'), '/\\') . '/';
+$GLOBALS['_realdir'] = rtrim(realpath(rtrim(realpath(__DIR__), '/\\').'/../'), '/\\').'/';
 $GLOBALS['_realdir'] = str_replace('\\', '/', $GLOBALS['_realdir']);
 $GLOBALS['_realdir'] = str_replace('//', '/', $GLOBALS['_realdir']);
 define('HTML_REALDIR', $GLOBALS['_realdir']);
 
-require_once HTML_REALDIR . 'define.php';
+require_once HTML_REALDIR.'define.php';
 define('INSTALL_FUNCTION', true);
 define('INSTALL_INFO_URL', 'http://www.ec-cube.net/install_info/index.php');
-define("DEFAULT_COUNTRY_ID", 392);
+define('DEFAULT_COUNTRY_ID', 392);
 
 $dir = preg_replace('|install/.*$|', '', $_SERVER['REQUEST_URI']);
-$normal_url = 'http://' . $_SERVER['HTTP_HOST'] . $dir;
-defined('HTTP_URL') or define('HTTP_URL', $normal_url);
-defined('HTTPS_URL') or define('HTTPS_URL', $normal_url);
+$normal_url = 'http://'.$_SERVER['HTTP_HOST'].$dir;
+defined('HTTP_URL') || define('HTTP_URL', $normal_url);
+defined('HTTPS_URL') || define('HTTPS_URL', $normal_url);
 $url_dir = preg_replace('|^https?://[a-zA-Z0-9_:~=&\?\.\-]+|', '', $normal_url);
-defined('ROOT_URLPATH') or define('ROOT_URLPATH', $url_dir);
-defined('ADMIN_DIR') or define('ADMIN_DIR', '');
+defined('ROOT_URLPATH') || define('ROOT_URLPATH', $url_dir);
+defined('ADMIN_DIR') || define('ADMIN_DIR', '');
 
-require_once HTML_REALDIR . HTML2DATA_DIR . 'require_base.php';
+require_once HTML_REALDIR.HTML2DATA_DIR.'require_base.php';
 // ▲require.php 相当
 
-$ownDir = realpath(dirname(__FILE__)) . '/';
-
+$ownDir = realpath(__DIR__).'/';
 
 define('INSTALL_LOG', './temp/install.log');
 ini_set('max_execution_time', 300);
 
-$objPage = new StdClass;
-$objPage->arrErr = array();
-$objPage->arrDB_TYPE = array(
+$objPage = new stdClass();
+$objPage->arrErr = [];
+$objPage->arrDB_TYPE = [
     'pgsql' => 'PostgreSQL',
     'mysqli' => 'MySQL',
     'sqlite3' => 'SQLite3',
-);
-$objPage->arrDB_PORT = array(
+];
+$objPage->arrDB_PORT = [
     'pgsql' => '',
     'mysqli' => '',
     'sqlite3' => '',
-);
-$objPage->arrMailBackend = array('mail' => 'mail',
-                                 'smtp' => 'SMTP',
-                                 'sendmail' => 'sendmail');
+];
+$objPage->arrMailBackend = ['mail' => 'mail',
+    'smtp' => 'SMTP',
+    'sendmail' => 'sendmail'];
 
 $objDb = new SC_Helper_DB_Ex();
 
 // テンプレートコンパイルディレクトリの書込み権限チェック
-$temp_dir = $ownDir . 'temp';
+$temp_dir = $ownDir.'temp';
 
 if (!is_writable($temp_dir)) {
-    SC_Utils_Ex::sfErrorHeader($temp_dir . 'にユーザ書込み権限(777, 707等)を付与して下さい。', true);
+    SC_Utils_Ex::sfErrorHeader($temp_dir.'にユーザ書込み権限(777, 707等)を付与して下さい。', true);
     exit;
 }
 
-$objView = new SC_InstallView_Ex($ownDir . 'templates', $ownDir . 'temp');
+$objView = new SC_InstallView_Ex($ownDir.'templates', $ownDir.'temp');
 
 // パラメーター管理クラス
 $objWebParam = new SC_FormParam_Ex();
@@ -84,11 +83,11 @@ $objDBParam = new SC_FormParam_Ex();
 $objWebParam = lfInitWebParam($objWebParam);
 $objDBParam = lfInitDBParam($objDBParam);
 
-//フォーム配列の取得
+// フォーム配列の取得
 $objWebParam->setParam($_POST);
 $objDBParam->setParam($_POST);
 
-$mode = isset($_POST['mode_overwrite']) ? $_POST['mode_overwrite'] : $_POST['mode'];
+$mode = $_POST['mode_overwrite'] ?? $_POST['mode'];
 
 switch ($mode) {
     // ようこそ
@@ -96,17 +95,17 @@ switch ($mode) {
         $objPage = lfDispStep0($objPage);
         break;
 
-    // アクセス権限のチェック
+        // アクセス権限のチェック
     case 'step0':
         $objPage = lfDispStep0_1($objPage);
         break;
-    // ファイルのコピー
+        // ファイルのコピー
     case 'step0_1':
         $objPage = lfDispStep1($objPage);
         break;
-    // WEBサイトの設定
+        // WEBサイトの設定
     case 'step1':
-        //入力値のエラーチェック
+        // 入力値のエラーチェック
         $objPage->arrErr = lfCheckWebError($objWebParam);
         if (count($objPage->arrErr) == 0) {
             $objPage = lfDispStep2($objPage);
@@ -114,9 +113,9 @@ switch ($mode) {
             $objPage = lfDispStep1($objPage);
         }
         break;
-    // データベースの設定
+        // データベースの設定
     case 'step2':
-        //入力値のエラーチェック
+        // 入力値のエラーチェック
         $objPage->arrErr = lfCheckDBError($objDBParam);
         if (count($objPage->arrErr) == 0) {
             if (($err = renameAdminDir($objWebParam->getValue('admin_dir'))) !== true) {
@@ -129,7 +128,7 @@ switch ($mode) {
             $objPage = lfDispStep2($objPage);
         }
         break;
-    // テーブルの作成
+        // テーブルの作成
     case 'step3':
         $arrDsn = getArrayDsn($objDBParam);
 
@@ -143,7 +142,7 @@ switch ($mode) {
         }
 
         // テーブルの作成
-        $objPage->arrErr = lfExecuteSQL('./sql/create_table_' . $arrDsn['phptype'] . '.sql', $arrDsn);
+        $objPage->arrErr = lfExecuteSQL('./sql/create_table_'.$arrDsn['phptype'].'.sql', $arrDsn);
         if (count($objPage->arrErr) == 0) {
             $objPage->tpl_message .= '○：テーブルの作成に成功しました。<br />';
         } else {
@@ -170,6 +169,16 @@ switch ($mode) {
             }
         }
 
+        // マイグレーションの実行 (ec-cube2-migration がインストールされている場合)
+        if (count($objPage->arrErr) == 0) {
+            $objPage->arrErr = lfRunMigrations($arrDsn);
+            if (count($objPage->arrErr) == 0) {
+                $objPage->tpl_message .= '○：マイグレーションに成功しました。<br />';
+            } else {
+                $objPage->tpl_message .= '×：マイグレーションに失敗しました。<br />';
+            }
+        }
+
         if (count($objPage->arrErr) == 0) {
             $objPage = lfDispStep3($objPage);
             $objPage->tpl_mode = 'step4';
@@ -181,7 +190,7 @@ switch ($mode) {
         $objPage = lfDispStep4($objPage);
         break;
 
-    // テーブル類削除
+        // テーブル類削除
     case 'drop':
         $arrDsn = getArrayDsn($objDBParam);
 
@@ -205,14 +214,14 @@ switch ($mode) {
             }
         }
 
-        //マスターデータのキャッシュを削除
-        $cache_dir = DATA_REALDIR . 'cache/';
+        // マスターデータのキャッシュを削除
+        $cache_dir = DATA_REALDIR.'cache/';
         $res_dir = opendir($cache_dir);
-        while ($file_name = readdir($res_dir)){
-            //dummy以外は削除
-            if ($file_name != 'dummy'){
-                if (is_file($cache_dir . $file_name)) {
-                    unlink($cache_dir . $file_name);
+        while ($file_name = readdir($res_dir)) {
+            // dummy以外は削除
+            if ($file_name != 'dummy') {
+                if (is_file($cache_dir.$file_name)) {
+                    unlink($cache_dir.$file_name);
                 }
             }
         }
@@ -220,9 +229,8 @@ switch ($mode) {
 
         $objPage = lfDispStep3($objPage);
         break;
-    // 完了画面
+        // 完了画面
     case 'complete':
-
         $GLOBAL_ERR = '';
         $objPage = lfDispComplete($objPage);
 
@@ -231,10 +239,10 @@ switch ($mode) {
             $req = new HTTP_Request('http://www.ec-cube.net/mall/use_site.php');
             $req->setMethod(HTTP_REQUEST_METHOD_POST);
 
-            $arrSendData = array();
+            $arrSendData = [];
             foreach ($_POST as $key => $val) {
                 if (preg_match('/^senddata_*/', $key)) {
-                    $arrSendDataTmp = array(str_replace('senddata_', '', $key) => $val);
+                    $arrSendDataTmp = [str_replace('senddata_', '', $key) => $val];
                     $arrSendData = array_merge($arrSendData, $arrSendDataTmp);
                 }
             }
@@ -274,14 +282,14 @@ switch ($mode) {
         break;
 }
 
-//フォーム用のパラメーターを返す
+// フォーム用のパラメーターを返す
 $objPage->arrForm = $objWebParam->getFormParamList();
 $objPage->arrForm = array_merge($objPage->arrForm, $objDBParam->getFormParamList());
 
 // SiteInfoを読み込まない
 $objView->assignobj($objPage);
 $objView->display('install_frame.tpl');
-//-----------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------------------------
 // ようこそ画面の表示
 function lfDispWelcome($objPage)
 {
@@ -295,6 +303,7 @@ function lfDispWelcome($objPage)
     $objPage->arrHidden['agreement'] = $_POST['agreement'];
     $objPage->tpl_mainpage = 'welcome.tpl';
     $objPage->tpl_mode = 'welcome';
+
     return $objPage;
 }
 
@@ -311,6 +320,7 @@ function lfDispAgreement($objPage)
     $objPage->arrHidden['agreement'] = $_POST['agreement'];
     $objPage->tpl_mainpage = 'agreement.tpl';
     $objPage->tpl_mode = 'agreement';
+
     return $objPage;
 }
 
@@ -328,28 +338,28 @@ function lfDispStep0($objPage)
     $objPage->tpl_mainpage = 'step0.tpl';
 
     // プログラムで書込みされるファイル・ディレクトリ
-    $arrWriteFile = array(
+    $arrWriteFile = [
         USER_REALDIR,
-        HTML_REALDIR . 'upload/',
-        DATA_REALDIR . 'cache/',
-        DATA_REALDIR . 'class/',
-        DATA_REALDIR . 'Smarty/',
-        DATA_REALDIR . 'logs/',
-        DATA_REALDIR . 'downloads/',
-        DATA_REALDIR . 'upload/',
+        HTML_REALDIR.'upload/',
+        DATA_REALDIR.'cache/',
+        DATA_REALDIR.'class/',
+        DATA_REALDIR.'Smarty/',
+        DATA_REALDIR.'logs/',
+        DATA_REALDIR.'downloads/',
+        DATA_REALDIR.'upload/',
         HTML_REALDIR,
-        DATA_REALDIR . 'config/',
-    );
+        DATA_REALDIR.'config/',
+    ];
 
     $mess = '';
     $hasErr = false;
     foreach ($arrWriteFile as $val) {
         // listdirsの保持データを初期化
         initdirs();
-        if (is_dir($val) and $val != HTML_REALDIR) {
+        if (is_dir($val) && $val != HTML_REALDIR) {
             $arrDirs = listdirs($val);
         } else {
-            $arrDirs = array($val);
+            $arrDirs = [$val];
         }
 
         foreach ($arrDirs as $path) {
@@ -363,14 +373,14 @@ function lfDispStep0($objPage)
                         $mess .= ">> ×：$real_path($filemode) \nユーザ書込み権限(777, 707等)を付与して下さい。\n";
                         $hasErr = true;
                     } else {
-                        GC_Utils_Ex::gfPrintLog('WRITABLE：' . $path, INSTALL_LOG);
+                        GC_Utils_Ex::gfPrintLog('WRITABLE：'.$path, INSTALL_LOG);
                     }
                 } else {
                     if (!is_writable($path)) {
                         $mess .= ">> ×：$real_path($filemode) \nユーザ書込み権限(666, 606等)を付与して下さい。\n";
                         $hasErr = true;
                     } else {
-                        GC_Utils_Ex::gfPrintLog('WRITABLE：' . $path, INSTALL_LOG);
+                        GC_Utils_Ex::gfPrintLog('WRITABLE：'.$path, INSTALL_LOG);
                     }
                 }
             } else {
@@ -393,55 +403,55 @@ function lfDispStep0($objPage)
     else {
         $objPage->tpl_mode = 'step0';
         umask(0);
-        $path = DATA_REALDIR . 'downloads/plugin';
+        $path = DATA_REALDIR.'downloads/plugin';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = HTML_REALDIR . 'plugin';
+        $path = HTML_REALDIR.'plugin';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = HTML_REALDIR . 'upload/temp_plugin';
+        $path = HTML_REALDIR.'upload/temp_plugin';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = DATA_REALDIR . 'downloads/tmp';
+        $path = DATA_REALDIR.'downloads/tmp';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = DATA_REALDIR . 'downloads/tmp/plugin_install';
+        $path = DATA_REALDIR.'downloads/tmp/plugin_install';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = HTML_REALDIR . 'upload/temp_template';
+        $path = HTML_REALDIR.'upload/temp_template';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = HTML_REALDIR . 'upload/save_image';
+        $path = HTML_REALDIR.'upload/save_image';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = HTML_REALDIR . 'upload/temp_image';
+        $path = HTML_REALDIR.'upload/temp_image';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = HTML_REALDIR . 'upload/graph_image';
+        $path = HTML_REALDIR.'upload/graph_image';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = HTML_REALDIR . 'upload/mobile_image';
+        $path = HTML_REALDIR.'upload/mobile_image';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = DATA_REALDIR . 'downloads/module';
+        $path = DATA_REALDIR.'downloads/module';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = DATA_REALDIR . 'downloads/update';
+        $path = DATA_REALDIR.'downloads/update';
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path = DATA_REALDIR . 'upload/csv';
+        $path = DATA_REALDIR.'upload/csv';
         if (!file_exists($path)) {
             mkdir($path);
         }
@@ -469,7 +479,8 @@ function lfDispStep0_1($objPage)
     $objPage->tpl_mainpage = 'step0_1.tpl';
     $objPage->tpl_mode = 'step0_1';
     // ファイルコピー
-    $objPage->copy_mess = SC_Utils_Ex::sfCopyDir('./save_image/', HTML_REALDIR . 'upload/save_image/', $objPage->copy_mess);
+    $objPage->copy_mess = SC_Utils_Ex::sfCopyDir('./save_image/', HTML_REALDIR.'upload/save_image/', $objPage->copy_mess);
+
     return $objPage;
 }
 
@@ -479,6 +490,7 @@ function lfDispStep0_1($objPage)
 function lfGetFileMode($path)
 {
     $mode = substr(sprintf('%o', fileperms($path)), -3);
+
     return $mode;
 }
 
@@ -492,6 +504,7 @@ function lfDispStep1($objPage)
     $objPage->arrHidden['agreement'] = $_POST['agreement'];
     $objPage->tpl_mainpage = 'step1.tpl';
     $objPage->tpl_mode = 'step1';
+
     return $objPage;
 }
 
@@ -506,6 +519,7 @@ function lfDispStep2($objPage)
     $objPage->arrHidden['agreement'] = $_POST['agreement'];
     $objPage->tpl_mainpage = 'step2.tpl';
     $objPage->tpl_mode = 'step2';
+
     return $objPage;
 }
 
@@ -522,6 +536,7 @@ function lfDispStep3($objPage)
     $objPage->tpl_db_skip = $_POST['db_skip'];
     $objPage->tpl_mainpage = 'step3.tpl';
     $objPage->tpl_mode = 'step3';
+
     return $objPage;
 }
 
@@ -543,19 +558,20 @@ function lfDispStep4($objPage)
 
     $normal_url = $objWebParam->getValue('normal_url');
     // 語尾に'/'をつける
-    $normal_url = rtrim($normal_url, '/') . '/';
+    $normal_url = rtrim($normal_url, '/').'/';
 
     $arrDsn = getArrayDsn($objDBParam);
 
     $objPage->tpl_site_url = $normal_url;
     $objPage->tpl_shop_name = $objWebParam->getValue('shop_name');
     $objPage->tpl_cube_ver = ECCUBE_VERSION;
-    $objPage->tpl_php_ver = phpversion();
+    $objPage->tpl_php_ver = PHP_VERSION;
     $dbFactory = SC_DB_DBFactory_Ex::getInstance($arrDsn['phptype']);
     $objPage->tpl_db_ver = $dbFactory->sfGetDBVersion($arrDsn);
     $objPage->tpl_db_skip = $_POST['db_skip'];
     $objPage->tpl_mainpage = 'step4.tpl';
     $objPage->tpl_mode = 'complete';
+
     return $objPage;
 }
 
@@ -596,16 +612,16 @@ function lfDispComplete($objPage)
     $salt = SC_Utils_Ex::sfGetRandomString(10);
     $login_pass = SC_Utils_Ex::sfGetHashString($objWebParam->getValue('login_pass'), $salt);
 
-    $arrVal = array(
+    $arrVal = [
         'login_id' => $login_id,
         'password' => $login_pass,
         'salt' => $salt,
         'work' => 1,
         'del_flg' => 0,
         'update_date' => 'CURRENT_TIMESTAMP',
-    );
+    ];
 
-    $member_id = $objQuery->get('member_id', 'dtb_member', 'login_id = ? AND del_flg = 0', array($login_id));
+    $member_id = $objQuery->get('member_id', 'dtb_member', 'login_id = ? AND del_flg = 0', [$login_id]);
 
     if (strlen($member_id) == 0) {
         $member_id = $objQuery->nextVal('dtb_member_member_id');
@@ -616,7 +632,7 @@ function lfDispComplete($objPage)
         $arrVal['rank'] = 1;
         $objQuery->insert('dtb_member', $arrVal);
     } else {
-        $objQuery->update('dtb_member', $arrVal, 'member_id = ?', array($member_id));
+        $objQuery->update('dtb_member', $arrVal, 'member_id = ?', [$member_id]);
     }
 
     $objPage->arrHidden['db_skip'] = $_POST['db_skip'];
@@ -625,11 +641,12 @@ function lfDispComplete($objPage)
 
     $secure_url = $objWebParam->getValue('secure_url');
     // 語尾に'/'をつける
-    $secure_url = rtrim($secure_url, '/') . '/';
+    $secure_url = rtrim($secure_url, '/').'/';
     $objPage->tpl_sslurl = $secure_url;
-    //EC-CUBEオフィシャルサイトからのお知らせURL
+    // EC-CUBEオフィシャルサイトからのお知らせURL
     $objPage->install_info_url = INSTALL_INFO_URL;
     $objPage->admin_dir = $objWebParam->getValue('admin_dir').'/';
+
     return $objPage;
 }
 
@@ -665,9 +682,8 @@ function lfInitWebParam($objWebParam)
         $arrAllowHosts = unserialize(ADMIN_ALLOW_HOSTS);
         $admin_allow_hosts = '';
         foreach ($arrAllowHosts as $val) {
-            $admin_allow_hosts .= $val . "\n";
+            $admin_allow_hosts .= $val."\n";
         }
-
     } else {
         $admin_allow_hosts = '';
     }
@@ -690,21 +706,21 @@ function lfInitWebParam($objWebParam)
         $smtp_password = SMTP_PASSWORD;
     }
 
-    $objWebParam->addParam('店名', 'shop_name', MTEXT_LEN, '', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'), $shop_name);
-    $objWebParam->addParam('管理者：メールアドレス', 'admin_mail', null, '', array('EXIST_CHECK', 'EMAIL_CHECK', 'EMAIL_CHAR_CHECK'), $admin_mail);
-    $objWebParam->addParam('管理者：ログインID', 'login_id', ID_MAX_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'GRAPH_CHECK'));
-    $objWebParam->addParam('管理者：パスワード', 'login_pass', PASSWORD_MAX_LEN, '', array('EXIST_CHECK', 'SPTAB_CHECK', 'PASSWORD_CHAR_CHECK'));
-    $objWebParam->addParam('管理機能：ディレクトリ', 'admin_dir', ID_MAX_LEN, 'a', array('EXIST_CHECK', 'SPTAB_CHECK', 'ALNUM_CHECK'), $oldAdminDir);
-    $objWebParam->addParam('管理機能：SSL制限', 'admin_force_ssl', 1, 'n', array('SPTAB_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'), $admin_force_ssl);
-    $objWebParam->addParam('管理機能：IP制限', 'admin_allow_hosts', LTEXT_LEN, 'an', array('IP_CHECK', 'MAX_LENGTH_CHECK'), $admin_allow_hosts);
-    $objWebParam->addParam('URL(通常)', 'normal_url', MTEXT_LEN, '', array('EXIST_CHECK', 'URL_CHECK', 'MAX_LENGTH_CHECK'), HTTP_URL);
-    $objWebParam->addParam('URL(セキュア)', 'secure_url', MTEXT_LEN, '', array('EXIST_CHECK', 'URL_CHECK', 'MAX_LENGTH_CHECK'), HTTPS_URL);
-    $objWebParam->addParam('ドメイン', 'domain', MTEXT_LEN, '', array('MAX_LENGTH_CHECK'));
-    $objWebParam->addParam('メーラーバックエンド', 'mail_backend', STEXT_LEN, 'a', array('MAX_LENGTH_CHECK', 'EXIST_CHECK'), $mail_backend);
-    $objWebParam->addParam('SMTPホスト', 'smtp_host', STEXT_LEN, 'a', array('MAX_LENGTH_CHECK'), $smtp_host);
-    $objWebParam->addParam('SMTPポート', 'smtp_port', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), $smtp_port);
-    $objWebParam->addParam('SMTPユーザー', 'smtp_user', STEXT_LEN, 'a', array('MAX_LENGTH_CHECK'), $smtp_user);
-    $objWebParam->addParam('SMTPパスワード', 'smtp_password', STEXT_LEN, 'a', array('MAX_LENGTH_CHECK'), $smtp_password);
+    $objWebParam->addParam('店名', 'shop_name', MTEXT_LEN, '', ['EXIST_CHECK', 'MAX_LENGTH_CHECK'], $shop_name);
+    $objWebParam->addParam('管理者：メールアドレス', 'admin_mail', null, '', ['EXIST_CHECK', 'EMAIL_CHECK', 'EMAIL_CHAR_CHECK'], $admin_mail);
+    $objWebParam->addParam('管理者：ログインID', 'login_id', ID_MAX_LEN, '', ['EXIST_CHECK', 'SPTAB_CHECK', 'GRAPH_CHECK']);
+    $objWebParam->addParam('管理者：パスワード', 'login_pass', PASSWORD_MAX_LEN, '', ['EXIST_CHECK', 'SPTAB_CHECK', 'PASSWORD_CHAR_CHECK']);
+    $objWebParam->addParam('管理機能：ディレクトリ', 'admin_dir', ID_MAX_LEN, 'a', ['EXIST_CHECK', 'SPTAB_CHECK', 'ALNUM_CHECK'], $oldAdminDir);
+    $objWebParam->addParam('管理機能：SSL制限', 'admin_force_ssl', 1, 'n', ['SPTAB_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'], $admin_force_ssl);
+    $objWebParam->addParam('管理機能：IP制限', 'admin_allow_hosts', LTEXT_LEN, 'an', ['IP_CHECK', 'MAX_LENGTH_CHECK'], $admin_allow_hosts);
+    $objWebParam->addParam('URL(通常)', 'normal_url', MTEXT_LEN, '', ['EXIST_CHECK', 'URL_CHECK', 'MAX_LENGTH_CHECK'], HTTP_URL);
+    $objWebParam->addParam('URL(セキュア)', 'secure_url', MTEXT_LEN, '', ['EXIST_CHECK', 'URL_CHECK', 'MAX_LENGTH_CHECK'], HTTPS_URL);
+    $objWebParam->addParam('ドメイン', 'domain', MTEXT_LEN, '', ['MAX_LENGTH_CHECK']);
+    $objWebParam->addParam('メーラーバックエンド', 'mail_backend', STEXT_LEN, 'a', ['MAX_LENGTH_CHECK', 'EXIST_CHECK'], $mail_backend);
+    $objWebParam->addParam('SMTPホスト', 'smtp_host', STEXT_LEN, 'a', ['MAX_LENGTH_CHECK'], $smtp_host);
+    $objWebParam->addParam('SMTPポート', 'smtp_port', INT_LEN, 'n', ['MAX_LENGTH_CHECK', 'NUM_CHECK'], $smtp_port);
+    $objWebParam->addParam('SMTPユーザー', 'smtp_user', STEXT_LEN, 'a', ['MAX_LENGTH_CHECK'], $smtp_user);
+    $objWebParam->addParam('SMTPパスワード', 'smtp_password', STEXT_LEN, 'a', ['MAX_LENGTH_CHECK'], $smtp_password);
 
     return $objWebParam;
 }
@@ -742,12 +758,12 @@ function lfInitDBParam($objDBParam)
         $db_user = 'eccube_db_user';
     }
 
-    $objDBParam->addParam('DBの種類', 'db_type', INT_LEN, '', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'), $db_type);
-    $objDBParam->addParam('DBサーバー', 'db_server', MTEXT_LEN, '', array('MAX_LENGTH_CHECK'), $db_server);
-    $objDBParam->addParam('DBポート', 'db_port', INT_LEN, '', array('MAX_LENGTH_CHECK'), $db_port);
-    $objDBParam->addParam('DB名', 'db_name', MTEXT_LEN, '', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'), $db_name);
-    $objDBParam->addParam('DBユーザ', 'db_user', MTEXT_LEN, '', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'), $db_user);
-    $objDBParam->addParam('DBパスワード', 'db_password', MTEXT_LEN, '', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
+    $objDBParam->addParam('DBの種類', 'db_type', INT_LEN, '', ['EXIST_CHECK', 'MAX_LENGTH_CHECK'], $db_type);
+    $objDBParam->addParam('DBサーバー', 'db_server', MTEXT_LEN, '', ['MAX_LENGTH_CHECK'], $db_server);
+    $objDBParam->addParam('DBポート', 'db_port', INT_LEN, '', ['MAX_LENGTH_CHECK'], $db_port);
+    $objDBParam->addParam('DB名', 'db_name', MTEXT_LEN, '', ['EXIST_CHECK', 'MAX_LENGTH_CHECK'], $db_name);
+    $objDBParam->addParam('DBユーザ', 'db_user', MTEXT_LEN, '', ['EXIST_CHECK', 'MAX_LENGTH_CHECK'], $db_user);
+    $objDBParam->addParam('DBパスワード', 'db_password', MTEXT_LEN, '', ['EXIST_CHECK', 'MAX_LENGTH_CHECK']);
 
     return $objDBParam;
 }
@@ -770,21 +786,20 @@ function lfCheckWebError($objWebParam)
     }
 
     // ログインIDチェック
-    $objErr->doFunc(array('管理者：ログインID', 'login_id', ID_MIN_LEN, ID_MAX_LEN), array('SPTAB_CHECK', 'NUM_RANGE_CHECK'));
+    $objErr->doFunc(['管理者：ログインID', 'login_id', ID_MIN_LEN, ID_MAX_LEN], ['SPTAB_CHECK', 'NUM_RANGE_CHECK']);
 
     // パスワードのチェック
-    $objErr->doFunc(array('管理者：パスワード', 'login_pass', PASSWORD_MIN_LEN, PASSWORD_MAX_LEN), array('SPTAB_CHECK', 'NUM_RANGE_CHECK'));
+    $objErr->doFunc(['管理者：パスワード', 'login_pass', PASSWORD_MIN_LEN, PASSWORD_MAX_LEN], ['SPTAB_CHECK', 'NUM_RANGE_CHECK']);
 
     // 管理機能ディレクトリのチェック
-    $objErr->doFunc(array('管理機能：ディレクトリ', 'admin_dir', ID_MIN_LEN, ID_MAX_LEN), array('SPTAB_CHECK', 'NUM_RANGE_CHECK'));
+    $objErr->doFunc(['管理機能：ディレクトリ', 'admin_dir', ID_MIN_LEN, ID_MAX_LEN], ['SPTAB_CHECK', 'NUM_RANGE_CHECK']);
 
     $oldAdminDir = SC_Utils_Ex::sfTrimURL(ADMIN_DIR);
     $newAdminDir = $objWebParam->getValue('admin_dir');
     if ($newAdminDir) {
         if ($newAdminDir == 'admin') { // admin を禁止する
             $objErr->arrErr['admin_dir'] = '※ 別の名前を指定してください。';
-
-        } else if ($oldAdminDir !== $newAdminDir AND file_exists(HTML_REALDIR . $newAdminDir) and $newAdminDir != 'admin') {
+        } elseif ($oldAdminDir !== $newAdminDir && file_exists(HTML_REALDIR.$newAdminDir) && $newAdminDir != 'admin') {
             $objErr->arrErr['admin_dir'] = '※ 指定した管理機能ディレクトリは既に存在しています。別の名前を指定してください。';
         }
     }
@@ -807,10 +822,10 @@ function lfCheckDBError($objDBParam)
         $arrDsn = getArrayDsn($objDBParam);
         // Debugモード指定
         $options['debug'] = PEAR_DB_DEBUG;
-        //var_dump($arrDsn);
+        // var_dump($arrDsn);
 
         $objDB = MDB2::connect($arrDsn, $options);
-        //var_dump($objDB);
+        // var_dump($objDB);
 
         // 接続成功
         if (!PEAR::isError($objDB)) {
@@ -818,20 +833,21 @@ function lfCheckDBError($objDBParam)
             // データベースバージョン情報の取得
             $objPage->tpl_db_version = $dbFactory->sfGetDBVersion($arrDsn);
         } else {
-            $objErr->arrErr['all'] = '>> ' . $objDB->message . '<br />';
+            $objErr->arrErr['all'] = '>> '.$objDB->message.'<br />';
             // エラー文を取得する
             preg_match('/\[(.*)\]/', $objDB->userinfo, $arrKey);
-            $objErr->arrErr['all'] .= $arrKey[0] . '<br />';
+            $objErr->arrErr['all'] .= $arrKey[0].'<br />';
             GC_Utils_Ex::gfPrintLog($objDB->userinfo, INSTALL_LOG);
         }
     }
+
     return $objErr->arrErr;
 }
 
 // SQL文の実行
 function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
 {
-    $arrErr = array();
+    $arrErr = [];
 
     if (!file_exists($filepath)) {
         $arrErr['all'] = '>> スクリプトファイルが見つかりません';
@@ -873,23 +889,24 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
                         $ret = new MDB2_Error(); // MySQL8 利用時は mysqli_sql_exception になるため、 MDB2_Error に変換
                     }
                     if (PEAR::isError($ret) && $disp_err) {
-                        $arrErr['all'] = '>> ' . $ret->message . '<br />';
+                        $arrErr['all'] = '>> '.$ret->message.'<br />';
                         // エラー文を取得する
                         preg_match('/\[(.*)\]/', $ret->userinfo, $arrKey);
-                        $arrErr['all'] .= $arrKey[0] . '<br />';
+                        $arrErr['all'] .= $arrKey[0].'<br />';
                         $arrErr['all'] .= '>> テーブル構成の変更に失敗しました。<br />';
                         GC_Utils_Ex::gfPrintLog($ret->userinfo, INSTALL_LOG);
                         break;
                     } else {
-                        GC_Utils_Ex::gfPrintLog('OK:' . $val, INSTALL_LOG);
+                        GC_Utils_Ex::gfPrintLog('OK:'.$val, INSTALL_LOG);
                     }
                 }
             }
         } else {
-            $arrErr['all'] = '>> ' . $objDB->message;
+            $arrErr['all'] = '>> '.$objDB->message;
             GC_Utils_Ex::gfPrintLog($objDB->userinfo, INSTALL_LOG);
         }
     }
+
     return $arrErr;
 }
 
@@ -898,37 +915,39 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
  *
  * @param array $arrSequences シーケンスのテーブル名, カラム名の配列
  * @param array $arrDsn データソース名の配列
+ *
  * @return array エラーが発生した場合はエラーメッセージの配列
  */
 function lfDropSequence($arrSequences, $arrDsn)
 {
-    $arrErr = array();
+    $arrErr = [];
 
     // Debugモード指定
     $options['debug'] = PEAR_DB_DEBUG;
     $objDB = MDB2::connect($arrDsn, $options);
-    $objManager =& $objDB->loadModule('Manager');
+    $objManager = &$objDB->loadModule('Manager');
 
     // 接続エラー
     if (!PEAR::isError($objDB)) {
         $exists = $objManager->listSequences();
         foreach ($arrSequences as $seq) {
             SC_Utils::sfFlush(true);
-            $seq_name = $seq[0] . '_' . $seq[1];
+            $seq_name = $seq[0].'_'.$seq[1];
             if (in_array($seq_name, $exists)) {
                 $result = $objManager->dropSequence($seq_name);
                 if (PEAR::isError($result)) {
-                    $arrErr['all'] = '>> ' . $result->message . '<br />';
+                    $arrErr['all'] = '>> '.$result->message.'<br />';
                     GC_Utils_Ex::gfPrintLog($result->userinfo, INSTALL_LOG);
                 } else {
-                    GC_Utils_Ex::gfPrintLog('OK:' . $seq_name, INSTALL_LOG);
+                    GC_Utils_Ex::gfPrintLog('OK:'.$seq_name, INSTALL_LOG);
                 }
             }
         }
     } else {
-        $arrErr['all'] = '>> ' . $objDB->message;
+        $arrErr['all'] = '>> '.$objDB->message;
         GC_Utils_Ex::gfPrintLog($objDB->userinfo, INSTALL_LOG);
     }
+
     return $arrErr;
 }
 
@@ -937,43 +956,129 @@ function lfDropSequence($arrSequences, $arrDsn)
  *
  * @param array $arrSequences シーケンスのテーブル名, カラム名の配列
  * @param array $arrDsn データソース名の配列
+ *
  * @return array エラーが発生した場合はエラーメッセージの配列
  */
 function lfCreateSequence($arrSequences, $arrDsn)
 {
-    $arrErr = array();
+    $arrErr = [];
 
     // Debugモード指定
     $options['debug'] = PEAR_DB_DEBUG;
     $objDB = MDB2::connect($arrDsn, $options);
-    $objManager =& $objDB->loadModule('Manager');
+    $objManager = &$objDB->loadModule('Manager');
 
     // 接続エラー
     if (!PEAR::isError($objDB)) {
         $exists = $objManager->listSequences();
         foreach ($arrSequences as $seq) {
             SC_Utils::sfFlush(true);
-            $res = $objDB->query('SELECT max(' . $seq[1] . ') FROM ' . $seq[0]);
+            $res = $objDB->query('SELECT max('.$seq[1].') FROM '.$seq[0]);
             if (PEAR::isError($res)) {
-                $arrErr['all'] = '>> ' . $res->userinfo . '<br />';
+                $arrErr['all'] = '>> '.$res->userinfo.'<br />';
                 GC_Utils_Ex::gfPrintLog($res->userinfo, INSTALL_LOG);
+
                 return $arrErr;
             }
             $max = $res->fetchOne();
 
-            $seq_name = $seq[0] . '_' . $seq[1];
+            $seq_name = $seq[0].'_'.$seq[1];
             $result = $objManager->createSequence($seq_name, $max + 1);
             if (PEAR::isError($result)) {
-                $arrErr['all'] = '>> ' . $result->message . '<br />';
+                $arrErr['all'] = '>> '.$result->message.'<br />';
                 GC_Utils_Ex::gfPrintLog($result->userinfo, INSTALL_LOG);
             } else {
-                GC_Utils_Ex::gfPrintLog('OK:' . $seq_name, INSTALL_LOG);
+                GC_Utils_Ex::gfPrintLog('OK:'.$seq_name, INSTALL_LOG);
             }
         }
     } else {
-        $arrErr['all'] = '>> ' . $objDB->message;
+        $arrErr['all'] = '>> '.$objDB->message;
         GC_Utils_Ex::gfPrintLog($objDB->userinfo, INSTALL_LOG);
     }
+
+    return $arrErr;
+}
+
+/**
+ * マイグレーションの実行
+ *
+ * ec-cube2-migration パッケージがインストールされている場合、
+ * 未実行のマイグレーションを実行する
+ *
+ * @param array $arrDsn DSN配列
+ *
+ * @return array エラー配列
+ */
+function lfRunMigrations($arrDsn)
+{
+    $arrErr = [];
+
+    // ec-cube2-migration がインストールされていない場合は何もしない
+    if (!class_exists('Eccube2\Migration\Migrator')) {
+        GC_Utils_Ex::gfPrintLog('Migration: ec-cube2-migration is not installed, skipping.', INSTALL_LOG);
+
+        return $arrErr;
+    }
+
+    // migrations ディレクトリが存在しない場合は何もしない
+    $migrationsPath = HTML_REALDIR.HTML2DATA_DIR.'migrations';
+    if (!is_dir($migrationsPath)) {
+        GC_Utils_Ex::gfPrintLog('Migration: migrations directory does not exist, skipping.', INSTALL_LOG);
+
+        return $arrErr;
+    }
+
+    try {
+        // PDO接続を作成
+        $dbType = $arrDsn['phptype'];
+        switch ($dbType) {
+            case 'mysqli':
+            case 'mysql':
+                $port = !empty($arrDsn['port']) ? ';port='.$arrDsn['port'] : '';
+                $dsn = sprintf(
+                    'mysql:host=%s;dbname=%s%s;charset=utf8',
+                    $arrDsn['hostspec'] ?? '127.0.0.1',
+                    $arrDsn['database'],
+                    $port
+                );
+                break;
+            case 'pgsql':
+            case 'postgres':
+            case 'postgresql':
+                $port = !empty($arrDsn['port']) ? ';port='.$arrDsn['port'] : '';
+                $dsn = sprintf(
+                    'pgsql:host=%s;dbname=%s%s',
+                    $arrDsn['hostspec'] ?? '127.0.0.1',
+                    $arrDsn['database'],
+                    $port
+                );
+                break;
+            case 'sqlite3':
+            case 'sqlite':
+                $dsn = 'sqlite:'.$arrDsn['database'];
+                break;
+            default:
+                GC_Utils_Ex::gfPrintLog('Migration: Unsupported database type: '.$dbType, INSTALL_LOG);
+
+                return $arrErr;
+        }
+
+        $pdo = new PDO($dsn, $arrDsn['username'] ?? null, $arrDsn['password'] ?? null);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $migrator = new Eccube2\Migration\Migrator($pdo, $dbType, $migrationsPath);
+        $executedVersions = $migrator->migrate();
+
+        if (count($executedVersions) > 0) {
+            GC_Utils_Ex::gfPrintLog('Migration: Executed '.count($executedVersions).' migration(s): '.implode(', ', $executedVersions), INSTALL_LOG);
+        } else {
+            GC_Utils_Ex::gfPrintLog('Migration: No pending migrations.', INSTALL_LOG);
+        }
+    } catch (Exception $e) {
+        $arrErr['all'] = '>> '.$e->getMessage().'<br />';
+        GC_Utils_Ex::gfPrintLog('Migration Error: '.$e->getMessage(), INSTALL_LOG);
+    }
+
     return $arrErr;
 }
 
@@ -985,24 +1090,24 @@ function lfMakeConfigFile()
 
     $normal_url = $objWebParam->getValue('normal_url');
     // 語尾に'/'をつける
-    $normal_url = rtrim($normal_url, '/') . '/';
+    $normal_url = rtrim($normal_url, '/').'/';
 
     $secure_url = $objWebParam->getValue('secure_url');
     // 語尾に'/'をつける
-    $secure_url = rtrim($secure_url, '/') . '/';
+    $secure_url = rtrim($secure_url, '/').'/';
 
-    //管理機能SSL制限
-    if ($objWebParam->getValue('admin_force_ssl') == 1 and strpos($secure_url, 'https://') !== FALSE) {
+    // 管理機能SSL制限
+    if ($objWebParam->getValue('admin_force_ssl') == 1 && str_contains($secure_url, 'https://')) {
         $force_ssl = 'TRUE';
     } else {
         $force_ssl = 'FALSE';
     }
-    //管理機能IP制限
-    $allow_hosts = array();
+    // 管理機能IP制限
+    $allow_hosts = [];
     $hosts = $objWebParam->getValue('admin_allow_hosts');
     if (!empty($hosts)) {
         $hosts = str_replace("\r", '', $hosts);
-        if (strpos($hosts, "\n") === false) {
+        if (!str_contains($hosts, "\n")) {
             $hosts .= "\n";
         }
         $hosts = explode("\n", $hosts);
@@ -1013,18 +1118,18 @@ function lfMakeConfigFile()
             }
         }
     }
-    //パスワード暗号化方式決定
+    // パスワード暗号化方式決定
     $arrAlgos = hash_algos();
-    if (array_search('sha256', $arrAlgos) !== FALSE) {
+    if (array_search('sha256', $arrAlgos) !== false) {
         $algos = 'sha256';
-    } elseif (array_search('sha1', $arrAlgos) !== FALSE) {
+    } elseif (array_search('sha1', $arrAlgos) !== false) {
         $algos = 'sha1';
-    } elseif (array_search('md5', $arrAlgos) !== FALSE) {
+    } elseif (array_search('md5', $arrAlgos) !== false) {
         $algos = 'md5';
     } else {
         $algos = '';
     }
-    //MAGICハッシュワード決定
+    // MAGICハッシュワード決定
     if ($_POST['db_skip'] && defined('AUTH_MAGIC')) {
         $auth_magic = AUTH_MAGIC;
     } else {
@@ -1040,27 +1145,27 @@ function lfMakeConfigFile()
 
     // FIXME 変数出力はエスケープすべき
     $config_data = "<?php\n"
-                 . "define('ECCUBE_INSTALL', 'ON');\n"
-                 . "define('HTTP_URL', '"              . $normal_url . "');\n"
-                 . "define('HTTPS_URL', '"             . $secure_url . "');\n"
-                 . "define('ROOT_URLPATH', '"          . ROOT_URLPATH . "');\n"
-                 . "define('DOMAIN_NAME', '"           . $objWebParam->getValue('domain') . "');\n"
-                 . "define('DB_TYPE', '"               . $objDBParam->getValue('db_type') . "');\n"
-                 . "define('DB_USER', '"               . $objDBParam->getValue('db_user') . "');\n"
-                 . "define('DB_PASSWORD', '"           . $objDBParam->getValue('db_password') . "');\n"
-                 . "define('DB_SERVER', '"             . $objDBParam->getValue('db_server') . "');\n"
-                 . "define('DB_NAME', '"               . $objDBParam->getValue('db_name') . "');\n"
-                 . "define('DB_PORT', "                . $db_port . ");\n"
-                 . "define('ADMIN_DIR', '"             . $objWebParam->getValue('admin_dir') . "/');\n"
-                 . "define('ADMIN_FORCE_SSL', "        . $force_ssl . ");\n"
-                 . "define('ADMIN_ALLOW_HOSTS', '"     . serialize($allow_hosts) . "');\n"
-                 . "define('AUTH_MAGIC', '"            . $auth_magic . "');\n"
-                 . "define('PASSWORD_HASH_ALGOS', '"   . $algos . "');\n"
-                 . "define('MAIL_BACKEND', '"          . $objWebParam->getValue('mail_backend') . "');\n"
-                 . "define('SMTP_HOST', '"             . $objWebParam->getValue('smtp_host') . "');\n"
-                 . "define('SMTP_PORT', '"             . $objWebParam->getValue('smtp_port') . "');\n"
-                 . "define('SMTP_USER', '"             . $objWebParam->getValue('smtp_user') . "');\n"
-                 . "define('SMTP_PASSWORD', '"         . $objWebParam->getValue('smtp_password') . "');\n";
+                 ."define('ECCUBE_INSTALL', 'ON');\n"
+                 ."define('HTTP_URL', '".$normal_url."');\n"
+                 ."define('HTTPS_URL', '".$secure_url."');\n"
+                 ."define('ROOT_URLPATH', '".ROOT_URLPATH."');\n"
+                 ."define('DOMAIN_NAME', '".$objWebParam->getValue('domain')."');\n"
+                 ."define('DB_TYPE', '".$objDBParam->getValue('db_type')."');\n"
+                 ."define('DB_USER', '".$objDBParam->getValue('db_user')."');\n"
+                 ."define('DB_PASSWORD', '".$objDBParam->getValue('db_password')."');\n"
+                 ."define('DB_SERVER', '".$objDBParam->getValue('db_server')."');\n"
+                 ."define('DB_NAME', '".$objDBParam->getValue('db_name')."');\n"
+                 ."define('DB_PORT', ".$db_port.");\n"
+                 ."define('ADMIN_DIR', '".$objWebParam->getValue('admin_dir')."/');\n"
+                 ."define('ADMIN_FORCE_SSL', ".$force_ssl.");\n"
+                 ."define('ADMIN_ALLOW_HOSTS', '".serialize($allow_hosts)."');\n"
+                 ."define('AUTH_MAGIC', '".$auth_magic."');\n"
+                 ."define('PASSWORD_HASH_ALGOS', '".$algos."');\n"
+                 ."define('MAIL_BACKEND', '".$objWebParam->getValue('mail_backend')."');\n"
+                 ."define('SMTP_HOST', '".$objWebParam->getValue('smtp_host')."');\n"
+                 ."define('SMTP_PORT', '".$objWebParam->getValue('smtp_port')."');\n"
+                 ."define('SMTP_USER', '".$objWebParam->getValue('smtp_user')."');\n"
+                 ."define('SMTP_PASSWORD', '".$objWebParam->getValue('smtp_password')."');\n";
 
     if ($fp = fopen(CONFIG_REALFILE, 'w')) {
         fwrite($fp, $config_data);
@@ -1072,10 +1177,12 @@ function lfMakeConfigFile()
  * $dir を再帰的に辿ってパス名を配列で返す.
  *
  * @param string 任意のパス名
+ *
  * @return array $dir より下層に存在するパス名の配列
+ *
  * @see http://www.php.net/glob
  */
-$alldirs = array();
+$alldirs = [];
 /**
  * @param string $dir
  */
@@ -1083,12 +1190,13 @@ function listdirs($dir)
 {
     global $alldirs;
     $alldirs[] = $dir;
-    $dirs = glob($dir . '/*');
+    $dirs = glob($dir.'/*');
     if (is_array($dirs) && count($dirs) > 0) {
         foreach ($dirs as $d) {
             listdirs($d);
         }
     }
+
     return $alldirs;
 }
 
@@ -1098,7 +1206,7 @@ function listdirs($dir)
 function initdirs()
 {
     global $alldirs;
-    $alldirs = array();
+    $alldirs = [];
 }
 
 /**
@@ -1108,36 +1216,36 @@ function initdirs()
  */
 function getSequences()
 {
-    return array(
-        array('dtb_api_account', 'api_account_id'),
-        array('dtb_api_config', 'api_config_id'),
-        array('dtb_best_products', 'best_id'),
-        array('dtb_category', 'category_id'),
-        array('dtb_class', 'class_id'),
-        array('dtb_classcategory', 'classcategory_id'),
-        array('dtb_csv_sql', 'sql_id'),
-        array('dtb_customer', 'customer_id'),
-        array('dtb_deliv', 'deliv_id'),
-        array('dtb_holiday', 'holiday_id'),
-        array('dtb_kiyaku', 'kiyaku_id'),
-        array('dtb_mail_history', 'send_id'),
-        array('dtb_mailmaga_template', 'template_id'),
-        array('dtb_maker', 'maker_id'),
-        array('dtb_member', 'member_id'),
-        array('dtb_module_update_logs', 'log_id'),
-        array('dtb_news', 'news_id'),
-        array('dtb_order', 'order_id'),
-        array('dtb_order_detail', 'order_detail_id'),
-        array('dtb_other_deliv', 'other_deliv_id'),
-        array('dtb_payment', 'payment_id'),
-        array('dtb_plugin', 'plugin_id'),
-        array('dtb_plugin_hookpoint', 'plugin_hookpoint_id'),
-        array('dtb_products', 'product_id'),
-        array('dtb_products_class', 'product_class_id'),
-        array('dtb_review', 'review_id'),
-        array('dtb_send_history', 'send_id'),
-        array('dtb_tax_rule', 'tax_rule_id'),
-    );
+    return [
+        ['dtb_api_account', 'api_account_id'],
+        ['dtb_api_config', 'api_config_id'],
+        ['dtb_best_products', 'best_id'],
+        ['dtb_category', 'category_id'],
+        ['dtb_class', 'class_id'],
+        ['dtb_classcategory', 'classcategory_id'],
+        ['dtb_csv_sql', 'sql_id'],
+        ['dtb_customer', 'customer_id'],
+        ['dtb_deliv', 'deliv_id'],
+        ['dtb_holiday', 'holiday_id'],
+        ['dtb_kiyaku', 'kiyaku_id'],
+        ['dtb_mail_history', 'send_id'],
+        ['dtb_mailmaga_template', 'template_id'],
+        ['dtb_maker', 'maker_id'],
+        ['dtb_member', 'member_id'],
+        ['dtb_module_update_logs', 'log_id'],
+        ['dtb_news', 'news_id'],
+        ['dtb_order', 'order_id'],
+        ['dtb_order_detail', 'order_detail_id'],
+        ['dtb_other_deliv', 'other_deliv_id'],
+        ['dtb_payment', 'payment_id'],
+        ['dtb_plugin', 'plugin_id'],
+        ['dtb_plugin_hookpoint', 'plugin_hookpoint_id'],
+        ['dtb_products', 'product_id'],
+        ['dtb_products_class', 'product_class_id'],
+        ['dtb_review', 'review_id'],
+        ['dtb_send_history', 'send_id'],
+        ['dtb_tax_rule', 'tax_rule_id'],
+    ];
 }
 
 /**
@@ -1148,7 +1256,7 @@ function getSequences()
 function renameAdminDir($adminDir)
 {
     if (!defined('ADMIN_DIR')) {
-       define('ADMIN_DIR', 'admin/');
+        define('ADMIN_DIR', 'admin/');
     }
 
     $oldAdminDir = SC_Utils_Ex::sfTrimURL(ADMIN_DIR);
@@ -1156,12 +1264,13 @@ function renameAdminDir($adminDir)
     if ($adminDir === $oldAdminDir) {
         return true;
     }
-    if (file_exists(HTML_REALDIR . $adminDir)) {
+    if (file_exists(HTML_REALDIR.$adminDir)) {
         return '※ 指定した管理機能ディレクトリは既に存在しています。別の名前を指定してください。';
     }
-    if (!rename(HTML_REALDIR . $oldAdminDir, HTML_REALDIR . $adminDir)) {
-        return '※ ' . HTML_REALDIR . $adminDir . 'へのリネームに失敗しました。ディレクトリの権限を確認してください。';
+    if (!rename(HTML_REALDIR.$oldAdminDir, HTML_REALDIR.$adminDir)) {
+        return '※ '.HTML_REALDIR.$adminDir.'へのリネームに失敗しました。ディレクトリの権限を確認してください。';
     }
+
     return true;
 }
 
@@ -1173,13 +1282,13 @@ function getArrayDsn(SC_FormParam $objDBParam)
         define('DB_TYPE', $arrRet['db_type']);
     }
 
-    $arrDsn = array(
-        'phptype'   => $arrRet['db_type'],
-        'username'  => $arrRet['db_user'],
-        'password'  => $arrRet['db_password'],
-        'database'  => $arrRet['db_name'],
-        'port'      => ($arrRet['db_port'] == '' && $arrRet['db_type'] == 'mysqli')?false:$arrRet['db_port'], // mysqliはfalseにしないとつながらない
-    );
+    $arrDsn = [
+        'phptype' => $arrRet['db_type'],
+        'username' => $arrRet['db_user'],
+        'password' => $arrRet['db_password'],
+        'database' => $arrRet['db_name'],
+        'port' => ($arrRet['db_port'] == '' && $arrRet['db_type'] == 'mysqli') ? false : $arrRet['db_port'], // mysqliはfalseにしないとつながらない
+    ];
 
     // 文字列形式の DSN との互換処理
     if (strlen($arrRet['db_server']) >= 1 && $arrRet['db_server'] !== '+') {
