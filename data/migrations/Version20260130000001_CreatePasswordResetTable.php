@@ -14,10 +14,8 @@ class Version20260130000001_CreatePasswordResetTable extends Migration
     {
         $this->create('dtb_password_reset', function (Table $table) {
             $table->serial();
-            // MySQL では TEXT 型にインデックスを作成できないため string(varchar) を使用
-            $table->string('email', 255)->notNull();
-            // token_hash は SHA-256 ハッシュ（64文字HEX）
-            $table->string('token_hash', 64)->notNull();
+            $table->text('email')->notNull();
+            $table->text('token_hash')->notNull();
             $table->integer('customer_id')->nullable();
             $table->smallint('status')->notNull()->default(0);
             $table->timestamp('expire_date')->notNull();
