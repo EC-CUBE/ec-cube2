@@ -23,7 +23,7 @@ class Version20260130000001_CreatePasswordResetTable extends Migration
             $table->text('user_agent')->nullable();
             $table->timestamp('used_date')->nullable();
             $table->timestamp('create_date')->notNull()->default('CURRENT_TIMESTAMP');
-            $table->timestamp('update_date')->notNull();
+            $table->timestamp('update_date')->notNull()->default('CURRENT_TIMESTAMP');
 
             $table->index(['token_hash']);
             $table->index(['email', 'create_date']);
