@@ -170,6 +170,23 @@ switch ($mode) {
             }
         }
 
+        // マイグレーションの実行 (ec-cube2/cli がインストールされている場合)
+        if (count($objPage->arrErr) == 0) {
+            $eccubeCmd = HTML_REALDIR . HTML2DATA_DIR . 'vendor/bin/eccube';
+            if (file_exists($eccubeCmd)) {
+                $cmd = 'php ' . escapeshellarg($eccubeCmd) . ' migrate 2>&1';
+                exec($cmd, $migrationOutput, $migrationReturnCode);
+                if ($migrationReturnCode === 0) {
+                    $objPage->tpl_message .= '○：マイグレーションに成功しました。<br />';
+                    GC_Utils_Ex::gfPrintLog('Migration: Success', INSTALL_LOG);
+                } else {
+                    // マイグレーション失敗はワーニングとして扱い、インストールは続行
+                    $objPage->tpl_message .= '△：マイグレーションをスキップしました。<br />';
+                    GC_Utils_Ex::gfPrintLog('Migration Warning: ' . implode("\n", $migrationOutput), INSTALL_LOG);
+                }
+            }
+        }
+
         if (count($objPage->arrErr) == 0) {
             $objPage = lfDispStep3($objPage);
             $objPage->tpl_mode = 'step4';
