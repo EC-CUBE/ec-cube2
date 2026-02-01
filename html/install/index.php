@@ -170,16 +170,6 @@ switch ($mode) {
             }
         }
 
-        // マイグレーションの実行 (ec-cube2-migration がインストールされている場合)
-        if (count($objPage->arrErr) == 0) {
-            $objPage->arrErr = lfRunMigrations($arrDsn);
-            if (count($objPage->arrErr) == 0) {
-                $objPage->tpl_message .= '○：マイグレーションに成功しました。<br />';
-            } else {
-                $objPage->tpl_message .= '×：マイグレーションに失敗しました。<br />';
-            }
-        }
-
         if (count($objPage->arrErr) == 0) {
             $objPage = lfDispStep3($objPage);
             $objPage->tpl_mode = 'step4';
@@ -1173,85 +1163,6 @@ function renameAdminDir($adminDir)
         return '※ ' . HTML_REALDIR . $adminDir . 'へのリネームに失敗しました。ディレクトリの権限を確認してください。';
     }
     return true;
-}
-
-/**
- * マイグレーションを実行する
- *
- * @param array $arrDsn DSN配列
- * @return array エラー配列
- */
-function lfRunMigrations($arrDsn)
-{
-    $arrErr = array();
-
-    // ec-cube2-migration がインストールされていない場合は何もしない
-    if (!class_exists('Eccube2\Migration\Migrator')) {
-        GC_Utils_Ex::gfPrintLog('Migration: ec-cube2-migration is not installed, skipping.', INSTALL_LOG);
-
-        return $arrErr;
-    }
-
-    // migrations ディレクトリが存在しない場合は何もしない
-    $migrationsPath = HTML_REALDIR . HTML2DATA_DIR . 'migrations';
-    if (!is_dir($migrationsPath)) {
-        GC_Utils_Ex::gfPrintLog('Migration: migrations directory does not exist, skipping.', INSTALL_LOG);
-
-        return $arrErr;
-    }
-
-    try {
-        // PDO接続を作成
-        $dbType = $arrDsn['phptype'];
-        switch ($dbType) {
-            case 'mysqli':
-            case 'mysql':
-                $port = !empty($arrDsn['port']) ? ';port=' . $arrDsn['port'] : '';
-                $dsn = sprintf(
-                    'mysql:host=%s;dbname=%s%s;charset=utf8',
-                    $arrDsn['hostspec'] ?? '127.0.0.1',
-                    $arrDsn['database'],
-                    $port
-                );
-                break;
-            case 'pgsql':
-            case 'postgres':
-            case 'postgresql':
-                $port = !empty($arrDsn['port']) ? ';port=' . $arrDsn['port'] : '';
-                $dsn = sprintf(
-                    'pgsql:host=%s;dbname=%s%s',
-                    $arrDsn['hostspec'] ?? '127.0.0.1',
-                    $arrDsn['database'],
-                    $port
-                );
-                break;
-            case 'sqlite3':
-            case 'sqlite':
-                $dsn = 'sqlite:' . $arrDsn['database'];
-                break;
-            default:
-                GC_Utils_Ex::gfPrintLog('Migration: Unsupported database type: ' . $dbType, INSTALL_LOG);
-
-                return $arrErr;
-        }
-
-        $pdo = new PDO($dsn, $arrDsn['username'] ?? null, $arrDsn['password'] ?? null);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $migrator = new Eccube2\Migration\Migrator($pdo, $dbType, $migrationsPath);
-        $executedVersions = $migrator->migrate();
-
-        if (count($executedVersions) > 0) {
-            GC_Utils_Ex::gfPrintLog('Migration: Executed ' . count($executedVersions) . ' migration(s): ' . implode(', ', $executedVersions), INSTALL_LOG);
-        } else {
-            GC_Utils_Ex::gfPrintLog('Migration: No pending migrations.', INSTALL_LOG);
-        }
-    } catch (Exception $e) {
-        $arrErr['all'] = '>> ' . $e->getMessage() . '<br />';
-        GC_Utils_Ex::gfPrintLog('Migration Error: ' . $e->getMessage(), INSTALL_LOG);
-    }
-
-    return $arrErr;
 }
 
 function getArrayDsn(SC_FormParam $objDBParam)
