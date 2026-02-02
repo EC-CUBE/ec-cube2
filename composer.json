@@ -38,6 +38,7 @@
         "php": "^7.4 || ^8.0",
         "ext-gd": "*",
         "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^7.0",
         "mobiledetect/mobiledetectlib": "^3.74",
         "nanasess/mdb2": "^2.5",
         "nanasess/php8-compat": "^1.0",
