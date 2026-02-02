@@ -10,7 +10,6 @@ require_once $HOME.'/data/module/HTTP/Request.php';
  */
 class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * Test constants are defined
      */

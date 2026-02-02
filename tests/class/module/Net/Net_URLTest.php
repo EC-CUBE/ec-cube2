@@ -10,7 +10,6 @@ require_once $HOME.'/data/module/Net/URL.php';
  */
 class Net_URLTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * Test basic URL parsing
      */
