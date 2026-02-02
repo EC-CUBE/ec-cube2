@@ -305,6 +305,13 @@ class HTTP_Request
     public $_sslVerify = true;
 
     /**
+     * Resolved IP address for SSRF protection (prevents DNS rebinding)
+     *
+     * @var string|null
+     */
+    protected $_resolvedIP = null;
+
+    /**
      * Constructor
      *
      * Sets up the object
@@ -698,6 +705,35 @@ class HTTP_Request
     }
 
     /**
+     * Resolve hostname to IP address
+     *
+     * @param string $host Hostname or IP address
+     *
+     * @return string|null Resolved IP address or null if resolution failed
+     */
+    protected function _resolveHost($host)
+    {
+        // If already an IP address, return as-is
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            return $host;
+        }
+
+        // Try IPv4 resolution first
+        $ip = gethostbyname($host);
+        if ($ip !== $host) {
+            return $ip;
+        }
+
+        // Try IPv6 (AAAA records)
+        $aaaa = @dns_get_record($host, DNS_AAAA);
+        if (!empty($aaaa) && isset($aaaa[0]['ipv6'])) {
+            return $aaaa[0]['ipv6'];
+        }
+
+        return null;
+    }
+
+    /**
      * Check if an IP address is private/internal
      *
      * @param string $host Hostname or IP address
@@ -706,18 +742,11 @@ class HTTP_Request
      */
     protected function _isPrivateIP($host)
     {
-        // Resolve hostname to IP (IPv4 via gethostbyname)
-        $ip = gethostbyname($host);
+        $ip = $this->_resolveHost($host);
 
-        // If resolution failed, try IPv6 (AAAA records)
-        if ($ip === $host && !filter_var($host, FILTER_VALIDATE_IP)) {
-            $aaaa = @dns_get_record($host, DNS_AAAA);
-            if (!empty($aaaa) && isset($aaaa[0]['ipv6'])) {
-                $ip = $aaaa[0]['ipv6'];
-            } else {
-                // Could not resolve, block for safety
-                return true;
-            }
+        // Could not resolve, block for safety
+        if ($ip === null) {
+            return true;
         }
 
         // Check for IPv4 private ranges
@@ -817,9 +846,17 @@ class HTTP_Request
             return PEAR::raiseError('No URL given', HTTP_REQUEST_ERROR_URL);
         }
 
-        // SSRF protection
-        if ($this->_ssrfProtection && $this->_isPrivateIP($this->_url->host)) {
-            return PEAR::raiseError('Private IP addresses are not allowed', HTTP_REQUEST_ERROR_SSRF);
+        // SSRF protection with DNS rebinding prevention
+        // Resolve the IP once and reuse it to prevent TOCTOU attacks
+        $this->_resolvedIP = null;
+        if ($this->_ssrfProtection) {
+            $this->_resolvedIP = $this->_resolveHost($this->_url->host);
+            if ($this->_resolvedIP === null) {
+                return PEAR::raiseError('Could not resolve hostname', HTTP_REQUEST_ERROR_URL);
+            }
+            if ($this->_isPrivateIPv4($this->_resolvedIP) || $this->_isPrivateIPv6($this->_resolvedIP)) {
+                return PEAR::raiseError('Private IP addresses are not allowed', HTTP_REQUEST_ERROR_SSRF);
+            }
         }
 
         // Legacy compatibility: HTTPS requests cannot be sent via proxy
@@ -881,6 +918,16 @@ class HTTP_Request
             RequestOptions::VERIFY => $this->_sslVerify,
         ];
 
+        // SSRF protection: Use pre-resolved IP to prevent DNS rebinding (TOCTOU)
+        if ($this->_ssrfProtection && $this->_resolvedIP !== null && !filter_var($this->_url->host, FILTER_VALIDATE_IP)) {
+            $port = $this->_url->port;
+            $host = $this->_url->host;
+            // CURLOPT_RESOLVE format: "host:port:address"
+            $options['curl'] = [
+                CURLOPT_RESOLVE => ["{$host}:{$port}:{$this->_resolvedIP}"],
+            ];
+        }
+
         // HTTP version
         $options[RequestOptions::VERSION] = $this->_http;
 
@@ -937,8 +984,17 @@ class HTTP_Request
                     $redirectHost = $parsedUrl['host'] ?? '';
 
                     // SSRF protection on redirect target
-                    if ($self->_ssrfProtection && !empty($redirectHost) && $self->_isPrivateIP($redirectHost)) {
-                        throw new \GuzzleHttp\Exception\RequestException('Redirect to private IP addresses is not allowed', $request);
+                    if ($self->_ssrfProtection && !empty($redirectHost)) {
+                        $resolvedIP = $self->_resolveHost($redirectHost);
+                        if ($resolvedIP === null) {
+                            throw new \GuzzleHttp\Exception\RequestException('Could not resolve redirect target hostname', $request);
+                        }
+                        $isPrivate = filter_var($resolvedIP, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)
+                            ? $self->_isPrivateIPv4($resolvedIP)
+                            : $self->_isPrivateIPv6($resolvedIP);
+                        if ($isPrivate) {
+                            throw new \GuzzleHttp\Exception\RequestException('Redirect to private IP addresses is not allowed', $request);
+                        }
                     }
 
                     // Update internal URL
