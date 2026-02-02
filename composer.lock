@@ -262,16 +262,16 @@
         },
         {
             "name": "nobuhiko/ec-cube2-migration",
-            "version": "v1.1.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nobuhiko/ec-cube2-migration.git",
-                "reference": "1ca5a3a615a3ed28bc191770a3a908b4b798741c"
+                "reference": "301e19768c3041a36a81654bffb00868ebfceb27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nobuhiko/ec-cube2-migration/zipball/1ca5a3a615a3ed28bc191770a3a908b4b798741c",
-                "reference": "1ca5a3a615a3ed28bc191770a3a908b4b798741c",
+                "url": "https://api.github.com/repos/nobuhiko/ec-cube2-migration/zipball/301e19768c3041a36a81654bffb00868ebfceb27",
+                "reference": "301e19768c3041a36a81654bffb00868ebfceb27",
                 "shasum": ""
             },
             "require": {
@@ -307,9 +307,9 @@
             "description": "Database migration tool for EC-CUBE 2",
             "support": {
                 "issues": "https://github.com/nobuhiko/ec-cube2-migration/issues",
-                "source": "https://github.com/nobuhiko/ec-cube2-migration/tree/v1.1.0"
+                "source": "https://github.com/nobuhiko/ec-cube2-migration/tree/v1.2.1"
             },
-            "time": "2026-01-31T12:24:18+00:00"
+            "time": "2026-02-02T00:18:05+00:00"
         },
         {
             "name": "pear/archive_tar",
