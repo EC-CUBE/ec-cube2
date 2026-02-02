@@ -309,7 +309,7 @@ class HTTP_Request
      *
      * @var string|null
      */
-    protected $_resolvedIP = null;
+    protected $_resolvedIP;
 
     /**
      * Constructor
