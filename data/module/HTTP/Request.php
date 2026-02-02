@@ -887,6 +887,11 @@ class HTTP_Request
             $options[RequestOptions::READ_TIMEOUT] = $readTimeoutSeconds;
         }
 
+        // Legacy socket options -> stream context
+        if (!empty($this->_socketOptions)) {
+            $options[RequestOptions::STREAM_CONTEXT] = $this->_socketOptions;
+        }
+
         // Headers
         $headers = [];
         foreach ($this->_requestHeaders as $name => $value) {
