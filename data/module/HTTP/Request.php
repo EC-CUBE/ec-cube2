@@ -926,10 +926,7 @@ class HTTP_Request
 
                     // SSRF protection on redirect target
                     if ($self->_ssrfProtection && !empty($redirectHost) && $self->_isPrivateIP($redirectHost)) {
-                        throw new \GuzzleHttp\Exception\RequestException(
-                            'Redirect to private IP addresses is not allowed',
-                            $request
-                        );
+                        throw new \GuzzleHttp\Exception\RequestException('Redirect to private IP addresses is not allowed', $request);
                     }
 
                     // Update internal URL
