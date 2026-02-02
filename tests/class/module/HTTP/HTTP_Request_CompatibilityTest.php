@@ -501,4 +501,93 @@ class HTTP_Request_CompatibilityTest extends \PHPUnit\Framework\TestCase
             'Host header mismatch'
         );
     }
+
+    /**
+     * Test constructor with socketOptions parameter
+     */
+    public function testConstructorWithSocketOptions()
+    {
+        $url = 'http://example.com/path';
+        $socketOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'allow_self_signed' => true,
+            ],
+        ];
+        $params = ['socketOptions' => $socketOptions];
+
+        $legacy = new HTTP_Request_Legacy($url, $params);
+        $new = new HTTP_Request($url, $params);
+
+        $this->assertEquals($legacy->_socketOptions, $new->_socketOptions, '_socketOptions mismatch');
+    }
+
+    /**
+     * Test constructor with readTimeout parameter
+     */
+    public function testConstructorWithReadTimeout()
+    {
+        $url = 'http://example.com/path';
+        $readTimeout = [30, 0]; // 30 seconds, 0 microseconds
+        $params = ['readTimeout' => $readTimeout];
+
+        $legacy = new HTTP_Request_Legacy($url, $params);
+        $new = new HTTP_Request($url, $params);
+
+        $this->assertEquals($legacy->_readTimeout, $new->_readTimeout, '_readTimeout mismatch');
+    }
+
+    /**
+     * Test constructor with saveBody parameter
+     */
+    public function testConstructorWithSaveBody()
+    {
+        $url = 'http://example.com/path';
+        $params = ['saveBody' => false];
+
+        $legacy = new HTTP_Request_Legacy($url, $params);
+        $new = new HTTP_Request($url, $params);
+
+        $this->assertEquals($legacy->_saveBody, $new->_saveBody, '_saveBody mismatch');
+    }
+
+    /**
+     * Test constructor with proxy parameters
+     */
+    public function testConstructorWithProxyParams()
+    {
+        $url = 'http://example.com/path';
+        $params = [
+            'proxy_host' => 'proxy.example.com',
+            'proxy_port' => 8080,
+            'proxy_user' => 'proxyuser',
+            'proxy_pass' => 'proxypass',
+        ];
+
+        $legacy = new HTTP_Request_Legacy($url, $params);
+        $new = new HTTP_Request($url, $params);
+
+        $this->assertEquals($legacy->_proxy_host, $new->_proxy_host, '_proxy_host mismatch');
+        $this->assertEquals($legacy->_proxy_port, $new->_proxy_port, '_proxy_port mismatch');
+        $this->assertEquals($legacy->_proxy_user, $new->_proxy_user, '_proxy_user mismatch');
+        $this->assertEquals($legacy->_proxy_pass, $new->_proxy_pass, '_proxy_pass mismatch');
+    }
+
+    /**
+     * Test constructor with user/pass parameters
+     */
+    public function testConstructorWithUserPass()
+    {
+        $url = 'http://example.com/path';
+        $params = [
+            'user' => 'testuser',
+            'pass' => 'testpass',
+        ];
+
+        $legacy = new HTTP_Request_Legacy($url, $params);
+        $new = new HTTP_Request($url, $params);
+
+        $this->assertEquals($legacy->_user, $new->_user, '_user mismatch');
+        $this->assertEquals($legacy->_pass, $new->_pass, '_pass mismatch');
+    }
 }
