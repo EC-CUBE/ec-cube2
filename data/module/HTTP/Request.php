@@ -326,8 +326,8 @@ class HTTP_Request
      *   <li>saveBody       - Whether to save response body in response object property (bool)</li>
      *   <li>readTimeout    - Timeout for reading / writing data over the socket (array (seconds, microseconds))</li>
      *   <li>socketOptions  - Options to pass to stream context (array)</li>
-     *   <li>ssrf_protection - Whether to enable SSRF protection (bool, default: true)</li>
-     *   <li>ssl_verify     - Whether to verify SSL certificates (bool, default: true)</li>
+     *   <li>ssrfProtection - Whether to enable SSRF protection (bool, default: true)</li>
+     *   <li>sslVerify      - Whether to verify SSL certificates (bool, default: true)</li>
      * </ul>
      */
     public function __construct($url = '', $params = [])
@@ -357,6 +357,15 @@ class HTTP_Request
         $this->_sslVerify = true;
 
         foreach ($params as $key => $value) {
+            // Handle snake_case aliases for new options
+            if ($key === 'ssrf_protection' || $key === 'ssrfProtection') {
+                $this->_ssrfProtection = (bool) $value;
+                continue;
+            }
+            if ($key === 'ssl_verify' || $key === 'sslVerify') {
+                $this->_sslVerify = (bool) $value;
+                continue;
+            }
             $this->{'_'.$key} = $value;
         }
 
@@ -696,58 +705,91 @@ class HTTP_Request
      */
     protected function _isPrivateIP($host)
     {
-        // Resolve hostname to IP
+        // Resolve hostname to IP (IPv4 via gethostbyname)
         $ip = gethostbyname($host);
 
-        // If resolution failed, return original (gethostbyname returns the input on failure)
+        // If resolution failed, try IPv6 (AAAA records)
         if ($ip === $host && !filter_var($host, FILTER_VALIDATE_IP)) {
-            // Could not resolve, block for safety
-            return true;
+            $aaaa = @dns_get_record($host, DNS_AAAA);
+            if (!empty($aaaa) && isset($aaaa[0]['ipv6'])) {
+                $ip = $aaaa[0]['ipv6'];
+            } else {
+                // Could not resolve, block for safety
+                return true;
+            }
         }
 
         // Check for IPv4 private ranges
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-            // 10.0.0.0/8
-            if (str_starts_with($ip, '10.')) {
-                return true;
-            }
-            // 172.16.0.0/12
-            if (preg_match('/^172\.(1[6-9]|2[0-9]|3[0-1])\./', $ip)) {
-                return true;
-            }
-            // 192.168.0.0/16
-            if (str_starts_with($ip, '192.168.')) {
-                return true;
-            }
-            // 127.0.0.0/8 (localhost)
-            if (str_starts_with($ip, '127.')) {
-                return true;
-            }
-            // 169.254.0.0/16 (link-local)
-            if (str_starts_with($ip, '169.254.')) {
-                return true;
-            }
-            // 0.0.0.0/8
-            if (str_starts_with($ip, '0.')) {
-                return true;
-            }
+            return $this->_isPrivateIPv4($ip);
         }
 
         // Check for IPv6 private ranges
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-            $ip = strtolower($ip);
-            // ::1 (localhost)
-            if ($ip === '::1') {
-                return true;
-            }
-            // fc00::/7 (unique local addresses)
-            if (str_starts_with($ip, 'fc') || str_starts_with($ip, 'fd')) {
-                return true;
-            }
-            // fe80::/10 (link-local)
-            if (str_starts_with($ip, 'fe80')) {
-                return true;
-            }
+            return $this->_isPrivateIPv6($ip);
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if an IPv4 address is private/internal
+     *
+     * @param string $ip IPv4 address
+     *
+     * @return bool true if the IP is private
+     */
+    protected function _isPrivateIPv4($ip)
+    {
+        // 10.0.0.0/8
+        if (str_starts_with($ip, '10.')) {
+            return true;
+        }
+        // 172.16.0.0/12
+        if (preg_match('/^172\.(1[6-9]|2[0-9]|3[0-1])\./', $ip)) {
+            return true;
+        }
+        // 192.168.0.0/16
+        if (str_starts_with($ip, '192.168.')) {
+            return true;
+        }
+        // 127.0.0.0/8 (localhost)
+        if (str_starts_with($ip, '127.')) {
+            return true;
+        }
+        // 169.254.0.0/16 (link-local)
+        if (str_starts_with($ip, '169.254.')) {
+            return true;
+        }
+        // 0.0.0.0/8
+        if (str_starts_with($ip, '0.')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if an IPv6 address is private/internal
+     *
+     * @param string $ip IPv6 address
+     *
+     * @return bool true if the IP is private
+     */
+    protected function _isPrivateIPv6($ip)
+    {
+        $ip = strtolower($ip);
+        // ::1 (localhost)
+        if ($ip === '::1') {
+            return true;
+        }
+        // fc00::/7 (unique local addresses)
+        if (str_starts_with($ip, 'fc') || str_starts_with($ip, 'fd')) {
+            return true;
+        }
+        // fe80::/10 (link-local)
+        if (str_starts_with($ip, 'fe80')) {
+            return true;
         }
 
         return false;
@@ -769,6 +811,11 @@ class HTTP_Request
         // SSRF protection
         if ($this->_ssrfProtection && $this->_isPrivateIP($this->_url->host)) {
             return PEAR::raiseError('Private IP addresses are not allowed', HTTP_REQUEST_ERROR_SSRF);
+        }
+
+        // Legacy compatibility: HTTPS requests cannot be sent via proxy
+        if (strcasecmp($this->_url->protocol, 'https') == 0 && isset($this->_proxy_host)) {
+            return PEAR::raiseError('HTTPS proxies are not supported', HTTP_REQUEST_ERROR_PROXY);
         }
 
         $this->_notify('connect');
@@ -862,11 +909,37 @@ class HTTP_Request
 
         // Handle redirects
         if ($this->_allowRedirects) {
+            $self = $this;
             $options[RequestOptions::ALLOW_REDIRECTS] = [
                 'max' => $this->_maxRedirects,
                 'strict' => true,
                 'referer' => true,
                 'track_redirects' => true,
+                'on_redirect' => function ($request, $response, $uri) use ($self) {
+                    // Increment redirect counter
+                    $self->_redirects++;
+
+                    // Get redirect target URL
+                    $redirectUrl = (string) $uri;
+                    $parsedUrl = parse_url($redirectUrl);
+                    $redirectHost = $parsedUrl['host'] ?? '';
+
+                    // SSRF protection on redirect target
+                    if ($self->_ssrfProtection && !empty($redirectHost) && $self->_isPrivateIP($redirectHost)) {
+                        throw new \GuzzleHttp\Exception\RequestException(
+                            'Redirect to private IP addresses is not allowed',
+                            $request
+                        );
+                    }
+
+                    // Update internal URL
+                    if (!empty($redirectUrl)) {
+                        $self->_url = new Net_URL($redirectUrl);
+                    }
+
+                    // Fire legacy notification event
+                    $self->_notify('redirect', $self->_url);
+                },
             ];
         }
 

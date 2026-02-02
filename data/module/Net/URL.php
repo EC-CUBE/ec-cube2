@@ -239,9 +239,13 @@ class Net_URL
     {
         $querystring = $this->getQueryString();
 
+        // Use user/pass with fallback to username/password for bidirectional sync
+        $user = $this->user !== '' ? $this->user : $this->username;
+        $pass = $this->pass !== '' ? $this->pass : $this->password;
+
         $this->url = $this->protocol.'://'
-                   .$this->user.(!empty($this->pass) ? ':' : '')
-                   .$this->pass.(!empty($this->user) ? '@' : '')
+                   .$user.(!empty($pass) ? ':' : '')
+                   .$pass.(!empty($user) ? '@' : '')
                    .$this->host.($this->port == $this->getStandardPort($this->protocol) ? '' : ':'.$this->port)
                    .$this->path
                    .(!empty($querystring) ? '?'.$querystring : '')
@@ -294,8 +298,9 @@ class Net_URL
      * Sets the querystring to literally what you supply
      *
      * @param string $querystring The querystring data. Should be of the format foo=bar&x=y etc
+     * @param bool   $preencoded  Whether data is already urlencoded or not (unused, for compatibility)
      */
-    public function addRawQueryString($querystring)
+    public function addRawQueryString($querystring, $preencoded = true)
     {
         $this->querystring = $this->_parseRawQueryString($querystring);
     }

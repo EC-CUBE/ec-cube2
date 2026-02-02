@@ -278,9 +278,10 @@ class Net_URL_Legacy
     /**
      * Sets the querystring to literally what you supply
      *
-     * @param  string $querystring The querystring data. Should be of the format foo=bar&x=y etc
+     * @param string $querystring The querystring data. Should be of the format foo=bar&x=y etc
+     * @param bool   $preencoded  Whether data is already urlencoded or not (unused, for compatibility)
      */
-    public function addRawQueryString($querystring)
+    public function addRawQueryString($querystring, $preencoded = true)
     {
         $this->querystring = $this->_parseRawQueryString($querystring);
     }
