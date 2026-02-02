@@ -47,6 +47,7 @@ require_once 'Net/URL.php';
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Utils;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
@@ -765,6 +766,14 @@ class HTTP_Request
         if (str_starts_with($ip, '0.')) {
             return true;
         }
+        // 240.0.0.0/4 (reserved for future use)
+        if (preg_match('/^(24[0-9]|25[0-5])\./', $ip)) {
+            return true;
+        }
+        // 255.255.255.255 (broadcast)
+        if ($ip === '255.255.255.255') {
+            return true;
+        }
 
         return false;
     }
@@ -971,7 +980,7 @@ class HTTP_Request
                             $type = is_array($value['type']) ? ($value['type'][$key] ?? 'application/octet-stream') : $value['type'];
                             $multipart[] = [
                                 'name' => $varname,
-                                'contents' => fopen($filename, 'r'),
+                                'contents' => Utils::tryFopen($filename, 'r'),
                                 'filename' => basename($filename),
                                 'headers' => ['Content-Type' => $type],
                             ];
@@ -979,7 +988,7 @@ class HTTP_Request
                     } else {
                         $multipart[] = [
                             'name' => $name,
-                            'contents' => fopen($value['name'], 'r'),
+                            'contents' => Utils::tryFopen($value['name'], 'r'),
                             'filename' => basename($value['name']),
                             'headers' => ['Content-Type' => $value['type']],
                         ];

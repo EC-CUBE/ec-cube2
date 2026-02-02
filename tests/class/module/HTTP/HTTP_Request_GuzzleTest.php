@@ -569,4 +569,156 @@ class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
         $request->disconnect();
         $this->assertTrue(true);
     }
+
+    /**
+     * Test actual HTTP GET request
+     *
+     * @group integration
+     */
+    public function testActualHttpGetRequest()
+    {
+        $request = new HTTP_Request('https://httpbin.org/get', [
+            'timeout' => 10,
+            'ssrfProtection' => false,
+        ]);
+
+        $result = $request->sendRequest();
+
+        if (PEAR::isError($result)) {
+            $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
+        }
+
+        $this->assertTrue($result);
+        $this->assertEquals(200, $request->getResponseCode());
+        $this->assertNotEmpty($request->getResponseBody());
+
+        $body = json_decode($request->getResponseBody(), true);
+        $this->assertIsArray($body);
+        $this->assertArrayHasKey('url', $body);
+    }
+
+    /**
+     * Test actual HTTP POST request
+     *
+     * @group integration
+     */
+    public function testActualHttpPostRequest()
+    {
+        $request = new HTTP_Request('https://httpbin.org/post', [
+            'method' => HTTP_REQUEST_METHOD_POST,
+            'timeout' => 10,
+            'ssrfProtection' => false,
+        ]);
+        $request->addPostData('foo', 'bar');
+        $request->addPostData('baz', 'qux');
+
+        $result = $request->sendRequest();
+
+        if (PEAR::isError($result)) {
+            $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
+        }
+
+        $this->assertTrue($result);
+        $this->assertEquals(200, $request->getResponseCode());
+
+        $body = json_decode($request->getResponseBody(), true);
+        $this->assertIsArray($body);
+        $this->assertEquals('bar', $body['form']['foo'] ?? null);
+        $this->assertEquals('qux', $body['form']['baz'] ?? null);
+    }
+
+    /**
+     * Test actual HTTP request with redirect
+     *
+     * @group integration
+     */
+    public function testActualHttpRedirect()
+    {
+        $request = new HTTP_Request('https://httpbin.org/redirect/1', [
+            'timeout' => 10,
+            'ssrfProtection' => false,
+            'allowRedirects' => true,
+            'maxRedirects' => 5,
+        ]);
+
+        $result = $request->sendRequest();
+
+        if (PEAR::isError($result)) {
+            $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
+        }
+
+        $this->assertTrue($result);
+        $this->assertEquals(200, $request->getResponseCode());
+        // Redirect counter should be incremented
+        $this->assertGreaterThanOrEqual(1, $request->_redirects);
+    }
+
+    /**
+     * Test actual HTTP request returns correct headers
+     *
+     * @group integration
+     */
+    public function testActualHttpResponseHeaders()
+    {
+        $request = new HTTP_Request('https://httpbin.org/response-headers?X-Test-Header=test-value', [
+            'timeout' => 10,
+            'ssrfProtection' => false,
+        ]);
+
+        $result = $request->sendRequest();
+
+        if (PEAR::isError($result)) {
+            $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
+        }
+
+        $this->assertTrue($result);
+        $this->assertEquals(200, $request->getResponseCode());
+        $this->assertEquals('test-value', $request->getResponseHeader('x-test-header'));
+    }
+
+    /**
+     * Test HTTP request with custom headers
+     *
+     * @group integration
+     */
+    public function testActualHttpRequestWithHeaders()
+    {
+        $request = new HTTP_Request('https://httpbin.org/headers', [
+            'timeout' => 10,
+            'ssrfProtection' => false,
+        ]);
+        $request->addHeader('X-Custom-Header', 'custom-value');
+
+        $result = $request->sendRequest();
+
+        if (PEAR::isError($result)) {
+            $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
+        }
+
+        $this->assertTrue($result);
+        $body = json_decode($request->getResponseBody(), true);
+        $this->assertEquals('custom-value', $body['headers']['X-Custom-Header'] ?? null);
+    }
+
+    /**
+     * Test HTTP 404 response
+     *
+     * @group integration
+     */
+    public function testActualHttp404Response()
+    {
+        $request = new HTTP_Request('https://httpbin.org/status/404', [
+            'timeout' => 10,
+            'ssrfProtection' => false,
+        ]);
+
+        $result = $request->sendRequest();
+
+        if (PEAR::isError($result)) {
+            $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
+        }
+
+        $this->assertTrue($result);
+        $this->assertEquals(404, $request->getResponseCode());
+    }
 }
