@@ -887,10 +887,8 @@ class HTTP_Request
             $options[RequestOptions::READ_TIMEOUT] = $readTimeoutSeconds;
         }
 
-        // Legacy socket options -> stream context
-        if (!empty($this->_socketOptions)) {
-            $options[RequestOptions::STREAM_CONTEXT] = $this->_socketOptions;
-        }
+        // Note: _socketOptions is not supported in Guzzle implementation
+        // Legacy Net_Socket stream context options cannot be directly mapped to cURL options
 
         // Headers
         $headers = [];
