@@ -332,10 +332,10 @@ class HTTP_Request
      *   <li>maxRedirects   - Max number of redirects to follow (integer)</li>
      *   <li>useBrackets    - Whether to append [] to array variable names (bool)</li>
      *   <li>saveBody       - Whether to save response body in response object property (bool)</li>
-     *   <li>readTimeout    - Timeout for reading / writing data over the socket (array (seconds, microseconds))</li>
-     *   <li>socketOptions  - Options to pass to stream context (array)</li>
-     *   <li>ssrfProtection - Whether to enable SSRF protection (bool, default: true)</li>
-     *   <li>sslVerify      - Whether to verify SSL certificates (bool, default: true)</li>
+     *   <li>readTimeout     - Timeout for reading / writing data over the socket (array (seconds, microseconds))</li>
+     *   <li>socketOptions   - Options to pass to stream context (array)</li>
+     *   <li>ssrfProtection  - Whether to enable SSRF protection (bool, default: true)</li>
+     *   <li>sslVerify       - Whether to verify SSL certificates (bool, default: true)</li>
      * </ul>
      */
     public function __construct($url = '', $params = [])
@@ -866,9 +866,123 @@ class HTTP_Request
 
         $this->_notify('connect');
 
+        // Handle redirects manually when SSRF protection is enabled
+        // to ensure CURLOPT_RESOLVE is set for each redirect target
+        if ($this->_allowRedirects && $this->_ssrfProtection) {
+            return $this->_sendRequestWithManualRedirects($saveBody);
+        }
+
+        return $this->_sendSingleRequest($saveBody);
+    }
+
+    /**
+     * Send request with manual redirect handling for SSRF protection
+     *
+     * This ensures CURLOPT_RESOLVE is set for each redirect target,
+     * preventing DNS rebinding (TOCTOU) attacks.
+     *
+     * @param bool $saveBody Whether to store response body
+     *
+     * @return bool|PEAR_Error
+     */
+    protected function _sendRequestWithManualRedirects($saveBody)
+    {
+        $this->_redirects = 0;
+
+        while (true) {
+            $result = $this->_sendSingleRequest($saveBody, false);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+
+            // Check for redirect response
+            $code = $this->_response->_code;
+            if (!in_array($code, [301, 302, 303, 307, 308])) {
+                // Not a redirect, we're done
+                break;
+            }
+
+            // Check redirect limit
+            $this->_redirects++;
+            if ($this->_redirects > $this->_maxRedirects) {
+                return PEAR::raiseError('Maximum redirects exceeded', HTTP_REQUEST_ERROR_REDIRECTS);
+            }
+
+            // Get redirect location
+            $location = $this->_response->_headers['location'] ?? null;
+            if (empty($location)) {
+                // No location header, treat as normal response
+                break;
+            }
+
+            // Resolve relative URL
+            if (!preg_match('/^https?:\/\//i', $location)) {
+                $base = $this->_url->protocol.'://'.$this->_url->host;
+                if ($this->_url->port != $this->_url->getStandardPort($this->_url->protocol)) {
+                    $base .= ':'.$this->_url->port;
+                }
+                if (str_starts_with($location, '/')) {
+                    $location = $base.$location;
+                } else {
+                    $location = $base.dirname($this->_url->path).'/'.$location;
+                }
+            }
+
+            // SSRF check on redirect target
+            $parsedUrl = parse_url($location);
+            $redirectHost = $parsedUrl['host'] ?? '';
+
+            if (!empty($redirectHost)) {
+                $resolvedIP = $this->_resolveHost($redirectHost);
+                if ($resolvedIP === null) {
+                    return PEAR::raiseError('Could not resolve redirect target hostname', HTTP_REQUEST_ERROR_URL);
+                }
+                $isPrivate = filter_var($resolvedIP, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)
+                    ? $this->_isPrivateIPv4($resolvedIP)
+                    : $this->_isPrivateIPv6($resolvedIP);
+                if ($isPrivate) {
+                    return PEAR::raiseError('Redirect to private IP addresses is not allowed', HTTP_REQUEST_ERROR_SSRF);
+                }
+                // Update resolved IP for the redirect target
+                $this->_resolvedIP = $resolvedIP;
+            }
+
+            // Update URL for the redirect
+            $this->_url = new Net_URL($location);
+
+            // Notify listeners
+            $this->_notify('redirect', $this->_url);
+
+            // For 303, change method to GET
+            if ($code === 303 && $this->_method !== HTTP_REQUEST_METHOD_HEAD) {
+                $this->_method = HTTP_REQUEST_METHOD_GET;
+                $this->_body = null;
+                $this->_postData = [];
+                $this->_postFiles = [];
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Send a single request (no redirect handling)
+     *
+     * @param bool $saveBody       Whether to store response body
+     * @param bool $allowRedirects Whether to allow Guzzle redirects (internal use)
+     *
+     * @return bool|PEAR_Error
+     */
+    protected function _sendSingleRequest($saveBody, $allowRedirects = null)
+    {
+        // Use parameter if provided, otherwise use instance setting (but only when SSRF is disabled)
+        if ($allowRedirects === null) {
+            $allowRedirects = $this->_allowRedirects && !$this->_ssrfProtection;
+        }
+
         try {
             // Build Guzzle options
-            $options = $this->_buildGuzzleOptions();
+            $options = $this->_buildGuzzleOptions($allowRedirects);
 
             // Create Guzzle client
             $this->_client = new Client();
@@ -908,9 +1022,11 @@ class HTTP_Request
     /**
      * Build Guzzle request options from HTTP_Request state
      *
+     * @param bool|null $allowRedirects Whether to allow redirects (null = use instance setting)
+     *
      * @return array Guzzle options array
      */
-    protected function _buildGuzzleOptions()
+    protected function _buildGuzzleOptions($allowRedirects = null)
     {
         $options = [
             RequestOptions::HTTP_ERRORS => false,
@@ -966,8 +1082,9 @@ class HTTP_Request
             ];
         }
 
-        // Handle redirects
-        if ($this->_allowRedirects) {
+        // Handle redirects (only when SSRF protection is disabled, otherwise handled manually)
+        $shouldAllowRedirects = $allowRedirects ?? ($this->_allowRedirects && !$this->_ssrfProtection);
+        if ($shouldAllowRedirects) {
             $self = $this;
             $options[RequestOptions::ALLOW_REDIRECTS] = [
                 'max' => $this->_maxRedirects,
@@ -980,22 +1097,6 @@ class HTTP_Request
 
                     // Get redirect target URL
                     $redirectUrl = (string) $uri;
-                    $parsedUrl = parse_url($redirectUrl);
-                    $redirectHost = $parsedUrl['host'] ?? '';
-
-                    // SSRF protection on redirect target
-                    if ($self->_ssrfProtection && !empty($redirectHost)) {
-                        $resolvedIP = $self->_resolveHost($redirectHost);
-                        if ($resolvedIP === null) {
-                            throw new \GuzzleHttp\Exception\RequestException('Could not resolve redirect target hostname', $request);
-                        }
-                        $isPrivate = filter_var($resolvedIP, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)
-                            ? $self->_isPrivateIPv4($resolvedIP)
-                            : $self->_isPrivateIPv6($resolvedIP);
-                        if ($isPrivate) {
-                            throw new \GuzzleHttp\Exception\RequestException('Redirect to private IP addresses is not allowed', $request);
-                        }
-                    }
 
                     // Update internal URL
                     if (!empty($redirectUrl)) {
