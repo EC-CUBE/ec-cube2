@@ -24,8 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-24.04 ]
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5' ]
-        db: [ mysql, pgsql ]
+        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
+        db: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["mysql", "pgsql", "sqlite3"]') }}
 
     steps:
     - name: Checkout
@@ -69,7 +69,7 @@ jobs:
             sleep 1
         done
         cat data/config/config.php
-        docker compose exec -T ec-cube composer install
+        docker compose exec -T ec-cube composer dumpautoload
     - name: Run to PHPUnit
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --exclude-group classloader,mysql_prepare
     - name: Run to PHPUnit classloader
@@ -85,6 +85,11 @@ jobs:
         git fetch --tags -f
         git checkout eccube-2.17.2-p2 data/Smarty/templates/default/mail_templates
         docker compose exec -T ec-cube php data/vendor/bin/phpunit tests/class/helper/SC_Helper_Mail/
+
+    - name: Print container logs on failure
+      if: failure()
+      continue-on-error: true
+      run: docker compose logs ec-cube
 
     - name: Print error log
       if: always()

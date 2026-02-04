@@ -32,7 +32,7 @@ RUN apt-get update \
         libzip-dev zlib1g-dev \
         libpcre2-dev \
         ssl-cert \
-        mariadb-client postgresql-client \
+        mariadb-client postgresql-client sqlite3 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -78,13 +78,15 @@ EXPOSE 443
 
 WORKDIR ${ECCUBE_PREFIX}
 
+# Copy entrypoint scripts for MySQL, PostgreSQL, and SQLite3
 COPY dockerbuild/wait-for-*.sh /
 RUN chmod +x /wait-for-*.sh
 
 COPY composer.json ${ECCUBE_PREFIX}/composer.json
 COPY composer.lock ${ECCUBE_PREFIX}/composer.lock
 
-RUN composer install --no-scripts --no-autoloader --no-dev -d ${ECCUBE_PREFIX}
+# CI環境で必要な dev dependencies も含めてインストール
+RUN composer install --no-scripts --no-autoloader -d ${ECCUBE_PREFIX}
 
 COPY . ${ECCUBE_PREFIX}
 RUN composer dumpautoload -o
