@@ -170,6 +170,22 @@ switch ($mode) {
             }
         }
 
+        // マイグレーションの実行 (ec-cube2-migration がインストールされている場合)
+        if (count($objPage->arrErr) == 0) {
+            $migrationsPath = HTML_REALDIR . HTML2DATA_DIR . 'migrations';
+            if (class_exists('Eccube2\Migration\Migrator') && is_dir($migrationsPath)) {
+                $result = \Eccube2\Migration\Migrator::runFromWebInstaller($arrDsn, $migrationsPath);
+                if ($result['success']) {
+                    $objPage->tpl_message .= '○：マイグレーションに成功しました。<br />';
+                    GC_Utils_Ex::gfPrintLog('Migration: ' . $result['message'], INSTALL_LOG);
+                } else {
+                    $objPage->tpl_message .= '×：マイグレーションに失敗しました。<br />';
+                    $objPage->arrErr['all'] = '>> ' . $result['message'] . '<br />';
+                    GC_Utils_Ex::gfPrintLog('Migration Error: ' . $result['message'], INSTALL_LOG);
+                }
+            }
+        }
+
         if (count($objPage->arrErr) == 0) {
             $objPage = lfDispStep3($objPage);
             $objPage->tpl_mode = 'step4';

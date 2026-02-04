@@ -21,8 +21,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 *}-->
-パスワードを変更いたしました。
 
-新しいパスワード：<!--{$new_password}-->
-
-このパスワードは一時的なものですので、お早めにご変更下さい。
+<font color="#ff0000"><!--{$errmsg|h}--></font><br>
+<br>
+パスワード再設定リンクが無効または期限切れです。<br>
+お手数ですが、最初からやり直してください。<br>
+<br>
+<center><a href="<!--{$smarty.const.MOBILE_URL_HTTPS}-->forgot/">戻る</a></center>

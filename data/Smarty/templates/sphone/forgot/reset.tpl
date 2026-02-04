@@ -21,25 +21,32 @@
  *}-->
 
 <section id="windowcolumn">
-    <h2 class="title">パスワードを忘れた方</h2>
+    <h2 class="title">新しいパスワードの設定</h2>
     <form action="?" method="post" name="form1">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
-        <input type="hidden" name="mode" value="request" />
+        <input type="hidden" name="mode" value="complete" />
+        <input type="hidden" name="token" value="<!--{$token|h}-->" />
         <div class="intro">
-            <p>ご登録時のメールアドレスを入力して「次へ」ボタンをクリックしてください。<br />
-            パスワード再設定用のリンクをメールでお送りします。</p>
+            <p>新しいパスワードを入力して「次へ」ボタンをクリックしてください。</p>
         </div>
         <div class="window_area clearfix">
             <p>
-                メールアドレス<br />
-                <span class="attention"><!--{$arrErr.email}--><!--{$errmsg|h}--></span>
-                <input type="email" name="email"
-                value="<!--{$arrForm.email|default:$tpl_login_email|h}-->"
-                style="<!--{$arrErr.email|sfGetErrorColor}-->;"
-                maxlength="200" class="text boxLong data-role-none" />
+                新しいパスワード<br />
+                <span class="attention"><!--{$arrErr.password}--></span>
+                <input type="password" name="password"
+                style="<!--{$arrErr.password|sfGetErrorColor}-->;"
+                maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" class="text boxLong data-role-none" />
             </p>
             <hr />
-            <p class="attentionSt">※リンクの有効期限は24時間です。</p>
+            <p>
+                新しいパスワード（確認）<br />
+                <span class="attention"><!--{$arrErr.password02}--><!--{$errmsg|h}--></span>
+                <input type="password" name="password02"
+                style="<!--{$arrErr.password02|sfGetErrorColor}-->;"
+                maxlength="<!--{$smarty.const.PASSWORD_MAX_LEN}-->" class="text boxLong data-role-none" />
+            </p>
+            <hr />
+            <p class="attentionSt">※パスワードは<!--{$smarty.const.PASSWORD_MIN_LEN}-->文字以上<!--{$smarty.const.PASSWORD_MAX_LEN}-->文字以内で入力してください。</p>
         </div>
 
         <div class="btn_area"><p><input class="btn data-role-none" type="submit" value="次へ" /></p></div>

@@ -1,4 +1,4 @@
-<!--{*
+<?php
 /*
  * This file is part of EC-CUBE
  *
@@ -20,11 +20,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-*}-->
 
-パスワードの変更が完了いたしました。<br>
-新しいパスワードでログインしてください。<br>
-<br>
-確認のため、パスワード変更完了のメールをお送りしました。<br>
-<br>
-新しいパスワードでログインできます。
+/**
+ * パスワードリセットトークンクリーンアップスクリプト
+ *
+ * 期限切れのパスワードリセットトークンをクリーンアップします。
+ *
+ * 使用方法:
+ *   php cleanup_password_reset.php
+ *
+ * cron設定例（毎日深夜2時に実行）:
+ *   0 2 * * * cd /path/to/ec-cube/html && php cleanup_password_reset.php >> /path/to/logs/cleanup.log 2>&1
+ */
+
+require_once __DIR__.'/define.php';
+require_once HTML_REALDIR.'../data/require_base.php';
+
+$objBatch = new SC_Batch_CleanupPasswordReset_Ex();
+$objBatch->execute();

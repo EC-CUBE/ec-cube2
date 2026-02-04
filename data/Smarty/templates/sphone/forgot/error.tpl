@@ -1,5 +1,4 @@
 <!--{*
-/*
  * This file is part of EC-CUBE
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
@@ -19,12 +18,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- */
-*}-->
+ *}-->
 
-パスワードの変更が完了いたしました。<br>
-新しいパスワードでログインしてください。<br>
-<br>
-確認のため、パスワード変更完了のメールをお送りしました。<br>
-<br>
-新しいパスワードでログインできます。
+<section id="windowcolumn">
+    <h2 class="title">エラー</h2>
+    <div class="intro">
+        <p class="attention"><!--{$errmsg|h}--></p>
+    </div>
+
+    <div class="window_area clearfix">
+        <p>パスワード再設定リンクが無効または期限切れです。<br />
+        お手数ですが、最初からやり直してください。</p>
+    </div>
+
+    <div class="btn_area">
+        <p><a href="<!--{$smarty.const.HTTPS_URL}-->forgot/" class="btn_sub">戻る</a></p>
+    </div>
+</section>
