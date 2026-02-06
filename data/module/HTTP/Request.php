@@ -1050,7 +1050,7 @@ class HTTP_Request
             $host = $this->_url->host;
             // CURLOPT_RESOLVE format: "host:port:address" (IPv6 needs brackets)
             $resolved = $this->_resolvedIP;
-            if (strpos($resolved, ':') !== false) {
+            if (str_contains($resolved, ':')) {
                 $resolved = '['.$resolved.']';
             }
             $options['curl'] = [
