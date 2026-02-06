@@ -956,6 +956,9 @@ class HTTP_Request
 
             // Update URL for the redirect
             $this->_url = new Net_URL($location);
+            if (HTTP_REQUEST_HTTP_VER_1_1 == $this->_http) {
+                $this->addHeader('Host', $this->_generateHostHeader());
+            }
 
             // Notify listeners
             $this->_notify('redirect', $this->_url);
@@ -1045,9 +1048,13 @@ class HTTP_Request
         if ($this->_ssrfProtection && $this->_resolvedIP !== null && !filter_var($this->_url->host, FILTER_VALIDATE_IP)) {
             $port = $this->_url->port;
             $host = $this->_url->host;
-            // CURLOPT_RESOLVE format: "host:port:address"
+            // CURLOPT_RESOLVE format: "host:port:address" (IPv6 needs brackets)
+            $resolved = $this->_resolvedIP;
+            if (strpos($resolved, ':') !== false) {
+                $resolved = '['.$resolved.']';
+            }
             $options['curl'] = [
-                CURLOPT_RESOLVE => ["{$host}:{$port}:{$this->_resolvedIP}"],
+                CURLOPT_RESOLVE => ["{$host}:{$port}:{$resolved}"],
             ];
         }
 
@@ -1108,6 +1115,9 @@ class HTTP_Request
                     // Update internal URL
                     if (!empty($redirectUrl)) {
                         $self->_url = new Net_URL($redirectUrl);
+                        if (HTTP_REQUEST_HTTP_VER_1_1 == $self->_http) {
+                            $self->addHeader('Host', $self->_generateHostHeader());
+                        }
                     }
 
                     // Fire legacy notification event
