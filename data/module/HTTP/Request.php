@@ -960,6 +960,11 @@ class HTTP_Request
                 $this->addHeader('Host', $this->_generateHostHeader());
             }
 
+            // HTTPS+Proxy check on redirect target
+            if (strcasecmp($this->_url->protocol, 'https') == 0 && isset($this->_proxy_host)) {
+                return PEAR::raiseError('HTTPS proxies are not supported', HTTP_REQUEST_ERROR_PROXY);
+            }
+
             // Notify listeners
             $this->_notify('redirect', $this->_url);
 
@@ -1024,6 +1029,8 @@ class HTTP_Request
             }
 
             return PEAR::raiseError($e->getMessage(), HTTP_REQUEST_ERROR_RESPONSE);
+        } catch (\RuntimeException $e) {
+            return PEAR::raiseError($e->getMessage(), HTTP_REQUEST_ERROR_FILE);
         } catch (GuzzleException $e) {
             return PEAR::raiseError($e->getMessage(), HTTP_REQUEST_ERROR_RESPONSE);
         }
