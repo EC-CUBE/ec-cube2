@@ -323,6 +323,94 @@ class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test SSRF protection blocks IPv4-mapped IPv6 loopback (::ffff:127.0.0.1)
+     */
+    public function testSsrfProtectionBlocksIPv4MappedIPv6Loopback()
+    {
+        $request = new HTTP_Request('http://[::ffff:127.0.0.1]/path');
+        $result = $request->sendRequest();
+
+        $this->assertTrue(PEAR::isError($result));
+        $this->assertEquals(HTTP_REQUEST_ERROR_SSRF, $result->getCode());
+    }
+
+    /**
+     * Test SSRF protection blocks IPv4-mapped IPv6 private 10.x (::ffff:10.0.0.1)
+     */
+    public function testSsrfProtectionBlocksIPv4MappedIPv6Private10()
+    {
+        $request = new HTTP_Request('http://[::ffff:10.0.0.1]/path');
+        $result = $request->sendRequest();
+
+        $this->assertTrue(PEAR::isError($result));
+        $this->assertEquals(HTTP_REQUEST_ERROR_SSRF, $result->getCode());
+    }
+
+    /**
+     * Test SSRF protection blocks IPv4-mapped IPv6 private 192.168.x (::ffff:192.168.1.1)
+     */
+    public function testSsrfProtectionBlocksIPv4MappedIPv6Private192168()
+    {
+        $request = new HTTP_Request('http://[::ffff:192.168.1.1]/path');
+        $result = $request->sendRequest();
+
+        $this->assertTrue(PEAR::isError($result));
+        $this->assertEquals(HTTP_REQUEST_ERROR_SSRF, $result->getCode());
+    }
+
+    /**
+     * Test SSRF protection blocks IPv4-mapped IPv6 private 172.16.x (::ffff:172.16.0.1)
+     */
+    public function testSsrfProtectionBlocksIPv4MappedIPv6Private172()
+    {
+        $request = new HTTP_Request('http://[::ffff:172.16.0.1]/path');
+        $result = $request->sendRequest();
+
+        $this->assertTrue(PEAR::isError($result));
+        $this->assertEquals(HTTP_REQUEST_ERROR_SSRF, $result->getCode());
+    }
+
+    /**
+     * Test _isPrivateIPv6 detects IPv4-mapped IPv6 private addresses
+     */
+    public function testIsPrivateIPv6DetectsIPv4MappedAddresses()
+    {
+        $request = new HTTP_Request('https://example.com');
+        $ref = new ReflectionMethod($request, '_isPrivateIPv6');
+        $ref->setAccessible(true);
+
+        // Private IPv4-mapped addresses should return true
+        $this->assertTrue($ref->invoke($request, '::ffff:127.0.0.1'));
+        $this->assertTrue($ref->invoke($request, '::ffff:10.0.0.1'));
+        $this->assertTrue($ref->invoke($request, '::ffff:192.168.1.1'));
+        $this->assertTrue($ref->invoke($request, '::ffff:172.16.0.1'));
+        $this->assertTrue($ref->invoke($request, '::ffff:169.254.1.1'));
+        $this->assertTrue($ref->invoke($request, '::ffff:0.0.0.0'));
+
+        // Public IPv4-mapped addresses should return false
+        $this->assertFalse($ref->invoke($request, '::ffff:8.8.8.8'));
+        $this->assertFalse($ref->invoke($request, '::ffff:203.0.113.1'));
+    }
+
+    /**
+     * Test _isPrivateIPv6 still detects native IPv6 private addresses
+     */
+    public function testIsPrivateIPv6DetectsNativePrivateAddresses()
+    {
+        $request = new HTTP_Request('https://example.com');
+        $ref = new ReflectionMethod($request, '_isPrivateIPv6');
+        $ref->setAccessible(true);
+
+        $this->assertTrue($ref->invoke($request, '::1'));
+        $this->assertTrue($ref->invoke($request, 'fc00::1'));
+        $this->assertTrue($ref->invoke($request, 'fd12:3456::1'));
+        $this->assertTrue($ref->invoke($request, 'fe80::1'));
+
+        // Public IPv6 should return false
+        $this->assertFalse($ref->invoke($request, '2001:db8::1'));
+    }
+
+    /**
      * Test listener attach and detach
      */
     public function testListenerAttachDetach()

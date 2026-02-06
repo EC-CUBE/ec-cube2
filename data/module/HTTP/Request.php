@@ -829,6 +829,13 @@ class HTTP_Request
         if (str_starts_with($ip, 'fe80')) {
             return true;
         }
+        // ::ffff:x.x.x.x (IPv4-mapped IPv6)
+        if (str_starts_with($ip, '::ffff:')) {
+            $ipv4 = substr($ip, 7);
+            if (filter_var($ipv4, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                return $this->_isPrivateIPv4($ipv4);
+            }
+        }
 
         return false;
     }
