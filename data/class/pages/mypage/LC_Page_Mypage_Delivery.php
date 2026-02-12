@@ -33,6 +33,9 @@ class LC_Page_Mypage_Delivery extends LC_Page_AbstractMypage_Ex
     /** @var array */
     public $arrOtherDeliv;
 
+    /** POST に限定する mode */
+    public $arrLimitPostMode = ['delete'];
+
     /**
      * Page を初期化する.
      *
