@@ -85,11 +85,11 @@ class SC_Batch_Update extends SC_Batch
                 $suffix = pathinfo($path, PATHINFO_EXTENSION);
 
                 // distinfo の変数定義
-                $distinfo ??= '';
+                $distinfo ??= [];
 
                 // distinfo.php を読み込む
                 if ($fileName == 'distinfo.php') {
-                    include_once $path;
+                    $distinfo = $this->parseDistInfo($path);
                 }
 
                 // 除外ファイルをスキップ
@@ -260,6 +260,36 @@ class SC_Batch_Update extends SC_Batch
         $src .= ");\n?>";
 
         return $src;
+    }
+
+    /**
+     * distinfo.php を安全にパースして $distinfo 配列を返す.
+     *
+     * include を使わず、ファイル内容をトークン解析することで
+     * 任意コード実行を防止する.
+     *
+     * @param string $path distinfo.php のパス
+     *
+     * @return array SHA1ハッシュ => ファイルパス の連想配列
+     */
+    public function parseDistInfo($path)
+    {
+        $content = file_get_contents($path);
+        if ($content === false) {
+            $this->printLog('distinfoファイルの読み込みに失敗しました: '.$path);
+
+            return [];
+        }
+
+        $distinfo = [];
+        // $distinfo['sha1hash'] = 'filepath'; の形式をパースする
+        if (preg_match_all("/\[(['\"])([a-f0-9]{40})\\1\]\s*=\s*(['\"])(.+?)\\3/", $content, $matches)) {
+            for ($i = 0; $i < count($matches[0]); $i++) {
+                $distinfo[$matches[2][$i]] = $matches[4][$i];
+            }
+        }
+
+        return $distinfo;
     }
 
     /**
