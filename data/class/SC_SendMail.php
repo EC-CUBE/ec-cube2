@@ -147,8 +147,8 @@ class SC_SendMail
     // 件名の設定
     public function setSubject($subject)
     {
+        $subject = str_replace(["\r\n", "\r", "\n"], ' ', $subject);
         $this->subject = mb_encode_mimeheader($subject, 'ISO-2022-JP-MS', 'B', "\n");
-        $this->subject = str_replace(["\r\n", "\r"], "\n", $this->subject);
     }
 
     // 本文の設定

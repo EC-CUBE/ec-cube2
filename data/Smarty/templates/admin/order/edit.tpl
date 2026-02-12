@@ -279,7 +279,7 @@
                     <!--{assign var=key3 value="order_birth_day"}-->
                     <!--{assign var=errBirth value="`$arrErr.$key1``$arrErr.$key2``$arrErr.$key3`"}-->
 	                <!--{if $errBirth}-->
-	                    <div class="attention"><!--{$errBirth}--></div>
+	                    <div class="attention"><!--{$errBirth|h}--></div>
 	                <!--{/if}-->
                     <select name="<!--{$key1}-->" style="<!--{$errBirth|sfGetErrorColor}-->">
                         <!--{html_options options=$arrBirthYear selected=$arrForm[$key1].value|default:""}-->

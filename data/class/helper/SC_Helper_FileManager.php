@@ -277,13 +277,22 @@ class SC_Helper_FileManager
      */
     public function sfDownloadFile($file)
     {
+        // パストラバーサル防止: USER_REALDIR 内のファイルのみ許可
+        $realpath = realpath($file);
+        $userRealDir = realpath(USER_REALDIR);
+        if ($realpath === false || !str_starts_with($realpath, $userRealDir)) {
+            GC_Utils_Ex::gfPrintLog('Invalid file path for download: '.$file);
+
+            return;
+        }
+
         // ファイルの場合はダウンロードさせる
-        $file_name = basename($file);
-        header('Content-disposition: attachment; filename='.$file_name);
-        header('Content-type: application/octet-stream; name='.$file_name);
+        $file_name = basename($realpath);
+        header('Content-disposition: attachment; filename="'.$file_name.'"');
+        header('Content-type: application/octet-stream; name="'.$file_name.'"');
         header('Cache-Control: ');
         header('Pragma: ');
-        echo $this->sfReadFile($file);
+        echo $this->sfReadFile($realpath);
     }
 
     /**
