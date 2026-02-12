@@ -280,14 +280,14 @@ class SC_Helper_FileManager
         // パストラバーサル防止: USER_REALDIR 内のファイルのみ許可
         $realpath = realpath($file);
         $userRealDir = realpath(USER_REALDIR);
-        if ($realpath === false || !str_starts_with($realpath, $userRealDir)) {
+        if ($realpath === false || $userRealDir === false || !str_starts_with($realpath, rtrim($userRealDir, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR)) {
             GC_Utils_Ex::gfPrintLog('Invalid file path for download: '.$file);
 
             return;
         }
 
         // ファイルの場合はダウンロードさせる
-        $file_name = basename($realpath);
+        $file_name = str_replace('"', '_', basename($realpath));
         header('Content-disposition: attachment; filename="'.$file_name.'"');
         header('Content-type: application/octet-stream; name="'.$file_name.'"');
         header('Cache-Control: ');

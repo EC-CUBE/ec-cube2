@@ -147,7 +147,7 @@
                 <th>対応状況<span class="attention"> *</span></th>
                 <td>
                     <!--{assign var=key value="status"}-->
-                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <span class="attention"><!--{$arrErr[$key]|h}--></span>
                     <select name="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
                         <option value="">選択してください</option>
                         <!--{html_options options=$arrORDERSTATUS selected=$arrForm[$key].value}-->
@@ -189,7 +189,7 @@
                 <td>
                     <!--{assign var=key1 value="order_name01"}-->
                     <!--{assign var=key2 value="order_name02"}-->
-                    <span class="attention"><!--{$arrErr[$key1]}--><!--{$arrErr[$key2]}--></span>
+                    <span class="attention"><!--{$arrErr[$key1]|h}--><!--{$arrErr[$key2]|h}--></span>
                     <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="15" class="box15" />
                     <input type="text" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" size="15" class="box15" />
                 </td>
@@ -199,7 +199,7 @@
                 <td>
                     <!--{assign var=key1 value="order_kana01"}-->
                     <!--{assign var=key2 value="order_kana02"}-->
-                    <span class="attention"><!--{$arrErr[$key1]}--><!--{$arrErr[$key2]}--></span>
+                    <span class="attention"><!--{$arrErr[$key1]|h}--><!--{$arrErr[$key2]|h}--></span>
                     <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="15" class="box15" />
                     <input type="text" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" size="15" class="box15" />
                 </td>
@@ -208,7 +208,7 @@
                 <th>会社名</th>
                 <td>
                     <!--{assign var=key1 value="order_company_name"}-->
-                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <span class="attention"><!--{$arrErr[$key1]|h}--></span>
                     <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
                 </td>
             </tr>
@@ -216,7 +216,7 @@
                 <th>メールアドレス</th>
                 <td>
                     <!--{assign var=key1 value="order_email"}-->
-                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <span class="attention"><!--{$arrErr[$key1]|h}--></span>
                     <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
                 </td>
             </tr>
@@ -226,9 +226,9 @@
                     <!--{assign var=key1 value="order_tel01"}-->
                     <!--{assign var=key2 value="order_tel02"}-->
                     <!--{assign var=key3 value="order_tel03"}-->
-                    <span class="attention"><!--{$arrErr[$key1]}--></span>
-                    <span class="attention"><!--{$arrErr[$key2]}--></span>
-                    <span class="attention"><!--{$arrErr[$key3]}--></span>
+                    <span class="attention"><!--{$arrErr[$key1]|h}--></span>
+                    <span class="attention"><!--{$arrErr[$key2]|h}--></span>
+                    <span class="attention"><!--{$arrErr[$key3]|h}--></span>
                     <input type="text" name="<!--{$arrForm[$key1].keyname}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="6" class="box6" /> -
                     <input type="text" name="<!--{$arrForm[$key2].keyname}-->" value="<!--{$arrForm[$key2].value|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" size="6" class="box6" /> -
                     <input type="text" name="<!--{$arrForm[$key3].keyname}-->" value="<!--{$arrForm[$key3].value|h}-->" maxlength="<!--{$arrForm[$key3].length}-->" style="<!--{$arrErr[$key3]|sfGetErrorColor}-->" size="6" class="box6" />
@@ -240,9 +240,9 @@
                     <!--{assign var=key1 value="order_fax01"}-->
                     <!--{assign var=key2 value="order_fax02"}-->
                     <!--{assign var=key3 value="order_fax03"}-->
-                    <span class="attention"><!--{$arrErr[$key1]}--></span>
-                    <span class="attention"><!--{$arrErr[$key2]}--></span>
-                    <span class="attention"><!--{$arrErr[$key3]}--></span>
+                    <span class="attention"><!--{$arrErr[$key1]|h}--></span>
+                    <span class="attention"><!--{$arrErr[$key2]|h}--></span>
+                    <span class="attention"><!--{$arrErr[$key3]|h}--></span>
                     <input type="text" name="<!--{$arrForm[$key1].keyname}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="6" class="box6" /> -
                     <input type="text" name="<!--{$arrForm[$key2].keyname}-->" value="<!--{$arrForm[$key2].value|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" size="6" class="box6" /> -
                     <input type="text" name="<!--{$arrForm[$key3].keyname}-->" value="<!--{$arrForm[$key3].value|h}-->" maxlength="<!--{$arrForm[$key3].length}-->" style="<!--{$arrErr[$key3]|sfGetErrorColor}-->" size="6" class="box6" />
@@ -252,7 +252,7 @@
                 <th>性別</th>
                 <td>
                     <!--{assign var=key1 value="order_sex"}-->
-                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <span class="attention"><!--{$arrErr[$key1]|h}--></span>
                     <span style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
                     <!--{html_radios name=$key1 options=$arrSex selected=$arrForm[$key1].value}-->
                     </span>
@@ -262,7 +262,7 @@
                 <th>職業</th>
                 <td>
                     <!--{assign var=key1 value="order_job"}-->
-                    <span class="attention"><!--{$arrErr[$key1]}--></span>
+                    <span class="attention"><!--{$arrErr[$key1]|h}--></span>
                     <span style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
                     <select name="<!--{$key1}-->">
 	                    <option value="" selected="selected">選択してください</option>
@@ -301,7 +301,7 @@
                 <tr>
                     <th>国</th>
                     <td>
-                        <span class="attention"><!--{$arrErr[$key1]}--></span>
+                        <span class="attention"><!--{$arrErr[$key1]|h}--></span>
                         <select name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
                                 <option value="" selected="selected">国を選択</option>
                                 <!--{html_options options=$arrCountry selected=$arrForm[$key1].value|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
@@ -311,7 +311,7 @@
                 <tr>
                     <th>ZIP CODE</th>
                     <td>
-                        <span class="attention"><!--{$arrErr[$key2]}--></span>
+                        <span class="attention"><!--{$arrErr[$key2]|h}--></span>
                         <input type="text" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->;" size="15" class="box15"/>
                     </td>
                 </tr>
@@ -322,23 +322,23 @@
                 <td>
                     <!--{assign var=key1 value="order_zip01"}-->
                     <!--{assign var=key2 value="order_zip02"}-->
-                    <span class="attention"><!--{$arrErr[$key1]}--><!--{$arrErr[$key2]}--></span>
+                    <span class="attention"><!--{$arrErr[$key1]|h}--><!--{$arrErr[$key2]|h}--></span>
                     〒
                     <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="6" class="box6" />
                     -
                     <input type="text" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" size="6" class="box6" />
                     <a class="btn-normal" href="javascript:;" name="address_input" onclick="eccube.getAddress('<!--{$smarty.const.INPUT_ZIP_URLPATH}-->', 'order_zip01', 'order_zip02', 'order_pref', 'order_addr01'); return false;">住所入力</a><br />
                     <!--{assign var=key value="order_pref"}-->
-                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <span class="attention"><!--{$arrErr[$key]|h}--></span>
                     <select class="top" name="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
                         <option value="" selected="">都道府県を選択</option>
                         <!--{html_options options=$arrPref selected=$arrForm[$key].value}-->
                     </select><br />
                     <!--{assign var=key value="order_addr01"}-->
-                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <span class="attention"><!--{$arrErr[$key]|h}--></span>
                     <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" size="60" class="box60 top" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" /><br />
                     <!--{assign var=key value="order_addr02"}-->
-                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <span class="attention"><!--{$arrErr[$key]|h}--></span>
                     <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" size="60" class="box60" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" />
                 </td>
             </tr>
@@ -414,12 +414,12 @@
                     </td>
                     <td class="center">
                         <!--{assign var=key value="price"}-->
-                        <span class="attention"><!--{$arrErr[$key][$product_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key][$product_index]|h}--></span>
                         <input type="number" name="<!--{$key}-->[<!--{$product_index}-->]" value="<!--{$arrForm[$key].value[$product_index]|h}-->" size="6" class="box6" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$product_index]|sfGetErrorColor}-->" id="<!--{$key}-->_<!--{$product_index}-->" /> 円
                     </td>
                     <td class="center">
                         <!--{assign var=key value="quantity"}-->
-                        <span class="attention"><!--{$arrErr[$key][$product_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key][$product_index]|h}--></span>
                         <input type="number" name="<!--{$key}-->[<!--{$product_index}-->]" value="<!--{$arrForm[$key].value[$product_index]|h}-->" size="3" class="box3" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$product_index]|sfGetErrorColor}-->" id="<!--{$key}-->_<!--{$product_index}-->"  onChange="quantityCopyForSingleShipping('<!--{$product_index}-->')" />
                     </td>
                     <!--{assign var=price value="`$arrForm.price.value[$product_index]`"}-->
@@ -431,7 +431,7 @@
                     <td class="right">
                         <!--{$price|sfCalcIncTax:$tax_rate:$tax_rule|n2s}--> 円<br />
                         <!--{assign var=key value="tax_rate"}-->
-                        <span class="attention"><!--{$arrErr[$key][$product_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key][$product_index]|h}--></span>
                         税率<input type="number" name="<!--{$key}-->[<!--{$product_index}-->]" value="<!--{$arrForm[$key].value[$product_index]|h}-->" size="3" class="box3" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$product_index]|sfGetErrorColor}-->" id="<!--{$key}-->_<!--{$product_index}-->" />%
                     </td>
                     <td class="right"><!--{($price|sfCalcIncTax:$tax_rate:$tax_rule*$quantity)|n2s}-->円</td>
@@ -445,7 +445,7 @@
                 <th colspan="5" class="column right">値引き</th>
                 <td class="right">
                     <!--{assign var=key value="discount"}-->
-                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <span class="attention"><!--{$arrErr[$key]|h}--></span>
                     <input type="number" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
                     円
                 </td>
@@ -454,7 +454,7 @@
                 <th colspan="5" class="column right">送料</th>
                 <td class="right">
                     <!--{assign var=key value="deliv_fee"}-->
-                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <span class="attention"><!--{$arrErr[$key]|h}--></span>
                     <input type="number" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
                     円
                 </td>
@@ -463,7 +463,7 @@
                 <th colspan="5" class="column right">手数料</th>
                 <td class="right">
                     <!--{assign var=key value="charge"}-->
-                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <span class="attention"><!--{$arrErr[$key]|h}--></span>
                     <input type="number" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
                     円
                 </td>
@@ -488,7 +488,7 @@
                     <th colspan="5" class="column right">使用ポイント</th>
                     <td class="right">
                         <!--{assign var=key value="use_point"}-->
-                        <span class="attention"><!--{$arrErr[$key]}--></span>
+                        <span class="attention"><!--{$arrErr[$key]|h}--></span>
                         <input type="number" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|default:0|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="5" class="box6" />
                         pt
                     </td>
@@ -575,7 +575,7 @@
                                 </td>
                                 <td class="center">
                                     <!--{assign var=key value="shipment_quantity"}-->
-                                    <span class="attention"><!--{$arrErr[$key][$shipping_index][$item_index]}--></span>
+                                    <span class="attention"><!--{$arrErr[$key][$shipping_index][$item_index]|h}--></span>
                                     <input type="text" name="<!--{$key}-->[<!--{$shipping_index|h}-->][<!--{$item_index}-->]" value="<!--{$arrShipping[$key][$item_index]|h}-->" size="3" class="box3" maxlength="<!--{$arrForm[$key].length}-->" />
                                 </td>
                             </tr>
@@ -612,7 +612,7 @@
                     <td>
                         <!--{assign var=key1 value="shipping_name01"}-->
                         <!--{assign var=key2 value="shipping_name02"}-->
-                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--><!--{$arrErr[$key2][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]|h}--><!--{$arrErr[$key2][$shipping_index]|h}--></span>
                         <input type="text" name="<!--{$key1}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key1]|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1][$shipping_index]|sfGetErrorColor}-->" size="15" class="box15" />
                         <input type="text" name="<!--{$key2}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key2]|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2][$shipping_index]|sfGetErrorColor}-->" size="15" class="box15" />
                     </td>
@@ -622,7 +622,7 @@
                     <td>
                         <!--{assign var=key1 value="shipping_kana01"}-->
                         <!--{assign var=key2 value="shipping_kana02"}-->
-                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--><!--{$arrErr[$key2][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]|h}--><!--{$arrErr[$key2][$shipping_index]|h}--></span>
                         <input type="text" name="<!--{$key1}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key1]|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1][$shipping_index]|sfGetErrorColor}-->" size="15" class="box15" />
                         <input type="text" name="<!--{$key2}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key2]|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2][$shipping_index]|sfGetErrorColor}-->" size="15" class="box15" />
                     </td>
@@ -631,7 +631,7 @@
                     <th>会社名</th>
                     <td>
                         <!--{assign var=key1 value="shipping_company_name"}-->
-                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]|h}--></span>
                         <input type="text" name="<!--{$key1}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key1]|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1][$shipping_index]|sfGetErrorColor}-->" size="30" class="box30" />
                     </td>
                 </tr>
@@ -641,9 +641,9 @@
                         <!--{assign var=key1 value="shipping_tel01"}-->
                         <!--{assign var=key2 value="shipping_tel02"}-->
                         <!--{assign var=key3 value="shipping_tel03"}-->
-                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--></span>
-                        <span class="attention"><!--{$arrErr[$key2][$shipping_index]}--></span>
-                        <span class="attention"><!--{$arrErr[$key3][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]|h}--></span>
+                        <span class="attention"><!--{$arrErr[$key2][$shipping_index]|h}--></span>
+                        <span class="attention"><!--{$arrErr[$key3][$shipping_index]|h}--></span>
                         <input type="text" name="<!--{$key1}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key1]|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1][$shipping_index]|sfGetErrorColor}-->" size="6" class="box6" /> -
                         <input type="text" name="<!--{$key2}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key2]|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2][$shipping_index]|sfGetErrorColor}-->" size="6" class="box6" /> -
                         <input type="text" name="<!--{$key3}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key3]|h}-->" maxlength="<!--{$arrForm[$key3].length}-->" style="<!--{$arrErr[$key3][$shipping_index]|sfGetErrorColor}-->" size="6" class="box6" />
@@ -655,9 +655,9 @@
                         <!--{assign var=key1 value="shipping_fax01"}-->
                         <!--{assign var=key2 value="shipping_fax02"}-->
                         <!--{assign var=key3 value="shipping_fax03"}-->
-                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--></span>
-                        <span class="attention"><!--{$arrErr[$key2][$shipping_index]}--></span>
-                        <span class="attention"><!--{$arrErr[$key3][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]|h}--></span>
+                        <span class="attention"><!--{$arrErr[$key2][$shipping_index]|h}--></span>
+                        <span class="attention"><!--{$arrErr[$key3][$shipping_index]|h}--></span>
                         <input type="text" name="<!--{$key1}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key1]|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1][$shipping_index]|sfGetErrorColor}-->" size="6" class="box6" /> -
                         <input type="text" name="<!--{$key2}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key2]|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2][$shipping_index]|sfGetErrorColor}-->" size="6" class="box6" /> -
                         <input type="text" name="<!--{$key3}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key3]|h}-->" maxlength="<!--{$arrForm[$key3].length}-->" style="<!--{$arrErr[$key3][$shipping_index]|sfGetErrorColor}-->" size="6" class="box6" />
@@ -671,7 +671,7 @@
                 <tr>
                     <th>国</th>
                     <td>
-                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]|h}--></span>
                         <select name="<!--{$key1}-->[<!--{$shipping_index|h}-->]" style="<!--{$arrErr[$key1][$shipping_index]|sfGetErrorColor}-->">
                                 <!--{html_options options=$arrCountry selected=$arrShipping[$key1]|default:$smarty.const.DEFAULT_COUNTRY_ID}-->
                         </select>
@@ -680,7 +680,7 @@
                 <tr>
                     <th>ZIP CODE</th>
                     <td>
-                        <span class="attention"><!--{$arrErr[$key2][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key2][$shipping_index]|h}--></span>
                         <input type="text" name="<!--{$key2}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key2]|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2][$shipping_index]|sfGetErrorColor}-->;" size="15" class="box15"/>
                     </td>
                 </tr>
@@ -690,23 +690,23 @@
                     <td>
                         <!--{assign var=key1 value="shipping_zip01"}-->
                         <!--{assign var=key2 value="shipping_zip02"}-->
-                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--><!--{$arrErr[$key2][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]|h}--><!--{$arrErr[$key2][$shipping_index]|h}--></span>
                         〒
                         <input type="text" name="<!--{$key1}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key1]|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1][$shipping_index]|sfGetErrorColor}-->" size="6" class="box6" />
                         -
                         <input type="text" name="<!--{$key2}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key2]|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2][$shipping_index]|sfGetErrorColor}-->" size="6" class="box6" />
                         <a class="btn-normal" href="javascript:;" name="address_input" onclick="eccube.getAddress('<!--{$smarty.const.INPUT_ZIP_URLPATH}-->', 'shipping_zip01[<!--{$shipping_index|h}-->]', 'shipping_zip02[<!--{$shipping_index|h}-->]', 'shipping_pref[<!--{$shipping_index|h}-->]', 'shipping_addr01[<!--{$shipping_index|h}-->]'); return false;">住所入力</a><br />
                         <!--{assign var=key value="shipping_pref"}-->
-                        <span class="attention"><!--{$arrErr[$key][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key][$shipping_index]|h}--></span>
                         <select class="top" name="<!--{$key}-->[<!--{$shipping_index|h}-->]" style="<!--{$arrErr[$key][$shipping_index]|sfGetErrorColor}-->">
                             <option value="" selected="">都道府県を選択</option>
                             <!--{html_options options=$arrPref selected=$arrShipping[$key]}-->
                         </select><br />
                         <!--{assign var=key value="shipping_addr01"}-->
-                        <span class="attention"><!--{$arrErr[$key][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key][$shipping_index]|h}--></span>
                         <input type="text" name="<!--{$key}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key]|h}-->" size="60" class="box60 top" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$shipping_index]|sfGetErrorColor}-->" /><br />
                         <!--{assign var=key value="shipping_addr02"}-->
-                        <span class="attention"><!--{$arrErr[$key][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key][$shipping_index]|h}--></span>
                         <input type="text" name="<!--{$key}-->[<!--{$shipping_index|h}-->]" value="<!--{$arrShipping[$key]|h}-->" size="60" class="box60" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key][$shipping_index]|sfGetErrorColor}-->" />
                     </td>
                 </tr>
@@ -714,7 +714,7 @@
                     <th>お届け時間</th>
                     <td>
                         <!--{assign var=key value="time_id"}-->
-                        <span class="attention"><!--{$arrErr[$key][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key][$shipping_index]|h}--></span>
                         <select name="<!--{$key}-->[<!--{$shipping_index|h}-->]" style="<!--{$arrErr[$key][$shipping_index]|sfGetErrorColor}-->">
                             <option value="">指定無し</option>
                             <!--{html_options options=$arrDelivTime selected=$arrShipping[$key]}-->
@@ -727,9 +727,9 @@
                         <!--{assign var=key1 value="shipping_date_year"}-->
                         <!--{assign var=key2 value="shipping_date_month"}-->
                         <!--{assign var=key3 value="shipping_date_day"}-->
-                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]}--></span>
-                        <span class="attention"><!--{$arrErr[$key2][$shipping_index]}--></span>
-                        <span class="attention"><!--{$arrErr[$key3][$shipping_index]}--></span>
+                        <span class="attention"><!--{$arrErr[$key1][$shipping_index]|h}--></span>
+                        <span class="attention"><!--{$arrErr[$key2][$shipping_index]|h}--></span>
+                        <span class="attention"><!--{$arrErr[$key3][$shipping_index]|h}--></span>
                         <select name="<!--{$key1}-->[<!--{$shipping_index|h}-->]" style="<!--{$arrErr[$key1][$shipping_index]|sfGetErrorColor}-->">
                             <!--{html_options options=$arrYearShippingDate selected=$arrShipping[$key1]|default:""}-->
                         </select>年
@@ -752,7 +752,7 @@
                 <th>配送業者<span class="attention"> *</span><br /><span class="attention">(配送業者の変更に伴う送料の変更は手動にてお願いします。)</span></th>
                 <td>
                     <!--{assign var=key value="deliv_id"}-->
-                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <span class="attention"><!--{$arrErr[$key]|h}--></span>
                     <select name="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" onchange="eccube.setModeAndSubmit('deliv','anchor_key','deliv');">
                         <option value="" selected="">選択してください</option>
                         <!--{html_options options=$arrDeliv selected=$arrForm[$key].value}-->
@@ -763,7 +763,7 @@
                 <th>お支払方法<span class="attention"> *</span><br /><span class="attention">(お支払方法の変更に伴う手数料の変更は手動にてお願いします。)</span></th>
                 <td>
                     <!--{assign var=key value="payment_id"}-->
-                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <span class="attention"><!--{$arrErr[$key]|h}--></span>
                     <select name="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" onchange="eccube.setModeAndSubmit('payment','anchor_key','deliv');">
                         <option value="" selected="">選択してください</option>
                         <!--{html_options options=$arrPayment selected=$arrForm[$key].value}-->
@@ -786,7 +786,7 @@
                 <th>メモ</th>
                 <td>
                     <!--{assign var=key value="note"}-->
-                    <span class="attention"><!--{$arrErr[$key]}--></span>
+                    <span class="attention"><!--{$arrErr[$key]|h}--></span>
                     <textarea name="<!--{$key}-->" maxlength="<!--{$arrForm[$key].length}-->" cols="80" rows="6" class="area80" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" ><!--{"\n"}--><!--{$arrForm[$key].value|h}--></textarea>
                 </td>
             </tr>
