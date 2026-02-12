@@ -375,7 +375,7 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
         // パストラバーサル防止: realpath で正規化し USER_REALDIR 内であることを検証
         $parentDir = realpath(dirname($path));
         $userRealDir = realpath(USER_REALDIR);
-        if ($parentDir === false || !str_starts_with($parentDir, $userRealDir)) {
+        if ($parentDir === false || $userRealDir === false || !str_starts_with($parentDir.'/', $userRealDir.'/')) {
             return false;
         }
 

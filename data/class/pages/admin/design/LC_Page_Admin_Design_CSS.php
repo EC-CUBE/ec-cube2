@@ -95,7 +95,7 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
         switch ($this->getMode()) {
             // データ更新処理
             case 'confirm':
-                if (!$is_error) {
+                if (!$is_error && $this->checkPath($this->css_name)) {
                     $this->arrErr = array_merge($this->arrErr, $this->lfCheckError($objFormParam, $this->arrErr));
                     if (SC_Utils_Ex::isBlank($this->arrErr)) {
                         if ($this->doRegister(
@@ -111,7 +111,7 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
                 }
                 break;
             case 'delete':
-                if (!$is_error) {
+                if (!$is_error && $this->checkPath($this->css_name)) {
                     if ($this->doDelete($css_path)) {
                         $arrPram = [
                             'device_type_id' => $this->device_type_id,
