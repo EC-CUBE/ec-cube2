@@ -289,7 +289,7 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
     }
 
     /**
-     * 文字列に[./]表記がないかをチェックします
+     * パストラバーサルを防ぐためのパスチェック
      *
      * @param  string  $str
      *
@@ -297,8 +297,12 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
      */
     public function checkPath($str)
     {
-        // 含む場合はfalse
-        if (preg_match('|\./|', $str)) {
+        if (SC_Utils_Ex::isBlank($str)) {
+            return true;
+        }
+
+        // ディレクトリトラバーサルのブロック
+        if (str_contains($str, '..') || str_contains($str, './') || str_contains($str, '/')) {
             return false;
         }
 
