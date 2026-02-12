@@ -30,7 +30,7 @@ class SC_Helper_Session_tokenTest extends SC_Helper_Session_TestBase
         $token2 = SC_Helper_Session_Ex::createToken();
 
         $this->assertIsString($token1);
-        $this->assertEquals(40, strlen($token1), 'SHA1ハッシュは40文字');
+        $this->assertEquals(64, strlen($token1), 'random_bytes(32)のhex表現は64文字');
         $this->assertNotEquals($token1, $token2, '毎回異なるトークンが生成される');
     }
 
@@ -39,7 +39,7 @@ class SC_Helper_Session_tokenTest extends SC_Helper_Session_TestBase
         $token = SC_Helper_Session_Ex::getToken();
 
         $this->assertIsString($token);
-        $this->assertEquals(40, strlen($token));
+        $this->assertEquals(64, strlen($token));
         $this->assertEquals($token, $_SESSION[TRANSACTION_ID_NAME], 'セッションに保存される');
     }
 

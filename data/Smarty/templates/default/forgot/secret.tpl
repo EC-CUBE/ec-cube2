@@ -44,7 +44,7 @@
         <p>
             <span class="attention"><!--{$arrErr.reminder}--><!--{$arrErr.reminder_answer}--></span>
             <!--{$arrReminder[$arrForm.reminder]}-->：&nbsp;<!--★答え入力★--><input type="text" name="reminder_answer" value="" class="box300" style="<!--{$arrErr.reminder_answer|sfGetErrorColor}-->" /></p>
-            <span class="attention"><!--{$errmsg}--></span>
+            <span class="attention"><!--{$errmsg|h}--></span>
         </div>
         <div class="btn_area">
             <ul>
