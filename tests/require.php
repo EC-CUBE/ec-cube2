@@ -23,6 +23,7 @@ defined('HTTP_URL') || define('HTTP_URL', getenv('HTTP_URL') ? getenv('HTTP_URL'
 defined('HTTPS_URL') || define('HTTPS_URL', HTTP_URL);
 defined('ROOT_URLPATH') || define('ROOT_URLPATH', getenv('ROOT_URLPATH') ? getenv('ROOT_URLPATH') : '/');
 defined('ADMIN_DIR') || define('ADMIN_DIR', getenv('ADMIN_DIR') ? getenv('ADMIN_DIR') : '');
+defined('TEST_MAILCATCHER_URL') || define('TEST_MAILCATCHER_URL', getenv('TEST_MAILCATCHER_URL') ? getenv('TEST_MAILCATCHER_URL') : 'http://localhost:1080');
 defined('HTML_REALDIR') || define('HTML_REALDIR', __DIR__.'/../html/');
 require_once __DIR__.'/../html/define.php';
 defined('DATA_REALDIR') || define('DATA_REALDIR', HTML_REALDIR.HTML2DATA_DIR);

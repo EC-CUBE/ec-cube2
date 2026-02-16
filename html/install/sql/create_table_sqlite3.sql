@@ -104,3 +104,6 @@ CREATE INDEX dtb_mobile_ext_session_id_param_value_key ON dtb_mobile_ext_session
 CREATE INDEX dtb_mobile_ext_session_id_url_key ON dtb_mobile_ext_session_id (url);
 CREATE INDEX dtb_mobile_ext_session_id_create_date_key ON dtb_mobile_ext_session_id (create_date);
 CREATE INDEX dtb_session_update_date_key ON dtb_session (update_date);
+CREATE TABLE dtb_login_attempt (    login_attempt_id INTEGER NOT NULL,    login_id text NOT NULL,    ip_address text,    user_agent text,    result INTEGER NOT NULL,    create_date TEXT NOT NULL DEFAULT (datetime('now','localtime')),    PRIMARY KEY (login_attempt_id));
+CREATE INDEX idx_login_id_create_date ON dtb_login_attempt (login_id, create_date);
+CREATE INDEX idx_ip_create_date ON dtb_login_attempt (ip_address, create_date);
