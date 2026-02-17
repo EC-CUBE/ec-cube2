@@ -13,6 +13,9 @@ class SC_Batch_Update_parseDistInfoTest extends PHPUnit_Framework_TestCase
 
     protected function setUp(): void
     {
+        if (!defined('MODULE_REALDIR') || !defined('HTML_REALDIR')) {
+            $this->markTestSkipped('EC-CUBE constants are not defined.');
+        }
         $this->batch = new SC_Batch_Update();
         $this->tmpDir = sys_get_temp_dir().'/sc_batch_update_test_'.uniqid();
         mkdir($this->tmpDir, 0777, true);
@@ -23,6 +26,9 @@ class SC_Batch_Update_parseDistInfoTest extends PHPUnit_Framework_TestCase
         // テンポラリファイルを削除
         array_map('unlink', glob($this->tmpDir.'/*'));
         rmdir($this->tmpDir);
+        if (file_exists('/tmp/pwned.txt')) {
+            unlink('/tmp/pwned.txt');
+        }
     }
 
     /**
@@ -61,7 +67,7 @@ class SC_Batch_Update_parseDistInfoTest extends PHPUnit_Framework_TestCase
     {
         $content = <<<'PHP'
             <?php
-            $distifo = array(
+            $distinfo = array(
             'da39a3ee5e6b4b0d3255bfef95601890afd80709' => '/var/www/app/data/class/example.php',
             'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3' => '/var/www/app/html/index.php',
             );

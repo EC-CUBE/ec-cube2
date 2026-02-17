@@ -250,7 +250,7 @@ class SC_Batch_Update extends SC_Batch
     public function makeDistInfo($bkupDistInfoArray)
     {
         $src = "<?php\n"
-             .'$distifo = array('."\n";
+             .'$distinfo = array('."\n";
 
         foreach ($bkupDistInfoArray as $key => $value) {
             $src .= "'{$key}' => '{$value}',\n";
@@ -289,7 +289,7 @@ class SC_Batch_Update extends SC_Batch
 
         $distinfo = [];
         // 'sha1hash' => MODULE_REALDIR . 'filepath', または 'sha1hash' => 'filepath', の形式をパースする
-        if (preg_match_all("/'([a-f0-9]{40})'\s*=>\s*(.+?),/", $content, $matches)) {
+        if (preg_match_all("/'([a-f0-9]{40})'\s*=>\s*(.+?)\s*[,)]/", $content, $matches)) {
             $count = count($matches[0]);
             for ($i = 0; $i < $count; $i++) {
                 $value = trim($matches[2][$i]);
