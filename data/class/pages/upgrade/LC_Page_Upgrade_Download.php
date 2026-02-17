@@ -404,7 +404,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
     public function fileExecute($productCode)
     {
         if (!preg_match('/^[a-zA-Z0-9_-]+$/', $productCode)) {
-            GC_Utils_Ex::gfPrintLog('Invalid product code: '.$productCode);
+            GC_Utils_Ex::gfPrintLog('Invalid product code: '.str_replace(["\r", "\n"], '', $productCode));
 
             return;
         }

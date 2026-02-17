@@ -58,6 +58,7 @@ class SC_Batch_Update extends SC_Batch
         $bkupPathFile = $bkupPath.'files/';
         $this->lfMkdirRecursive($bkupPathFile.'dummy');
 
+        $distinfo = [];
         $arrLog = [
             'err' => [],
             'ok' => [],
@@ -83,9 +84,6 @@ class SC_Batch_Update extends SC_Batch
 
                 // 拡張子を取得
                 $suffix = pathinfo($path, PATHINFO_EXTENSION);
-
-                // distinfo の変数定義
-                $distinfo ??= [];
 
                 // distinfo.php を読み込む
                 if ($fileName == 'distinfo.php') {
@@ -281,11 +279,33 @@ class SC_Batch_Update extends SC_Batch
             return [];
         }
 
+        // PHP定数の解決マップ
+        $constants = [];
+        foreach (['MODULE_REALDIR', 'HTML_REALDIR', 'DATA_REALDIR'] as $name) {
+            if (defined($name)) {
+                $constants[$name] = constant($name);
+            }
+        }
+
         $distinfo = [];
-        // $distinfo['sha1hash'] = 'filepath'; の形式をパースする
-        if (preg_match_all("/\[(['\"])([a-f0-9]{40})\\1\]\s*=\s*(['\"])(.+?)\\3/", $content, $matches)) {
-            for ($i = 0; $i < count($matches[0]); $i++) {
-                $distinfo[$matches[2][$i]] = $matches[4][$i];
+        // 'sha1hash' => MODULE_REALDIR . 'filepath', または 'sha1hash' => 'filepath', の形式をパースする
+        if (preg_match_all("/'([a-f0-9]{40})'\s*=>\s*(.+?),/", $content, $matches)) {
+            $count = count($matches[0]);
+            for ($i = 0; $i < $count; $i++) {
+                $value = trim($matches[2][$i]);
+                // CONSTANT . 'path' の形式を解決する (e.g., MODULE_REALDIR . 'mdl_foo/path.php')
+                if (preg_match('/^([A-Z_]+)\s*\.\s*([\'"])(.+?)\2$/', $value, $valMatch)) {
+                    $constName = $valMatch[1];
+                    $relativePath = $valMatch[3];
+                    if (isset($constants[$constName])) {
+                        $distinfo[$matches[1][$i]] = $constants[$constName].$relativePath;
+                    } else {
+                        $this->printLog('未定義の定数が使用されています: '.$constName);
+                    }
+                } elseif (preg_match('/^([\'"])(.+?)\1$/', $value, $valMatch)) {
+                    // 'filepath' の形式 (バックアップファイル等)
+                    $distinfo[$matches[1][$i]] = $valMatch[2];
+                }
             }
         }
 
