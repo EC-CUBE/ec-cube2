@@ -253,7 +253,7 @@ class SC_Batch_Update extends SC_Batch
              .'$distinfo = array('."\n";
 
         foreach ($bkupDistInfoArray as $key => $value) {
-            $src .= "'{$key}' => '{$value}',\n";
+            $src .= "'".addcslashes($key, "'")."' => '".addcslashes($value, "'")."',\n";
         }
         $src .= ");\n?>";
 
@@ -298,13 +298,31 @@ class SC_Batch_Update extends SC_Batch
                     $constName = $valMatch[1];
                     $relativePath = $valMatch[3];
                     if (isset($constants[$constName])) {
-                        $distinfo[$matches[1][$i]] = $constants[$constName].$relativePath;
+                        // パストラバーサルを防止
+                        if (str_contains($relativePath, '..') || (isset($relativePath[0]) && $relativePath[0] === '/')) {
+                            $this->printLog('不正な相対パスが検出されました: '.$relativePath);
+                        } else {
+                            $distinfo[$matches[1][$i]] = $constants[$constName].$relativePath;
+                        }
                     } else {
                         $this->printLog('未定義の定数が使用されています: '.$constName);
                     }
                 } elseif (preg_match('/^([\'"])(.+?)\1$/', $value, $valMatch)) {
                     // 'filepath' の形式 (バックアップファイル等)
-                    $distinfo[$matches[1][$i]] = $valMatch[2];
+                    $literalPath = $valMatch[2];
+                    // 既知のEC-CUBEベースディレクトリ配下か検証
+                    $isValidBase = false;
+                    foreach ($constants as $base) {
+                        if (str_starts_with($literalPath, $base)) {
+                            $isValidBase = true;
+                            break;
+                        }
+                    }
+                    if ($isValidBase) {
+                        $distinfo[$matches[1][$i]] = $literalPath;
+                    } else {
+                        $this->printLog('不正なパスが検出されました: '.$literalPath);
+                    }
                 }
             }
         }

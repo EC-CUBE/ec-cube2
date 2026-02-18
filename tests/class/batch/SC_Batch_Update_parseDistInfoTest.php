@@ -19,6 +19,10 @@ class SC_Batch_Update_parseDistInfoTest extends PHPUnit_Framework_TestCase
         $this->batch = new SC_Batch_Update();
         $this->tmpDir = sys_get_temp_dir().'/sc_batch_update_test_'.uniqid();
         mkdir($this->tmpDir, 0777, true);
+        // セキュリティテスト用のセンチネルファイルが残っていれば事前削除
+        if (file_exists('/tmp/pwned.txt')) {
+            unlink('/tmp/pwned.txt');
+        }
     }
 
     protected function tearDown(): void
@@ -65,14 +69,13 @@ class SC_Batch_Update_parseDistInfoTest extends PHPUnit_Framework_TestCase
      */
     public function testバックアップ形式の文字列リテラルをパースできる()
     {
-        $content = <<<'PHP'
-            <?php
-            $distinfo = array(
-            'da39a3ee5e6b4b0d3255bfef95601890afd80709' => '/var/www/app/data/class/example.php',
-            'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3' => '/var/www/app/html/index.php',
-            );
-            ?>
-            PHP;
+        // makeDistInfo() が生成する形式を再現（リテラルパスはEC-CUBEベースディレクトリ配下）
+        $filePath1 = DATA_REALDIR.'class/example.php';
+        $filePath2 = HTML_REALDIR.'index.php';
+        $content = "<?php\n\$distinfo = array(\n"
+            ."'da39a3ee5e6b4b0d3255bfef95601890afd80709' => '{$filePath1}',\n"
+            ."'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3' => '{$filePath2}',\n"
+            .");\n?>";
         $path = $this->tmpDir.'/distinfo.php';
         file_put_contents($path, $content);
 
@@ -80,11 +83,11 @@ class SC_Batch_Update_parseDistInfoTest extends PHPUnit_Framework_TestCase
 
         $this->assertCount(2, $result);
         $this->assertSame(
-            '/var/www/app/data/class/example.php',
+            $filePath1,
             $result['da39a3ee5e6b4b0d3255bfef95601890afd80709']
         );
         $this->assertSame(
-            '/var/www/app/html/index.php',
+            $filePath2,
             $result['a94a8fe5ccb19ba61c4c0873d391e987982fbbd3']
         );
     }
@@ -169,6 +172,66 @@ class SC_Batch_Update_parseDistInfoTest extends PHPUnit_Framework_TestCase
             <?php
             $distinfo = array(
             'da39a3ee5e6b4b0d3255bfef95601890afd80709' => UNKNOWN_CONST . 'path/to/file.php',
+            );
+            ?>
+            PHP;
+        $path = $this->tmpDir.'/distinfo.php';
+        file_put_contents($path, $content);
+
+        $result = $this->batch->parseDistInfo($path);
+
+        $this->assertSame([], $result);
+    }
+
+    /**
+     * パストラバーサルを含む相対パスがスキップされること
+     */
+    public function testパストラバーサルを含むパスはスキップされる()
+    {
+        $content = <<<'PHP'
+            <?php
+            $distinfo = array(
+            'da39a3ee5e6b4b0d3255bfef95601890afd80709' => MODULE_REALDIR . '../../html/upload/shell.php',
+            );
+            ?>
+            PHP;
+        $path = $this->tmpDir.'/distinfo.php';
+        file_put_contents($path, $content);
+
+        $result = $this->batch->parseDistInfo($path);
+
+        $this->assertSame([], $result);
+    }
+
+    /**
+     * 絶対パスで始まる相対パスがスキップされること
+     */
+    public function test絶対パスで始まる相対パスはスキップされる()
+    {
+        $content = <<<'PHP'
+            <?php
+            $distinfo = array(
+            'da39a3ee5e6b4b0d3255bfef95601890afd80709' => MODULE_REALDIR . '/etc/passwd',
+            );
+            ?>
+            PHP;
+        $path = $this->tmpDir.'/distinfo.php';
+        file_put_contents($path, $content);
+
+        $result = $this->batch->parseDistInfo($path);
+
+        $this->assertSame([], $result);
+    }
+
+    /**
+     * リテラルパスがEC-CUBEベースディレクトリ外の場合スキップされること
+     */
+    public function testベースディレクトリ外のリテラルパスはスキップされる()
+    {
+        $content = <<<'PHP'
+            <?php
+            $distinfo = array(
+            'da39a3ee5e6b4b0d3255bfef95601890afd80709' => '/etc/passwd',
             );
             ?>
             PHP;
