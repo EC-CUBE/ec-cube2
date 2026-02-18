@@ -95,7 +95,7 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
         switch ($this->getMode()) {
             // データ更新処理
             case 'confirm':
-                if (!$is_error && $this->checkPath($this->css_name)) {
+                if (!$is_error && $this->checkPath($this->css_name) && $this->checkPath($this->old_css_name)) {
                     $this->arrErr = array_merge($this->arrErr, $this->lfCheckError($objFormParam, $this->arrErr));
                     if (SC_Utils_Ex::isBlank($this->arrErr)) {
                         if ($this->doRegister(
