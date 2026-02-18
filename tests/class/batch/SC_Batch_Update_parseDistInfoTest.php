@@ -13,7 +13,7 @@ class SC_Batch_Update_parseDistInfoTest extends PHPUnit_Framework_TestCase
 
     protected function setUp(): void
     {
-        if (!defined('MODULE_REALDIR') || !defined('HTML_REALDIR')) {
+        if (!defined('MODULE_REALDIR') || !defined('HTML_REALDIR') || !defined('DATA_REALDIR')) {
             $this->markTestSkipped('EC-CUBE constants are not defined.');
         }
         $this->batch = new SC_Batch_Update();
@@ -27,9 +27,11 @@ class SC_Batch_Update_parseDistInfoTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown(): void
     {
-        // テンポラリファイルを削除
-        array_map('unlink', glob($this->tmpDir.'/*'));
-        rmdir($this->tmpDir);
+        // テンポラリファイルを削除 (setUp がスキップした場合は tmpDir が null のため guard が必要)
+        if ($this->tmpDir !== null && is_dir($this->tmpDir)) {
+            array_map('unlink', glob($this->tmpDir.'/*') ?: []);
+            rmdir($this->tmpDir);
+        }
         if (file_exists('/tmp/pwned.txt')) {
             unlink('/tmp/pwned.txt');
         }

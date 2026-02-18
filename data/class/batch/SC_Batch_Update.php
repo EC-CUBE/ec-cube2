@@ -263,7 +263,7 @@ class SC_Batch_Update extends SC_Batch
     /**
      * distinfo.php を安全にパースして $distinfo 配列を返す.
      *
-     * include を使わず、ファイル内容をトークン解析することで
+     * include を使わず、ファイル内容を正規表現でパースすることで
      * 任意コード実行を防止する.
      *
      * @param string $path distinfo.php のパス
