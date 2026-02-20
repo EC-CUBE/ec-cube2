@@ -773,10 +773,10 @@
 
             <!--{if !empty($arrForm.payment_info)}-->
             <tr>
-                <th><!--{$arrForm.payment_type}-->情報</th>
+                <th><!--{$arrForm.payment_type|h}-->情報</th>
                 <td>
                     <!--{foreach key=key item=item from=$arrForm.payment_info}-->
-                    <!--{if $key != "title"}--><!--{if $item.name != ""}--><!--{$item.name}-->：<!--{/if}--><!--{$item.value}--><br/><!--{/if}-->
+                    <!--{if $key != "title"}--><!--{if $item.name != ""}--><!--{$item.name|h}-->：<!--{/if}--><!--{$item.value|h}--><br/><!--{/if}-->
                     <!--{/foreach}-->
                 </td>
             </tr>
