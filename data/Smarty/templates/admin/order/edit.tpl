@@ -471,14 +471,14 @@
             <tr>
                 <th colspan="5" class="column right">合計</th>
                 <td class="right">
-                    <span class="attention"><!--{$arrErr.total}--></span>
+                    <span class="attention"><!--{$arrErr.total|h}--></span>
                     <!--{$arrForm.total.value|default:0|n2s}--> 円
                 </td>
             </tr>
             <tr>
                 <th colspan="5" class="column right">お支払い合計</th>
                 <td class="right">
-                    <span class="attention"><!--{$arrErr.payment_total}--></span>
+                    <span class="attention"><!--{$arrErr.payment_total|h}--></span>
                     <!--{$arrForm.payment_total.value|default:0|n2s}-->
                     円
                 </td>

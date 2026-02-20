@@ -41,7 +41,7 @@
                 <div class="name">
                     <p class="attention">
                         <!--{$arrErr.name01}--><!--{$arrErr.name02}-->
-                        <!--{$errmsg|h}-->
+                        <!--{$errmsg|h|nl2br}-->
                     </p>
                     <p>
                         お名前：&nbsp;
