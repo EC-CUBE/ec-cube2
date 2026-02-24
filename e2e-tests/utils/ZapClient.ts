@@ -131,8 +131,7 @@ export class ZapClient {
     this.proxy = proxy ?? PlaywrightConfig.use?.proxy?.server;
     this.apiKey = apiKey !== undefined ? apiKey : null;
     this.zaproxy = new ClientApi({
-      apiKey: this.apiKey,
-      proxy: this.proxy
+      apiKey: this.apiKey
     });
   }
 
