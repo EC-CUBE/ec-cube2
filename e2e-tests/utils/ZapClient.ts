@@ -132,7 +132,11 @@ export class ZapClient {
     this.apiKey = apiKey !== undefined ? apiKey : null;
     const proxyConfig = this.proxy ? (() => {
       const url = new URL(this.proxy);
-      return { host: url.hostname, port: parseInt(url.port) };
+      return {
+        protocol: url.protocol.replace(':', ''),
+        host: url.hostname,
+        port: parseInt(url.port) || (url.protocol === 'https:' ? 443 : 80)
+      };
     })() : undefined;
     this.zaproxy = new ClientApi({
       apiKey: this.apiKey,
@@ -264,7 +268,16 @@ export class ZapClient {
    * @returns スキャンID
    */
   public async activeScanAsUser (url: string, contextId: number, userId: number, recurse?: boolean, scanPolicyName?: string | null, method?: 'GET' | 'POST' | 'PUT' | 'DELETE', postData?: string | null): Promise<number> {
-    const result = await this.zaproxy.ascan.scanAsUser({ url, contextid: contextId, userid: userId, recurse: recurse ?? false, scanpolicyname: scanPolicyName ?? null, method: method ?? 'GET', postdata: postData ?? null });
+    const params = {
+      url,
+      contextid: contextId,
+      userid: userId,
+      recurse: recurse ?? false,
+      scanpolicyname: scanPolicyName ?? null,
+      method: method ?? 'GET',
+      postdata: postData ?? null,
+    };
+    const result = await this.zaproxy.ascan.scanAsUser(params);
     return result.scan;
   }
 
@@ -284,7 +297,16 @@ export class ZapClient {
    * @returns スキャンID
    */
   public async activeScan (url: string, recurse?: boolean, inScopeOnly?: boolean, scanPolicyName?: string | null, method?: 'GET' | 'POST' | 'PUT' | 'DELETE', postData?: string | null, contextId?: number | null): Promise<number> {
-    const result = await this.zaproxy.ascan.scan({ url, recurse: recurse ?? false, inscopeonly: inScopeOnly ?? true, scanpolicyname: scanPolicyName ?? null, method: method ?? 'GET', postdata: postData ?? null, contextid: contextId ?? null });
+    const params = {
+      url,
+      recurse: recurse ?? false,
+      inscopeonly: inScopeOnly ?? true,
+      scanpolicyname: scanPolicyName ?? null,
+      method: method ?? 'GET',
+      postdata: postData ?? null,
+      contextid: contextId ?? null,
+    };
+    const result = await this.zaproxy.ascan.scan(params);
     return result.scan;
   }
 
