@@ -1,5 +1,6 @@
 name: Penetration testing for EC-CUBE
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 15 * * 1'
 
