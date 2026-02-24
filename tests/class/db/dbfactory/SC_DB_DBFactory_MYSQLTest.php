@@ -150,12 +150,15 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
     }
 
     /**
-     * order_birth が create_date と同年かつ RIGHT(create_date, 5) < RIGHT(order_birth, 5) の場合に
+     * order_birth が create_date と同年かつ誕生日未到来の場合に
      * BIGINT UNSIGNED オーバーフローが発生しないことを確認する.
      *
-     * MySQL の datetime 型では RIGHT(col, 5) は時刻の MM:SS 部分を返す.
-     * YEAR差が 0 のとき、order_birth の MM:SS が create_date より大きいと
-     * 0 - 1 = -1 となり unsigned 演算でオーバーフローする.
+     * create_date=2026-02-01, order_birth=2026-12-01 の場合:
+     * - YEAR差: 2026-2026 = 0
+     * - 誕生日未到来: DATE_FORMAT('02-01') < DATE_FORMAT('12-01') → TRUE(1)
+     * - 年齢: 0 - 1 = -1
+     * - TRUNCATE(-1, -1) = 0 (10の位に切り捨て)
+     * 修正前は YEAR() が unsigned を返すため 0 - 1 でオーバーフローしていた.
      *
      * @see https://github.com/EC-CUBE/ec-cube2/pull/1350
      */
@@ -167,14 +170,11 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
 
         $customer_id = $this->objGenerator->createCustomer();
         $order_id = $this->objQuery->nextVal('dtb_order_order_id');
-        // create_date の MM:SS=00:00, order_birth の MM:SS=30:00
-        // → RIGHT(create_date,5) < RIGHT(order_birth,5) が TRUE
-        // → YEAR差 0 から 1 を引いて -1 → 修正前は BIGINT UNSIGNED オーバーフロー
         $this->objQuery->insert('dtb_order', [
             'order_id' => $order_id,
             'customer_id' => $customer_id,
-            'order_birth' => '2026-01-15 10:30:00',
-            'create_date' => '2026-02-01 08:00:00',
+            'order_birth' => '2026-12-01 00:00:00',
+            'create_date' => '2026-02-01 00:00:00',
             'status' => ORDER_NEW,
             'del_flg' => 0,
             'total' => 1000,
@@ -194,6 +194,7 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
 
         $this->assertIsArray($result);
         $this->assertCount(1, $result);
+        $this->assertEquals(0, (int) $result[0]['age']);
     }
 
     // ============================================================
