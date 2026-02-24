@@ -89,7 +89,6 @@ test.describe.serial('カートページのテストをします', () => {
       await productsDetailPage.cartIn(2, '抹茶', 'S');
 
       const cartPage = new CartPage(page);
-      await cartPage.goto();
       const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
 
       // JavaScript でカートの数量を増やしておく
