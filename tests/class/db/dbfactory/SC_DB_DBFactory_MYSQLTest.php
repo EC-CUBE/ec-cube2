@@ -149,6 +149,54 @@ class SC_DB_DBFactory_MYSQLTest extends SC_DB_DBFactoryTestAbstract
         }
     }
 
+    /**
+     * order_birth が create_date と同年かつ誕生日未到来の場合に
+     * BIGINT UNSIGNED オーバーフローが発生しないことを確認する.
+     *
+     * create_date=2026-02-01, order_birth=2026-12-01 の場合:
+     * - YEAR差: 2026-2026 = 0
+     * - 誕生日未到来: DATE_FORMAT('02-01') < DATE_FORMAT('12-01') → TRUE(1)
+     * - 年齢: 0 - 1 = -1
+     * - TRUNCATE(-1, -1) = 0 (10の位に切り捨て)
+     * 修正前は YEAR() が unsigned を返すため 0 - 1 でオーバーフローしていた.
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/pull/1350
+     */
+    public function testGetOrderTotalAgeColSqlは同年で誕生日未到来でもオーバーフローしない()
+    {
+        if (DB_TYPE !== 'mysql' && DB_TYPE !== 'mysqli') {
+            $this->markTestSkipped('This test is only for MySQL/MySQLi');
+        }
+
+        $customer_id = $this->objGenerator->createCustomer();
+        $order_id = $this->objQuery->nextVal('dtb_order_order_id');
+        $this->objQuery->insert('dtb_order', [
+            'order_id' => $order_id,
+            'customer_id' => $customer_id,
+            'order_birth' => '2026-12-01 00:00:00',
+            'create_date' => '2026-02-01 00:00:00',
+            'status' => ORDER_NEW,
+            'del_flg' => 0,
+            'total' => 1000,
+            'subtotal' => 1000,
+            'tax' => 100,
+            'payment_total' => 1000,
+        ]);
+
+        $col = $this->dbFactory->getOrderTotalAgeColSql().' AS age';
+        $col .= ',COUNT(order_id) AS order_count';
+        $col .= ',SUM(total) AS total';
+        $col .= ',AVG(total) AS total_average';
+
+        $this->objQuery->setGroupBy('age');
+        $this->objQuery->setOrder('age DESC');
+        $result = $this->objQuery->select($col, 'dtb_order', 'order_id = ?', [$order_id]);
+
+        $this->assertIsArray($result);
+        $this->assertCount(1, $result);
+        $this->assertEquals(0, (int) $result[0]['age']);
+    }
+
     // ============================================================
     // sfChangeArrayToString
     // ============================================================

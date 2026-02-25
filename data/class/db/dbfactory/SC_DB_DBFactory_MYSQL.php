@@ -216,7 +216,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      */
     public function getOrderTotalAgeColSql()
     {
-        return 'TRUNC((YEAR(create_date) - YEAR(order_birth)) - (RIGHT(create_date, 5) < RIGHT(order_birth, 5)), -1)';
+        return "TRUNC((CAST(YEAR(create_date) AS SIGNED) - CAST(YEAR(order_birth) AS SIGNED)) - (DATE_FORMAT(create_date, '%m-%d') < DATE_FORMAT(order_birth, '%m-%d')), -1)";
     }
 
     /**
