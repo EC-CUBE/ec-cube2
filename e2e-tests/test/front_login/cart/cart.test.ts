@@ -5,6 +5,7 @@ import { intervalRepeater } from '../../../utils/Progress';
 
 const url = `${PlaywrightConfig.use?.baseURL ?? ""}/cart/index.php`;
 import { CartPage } from '../../../pages/cart.page';
+import { ProductsDetailPage } from '../../../pages/products/detail.page';
 
 // 商品をカートに入れて購入手続きへ進むフィクスチャ
 import { test, expect } from '../../../fixtures/front_login/cartin.fixture';
@@ -81,8 +82,13 @@ test.describe.serial('カートページのテストをします', () => {
   test.describe('数量減算のテストを実行します[POST] @attack', () => {
     let scanId: number;
     test('アクティブスキャンを実行します', async ( { page } ) => {
+      // スキャン後にカートが空になる場合があるため、商品を追加し直す
+      await page.goto(PlaywrightConfig.use?.baseURL ?? '/');
+      const productsDetailPage = new ProductsDetailPage(page);
+      await productsDetailPage.goto(1);
+      await productsDetailPage.cartIn(2, '抹茶', 'S');
+
       const cartPage = new CartPage(page);
-      await cartPage.goto();
       const transactionid = await page.locator('input[name=transactionid]').first().inputValue();
 
       // JavaScript でカートの数量を増やしておく
@@ -112,6 +118,8 @@ test.describe.serial('カートページのテストをします', () => {
         })();
       }, transactionid);
 
+      // fetch 後にページを再読み込みしてDOMを更新する
+      await cartPage.goto();
       await cartPage.subtruction();
       const requestBody = await getMessage(page, '&mode_down=dummy').then(httpMessage => httpMessage.requestBody);
       expect(requestBody).toContain('mode=down');
