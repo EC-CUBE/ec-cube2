@@ -3,6 +3,10 @@ on:
   schedule:
     # 毎日 00:00 (UTC) に処理を実行する
     - cron: '0 0 * * *'
+
+permissions:
+  contents: read
+
 jobs:
   check:
     name: Security check

@@ -16,6 +16,10 @@ on:
       owner:
         required: true
         type: string
+
+permissions:
+  contents: read
+
 jobs:
   phpstan:
     name: PHPStan

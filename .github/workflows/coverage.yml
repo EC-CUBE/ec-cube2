@@ -18,6 +18,10 @@ on:
       - '!*.css'
       - '!*.js'
       - '!*.md'
+
+permissions:
+  contents: read
+
 jobs:
   run-on-linux:
     name: Run on Linux

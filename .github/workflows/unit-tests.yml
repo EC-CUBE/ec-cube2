@@ -16,6 +16,10 @@ on:
       owner:
         required: true
         type: string
+
+permissions:
+  contents: read
+
 jobs:
   run-on-linux:
     name: Run on Linux

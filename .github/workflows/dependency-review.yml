@@ -4,6 +4,9 @@ run-name: Dependency Review
 on:
   workflow_call:
 
+permissions:
+  contents: read
+
 jobs:
   dependency-review:
     name: Dependency Review
