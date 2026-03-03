@@ -42,7 +42,9 @@ const config: PlaywrightTestConfig = {
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    baseURL: process.env.HTTP_PROXY ? 'https://ec-cube' : 'https://localhost:4430',
+    // 環境変数BASE_URLが設定されている場合はそれを使用（ローカル開発用）
+    // それ以外はHTTP_PROXYの有無で判定（CI環境用）
+    baseURL: process.env.BASE_URL || (process.env.HTTP_PROXY ? 'https://ec-cube' : 'https://localhost:4430'),
     trace: 'off',
     screenshot: {
       mode: 'only-on-failure',

@@ -127,66 +127,98 @@ class LC_Page_Shopping extends LC_Page_Ex
                 $objFormParam->trimParam();
                 $objFormParam->convParam();
                 $objFormParam->toLower('login_email');
-                $this->arrErr = $objFormParam->checkError();
 
-                // ログイン判定
-                if (SC_Utils_Ex::isBlank($this->arrErr)
-                    && $objCustomer->doLogin(
-                        $objFormParam->getValue('login_email'),
-                        $objFormParam->getValue('login_pass')
-                    )) {
-                    // クッキー保存判定
-                    if ($objFormParam->getValue('login_memory') == '1' && strlen($objFormParam->getValue('login_email')) >= 1) {
-                        $objCookie->setCookie('login_email', $objFormParam->getValue('login_email'));
-                    } else {
-                        $objCookie->setCookie('login_email', '');
-                    }
+                $login_email = $objFormParam->getValue('login_email');
+                $login_pass = $objFormParam->getValue('login_pass');
+                $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
+                $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
-                    // モバイルサイトで携帯アドレスの登録が無い場合、携帯アドレス登録ページへ遷移
-                    if (SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE) {
-                        if (!$objCustomer->hasValue('email_mobile')) {
-                            SC_Response_Ex::sendRedirectFromUrlPath('entry/email_mobile.php');
-                            SC_Response_Ex::actionExit();
-                        }
-                    // スマートフォンの場合はログイン成功を返す
-                    } elseif (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                        echo SC_Utils_Ex::jsonEncode(['success' => $this->getNextLocation(
-                            $this->cartKey,
-                            $this->tpl_uniqid,
-                            $objCustomer,
-                            $objPurchase,
-                            $objSiteSess
-                        )]);
-                        SC_Response_Ex::actionExit();
-                    }
+                // レート制限チェック
+                $rate_limit = SC_Helper_LoginRateLimit_Ex::checkRateLimit($login_email, $ip_address);
 
-                    SC_Response_Ex::sendRedirect(
-                        $this->getNextLocation(
-                            $this->cartKey,
-                            $this->tpl_uniqid,
-                            $objCustomer,
-                            $objPurchase,
-                            $objSiteSess
-                        )
-                    );
+                if (!$rate_limit['allowed']) {
+                    // レート制限超過時のエラーメッセージ
+                    $this->arrErr['login'] = '短時間に複数のログイン試行が検出されました。しばらく時間をおいてから再度お試しください。';
+                    // 失敗として記録
+                    SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
+
+                    // AJAX対応: JSON返却（401でパスワードマネージャーの誤認を防止）
+                    SC_Response_Ex::sendHttpStatus(401);
+                    echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
                     SC_Response_Ex::actionExit();
-                // ログインに失敗した場合
                 } else {
-                    // 仮登録の場合
-                    if (SC_Helper_Customer_Ex::checkTempCustomer($objFormParam->getValue('login_email'))) {
-                        if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                            echo $this->lfGetErrorMessage(TEMP_LOGIN_ERROR);
-                            SC_Response_Ex::actionExit();
-                        } else {
-                            SC_Utils_Ex::sfDispSiteError(TEMP_LOGIN_ERROR);
-                            SC_Response_Ex::actionExit();
-                        }
+                    // バリデーション
+                    $this->arrErr = $objFormParam->checkError();
+
+                    if (!SC_Utils_Ex::isBlank($this->arrErr)) {
+                        // バリデーションエラーの場合
+                        $this->arrErr['login'] = 'メールアドレスもしくはパスワードが正しくありません。';
+
+                        // バリデーションエラーも失敗として記録
+                        SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
+
+                        // AJAX対応: JSON返却（401でパスワードマネージャーの誤認を防止）
+                        SC_Response_Ex::sendHttpStatus(401);
+                        echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
+                        SC_Response_Ex::actionExit();
                     } else {
-                        if (SC_Display_Ex::detectDevice() === DEVICE_TYPE_SMARTPHONE) {
-                            echo $this->lfGetErrorMessage(SITE_LOGIN_ERROR);
+                        // ログイン判定
+                        if ($objCustomer->doLogin($login_email, $login_pass)) {
+                            // ログイン成功を記録
+                            SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 1);
+
+                            // クッキー保存判定
+                            if ($objFormParam->getValue('login_memory') == '1' && strlen($login_email) >= 1) {
+                                $objCookie->setCookie('login_email', $login_email);
+                            } else {
+                                $objCookie->setCookie('login_email', '');
+                            }
+
+                            // モバイルサイトで携帯アドレスの登録が無い場合、携帯アドレス登録ページへ遷移
+                            if (SC_Display_Ex::detectDevice() == DEVICE_TYPE_MOBILE) {
+                                if (!$objCustomer->hasValue('email_mobile')) {
+                                    SC_Response_Ex::sendRedirectFromUrlPath('entry/email_mobile.php');
+                                    SC_Response_Ex::actionExit();
+                                }
+                            }
+
+                            // AJAX対応: JSON返却（モバイル以外）
+                            $nextLocation = $this->getNextLocation(
+                                $this->cartKey,
+                                $this->tpl_uniqid,
+                                $objCustomer,
+                                $objPurchase,
+                                $objSiteSess
+                            );
+                            echo SC_Utils_Ex::jsonEncode(['success' => $nextLocation]);
                             SC_Response_Ex::actionExit();
                         } else {
-                            SC_Utils_Ex::sfDispSiteError(SITE_LOGIN_ERROR);
+                            // ログイン失敗を記録
+                            SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 0);
+
+                            // 失敗記録後にレート制限チェック（6回目の失敗時点でメッセージ表示）
+                            $rate_limit_after = SC_Helper_LoginRateLimit_Ex::checkRateLimit($login_email, $ip_address);
+
+                            if (!$rate_limit_after['allowed']) {
+                                // レート制限超過時のエラーメッセージ
+                                $this->arrErr['login'] = '短時間に複数のログイン試行が検出されました。しばらく時間をおいてから再度お試しください。';
+
+                                // AJAX対応: JSON返却（401でパスワードマネージャーの誤認を防止）
+                                SC_Response_Ex::sendHttpStatus(401);
+                                echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
+                                SC_Response_Ex::actionExit();
+                            }
+
+                            // 仮登録の場合
+                            if (SC_Helper_Customer_Ex::checkTempCustomer($login_email)) {
+                                $this->arrErr['login'] = "メールアドレスもしくはパスワードが正しくありません。\n本登録がお済みでない場合は、仮登録メールに記載されているURLより本登録を行ってください。";
+                            } else {
+                                $this->arrErr['login'] = 'メールアドレスもしくはパスワードが正しくありません。';
+                            }
+
+                            // AJAX対応: JSON返却（401でパスワードマネージャーの誤認を防止）
+                            SC_Response_Ex::sendHttpStatus(401);
+                            echo SC_Utils_Ex::jsonEncode(['error' => $this->arrErr['login']]);
                             SC_Response_Ex::actionExit();
                         }
                     }
