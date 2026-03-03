@@ -104,3 +104,7 @@ CREATE INDEX dtb_mobile_ext_session_id_param_value_key ON dtb_mobile_ext_session
 CREATE INDEX dtb_mobile_ext_session_id_url_key ON dtb_mobile_ext_session_id (url);
 CREATE INDEX dtb_mobile_ext_session_id_create_date_key ON dtb_mobile_ext_session_id (create_date);
 CREATE INDEX dtb_session_update_date_key ON dtb_session (update_date);
+CREATE TABLE dtb_mailmaga_unsubscribe_token (    mailmaga_unsubscribe_token_id INTEGER NOT NULL,    customer_id INTEGER NOT NULL,    send_id INTEGER NOT NULL,    token text NOT NULL,    email text NOT NULL,    used_flag INTEGER NOT NULL DEFAULT 0,    used_date TEXT,    expire_date TEXT NOT NULL,    create_date TEXT NOT NULL DEFAULT (datetime('now','localtime')),    PRIMARY KEY (mailmaga_unsubscribe_token_id),    UNIQUE (token));
+CREATE INDEX idx_mailmaga_customer_id ON dtb_mailmaga_unsubscribe_token (customer_id);
+CREATE INDEX idx_mailmaga_send_id ON dtb_mailmaga_unsubscribe_token (send_id);
+CREATE INDEX idx_mailmaga_expire_date ON dtb_mailmaga_unsubscribe_token (expire_date);

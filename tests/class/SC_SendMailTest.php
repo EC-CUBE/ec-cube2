@@ -174,4 +174,72 @@ class SC_SendMailTest extends Common_TestCase
         $this->actual = $this->objSendMail->getBackendParams('smtp');
         $this->verify();
     }
+
+    public function testAddCustomHeader()
+    {
+        $this->resetEmails();
+
+        $this->objSendMail->setItem(
+            'to@example.com',
+            '件名',
+            '本文',
+            'from@example.com',
+            '差出人名'
+        );
+
+        // カスタムヘッダーを追加
+        $this->objSendMail->addCustomHeader('List-Unsubscribe', '<https://example.com/unsubscribe>');
+        $this->objSendMail->addCustomHeader('List-Unsubscribe-Post', 'List-Unsubscribe=One-Click');
+
+        $result = $this->objSendMail->sendMail();
+        $this->assertTrue($result);
+
+        $message = $this->getLastMailCatcherMessage();
+
+        // ヘッダーに List-Unsubscribe が含まれているか確認
+        $this->assertStringContainsString('List-Unsubscribe: <https://example.com/unsubscribe>', $message['source']);
+        $this->assertStringContainsString('List-Unsubscribe-Post: List-Unsubscribe=One-Click', $message['source']);
+    }
+
+    public function testClearCustomHeaders()
+    {
+        $this->objSendMail->addCustomHeader('X-Test', 'test');
+        $this->objSendMail->clearCustomHeaders();
+
+        $header = $this->objSendMail->getBaseHeader();
+
+        $this->assertArrayNotHasKey('X-Test', $header);
+    }
+
+    public function testAddCustomHeaderPreventHeaderInjection()
+    {
+        // 改行文字を含むヘッダーは追加されない
+        $this->objSendMail->addCustomHeader("X-Test\r\n", 'test');
+        $header = $this->objSendMail->getBaseHeader();
+        $this->assertArrayNotHasKey("X-Test\r\n", $header);
+
+        // 値に改行文字を含む場合も追加されない
+        $this->objSendMail->addCustomHeader('X-Test', "test\r\nvalue");
+        $header = $this->objSendMail->getBaseHeader();
+        $this->assertArrayNotHasKey('X-Test', $header);
+    }
+
+    public function testAddCustomHeaderPreventProtectedHeaderOverride()
+    {
+        $this->objSendMail->setItem(
+            'to@example.com',
+            '件名',
+            '本文',
+            'from@example.com',
+            '差出人名'
+        );
+
+        // 保護されたヘッダーは上書きできない
+        $this->objSendMail->addCustomHeader('From', 'attacker@example.com');
+        $header = $this->objSendMail->getBaseHeader();
+
+        // From ヘッダーは元の値のまま
+        $this->assertStringContainsString('from@example.com', $header['From']);
+        $this->assertStringNotContainsString('attacker@example.com', $header['From']);
+    }
 }
