@@ -33,7 +33,7 @@ jobs:
         db: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["mysql", "pgsql", "sqlite3"]') }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
     - name: Build docker image
       uses: ./.github/actions/dockerbuild
@@ -41,7 +41,7 @@ jobs:
         php-version: ${{ matrix.php }}
 
     - name: Cache npm dependencies
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: node_modules
         key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
@@ -49,7 +49,7 @@ jobs:
           ${{ runner.os }}-node_modules-
 
     - name: Cache Playwright browsers
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: ~/.cache/ms-playwright
         key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
@@ -115,7 +115,7 @@ jobs:
       run: npx playwright install-deps chromium
 
     - name: Run to E2E testing
-      uses: nick-invision/retry@v3
+      uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3
       with:
         timeout_minutes: 30
         max_attempts: 2
@@ -134,13 +134,13 @@ jobs:
 
     - name: Upload evidence
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-evidence
         path: 'test-results/'
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-logs
         path: data/logs
@@ -168,7 +168,7 @@ jobs:
             dbhost: 'postgres'
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
     - name: Build docker image
       uses: ./.github/actions/dockerbuild
@@ -176,7 +176,7 @@ jobs:
         php-version: ${{ matrix.php }}
 
     - name: Cache npm dependencies
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: node_modules
         key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
@@ -184,7 +184,7 @@ jobs:
           ${{ runner.os }}-node_modules-
 
     - name: Cache Playwright browsers
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: ~/.cache/ms-playwright
         key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
@@ -245,7 +245,7 @@ jobs:
       run: npx playwright install-deps chromium
 
     - name: Run to E2E testing
-      uses: nick-invision/retry@v3
+      uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3
       with:
         timeout_minutes: 30
         max_attempts: 2
@@ -262,13 +262,13 @@ jobs:
         DB_SERVER: ${{ matrix.dbhost }}
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: html/install/temp/install.log*
     - name: Upload evidence
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-evidence
         path: 'test-results/'
