@@ -188,7 +188,7 @@ class SC_Helper_Session
      */
     public static function createToken()
     {
-        return sha1(uniqid(rand(), true));
+        return bin2hex(random_bytes(32));
     }
 
     /**
