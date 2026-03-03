@@ -58,6 +58,7 @@ class SC_Batch_Update extends SC_Batch
         $bkupPathFile = $bkupPath.'files/';
         $this->lfMkdirRecursive($bkupPathFile.'dummy');
 
+        $distinfo = [];
         $arrLog = [
             'err' => [],
             'ok' => [],
@@ -84,12 +85,9 @@ class SC_Batch_Update extends SC_Batch
                 // 拡張子を取得
                 $suffix = pathinfo($path, PATHINFO_EXTENSION);
 
-                // distinfo の変数定義
-                $distinfo ??= '';
-
                 // distinfo.php を読み込む
                 if ($fileName == 'distinfo.php') {
-                    include_once $path;
+                    $distinfo = $this->parseDistInfo($path);
                 }
 
                 // 除外ファイルをスキップ
@@ -252,14 +250,84 @@ class SC_Batch_Update extends SC_Batch
     public function makeDistInfo($bkupDistInfoArray)
     {
         $src = "<?php\n"
-             .'$distifo = array('."\n";
+             .'$distinfo = array('."\n";
 
         foreach ($bkupDistInfoArray as $key => $value) {
-            $src .= "'{$key}' => '{$value}',\n";
+            $src .= "'".addcslashes($key, "'")."' => '".addcslashes($value, "'")."',\n";
         }
         $src .= ");\n?>";
 
         return $src;
+    }
+
+    /**
+     * distinfo.php を安全にパースして $distinfo 配列を返す.
+     *
+     * include を使わず、ファイル内容を正規表現でパースすることで
+     * 任意コード実行を防止する.
+     *
+     * @param string $path distinfo.php のパス
+     *
+     * @return array SHA1ハッシュ => ファイルパス の連想配列
+     */
+    public function parseDistInfo($path)
+    {
+        $content = file_get_contents($path);
+        if ($content === false) {
+            $this->printLog('distinfoファイルの読み込みに失敗しました: '.$path);
+
+            return [];
+        }
+
+        // PHP定数の解決マップ
+        $constants = [];
+        foreach (['MODULE_REALDIR', 'HTML_REALDIR', 'DATA_REALDIR'] as $name) {
+            if (defined($name)) {
+                $constants[$name] = constant($name);
+            }
+        }
+
+        $distinfo = [];
+        // 'sha1hash' => MODULE_REALDIR . 'filepath', または 'sha1hash' => 'filepath', の形式をパースする
+        if (preg_match_all("/'([a-f0-9]{40})'\s*=>\s*(.+?)\s*[,)]/", $content, $matches)) {
+            $count = count($matches[0]);
+            for ($i = 0; $i < $count; $i++) {
+                $value = trim($matches[2][$i]);
+                // CONSTANT . 'path' の形式を解決する (e.g., MODULE_REALDIR . 'mdl_foo/path.php')
+                if (preg_match('/^([A-Z_]+)\s*\.\s*([\'"])(.+?)\2$/', $value, $valMatch)) {
+                    $constName = $valMatch[1];
+                    $relativePath = $valMatch[3];
+                    if (isset($constants[$constName])) {
+                        // パストラバーサルを防止
+                        if (str_contains($relativePath, '..') || (isset($relativePath[0]) && $relativePath[0] === '/')) {
+                            $this->printLog('不正な相対パスが検出されました: '.$relativePath);
+                        } else {
+                            $distinfo[$matches[1][$i]] = $constants[$constName].$relativePath;
+                        }
+                    } else {
+                        $this->printLog('未定義の定数が使用されています: '.$constName);
+                    }
+                } elseif (preg_match('/^([\'"])(.+?)\1$/', $value, $valMatch)) {
+                    // 'filepath' の形式 (バックアップファイル等)
+                    $literalPath = $valMatch[2];
+                    // 既知のEC-CUBEベースディレクトリ配下か検証
+                    $isValidBase = false;
+                    foreach ($constants as $base) {
+                        if (str_starts_with($literalPath, $base)) {
+                            $isValidBase = true;
+                            break;
+                        }
+                    }
+                    if ($isValidBase) {
+                        $distinfo[$matches[1][$i]] = $literalPath;
+                    } else {
+                        $this->printLog('不正なパスが検出されました: '.$literalPath);
+                    }
+                }
+            }
+        }
+
+        return $distinfo;
     }
 
     /**

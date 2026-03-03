@@ -1,7 +1,11 @@
 name: Penetration testing for EC-CUBE
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 15 * * 1'
+
+permissions:
+  contents: read
 
 jobs:
   PenetrationTest:
@@ -21,7 +25,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
     # - name: Create ADMIN_DIR
     #   run: |
@@ -47,13 +51,13 @@ jobs:
       run: |
         sudo chown -R 1001:1000 zap
         sudo chmod -R g+w zap
-        docker compose up -d
+        docker compose up -d --wait
         docker compose exec -T ec-cube composer dumpautoload
         docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
         docker compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
 
     - name: Cache npm dependencies
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: node_modules
         key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
@@ -61,7 +65,7 @@ jobs:
           ${{ runner.os }}-node_modules-
 
     - name: Cache Playwright browsers
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: ~/.cache/ms-playwright
         key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
@@ -77,7 +81,7 @@ jobs:
       run: npx playwright install-deps chromium
 
     - name: Penetration testing
-      uses: nick-invision/retry@v3
+      uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3
       with:
         timeout_minutes: 30
         max_attempts: 2
@@ -96,14 +100,14 @@ jobs:
       run: echo "ARTIFACT_NAME=$(echo ${GROUP} | sed 's,/,_,g')" >> $GITHUB_ENV
     - name: Upload evidence
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: zap-${{ env.ARTIFACT_NAME}}-session
         path: zap/sessions
 
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: data/logs

@@ -4,6 +4,8 @@ import { intervalRepeater } from '../../../utils/Progress';
 
 const url = `${PlaywrightConfig.use?.baseURL ?? ''}/shopping/confirm.php`;
 import { ShoppingPaymentPage } from '../../../pages/shopping/payment.page';
+import { ProductsDetailPage } from '../../../pages/products/detail.page';
+import { CartPage } from '../../../pages/cart.page';
 
 // ご注文確認画面へ進むフィクスチャ
 import { test, expect } from '../../../fixtures/front_login/shopping_payment.fixture';
@@ -40,8 +42,19 @@ test.describe.serial('ご注文確認画面のテストをします', () => {
   test.describe('注文完了ページへ進むテストを実行します[POST] @attack', () => {
     let scanId: number;
     test('アクティブスキャンを実行します', async ({ page }) => {
-      await page.click('[alt=ご注文完了ページへ]');
+      // 注文完了後はセッションがクリアされるため、カートに商品を追加してフローをやり直す
+      await page.goto(PlaywrightConfig.use?.baseURL ?? '/');
+      const productsDetailPage = new ProductsDetailPage(page);
+      await productsDetailPage.goto(1);
+      await productsDetailPage.cartIn(2, '抹茶', 'S');
+      const cartPage = new CartPage(page);
+      await cartPage.gotoNext();
+      await page.click('input[alt=選択したお届け先に送る]');
       const paymentPage = new ShoppingPaymentPage(page);
+      await paymentPage.goto();
+      await paymentPage.fillOut();
+      await paymentPage.gotoNext();
+      await page.click('[alt=ご注文完了ページへ]');
       const zapClient = paymentPage.getZapClient();
       const message = await zapClient.getLastMessage(url);
       expect(message.requestHeader).toContain(`POST ${url}`);
