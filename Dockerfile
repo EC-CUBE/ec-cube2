@@ -32,7 +32,7 @@ RUN apt-get update \
         libzip-dev zlib1g-dev \
         libpcre2-dev \
         ssl-cert \
-        mariadb-client postgresql-client \
+        mariadb-client postgresql-client sqlite3 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -78,6 +78,7 @@ EXPOSE 443
 
 WORKDIR ${ECCUBE_PREFIX}
 
+# Copy entrypoint scripts for MySQL, PostgreSQL, and SQLite3
 COPY dockerbuild/wait-for-*.sh /
 RUN chmod +x /wait-for-*.sh
 

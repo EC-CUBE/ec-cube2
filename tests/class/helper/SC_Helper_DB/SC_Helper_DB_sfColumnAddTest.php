@@ -47,6 +47,9 @@ class SC_Helper_DB_sfColumnAdd extends SC_Helper_DB_TestBase
     // ///////////////////////////////////////
     public function testSfColumnAdd_指定のカラムが追加できたら_TRUEを返す()
     {
+        if (DB_TYPE === 'sqlite3') {
+            $this->markTestSkipped('SQLite3 does not support ALTER TABLE DROP COLUMN');
+        }
         $tableName = 'dtb_news';
         $colName = 'news_id2';
         $colType = 'int';
@@ -54,7 +57,7 @@ class SC_Helper_DB_sfColumnAdd extends SC_Helper_DB_TestBase
         $this->helper->sfColumnAdd($tableName, $colName, $colType);
         $columns = $this->objQuery->listTableFields($tableName);
         $this->actual = in_array($colName, $columns);
-        // rolbackできないのでカラムを削除する
+        // rollbackできないのでカラムを削除する
         $this->objQuery->query("ALTER TABLE $tableName DROP $colName");
         $this->verify();
     }
