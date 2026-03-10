@@ -52,6 +52,9 @@ class SC_DB_DBFactory
             case 'pgsql':
                 return new SC_DB_DBFactory_PGSQL();
 
+            case 'sqlite3':
+                return new SC_DB_DBFactory_SQLITE3();
+
             default:
                 return new self();
         }

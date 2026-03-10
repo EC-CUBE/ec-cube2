@@ -618,11 +618,15 @@ class SC_Query
         // 文末の','を削除
         $strcol = rtrim($strcol, ',');
         $strval = rtrim($strval, ',');
-        $sqlin = "INSERT INTO $table($strcol) SELECT $strval";
 
+        // FROM句の有無で構文を切り替え (SQLite3互換性のため)
         if (strlen($from) >= 1) {
-            $sqlin .= ' '.$from;
+            // FROM句がある場合: INSERT...SELECT...FROM構文
+            $sqlin = "INSERT INTO $table($strcol) SELECT $strval $from";
             $arrValForQuery = array_merge($arrValForQuery, $arrFromVal);
+        } else {
+            // FROM句がない場合: INSERT...VALUES構文
+            $sqlin = "INSERT INTO $table($strcol) VALUES($strval)";
         }
 
         // INSERT文の実行
@@ -1157,10 +1161,27 @@ class SC_Query
     {
         $err = "SQL: [$sql]\n";
         if ($arrVal !== false) {
-            $err .= 'PlaceHolder: ['.var_export($arrVal, true)."]\n";
+            // メモリ使用量を抑えるため、巨大な配列の場合は要約表示
+            $valSize = is_array($arrVal) ? count($arrVal) : (is_string($arrVal) ? strlen($arrVal) : 0);
+            if ($valSize > 100 || ($valSize > 0 && memory_get_usage() > 100 * 1024 * 1024)) {
+                $err .= 'PlaceHolder: [large array/string - '.$valSize.' elements/bytes]'."\n";
+            } else {
+                $err .= 'PlaceHolder: ['.var_export($arrVal, true)."]\n";
+            }
         }
         $err .= $error->getMessage()."\n";
-        $err .= rtrim($error->getUserInfo())."\n";
+
+        // getUserInfo()も巨大なデータを返す可能性があるため制限
+        try {
+            $userInfo = $error->getUserInfo();
+            if (is_string($userInfo) && strlen($userInfo) > 1000) {
+                $err .= substr($userInfo, 0, 1000)."... (truncated)\n";
+            } else {
+                $err .= rtrim($userInfo)."\n";
+            }
+        } catch (\Throwable $e) {
+            $err .= '[getUserInfo() failed: '.$e->getMessage()."]\n";
+        }
 
         // PEAR::MDB2 内部のスタックトレースを出力する場合、下記のコメントを外す。
         // $err .= GC_Utils_Ex::toStringBacktrace($error->getBackTrace());

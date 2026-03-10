@@ -12,9 +12,3 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-
-  # npm の依存関係を維持する
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"

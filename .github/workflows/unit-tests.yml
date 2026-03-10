@@ -16,6 +16,10 @@ on:
       owner:
         required: true
         type: string
+
+permissions:
+  contents: read
+
 jobs:
   run-on-linux:
     name: Run on Linux
@@ -24,12 +28,12 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-24.04 ]
-        php: ${{ github.actor == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
-        db: ${{ github.actor == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["mysql", "pgsql"]') }}
+        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
+        db: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["mysql", "pgsql", "sqlite3"]') }}
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
     - name: Build docker image
       uses: ./.github/actions/dockerbuild
@@ -69,6 +73,7 @@ jobs:
             sleep 1
         done
         cat data/config/config.php
+        docker compose exec -T ec-cube composer dumpautoload
     - name: Run to PHPUnit
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --exclude-group classloader,mysql_prepare
     - name: Run to PHPUnit classloader
@@ -85,6 +90,11 @@ jobs:
         git checkout eccube-2.17.2-p2 data/Smarty/templates/default/mail_templates
         docker compose exec -T ec-cube php data/vendor/bin/phpunit tests/class/helper/SC_Helper_Mail/
 
+    - name: Print container logs on failure
+      if: failure()
+      continue-on-error: true
+      run: docker compose logs ec-cube
+
     - name: Print error log
       if: always()
       continue-on-error: true
@@ -92,7 +102,7 @@ jobs:
 
     - name: Upload logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: linux-php${{ matrix.php }}-${{ matrix.db }}-logs
         path: data/logs

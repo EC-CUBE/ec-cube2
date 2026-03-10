@@ -266,7 +266,7 @@ class SC_Utils
             } else {
                 $time = '00:00:00';
             }
-            $date = $year.'-'.$month.'-'.$day.' '.$time;
+            $date = sprintf('%04d-%02d-%02d', $year, $month, $day).' '.$time;
         } else {
             $date = '';
         }
@@ -290,7 +290,7 @@ class SC_Utils
             } else {
                 $time = $hour.':'.$minutes.':00';
             }
-            $date = $year.'-'.$month.'-'.$day.' '.$time;
+            $date = sprintf('%04d-%02d-%02d', $year, $month, $day).' '.$time;
         } else {
             $date = '';
         }
@@ -1106,8 +1106,8 @@ class SC_Utils
         $start_day = date('d', mktime(0, 0, 0, $tmp_month, $tmp_day + 1, $tmp_year));
 
         // 日付の作成
-        $start_date = sprintf('%d/%d/%d', $start_year, $start_month, $start_day);
-        $end_date = sprintf('%d/%d/%d 23:59:59', $end_year, $end_month, $end_day);
+        $start_date = sprintf('%d-%02d-%02d', $start_year, $start_month, $start_day);
+        $end_date = sprintf('%d-%02d-%02d 23:59:59', $end_year, $end_month, $end_day);
 
         return [$start_date, $end_date];
     }
@@ -1285,9 +1285,13 @@ class SC_Utils
                     $mess = SC_Utils_Ex::sfCopyDir($data_.'/', $des.$data.'/', $mess);
                 } else {
                     if (!$override && file_exists($des.$data)) {
+                        // ファイルが既に存在する場合でもパーミッションを設定（インストーラーのパーミッションチェック対策）
+                        @chmod($des.$data, 0666);
                         $mess .= $des.$data."：ファイルが存在します\n";
                     } else {
                         if (@copy($data_, $des.$data)) {
+                            // コピー後にパーミッションを設定（インストーラーのパーミッションチェック対策）
+                            @chmod($des.$data, 0666);
                             $mess .= $des.$data."：コピー成功\n";
                         } else {
                             $mess .= $des.$data."：コピー失敗\n";

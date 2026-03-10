@@ -25,6 +25,11 @@ class SC_DB_DBFactoryTest extends SC_DB_DBFactoryTestAbstract
     protected $dbFactoryMysqli;
 
     /**
+     * @var SC_DB_DBFactory_SQLITE3
+     */
+    protected $dbFactorySqlite3;
+
+    /**
      * @var SC_DB_DBFactory
      */
     protected $dbFactory;
@@ -37,6 +42,7 @@ class SC_DB_DBFactoryTest extends SC_DB_DBFactoryTestAbstract
         $this->dbFactoryPgsql = SC_DB_DBFactory_Ex::getInstance('pgsql');
         $this->dbFactoryMysql = SC_DB_DBFactory_Ex::getInstance('mysql');
         $this->dbFactoryMysqli = SC_DB_DBFactory_Ex::getInstance('mysqli');
+        $this->dbFactorySqlite3 = SC_DB_DBFactory_Ex::getInstance('sqlite3');
         $this->dbFactory = SC_DB_DBFactory_Ex::getInstance('uknown');
         // TODO: SC_DB_DBFactory_Ex::getInstance() 引数なしのパターンを追加する、DB_TYPE に依存するテストとなる。
     }
@@ -66,6 +72,14 @@ class SC_DB_DBFactoryTest extends SC_DB_DBFactoryTestAbstract
         $this->assertSame(get_class($this->dbFactoryMysql), get_class($this->dbFactoryMysqli));
     }
 
+    public function testGetInstanceSqlite3()
+    {
+        $this->assertInstanceOf('SC_DB_DBFactory', $this->dbFactorySqlite3);
+        $this->assertInstanceOf('SC_DB_DBFactory_SQLITE3', $this->dbFactorySqlite3);
+        $this->assertNotInstanceOf('SC_DB_DBFactory_MYSQL', $this->dbFactorySqlite3);
+        $this->assertNotInstanceOf('SC_DB_DBFactory_PGSQL', $this->dbFactorySqlite3);
+    }
+
     public function testGetInstanceUknown()
     {
         $this->assertInstanceOf('SC_DB_DBFactory', $this->dbFactory);
@@ -74,5 +88,6 @@ class SC_DB_DBFactoryTest extends SC_DB_DBFactoryTestAbstract
         $this->assertNotInstanceOf('SC_DB_DBFactory_MYSQL_Ex', $this->dbFactory);
         $this->assertNotInstanceOf('SC_DB_DBFactory_PGSQL', $this->dbFactory);
         $this->assertNotInstanceOf('SC_DB_DBFactory_PGSQL_Ex', $this->dbFactory);
+        $this->assertNotInstanceOf('SC_DB_DBFactory_SQLITE3', $this->dbFactory);
     }
 }
