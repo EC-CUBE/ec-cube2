@@ -3,6 +3,8 @@ name: success
 on:
   workflow_call:
 
+permissions: {}
+
 jobs:
   success:
     runs-on: ubuntu-latest

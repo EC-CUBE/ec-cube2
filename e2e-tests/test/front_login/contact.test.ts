@@ -39,8 +39,9 @@ test.describe.serial('お問い合わせページのテストをします', () =
     await page.goto(url);
     await expect(page.locator('#header')).toContainText('ようこそ');
     inputNames.forEach(async (name) => expect(page.locator(`input[name=${name}]`)).not.toBeEmpty());
-    await expect(page.locator('input[name=email]')).toHaveValue(mypageLoginPage.email);
-    await expect(page.locator('input[name=email02]')).toHaveValue(mypageLoginPage.email);
+    const expectedEmail = PlaywrightConfig.use?.proxy !== undefined ? 'zap_user@example.com' : mypageLoginPage.email;
+    await expect(page.locator('input[name=email]')).toHaveValue(expectedEmail);
+    await expect(page.locator('input[name=email02]')).toHaveValue(expectedEmail);
   });
 
   let confirmMessage: HttpMessage;
@@ -63,7 +64,8 @@ test.describe.serial('お問い合わせページのテストをします', () =
       await expect(page.locator(`input[name=${name}]`)).not.toBeEmpty();
     });
     await expect(page.locator('input[name=email]')).toBeHidden();
-    await expect(page.locator('input[name=email]')).toHaveValue(mypageLoginPage.email);
+    const expectedEmail = PlaywrightConfig.use?.proxy !== undefined ? 'zap_user@example.com' : mypageLoginPage.email;
+    await expect(page.locator('input[name=email]')).toHaveValue(expectedEmail);
     await expect(page.locator('input[name=contents]')).toBeHidden();
     await expect(page.locator('input[name=contents]')).toHaveValue('お問い合わせ入力');
 
@@ -78,7 +80,7 @@ test.describe.serial('お問い合わせページのテストをします', () =
     await expect(page.locator('#form1 >> tr:nth-child(5) > td')).toContainText(await page.locator('input[name=tel01]').inputValue());
     await expect(page.locator('#form1 >> tr:nth-child(5) > td')).toContainText(await page.locator('input[name=tel02]').inputValue());
     await expect(page.locator('#form1 >> tr:nth-child(5) > td')).toContainText(await page.locator('input[name=tel03]').inputValue());
-    await expect(page.locator('#form1 >> tr:nth-child(6) > td')).toContainText(mypageLoginPage.email);
+    await expect(page.locator('#form1 >> tr:nth-child(6) > td')).toContainText(expectedEmail);
     await expect(page.locator('#form1 >> tr:nth-child(7) > td')).toContainText('お問い合わせ入力');
 
     // お問い合わせ内容を送信します
