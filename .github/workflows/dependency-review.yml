@@ -4,6 +4,9 @@ run-name: Dependency Review
 on:
   workflow_call:
 
+permissions:
+  contents: read
+
 jobs:
   dependency-review:
     name: Dependency Review
@@ -11,6 +14,6 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Dependency Review
-        uses: actions/dependency-review-action@v4
+        uses: actions/dependency-review-action@05fe4576374b728f0c523d6a13d64c25081e0803 # v4
