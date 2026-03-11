@@ -39,16 +39,16 @@
         var product_class_id = document.getElementById("product_class_id" + product_id).value;
         var opner_product_id = 'add_product_id';
         var opner_product_class_id = 'add_product_class_id';
-        var tpl_no = '<!--{$tpl_no}-->';
-        var shipping_id = '<!--{$shipping_id}-->';
+        var tpl_no = '<!--{$tpl_no|escape:'javascript'}-->';
+        var shipping_id = '<!--{$shipping_id|escape:'javascript'}-->';
 
         if (tpl_no != '') {
             opner_product_id = 'edit_product_id';
             opner_product_class_id = 'edit_product_class_id';
-            fm1.getElementById("no").value = escape('<!--{$tpl_no}-->');
+            fm1.getElementById("no").value = escape('<!--{$tpl_no|escape:'javascript'}-->');
         }
         if (shipping_id != '') {
-            fm1.getElementById("select_shipping_id").value = escape('<!--{$shipping_id}-->');
+            fm1.getElementById("select_shipping_id").value = escape('<!--{$shipping_id|escape:'javascript'}-->');
         }
         if (document.getElementById(class1).type == 'select-one' && class1_id == '__unselected') {
             err_text = class_name1 + "を選択してください。\n";
@@ -200,7 +200,7 @@
                                         <!--{html_options options=$arrClassCat1[$id] selected=$arrForm[$class1]}-->
                                     </select>
                                     <!--{if $arrErr[$class1] != ""}-->
-                                    <br /><span class="attention">※ <!--{$tpl_class_name1[$id]}-->を入力して下さい。</span>
+                                    <br /><span class="attention">※ <!--{$tpl_class_name1[$id]|h}-->を入力して下さい。</span>
                                     <!--{/if}-->
                                 </dd>
                             </dl>
@@ -214,7 +214,7 @@
                                 <dd>
                                     <select name="classcategory_id2" id="<!--{$class2}-->" style="<!--{$arrErr[$class2]|sfGetErrorColor}-->"></select>
                                     <!--{if $arrErr[$class2] != ""}-->
-                                    <br /><span class="attention">※ <!--{$tpl_class_name2[$id]}-->を入力して下さい。</span>
+                                    <br /><span class="attention">※ <!--{$tpl_class_name2[$id]|h}-->を入力して下さい。</span>
                                     <!--{/if}-->
                                 </dd>
                             </dl>
@@ -230,7 +230,7 @@
                             <input type="hidden" name="product_type" id="product_type<!--{$id|h}-->" value="<!--{$tpl_product_type[$id]}-->" />
                         </form>
                     </td>
-                    <td class="center"><a href="javascript:;" onclick="return func_submit('<!--{$arrProducts[cnt].product_id|h}-->', '<!--{$tpl_class_name1[$id]}-->', '<!--{$tpl_class_name2[$id]}-->'); return false;">決定</a></td>
+                    <td class="center"><a href="javascript:;" onclick="return func_submit('<!--{$arrProducts[cnt].product_id|h}-->', '<!--{$tpl_class_name1[$id]|escape:'javascript'}-->', '<!--{$tpl_class_name2[$id]|escape:'javascript'}-->'); return false;">決定</a></td>
                 </tr>
                 <!--▲商品<!--{$smarty.section.cnt.iteration}-->-->
         <!--{sectionelse}-->
