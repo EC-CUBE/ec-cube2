@@ -1815,7 +1815,8 @@ class SC_Utils
             // 旧バージョン(2.11未満)からの移行を考慮
             $hash = sha1($pass.':'.AUTH_MAGIC);
         } else {
-            $hash = SC_Utils_Ex::sfGetHashString($pass, $salt);
+            // レガシーハッシュの検証は常にHMAC-SHA256を使用
+            $hash = hash_hmac('sha256', $pass.':'.AUTH_MAGIC, $salt);
         }
 
         return $hash === $hashpass;

@@ -220,7 +220,7 @@ defined('ADMIN_DIR') or define('ADMIN_DIR', '${ADMIN_DIR}');
 defined('ADMIN_FORCE_SSL') or define('ADMIN_FORCE_SSL', FALSE);
 defined('ADMIN_ALLOW_HOSTS') or define('ADMIN_ALLOW_HOSTS', 'a:0:{}');
 defined('AUTH_MAGIC') or define('AUTH_MAGIC', '${AUTH_MAGIC}');
-defined('PASSWORD_HASH_ALGOS') or define('PASSWORD_HASH_ALGOS', 'sha256');
+defined('PASSWORD_HASH_ALGOS') or define('PASSWORD_HASH_ALGOS', PASSWORD_DEFAULT);
 defined('MAIL_BACKEND') or define('MAIL_BACKEND', '${MAIL_BACKEND}');
 defined('SMTP_HOST') or define('SMTP_HOST', '${SMTP_HOST}');
 defined('SMTP_PORT') or define('SMTP_PORT', '${SMTP_PORT}');

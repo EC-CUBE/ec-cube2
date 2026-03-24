@@ -28,6 +28,7 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
 
 /**
  * SC_Utils::sfNeedsReHash() 及び関連メソッドのテストクラス (AUTH_TYPE = HMAC).
+ * PASSWORD_HASH_ALGOS = PASSWORD_DEFAULT (bcrypt) を前提としたテスト.
  */
 class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
 {
@@ -45,9 +46,8 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
     // EC-CUBE 2.11未満互換テスト (SHA1, saltなし)
     // =============================================
 
-    public function testSfNeedsReHash_Saltが空でSha256の場合_Trueが返る()
+    public function testSfNeedsReHash_Saltが空の旧SHA1ハッシュの場合_Trueが返る()
     {
-        // PASSWORD_HASH_ALGOS = 'sha256' の場合、saltが空(SHA1)は再ハッシュ必要
         $pass = 'ec-cube';
         $hashpass = sha1($pass.':'.AUTH_MAGIC);
         $salt = '';
@@ -55,7 +55,7 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
         $this->assertTrue(SC_Utils::sfNeedsReHash($hashpass, $salt));
     }
 
-    public function testSfIsMatchHashPassword_SHA1ハッシュでReHash後にHMACSHA256で認証成功する()
+    public function testSfIsMatchHashPassword_SHA1ハッシュでReHash後にPasswordHash形式で認証成功する()
     {
         $pass = 'ec-cube';
         $hashpass = sha1($pass.':'.AUTH_MAGIC);
@@ -63,26 +63,49 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
         // SHA1で認証成功することを確認
         $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $hashpass, ''));
 
-        // 再ハッシュ実行
+        // 再ハッシュ実行 (PASSWORD_DEFAULT = bcrypt)
         $arrNewHash = SC_Utils::sfReHashPassword($pass);
-        $this->assertNotEmpty($arrNewHash['salt']);
+        // password_hash()使用時はsaltは空(ハッシュに内包)
+        $this->assertEmpty($arrNewHash['salt']);
         $this->assertNotEquals($hashpass, $arrNewHash['password']);
+        // password_hash() 形式であることを確認
+        $info = password_get_info($arrNewHash['password']);
+        $this->assertNotNull($info['algo']);
+        $this->assertNotEquals(0, $info['algo']);
 
         // 再ハッシュ後のパスワードで認証成功することを確認
         $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $arrNewHash['password'], $arrNewHash['salt']));
     }
 
     // =============================================
-    // EC-CUBE 2.11以降テスト (HMAC-SHA256, saltあり)
+    // EC-CUBE 2.11以降互換テスト (HMAC-SHA256, saltあり)
     // =============================================
 
-    public function testSfNeedsReHash_Saltが存在しSha256の場合_Falseが返る()
+    public function testSfNeedsReHash_HMACSHA256ハッシュでSaltが存在する場合_Trueが返る()
+    {
+        // PASSWORD_HASH_ALGOS = PASSWORD_DEFAULT なので、旧HMAC-SHA256は再ハッシュ必要
+        $pass = 'ec-cube';
+        $salt = 'salt';
+        $hashpass = hash_hmac('sha256', $pass.':'.AUTH_MAGIC, $salt);
+
+        $this->assertTrue(SC_Utils::sfNeedsReHash($hashpass, $salt));
+    }
+
+    public function testSfIsMatchHashPassword_HMACSHA256ハッシュでReHash後にPasswordHash形式で認証成功する()
     {
         $pass = 'ec-cube';
         $salt = 'salt';
-        $hashpass = SC_Utils_Ex::sfGetHashString($pass, $salt);
+        $hashpass = hash_hmac('sha256', $pass.':'.AUTH_MAGIC, $salt);
 
-        $this->assertFalse(SC_Utils::sfNeedsReHash($hashpass, $salt));
+        // HMAC-SHA256で認証成功することを確認
+        $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $hashpass, $salt));
+
+        // 再ハッシュ実行
+        $arrNewHash = SC_Utils::sfReHashPassword($pass);
+        $this->assertEmpty($arrNewHash['salt']);
+
+        // 再ハッシュ後のパスワードで認証成功することを確認
+        $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $arrNewHash['password'], $arrNewHash['salt']));
     }
 
     // =============================================
@@ -121,24 +144,41 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
         $pass = 'ec-cube';
         $hashpass = password_hash($pass, PASSWORD_BCRYPT);
 
-        // PASSWORD_HASH_ALGOS = 'sha256' なので、bcryptハッシュに対してはfalse
-        // (password_hash対応アルゴではないため)
+        // PASSWORD_HASH_ALGOS = PASSWORD_DEFAULT (= bcrypt) なので再ハッシュ不要
         $this->assertFalse(SC_Utils::sfNeedsReHash($hashpass, ''));
     }
 
-    public function testSfReHashPassword_Sha256の場合_Saltが生成される()
+    public function testSfReHashPassword_PasswordHash形式でSaltが空で返る()
     {
         $pass = 'ec-cube';
         $arrNewHash = SC_Utils::sfReHashPassword($pass);
 
-        $this->assertNotEmpty($arrNewHash['salt']);
+        // password_hash()使用時はsaltは空
+        $this->assertEmpty($arrNewHash['salt']);
         $this->assertNotEmpty($arrNewHash['password']);
+        // password_hash() 形式であることを確認
+        $info = password_get_info($arrNewHash['password']);
+        $this->assertNotNull($info['algo']);
+        $this->assertNotEquals(0, $info['algo']);
+        // 認証成功することを確認
         $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $arrNewHash['password'], $arrNewHash['salt']));
     }
 
-    public function testSfIsPasswordHashAlgos_Sha256の場合_Falseが返る()
+    public function testSfIsPasswordHashAlgos_PasswordDefaultの場合_Trueが返る()
     {
-        // PASSWORD_HASH_ALGOS = 'sha256' はpassword_hash()対応ではない
-        $this->assertFalse(SC_Utils::sfIsPasswordHashAlgos());
+        // PASSWORD_HASH_ALGOS = PASSWORD_DEFAULT はpassword_hash()対応
+        $this->assertTrue(SC_Utils::sfIsPasswordHashAlgos());
+    }
+
+    public function testSfGetHashString_PasswordHash形式で返る()
+    {
+        $pass = 'ec-cube';
+        $hash = SC_Utils_Ex::sfGetHashString($pass);
+
+        // password_hash() 形式であることを確認
+        $info = password_get_info($hash);
+        $this->assertNotNull($info['algo']);
+        $this->assertNotEquals(0, $info['algo']);
+        $this->assertTrue(password_verify($pass, $hash));
     }
 }
