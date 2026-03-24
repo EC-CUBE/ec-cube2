@@ -46,7 +46,7 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
     // EC-CUBE 2.11未満互換テスト (SHA1, saltなし)
     // =============================================
 
-    public function testSfNeedsReHash_Saltが空の旧SHA1ハッシュの場合_Trueが返る()
+    public function testSfNeedsReHashSaltが空の旧SHA1ハッシュの場合Trueが返る()
     {
         $pass = 'ec-cube';
         $hashpass = sha1($pass.':'.AUTH_MAGIC);
@@ -55,7 +55,7 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
         $this->assertTrue(SC_Utils::sfNeedsReHash($hashpass, $salt));
     }
 
-    public function testSfIsMatchHashPassword_SHA1ハッシュでReHash後にPasswordHash形式で認証成功する()
+    public function testSfIsMatchHashPasswordSHA1ハッシュでReHash後にPasswordHash形式で認証成功する()
     {
         $pass = 'ec-cube';
         $hashpass = sha1($pass.':'.AUTH_MAGIC);
@@ -81,7 +81,7 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
     // EC-CUBE 2.11以降互換テスト (HMAC-SHA256, saltあり)
     // =============================================
 
-    public function testSfNeedsReHash_HMACSHA256ハッシュでSaltが存在する場合_Trueが返る()
+    public function testSfNeedsReHashHMACSHA256ハッシュでSaltが存在する場合Trueが返る()
     {
         // PASSWORD_HASH_ALGOS = PASSWORD_DEFAULT なので、旧HMAC-SHA256は再ハッシュ必要
         $pass = 'ec-cube';
@@ -91,7 +91,7 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
         $this->assertTrue(SC_Utils::sfNeedsReHash($hashpass, $salt));
     }
 
-    public function testSfIsMatchHashPassword_HMACSHA256ハッシュでReHash後にPasswordHash形式で認証成功する()
+    public function testSfIsMatchHashPasswordHMACSHA256ハッシュでReHash後にPasswordHash形式で認証成功する()
     {
         $pass = 'ec-cube';
         $salt = 'salt';
@@ -112,7 +112,7 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
     // password_hash() 形式テスト (bcrypt/Argon2id)
     // =============================================
 
-    public function testSfIsMatchHashPassword_Bcryptハッシュで認証成功する()
+    public function testSfIsMatchHashPasswordBcryptハッシュで認証成功する()
     {
         $pass = 'ec-cube';
         $hashpass = password_hash($pass, PASSWORD_BCRYPT);
@@ -120,7 +120,7 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
         $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $hashpass, ''));
     }
 
-    public function testSfIsMatchHashPassword_Bcryptハッシュで不一致の場合Falseが返る()
+    public function testSfIsMatchHashPasswordBcryptハッシュで不一致の場合Falseが返る()
     {
         $pass = 'ec-cube';
         $hashpass = password_hash($pass, PASSWORD_BCRYPT);
@@ -128,7 +128,7 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
         $this->assertFalse(SC_Utils::sfIsMatchHashPassword('wrong-password', $hashpass, ''));
     }
 
-    public function testSfIsMatchHashPassword_Argon2idハッシュで認証成功する()
+    public function testSfIsMatchHashPasswordArgon2idハッシュで認証成功する()
     {
         if (!defined('PASSWORD_ARGON2ID')) {
             $this->markTestSkipped('PASSWORD_ARGON2ID is not available');
@@ -139,7 +139,7 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
         $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $hashpass, ''));
     }
 
-    public function testSfNeedsReHash_Bcryptハッシュで同一アルゴリズムの場合_Falseが返る()
+    public function testSfNeedsReHashBcryptハッシュで同一アルゴリズムの場合Falseが返る()
     {
         $pass = 'ec-cube';
         $hashpass = password_hash($pass, PASSWORD_BCRYPT);
@@ -148,7 +148,7 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
         $this->assertFalse(SC_Utils::sfNeedsReHash($hashpass, ''));
     }
 
-    public function testSfReHashPassword_PasswordHash形式でSaltが空で返る()
+    public function testSfReHashPasswordPasswordHash形式でSaltが空で返る()
     {
         $pass = 'ec-cube';
         $arrNewHash = SC_Utils::sfReHashPassword($pass);
@@ -164,13 +164,13 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
         $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $arrNewHash['password'], $arrNewHash['salt']));
     }
 
-    public function testSfIsPasswordHashAlgos_PasswordDefaultの場合_Trueが返る()
+    public function testSfIsPasswordHashAlgosPasswordDefaultの場合Trueが返る()
     {
         // PASSWORD_HASH_ALGOS = PASSWORD_DEFAULT はpassword_hash()対応
         $this->assertTrue(SC_Utils::sfIsPasswordHashAlgos());
     }
 
-    public function testSfGetHashString_PasswordHash形式で返る()
+    public function testSfGetHashStringPasswordHash形式で返る()
     {
         $pass = 'ec-cube';
         $hash = SC_Utils_Ex::sfGetHashString($pass);

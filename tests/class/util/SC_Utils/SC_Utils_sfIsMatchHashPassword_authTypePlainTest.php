@@ -45,7 +45,7 @@ class SC_Utils_sfIsMatchHashPassword_authTypePlainTest extends Common_TestCase
         // parent::tearDown();
     }
 
-    public function testSfIsMatchHashPassword_文字列が一致する場合_trueが返る()
+    public function testSfIsMatchHashPassword文字列が一致する場合Trueが返る()
     {
         $pass = 'ec-cube';
         $hashpass = 'ec-cube';
@@ -53,7 +53,7 @@ class SC_Utils_sfIsMatchHashPassword_authTypePlainTest extends Common_TestCase
         $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $hashpass, ''));
     }
 
-    public function testSfIsMatchHashPassword_文字列が一致しない場合_falseが返る()
+    public function testSfIsMatchHashPassword文字列が一致しない場合Falseが返る()
     {
         $pass = 'ec-cube';
         $hashpass = 'EC-cube';

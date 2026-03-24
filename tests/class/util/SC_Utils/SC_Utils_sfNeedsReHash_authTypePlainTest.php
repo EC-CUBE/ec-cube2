@@ -45,7 +45,7 @@ class SC_Utils_sfNeedsReHash_authTypePlainTest extends Common_TestCase
         // parent::tearDown();
     }
 
-    public function testSfNeedsReHash_AuthTypePlainの場合_常にFalseが返る()
+    public function testSfNeedsReHashAuthTypePlainの場合常にFalseが返る()
     {
         $hashpass = 'ec-cube';
         $salt = 'salt';
@@ -53,7 +53,7 @@ class SC_Utils_sfNeedsReHash_authTypePlainTest extends Common_TestCase
         $this->assertFalse(SC_Utils::sfNeedsReHash($hashpass, $salt));
     }
 
-    public function testSfNeedsReHash_AuthTypePlainでSalt空の場合もFalseが返る()
+    public function testSfNeedsReHashAuthTypePlainでSalt空の場合もFalseが返る()
     {
         $hashpass = 'ec-cube';
         $salt = '';
