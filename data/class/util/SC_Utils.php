@@ -1771,18 +1771,21 @@ class SC_Utils
      *
      * @return string ハッシュ暗号化された文字列
      */
-    public static function sfGetHashString($str, $salt)
+    public static function sfGetHashString($str, $salt = '')
     {
+        if (AUTH_TYPE == 'PLAIN') {
+            return $str;
+        }
+        // PHP password_hash() 対応アルゴリズムの場合
+        if (SC_Utils_Ex::sfIsPasswordHashAlgos()) {
+            return password_hash($str, PASSWORD_HASH_ALGOS);
+        }
+        // 既存の HMAC-SHA256
         if ($salt == '') {
             $salt = AUTH_MAGIC;
         }
-        if (AUTH_TYPE == 'PLAIN') {
-            $res = $str;
-        } else {
-            $res = hash_hmac(PASSWORD_HASH_ALGOS, $str.':'.AUTH_MAGIC, $salt);
-        }
 
-        return $res;
+        return hash_hmac(PASSWORD_HASH_ALGOS, $str.':'.AUTH_MAGIC, $salt);
     }
 
     /**
@@ -1796,26 +1799,94 @@ class SC_Utils
      */
     public static function sfIsMatchHashPassword($pass, $hashpass, $salt)
     {
-        $res = false;
-        if ($hashpass != '') {
-            if (AUTH_TYPE == 'PLAIN') {
-                if ($pass === $hashpass) {
-                    $res = true;
-                }
-            } else {
-                if (empty($salt)) {
-                    // 旧バージョン(2.11未満)からの移行を考慮
-                    $hash = sha1($pass.':'.AUTH_MAGIC);
-                } else {
-                    $hash = SC_Utils_Ex::sfGetHashString($pass, $salt);
-                }
-                if ($hash === $hashpass) {
-                    $res = true;
-                }
-            }
+        if ($hashpass == '') {
+            return false;
+        }
+        if (AUTH_TYPE == 'PLAIN') {
+            return $pass === $hashpass;
+        }
+        // password_hash() 形式のハッシュを検出 ($2y$..., $argon2id$... 等)
+        $info = password_get_info($hashpass);
+        if ($info['algo'] !== null && $info['algo'] !== 0) {
+            return password_verify($pass, $hashpass);
+        }
+        // 既存ロジック: HMAC-SHA256 / SHA1
+        if (empty($salt)) {
+            // 旧バージョン(2.11未満)からの移行を考慮
+            $hash = sha1($pass.':'.AUTH_MAGIC);
+        } else {
+            $hash = SC_Utils_Ex::sfGetHashString($pass, $salt);
         }
 
-        return $res;
+        return $hash === $hashpass;
+    }
+
+    /**
+     * PASSWORD_HASH_ALGOS が PHP の password_hash() 対応アルゴリズムかどうか判定する
+     *
+     * @return bool password_hash() 対応アルゴリズムの場合 true
+     */
+    public static function sfIsPasswordHashAlgos()
+    {
+        return in_array(PASSWORD_HASH_ALGOS, password_algos());
+    }
+
+    /**
+     * パスワードの再ハッシュが必要かどうか判定する
+     *
+     * @param  string  $hashpass パスワードハッシュ文字列
+     * @param  string  $salt     salt
+     *
+     * @return bool 再ハッシュが必要な場合 true
+     */
+    public static function sfNeedsReHash($hashpass, $salt)
+    {
+        if (AUTH_TYPE == 'PLAIN') {
+            return false;
+        }
+        // password_hash() 形式のハッシュの場合
+        $info = password_get_info($hashpass);
+        if ($info['algo'] !== null && $info['algo'] !== 0) {
+            if (SC_Utils_Ex::sfIsPasswordHashAlgos()) {
+                return password_needs_rehash($hashpass, PASSWORD_HASH_ALGOS);
+            }
+
+            return false;
+        }
+        // 旧形式(SHA1/HMAC-SHA256)のハッシュ
+        // 現在の設定が password_hash() 対応アルゴリズムなら再ハッシュが必要
+        if (SC_Utils_Ex::sfIsPasswordHashAlgos()) {
+            return true;
+        }
+        // 現在の設定がHMAC-SHA256で、saltが空(SHA1) → 再ハッシュ必要
+        if (empty($salt)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * パスワードを現在のアルゴリズムで再ハッシュする
+     *
+     * @param  string $pass 平文パスワード
+     *
+     * @return array ['password' => ハッシュ値, 'salt' => salt]
+     */
+    public static function sfReHashPassword($pass)
+    {
+        if (SC_Utils_Ex::sfIsPasswordHashAlgos()) {
+            return [
+                'password' => password_hash($pass, PASSWORD_HASH_ALGOS),
+                'salt' => '',
+            ];
+        }
+        $salt = SC_Utils_Ex::sfGetRandomString(10);
+
+        return [
+            'password' => SC_Utils_Ex::sfGetHashString($pass, $salt),
+            'salt' => $salt,
+        ];
     }
 
     /**
