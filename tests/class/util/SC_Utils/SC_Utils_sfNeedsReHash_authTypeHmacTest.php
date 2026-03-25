@@ -65,8 +65,8 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
 
         // 再ハッシュ実行 (PASSWORD_DEFAULT = bcrypt)
         $arrNewHash = SC_Utils::sfReHashPassword($pass);
-        // password_hash()使用時はsaltは空(ハッシュに内包)
-        $this->assertEmpty($arrNewHash['salt']);
+        // password_hash()使用時はsaltはダミー値(ハッシュに内包)
+        $this->assertSame(SC_Utils::PASSWORD_HASH_SALT_DUMMY, $arrNewHash['salt']);
         $this->assertNotEquals($hashpass, $arrNewHash['password']);
         // password_hash() 形式であることを確認
         $info = password_get_info($arrNewHash['password']);
@@ -102,7 +102,7 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
 
         // 再ハッシュ実行
         $arrNewHash = SC_Utils::sfReHashPassword($pass);
-        $this->assertEmpty($arrNewHash['salt']);
+        $this->assertSame(SC_Utils::PASSWORD_HASH_SALT_DUMMY, $arrNewHash['salt']);
 
         // 再ハッシュ後のパスワードで認証成功することを確認
         $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $arrNewHash['password'], $arrNewHash['salt']));
@@ -148,13 +148,13 @@ class SC_Utils_sfNeedsReHash_authTypeHmacTest extends Common_TestCase
         $this->assertFalse(SC_Utils::sfNeedsReHash($hashpass, ''));
     }
 
-    public function testSfReHashPasswordPasswordHash形式でSaltが空で返る()
+    public function testSfReHashPasswordPasswordHash形式でSaltがダミー値で返る()
     {
         $pass = 'ec-cube';
         $arrNewHash = SC_Utils::sfReHashPassword($pass);
 
-        // password_hash()使用時はsaltは空
-        $this->assertEmpty($arrNewHash['salt']);
+        // password_hash()使用時はsaltはダミー値
+        $this->assertSame(SC_Utils::PASSWORD_HASH_SALT_DUMMY, $arrNewHash['salt']);
         $this->assertNotEmpty($arrNewHash['password']);
         // password_hash() 形式であることを確認
         $info = password_get_info($arrNewHash['password']);

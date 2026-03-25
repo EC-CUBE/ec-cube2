@@ -34,6 +34,9 @@
  */
 class SC_Utils
 {
+    /** password_hash() 使用時のダミー salt. ソルトはハッシュ値に内包されるため不要だが, dtb_member.salt の NOT NULL 制約を満たすために使用する. */
+    public const PASSWORD_HASH_SALT_DUMMY = 'salt_is_included_in_hash';
+
     // インストール初期処理
     public static function sfInitInstall()
     {
@@ -1879,7 +1882,7 @@ class SC_Utils
         if (SC_Utils_Ex::sfIsPasswordHashAlgos()) {
             return [
                 'password' => password_hash($pass, PASSWORD_HASH_ALGOS),
-                'salt' => '',
+                'salt' => self::PASSWORD_HASH_SALT_DUMMY,
             ];
         }
         $salt = SC_Utils_Ex::sfGetRandomString(10);
