@@ -1788,7 +1788,7 @@ class SC_Utils
             $salt = AUTH_MAGIC;
         }
 
-        return hash_hmac(PASSWORD_HASH_ALGOS, $str.':'.AUTH_MAGIC, $salt);
+        return hash_hmac('sha256', $str.':'.AUTH_MAGIC, $salt);
     }
 
     /**
