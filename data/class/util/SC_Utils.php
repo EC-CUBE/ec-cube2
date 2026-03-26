@@ -1832,7 +1832,7 @@ class SC_Utils
      */
     public static function sfIsPasswordHashAlgos()
     {
-        return in_array(PASSWORD_HASH_ALGOS, password_algos());
+        return in_array(PASSWORD_HASH_ALGOS, password_algos(), true);
     }
 
     /**
