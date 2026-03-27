@@ -46,7 +46,7 @@
             <!--{else}-->
                 <p class="message">メールアドレス: <strong><!--{$tpl_email|h}--></strong></p>
                 <p>メールマガジンの登録を解除しますか?</p>
-                <form method="post" action="<!--{$smarty.server.REQUEST_URI|h}-->">
+                <form method="post">
                     <input type="hidden" name="mode" value="confirm" />
                     <div class="btn_area">
                         <ul>

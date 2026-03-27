@@ -60,7 +60,7 @@ class SC_SendMail
         $this->body = '';
         $this->cc = '';
         $this->bcc = '';
-        $this->replay_to = '';
+        $this->reply_to = '';
         $this->return_path = '';
         $this->customHeaders = [];
         $this->backend = MAIL_BACKEND;

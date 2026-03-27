@@ -558,17 +558,17 @@ class SC_Helper_Mail
 
             // テキストメール配信の場合
             if ($arrMail['mail_method'] == 2) {
-                $sendResut = $objMail->sendMail();
+                $sendResult = $objMail->sendMail();
             // HTMLメール配信の場合
             } else {
-                $sendResut = $objMail->sendHtmlMail();
+                $sendResult = $objMail->sendHtmlMail();
             }
 
             // カスタムヘッダーをクリア（次の送信のため）
             $objMail->clearCustomHeaders();
 
             // 送信完了なら1、失敗なら2をメール送信結果フラグとしてDBに挿入
-            if (!$sendResut) {
+            if (!$sendResult) {
                 $sendFlag = '2';
             } else {
                 // 完了を 1 増やす
@@ -601,10 +601,10 @@ class SC_Helper_Mail
 
         // テキストメール配信の場合
         if ($arrMail['mail_method'] == 2) {
-            $sendResut = $objMail->sendMail();
+            $sendResult = $objMail->sendMail();
         // HTMLメール配信の場合
         } else {
-            $sendResut = $objMail->sendHtmlMail();
+            $sendResult = $objMail->sendHtmlMail();
         }
 
         return;

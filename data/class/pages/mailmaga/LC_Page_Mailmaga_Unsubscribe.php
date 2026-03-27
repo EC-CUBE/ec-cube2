@@ -75,11 +75,11 @@ class LC_Page_Mailmaga_Unsubscribe extends LC_Page_Ex
      */
     public function action()
     {
-        // トークンの取得
-        $token = $_REQUEST['token'] ?? '';
+        // トークンの取得 (URL クエリパラメータから取得)
+        $token = $_GET['token'] ?? '';
 
         // トークンの検証
-        if (empty($token)) {
+        if (empty($token) || !preg_match('/^[0-9a-fA-F]{64}$/', $token)) {
             $this->tpl_message = '無効なURLです。';
 
             return;
@@ -111,6 +111,8 @@ class LC_Page_Mailmaga_Unsubscribe extends LC_Page_Ex
 
                 if ($mode === 'confirm') {
                     $this->processUnsubscribe($arrToken, $token);
+
+                    return;
                 }
             }
         }
@@ -142,7 +144,9 @@ class LC_Page_Mailmaga_Unsubscribe extends LC_Page_Ex
             }
 
             // トークンを使用済みにマーク
-            SC_Helper_Mailmaga_Ex::markTokenAsUsed($token);
+            if (!SC_Helper_Mailmaga_Ex::markTokenAsUsed($token)) {
+                throw new Exception('トークンの無効化に失敗しました。');
+            }
 
             $objQuery->commit();
 

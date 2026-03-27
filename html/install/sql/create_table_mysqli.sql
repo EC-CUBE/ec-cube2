@@ -264,7 +264,7 @@ CREATE TABLE dtb_mailmaga_unsubscribe_token (
     send_id int NOT NULL,
     token varchar(64) NOT NULL,
     email varchar(255) NOT NULL,
-    used_flag smallint NOT NULL DEFAULT 0,
+    used_flg smallint NOT NULL DEFAULT 0,
     used_date datetime DEFAULT NULL,
     expire_date datetime NOT NULL,
     create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

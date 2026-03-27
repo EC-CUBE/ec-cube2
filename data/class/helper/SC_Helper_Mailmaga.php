@@ -60,9 +60,9 @@ class SC_Helper_Mailmaga
         $sqlval['send_id'] = $send_id;
         $sqlval['token'] = $token;
         $sqlval['email'] = $email;
-        $sqlval['used_flag'] = 0;
+        $sqlval['used_flg'] = 0;
         $sqlval['expire_date'] = date('Y-m-d H:i:s', strtotime('+'.self::TOKEN_EXPIRE_DAYS.' days'));
-        $sqlval['create_date'] = 'CURRENT_TIMESTAMP';
+        $sqlval['create_date'] = date('Y-m-d H:i:s');
         $sqlval['mailmaga_unsubscribe_token_id'] = $objQuery->nextVal('dtb_mailmaga_unsubscribe_token_mailmaga_unsubscribe_token_id');
 
         $objQuery->insert('dtb_mailmaga_unsubscribe_token', $sqlval);
@@ -93,8 +93,9 @@ class SC_Helper_Mailmaga
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $where = 'token = ? AND used_flag = 0 AND expire_date > CURRENT_TIMESTAMP';
-        $arrToken = $objQuery->getRow('*', 'dtb_mailmaga_unsubscribe_token', $where, [$token]);
+        $now = date('Y-m-d H:i:s');
+        $where = 'token = ? AND used_flg = 0 AND expire_date > ?';
+        $arrToken = $objQuery->getRow('*', 'dtb_mailmaga_unsubscribe_token', $where, [$token, $now]);
 
         if (empty($arrToken)) {
             return false;
@@ -115,8 +116,8 @@ class SC_Helper_Mailmaga
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
         $sqlval = [];
-        $sqlval['used_flag'] = 1;
-        $sqlval['used_date'] = 'CURRENT_TIMESTAMP';
+        $sqlval['used_flg'] = 1;
+        $sqlval['used_date'] = date('Y-m-d H:i:s');
 
         $ret = $objQuery->update(
             'dtb_mailmaga_unsubscribe_token',
@@ -141,7 +142,7 @@ class SC_Helper_Mailmaga
 
         $sqlval = [];
         $sqlval['mailmaga_flg'] = 3; // 配信拒否
-        $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
+        $sqlval['update_date'] = date('Y-m-d H:i:s');
 
         $ret = $objQuery->update(
             'dtb_customer',
@@ -163,8 +164,9 @@ class SC_Helper_Mailmaga
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        $where = 'expire_date < CURRENT_TIMESTAMP OR used_flag = 1';
-        $ret = $objQuery->delete('dtb_mailmaga_unsubscribe_token', $where);
+        $now = date('Y-m-d H:i:s');
+        $where = 'expire_date < ? OR used_flg = 1';
+        $ret = $objQuery->delete('dtb_mailmaga_unsubscribe_token', $where, [$now]);
 
         return $ret;
     }

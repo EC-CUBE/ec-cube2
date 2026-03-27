@@ -26,7 +26,7 @@ class SC_Helper_MailmagaTest extends Common_TestCase
         $this->assertEquals(1, $arrToken['customer_id']);
         $this->assertEquals(1, $arrToken['send_id']);
         $this->assertEquals('test@example.com', $arrToken['email']);
-        $this->assertEquals(0, $arrToken['used_flag']);
+        $this->assertEquals(0, $arrToken['used_flg']);
     }
 
     public function testGetUnsubscribeUrl()
@@ -36,7 +36,7 @@ class SC_Helper_MailmagaTest extends Common_TestCase
 
         $this->assertStringContainsString('mailmaga/unsubscribe/index.php', $url);
         $this->assertStringContainsString('token=test-token-123', $url);
-        $this->assertStringStartsWith('https://', $url);
+        $this->assertStringStartsWith(HTTPS_URL, $url);
     }
 
     public function testValidateTokenValidToken()
@@ -103,11 +103,11 @@ class SC_Helper_MailmagaTest extends Common_TestCase
 
         $this->assertTrue($result);
 
-        // DBで used_flag が 1 になっているか確認
+        // DBで used_flg が 1 になっているか確認
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrToken = $objQuery->getRow('*', 'dtb_mailmaga_unsubscribe_token', 'token = ?', [$token]);
 
-        $this->assertEquals(1, $arrToken['used_flag']);
+        $this->assertEquals(1, $arrToken['used_flg']);
         $this->assertNotNull($arrToken['used_date']);
     }
 
