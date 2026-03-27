@@ -271,9 +271,9 @@ CREATE TABLE dtb_mailmaga_unsubscribe_token (
     PRIMARY KEY (mailmaga_unsubscribe_token_id),
     UNIQUE (token)
 );
-CREATE INDEX idx_customer_id ON dtb_mailmaga_unsubscribe_token(customer_id);
-CREATE INDEX idx_send_id ON dtb_mailmaga_unsubscribe_token(send_id);
-CREATE INDEX idx_expire_date ON dtb_mailmaga_unsubscribe_token(expire_date);
+CREATE INDEX dtb_mailmaga_unsubscribe_token_customer_id_key ON dtb_mailmaga_unsubscribe_token(customer_id);
+CREATE INDEX dtb_mailmaga_unsubscribe_token_send_id_key ON dtb_mailmaga_unsubscribe_token(send_id);
+CREATE INDEX dtb_mailmaga_unsubscribe_token_expire_date_key ON dtb_mailmaga_unsubscribe_token(expire_date);
 
 CREATE TABLE dtb_products (
     product_id int NOT NULL,

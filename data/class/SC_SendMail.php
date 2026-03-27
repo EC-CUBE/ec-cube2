@@ -163,8 +163,8 @@ class SC_SendMail
         }
 
         // 重要なヘッダーの上書きを防止
-        $protectedHeaders = ['From', 'To', 'Subject', 'Cc', 'Bcc', 'Reply-To', 'Return-Path', 'Date', 'MIME-Version', 'Content-Type', 'Content-Transfer-Encoding'];
-        if (in_array($name, $protectedHeaders)) {
+        $protectedHeaders = ['from', 'to', 'subject', 'cc', 'bcc', 'reply-to', 'return-path', 'date', 'mime-version', 'content-type', 'content-transfer-encoding'];
+        if (in_array(strtolower($name), $protectedHeaders, true)) {
             trigger_error('保護されたヘッダーは上書きできません: '.$name, E_USER_WARNING);
 
             return;
