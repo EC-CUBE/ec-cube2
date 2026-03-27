@@ -51,5 +51,7 @@ jobs:
         else
           echo "TAG=8.3-apache-${REF_NAME}" >> $GITHUB_ENV
         fi
+    - name: Free up memory after Docker build
+      run: docker builder prune -f && docker system prune -f
     - run: docker compose up -d --wait
     - run: docker compose exec -T ec-cube php data/vendor/bin/phpstan --memory-limit=512M --no-progress analyze data/ --error-format=github

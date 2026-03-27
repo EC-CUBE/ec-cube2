@@ -51,5 +51,7 @@ jobs:
         else
           echo "TAG=8.4-apache-${REF_NAME}" >> $GITHUB_ENV
         fi
+    - name: Free up memory after Docker build
+      run: docker builder prune -f && docker system prune -f
     - run: docker compose up -d --wait
     - run: docker compose exec -T -e PHP_CS_FIXER_IGNORE_ENV=1 ec-cube php data/vendor/bin/php-cs-fixer fix --diff --dry-run --allow-risky=yes
