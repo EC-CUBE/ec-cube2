@@ -51,5 +51,7 @@ jobs:
         else
           echo "TAG=8.3-apache-${REF_NAME}" >> $GITHUB_ENV
         fi
+    - name: Remove buildx builder to free memory
+      run: docker buildx rm $(docker buildx ls --format '{{.Name}}' | grep -v default | head -1) 2>/dev/null || true
     - run: docker compose up -d --wait
     - run: docker compose exec -T ec-cube php data/vendor/bin/phpstan --memory-limit=512M --no-progress analyze data/ --error-format=github
