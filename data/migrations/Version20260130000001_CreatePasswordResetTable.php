@@ -29,10 +29,13 @@ class Version20260130000001_CreatePasswordResetTable extends Migration
             $table->index(['email', 'create_date']);
             $table->index(['expire_date', 'status']);
         });
+
+        $this->sql("INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PASSWORD_RESET_TOKEN_EXPIRE_HOURS', '24', 1422, 'パスワードリセットトークンの有効期限(時間)')");
     }
 
     public function down(): void
     {
         $this->drop('dtb_password_reset');
+        $this->sql("DELETE FROM mtb_constants WHERE id = 'PASSWORD_RESET_TOKEN_EXPIRE_HOURS'");
     }
 }

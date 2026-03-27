@@ -1,47 +1,45 @@
 <?php
-/**
- * Net_URL - Guzzle PSR-7 based URL handling class
- *
- * This is a backward-compatible wrapper around GuzzleHttp\Psr7\Uri
- * that maintains the original Net_URL API.
- *
- * Original Net_URL Copyright (c) 2002-2004, Richard Heyes
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * o Redistributions of source code must retain the above copyright
- *   notice, this list of conditions and the following disclaimer.
- * o Redistributions in binary form must reproduce the above copyright
- *   notice, this list of conditions and the following disclaimer in the
- *   documentation and/or other materials provided with the distribution.
- * o The names of the authors may not be used to endorse or promote
- *   products derived from this software without specific prior written
- *   permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-class Net_URL
-{
-    /**
-     * Options for URL handling
-     *
-     * @var array
-     */
-    public $options = ['encode_query_keys' => false];
 
+// +-----------------------------------------------------------------------+
+// | Copyright (c) 2002-2004, Richard Heyes                                |
+// | All rights reserved.                                                  |
+// |                                                                       |
+// | Redistribution and use in source and binary forms, with or without    |
+// | modification, are permitted provided that the following conditions    |
+// | are met:                                                              |
+// |                                                                       |
+// | o Redistributions of source code must retain the above copyright      |
+// |   notice, this list of conditions and the following disclaimer.       |
+// | o Redistributions in binary form must reproduce the above copyright   |
+// |   notice, this list of conditions and the following disclaimer in the |
+// |   documentation and/or other materials provided with the distribution.|
+// | o The names of the authors may not be used to endorse or promote      |
+// |   products derived from this software without specific prior written  |
+// |   permission.                                                         |
+// |                                                                       |
+// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
+// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
+// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
+// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
+// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
+// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
+// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
+// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
+// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
+// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
+// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
+// |                                                                       |
+// +-----------------------------------------------------------------------+
+// | Author: Richard Heyes <richard at php net>                            |
+// +-----------------------------------------------------------------------+
+//
+// $Id$
+//
+// Net_URL Class
+
+class Net_URL_Legacy
+{
+    public $options = ['encode_query_keys' => false];
     /**
      * Full url
      *
@@ -50,7 +48,7 @@ class Net_URL
     public $url;
 
     /**
-     * Protocol (scheme)
+     * Protocol
      *
      * @var string
      */
@@ -63,11 +61,7 @@ class Net_URL
      */
     public $username;
 
-    /**
-     * Alias for username
-     *
-     * @var string
-     */
+    /** @var string */
     public $user;
 
     /**
@@ -77,11 +71,7 @@ class Net_URL
      */
     public $password;
 
-    /**
-     * Alias for password
-     *
-     * @var string
-     */
+    /** @var string */
     public $pass;
 
     /**
@@ -106,28 +96,28 @@ class Net_URL
     public $path;
 
     /**
-     * Query string as array
+     * Query string
      *
      * @var array
      */
     public $querystring;
 
     /**
-     * Anchor (fragment)
+     * Anchor
      *
      * @var string
      */
     public $anchor;
 
     /**
-     * Whether to use [] for array parameters
+     * Whether to use []
      *
      * @var bool
      */
     public $useBrackets;
 
     /**
-     * Constructor
+     * PHP5 Constructor
      *
      * Parses the given url and stores the various parts
      * Defaults are used in certain cases
@@ -145,12 +135,9 @@ class Net_URL
         $this->initialize();
     }
 
-    /**
-     * Initialize URL components
-     */
     public function initialize()
     {
-        $HTTP_SERVER_VARS = !empty($_SERVER) ? $_SERVER : ($GLOBALS['HTTP_SERVER_VARS'] ?? []);
+        $HTTP_SERVER_VARS = !empty($_SERVER) ? $_SERVER : $GLOBALS['HTTP_SERVER_VARS'];
 
         $this->user = '';
         $this->pass = '';
@@ -164,7 +151,9 @@ class Net_URL
         if (!preg_match('/^[a-z0-9]+:\/\//i', $this->url)) {
             $this->protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http');
 
-            // Figure out host/port
+            /*
+            * Figure out host/port
+            */
             if (!empty($HTTP_SERVER_VARS['HTTP_HOST'])
                 && preg_match('/^(.*)(:([0-9]+))?$/U', $HTTP_SERVER_VARS['HTTP_HOST'], $matches)) {
                 $host = $matches[1];
@@ -224,10 +213,6 @@ class Net_URL
                 }
             }
         }
-
-        // Sync username/password aliases
-        $this->username = $this->user;
-        $this->password = $this->pass;
     }
 
     /**
@@ -239,13 +224,9 @@ class Net_URL
     {
         $querystring = $this->getQueryString();
 
-        // Use user/pass with fallback to username/password for bidirectional sync
-        $user = $this->user !== '' ? $this->user : $this->username;
-        $pass = $this->pass !== '' ? $this->pass : $this->password;
-
         $this->url = $this->protocol.'://'
-                   .$user.(!empty($pass) ? ':' : '')
-                   .$pass.(!empty($user) ? '@' : '')
+                   .$this->user.(!empty($this->pass) ? ':' : '')
+                   .$this->pass.(!empty($this->user) ? '@' : '')
                    .$this->host.($this->port == $this->getStandardPort($this->protocol) ? '' : ':'.$this->port)
                    .$this->path
                    .(!empty($querystring) ? '?'.$querystring : '')
@@ -257,13 +238,13 @@ class Net_URL
     /**
      * Adds or updates a querystring item (URL parameter).
      * Automatically encodes parameters with rawurlencode() if $preencoded
-     * is false.
+     *  is false.
      * You can pass an array to $value, it gets mapped via [] in the URL if
      * $this->useBrackets is activated.
      *
-     * @param string $name       Name of item
-     * @param mixed  $value      Value of item
-     * @param bool   $preencoded Whether value is urlencoded or not, default = not
+     * @param  string $name       Name of item
+     * @param  string $value      Value of item
+     * @param  bool   $preencoded Whether value is urlencoded or not, default = not
      */
     public function addQueryString($name, $value, $preencoded = false)
     {
@@ -281,7 +262,7 @@ class Net_URL
     /**
      * Removes a querystring item
      *
-     * @param string $name Name of item
+     * @param  string $name Name of item
      */
     public function removeQueryString($name)
     {
@@ -338,9 +319,9 @@ class Net_URL
     /**
      * Parses raw querystring and returns an array of it
      *
-     * @param string $querystring The querystring to parse
+     * @param  string  $querystring The querystring to parse
      *
-     * @return array An array of the querystring data
+     * @return array                An array of the querystring data
      */
     public function _parseRawQuerystring($querystring)
     {
@@ -396,9 +377,9 @@ class Net_URL
      *
      * This method can also be called statically.
      *
-     * @param string $path URL path to resolve
+     * @param  string $path URL path to resolve
      *
-     * @return string The result
+     * @return string      The result
      */
     public static function resolvePath($path)
     {
@@ -429,37 +410,31 @@ class Net_URL
     /**
      * Returns the standard port number for a protocol
      *
-     * @param string $scheme The protocol to lookup
+     * @param  string  $scheme The protocol to lookup
      *
-     * @return int|null Port number or NULL if no scheme matches
+     * @return int         Port number or NULL if no scheme matches
+     *
+     * @author Philippe Jausions <Philippe.Jausions@11abacus.com>
      */
     public function getStandardPort($scheme)
     {
         switch (strtolower($scheme)) {
-            case 'http':
-                return 80;
-            case 'https':
-                return 443;
-            case 'ftp':
-                return 21;
-            case 'imap':
-                return 143;
-            case 'imaps':
-                return 993;
-            case 'pop3':
-                return 110;
-            case 'pop3s':
-                return 995;
-            default:
-                return null;
+            case 'http':    return 80;
+            case 'https':   return 443;
+            case 'ftp':     return 21;
+            case 'imap':    return 143;
+            case 'imaps':   return 993;
+            case 'pop3':    return 110;
+            case 'pop3s':   return 995;
+            default:        return null;
         }
     }
 
     /**
      * Forces the URL to a particular protocol
      *
-     * @param string $protocol Protocol to force the URL to
-     * @param int    $port     Optional port (standard port is used by default)
+     * @param string  $protocol Protocol to force the URL to
+     * @param int $port     Optional port (standard port is used by default)
      */
     public function setProtocol($protocol, $port = null)
     {
@@ -473,10 +448,8 @@ class Net_URL
      * This function set an option
      * to be used thorough the script.
      *
-     * @param string $optionName The optionname to set
-     * @param mixed  $value      The value of this option.
-     *
-     * @return bool|void false if option doesn't exist
+     * @param  string $optionName  The optionname to set
+     * @param  string $value       The value of this option.
      */
     public function setOption($optionName, $value)
     {
@@ -493,11 +466,11 @@ class Net_URL
      *
      * This function gets an option
      * from the $this->options array
-     * and return its value.
+     * and return it's value.
      *
-     * @param string $optionName The name of the option to retrieve
+     * @param  string $opionName  The name of the option to retrieve
      *
-     * @return mixed|false The option value or false if not set
+     * @see    $this->options
      */
     public function getOption($optionName)
     {

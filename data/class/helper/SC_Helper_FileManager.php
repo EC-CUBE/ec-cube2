@@ -522,7 +522,8 @@ class SC_Helper_FileManager
         }
 
         // USER_REALDIR 以下のパスかどうか
-        if ($path === false || !str_contains($path, realpath(USER_REALDIR))) {
+        $userRealDir = realpath(USER_REALDIR);
+        if ($path === false || $userRealDir === false || !str_starts_with($path.'/', $userRealDir.'/')) {
             $path = realpath(USER_REALDIR);
         }
 
