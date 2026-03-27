@@ -222,6 +222,9 @@ class SC_Customer
         $objSiteSess = new SC_SiteSession_Ex();
         $objSiteSess->unsetUniqId();
 
+        // セッションIDを再生成してセッション固定攻撃を防止
+        SC_Session_Ex::regenerateSID();
+
         // ログに記録する
         $log = sprintf(
             "logout : user=%d\tip=%s",
@@ -284,6 +287,20 @@ class SC_Customer
         } else {
             return $_SESSION['customer'][$keyname] ?? '';
         }
+    }
+
+    /**
+     * パラメーターを配列で取得する
+     *
+     * @return array パラメータの値の配列
+     */
+    public function getValues()
+    {
+        if (!isset($_SESSION['customer']) || !is_array($_SESSION['customer'])) {
+            throw new Exception();
+        }
+
+        return $_SESSION['customer'];
     }
 
     /**

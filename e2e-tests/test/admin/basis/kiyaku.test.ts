@@ -25,7 +25,7 @@ test.describe.serial('会員規約設定のテストをします', () => {
   test('会員規約設定のテストをします', async ( { adminLoginPage, page }) => {
     page.on('dialog', dialog => dialog.accept());
     await page.goto(url);
-    const title = faker.lorem.paragraph();
+    const title = faker.lorem.paragraph().substring(0, 60).trim();
     await page.getByRole('row', { name: '規約タイトル' }).getByRole('textbox').fill(title);
     const kiyaku = faker.lorem.sentences();
     await page.getByRole('row', { name: '規約内容' }).locator('textarea').fill(kiyaku);

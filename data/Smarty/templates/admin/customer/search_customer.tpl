@@ -100,7 +100,7 @@ function func_submit(customer_id){
                 <td>
                 <!--{$arrCustomer[cnt].customer_id|h}-->
                 </td>
-                <td><!--{$arrCustomer[cnt].name01|h}--><!--{$arrCustomer[cnt].name02|h}-->(<!--{$arrCustomer[cnt].kana01|h}--><!--{$arrCustomer[cnt].kana02|h}-->)</td>
+                <td><!--{$arrCustomer[cnt]|format_name|h}-->(<!--{$arrCustomer[cnt]|format_name:'kana'|h}-->)</td>
                 <td><!--{$arrCustomer[cnt].tel01|h}-->-<!--{$arrCustomer[cnt].tel02|h}-->-<!--{$arrCustomer[cnt].tel03|h}--></td>
                 <td align="center"><a href="" onclick="return func_submit(<!--{$arrCustomer[cnt].customer_id|h}-->)">決定</a></td>
             </tr>

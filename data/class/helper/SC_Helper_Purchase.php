@@ -760,7 +760,7 @@ class SC_Helper_Purchase
                 $d = mb_strcut($arrValues['shipping_date'], 0, 10);
                 $arrDate = explode('/', $d);
                 $ts = mktime(0, 0, 0, $arrDate[1], $arrDate[2], $arrDate[0]);
-                $arrValues['shipping_date'] = date('Y-m-d', $ts);
+                $arrValues['shipping_date'] = date('Y-m-d H:i:s', $ts);
             }
 
             // 非会員購入の場合は shipping_id が存在しない

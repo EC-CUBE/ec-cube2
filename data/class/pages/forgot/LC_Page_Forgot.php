@@ -57,7 +57,6 @@ class LC_Page_Forgot extends LC_Page_Ex
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrReminder = $masterData->getMasterData('mtb_reminder');
         $this->device_type = SC_Display_Ex::detectDevice();
-        $this->httpCacheControl('nocache');
         // デフォルトログインアドレスロード
         $objCookie = new SC_Cookie_Ex();
         $this->tpl_login_email = $objCookie->getCookie('login_email');
@@ -155,7 +154,7 @@ class LC_Page_Forgot extends LC_Page_Ex
                 $arrForm['reminder'] = $result[0]['reminder'];
             } elseif ($result[0]['status'] == '1') {
                 // 仮会員
-                $errmsg = 'ご入力のemailアドレスは現在仮登録中です。<br/>登録の際にお送りしたメールのURLにアクセスし、<br/>本会員登録をお願いします。';
+                $errmsg = "ご入力のemailアドレスは現在仮登録中です。\n登録の際にお送りしたメールのURLにアクセスし、\n本会員登録をお願いします。";
             }
         } else {
             $errmsg = 'お名前に間違いがあるか、このメールアドレスは登録されていません。';

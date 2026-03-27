@@ -188,7 +188,7 @@
                                     お届け先<!--{$smarty.foreach.shippingItem.iteration}-->
                                 </div>
                                 <div class="innerBox">
-                                    <!--{$shippingItem.shipping_name01}--><!--{$shippingItem.shipping_name02}--><br />
+                                    <!--{$shippingItem|format_name:'shipping_name'}--><br />
                                     <span class="mini"><!--{$arrPref[$shippingItem.shipping_pref]}--><!--{$shippingItem.shipping_addr01}--><!--{$shippingItem.shipping_addr02}--></span>
                                 </div>
                         <!--{else}-->
@@ -264,7 +264,7 @@
 
                 <!--{assign var=key value="message"}-->
                 <span class="attention"><!--{$arrErr[$key]}--></span>
-                <textarea name="<!--{$key}-->" id="etc" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" cols="62" rows="8" class="textarea data-role-none" wrap="hard"><!--{"\n"}--><!--{$arrForm[$key].value|h}--></textarea><br />
+                <textarea name="<!--{$key}-->" id="etc" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" cols="62" rows="8" class="textarea data-role-none"><!--{"\n"}--><!--{$arrForm[$key].value|h}--></textarea><br />
             </div><!--▲form_area -->
         </section>
 

@@ -11,6 +11,10 @@ on:
 env:
   REGISTRY: ghcr.io
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   dockerbuild:
     name: dockerbuild
@@ -21,14 +25,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5' ]
 
     steps:
       - name: downcase REPO
         run: |
           echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}-php" >> ${GITHUB_ENV}
 
-      - run: |
+      - name: Set build arguments (PHP < 8.5)
+        if: ${{ matrix.php < '8.5' }}
+        run: |
           echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
           echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
           echo "APCU=apcu" >>  ${GITHUB_ENV}
@@ -36,8 +42,18 @@ jobs:
           echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
           echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
 
+      - name: Set build arguments (PHP >= 8.5)
+        if: ${{ matrix.php >= '8.5' }}
+        run: |
+          echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
+          echo "EXT_INSTALL_ARGS=gd zip mysqli" >> ${GITHUB_ENV}
+          echo "APCU=apcu" >>  ${GITHUB_ENV}
+          echo "FORCE_YES=" >>  ${GITHUB_ENV}
+          echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
+          echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
+
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       ## Used when creating multi-platform images
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v2
@@ -48,7 +64,7 @@ jobs:
         run: echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.owaspzap.yml:docker-compose.owaspzap.daemon.yml" >> $GITHUB_ENV
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -56,7 +72,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
@@ -69,7 +85,7 @@ jobs:
             type=match,prefix=${{ matrix.php }}-apache-,pattern=eccube2-weekly-(.*),group=1
 
       - name: Build and export to Docker
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
         with:
           context: .
           load: true
@@ -98,9 +114,9 @@ jobs:
 
       - run: sleep 1
       - run: |
-          yarn install
-          yarn run playwright install --with-deps chromium
-          yarn playwright install-deps chromium
+          npm ci
+          npx playwright install --with-deps chromium
+          npx playwright install-deps chromium
 
       - name: Run to E2E testing
         env:
@@ -110,12 +126,12 @@ jobs:
           HTTP_PROXY: 'localhost:8090'
           CI: 1
           FORCE_COLOR: 1
-        run: yarn test:e2e e2e-tests/test/front_guest
+        run: npm run test:e2e -- e2e-tests/test/front_guest
 
       - run: git checkout composer.*
       ## see https://docs.github.com/ja/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#publishing-a-package-using-an-action
       - name: Push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
         if: success()
         with:
           context: .
@@ -134,13 +150,13 @@ jobs:
 
       - name: Upload evidence
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: linux-php${{ matrix.php }}-evidence
           path: 'test-results/'
       - name: Upload logs
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: linux-php${{ matrix.php }}-logs
           path: data/logs

@@ -213,7 +213,7 @@ class SC_Fpdf extends SC_Helper_FPDI
             $y += 3;
         }
 
-        $text = $this->arrDisp['order_name01'].'　'.$this->arrDisp['order_name02'].'　様';
+        $text = SC_Utils_Ex::formatName($this->arrDisp, 'order_name').' 様';
         $this->lfText(27, $y + 2, $text, 11); // 購入者氏名
 
         // お届け先情報

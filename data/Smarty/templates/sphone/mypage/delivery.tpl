@@ -60,7 +60,8 @@
                             <p><em><span class="zip_title">お届け先住所<!--{$smarty.section.cnt.iteration}--></span></em>：<br />
                                 〒<span class="zip01"><!--{$arrOtherDeliv[cnt].zip01}--></span>-<span class="zip02"><!--{$arrOtherDeliv[cnt].zip02}--></span><br />
                                 <span class="address"><!--{$arrPref[$OtherPref]|h}--><!--{$arrOtherDeliv[cnt].addr01|h}--><!--{$arrOtherDeliv[cnt].addr02|h}--></span><br />
-                                <span class="name01"><!--{$arrOtherDeliv[cnt].name01|h}--></span>&nbsp;<span class="name02"><!--{$arrOtherDeliv[cnt].name02|h}--></span></p>
+                                <span class="name"><!--{$arrOtherDeliv[cnt]|format_name|h}--></span>
+                            </p>
 
                             <ul class="edit">
                                 <li><a href="#" onClick="eccube.openWindow('./delivery_addr.php?other_deliv_id=<!--{$arrOtherDeliv[cnt].other_deliv_id|h}-->','deliv_disp','600','640'); return false;" class="b_edit deliv_edit">編集</a></li>

@@ -39,10 +39,10 @@
             <dl class="form_entry">
 
             <dt>お名前</dt>
-            <dd><!--{$arrForm.name01.value|h}-->&nbsp;<!--{$arrForm.name02.value|h}--></dd>
+            <dd><!--{$arrForm|format_name|h}--></dd>
 
             <dt>お名前(フリガナ)</dt>
-            <dd><!--{$arrForm.kana01.value|h}-->&nbsp;<!--{$arrForm.kana02.value|h}--></dd>
+            <dd><!--{$arrForm|format_name:'kana'|h}--></dd>
 
             <dt>住所</dt>
             <dd>

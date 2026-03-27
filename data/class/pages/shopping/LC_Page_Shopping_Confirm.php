@@ -52,7 +52,6 @@ class LC_Page_Shopping_Confirm extends LC_Page_Ex
         $this->arrMAILMAGATYPE = $masterData->getMasterData('mtb_mail_magazine_type');
         $this->arrReminder = $masterData->getMasterData('mtb_reminder');
         $this->arrDeliv = SC_Helper_Delivery_Ex::getIDValueList('service_name');
-        $this->httpCacheControl('nocache');
     }
 
     /**

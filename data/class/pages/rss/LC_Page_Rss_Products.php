@@ -110,9 +110,6 @@ class LC_Page_Rss_Products extends LC_Page_Ex
         // セットしたデータをテンプレートファイルに出力
         $objView->assignobj($this);
 
-        // キャッシュしない(念のため)
-        header('Pragma: no-cache');
-
         // XMLテキスト(これがないと正常にRSSとして認識してくれないツールがあるため)
         header('Content-type: application/xml');
 

@@ -1786,7 +1786,12 @@ class SC_CheckError
             return true;
         }
 
-        return @eval('return is_scalar('.$value.');');
+        try {
+            return (bool) @eval('return is_scalar('.$value.');');
+        } catch (\Throwable $e) {
+            // eval の構文エラーや実行時エラーは例外として扱い、バリデーション失敗とする
+            return false;
+        }
     }
 
     /**

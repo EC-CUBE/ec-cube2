@@ -1,6 +1,6 @@
 <?php
 
-class SC_DB_DBFactory_PGSQLTest extends Common_TestCase
+class SC_DB_DBFactory_PGSQLTest extends SC_DB_DBFactoryTestAbstract
 {
     /**
      * @var SC_DB_DBFactory_PGSQL
@@ -16,15 +16,5 @@ class SC_DB_DBFactory_PGSQLTest extends Common_TestCase
     public function testGetInstance()
     {
         $this->assertInstanceOf('SC_DB_DBFactory_PGSQL_Ex', $this->dbFactory);
-    }
-
-    public function testGetTransactionIsolationLevel()
-    {
-        $this->assertEquals(SC_DB_DBFactory_Ex::ISOLATION_LEVEL_READ_COMMITTED, $this->dbFactory->getTransactionIsolationLevel());
-    }
-
-    public function testIsSkipDeleteIfNotExists()
-    {
-        $this->assertFalse($this->dbFactory->isSkipDeleteIfNotExists());
     }
 }
