@@ -648,6 +648,9 @@ class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
         if (PEAR::isError($result)) {
             $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
         }
+        if ($request->getResponseCode() >= 500) {
+            $this->markTestSkipped('httpbin.org returned server error: '.$request->getResponseCode());
+        }
 
         $this->assertTrue($result);
         $this->assertEquals(200, $request->getResponseCode());
@@ -678,6 +681,9 @@ class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
         if (PEAR::isError($result)) {
             $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
         }
+        if ($request->getResponseCode() >= 500) {
+            $this->markTestSkipped('httpbin.org returned server error: '.$request->getResponseCode());
+        }
 
         $this->assertTrue($result);
         $this->assertEquals(200, $request->getResponseCode());
@@ -707,6 +713,9 @@ class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
         if (PEAR::isError($result)) {
             $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
         }
+        if ($request->getResponseCode() >= 500) {
+            $this->markTestSkipped('httpbin.org returned server error: '.$request->getResponseCode());
+        }
 
         $this->assertTrue($result);
         $this->assertEquals(200, $request->getResponseCode());
@@ -730,6 +739,9 @@ class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
 
         if (PEAR::isError($result)) {
             $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
+        }
+        if ($request->getResponseCode() >= 500) {
+            $this->markTestSkipped('httpbin.org returned server error: '.$request->getResponseCode());
         }
 
         $this->assertTrue($result);
@@ -755,6 +767,9 @@ class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
         if (PEAR::isError($result)) {
             $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
         }
+        if ($request->getResponseCode() >= 500) {
+            $this->markTestSkipped('httpbin.org returned server error: '.$request->getResponseCode());
+        }
 
         $this->assertTrue($result);
         $body = json_decode($request->getResponseBody(), true);
@@ -777,6 +792,9 @@ class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
 
         if (PEAR::isError($result)) {
             $this->markTestSkipped('Could not connect to httpbin.org: '.$result->getMessage());
+        }
+        if ($request->getResponseCode() >= 500) {
+            $this->markTestSkipped('httpbin.org returned server error: '.$request->getResponseCode());
         }
 
         $this->assertTrue($result);
