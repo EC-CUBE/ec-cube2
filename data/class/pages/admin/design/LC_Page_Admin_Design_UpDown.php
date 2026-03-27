@@ -176,9 +176,28 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
         if (!is_array($arrArchive)) {
             $arrErr['template_file'] = '※ テンプレートファイルが解凍できません。許可されている形式は、tar/tar.gzです。<br />';
         } else {
-            $make_temp_error = $objUpFile->makeTempFile('template_file', false);
-            if (!SC_Utils_Ex::isBlank($make_temp_error)) {
-                $arrErr['template_file'] = $make_temp_error;
+            // アーカイブ内容の安全性チェック
+            foreach ($arrArchive as $file) {
+                $entryName = $file['filename'];
+                if (str_contains($entryName, '..')) {
+                    $arrErr['template_file'] = '※ アーカイブに不正なパスが含まれています。<br />';
+                    break;
+                }
+                if (str_starts_with($entryName, '/')) {
+                    $arrErr['template_file'] = '※ アーカイブに絶対パスが含まれています。<br />';
+                    break;
+                }
+                if (isset($file['typeflag']) && $file['typeflag'] === '2') {
+                    $arrErr['template_file'] = '※ シンボリックリンクは許可されていません。<br />';
+                    break;
+                }
+            }
+
+            if (empty($arrErr['template_file'])) {
+                $make_temp_error = $objUpFile->makeTempFile('template_file', false);
+                if (!SC_Utils_Ex::isBlank($make_temp_error)) {
+                    $arrErr['template_file'] = $make_temp_error;
+                }
             }
         }
 
