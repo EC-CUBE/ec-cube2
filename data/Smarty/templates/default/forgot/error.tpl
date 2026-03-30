@@ -1,5 +1,4 @@
 <!--{*
-/*
  * This file is part of EC-CUBE
  *
  * Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
@@ -19,12 +18,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- */
-*}-->
+ *}-->
+<!--{include file="`$smarty.const.TEMPLATE_REALDIR`popup_header.tpl" subtitle="エラー"}-->
 
-パスワードの変更が完了いたしました。<br>
-新しいパスワードでログインしてください。<br>
-<br>
-確認のため、パスワード変更完了のメールをお送りしました。<br>
-<br>
-新しいパスワードでログインできます。
+<div id="window_area">
+    <h2 class="title">エラー</h2>
+    <p class="information">
+        <span class="attention"><!--{$errmsg|h}--></span><br />
+        <br />
+        パスワード再設定リンクが無効または期限切れです。<br />
+        お手数ですが、最初からやり直してください。
+    </p>
+    <div class="btn_area">
+        <ul>
+            <li><a href="<!--{$smarty.const.HTTPS_URL}-->forgot/"><img class="hover_change_image" src="<!--{$TPL_URLPATH}-->img/button/btn_back.jpg" alt="戻る" /></a></li>
+        </ul>
+    </div>
+</div>
+
+<!--{include file="`$smarty.const.TEMPLATE_REALDIR`popup_footer.tpl"}-->
