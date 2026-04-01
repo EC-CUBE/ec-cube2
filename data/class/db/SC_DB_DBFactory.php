@@ -342,6 +342,19 @@ class SC_DB_DBFactory
     }
 
     /**
+     * 現在時刻から指定期間前の日時を表す SQL 式を返す.
+     *
+     * @param int    $value 期間の値
+     * @param string $unit  期間の単位 ('hour', 'day', 'minute' 等)
+     *
+     * @return string SQL 式
+     */
+    public function getDateTimeBeforeIntervalSql($value, $unit)
+    {
+        return null;
+    }
+
+    /**
      * 削除時に対象行が存在しない場合に削除をスキップする必要があるかを返す。
      *
      * @return bool
