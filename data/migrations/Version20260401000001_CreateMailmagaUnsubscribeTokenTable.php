@@ -16,8 +16,8 @@ class Version20260401000001_CreateMailmagaUnsubscribeTokenTable extends Migratio
             $table->serial();
             $table->integer('customer_id')->notNull();
             $table->integer('send_id')->notNull();
-            $table->varchar('token', 64)->notNull();
-            $table->varchar('email', 255)->notNull();
+            $table->string('token', 64)->notNull();
+            $table->string('email', 255)->notNull();
             $table->smallint('used_flg')->notNull()->default(0);
             $table->timestamp('used_date')->nullable();
             $table->timestamp('expire_date')->notNull();
