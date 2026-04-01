@@ -149,6 +149,7 @@ dtb_plugin_hookpoint_plugin_hookpoint_id_seq
 dtb_api_config_api_config_id_seq
 dtb_api_account_api_account_id_seq
 dtb_tax_rule_tax_rule_id_seq
+dtb_login_attempt_login_attempt_id_seq
 "
 
     comb_sql="";
@@ -326,5 +327,13 @@ cp -rv "./html/install/save_image" "./html/upload/"
 
 echo "creating ${CONFIG_PHP}..."
 create_config_php
+
+#-- Run Migrations (if ec-cube2-migration is installed)
+if [ -f "data/vendor/bin/eccube" ]; then
+    if php data/vendor/bin/eccube list 2>/dev/null | grep -q "migrate"; then
+        echo "running migrations..."
+        php data/vendor/bin/eccube migrate
+    fi
+fi
 
 echo "Finished Successful!"

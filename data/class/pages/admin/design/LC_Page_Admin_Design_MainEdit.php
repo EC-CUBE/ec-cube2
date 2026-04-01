@@ -372,6 +372,13 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
     {
         $path = USER_REALDIR.$filename.'.php';
 
+        // パストラバーサル防止: realpath で正規化し USER_REALDIR 内であることを検証
+        $parentDir = realpath(dirname($path));
+        $userRealDir = realpath(USER_REALDIR);
+        if ($parentDir === false || $userRealDir === false || !str_starts_with($parentDir.'/', $userRealDir.'/')) {
+            return false;
+        }
+
         if (file_exists($path)) {
             return true;
         }
