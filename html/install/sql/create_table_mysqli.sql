@@ -258,23 +258,6 @@ CREATE TABLE dtb_send_customer (
     PRIMARY KEY (send_id, customer_id)
 );
 
-CREATE TABLE dtb_mailmaga_unsubscribe_token (
-    mailmaga_unsubscribe_token_id int NOT NULL,
-    customer_id int NOT NULL,
-    send_id int NOT NULL,
-    token varchar(64) NOT NULL,
-    email varchar(255) NOT NULL,
-    used_flg smallint NOT NULL DEFAULT 0,
-    used_date datetime DEFAULT NULL,
-    expire_date datetime NOT NULL,
-    create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (mailmaga_unsubscribe_token_id),
-    UNIQUE KEY (token),
-    KEY dtb_mailmaga_unsubscribe_token_customer_id_key (customer_id),
-    KEY dtb_mailmaga_unsubscribe_token_send_id_key (send_id),
-    KEY dtb_mailmaga_unsubscribe_token_expire_date_key (expire_date)
-);
-
 CREATE TABLE dtb_products (
     product_id int NOT NULL,
     name text NOT NULL,

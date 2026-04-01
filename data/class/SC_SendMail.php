@@ -155,6 +155,13 @@ class SC_SendMail
      */
     public function addCustomHeader($name, $value)
     {
+        // ヘッダー名の形式チェック（RFC 7230 token）
+        if (!is_string($name) || $name === '' || !preg_match('/^[!#$%&\'*+\-.^_`|~0-9A-Za-z]+$/', $name)) {
+            trigger_error('ヘッダー名の形式が不正です。', E_USER_WARNING);
+
+            return;
+        }
+
         // ヘッダーインジェクション対策
         if (preg_match('/[\r\n]/', $name) || preg_match('/[\r\n]/', $value)) {
             trigger_error('ヘッダーに改行文字は使用できません。', E_USER_WARNING);
