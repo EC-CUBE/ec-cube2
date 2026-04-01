@@ -9,6 +9,7 @@ class SC_Helper_MailmagaTest extends Common_TestCase
         // テスト用テーブルのクリーンアップ
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $objQuery->delete('dtb_mailmaga_unsubscribe_token');
+        $objQuery->setVal('dtb_mailmaga_unsubscribe_token_mailmaga_unsubscribe_token_id', 0);
     }
 
     public function testGenerateUnsubscribeToken()
