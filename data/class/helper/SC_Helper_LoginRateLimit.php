@@ -56,15 +56,10 @@ class SC_Helper_LoginRateLimit
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        // データベースタイプに応じて1時間前の時刻を取得
-        if (DB_TYPE == 'pgsql') {
-            $interval_clause = "create_date > NOW() - INTERVAL '1 hour'";
-        } elseif (DB_TYPE == 'sqlite3') {
-            $interval_clause = "create_date > datetime('now', 'localtime', '-1 hour')";
-        } else {
-            // MySQL
-            $interval_clause = 'create_date > NOW() - INTERVAL 1 HOUR';
-        }
+        // DBFactory を使用して1時間前の時刻を取得
+        $objDBFactory = SC_DB_DBFactory::getInstance();
+        $interval_expr = $objDBFactory->getDateTimeBeforeIntervalSql(1, 'hour');
+        $interval_clause = "create_date > {$interval_expr}";
 
         // 同一メールアドレスの失敗回数をチェック
         $email_count = $objQuery->count(
@@ -166,15 +161,10 @@ class SC_Helper_LoginRateLimit
 
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        // データベースタイプに応じて削除条件を設定
-        if (DB_TYPE == 'pgsql') {
-            $where = "create_date < NOW() - INTERVAL '{$days} days'";
-        } elseif (DB_TYPE == 'sqlite3') {
-            $where = "create_date < datetime('now', 'localtime', '-{$days} days')";
-        } else {
-            // MySQL
-            $where = "create_date < NOW() - INTERVAL {$days} DAY";
-        }
+        // DBFactory を使用して削除条件を設定
+        $objDBFactory = SC_DB_DBFactory::getInstance();
+        $interval_expr = $objDBFactory->getDateTimeBeforeIntervalSql($days, 'day');
+        $where = "create_date < {$interval_expr}";
 
         $count = $objQuery->delete(
             'dtb_login_attempt',
