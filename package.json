@@ -30,8 +30,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-playwright": "^2.2.0",
     "tar": "^7.5.11",
-    "typescript": "^5.8.3",
-    "zaproxy": "^2.0.0-rc.7"
+    "typescript": "^5.8.3"
   },
   "scripts": {
     "lint:javascript": "eslint --fix data/*.js",
