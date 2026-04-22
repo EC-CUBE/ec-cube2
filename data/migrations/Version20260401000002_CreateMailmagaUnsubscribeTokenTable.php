@@ -8,7 +8,7 @@ use Eccube2\Migration\Schema\Table;
 /**
  * Issue #819: メルマガワンクリック登録解除トークン管理テーブル
  */
-class Version20260401000001_CreateMailmagaUnsubscribeTokenTable extends Migration
+class Version20260401000002_CreateMailmagaUnsubscribeTokenTable extends Migration
 {
     public function up(): void
     {
