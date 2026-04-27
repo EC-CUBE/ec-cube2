@@ -109,8 +109,6 @@ define('MAX_LOG_QUANTITY', 5);
 define('MAX_LOG_SIZE', "1000000");
 /** トランザクションID の名前 */
 define('TRANSACTION_ID_NAME', "transactionid");
-/** パスワード忘れの確認メールを送付するか否か。(0:送信しない、1:送信する) */
-define('FORGOT_MAIL', 0);
 /** 誕生日月ポイント */
 define('BIRTH_MONTH_POINT', 0);
 /** 拡大画像横 */
@@ -258,6 +256,8 @@ define('TEL_LEN', 12);
 define('PASSWORD_MIN_LEN', 8);
 /** フロント画面用：パスワードの最大文字数 */
 define('PASSWORD_MAX_LEN', SMTEXT_LEN);
+/** パスワードリセットトークンの有効期限(時間) */
+define('PASSWORD_RESET_TOKEN_EXPIRE_HOURS', 24);
 /** 検査数値用桁数(INT) */
 define('INT_LEN', 9);
 /** クレジットカードの文字数 (*モジュールで使用) */

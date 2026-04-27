@@ -221,7 +221,9 @@ jobs:
         sh -c 'echo "<?php" >> data/config/config.php'
         docker compose up -d --wait
 
-    - run: sleep 1
+    - name: Wait for ec-cube to be ready
+      run: |
+        until curl -sf -k https://localhost:4430/ -o /dev/null 2>&1; do sleep 1; done
     - run: |
         rm data/config/config.php
         chmod -R o+w html
