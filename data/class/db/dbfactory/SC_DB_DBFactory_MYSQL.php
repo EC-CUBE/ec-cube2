@@ -400,6 +400,14 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
         return $this->getTransactionIsolationLevel() >= static::ISOLATION_LEVEL_REPEATABLE_READ;
     }
 
+    public function getDateTimeBeforeIntervalSql($value, $unit)
+    {
+        $value = (int) $value;
+        $unit = strtoupper($unit);
+
+        return "NOW() - INTERVAL {$value} {$unit}";
+    }
+
     public function addLimitOffset($sql, $limit = null, $offset = null)
     {
         // MySQL は OFFSET のみの指定はできないため、LIMIT が指定されていない場合は最大値を指定する。

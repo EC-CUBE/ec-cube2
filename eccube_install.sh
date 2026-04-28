@@ -326,4 +326,12 @@ cp -rv "./html/install/save_image" "./html/upload/"
 echo "creating ${CONFIG_PHP}..."
 create_config_php
 
+#-- Run Migrations (if ec-cube2-migration is installed)
+if [ -f "data/vendor/bin/eccube" ]; then
+    if php data/vendor/bin/eccube list 2>/dev/null | grep -q "migrate"; then
+        echo "running migrations..."
+        php data/vendor/bin/eccube migrate
+    fi
+fi
+
 echo "Finished Successful!"

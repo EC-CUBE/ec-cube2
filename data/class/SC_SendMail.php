@@ -44,6 +44,8 @@ class SC_SendMail
     public $from;
     /** @var string */
     public $reply_to;
+    /** @var array */
+    protected $customHeaders;
 
     /**
      * コンストラクタ
@@ -58,8 +60,9 @@ class SC_SendMail
         $this->body = '';
         $this->cc = '';
         $this->bcc = '';
-        $this->replay_to = '';
+        $this->reply_to = '';
         $this->return_path = '';
+        $this->customHeaders = [];
         $this->backend = MAIL_BACKEND;
         $this->host = SMTP_HOST;
         $this->port = SMTP_PORT;
@@ -144,11 +147,52 @@ class SC_SendMail
         $this->return_path = $return_path;
     }
 
+    /**
+     * カスタムヘッダーを追加
+     *
+     * @param string $name  ヘッダー名
+     * @param string $value ヘッダー値
+     */
+    public function addCustomHeader($name, $value)
+    {
+        // ヘッダー名の形式チェック（RFC 7230 token）
+        if (!is_string($name) || $name === '' || !preg_match('/^[!#$%&\'*+\-.^_`|~0-9A-Za-z]+$/', $name)) {
+            trigger_error('ヘッダー名の形式が不正です。', E_USER_WARNING);
+
+            return;
+        }
+
+        // ヘッダーインジェクション対策
+        if (preg_match('/[\r\n]/', $name) || preg_match('/[\r\n]/', $value)) {
+            trigger_error('ヘッダーに改行文字は使用できません。', E_USER_WARNING);
+
+            return;
+        }
+
+        // 重要なヘッダーの上書きを防止
+        $protectedHeaders = ['from', 'to', 'subject', 'cc', 'bcc', 'reply-to', 'return-path', 'date', 'mime-version', 'content-type', 'content-transfer-encoding'];
+        if (in_array(strtolower($name), $protectedHeaders, true)) {
+            trigger_error('保護されたヘッダーは上書きできません: '.$name, E_USER_WARNING);
+
+            return;
+        }
+
+        $this->customHeaders[$name] = $value;
+    }
+
+    /**
+     * カスタムヘッダーをクリア
+     */
+    public function clearCustomHeaders()
+    {
+        $this->customHeaders = [];
+    }
+
     // 件名の設定
     public function setSubject($subject)
     {
+        $subject = str_replace(["\r\n", "\r", "\n"], ' ', $subject);
         $this->subject = mb_encode_mimeheader($subject, 'ISO-2022-JP-MS', 'B', "\n");
-        $this->subject = str_replace(["\r\n", "\r"], "\n", $this->subject);
     }
 
     // 本文の設定
@@ -283,6 +327,11 @@ class SC_SendMail
         }
         $arrHeader['Date'] = date('D, j M Y H:i:s O');
         $arrHeader['Content-Transfer-Encoding'] = '7bit';
+
+        // カスタムヘッダーをマージ
+        foreach ($this->customHeaders as $name => $value) {
+            $arrHeader[$name] = $value;
+        }
 
         return $arrHeader;
     }
