@@ -344,7 +344,7 @@ class SC_Helper_DB
             $rollback_point = $arrRet['point'];
 
             // 対応状況がポイント利用対象の場合、使用ポイント分を戻す
-            if ((new SC_Helper_Purchase_Ex())->isUsePoint($order_status)) {
+            if (SC_Helper_Purchase_Ex::isUsePoint($order_status)) {
                 $rollback_point += $use_point;
             }
 

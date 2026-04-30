@@ -1524,7 +1524,7 @@ class SC_Helper_Purchase
             if (!SC_Utils_Ex::isBlank($arrOrders)) {
                 foreach ($arrOrders as $arrOrder) {
                     $order_id = $arrOrder['order_id'];
-                    (new SC_Helper_Purchase_Ex())->cancelOrder($order_id, ORDER_CANCEL, true);
+                    static::cancelOrder($order_id, ORDER_CANCEL, true);
                     GC_Utils_Ex::gfPrintLog('order cancel.(time expire) order_id='.$order_id);
                 }
             }
@@ -1553,10 +1553,10 @@ class SC_Helper_Purchase
                             $target_time = strtotime('-'.$term.' sec');
                             $create_time = strtotime($arrOrder['create_date']);
                             if (SC_Utils_Ex::isBlank($cartKeys) && $target_time < $create_time) {
-                                (new SC_Helper_Purchase_Ex())->rollbackOrder($order_id, ORDER_CANCEL, true);
+                                static::rollbackOrder($order_id, ORDER_CANCEL, true);
                                 GC_Utils_Ex::gfPrintLog('order rollback.(my pending) order_id='.$order_id);
                             } else {
-                                (new SC_Helper_Purchase_Ex())->cancelOrder($order_id, ORDER_CANCEL, true);
+                                static::cancelOrder($order_id, ORDER_CANCEL, true);
                                 if ($target_time > $create_time) {
                                     GC_Utils_Ex::gfPrintLog('order cancel.(my pending and time expire) order_id='.$order_id);
                                 } else {
@@ -1565,7 +1565,7 @@ class SC_Helper_Purchase
                             }
                         }
                     } else {
-                        (new SC_Helper_Purchase_Ex())->cancelOrder($order_id, ORDER_CANCEL, true);
+                        static::cancelOrder($order_id, ORDER_CANCEL, true);
                         GC_Utils_Ex::gfPrintLog('order cancel.(my old pending) order_id='.$order_id);
                     }
                 }
@@ -1592,10 +1592,10 @@ class SC_Helper_Purchase
             $objCartSess = new SC_CartSession_Ex();
             $cartKeys = $objCartSess->getKeys();
             if (SC_Utils_Ex::isBlank($cartKeys)) {
-                (new SC_Helper_Purchase_Ex())->rollbackOrder($order_id, ORDER_CANCEL, true);
+                static::rollbackOrder($order_id, ORDER_CANCEL, true);
                 GC_Utils_Ex::gfPrintLog('order rollback.(session pending) order_id='.$order_id);
             } else {
-                (new SC_Helper_Purchase_Ex())->cancelOrder($order_id, ORDER_CANCEL, true);
+                static::cancelOrder($order_id, ORDER_CANCEL, true);
                 GC_Utils_Ex::gfPrintLog('order rollback.(session pending and set card) order_id='.$order_id);
             }
         }
