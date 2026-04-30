@@ -20,16 +20,56 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *}-->
 
+<script type="text/javascript">
+    function ajaxLogin() {
+        var checkLogin = eccube.checkLoginFormInputted('member_form');
+
+        if (checkLogin == false) {
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "<!--{$smarty.const.ROOT_URLPATH}-->shopping/index.php",
+            data: $('#member_form').serialize(),
+            cache: false,
+            dataType: "json",
+            error: function(xhr, textStatus, errorThrown) {
+                if (xhr.status === 401) {
+                    try {
+                        var result = JSON.parse(xhr.responseText);
+                        if (result.error) {
+                            $('#login_error_area').html(result.error).show();
+                        }
+                    } catch (e) {
+                        alert('通信エラーが発生しました。');
+                    }
+                } else {
+                    alert('通信エラーが発生しました。');
+                }
+            },
+            success: function(result) {
+                if (result.success) {
+                    location.href = '<!--{$smarty.const.ROOT_URLPATH}-->shopping/' + result.success;
+                }
+            }
+        });
+
+        return false;
+    }
+</script>
+
 <div id="undercolumn">
     <div id="undercolumn_login">
         <h2 class="title"><!--{$tpl_title|h}--></h2>
-        <form name="member_form" id="member_form" method="post" action="?" onsubmit="return eccube.checkLoginFormInputted('member_form')">
+        <form name="member_form" id="member_form" method="post" action="?" onsubmit="return ajaxLogin()">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
             <input type="hidden" name="mode" value="login" />
 
             <div class="login_area">
                 <h3>会員登録がお済みのお客様</h3>
                 <p class="inputtext">会員の方は、登録時に入力されたメールアドレスとパスワードでログインしてください。</p>
+                <div id="login_error_area" class="attention" style="margin-bottom: 10px;<!--{if !$arrErr.login}--> display: none;<!--{/if}-->"><!--{$arrErr.login|h|nl2br}--></div>
                 <div class="inputbox">
                     <dl class="formlist clearfix">
                         <!--{assign var=key value="login_email"}-->
