@@ -43,6 +43,14 @@ jobs:
       owner: ${{ github.repository_owner }}
     needs: [ dockerbuild ]
     uses: ./.github/workflows/phpstan.yml
+  rector:
+    with:
+      ref_name: ${{ github.ref_name }}
+      base_ref: ${{ github.base_ref }}
+      event_name: ${{ github.event_name }}
+      owner: ${{ github.repository_owner }}
+    needs: [ dockerbuild ]
+    uses: ./.github/workflows/rector.yml
   dependency-review:
     uses: ./.github/workflows/dependency-review.yml
   unit-tests:
@@ -51,7 +59,7 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ php-cs-fixer, phpstan ]
+    needs: [ php-cs-fixer, phpstan, rector ]
     uses: ./.github/workflows/unit-tests.yml
   e2e-tests:
     with:
@@ -65,6 +73,7 @@ jobs:
     needs:
       - php-cs-fixer
       - phpstan
+      - rector
       - dependency-review
       - unit-tests
       - e2e-tests
