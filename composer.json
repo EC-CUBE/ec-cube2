@@ -30,16 +30,20 @@
         "phpdocumentor/reflection-docblock": "~5.6.1",
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^9.6",
+        "react/promise": "^3.3",
         "symfony/yaml": "^5.4 || ^6.4"
     },
     "require": {
         "php": "^7.4 || ^8.0",
+        "ec-cube2/cli": "^1.4.3",
         "ext-gd": "*",
         "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^7.4.5",
         "mobiledetect/mobiledetectlib": "^3.74",
         "nanasess/mdb2": "^2.5",
         "nanasess/php8-compat": "^1.0",
         "nobuhiko/calendar": "^1.0",
+        "nobuhiko/ec-cube2-migration": "^1.0",
         "pear/archive_tar": "^1.4.3",
         "pear/mail": "*",
         "pear/net_smtp": "^1.12",
@@ -61,6 +65,7 @@
         "files": [
             "data/smarty_extends/function.from_to.php",
             "data/smarty_extends/function.include_php_ex.php",
+            "data/smarty_extends/modifier.format_name.php",
             "data/smarty_extends/modifier.h.php",
             "data/smarty_extends/modifier.n2s.php",
             "data/smarty_extends/modifier.nl2br_html.php",

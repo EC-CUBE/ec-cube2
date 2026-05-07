@@ -43,7 +43,6 @@ class LC_Page_Contact extends LC_Page_Ex
         } else {
             $this->tpl_title = 'お問い合わせ(入力ページ)';
         }
-        $this->httpCacheControl('nocache');
 
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrPref = $masterData->getMasterData('mtb_pref');

@@ -266,7 +266,7 @@ class SC_Utils
             } else {
                 $time = '00:00:00';
             }
-            $date = $year.'-'.$month.'-'.$day.' '.$time;
+            $date = sprintf('%04d-%02d-%02d', $year, $month, $day).' '.$time;
         } else {
             $date = '';
         }
@@ -290,7 +290,7 @@ class SC_Utils
             } else {
                 $time = $hour.':'.$minutes.':00';
             }
-            $date = $year.'-'.$month.'-'.$day.' '.$time;
+            $date = sprintf('%04d-%02d-%02d', $year, $month, $day).' '.$time;
         } else {
             $date = '';
         }
@@ -1106,8 +1106,8 @@ class SC_Utils
         $start_day = date('d', mktime(0, 0, 0, $tmp_month, $tmp_day + 1, $tmp_year));
 
         // 日付の作成
-        $start_date = sprintf('%d/%d/%d', $start_year, $start_month, $start_day);
-        $end_date = sprintf('%d/%d/%d 23:59:59', $end_year, $end_month, $end_day);
+        $start_date = sprintf('%d-%02d-%02d', $start_year, $start_month, $start_day);
+        $end_date = sprintf('%d-%02d-%02d 23:59:59', $end_year, $end_month, $end_day);
 
         return [$start_date, $end_date];
     }
@@ -1285,9 +1285,13 @@ class SC_Utils
                     $mess = SC_Utils_Ex::sfCopyDir($data_.'/', $des.$data.'/', $mess);
                 } else {
                     if (!$override && file_exists($des.$data)) {
+                        // ファイルが既に存在する場合でもパーミッションを設定（インストーラーのパーミッションチェック対策）
+                        @chmod($des.$data, 0666);
                         $mess .= $des.$data."：ファイルが存在します\n";
                     } else {
                         if (@copy($data_, $des.$data)) {
+                            // コピー後にパーミッションを設定（インストーラーのパーミッションチェック対策）
+                            @chmod($des.$data, 0666);
                             $mess .= $des.$data."：コピー成功\n";
                         } else {
                             $mess .= $des.$data."：コピー失敗\n";
@@ -2244,5 +2248,76 @@ class SC_Utils
         $micro_string = explode('.', $micro[0]);
 
         return date('Y-m-d H:i:s').'.'.substr($micro_string[1], 0, 5);
+    }
+
+    /**
+     * 配列を基にお名前を整形する
+     *
+     * @param array $arr 要素に姓名を含む配列
+     * @param string $prefix 姓名の要素のキーの先頭部分
+     *
+     * @return string
+     */
+    public static function formatName($arr, string $prefix = 'name')
+    {
+        if (!is_array($arr)) {
+            $type = function_exists('get_debug_type') ? get_debug_type($arr) : gettype($arr);
+            trigger_error(__FUNCTION__."() 第1引数に {$type} が渡った。", E_USER_WARNING);
+
+            return '';
+        }
+
+        /** @var callable 配列から姓や名を取り出す */
+        $fncGetPart = function (array $arr, string $key) {
+            if (!isset($arr[$key])) {
+                return '';
+            }
+
+            if (is_array($arr[$key])) {
+                return isset($arr[$key]['value']) && is_string($arr[$key]['value'])
+                    ? $arr[$key]['value']
+                    : ''
+                ;
+            }
+
+            return is_string($arr[$key])
+                ? $arr[$key]
+                : ''
+            ;
+        };
+
+        /** @var string 姓 */
+        $name01 = $fncGetPart($arr, "{$prefix}01");
+        /** @var string 名 */
+        $name02 = $fncGetPart($arr, "{$prefix}02");
+
+        $return = implode(' ', array_filter([$name01, $name02], fn ($part) => $part !== ''));
+
+        return $return;
+    }
+
+    /**
+     * int 型の ID 値の妥当性チェック
+     *
+     * - ゼロは適合と扱う。
+     *     - dtb_pagelayout.page_id で使われるため。
+     * - 負の数は不適合と扱う。
+     * - NULL・空文字は不適合と扱う。
+     * - smallint 型のカラムには適用を想定していない。
+     *
+     * @param int|string $id
+     *
+     * @return bool 妥当か
+     */
+    public static function isValidIntId($id)
+    {
+        if (!is_string($id) && !is_int($id)) {
+            return false;
+        }
+
+        // 文字列として評価する。
+        $id = (string) $id;
+
+        return strlen($id) <= INT_LEN && ctype_digit($id);
     }
 }

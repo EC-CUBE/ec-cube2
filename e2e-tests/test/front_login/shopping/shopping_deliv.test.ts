@@ -39,6 +39,7 @@ test.describe.serial('お届け先指定画面のテストをします', () => {
   test.describe('お支払方法・お届け時間等の指定へ進むテストを実行します[POST] @attack', () => {
     let scanId: number;
     test('アクティブスキャンを実行します', async ( { page } ) => {
+      await page.goto(url);
       await page.click('input[alt=選択したお届け先に送る]');
       const cartPage = new CartPage(page);
       const zapClient = cartPage.getZapClient();

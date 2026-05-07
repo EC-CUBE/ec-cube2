@@ -40,7 +40,6 @@ class LC_Page_Contact_Complete extends LC_Page_Ex
         parent::init();
         $this->tpl_title = 'お問い合わせ(完了ページ)';
         $this->tpl_mainno = 'contact';
-        $this->httpCacheControl('nocache');
     }
 
     /**

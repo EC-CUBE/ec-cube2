@@ -5,6 +5,8 @@ require_once $HOME.'/tests/class/helper/SC_Helper_Address/SC_Helper_Address_Test
 
 class SC_Helper_Address_deleteAddressTest extends SC_Helper_Address_TestBase
 {
+    protected SC_Helper_Address $objAddress;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,12 +37,12 @@ class SC_Helper_Address_deleteAddressTest extends SC_Helper_Address_TestBase
         $this->verify('登録配送先削除');
     }
 
-    public function testdeleteAddressTest会員IDを設定しない場合FALSEを返す()
+    public function testdeleteAddressTest不正な会員IDの場合FALSEを返す()
     {
         $this->setUpAddress();
         $other_deliv_id = '1000';
         $this->expected = false;
-        $this->actual = $this->objAddress->deleteAddress($other_deliv_id);
+        $this->actual = $this->objAddress->deleteAddress($other_deliv_id, '');
 
         $this->verify('登録配送先削除');
     }

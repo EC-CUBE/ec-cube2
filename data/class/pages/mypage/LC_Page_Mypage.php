@@ -56,8 +56,6 @@ class LC_Page_Mypage extends LC_Page_AbstractMypage_Ex
         }
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrCustomerOrderStatus = $masterData->getMasterData('mtb_customer_order_status');
-
-        $this->httpCacheControl('nocache');
     }
 
     /**

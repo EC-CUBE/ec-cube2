@@ -100,9 +100,13 @@ class LC_Page_AbstractMypage extends LC_Page_Ex
         } else {
             // マイページ会員情報表示用共通処理
             $this->tpl_login = true;
-            $this->CustomerName1 = $objCustomer->getValue('name01');
-            $this->CustomerName2 = $objCustomer->getValue('name02');
             $this->CustomerPoint = $objCustomer->getValue('point');
+            $this->arrCustomer = $objCustomer->getValues();
+
+            // 旧テンプレート互換
+            $this->CustomerName1 = $this->arrCustomer['name01'] ?? '';
+            $this->CustomerName2 = $this->arrCustomer['name02'] ?? '';
+
             $this->action();
         }
 

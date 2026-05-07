@@ -208,7 +208,7 @@ class SC_Helper_Mail
         $tosubject = $this->sfMakeSubject($tmp_subject, $objMailView);
 
         $objSendMail->setItem('', $tosubject, $body, $from, $arrInfo['shop_name'], $from, $error, $error, $bcc);
-        $objSendMail->setTo($arrOrder['order_email'], $arrOrder['order_name01'].' '.$arrOrder['order_name02'].' 様');
+        $objSendMail->setTo($arrOrder['order_email'], SC_Utils_Ex::formatName($arrOrder, 'order_name').' 様');
 
         // 送信フラグ:trueの場合は、送信する。
         if ($send) {
@@ -419,7 +419,7 @@ class SC_Helper_Mail
         } else {
             $to_addr = $arrCustomerData['email'];
         }
-        $objMail->setTo($to_addr, $arrCustomerData['name01'].$arrCustomerData['name02'].' 様');
+        $objMail->setTo($to_addr, SC_Utils_Ex::formatName($arrCustomerData).' 様');
 
         $objMail->sendMail();
 
@@ -531,6 +531,16 @@ class SC_Helper_Mail
             $subjectBody = preg_replace('/{name}/', $customerName, $arrMail['subject']);
             $mailBody = preg_replace('/{name}/', $customerName, $arrMail['body']);
 
+            // ワンクリック登録解除トークンの生成
+            $token = SC_Helper_Mailmaga_Ex::generateUnsubscribeToken(
+                $arrDestination['customer_id'],
+                $send_id,
+                $arrDestination['email']
+            );
+
+            // ワンクリック登録解除URLの生成
+            $unsubscribeUrl = SC_Helper_Mailmaga_Ex::getUnsubscribeUrl($token);
+
             $objMail->setItem(
                 $arrDestination['email'],
                 $subjectBody,
@@ -542,16 +552,23 @@ class SC_Helper_Mail
                 $objSite['email04']       // errors_to
             );
 
+            // RFC 8058 ヘッダーの追加
+            $objMail->addCustomHeader('List-Unsubscribe', '<'.$unsubscribeUrl.'>');
+            $objMail->addCustomHeader('List-Unsubscribe-Post', 'List-Unsubscribe=One-Click');
+
             // テキストメール配信の場合
             if ($arrMail['mail_method'] == 2) {
-                $sendResut = $objMail->sendMail();
+                $sendResult = $objMail->sendMail();
             // HTMLメール配信の場合
             } else {
-                $sendResut = $objMail->sendHtmlMail();
+                $sendResult = $objMail->sendHtmlMail();
             }
 
+            // カスタムヘッダーをクリア（次の送信のため）
+            $objMail->clearCustomHeaders();
+
             // 送信完了なら1、失敗なら2をメール送信結果フラグとしてDBに挿入
-            if (!$sendResut) {
+            if (!$sendResult) {
                 $sendFlag = '2';
             } else {
                 // 完了を 1 増やす
@@ -584,10 +601,10 @@ class SC_Helper_Mail
 
         // テキストメール配信の場合
         if ($arrMail['mail_method'] == 2) {
-            $sendResut = $objMail->sendMail();
+            $sendResult = $objMail->sendMail();
         // HTMLメール配信の場合
         } else {
-            $sendResut = $objMail->sendHtmlMail();
+            $sendResult = $objMail->sendHtmlMail();
         }
 
         return;

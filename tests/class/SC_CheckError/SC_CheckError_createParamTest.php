@@ -57,11 +57,10 @@ class SC_CheckError_createParamTest extends SC_CheckError_AbstractTestCase
 
     public function testArrParamIsIllegalCaracter()
     {
-        $this->objErr->doFunc(['EXIST_CHECK', 'aabbcc_1234-'], ['EXIST_CHECK']);
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('判定対象配列キーに使用不可文字を含む: aabbcc_1234-');
 
-        $this->expected = [self::FORM_NAME => [0 => 'A', 1 => 'B', 2 => 'C']];
-        $this->actual = $this->objErr->arrParam;
-        $this->assertEquals($this->expected, $this->actual, 'arrParam is Illegal character');
+        $this->objErr->doFunc(['EXIST_CHECK', 'aabbcc_1234-'], ['EXIST_CHECK']);
     }
 
     public function testArrParamIsIllegalValue()

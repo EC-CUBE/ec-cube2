@@ -131,8 +131,6 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
 
         // 配送業者の取得
         $this->arrDeliv = SC_Helper_Delivery_Ex::getIDValueList();
-
-        $this->httpCacheControl('nocache');
     }
 
     /**

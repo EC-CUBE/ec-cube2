@@ -28,19 +28,13 @@
     <tr>
         <th>お名前</th>
         <td>
-            <!--{assign var=key1 value="`$prefix`name01"}-->
-            <!--{assign var=key2 value="`$prefix`name02"}-->
-            <!--{$arrForm[$key1].value|h}-->&nbsp;
-            <!--{$arrForm[$key2].value|h}-->
+            <!--{$arrForm|format_name:"`$prefix`name"|h}-->
         </td>
     </tr>
     <tr>
         <th>お名前(フリガナ)</th>
         <td>
-            <!--{assign var=key1 value="`$prefix`kana01"}-->
-            <!--{assign var=key2 value="`$prefix`kana02"}-->
-            <!--{$arrForm[$key1].value|h}-->&nbsp;
-            <!--{$arrForm[$key2].value|h}-->
+            <!--{$arrForm|format_name:"`$prefix`kana"|h}-->
         </td>
     </tr>
     <tr>

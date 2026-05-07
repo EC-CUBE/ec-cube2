@@ -38,6 +38,9 @@
     <form name="member_form" id="member_form" method="post" action="?">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->">
         <input type="hidden" name="mode" value="login">
+        <!--{if $arrErr.login}-->
+        <font color="#FF0000"><!--{$arrErr.login|h|nl2br}--></font><br>
+        <!--{/if}-->
         <!--{if !$tpl_valid_phone_id}-->
             ■以前にご注文された方<br>
             (モバイル又はPCでご登録済み)<br>

@@ -28,7 +28,7 @@ class SC_CheckError_FIND_FILETest extends SC_CheckError_AbstractTestCase
     public function testFINDFILEWithNotfound()
     {
         $this->fileName = 'test.JPG';
-        $this->expected = '※ '.$this->targetDir.'test.JPGが見つかりません。<br />';
+        $this->expected = '※ '.$this->target_func.'が見つかりません。<br />';
 
         $this->scenario();
         $this->verify();

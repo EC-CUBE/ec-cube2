@@ -51,8 +51,6 @@ class LC_Page_Entry extends LC_Page_Ex
         $this->arrYear = $objDate->getYear('', START_BIRTH_YEAR, '');
         $this->arrMonth = $objDate->getMonth(true);
         $this->arrDay = $objDate->getDay(true);
-
-        $this->httpCacheControl('nocache');
     }
 
     /**

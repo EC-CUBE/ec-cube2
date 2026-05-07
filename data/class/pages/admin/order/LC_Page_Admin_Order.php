@@ -66,8 +66,6 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex
 
         // 支払い方法の取得
         $this->arrPayments = SC_Helper_Payment_Ex::getIDValueList();
-
-        $this->httpCacheControl('nocache');
     }
 
     /**

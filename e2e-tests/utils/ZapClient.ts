@@ -1,4 +1,3 @@
-import ClientApi from 'zaproxy';
 import PlaywrightConfig from '../../playwright.config';
 
 /**
@@ -115,25 +114,41 @@ export class ZapClientError extends Error {
  */
 export class ZapClient {
 
-  /** APIキー. */
-  private apiKey: string | null;
-
-  /** プロキシサーバーのホスト名. */
+  /** プロキシサーバーのURL. */
   private proxy: string | undefined;
 
-  /** ClientApi のインスタンス. */
-  private readonly zaproxy;
+  /** ZAP REST API のベースURL. */
+  private baseUrl: string;
+
+  /** リクエストヘッダー. */
+  private headers: Record<string, string>;
 
   /**
    * コンストラクタ.
    */
   constructor (proxy?: string | null, apiKey?: string | null) {
     this.proxy = proxy ?? PlaywrightConfig.use?.proxy?.server;
-    this.apiKey = apiKey !== undefined ? apiKey : null;
-    this.zaproxy = new ClientApi({
-      apiKey: this.apiKey,
-      proxy: this.proxy
-    });
+    this.baseUrl = this.proxy ? `${this.proxy}/JSON` : 'http://localhost:8080/JSON';
+    this.headers = apiKey ? { 'X-ZAP-API-Key': apiKey } : {};
+  }
+
+  /**
+   * ZAP REST API にリクエストを送信します.
+   */
+  private async request (path: string, params?: Record<string, any>): Promise<any> {
+    const url = new URL(this.baseUrl + path);
+    if (params) {
+      for (const [key, value] of Object.entries(params)) {
+        if (value !== null && value !== undefined) {
+          url.searchParams.set(key, String(value));
+        }
+      }
+    }
+    const response = await fetch(url.toString(), { headers: this.headers });
+    if (!response.ok) {
+      throw new ZapClientError(`ZAP API error: ${response.status} ${response.statusText}`);
+    }
+    return response.json();
   }
 
   /**
@@ -143,7 +158,7 @@ export class ZapClient {
    * @param mode 実行モードの列挙型.
    */
   public async setMode (mode: Mode): Promise<void> {
-    await this.zaproxy.core.setMode(mode);
+    await this.request('/core/action/setMode/', { mode });
   }
 
   /**
@@ -154,7 +169,7 @@ export class ZapClient {
    * @param override セッションを上書きする場合 true
    */
   public async newSession (name: string, override: boolean): Promise<void> {
-    await this.zaproxy.core.newSession(name, override);
+    await this.request('/core/action/newSession/', { name, overwrite: override });
   }
 
   /**
@@ -164,7 +179,7 @@ export class ZapClient {
    * @param contextType ContextType の列挙型
    */
   public async importContext (contextType: ContextType): Promise<void> {
-    await this.zaproxy.context.importContext('/zap/wrk/' + contextType);
+    await this.request('/context/action/importContext/', { contextFile: '/zap/wrk/' + contextType });
   }
 
   /**
@@ -174,7 +189,7 @@ export class ZapClient {
    * @returns Forced user mode が有効な場合 true
    */
   public async isForcedUserModeEnabled (): Promise<boolean> {
-    const result = await this.zaproxy.forcedUser.isForcedUserModeEnabled();
+    const result = await this.request('/forcedUser/view/isForcedUserModeEnabled/');
     return JSON.parse(result.forcedModeEnabled);
   }
 
@@ -185,7 +200,7 @@ export class ZapClient {
    * @param bool Forced user mode を有効にする場合 true
    */
   public async setForcedUserModeEnabled (bool?: boolean): Promise<void> {
-    await this.zaproxy.forcedUser.setForcedUserModeEnabled(bool ?? true);
+    await this.request('/forcedUser/action/setForcedUserModeEnabled/', { boolean: bool ?? true });
   }
 
   /**
@@ -197,7 +212,7 @@ export class ZapClient {
    * @returns リクエスト結果の {@link HttpMessage}
    */
   public async sendRequest (request: string, followRedirects?: boolean): Promise<HttpMessage> {
-    const result = await this.zaproxy.core.sendRequest(request, followRedirects ?? false);
+    const result = await this.request('/core/action/sendRequest/', { request, followRedirects: followRedirects ?? false });
     return result.sendRequest;
   }
 
@@ -209,7 +224,7 @@ export class ZapClient {
    * @returns 履歴の数
    */
   public async getNumberOfMessages (url: string): Promise<number> {
-    const result = await this.zaproxy.core.numberOfMessages(url);
+    const result = await this.request('/core/view/numberOfMessages/', { baseurl: url });
     return JSON.parse(result.numberOfMessages);
   }
 
@@ -223,7 +238,7 @@ export class ZapClient {
    * @returns 履歴({@link HttpMessage})の配列
    */
   public async getMessages (url: string, start?: number, count?: number): Promise<HttpMessage[]> {
-    const result = await this.zaproxy.core.messages(url, start, count);
+    const result = await this.request('/core/view/messages/', { baseurl: url, start, count });
     return result.messages;
   }
 
@@ -260,7 +275,15 @@ export class ZapClient {
    * @returns スキャンID
    */
   public async activeScanAsUser (url: string, contextId: number, userId: number, recurse?: boolean, scanPolicyName?: string | null, method?: 'GET' | 'POST' | 'PUT' | 'DELETE', postData?: string | null): Promise<number> {
-    const result = await this.zaproxy.ascan.scanAsUser(url, contextId, userId, recurse ?? false, scanPolicyName ?? null, method ?? 'GET', postData ?? null);
+    const result = await this.request('/ascan/action/scanAsUser/', {
+      url,
+      contextId,
+      userId,
+      recurse: recurse ?? false,
+      scanPolicyName: scanPolicyName ?? null,
+      method: method ?? 'GET',
+      postData: postData ?? null,
+    });
     return result.scan;
   }
 
@@ -280,7 +303,15 @@ export class ZapClient {
    * @returns スキャンID
    */
   public async activeScan (url: string, recurse?: boolean, inScopeOnly?: boolean, scanPolicyName?: string | null, method?: 'GET' | 'POST' | 'PUT' | 'DELETE', postData?: string | null, contextId?: number | null): Promise<number> {
-    const result = await this.zaproxy.ascan.scan(url, recurse ?? false, inScopeOnly ?? true, scanPolicyName ?? null, method ?? 'GET', postData ?? null, contextId ?? null);
+    const result = await this.request('/ascan/action/scan/', {
+      url,
+      recurse: recurse ?? false,
+      inScopeOnly: inScopeOnly ?? true,
+      scanPolicyName: scanPolicyName ?? null,
+      method: method ?? 'GET',
+      postData: postData ?? null,
+      contextId: contextId ?? null,
+    });
     return result.scan;
   }
 
@@ -291,7 +322,7 @@ export class ZapClient {
    * @returns スキャンステータス
    */
   public async getActiveScanStatus (scanId: number): Promise<number> {
-    const result = await this.zaproxy.ascan.status(scanId);
+    const result = await this.request('/ascan/view/status/', { scanId });
     return result.status;
   }
 
@@ -300,7 +331,7 @@ export class ZapClient {
    * [coreActionSnapshotSession API](https://www.zaproxy.org/docs/api/#coreactionsnapshotsession) を実行します.
    */
   public async snapshotSession (): Promise<void> {
-    await this.zaproxy.core.snapshotSession();
+    await this.request('/core/action/snapshotSession/');
   }
 
   /**
@@ -314,7 +345,7 @@ export class ZapClient {
    * @returns アラートの配列
    */
   public async getAlerts (url: string, start?: number, count?:number, riskid?: Risk): Promise<Alert[]> {
-    const result = await this.zaproxy.core.alerts(url, start, count, riskid);
+    const result = await this.request('/core/view/alerts/', { baseurl: url, start, count, riskId: riskid });
     return result.alerts;
   }
 

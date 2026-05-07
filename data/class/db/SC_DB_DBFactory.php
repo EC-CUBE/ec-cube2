@@ -52,6 +52,9 @@ class SC_DB_DBFactory
             case 'pgsql':
                 return new SC_DB_DBFactory_PGSQL();
 
+            case 'sqlite3':
+                return new SC_DB_DBFactory_SQLITE3();
+
             default:
                 return new self();
         }
@@ -236,20 +239,20 @@ class SC_DB_DBFactory
      * SQL 文に OFFSET, LIMIT を付加する。
      *
      * @param string 元の SQL 文
-     * @param int LIMIT
-     * @param int OFFSET
+     * @param int|string|null $limit LIMIT 句に設定する値
+     * @param int|string|null $offset OFFSET 句に設定する値
      *
      * @return string 付加後の SQL 文
      */
-    public function addLimitOffset($sql, $limit = 0, $offset = 0)
+    public function addLimitOffset($sql, $limit = null, $offset = null)
     {
-        if ($limit != 0) {
+        // 以下の is_numeric() は、`!is_null()` と `!== ''` の評価と、SQL インジェクション対策を兼ねる。
+        if (is_numeric($limit)) {
             $sql .= " LIMIT $limit";
         }
-        if (strlen($offset) === 0) {
-            $offset = 0;
+        if (is_numeric($offset)) {
+            $sql .= " OFFSET $offset";
         }
-        $sql .= " OFFSET $offset";
 
         return $sql;
     }
@@ -336,6 +339,19 @@ class SC_DB_DBFactory
     {
         // TODO: 一般的な DBMS のデフォルトを返している。実際のレベルを返すのが望ましい。しかし、毎回 `SHOW transaction_isolation` などを実行するのは避けたい。インストーラーで実行環境のレベルを退避して設定ファイルに記録したり、設定ファイルで別のレベルを設定できるよう改善できそう。
         return static::ISOLATION_LEVEL_READ_COMMITTED;
+    }
+
+    /**
+     * 現在時刻から指定期間前の日時を表す SQL 式を返す.
+     *
+     * @param int    $value 期間の値
+     * @param string $unit  期間の単位 ('hour', 'day', 'minute' 等)
+     *
+     * @return string SQL 式
+     */
+    public function getDateTimeBeforeIntervalSql($value, $unit)
+    {
+        return null;
     }
 
     /**

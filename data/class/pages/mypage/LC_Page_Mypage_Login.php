@@ -38,7 +38,6 @@ class LC_Page_Mypage_Login extends LC_Page_AbstractMypage_Ex
     public function init()
     {
         parent::init();
-        $this->httpCacheControl('nocache');
     }
 
     /**

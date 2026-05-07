@@ -310,8 +310,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             );
         // 期間集計
         } elseif ($arrRet['search_form'] == 2) {
-            $sdate = $arrRet['search_startyear'].'/'.$arrRet['search_startmonth'].'/'.$arrRet['search_startday'];
-            $edate = $arrRet['search_endyear'].'/'.$arrRet['search_endmonth'].'/'.$arrRet['search_endday'];
+            $sdate = sprintf('%04d-%02d-%02d', $arrRet['search_startyear'], $arrRet['search_startmonth'], $arrRet['search_startday']);
+            $edate = sprintf('%04d-%02d-%02d', $arrRet['search_endyear'], $arrRet['search_endmonth'], $arrRet['search_endday']);
         }
 
         return [$sdate, $edate];
@@ -361,8 +361,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $objGraphLine->setYTitle($ytitle);
 
             // メインタイトル作成
-            [$sy, $sm, $sd] = preg_split('|[/ ]|', $sdate);
-            [$ey, $em, $ed] = preg_split('|[/ ]|', $edate);
+            [$sy, $sm, $sd] = preg_split('|[/\- ]|', $sdate);
+            [$ey, $em, $ed] = preg_split('|[/\- ]|', $edate);
             $start_date = $sy.'年'.$sm.'月'.$sd.'日';
             $end_date = $ey.'年'.$em.'月'.$ed.'日';
             $objGraphLine->drawTitle('集計期間：'.$start_date.' - '.$end_date);
@@ -415,8 +415,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $objGraphPie->setLegend(array_keys($arrList));
 
             // メインタイトル作成
-            [$sy, $sm, $sd] = preg_split('|[/ ]|', $sdate);
-            [$ey, $em, $ed] = preg_split('|[/ ]|', $edate);
+            [$sy, $sm, $sd] = preg_split('|[/\- ]|', $sdate);
+            [$ey, $em, $ed] = preg_split('|[/\- ]|', $edate);
             $start_date = $sy.'年'.$sm.'月'.$sd.'日';
             $end_date = $ey.'年'.$em.'月'.$ed.'日';
             $objGraphPie->drawTitle('集計期間：'.$start_date.' - '.$end_date);
@@ -473,8 +473,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 
             // メインタイトル作成
             $arrKey = array_keys($arrList);
-            [$sy, $sm, $sd] = preg_split('|[/ ]|', $sdate);
-            [$ey, $em, $ed] = preg_split('|[/ ]|', $edate);
+            [$sy, $sm, $sd] = preg_split('|[/\- ]|', $sdate);
+            [$ey, $em, $ed] = preg_split('|[/\- ]|', $edate);
             $start_date = $sy.'年'.$sm.'月'.$sd.'日';
             $end_date = $ey.'年'.$em.'月'.$ed.'日';
             $objGraphBar->drawTitle('集計期間：'.$start_date.' - '.$end_date);
@@ -529,7 +529,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             if ($where != '') {
                 $where .= ' AND ';
             }
-            $edate = date('Y/m/d', strtotime('1 day', strtotime($edate)));
+            $edate = date('Y-m-d', strtotime('1 day', strtotime($edate)));
             $where .= " $col_date < date('".$edate."')";
         }
 
