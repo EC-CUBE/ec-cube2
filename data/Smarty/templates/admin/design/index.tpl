@@ -2,7 +2,7 @@
     $(function() {
         var page_id = '<!--{$page_id|h}-->';
         if (page_id != '1') {
-            $('.anywhere').attr('disabled', true);
+            $('.anywhere').prop('disabled', true);
             $('.anywhere:checked').each(function() {
                 $(this).parents('.sort').children('input[type=hidden]').each(function() {
                     $(this).remove();

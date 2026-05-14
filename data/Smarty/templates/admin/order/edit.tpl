@@ -90,7 +90,7 @@
     $(document).ready(function() {
         var shipping_quantity = '<!--{$tpl_shipping_quantity|escape:javascript}-->';
         if (shipping_quantity > 1){
-            $("input[name^='quantity[']").attr("disabled","disabled");
+            $("input[name^='quantity[']").prop("disabled", true);
         }
     });
 
