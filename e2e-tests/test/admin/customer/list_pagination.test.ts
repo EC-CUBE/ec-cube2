@@ -15,7 +15,7 @@ test.describe('会員一覧のページネーション (Issue #1398)', () => {
   /**
    * 会員レコードの先頭行 (rowspan="2" を持つ td を含む tr) から customer_id を取得.
    */
-  async function collectCustomerIds(page: Page): Promise<string[]> {
+  async function collectCustomerIds (page: Page): Promise<string[]> {
     const ids = await page
       .locator('#customer-search-result tr:has(td[rowspan="2"]) td:nth-child(2)')
       .allTextContents();
