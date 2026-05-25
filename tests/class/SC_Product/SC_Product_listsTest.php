@@ -86,6 +86,7 @@ class SC_Product_listsTest extends SC_Product_TestBase
         // $this->assertNull($result);
 
         $this->objQuery->setWhere('product_id IN (?, ?)', [1001, 1002]);
+        $this->objQuery->setOrder('product_id');
         $this->actual = $this->objProducts->lists($this->objQuery);
 
         $this->verify('商品一覧');
