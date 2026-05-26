@@ -41,6 +41,12 @@ class Common_TestCase extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
+        // https://github.com/EC-CUBE/ec-cube2/issues/1401 の対処
+        $key_str = serialize('');
+        if (empty($GLOBALS['_MDB2_databases']) && isset(SC_Query_Ex::$arrPoolInstance[$key_str])) {
+            unset(SC_Query_Ex::$arrPoolInstance[$key_str]);
+        }
+
         $this->objQuery = SC_Query_Ex::getSingletonInstance();
         $this->objQuery->begin();
         $this->objGenerator = new \Eccube2\Tests\Fixture\Generator($this->objQuery);
