@@ -30,7 +30,7 @@
  *
  * @version $Id$
  */
-class SC_Query_Test extends PHPUnit_Framework_TestCase
+class SC_Query_Test extends Common_TestCase
 {
     /**
      * MDB2 をグローバル変数のバックアップ対象から除外する。
@@ -63,11 +63,6 @@ class SC_Query_Test extends PHPUnit_Framework_TestCase
         $this->dropTestTable();
         $this->objQuery->rollback();
         $this->objQuery = null;
-    }
-
-    protected function verify()
-    {
-        $this->assertEquals($this->expected, $this->actual);
     }
 
     /**
