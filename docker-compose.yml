@@ -12,10 +12,18 @@ volumes:
 
 services:
   ec-cube:
-    ### ローカルでビルドする場合は以下のコマンドを使用します
-    ## docker build -t ec-cube2 --no-cache --pull --build-arg TAG=8.1-apache .
-    ## docker tag ec-cube2 ghcr.io/ec-cube/ec-cube2-php:8.1-apache
+    ### 通常は image をレジストリから pull します。
+    ### 別バージョンタグをローカルでビルドする場合は TAG を指定して build を実行します:
+    ##   TAG=8.3-apache docker compose build
+    ##   TAG=8.3-apache docker compose build --no-cache   # キャッシュを使わず再ビルド
+    ##   TAG=8.3-apache docker compose up -d --build       # ビルドして起動
     image: ${REGISTRY:-ghcr.io}/${IMAGE_NAME:-ec-cube/ec-cube2-php}:${TAG:-8.1-apache}
+    pull_policy: missing       # ローカルに無ければ build ではなく pull する
+    build:
+      context: .
+      args:
+        TAG: ${TAG:-8.1-apache}
+      pull: true
     volumes:
       ### 同期対象からコストの重いフォルダを除外 #####################
       - "vendor:/var/www/app/data/vendor"
