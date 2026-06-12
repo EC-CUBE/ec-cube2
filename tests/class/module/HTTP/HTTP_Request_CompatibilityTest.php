@@ -10,7 +10,7 @@ require_once __DIR__.'/Request_Legacy.php';
  * Compares the new Guzzle-based implementation with the legacy implementation
  * to ensure backward compatibility of the API.
  */
-class HTTP_Request_CompatibilityTest extends \PHPUnit\Framework\TestCase
+class HTTP_Request_CompatibilityTest extends Common_TestCase
 {
     /**
      * Test constructor defaults are the same

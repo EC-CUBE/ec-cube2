@@ -1,0 +1,55 @@
+name: Rector
+run-name: Rector
+
+on:
+  workflow_call:
+    inputs:
+      ref_name:
+        required: false
+        type: string
+      base_ref:
+        required: false
+        type: string
+      event_name:
+        required: true
+        type: string
+      owner:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  rector:
+    name: Rector
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+    - name: Build docker image
+      uses: ./.github/actions/dockerbuild
+      with:
+        php-version: '8.3'
+
+    - name: Setup environment
+      env:
+        REF_NAME: ${{ inputs.ref_name }}
+        BASE_REF: ${{ inputs.base_ref }}
+        EVENT_NAME: ${{ inputs.event_name }}
+        OWNER: ${{ inputs.owner }}
+      run: |
+        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.pgsql.yml:docker-compose.dev.yml" >> $GITHUB_ENV
+        echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
+        if [ $EVENT_NAME = "pull_request" ]; then
+          if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
+            echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
+          else
+            echo "TAG=8.3-apache-${BASE_REF}" >> $GITHUB_ENV
+          fi
+        else
+          echo "TAG=8.3-apache-${REF_NAME}" >> $GITHUB_ENV
+        fi
+    - run: docker compose up -d --wait
+    - run: docker compose exec -T ec-cube php data/vendor/bin/rector process --dry-run --no-progress-bar --output-format=github
