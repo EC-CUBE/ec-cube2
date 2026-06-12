@@ -79,6 +79,9 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
             'バッククォート式' => ['`whoami`'],
             '変数参照' => ['$_SERVER'],
             'カンマ区切り' => ['1,2'],
+            'セミコロンのみ' => [';'],
+            '値の後のセミコロン' => ['1;'],
+            '空白のみ' => ['   '],
         ];
     }
 

@@ -1795,28 +1795,39 @@ class SC_CheckError
         }
 
         // スカラ定数式に限定する。
-        // 数値 / クオート文字列 / 定数名 (true, false, null を含む) / 空白 / 開始タグ のみ許可。
-        static $allowedTypes = [
-            T_OPEN_TAG,
+        // 値となるトークンは 数値 / クオート文字列 / 定数名 (true, false, null を含む) のみ許可。
+        static $valueTypes = [
             T_LNUMBER,
             T_DNUMBER,
             T_CONSTANT_ENCAPSED_STRING,
             T_STRING,
-            T_WHITESPACE,
         ];
-        foreach ($tokens as $token) {
+        $lastIndex = count($tokens) - 1;
+        $hasValueToken = false;
+        foreach ($tokens as $index => $token) {
             if (is_array($token)) {
-                if (!in_array($token[0], $allowedTypes, true)) {
+                // 開始タグ・空白は読み飛ばす。
+                if ($token[0] === T_OPEN_TAG || $token[0] === T_WHITESPACE) {
+                    continue;
+                }
+                if (!in_array($token[0], $valueTypes, true)) {
                     return false;
                 }
-            } elseif (!in_array($token, ['.', '+', '-', ';'], true)) {
-                // 単一文字トークンは 連結 . と符号 +- と末尾 ; のみ許可。
-                // 関数呼び出しの () や文の連結はスカラ定数式ではないため除外する。
+                $hasValueToken = true;
+            } elseif ($token === ';') {
+                // 末尾 (構文解析用に付与した区切り) 以外の ; は許可しない。
+                // これにより '1;' のような複数の文や、';' 単体を排除する。
+                if ($index !== $lastIndex) {
+                    return false;
+                }
+            } elseif (!in_array($token, ['.', '+', '-'], true)) {
+                // 連結 . と符号 +- のみ許可。関数呼び出しの () 等は除外する。
                 return false;
             }
         }
 
-        return true;
+        // 値となるトークンが 1 つも無い場合 (空白のみ等) は不可。
+        return $hasValueToken;
     }
 
     /**
