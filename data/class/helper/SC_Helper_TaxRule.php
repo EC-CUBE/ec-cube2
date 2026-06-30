@@ -89,6 +89,10 @@ class SC_Helper_TaxRule
         $divide = [];
         $result = [];
 
+        // 端数処理方法(calc_rule)と既定の税率(tax_rate)は用途が異なるため別変数に分ける
+        $defaultCalcRule = $arrDefaultTaxRule['calc_rule'];
+        $defaultTaxRate = $arrDefaultTaxRule['tax_rate'];
+
         // 按分後の値引額の合計（8%対象商品の按分後の値引額 ＋ 10%対象商品の按分後の値引額）が実際の値引額より＋－1円となる事への対処
         // ①按分した値引き額を四捨五入で丸める
         foreach ($arrTaxableTotal as $rate => $total) {
@@ -99,26 +103,23 @@ class SC_Helper_TaxRule
             $cf_discount += $divide[$rate]['discount'];
         }
         // ②四捨五入したとしても、四捨五入前の値引額がそれぞれ 16.5 + 75.5 の場合 →(四捨五入端数処理)→ 17 + 76 両方繰り上がる。事への対処
-        $defaultTaxRule = $arrDefaultTaxRule['calc_rule'];
+        // 丸めで生じた誤差を既定税率のバケットへ寄せ、按分後の値引額の合計を実際の値引額に一致させる
         $diff = $discount_total - $cf_discount;
-        if ($diff > 0) {
-            $divide[$defaultTaxRule]['discount'] += $diff;
-        } elseif ($diff < 0) {
-            $divide[$defaultTaxRule]['discount'] -= $diff;
+        if ($diff !== 0 && !empty($divide)) {
+            // 既定税率の商品が無い受注では、金額が最大のバケットへ寄せる
+            $adjustRate = isset($divide[$defaultTaxRate])
+                ? $defaultTaxRate
+                : array_keys($arrTaxableTotal, max($arrTaxableTotal))[0];
+            $divide[$adjustRate]['discount'] += $diff;
         }
 
         foreach ($arrTaxableTotal as $rate => $total) {
-            if ($rate == $defaultTaxRule) {
-                $discount[$rate] = $divide[$defaultTaxRule]['discount'];
-            } else {
-                $discount[$rate] = $taxable_total !== 0 ? round($discount_total * $total / $taxable_total, 0) : 0;
-            }
-            $reduced_total = $total - $discount[$rate];
+            $reduced_total = $total - $divide[$rate]['discount'];
             $tax = $reduced_total * ($rate / (100 + $rate));
             $result[$rate] = [
-                'discount' => (int) $discount[$rate],
+                'discount' => (int) $divide[$rate]['discount'],
                 'total' => (int) $reduced_total,
-                'tax' => (int) static::roundByCalcRule($tax, $defaultTaxRule),
+                'tax' => (int) static::roundByCalcRule($tax, $defaultCalcRule),
             ];
         }
 
