@@ -117,3 +117,6 @@ jobs:
         flags: tests
         # yml: ./codecov.yml
         fail_ci_if_error: true
+        # cli.codecov.io のバイナリは GPG 公開鍵を取得できず署名検証が
+        # "No public key" で失敗するため、PyPI 版 CLI を使い検証経路を回避する
+        use_pypi: true
