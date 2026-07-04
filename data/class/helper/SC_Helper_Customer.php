@@ -687,11 +687,8 @@ class SC_Helper_Customer
         $objSelect = new SC_CustomerList_Ex($arrParam, 'customer');
 
         $page_max = SC_Utils_Ex::sfGetSearchPageMax($arrParam['search_page_max']);
-        $disp_pageno = $arrParam['search_pageno'];
-        if ($disp_pageno == 0) {
-            $disp_pageno = 1;
-        }
-        $offset = (int) $page_max * ((int) $disp_pageno - 1);
+        $pageno = SC_Utils_Ex::sfIsInt($arrParam['search_pageno']) ? (int) $arrParam['search_pageno'] : 1;
+        $offset = (int) $page_max * ($pageno - 1);
         $sql = $objSelect->getList();
         if ($limitMode == '') {
             $sql = $objQuery->dbFactory->addLimitOffset($sql, $page_max, $offset);
@@ -704,7 +701,7 @@ class SC_Helper_Customer
 
         // ページ送りの取得
         $objNavi = new SC_PageNavi_Ex(
-            $arrParam['search_pageno'],
+            $pageno,
             $linemax,
             $page_max,
             'eccube.moveSearchPage',
