@@ -405,24 +405,22 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
      */
     public function lfExtractZipFile()
     {
-        $zip = zip_open($this->zip_csv_temp_realfile);
-        if (!is_resource($zip)) {
-            trigger_error($this->zip_csv_temp_realfile.' をオープンできません。', E_USER_ERROR);
+        $zip = new ZipArchive();
+        $res = $zip->open($this->zip_csv_temp_realfile, ZipArchive::RDONLY);
+        if ($res !== true) {
+            trigger_error($this->zip_csv_temp_realfile.' をオープンできません。 エラーコード: '.$res.' '. $zip->getStatusString(), E_USER_ERROR);
         }
 
-        do {
-            $entry = zip_read($zip);
-        } while ($entry && zip_entry_name($entry) != 'KEN_ALL.CSV');
-
-        if (!$entry) {
+        $entry = $zip->locateName('KEN_ALL.CSV');
+        if ($entry === false) {
             trigger_error($this->zip_csv_temp_realfile.' に対象ファイルが見つかりません。', E_USER_ERROR);
         }
 
         // 展開時の破損を考慮し、別名で一旦展開する。
         $tmp_csv_realfile = ZIP_CSV_REALFILE.'.tmp';
 
-        $res = zip_entry_open($zip, $entry, 'rb');
-        if (!$res) {
+        $zip_stream = $zip->getStream('KEN_ALL.CSV');
+        if (!$zip_stream) {
             trigger_error($this->zip_csv_temp_realfile.' の展開に失敗しました。', E_USER_ERROR);
         }
 
@@ -431,13 +429,13 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
             trigger_error($tmp_csv_realfile.' を開けません。', E_USER_ERROR);
         }
 
-        $res = fwrite($fp, zip_entry_read($entry, zip_entry_filesize($entry)));
+        $res = fwrite($fp, stream_get_contents($zip_stream));
         if ($res === false) {
             trigger_error($tmp_csv_realfile.' の書き込みに失敗しました。', E_USER_ERROR);
         }
 
         fclose($fp);
-        zip_close($zip);
+        $zip->close();
 
         // CSV 削除
         if (file_exists(ZIP_CSV_REALFILE)) {
