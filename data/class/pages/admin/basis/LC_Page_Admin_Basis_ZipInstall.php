@@ -406,7 +406,7 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
     public function lfExtractZipFile()
     {
         $zip = new ZipArchive();
-        $res = $zip->open($this->zip_csv_temp_realfile, ZipArchive::RDONLY);
+        $res = $zip->open($this->zip_csv_temp_realfile);
         if ($res !== true) {
             trigger_error($this->zip_csv_temp_realfile.' をオープンできません。 エラーコード: '.$res.' '. $zip->getStatusString(), E_USER_ERROR);
         }
