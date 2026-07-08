@@ -418,7 +418,6 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
 
         // 展開時の破損を考慮し、別名で一旦展開する。
         $tmp_csv_realfile = ZIP_CSV_REALFILE.'.tmp';
-
         $zip_stream = $zip->getStream('KEN_ALL.CSV');
         if (!$zip_stream) {
             trigger_error($this->zip_csv_temp_realfile.' の展開に失敗しました。', E_USER_ERROR);
@@ -429,11 +428,12 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
             trigger_error($tmp_csv_realfile.' を開けません。', E_USER_ERROR);
         }
 
-        $res = fwrite($fp, stream_get_contents($zip_stream));
+        $res = stream_copy_to_stream($zip_stream, $fp);
         if ($res === false) {
             trigger_error($tmp_csv_realfile.' の書き込みに失敗しました。', E_USER_ERROR);
         }
 
+        fclose($zip_stream);
         fclose($fp);
         $zip->close();
 
