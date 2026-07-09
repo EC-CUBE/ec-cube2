@@ -84,6 +84,9 @@ class SC_Product
     {
         $table = 'dtb_products AS alldtl';
 
+        //一旦表示数を退避
+        $limit = $objQuery->limit;
+
         if (is_array($this->arrOrderData) && $objQuery->order == '') {
             $o_col = $this->arrOrderData['col'];
             $o_table = $this->arrOrderData['table'];
@@ -96,6 +99,8 @@ class SC_Product
 
             $objQuery->setOrder("($sub_sql) $o_order, product_id");
         }
+        // 1ページあたりの商品点数を再設定
+        $objQuery->setLimit($limit);
         $arrReturn = $objQuery->getCol('alldtl.product_id', $table, $objQuery->where ? '' : 'alldtl.del_flg = 0', $arrVal);
 
         return $arrReturn;
