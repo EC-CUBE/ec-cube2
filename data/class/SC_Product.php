@@ -84,10 +84,12 @@ class SC_Product
     {
         $table = 'dtb_products AS alldtl';
 
-        //一旦表示数を退避
+        //一旦表示数、オフセットを退避
         $limit = $objQuery->limit;
+        $offset = $objQuery->offset;
 
         if (is_array($this->arrOrderData) && $objQuery->order == '') {
+
             $o_col = $this->arrOrderData['col'];
             $o_table = $this->arrOrderData['table'];
             $o_order = $this->arrOrderData['order'];
@@ -99,8 +101,8 @@ class SC_Product
 
             $objQuery->setOrder("($sub_sql) $o_order, product_id");
         }
-        // 1ページあたりの商品点数を再設定
-        $objQuery->setLimit($limit);
+        // 1ページあたりの商品点数を、オフセットを再設定
+        $objQuery->setLimitOffset($limit,$offset);
         $arrReturn = $objQuery->getCol('alldtl.product_id', $table, $objQuery->where ? '' : 'alldtl.del_flg = 0', $arrVal);
 
         return $arrReturn;
