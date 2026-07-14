@@ -221,8 +221,8 @@ class LC_Page_Products_List extends LC_Page_Ex
 
         $objSession = new SC_Session_Ex();
 
-        //並び順が変更されたかどうかの検知
-        if($_SESSION['currentOrderBy'] != $this->orderby){
+        // 並び順が変更されたかどうかの検知
+        if ($_SESSION['currentOrderBy'] != $this->orderby) {
             $_SESSION['currentOrderBy'] = $this->orderby;
             $startno = 1;
         }
