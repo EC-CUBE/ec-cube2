@@ -74,7 +74,6 @@
 <!--{/strip}-->
 
 <script type="text/javascript" src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
-<script type="text/javascript" src="/js/plg_ajaxzip3.js"></script
 </head>
 
 <!-- ▼BODY部 スタート -->
