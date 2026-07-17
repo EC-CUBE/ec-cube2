@@ -2,7 +2,7 @@
 
 require __DIR__.'/SC_Helper_TaxRule_TestBase.php';
 
-class SC_Helper_TaxRule_getDetailTest extends SC_Helper_TaxRule_TestBase
+class SC_Helper_TaxRule_getTaxDetailTest extends SC_Helper_TaxRule_TestBase
 {
     private $taxs = [];
 
