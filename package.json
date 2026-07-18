@@ -29,7 +29,7 @@
     "eslint-config-jquery": "^3.0.2",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-playwright": "^2.2.0",
-    "tar": "^7.5.11",
+    "tar": "^7.5.16",
     "typescript": "^5.8.3"
   },
   "scripts": {
