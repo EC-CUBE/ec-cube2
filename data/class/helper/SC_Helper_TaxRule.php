@@ -81,19 +81,14 @@ class SC_Helper_TaxRule
      */
     public static function getTaxPerTaxRate(array $arrTaxInclusiveTotalByRate, $discount_total = 0)
     {
-        /**
-         * @var array このメソッドの戻り値
-         */
-        $arrReturn = [];
-
         if (empty($arrTaxInclusiveTotalByRate)) {
-            goto do_return;
+            return [];
         }
 
         // 端数処理方法(calc_rule)と既定の税率(tax_rate)は用途が異なるため別変数に分ける
         [
             'calc_rule' => $default_calc_rule,
-            'tax_rate'  => $default_tax_rate,
+            'tax_rate' => $default_tax_rate,
         ] = static::getTaxRule();
 
         ksort($arrTaxInclusiveTotalByRate, SORT_NUMERIC);
@@ -105,9 +100,13 @@ class SC_Helper_TaxRule
 
         // 按分後の値引額の合計（8%対象商品の按分後の値引額 ＋ 10%対象商品の按分後の値引額）が実際の値引額より＋－1円となる事への対処
         // ①按分した値引き額を四捨五入で丸める
-        $total = array_sum($arrTaxInclusiveTotalByRate);
+        // round() は float を返すため、int にキャストしてから合算する
+        // (float のままだと後続の $diff が float 化し、$diff !== 0 が常に true になる)
+        $total_all = array_sum($arrTaxInclusiveTotalByRate);
         foreach ($arrTaxInclusiveTotalByRate as $rate => $total_by_rate) {
-            $arrDividedDiscount[$rate] = ($total == 0) ? 0 : round($discount_total * $total_by_rate / $total, 0);
+            $arrDividedDiscount[$rate] = ($total_all === 0)
+                ? 0
+                : (int) round($discount_total * $total_by_rate / $total_all, 0);
         }
         // ②四捨五入したとしても、四捨五入前の値引額がそれぞれ 16.5 + 75.5 の場合 →(四捨五入端数処理)→ 17 + 76 両方繰り上がる事への対処
         $diff = $discount_total - array_sum($arrDividedDiscount);
@@ -120,18 +119,21 @@ class SC_Helper_TaxRule
             $arrDividedDiscount[$adjust_rate] += $diff;
         }
 
+        /**
+         * @var array このメソッドの戻り値
+         */
+        $arrReturn = [];
+
         // 戻り値をセットする。
         foreach ($arrTaxInclusiveTotalByRate as $rate => $total_by_rate) {
             $discounted_total_by_rate = $total_by_rate - $arrDividedDiscount[$rate];
             $tax = $discounted_total_by_rate * ($rate / (100 + $rate));
             $arrReturn[$rate] = [
-                'discount' => (int) $arrDividedDiscount[$rate],
+                'discount' => $arrDividedDiscount[$rate],
                 'total' => (int) $discounted_total_by_rate,
                 'tax' => (int) static::roundByCalcRule($tax, $default_calc_rule),
             ];
         }
-
-        do_return:
 
         return $arrReturn;
     }
@@ -141,14 +143,14 @@ class SC_Helper_TaxRule
      *
      * 複数の税率がある場合は改行で区切る.
      *
-     * @param array{8?:int, 10?:int} $arrTaxableTotal 税率ごとのお支払い合計金額
+     * @param array{8?:int, 10?:int} $arrTaxInclusiveTotalByRate 税率ごとの税込み合計金額
      * @param int $discount_total 値引額合計
      *
      * @return string (<税率>%対象: <値引後税込合計>円 内消費税: <値引後税額>円)
      */
-    public static function getTaxDetail(array $arrTaxableTotal, $discount_total = 0)
+    public static function getTaxDetail(array $arrTaxInclusiveTotalByRate, $discount_total = 0)
     {
-        $arrTaxPerTaxRate = static::getTaxPerTaxRate($arrTaxableTotal, $discount_total);
+        $arrTaxPerTaxRate = static::getTaxPerTaxRate($arrTaxInclusiveTotalByRate, $discount_total);
         $result = '';
         foreach ($arrTaxPerTaxRate as $rate => $item) {
             $result .= '('.$rate.'%対象: '.number_format($item['total']).'円 内消費税: '.number_format($item['tax']).'円)'.PHP_EOL;
