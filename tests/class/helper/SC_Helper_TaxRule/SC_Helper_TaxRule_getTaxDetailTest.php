@@ -558,11 +558,261 @@ class SC_Helper_TaxRule_getTaxDetailTest extends SC_Helper_TaxRule_TestBase
         self::assertSame(array_sum($arrTaxableTotal) - $discount_total, $actual[8]['total'] + $actual[10]['total']);
     }
 
+    /**
+     * 空の税込み合計金額を渡した場合は空配列を返す.
+     */
+    public function testGetTaxPerTaxRateWithEmptyArray()
+    {
+        $this->setUpDefaultTaxRule();
+
+        self::assertSame([], SC_Helper_TaxRule_Ex::getTaxPerTaxRate([], 100));
+        self::assertSame('', SC_Helper_TaxRule_Ex::getTaxDetail([], 100));
+    }
+
+    /**
+     * 既定税率(10%)の商品が無い受注では、誤差を金額が最大のバケットへ寄せる.
+     *
+     * 8%対象 1,000円 / 5%対象 3,000円 / 値引 2円 のとき、按分前の値引額は
+     * 5%: 1.5円, 8%: 0.5円 となり、四捨五入で両方繰り上がって 2 + 1 = 3円。
+     * 既定税率(10%)のバケットが存在しないため、誤差(-1円)は金額が最大の
+     * 5%(3,000円)側へ寄せられ、5%の値引額は 2 - 1 = 1円 となる。
+     */
+    public function testGetTaxPerTaxRateWithoutDefaultTaxRate()
+    {
+        $this->setUpDefaultTaxRule();
+
+        $arrTaxInclusiveTotalByRate = [
+            8 => 1000,
+            5 => 3000,
+        ];
+        $discount_total = 2;
+
+        $actual = SC_Helper_TaxRule_Ex::getTaxPerTaxRate($arrTaxInclusiveTotalByRate, $discount_total);
+
+        self::assertSame(
+            [
+                5 => [
+                    'discount' => 1,
+                    'total' => 2999,
+                    'tax' => 143,
+                ],
+                8 => [
+                    'discount' => 1,
+                    'total' => 999,
+                    'tax' => 74,
+                ],
+            ],
+            $actual
+        );
+
+        self::assertSame(
+            $discount_total,
+            array_sum(array_column($actual, 'discount')),
+            '按分後の値引額の合計が実際の値引額と一致していません'
+        );
+        self::assertSame(
+            array_sum($arrTaxInclusiveTotalByRate) - $discount_total,
+            array_sum(array_column($actual, 'total')),
+            '値引後合計の総和が支払額と一致していません'
+        );
+    }
+
+    /**
+     * 丸め誤差が正方向(+1円)に出る場合の補正.
+     *
+     * 8%対象 3,000円 / 10%対象 3,000円 / 5%対象 3,000円 に 1円値引すると、
+     * 按分前の値引額は各 0.333円 で、四捨五入すると全て 0円 に落ち、
+     * 合計 0円 が実際の値引額(1円)より 1円 少なくなる。
+     * 誤差(+1円)を既定税率(10%)側へ寄せて合計を一致させる。
+     *
+     * 3 税率が同一受注に現れることは実運用では無い。2 税率では按分前の端数の和が
+     * 必ず整数になるため丸め誤差は 0 か -1円 にしかならず、正方向の補正を通せない。
+     * ここでは getTaxPerTaxRate() が税率数に依存しない実装であることを利用して、
+     * 3 税率を入力することで正方向の補正のみを検証する。
+     */
+    public function testGetTaxPerTaxRateWithPositiveDiff()
+    {
+        $this->setUpDefaultTaxRule();
+
+        $arrTaxInclusiveTotalByRate = [
+            8 => 3000,
+            10 => 3000,
+            5 => 3000,
+        ];
+        $discount_total = 1;
+
+        $actual = SC_Helper_TaxRule_Ex::getTaxPerTaxRate($arrTaxInclusiveTotalByRate, $discount_total);
+
+        self::assertSame(
+            [
+                5 => [
+                    'discount' => 0,
+                    'total' => 3000,
+                    'tax' => 143,
+                ],
+                8 => [
+                    'discount' => 0,
+                    'total' => 3000,
+                    'tax' => 222,
+                ],
+                10 => [
+                    'discount' => 1,
+                    'total' => 2999,
+                    'tax' => 273,
+                ],
+            ],
+            $actual
+        );
+
+        self::assertSame(
+            $discount_total,
+            array_sum(array_column($actual, 'discount')),
+            '按分後の値引額の合計が実際の値引額と一致していません'
+        );
+        self::assertSame(
+            array_sum($arrTaxInclusiveTotalByRate) - $discount_total,
+            array_sum(array_column($actual, 'total')),
+            '値引後合計の総和が支払額と一致していません'
+        );
+    }
+
+    /**
+     * 単一税率の受注では、値引額がそのまま単一のバケットに割り当てられる.
+     */
+    public function testGetTaxPerTaxRateWithSingleTaxRate()
+    {
+        $this->setUpDefaultTaxRule();
+
+        $arrTaxInclusiveTotalByRate = [
+            8 => 1000,
+        ];
+        $discount_total = 3;
+
+        $actual = SC_Helper_TaxRule_Ex::getTaxPerTaxRate($arrTaxInclusiveTotalByRate, $discount_total);
+
+        self::assertSame(
+            [
+                8 => [
+                    'discount' => 3,
+                    'total' => 997,
+                    'tax' => 74,
+                ],
+            ],
+            $actual
+        );
+
+        self::assertSame(
+            '(8%対象: 997円 内消費税: 74円)'.PHP_EOL,
+            SC_Helper_TaxRule_Ex::getTaxDetail($arrTaxInclusiveTotalByRate, $discount_total)
+        );
+    }
+
+    /**
+     * 値引が無い受注では、値引額は 0円 で税込み合計金額がそのまま残る.
+     */
+    public function testGetTaxPerTaxRateWithoutDiscount()
+    {
+        $this->setUpDefaultTaxRule();
+
+        $arrTaxInclusiveTotalByRate = [
+            10 => 5000,
+            8 => 5000,
+        ];
+
+        // $discount_total は既定値(0)を使用する
+        $actual = SC_Helper_TaxRule_Ex::getTaxPerTaxRate($arrTaxInclusiveTotalByRate);
+
+        self::assertSame(
+            [
+                8 => [
+                    'discount' => 0,
+                    'total' => 5000,
+                    'tax' => 370,
+                ],
+                10 => [
+                    'discount' => 0,
+                    'total' => 5000,
+                    'tax' => 455,
+                ],
+            ],
+            $actual
+        );
+    }
+
+    /**
+     * 誤差の寄せ先が複数該当する場合は、税率が最も小さいバケットへ寄せる.
+     *
+     * 5%対象 5,000円 / 10%対象以外の 8%対象 5,000円 に 1円値引すると、
+     * 按分前の値引額は両税率とも 0.5円 で、四捨五入すると 1 + 1 = 2円 となり
+     * 誤差(-1円)が生じる。既定税率(10%)のバケットが無く、かつ金額が同額のため
+     * 寄せ先の候補が 2 つになるが、ksort 後の先頭(=最も小さい税率)に寄せる.
+     */
+    public function testGetTaxPerTaxRateWithSameTotals()
+    {
+        $this->setUpDefaultTaxRule();
+
+        $arrTaxInclusiveTotalByRate = [
+            8 => 5000,
+            5 => 5000,
+        ];
+        $discount_total = 1;
+
+        $actual = SC_Helper_TaxRule_Ex::getTaxPerTaxRate($arrTaxInclusiveTotalByRate, $discount_total);
+
+        self::assertSame(
+            [
+                5 => [
+                    'discount' => 0,
+                    'total' => 5000,
+                    'tax' => 238,
+                ],
+                8 => [
+                    'discount' => 1,
+                    'total' => 4999,
+                    'tax' => 370,
+                ],
+            ],
+            $actual
+        );
+
+        self::assertSame(
+            $discount_total,
+            array_sum(array_column($actual, 'discount')),
+            '按分後の値引額の合計が実際の値引額と一致していません'
+        );
+        self::assertSame(
+            array_sum($arrTaxInclusiveTotalByRate) - $discount_total,
+            array_sum(array_column($actual, 'total')),
+            '値引後合計の総和が支払額と一致していません'
+        );
+    }
+
     protected function setUpTaxRule(array $taxs = [])
     {
         $this->objQuery->delete('dtb_tax_rule');
         foreach ($taxs as $key => $item) {
             $this->objQuery->insert('dtb_tax_rule', $item);
         }
+    }
+
+    /**
+     * 既定の税率設定(10% / 四捨五入)を登録する.
+     */
+    protected function setUpDefaultTaxRule()
+    {
+        $this->setUpTaxRule([
+            [
+                'tax_rule_id' => 1004,
+                'apply_date' => '2019-10-01 00:00:00',
+                'tax_rate' => '10',
+                'calc_rule' => '1',
+                'product_id' => '0',
+                'product_class_id' => '0',
+                'del_flg' => '0',
+                'member_id' => 1,
+                'create_date' => '2000-01-01 00:00:00',
+                'update_date' => '2000-01-01 00:00:00',
+            ],
+        ]);
     }
 }
