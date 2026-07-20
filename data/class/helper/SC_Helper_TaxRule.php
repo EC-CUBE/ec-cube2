@@ -36,12 +36,16 @@ class SC_Helper_TaxRule
      * getTaxRule() は複数回呼び出されるためキャッシュする.
      * dtb_tax_rule を更新するメソッドから clearTaxRuleCache() でクリアする.
      *
+     * _Ex クラスで clearTaxRuleCache() をオーバーライドした場合にも操作できるよう
+     * protected とする (private だとオーバーライド側からクリアできず、キャッシュが
+     * 無効化されないまま残る).
+     *
      * @var array
      *
      * @see SC_Helper_TaxRule::getTaxRule()
      * @see SC_Helper_TaxRule::clearTaxRuleCache()
      */
-    private static $arrTaxRuleCache = [];
+    protected static $arrTaxRuleCache = [];
 
     /**
      * 設定情報に基づいて税金付与した金額を返す
@@ -445,7 +449,7 @@ class SC_Helper_TaxRule
         }
 
         // 更新後の設定を getTaxRule() が返すようにキャッシュをクリアする
-        self::clearTaxRuleCache();
+        static::clearTaxRuleCache();
     }
 
     /**
@@ -522,7 +526,7 @@ class SC_Helper_TaxRule
         $objQuery->update('dtb_tax_rule', $sqlval, $where, [$tax_rule_id]);
 
         // 削除後の設定を getTaxRule() が返すようにキャッシュをクリアする
-        self::clearTaxRuleCache();
+        static::clearTaxRuleCache();
     }
 
     /**
