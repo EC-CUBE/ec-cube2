@@ -110,15 +110,8 @@ class SC_Helper_TaxRule_getTaxDetailTest extends SC_Helper_TaxRule_TestBase
         );
     }
 
-    /**
-     * @runInSeparateProcess
-     *
-     * @preserveGlobalState disabled
-     */
     public function testGetTaxPerTaxRateWithFloor()
     {
-        self::markTestSkipped('Skip this test because @runInSeparateProcess does not work properly');
-
         $this->setUpTaxRule([
             [
                 'tax_rule_id' => 1004,
@@ -160,15 +153,8 @@ class SC_Helper_TaxRule_getTaxDetailTest extends SC_Helper_TaxRule_TestBase
         self::assertSame(array_sum($arrTaxableTotal) - $discount_total, $actual[8]['total'] + $actual[10]['total']);
     }
 
-    /**
-     * @runInSeparateProcess
-     *
-     * @preserveGlobalState disabled
-     */
     public function testGetTaxPerTaxRateWithCeil()
     {
-        self::markTestSkipped('Skip this test because @runInSeparateProcess does not work properly');
-
         $this->setUpTaxRule([
             [
                 'tax_rule_id' => 1004,
@@ -456,15 +442,9 @@ class SC_Helper_TaxRule_getTaxDetailTest extends SC_Helper_TaxRule_TestBase
 
     /**
      * @see https://github.com/EC-CUBE/ec-cube2/pull/762#issuecomment-1897799676
-     *
-     * @runInSeparateProcess
-     *
-     * @preserveGlobalState disabled
      */
     public function testGetTaxPerTaxRateWithFloor2()
     {
-        self::markTestSkipped('Skip this test because @runInSeparateProcess does not work properly');
-
         $this->setUpTaxRule([
             [
                 'tax_rule_id' => 1004,
@@ -508,15 +488,9 @@ class SC_Helper_TaxRule_getTaxDetailTest extends SC_Helper_TaxRule_TestBase
 
     /**
      * @see https://github.com/EC-CUBE/ec-cube2/pull/762#issuecomment-1897799676
-     *
-     * @runInSeparateProcess
-     *
-     * @preserveGlobalState disabled
      */
     public function testGetTaxPerTaxRateWithCeil2()
     {
-        self::markTestSkipped('Skip this test because @runInSeparateProcess does not work properly');
-
         $this->setUpTaxRule([
             [
                 'tax_rule_id' => 1004,
@@ -793,6 +767,9 @@ class SC_Helper_TaxRule_getTaxDetailTest extends SC_Helper_TaxRule_TestBase
         foreach ($taxs as $key => $item) {
             $this->objQuery->insert('dtb_tax_rule', $item);
         }
+
+        // getTaxRule() のキャッシュが残っていると、直前のテストの税率設定が返るためクリアする
+        SC_Helper_TaxRule_Ex::clearTaxRuleCache();
     }
 
     /**

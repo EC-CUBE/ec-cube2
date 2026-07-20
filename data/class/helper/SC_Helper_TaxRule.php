@@ -31,6 +31,19 @@
 class SC_Helper_TaxRule
 {
     /**
+     * 税率設定のキャッシュ.
+     *
+     * getTaxRule() は複数回呼び出されるためキャッシュする.
+     * dtb_tax_rule を更新するメソッドから clearTaxRuleCache() でクリアする.
+     *
+     * @var array
+     *
+     * @see SC_Helper_TaxRule::getTaxRule()
+     * @see SC_Helper_TaxRule::clearTaxRuleCache()
+     */
+    private static $arrTaxRuleCache = [];
+
+    /**
      * 設定情報に基づいて税金付与した金額を返す
      *
      * @param int $price 計算対象の金額
@@ -224,9 +237,6 @@ class SC_Helper_TaxRule
      */
     public static function getTaxRule($product_id = 0, $product_class_id = 0, $pref_id = 0, $country_id = 0, $option_product_tax_rule = OPTION_PRODUCT_TAX_RULE)
     {
-        // 複数回呼出があるのでキャッシュ化
-        static $data_c = [];
-
         // 初期化
         $product_id = $product_id > 0 ? $product_id : 0;
         $product_class_id = $product_class_id > 0 ? $product_class_id : 0;
@@ -240,7 +250,8 @@ class SC_Helper_TaxRule
             $cache_key = "$pref_id,$country_id";
         }
 
-        if (empty($data_c[$cache_key])) {
+        // 複数回呼出があるのでキャッシュ化
+        if (empty(self::$arrTaxRuleCache[$cache_key])) {
             // ログイン済み会員で国と地域指定が無い場合は、会員情報をデフォルトで利用。管理画面では利用しない
             if (!(defined('ADMIN_FUNCTION') && ADMIN_FUNCTION == true)) {
                 $objCustomer = new SC_Customer_Ex();
@@ -322,10 +333,25 @@ class SC_Helper_TaxRule
             }
             // XXXX: 互換性のためtax_ruleにもcalc_ruleを設定
             $arrRet['tax_rule'] = $arrRet['calc_rule'];
-            $data_c[$cache_key] = $arrRet;
+            self::$arrTaxRuleCache[$cache_key] = $arrRet;
         }
 
-        return $data_c[$cache_key];
+        return self::$arrTaxRuleCache[$cache_key];
+    }
+
+    /**
+     * 税率設定のキャッシュをクリアする.
+     *
+     * dtb_tax_rule を更新した後に呼び出し、getTaxRule() が更新後の設定を
+     * 返すようにする.
+     *
+     * @return void
+     *
+     * @see SC_Helper_TaxRule::getTaxRule()
+     */
+    public static function clearTaxRuleCache()
+    {
+        self::$arrTaxRuleCache = [];
     }
 
     /**
@@ -417,6 +443,9 @@ class SC_Helper_TaxRule
             $where = 'tax_rule_id = ?';
             $objQuery->update($table, $arrValues, $where, [$tax_rule_id]);
         }
+
+        // 更新後の設定を getTaxRule() が返すようにキャッシュをクリアする
+        self::clearTaxRuleCache();
     }
 
     /**
@@ -491,6 +520,9 @@ class SC_Helper_TaxRule
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
         $where = 'tax_rule_id = ?';
         $objQuery->update('dtb_tax_rule', $sqlval, $where, [$tax_rule_id]);
+
+        // 削除後の設定を getTaxRule() が返すようにキャッシュをクリアする
+        self::clearTaxRuleCache();
     }
 
     /**
