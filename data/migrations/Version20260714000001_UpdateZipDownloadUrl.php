@@ -27,16 +27,14 @@ class Version20260714000001_UpdateZipDownloadUrl extends Migration
     public function up(): void
     {
         $this->sql(
-            'UPDATE mtb_constants SET name = ? WHERE id = ? AND name = ?',
-            [self::NEW_URL, 'ZIP_DOWNLOAD_URL', self::OLD_URL]
+            "UPDATE mtb_constants SET name = '".self::NEW_URL."' WHERE id = 'ZIP_DOWNLOAD_URL' AND name = '".self::OLD_URL."'"
         );
     }
 
     public function down(): void
     {
         $this->sql(
-            'UPDATE mtb_constants SET name = ? WHERE id = ? AND name = ?',
-            [self::OLD_URL, 'ZIP_DOWNLOAD_URL', self::NEW_URL]
+            "UPDATE mtb_constants SET name = '".self::OLD_URL."' WHERE id = 'ZIP_DOWNLOAD_URL' AND name = '".self::NEW_URL."'"
         );
     }
 }
