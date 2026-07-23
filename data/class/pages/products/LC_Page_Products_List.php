@@ -219,6 +219,14 @@ class LC_Page_Products_List extends LC_Page_Ex
 
         $arrOrderVal = [];
 
+        $objSession = new SC_Session_Ex();
+
+        // 並び順が変更されたかどうかの検知
+        if ($_SESSION['currentOrderBy'] != $this->orderby) {
+            $_SESSION['currentOrderBy'] = $this->orderby;
+            $startno = 1;
+        }
+
         // 表示順序
         switch ($this->orderby) {
             // 販売価格が安い順
