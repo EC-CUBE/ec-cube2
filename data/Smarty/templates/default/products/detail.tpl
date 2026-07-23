@@ -260,7 +260,7 @@
                                     favoriteButton.tooltip();
 
                                     <!--{if $just_added_favorite == true}-->
-                                    favoriteButton.load(function(){ $(this).tooltip("open") });
+                                    favoriteButton.on('load', function(){ $(this).tooltip("open") });
                                     $(function(){
                                         var tid = setTimeout('favoriteButton.tooltip("close")',5000);
                                     });
