@@ -31,6 +31,23 @@
 class SC_Helper_TaxRule
 {
     /**
+     * 税率設定のキャッシュ.
+     *
+     * getTaxRule() は複数回呼び出されるためキャッシュする.
+     * dtb_tax_rule を更新するメソッドから clearTaxRuleCache() でクリアする.
+     *
+     * _Ex クラスで clearTaxRuleCache() をオーバーライドした場合にも操作できるよう
+     * protected とする (private だとオーバーライド側からクリアできず、キャッシュが
+     * 無効化されないまま残る).
+     *
+     * @var array
+     *
+     * @see SC_Helper_TaxRule::getTaxRule()
+     * @see SC_Helper_TaxRule::clearTaxRuleCache()
+     */
+    protected static $arrTaxRuleCache = [];
+
+    /**
      * 設定情報に基づいて税金付与した金額を返す
      *
      * @param int $price 計算対象の金額
@@ -65,64 +82,77 @@ class SC_Helper_TaxRule
     }
 
     /**
-     * 消費税の内訳を返す.
+     * 税率ごとの消費税の内訳を返す.
      *
      * 税率ごとに以下のような連想配列を返す.
-     * - discount: 税率毎の値引額
+     * - discount: 税率ごとの値引額
      * - total: 値引後の税込み合計金額
      * - tax: 値引後の税額
      * 値引額合計は税率ごとに按分する.
      * 課税規則は標準税率の設定を使用する.
      *
-     * @param array{8?:int, 10?:int} $arrTaxableTotal 税率ごとのお支払い合計金額
+     * @param array{8?:int, 10?:int} $arrTaxInclusiveTotalByRate 税率ごとの税込み合計金額
      * @param int $discount_total 値引額合計
      *
      * @return array{8?:array{discount;int,total:int,tax:int}, 10?:array{discount;int,total:int,tax:int}}
      */
-    public static function getTaxPerTaxRate($arrTaxableTotal, $discount_total = 0)
+    public static function getTaxPerTaxRate(array $arrTaxInclusiveTotalByRate, $discount_total = 0)
     {
-        $arrDefaultTaxRule = static::getTaxRule();
+        if (empty($arrTaxInclusiveTotalByRate)) {
+            return [];
+        }
 
-        ksort($arrTaxableTotal);
-        $cf_discount = 0;
-        $taxable_total = array_sum($arrTaxableTotal);
-        $divide = [];
-        $result = [];
+        // 端数処理方法(calc_rule)と既定の税率(tax_rate)は用途が異なるため別変数に分ける
+        [
+            'calc_rule' => $default_calc_rule,
+            'tax_rate' => $default_tax_rate,
+        ] = static::getTaxRule();
+
+        ksort($arrTaxInclusiveTotalByRate, SORT_NUMERIC);
+
+        /**
+         * @var array 税率ごとに按分された値引額
+         */
+        $arrDividedDiscount = [];
 
         // 按分後の値引額の合計（8%対象商品の按分後の値引額 ＋ 10%対象商品の按分後の値引額）が実際の値引額より＋－1円となる事への対処
         // ①按分した値引き額を四捨五入で丸める
-        foreach ($arrTaxableTotal as $rate => $total) {
-            $discount[$rate] = $taxable_total !== 0 ? round($discount_total * $total / $taxable_total, 0) : 0;
-            $divide[$rate] = [
-                'discount' => (int) $discount[$rate],
-            ];
-            $cf_discount += $divide[$rate]['discount'];
+        // round() は float を返すため、int にキャストしてから合算する
+        // (float のままだと後続の $diff が float 化し、$diff !== 0 が常に true になる)
+        $total_all = array_sum($arrTaxInclusiveTotalByRate);
+        foreach ($arrTaxInclusiveTotalByRate as $rate => $total_by_rate) {
+            $arrDividedDiscount[$rate] = ($total_all === 0)
+                ? 0
+                : (int) round($discount_total * $total_by_rate / $total_all, 0);
         }
-        // ②四捨五入したとしても、四捨五入前の値引額がそれぞれ 16.5 + 75.5 の場合 →(四捨五入端数処理)→ 17 + 76 両方繰り上がる。事への対処
-        $defaultTaxRule = $arrDefaultTaxRule['calc_rule'];
-        $diff = $discount_total - $cf_discount;
-        if ($diff > 0) {
-            $divide[$defaultTaxRule]['discount'] += $diff;
-        } elseif ($diff < 0) {
-            $divide[$defaultTaxRule]['discount'] -= $diff;
-        }
-
-        foreach ($arrTaxableTotal as $rate => $total) {
-            if ($rate == $defaultTaxRule) {
-                $discount[$rate] = $divide[$defaultTaxRule]['discount'];
-            } else {
-                $discount[$rate] = $taxable_total !== 0 ? round($discount_total * $total / $taxable_total, 0) : 0;
-            }
-            $reduced_total = $total - $discount[$rate];
-            $tax = $reduced_total * ($rate / (100 + $rate));
-            $result[$rate] = [
-                'discount' => (int) $discount[$rate],
-                'total' => (int) $reduced_total,
-                'tax' => (int) static::roundByCalcRule($tax, $defaultTaxRule),
-            ];
+        // ②四捨五入したとしても、四捨五入前の値引額がそれぞれ 16.5 + 75.5 の場合 →(四捨五入端数処理)→ 17 + 76 両方繰り上がる事への対処
+        $diff = $discount_total - array_sum($arrDividedDiscount);
+        if ($diff !== 0) {
+            // 丸めで生じた誤差を既定税率のバケットへ寄せ、按分後の値引額の合計を実際の値引額に一致させる
+            // 既定税率の商品が無い受注では、金額が最大のバケットへ寄せる
+            $adjust_rate = isset($arrDividedDiscount[$default_tax_rate])
+                ? $default_tax_rate
+                : array_keys($arrTaxInclusiveTotalByRate, max($arrTaxInclusiveTotalByRate))[0];
+            $arrDividedDiscount[$adjust_rate] += $diff;
         }
 
-        return $result;
+        /**
+         * @var array このメソッドの戻り値
+         */
+        $arrReturn = [];
+
+        // 戻り値をセットする。
+        foreach ($arrTaxInclusiveTotalByRate as $rate => $total_by_rate) {
+            $discounted_total_by_rate = $total_by_rate - $arrDividedDiscount[$rate];
+            $tax = $discounted_total_by_rate * ($rate / (100 + $rate));
+            $arrReturn[$rate] = [
+                'discount' => $arrDividedDiscount[$rate],
+                'total' => (int) $discounted_total_by_rate,
+                'tax' => (int) static::roundByCalcRule($tax, $default_calc_rule),
+            ];
+        }
+
+        return $arrReturn;
     }
 
     /**
@@ -130,14 +160,14 @@ class SC_Helper_TaxRule
      *
      * 複数の税率がある場合は改行で区切る.
      *
-     * @param array{8?:int, 10?:int} $arrTaxableTotal 税率ごとのお支払い合計金額
+     * @param array{8?:int, 10?:int} $arrTaxInclusiveTotalByRate 税率ごとの税込み合計金額
      * @param int $discount_total 値引額合計
      *
      * @return string (<税率>%対象: <値引後税込合計>円 内消費税: <値引後税額>円)
      */
-    public static function getTaxDetail($arrTaxableTotal, $discount_total = 0)
+    public static function getTaxDetail(array $arrTaxInclusiveTotalByRate, $discount_total = 0)
     {
-        $arrTaxPerTaxRate = static::getTaxPerTaxRate($arrTaxableTotal, $discount_total);
+        $arrTaxPerTaxRate = static::getTaxPerTaxRate($arrTaxInclusiveTotalByRate, $discount_total);
         $result = '';
         foreach ($arrTaxPerTaxRate as $rate => $item) {
             $result .= '('.$rate.'%対象: '.number_format($item['total']).'円 内消費税: '.number_format($item['tax']).'円)'.PHP_EOL;
@@ -211,9 +241,6 @@ class SC_Helper_TaxRule
      */
     public static function getTaxRule($product_id = 0, $product_class_id = 0, $pref_id = 0, $country_id = 0, $option_product_tax_rule = OPTION_PRODUCT_TAX_RULE)
     {
-        // 複数回呼出があるのでキャッシュ化
-        static $data_c = [];
-
         // 初期化
         $product_id = $product_id > 0 ? $product_id : 0;
         $product_class_id = $product_class_id > 0 ? $product_class_id : 0;
@@ -227,7 +254,8 @@ class SC_Helper_TaxRule
             $cache_key = "$pref_id,$country_id";
         }
 
-        if (empty($data_c[$cache_key])) {
+        // 複数回呼出があるのでキャッシュ化
+        if (empty(self::$arrTaxRuleCache[$cache_key])) {
             // ログイン済み会員で国と地域指定が無い場合は、会員情報をデフォルトで利用。管理画面では利用しない
             if (!(defined('ADMIN_FUNCTION') && ADMIN_FUNCTION == true)) {
                 $objCustomer = new SC_Customer_Ex();
@@ -309,10 +337,25 @@ class SC_Helper_TaxRule
             }
             // XXXX: 互換性のためtax_ruleにもcalc_ruleを設定
             $arrRet['tax_rule'] = $arrRet['calc_rule'];
-            $data_c[$cache_key] = $arrRet;
+            self::$arrTaxRuleCache[$cache_key] = $arrRet;
         }
 
-        return $data_c[$cache_key];
+        return self::$arrTaxRuleCache[$cache_key];
+    }
+
+    /**
+     * 税率設定のキャッシュをクリアする.
+     *
+     * dtb_tax_rule を更新した後に呼び出し、getTaxRule() が更新後の設定を
+     * 返すようにする.
+     *
+     * @return void
+     *
+     * @see SC_Helper_TaxRule::getTaxRule()
+     */
+    public static function clearTaxRuleCache()
+    {
+        self::$arrTaxRuleCache = [];
     }
 
     /**
@@ -404,6 +447,9 @@ class SC_Helper_TaxRule
             $where = 'tax_rule_id = ?';
             $objQuery->update($table, $arrValues, $where, [$tax_rule_id]);
         }
+
+        // 更新後の設定を getTaxRule() が返すようにキャッシュをクリアする
+        static::clearTaxRuleCache();
     }
 
     /**
@@ -478,6 +524,9 @@ class SC_Helper_TaxRule
         $sqlval['update_date'] = 'CURRENT_TIMESTAMP';
         $where = 'tax_rule_id = ?';
         $objQuery->update('dtb_tax_rule', $sqlval, $where, [$tax_rule_id]);
+
+        // 削除後の設定を getTaxRule() が返すようにキャッシュをクリアする
+        static::clearTaxRuleCache();
     }
 
     /**
