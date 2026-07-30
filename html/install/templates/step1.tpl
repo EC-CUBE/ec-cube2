@@ -31,7 +31,7 @@ $(function() {
     });
     function changeSmtpDisabled() {
         let disabled = $('input[name=mail_backend]:checked').val() != 'smtp';
-        $('.smtp').attr('disabled', disabled);
+        $('.smtp').prop('disabled', disabled);
     }
 });
 </script>

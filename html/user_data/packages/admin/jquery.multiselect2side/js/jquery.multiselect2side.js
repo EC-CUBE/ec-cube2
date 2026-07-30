@@ -107,7 +107,7 @@
 
 			// SELECT FIRST LEFT ITEM
 			if (!(navigator.userAgent.toLowerCase().indexOf('msie 6') != -1))
-				leftSel.find("option").eq(0).attr("selected", true);
+				leftSel.find("option").eq(0).prop("selected", true);
 
 			// ON CHANGE REFRESH ALL BUTTON STATUS
 			allSel.change(function() {
@@ -117,20 +117,20 @@
 				var	selectedSx = leftSel.find("option:selected");
 				var	selectedDx = rightSel.find("option:selected");
 
-				if (selectedSx.size() == 0 ||
-						(o.maxSelected >= 0 && (selectedSx.size() + selectDx.size()) > o.maxSelected))
+				if (selectedSx.length == 0 ||
+						(o.maxSelected >= 0 && (selectedSx.length + selectDx.length) > o.maxSelected))
 					div.find(".AddOne").addClass('ms2side__hide');
 				else
 					div.find(".AddOne").removeClass('ms2side__hide');
 
 				// FIRST HIDE ALL
 				div.find(".RemoveOne, .MoveUp, .MoveDown, .MoveTop, .MoveBottom, .SelSort").addClass('ms2side__hide');
-				if (selectDx.size() > 1)
+				if (selectDx.length > 1)
 					div.find(".SelSort").removeClass('ms2side__hide');
-				if (selectedDx.size() > 0) {
+				if (selectedDx.length > 0) {
 					div.find(".RemoveOne").removeClass('ms2side__hide');
 					// ALL SELECTED - NO MOVE
-					if (selectedDx.size() < selectDx.size()) {	// FOR NOW (JOE) && selectedDx.size() == 1
+					if (selectedDx.length < selectDx.length) {	// FOR NOW (JOE) && selectedDx.length == 1
 						if (selectedDx.val() != selectDx.val())	// FIRST OPTION, NO UP AND TOP BUTTON
 							div.find(".MoveUp, .MoveTop").removeClass('ms2side__hide');
 						if (selectedDx.last().val() != selectDx.last().val())	// LAST OPTION, NO DOWN AND BOTTOM BUTTON
@@ -138,13 +138,13 @@
 					}
 				}
 
-				if (selectSx.size() == 0 ||
-						(o.maxSelected >= 0 && selectSx.size() >= o.maxSelected))
+				if (selectSx.length == 0 ||
+						(o.maxSelected >= 0 && selectSx.length >= o.maxSelected))
 					div.find(".AddAll").addClass('ms2side__hide');
 				else
 					div.find(".AddAll").removeClass('ms2side__hide');
 
-				if (selectDx.size() == 0)
+				if (selectDx.length == 0)
 					div.find(".RemoveAll").addClass('ms2side__hide');
 				else
 					div.find(".RemoveAll").removeClass('ms2side__hide');
@@ -154,9 +154,9 @@
 			leftSel.dblclick(function () {
 				$(this).find("option:selected").each(function(i, selected){
 
-					if (o.maxSelected < 0 || rightSel.children().size() < o.maxSelected) {
+					if (o.maxSelected < 0 || rightSel.children().length < o.maxSelected) {
 						$(this).remove().appendTo(rightSel);
-						el.find("[value=" + $(selected).val() + "]").attr("selected", true).remove().appendTo(el);
+						el.find("[value=" + $(selected).val() + "]").prop("selected", true).remove().appendTo(el);
 					}
 				});
 				$(this).trigger('change');
@@ -166,7 +166,7 @@
 			rightSel.dblclick(function () {
 				$(this).find("option:selected").each(function(i, selected){
 					$(this).remove().appendTo(leftSel);
-					el.find("[value=" + $(selected).val() + "]").attr("selected", false).remove().appendTo(el);
+					el.find("[value=" + $(selected).val() + "]").prop("selected", false).remove().appendTo(el);
 				});
 				$(this).trigger('change');
 			});
@@ -177,26 +177,26 @@
 					if ($(this).hasClass("AddOne")) {
 						leftSel.find("option:selected").each(function(i, selected){
 							$(this).remove().appendTo(rightSel);
-							el.find("[value=" + $(selected).val() + "]").attr("selected", true).remove().appendTo(el);
+							el.find("[value=" + $(selected).val() + "]").prop("selected", true).remove().appendTo(el);
 						});
 					}
 					else if ($(this).hasClass("AddAll")) {	// ALL SELECTED
 						leftSel.children().appendTo(rightSel);
 						leftSel.children().remove();
-						el.find('option').attr("selected", true);
-						// el.children().attr("selected", true); -- PROBLEM WITH OPTGROUP
+						el.find('option').prop("selected", true);
+						// el.children().prop("selected", true); -- PROBLEM WITH OPTGROUP
 					}
 					else if ($(this).hasClass("RemoveOne")) {
 						rightSel.find("option:selected").each(function(i, selected){
 							$(this).remove().appendTo(leftSel);
-							el.find("[value=" + $(selected).val() + "]").attr("selected", false).remove().appendTo(el);
+							el.find("[value=" + $(selected).val() + "]").prop("selected", false).remove().appendTo(el);
 						});
 					}
 					else if ($(this).hasClass("RemoveAll")) {	// ALL REMOVED
 						rightSel.children().appendTo(leftSel);
 						rightSel.children().remove();
-						el.find('option').attr("selected", false);
-						//el.children().attr("selected", false); -- PROBLEM WITH OPTGROUP
+						el.find('option').prop("selected", false);
+						//el.children().prop("selected", false); -- PROBLEM WITH OPTGROUP
 					}
 				}
 
@@ -220,8 +220,8 @@
 						el.find("option:selected").remove();
 						// AFTER ADD ON ORIGINAL AND RIGHT SELECT
 						selectDx.each(function() {
-							rightSel.append($(this).clone().attr("selected", true));
-							el.append($(this).attr("selected", true));
+							rightSel.append($(this).clone().prop("selected", true));
+							el.append($(this).prop("selected", true));
 						});
 					}
 					else if ($(this).hasClass("MoveUp")) {
