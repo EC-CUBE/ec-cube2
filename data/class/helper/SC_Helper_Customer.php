@@ -666,6 +666,9 @@ class SC_Helper_Customer
         ) {
             $objErr->arrErr['search_buy_times_from'] .= '※ 購入回数の指定範囲が不正です。';
         }
+
+        $objErr->doFunc(['ページ番号', 'search_pageno', 1], ['MIN_CHECK']);
+
         if (!SC_Utils_Ex::isBlank($objErr->arrErr)) {
             $arrErr = array_merge($arrErr, $objErr->arrErr);
         }
