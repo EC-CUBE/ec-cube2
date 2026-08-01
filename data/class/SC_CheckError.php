@@ -477,6 +477,11 @@ class SC_CheckError
             return;
         }
 
+        // 未入力の場合はエラーにしない(EXIST_CHECKを使用すること)
+        if (strlen($this->arrParam[$keyname]) === 0) {
+            return;
+        }
+
         $this->createParam($value);
 
         // 文字数の取得
@@ -507,6 +512,11 @@ class SC_CheckError
         $min_threshold = $value[2];
 
         if (isset($this->arrErr[$keyname])) {
+            return;
+        }
+
+        // 未入力の場合はエラーにしない(EXIST_CHECKを使用すること)
+        if (strlen($this->arrParam[$keyname]) === 0) {
             return;
         }
 
