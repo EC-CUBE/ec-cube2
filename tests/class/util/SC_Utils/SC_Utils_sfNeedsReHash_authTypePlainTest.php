@@ -27,13 +27,13 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
  */
 
 /**
- * SC_Utils::sfIsMatchHashPassword()のテストクラス (AUTH_TYPE = PLAIN).
+ * SC_Utils::sfNeedsReHash() のテストクラス (AUTH_TYPE = PLAIN).
  * AUTH_TYPE は定数のためまとめて実行できない. 個別実行が必要:
- * data/vendor/bin/phpunit tests/class/util/SC_Utils/SC_Utils_sfIsMatchHashPassword_authTypePlainTest.php
+ * data/vendor/bin/phpunit tests/class/util/SC_Utils/SC_Utils_sfNeedsReHash_authTypePlainTest.php
  *
  * @group auth_type_plain
  */
-class SC_Utils_sfIsMatchHashPassword_authTypePlainTest extends Common_TestCase
+class SC_Utils_sfNeedsReHash_authTypePlainTest extends Common_TestCase
 {
     protected function setUp(): void
     {
@@ -45,19 +45,19 @@ class SC_Utils_sfIsMatchHashPassword_authTypePlainTest extends Common_TestCase
         // parent::tearDown();
     }
 
-    public function testSfIsMatchHashPassword文字列が一致する場合Trueが返る()
+    public function testSfNeedsReHashAuthTypePlainの場合常にFalseが返る()
     {
-        $pass = 'ec-cube';
         $hashpass = 'ec-cube';
+        $salt = 'salt';
 
-        $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $hashpass, ''));
+        $this->assertFalse(SC_Utils::sfNeedsReHash($hashpass, $salt));
     }
 
-    public function testSfIsMatchHashPassword文字列が一致しない場合Falseが返る()
+    public function testSfNeedsReHashAuthTypePlainでSalt空の場合もFalseが返る()
     {
-        $pass = 'ec-cube';
-        $hashpass = 'EC-cube';
+        $hashpass = 'ec-cube';
+        $salt = '';
 
-        $this->assertFalse(SC_Utils::sfIsMatchHashPassword($pass, $hashpass, ''));
+        $this->assertFalse(SC_Utils::sfNeedsReHash($hashpass, $salt));
     }
 }

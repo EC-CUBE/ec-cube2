@@ -1030,16 +1030,7 @@ function lfMakeConfigFile()
         }
     }
     //パスワード暗号化方式決定
-    $arrAlgos = hash_algos();
-    if (array_search('sha256', $arrAlgos) !== FALSE) {
-        $algos = 'sha256';
-    } elseif (array_search('sha1', $arrAlgos) !== FALSE) {
-        $algos = 'sha1';
-    } elseif (array_search('md5', $arrAlgos) !== FALSE) {
-        $algos = 'md5';
-    } else {
-        $algos = '';
-    }
+    $algos = PASSWORD_DEFAULT;
     //MAGICハッシュワード決定
     if ($_POST['db_skip'] && defined('AUTH_MAGIC')) {
         $auth_magic = AUTH_MAGIC;

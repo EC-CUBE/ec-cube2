@@ -75,7 +75,7 @@ jobs:
         cat data/config/config.php
         docker compose exec -T ec-cube composer dumpautoload
     - name: Run to PHPUnit
-      run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --exclude-group classloader,mysql_prepare
+      run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --exclude-group classloader,mysql_prepare,auth_type_plain
     - name: Run to PHPUnit classloader
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --group classloader
     - name: Run to PHPUnit mysql_prepare
@@ -83,6 +83,9 @@ jobs:
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --group mysql_prepare
     - name: Run to PHPUnit SessionFactory
       run: docker compose exec -T ec-cube php data/vendor/bin/phpunit tests/class/SC_SessionFactoryTest.php
+    - name: Run to PHPUnit AUTH_TYPE=PLAIN
+      # AUTH_TYPE は定数のためまとめて実行できない. PLAIN用のbootstrapで個別に実行する
+      run: docker compose exec -T ec-cube php data/vendor/bin/phpunit --no-configuration --bootstrap tests/require_auth_type_plain.php --group auth_type_plain tests/class/util/SC_Utils/
     - name: Run to Email-template compatibility tests
       # 2.17.2-p2 のメールテンプレートで正常にテストが通るかチェックする
       run: |
