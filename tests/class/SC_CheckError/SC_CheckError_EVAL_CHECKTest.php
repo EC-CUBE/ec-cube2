@@ -11,7 +11,7 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
     public function testEVALCHECK()
     {
         $this->arrForm = [
-            self::FORM_NAME => "define('AAA', 'BBB')",
+            self::FORM_NAME => '"BBB"',
         ];
         $this->expected = '';
 
@@ -19,18 +19,70 @@ class SC_CheckError_EVAL_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
-    public function testEVALCHECKWithInvalid()
+    /**
+     * スカラ定数として妥当な各種の値が許可されること.
+     *
+     * mtb_constants の実値は リテラル / 定数 / それらの連結式 のいずれかで、
+     * シングルクォート文字列も含まれる (#ffffdf 等).
+     *
+     * @dataProvider validValueProvider
+     */
+    public function testEVALCHECKWithValidValues($value)
     {
-        $this->arrForm = [
-            self::FORM_NAME => "define('AAA')",
+        $this->arrForm = [self::FORM_NAME => $value];
+        $this->expected = '';
+
+        $this->scenario();
+        $this->verify("値 [{$value}] は許可されるべき");
+    }
+
+    public function validValueProvider()
+    {
+        return [
+            'ダブルクォート文字列' => ['"BBB"'],
+            'シングルクォート文字列' => ["'BBB'"],
+            'カラーコード(シングルクォート)' => ["'#ffffdf'"],
+            '整数' => ['7200'],
+            '負の整数' => ['-1'],
+            '真偽値' => ['false'],
+            '定数参照' => ['SMTEXT_LEN'],
+            '定数の連結式' => ['HTML_REALDIR . USER_DIR'],
+            '文字列と定数の連結' => ['DATA_REALDIR . "cache/"'],
         ];
-        if (PHP_VERSION_ID >= 80000) {
-            $this->markTestSkipped('ArgumentCountError in PHP8');
-        }
+    }
+
+    /**
+     * 関数呼び出し・文の連結・変数等を含む値が拒否されること.
+     *
+     * mtb_constants の値はスカラ定数式 (リテラル / 定数 / それらの連結) に限られるため、
+     * 関数呼び出しや複数の文を含む値はバリデーションエラーとなる.
+     *
+     * @dataProvider invalidValueProvider
+     */
+    public function testEVALCHECKWithInvalidValues($value)
+    {
+        $this->arrForm = [self::FORM_NAME => $value];
         $this->expected = '※ form の形式が不正です。<br />';
 
         $this->scenario();
-        $this->verify();
+        $this->verify("値 [{$value}] は拒否されるべき");
+    }
+
+    public function invalidValueProvider()
+    {
+        return [
+            '関数呼び出し(define)' => ["define('AAA', 'BBB')"],
+            '引数不足のdefine' => ["define('AAA')"],
+            '括弧の不整合と文の連結' => ['0) || system($_GET[c]); //'],
+            '複数の文' => ['1; phpinfo()'],
+            '関数の呼び出し' => ["system('id')"],
+            'バッククォート式' => ['`whoami`'],
+            '変数参照' => ['$_SERVER'],
+            'カンマ区切り' => ['1,2'],
+            'セミコロンのみ' => [';'],
+            '値の後のセミコロン' => ['1;'],
+            '空白のみ' => ['   '],
+        ];
     }
 
     public function testEVALCHECKWithEmpty()
