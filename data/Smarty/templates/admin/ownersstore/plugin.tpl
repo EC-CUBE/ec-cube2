@@ -34,12 +34,12 @@
             if(mode === 'disable') {
                 result = window.confirm('プラグインを無効にしても宜しいですか？');
                 if(result === false) {
-                    $(event.target).attr("checked", "checked");
+                    $(event.target).prop("checked", true);
                 }
             } else if(mode === 'enable') {
                 result = window.confirm('プラグインを有効にしても宜しいですか？');
                 if(result === false) {
-                    $(event.target).attr("checked", "");
+                    $(event.target).prop("checked", false);
                 }
             }
             if(result === true){
@@ -70,8 +70,8 @@
      * アップデート対象ファイル以外はPOSTされない様にdisabled属性を付与
      */
     function removeUpdateFile(select_id) {
-        $('input[name="update_plugin_file"]').attr("disabled", "disabled");
-        $('input[id="' + select_id + '"]').removeAttr("disabled");
+        $('input[name="update_plugin_file"]').prop("disabled", true);
+        $('input[id="' + select_id + '"]').prop("disabled", false);
     }
 
     /**
