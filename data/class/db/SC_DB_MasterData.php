@@ -368,7 +368,7 @@ class SC_DB_MasterData
             if (!empty($comments[$key])) {
                 $data .= '/** '.$comments[$key]." */\n";
             }
-            $data .= "define('".$key."', ".$val.");\n";
+            $data .= "defined('".$key."') or define('".$key."', ".$val.");\n";
         }
 
         return $data;
