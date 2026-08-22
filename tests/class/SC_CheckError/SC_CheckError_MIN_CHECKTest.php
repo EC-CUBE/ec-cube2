@@ -51,6 +51,16 @@ class SC_CheckError_MIN_CHECKTest extends SC_CheckError_AbstractTestCase
         $this->verify();
     }
 
+    public function testMINCHECKWithMissing()
+    {
+        $this->min = 5;
+        $this->arrForm = [];
+        $this->expected = '';
+
+        $this->scenario();
+        $this->verify();
+    }
+
     public function testMINCHECKWithNotType()
     {
         $this->min = 5;

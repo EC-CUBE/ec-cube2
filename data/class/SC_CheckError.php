@@ -477,12 +477,12 @@ class SC_CheckError
             return;
         }
 
+        $this->createParam($value);
+
         // 未入力の場合はエラーにしない(EXIST_CHECKを使用すること)
         if (strlen($this->arrParam[$keyname]) === 0) {
             return;
         }
-
-        $this->createParam($value);
 
         // 文字数の取得
         if ($this->arrParam[$keyname] > $max_threshold) {
@@ -515,12 +515,12 @@ class SC_CheckError
             return;
         }
 
+        $this->createParam($value);
+
         // 未入力の場合はエラーにしない(EXIST_CHECKを使用すること)
         if (strlen($this->arrParam[$keyname]) === 0) {
             return;
         }
-
-        $this->createParam($value);
 
         if ($this->arrParam[$keyname] < $min_threshold) {
             $this->arrErr[$keyname] = sprintf(
