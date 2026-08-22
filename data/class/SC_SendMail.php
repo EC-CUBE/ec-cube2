@@ -121,7 +121,7 @@ class SC_SendMail
     /**
      * @param string $bcc
      */
-    public function setBCc($bcc)
+    public function setBcc($bcc)
     {
         if ($bcc != '') {
             $this->bcc = $bcc;
