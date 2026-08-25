@@ -21,31 +21,49 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-// テキスト/HTML　メール送信
+/**
+ * テキスト/HTML　メール送信
+ */
 class SC_SendMail
 {
-    public $to;            // 送信先
-    public $subject;       // 題名
-    public $body;          // 本文
-    public $cc;            // CC
-    public $bcc;           // BCC
-    public $replay_to;     // replay_to
-    public $return_path;   // return_path
+    /** 送信先のメールアドレス */
+    public string $to = '';
+    public string $to_name = '';
+    /** 題名 */
+    public string $subject = '';
+    /** 本文 */
+    public string $body = '';
+    public string $cc = '';
+    public string $cc_name = '';
+    public string $bcc = '';
+    public string $bcc_name = '';
+    public string $replay_to = '';
+    public string $return_path = '';
+    /** @var \Mail|\PEAR_Error */
     public $objMail;
-    /** @var array */
-    public $arrRecip;
-    /** @var string */
-    public $backend;
-    /** @var string */
-    public $host;
-    /** @var int */
-    public $port;
-    /** @var string */
-    public $from;
-    /** @var string */
-    public $reply_to;
-    /** @var array */
-    protected $customHeaders;
+    public array $arrRecip = [];
+    public string $backend = MAIL_BACKEND;
+    public string $host = SMTP_HOST;
+    /**
+     * ポート番号
+     *
+     * 本質的には数値だが、処理を簡素にするため文字列も可能とする。
+     *
+     * @var int|string
+     */
+    public $port = SMTP_PORT;
+    public string $from = '';
+    public string $from_name = '';
+    public string $reply_to = '';
+    protected array $customHeaders = [];
+    protected string $charset = 'ISO-2022-JP';
+
+    /**
+     * 本文に Base64 エンコードを使用するか。
+     *
+     * null は自動判定。
+     */
+    protected ?bool $useBase64ForBody = null;
 
     /**
      * コンストラクタ
@@ -54,33 +72,20 @@ class SC_SendMail
      */
     public function __construct()
     {
-        $this->arrRecip = [];
-        $this->to = '';
-        $this->subject = '';
-        $this->body = '';
-        $this->cc = '';
-        $this->bcc = '';
-        $this->reply_to = '';
-        $this->return_path = '';
-        $this->customHeaders = [];
-        $this->backend = MAIL_BACKEND;
-        $this->host = SMTP_HOST;
-        $this->port = SMTP_PORT;
-
         // PEAR::Mailを使ってメール送信オブジェクト作成
-        $this->objMail = &Mail::factory(
+        $this->objMail = \Mail::factory(
             $this->backend,
             $this->getBackendParams($this->backend)
         );
-        if (PEAR::isError($this->objMail)) {
+        if (\PEAR::isError($this->objMail)) {
             // XXX 環境によっては文字エンコードに差異がないか些か心配
             trigger_error($this->objMail->getMessage(), E_USER_ERROR);
         }
     }
 
-    // 送信先の設定
-
     /**
+     * 送信先の設定
+     *
      * @param string $key
      */
     public function setRecip($key, $recipient)
@@ -88,50 +93,78 @@ class SC_SendMail
         $this->arrRecip[$key] = $recipient;
     }
 
-    // 宛先の設定
+    /**
+     * 宛先の設定
+     */
     public function setTo($to, $to_name = '')
     {
         if ($to != '') {
-            $this->to = $this->getNameAddress($to_name, $to);
+            $this->to = $to;
+            $this->to_name = $to_name;
             $this->setRecip('To', $to);
         }
     }
 
-    // 送信元の設定
-    public function setFrom($from, $from_name = '')
+    public function getToWithEncodedName()
     {
-        $this->from = $this->getNameAddress($from_name, $from);
+        return $this->getNameAddress($this->to_name, $this->to);
     }
 
-    // CCの設定
+    /**
+     * 送信元の設定
+     */
+    public function setFrom($from, $from_name = '')
+    {
+        $this->from = $from;
+        $this->from_name = $from_name;
+    }
+
+    public function getFromWithEncodedName()
+    {
+        return $this->getNameAddress($this->from_name, $this->from);
+    }
 
     /**
+     * CCの設定
+     *
      * @param string $cc
      */
     public function setCc($cc, $cc_name = '')
     {
         if ($cc != '') {
-            $this->cc = $this->getNameAddress($cc_name, $cc);
+            $this->cc = $cc;
+            $this->cc_name = $cc_name;
             $this->setRecip('Cc', $cc);
         }
     }
 
-    // BCCの設定
+    public function getCcWithEncodedName()
+    {
+        return $this->getNameAddress($this->cc_name, $this->cc);
+    }
 
     /**
+     * BCCの設定
+     *
      * @param string $bcc
      */
-    public function setBcc($bcc)
+    public function setBcc($bcc, $bcc_name = '')
     {
         if ($bcc != '') {
             $this->bcc = $bcc;
+            $this->bcc_name = $bcc_name;
             $this->setRecip('Bcc', $bcc);
         }
     }
 
-    // Reply-Toの設定
+    public function getBccWithEncodedName()
+    {
+        return $this->getNameAddress($this->bcc_name, $this->bcc);
+    }
 
     /**
+     * Reply-Toの設定
+     *
      * @param string $reply_to
      */
     public function setReplyTo($reply_to)
@@ -141,7 +174,9 @@ class SC_SendMail
         }
     }
 
-    // Return-Pathの設定
+    /**
+     * Return-Pathの設定
+     */
     public function setReturnPath($return_path)
     {
         $this->return_path = $return_path;
@@ -188,19 +223,47 @@ class SC_SendMail
         $this->customHeaders = [];
     }
 
-    // 件名の設定
+    /**
+     * 件名の設定
+     */
     public function setSubject($subject)
     {
         $subject = str_replace(["\r\n", "\r", "\n"], ' ', $subject);
-        $this->subject = mb_encode_mimeheader($subject, 'ISO-2022-JP-MS', 'B', "\n");
+        $this->subject = $subject;
     }
 
-    // 本文の設定
+    public function getEncodedSubject()
+    {
+        $subject = $this->subject;
+
+        $subject = mb_encode_mimeheader($subject, $this->getCharsetForEncodeProcess(), 'B', "\n");
+
+        return $subject;
+    }
+
+    /**
+     * 本文の設定
+     */
     public function setBody($body)
     {
-        // iso-2022-jpだと特殊文字が？で送信されるのでISO-2022-JP-MSを使用する
-        $this->body = mb_convert_encoding($body, 'ISO-2022-JP-MS', CHAR_CODE);
-        $this->body = str_replace(["\r\n", "\r"], "\n", $this->body);
+        $this->body = $body;
+    }
+
+    public function getEncodedBody()
+    {
+        $body = $this->body;
+
+        if ($this->useBase64ForBody) {
+            $body = mb_convert_encoding($this->body, $this->getCharsetForEncodeProcess());
+
+            // Base64 エンコード（RFC2045 に準拠し chunk_split で76文字ごとに改行）
+            $body = chunk_split(base64_encode($body));
+        }
+
+        $body = mb_convert_encoding($body, $this->getCharsetForEncodeProcess(), CHAR_CODE);
+        $body = str_replace(["\r\n", "\r"], "\n", $body);
+
+        return $body;
     }
 
     /**
@@ -217,7 +280,7 @@ class SC_SendMail
             'port' => $this->port,
         ];
         // PEAR::Mailを使ってメール送信オブジェクト作成
-        $this->objMail = &Mail::factory('smtp', $arrHost);
+        $this->objMail = \Mail::factory('smtp', $arrHost);
     }
 
     /**
@@ -234,25 +297,34 @@ class SC_SendMail
             'port' => $this->port,
         ];
         // PEAR::Mailを使ってメール送信オブジェクト作成
-        $this->objMail = &Mail::factory('smtp', $arrHost);
+        $this->objMail = \Mail::factory('smtp', $arrHost);
     }
 
-    // 名前<メールアドレス>の形式を生成
-
     /**
-     * @param string $name
+     * `名前 <メールアドレス>` の形式を生成
      */
-    public function getNameAddress($name, $mail_address)
+    public function getNameAddress(?string $name, ?string $mail_address)
     {
-        if ($name != '') {
-            // 制御文字を変換する。
-            $_name = $name;
-            $_name = mb_encode_mimeheader($_name, 'ISO-2022-JP-MS', 'B', "\n");
-            $_name = str_replace('"', '\"', $_name);
-            $name_address = sprintf('"%s" <%s>', $_name, $mail_address);
-        } else {
-            $name_address = $mail_address;
-        }
+        $name = (string) $name;
+        $mail_address = (string) $mail_address;
+
+        $name_address = (function () use ($name) {
+            switch (true) {
+                // 空文字の場合
+                case $name === '':
+                    return '';
+                    // ダブルクォーテーションを含む場合
+                case str_contains($name, '"'):
+                    // nop: `"` のエスケープ `\"` を正しく解釈しない MUA があるため、`"` を含む場合はこのルートを通さずエンコードに回す。
+                    break;
+                    // ASCII のみの場合
+                case preg_match('/^[\x20-\x7E]*$/', $name):
+                    return '"'.$name.'" ';
+            }
+
+            return mb_encode_mimeheader($name, $this->getCharsetForEncodeProcess(), 'B', "\n").' ';
+        })();
+        $name_address .= "<{$mail_address}>";
 
         return $name_address;
     }
@@ -306,27 +378,49 @@ class SC_SendMail
         }
     }
 
-    // ヘッダーを返す
+    /**
+     * ヘッダーを返す (後方互換)
+     *
+     * @deprecated getHeader() を使用すること。
+     */
     public function getBaseHeader()
+    {
+        $arrHeader = $this->getHeader();
+        unset($arrHeader['Content-Type']);
+
+        return $arrHeader;
+    }
+
+    /**
+     * ヘッダーを返す
+     *
+     * @param bool $use_html HTMLメールか
+     */
+    public function getHeader(bool $use_html = false): array
     {
         // 送信するメールの内容と送信先
         $arrHeader = [];
         $arrHeader['MIME-Version'] = '1.0';
-        $arrHeader['To'] = $this->to;
-        $arrHeader['Subject'] = $this->subject;
-        $arrHeader['From'] = $this->from;
+        $arrHeader['To'] = $this->getToWithEncodedName();
+        $arrHeader['Subject'] = $this->getEncodedSubject();
+        $arrHeader['From'] = $this->getFromWithEncodedName();
         $arrHeader['Return-Path'] = $this->return_path;
         if ($this->reply_to != '') {
             $arrHeader['Reply-To'] = $this->reply_to;
         }
         if ($this->cc != '') {
-            $arrHeader['Cc'] = $this->cc;
+            $arrHeader['Cc'] = $this->getCcWithEncodedName();
         }
         if ($this->bcc != '') {
-            $arrHeader['Bcc'] = $this->bcc;
+            $arrHeader['Bcc'] = $this->getBccWithEncodedName();
         }
         $arrHeader['Date'] = date('D, j M Y H:i:s O');
-        $arrHeader['Content-Transfer-Encoding'] = '7bit';
+        $arrHeader['Content-Transfer-Encoding'] = $this->getContentTransferEncoding();
+
+        $arrHeader['Content-Type'] = $use_html
+            ? 'text/html; charset="'.$this->getCharsetForHeader().'"'
+            : 'text/plain; charset="'.$this->getCharsetForHeader().'"'
+        ;
 
         // カスタムヘッダーをマージ
         foreach ($this->customHeaders as $name => $value) {
@@ -336,22 +430,24 @@ class SC_SendMail
         return $arrHeader;
     }
 
-    // ヘッダーを返す
+    /**
+     * ヘッダーを返す (後方互換)
+     *
+     * @deprecated getHeader() を使用すること。
+     */
     public function getTEXTHeader()
     {
-        $arrHeader = $this->getBaseHeader();
-        $arrHeader['Content-Type'] = 'text/plain; charset="ISO-2022-JP"';
-
-        return $arrHeader;
+        return $this->getHeader();
     }
 
-    // ヘッダーを返す
+    /**
+     * ヘッダーを返す (後方互換)
+     *
+     * @deprecated getHeader() を使用すること。
+     */
     public function getHTMLHeader()
     {
-        $arrHeader = $this->getBaseHeader();
-        $arrHeader['Content-Type'] = 'text/html; charset="ISO-2022-JP"';
-
-        return $arrHeader;
+        return $this->getHeader(true);
     }
 
     /**
@@ -382,11 +478,12 @@ class SC_SendMail
      */
     public function sendMail($isHtml = false)
     {
-        $header = $isHtml ? $this->getHTMLHeader() : $this->getTEXTHeader();
+        $header = $this->getHeader($isHtml);
         $recip = $this->getRecip();
+
         // メール送信
-        $result = $this->objMail->send($recip, $header, $this->body);
-        if (PEAR::isError($result)) {
+        $result = $this->objMail->send($recip, $header, $this->getEncodedBody());
+        if (\PEAR::isError($result)) {
             // XXX Windows 環境では SJIS でメッセージを受け取るようなので変換する。
             $msg = mb_convert_encoding($result->getMessage(), CHAR_CODE, 'auto');
             $msg = 'メール送信に失敗しました。['.$msg.']';
@@ -457,5 +554,58 @@ class SC_SendMail
         }
 
         return $arrParams;
+    }
+
+    /**
+     * エンコード処理で用いる文字コードを設定する。
+     *
+     * @param string $charset 文字コード。
+     */
+    public function setCharset(string $charset)
+    {
+        $this->charset = $charset;
+    }
+
+    /**
+     * エンコード処理で用いる文字コードを返す。
+     */
+    public function getCharsetForEncodeProcess(): string
+    {
+        if ($this->charset === 'ISO-2022-JP') {
+            return 'ISO-2022-JP-MS';
+        }
+
+        return $this->charset;
+    }
+
+    /**
+     * ヘッダーに記すための文字コードを取得する。
+     */
+    public function getCharsetForHeader(): string
+    {
+        return $this->charset;
+    }
+
+    /**
+     * ヘッダーに記すための Content-Transfer-Encoding を取得する。
+     */
+    public function getContentTransferEncoding(): string
+    {
+        $charset = $this->getCharsetForHeader();
+
+        if ($this->useBase64ForBody === true) {
+            return 'base64';
+        }
+
+        if ($charset === 'ISO-2022-JP') {
+            return '7bit';
+        }
+
+        return '8bit';
+    }
+
+    public function setUseBase64ForBody(?bool $useBase64ForBody): void
+    {
+        $this->useBase64ForBody = $useBase64ForBody;
     }
 }
