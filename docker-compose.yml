@@ -45,6 +45,9 @@ services:
       SMTP_USER: ~
       SMTP_PASSWORD: ~
       TEST_MAILCATCHER_URL: "http://mailcatcher:1080"
+      # ログイン試行レート制限のしきい値上書き用（未指定時はアプリ側のデフォルト値）
+      LOGIN_RATE_LIMIT_EMAIL_THRESHOLD: ${LOGIN_RATE_LIMIT_EMAIL_THRESHOLD:-}
+      LOGIN_RATE_LIMIT_IP_THRESHOLD: ${LOGIN_RATE_LIMIT_IP_THRESHOLD:-}
     networks:
       - backend
 

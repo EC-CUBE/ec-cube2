@@ -24,6 +24,12 @@ jobs:
   run-on-linux:
     name: Run on Linux
     runs-on: ubuntu-24.04
+    env:
+      # E2E テストはすべて同一 IP からログイン試行を行うため、Playwright のリトライも
+      # 含めると IP ベースのレート制限に達し、無関係なテストが偶発的に失敗する。
+      # メールアドレスベースのしきい値（デフォルト 5 回）は変更しないため、
+      # レート制限自体の E2E テストはメールアドレスベースで引き続き検証される。
+      LOGIN_RATE_LIMIT_IP_THRESHOLD: 1000
     strategy:
       fail-fast: false
       matrix:
