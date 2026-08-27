@@ -98,7 +98,18 @@ jobs:
             sleep 1
         done
         docker compose exec -T ec-cube composer dumpautoload
-        docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=30 --orders=5
+        # インストール完了直後は DB テーブル作成が終わっていない場合があるため
+        # fixtures 生成は失敗時にリトライする (refs #1438)
+        ok=0
+        for i in 1 2 3; do
+          if docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=30 --orders=5; then
+            ok=1
+            break
+          fi
+          echo "fixtures:generate failed (attempt ${i}), retrying..."
+          sleep 10
+        done
+        [ "$ok" = "1" ]
 
     - if: ${{ matrix.db == 'pgsql' }}
       run: |
