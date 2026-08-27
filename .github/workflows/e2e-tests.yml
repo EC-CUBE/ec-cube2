@@ -123,6 +123,7 @@ jobs:
     # fixtures 生成直後の DB 状態を保存し、グループ間で復元することで
     # 従来のグループ別ジョブと同じ初期状態を保証する
     - name: Create database snapshot
+      id: snapshot
       run: |
         case "${{ matrix.db }}" in
           mysql)
@@ -149,7 +150,7 @@ jobs:
         FORCE_COLOR: 1
 
     - name: Restore database snapshot (before test/front_guest)
-      if: ${{ !cancelled() }}
+      if: ${{ !cancelled() && steps.snapshot.outcome == 'success' }}
       run: |
         case "${{ matrix.db }}" in
           mysql)
@@ -166,7 +167,7 @@ jobs:
         curl -s -X DELETE http://localhost:1080/messages || true
 
     - name: Run to E2E testing (test/front_guest)
-      if: ${{ !cancelled() }}
+      if: ${{ !cancelled() && steps.snapshot.outcome == 'success' }}
       uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3
       with:
         timeout_minutes: 30
@@ -179,7 +180,7 @@ jobs:
         FORCE_COLOR: 1
 
     - name: Restore database snapshot (before test/admin)
-      if: ${{ !cancelled() }}
+      if: ${{ !cancelled() && steps.snapshot.outcome == 'success' }}
       run: |
         case "${{ matrix.db }}" in
           mysql)
@@ -196,7 +197,7 @@ jobs:
         curl -s -X DELETE http://localhost:1080/messages || true
 
     - name: Run to E2E testing (test/admin)
-      if: ${{ !cancelled() }}
+      if: ${{ !cancelled() && steps.snapshot.outcome == 'success' }}
       uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3
       with:
         timeout_minutes: 30
