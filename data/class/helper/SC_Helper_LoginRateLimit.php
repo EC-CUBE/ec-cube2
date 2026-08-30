@@ -75,7 +75,7 @@ class SC_Helper_LoginRateLimit
      */
     protected static function getThreshold($name, $default)
     {
-        if (defined($name)) {
+        if (defined($name) && is_numeric(constant($name))) {
             return (int) constant($name);
         }
 

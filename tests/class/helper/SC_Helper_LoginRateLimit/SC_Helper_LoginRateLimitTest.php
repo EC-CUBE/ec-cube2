@@ -393,6 +393,35 @@ class SC_Helper_LoginRateLimitTest extends Common_TestCase
     }
 
     /**
+     * Test numeric constant overrides threshold
+     *
+     * 数値の定数はしきい値として使用される
+     */
+    public function testGetThresholdUsesNumericConstant()
+    {
+        if (!defined('TEST_LOGIN_RATE_LIMIT_NUMERIC')) {
+            define('TEST_LOGIN_RATE_LIMIT_NUMERIC', '42');
+        }
+
+        $this->assertEquals(42, SC_Helper_LoginRateLimit_ThresholdStub::callGetThreshold('TEST_LOGIN_RATE_LIMIT_NUMERIC', 10));
+    }
+
+    /**
+     * Test non-numeric constant is ignored
+     *
+     * 数値でない定数は無視されデフォルト値が使用される
+     * （(int) 変換で 0 になり即ブロックとなる事故を防ぐ）
+     */
+    public function testGetThresholdIgnoresNonNumericConstant()
+    {
+        if (!defined('TEST_LOGIN_RATE_LIMIT_NON_NUMERIC')) {
+            define('TEST_LOGIN_RATE_LIMIT_NON_NUMERIC', 'invalid');
+        }
+
+        $this->assertEquals(10, SC_Helper_LoginRateLimit_ThresholdStub::callGetThreshold('TEST_LOGIN_RATE_LIMIT_NON_NUMERIC', 10));
+    }
+
+    /**
      * Test checkRateLimit respects overridden IP threshold
      *
      * 上書きされたIPしきい値がレート制限判定に反映される
@@ -415,5 +444,16 @@ class SC_Helper_LoginRateLimitTest extends Common_TestCase
         } finally {
             putenv('LOGIN_RATE_LIMIT_IP_THRESHOLD');
         }
+    }
+}
+
+/**
+ * getThreshold() をテストから呼び出すためのスタブ
+ */
+class SC_Helper_LoginRateLimit_ThresholdStub extends SC_Helper_LoginRateLimit
+{
+    public static function callGetThreshold($name, $default)
+    {
+        return self::getThreshold($name, $default);
     }
 }
