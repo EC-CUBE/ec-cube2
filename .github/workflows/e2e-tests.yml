@@ -183,7 +183,13 @@ jobs:
             docker compose exec -T postgres pg_restore --user=eccube_db_user --clean --if-exists -d eccube_db /tmp/eccube_snapshot.dump
             ;;
           sqlite3)
-            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".restore /tmp/eccube_snapshot.db"
+            # 稼働中の Apache (mod_php) が SQLite への接続を保持したまま外部から
+            # DB を書き換えると接続状態が壊れ、以降のシーケンス取得や INSERT が
+            # MDB2 Error となる。コンテナを再起動して全接続を閉じてから
+            # ファイルを差し替え、WAL モードを再設定する
+            docker compose restart -t 5 ec-cube
+            docker compose exec -T ec-cube sh -c 'cp /tmp/eccube_snapshot.db /var/www/app/data/eccube.db && rm -f /var/www/app/data/eccube.db-wal /var/www/app/data/eccube.db-shm && sqlite3 /var/www/app/data/eccube.db "PRAGMA journal_mode=WAL;"'
+            until curl -sf -k https://localhost:4430/ -o /dev/null; do sleep 1; done
             ;;
         esac
         # mailcatcher もグループ開始時点の状態（空）に戻す
@@ -214,7 +220,13 @@ jobs:
             docker compose exec -T postgres pg_restore --user=eccube_db_user --clean --if-exists -d eccube_db /tmp/eccube_snapshot.dump
             ;;
           sqlite3)
-            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".restore /tmp/eccube_snapshot.db"
+            # 稼働中の Apache (mod_php) が SQLite への接続を保持したまま外部から
+            # DB を書き換えると接続状態が壊れ、以降のシーケンス取得や INSERT が
+            # MDB2 Error となる。コンテナを再起動して全接続を閉じてから
+            # ファイルを差し替え、WAL モードを再設定する
+            docker compose restart -t 5 ec-cube
+            docker compose exec -T ec-cube sh -c 'cp /tmp/eccube_snapshot.db /var/www/app/data/eccube.db && rm -f /var/www/app/data/eccube.db-wal /var/www/app/data/eccube.db-shm && sqlite3 /var/www/app/data/eccube.db "PRAGMA journal_mode=WAL;"'
+            until curl -sf -k https://localhost:4430/ -o /dev/null; do sleep 1; done
             ;;
         esac
         # mailcatcher もグループ開始時点の状態（空）に戻す
