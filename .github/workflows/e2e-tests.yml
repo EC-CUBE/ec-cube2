@@ -144,7 +144,8 @@ jobs:
             docker compose exec -T postgres pg_dump --user=eccube_db_user -Fc -f /tmp/eccube_snapshot.dump eccube_db
             ;;
           sqlite3)
-            docker compose exec -T ec-cube cp /var/www/app/data/eccube.db /tmp/eccube_snapshot.db
+            # WAL モードのため cp ではなく SQLite Backup API で一貫したスナップショットを取る
+            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".backup /tmp/eccube_snapshot.db"
             ;;
         esac
 
@@ -154,13 +155,14 @@ jobs:
         timeout_minutes: 30
         max_attempts: 2
         retry_on: error
-        command: npm run ${{ matrix.pattern }} -- e2e-tests/test/front_login
+        command: npm run ${{ matrix.pattern }} -- --output=test-results/front_login e2e-tests/test/front_login
       env:
         PATTERN: ${{ matrix.pattern }}
         CI: 1
         FORCE_COLOR: 1
 
     - name: Restore database snapshot (before test/front_guest)
+      id: restore_front_guest
       if: ${{ !cancelled() && steps.snapshot.outcome == 'success' }}
       run: |
         case "${{ matrix.db }}" in
@@ -171,26 +173,27 @@ jobs:
             docker compose exec -T postgres pg_restore --user=eccube_db_user --clean --if-exists -d eccube_db /tmp/eccube_snapshot.dump
             ;;
           sqlite3)
-            docker compose exec -T ec-cube sh -c 'cp /tmp/eccube_snapshot.db /var/www/app/data/eccube.db && rm -f /var/www/app/data/eccube.db-wal /var/www/app/data/eccube.db-shm'
+            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".restore /tmp/eccube_snapshot.db"
             ;;
         esac
         # mailcatcher もグループ開始時点の状態（空）に戻す
-        curl -s -X DELETE http://localhost:1080/messages || true
+        curl --fail --silent --show-error -X DELETE http://localhost:1080/messages
 
     - name: Run to E2E testing (test/front_guest)
-      if: ${{ !cancelled() && steps.snapshot.outcome == 'success' }}
+      if: ${{ !cancelled() && steps.restore_front_guest.outcome == 'success' }}
       uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3
       with:
         timeout_minutes: 30
         max_attempts: 2
         retry_on: error
-        command: npm run ${{ matrix.pattern }} -- e2e-tests/test/front_guest
+        command: npm run ${{ matrix.pattern }} -- --output=test-results/front_guest e2e-tests/test/front_guest
       env:
         PATTERN: ${{ matrix.pattern }}
         CI: 1
         FORCE_COLOR: 1
 
     - name: Restore database snapshot (before test/admin)
+      id: restore_admin
       if: ${{ !cancelled() && steps.snapshot.outcome == 'success' }}
       run: |
         case "${{ matrix.db }}" in
@@ -201,20 +204,20 @@ jobs:
             docker compose exec -T postgres pg_restore --user=eccube_db_user --clean --if-exists -d eccube_db /tmp/eccube_snapshot.dump
             ;;
           sqlite3)
-            docker compose exec -T ec-cube sh -c 'cp /tmp/eccube_snapshot.db /var/www/app/data/eccube.db && rm -f /var/www/app/data/eccube.db-wal /var/www/app/data/eccube.db-shm'
+            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".restore /tmp/eccube_snapshot.db"
             ;;
         esac
         # mailcatcher もグループ開始時点の状態（空）に戻す
-        curl -s -X DELETE http://localhost:1080/messages || true
+        curl --fail --silent --show-error -X DELETE http://localhost:1080/messages
 
     - name: Run to E2E testing (test/admin)
-      if: ${{ !cancelled() && steps.snapshot.outcome == 'success' }}
+      if: ${{ !cancelled() && steps.restore_admin.outcome == 'success' }}
       uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3
       with:
         timeout_minutes: 30
         max_attempts: 2
         retry_on: error
-        command: npm run ${{ matrix.pattern }} -- e2e-tests/test/admin
+        command: npm run ${{ matrix.pattern }} -- --output=test-results/admin e2e-tests/test/admin
       env:
         PATTERN: ${{ matrix.pattern }}
         CI: 1
