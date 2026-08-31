@@ -33,8 +33,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # 3グループ (front_login/front_guest/admin) は1ジョブ内で順次実行する。
+        # ジョブごとのセットアップ（イメージビルド・compose 起動・fixtures 生成・
+        # npm/playwright 準備で約2分）を3回払うのをやめ、ジョブ数を 1/3 にする (refs #1438)
         pattern: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["test:e2e"]') || fromJSON('["test:e2e", "test:e2e-extends"]') }}
-        group: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["test/admin"]') || fromJSON('["test/front_login", "test/front_guest", "test/admin"]') }}
         php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
         db: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["mysql", "pgsql", "sqlite3"]') }}
     steps:
@@ -71,7 +73,6 @@ jobs:
         DB: ${{ matrix.db }}
         PHP: ${{ matrix.php }}
         PATTERN: ${{ matrix.pattern }}
-        GROUP: ${{ matrix.group }}
       run: |
         echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
@@ -85,7 +86,6 @@ jobs:
           echo "TAG=${PHP}-apache-${REF_NAME}" >> $GITHUB_ENV
         fi
         echo "PATTERN=${PATTERN//:/-}" >> $GITHUB_ENV
-        echo "GROUP=${GROUP//\//-}" >> $GITHUB_ENV
     - if: matrix.pattern == 'test:e2e-extends'
       run: cp -rp tests/class/fixtures/page_extends/* data/class_extends/page_extends
 
@@ -98,7 +98,18 @@ jobs:
             sleep 1
         done
         docker compose exec -T ec-cube composer dumpautoload
-        docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=30 --orders=5
+        # インストール完了直後は DB テーブル作成が終わっていない場合があるため
+        # fixtures 生成は失敗時にリトライする (refs #1438)
+        ok=0
+        for i in 1 2 3; do
+          if docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=30 --orders=5; then
+            ok=1
+            break
+          fi
+          echo "fixtures:generate failed (attempt ${i}), retrying..."
+          sleep 10
+        done
+        [ "$ok" = "1" ]
 
     - if: ${{ matrix.db == 'pgsql' }}
       run: |
@@ -120,15 +131,94 @@ jobs:
     - name: Install Playwright system dependencies
       run: npx playwright install-deps chromium
 
-    - name: Run to E2E testing
+    # fixtures 生成直後の DB 状態を保存し、グループ間で復元することで
+    # 従来のグループ別ジョブと同じ初期状態を保証する
+    - name: Create database snapshot
+      id: snapshot
+      run: |
+        case "${{ matrix.db }}" in
+          mysql)
+            docker compose exec -T mysql sh -c 'mysqldump -uroot -ppassword eccube_db > /tmp/eccube_snapshot.sql'
+            ;;
+          pgsql)
+            docker compose exec -T postgres pg_dump --user=eccube_db_user -Fc -f /tmp/eccube_snapshot.dump eccube_db
+            ;;
+          sqlite3)
+            # WAL モードのため cp ではなく SQLite Backup API で一貫したスナップショットを取る
+            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".backup /tmp/eccube_snapshot.db"
+            ;;
+        esac
+
+    - name: Run to E2E testing (test/front_login)
       uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3
       with:
         timeout_minutes: 30
         max_attempts: 2
         retry_on: error
-        command: npm run ${{ matrix.pattern }} -- e2e-tests/${{ matrix.group }}
+        command: npm run ${{ matrix.pattern }} -- --output=test-results/front_login e2e-tests/test/front_login
       env:
-        GROUP: ${{ matrix.group }}
+        PATTERN: ${{ matrix.pattern }}
+        CI: 1
+        FORCE_COLOR: 1
+
+    - name: Restore database snapshot (before test/front_guest)
+      id: restore_front_guest
+      if: ${{ !cancelled() && steps.snapshot.outcome == 'success' }}
+      run: |
+        case "${{ matrix.db }}" in
+          mysql)
+            docker compose exec -T mysql sh -c 'mysql -uroot -ppassword eccube_db < /tmp/eccube_snapshot.sql'
+            ;;
+          pgsql)
+            docker compose exec -T postgres pg_restore --user=eccube_db_user --clean --if-exists -d eccube_db /tmp/eccube_snapshot.dump
+            ;;
+          sqlite3)
+            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".restore /tmp/eccube_snapshot.db"
+            ;;
+        esac
+        # mailcatcher もグループ開始時点の状態（空）に戻す
+        curl --fail --silent --show-error -X DELETE http://localhost:1080/messages
+
+    - name: Run to E2E testing (test/front_guest)
+      if: ${{ !cancelled() && steps.restore_front_guest.outcome == 'success' }}
+      uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3
+      with:
+        timeout_minutes: 30
+        max_attempts: 2
+        retry_on: error
+        command: npm run ${{ matrix.pattern }} -- --output=test-results/front_guest e2e-tests/test/front_guest
+      env:
+        PATTERN: ${{ matrix.pattern }}
+        CI: 1
+        FORCE_COLOR: 1
+
+    - name: Restore database snapshot (before test/admin)
+      id: restore_admin
+      if: ${{ !cancelled() && steps.snapshot.outcome == 'success' }}
+      run: |
+        case "${{ matrix.db }}" in
+          mysql)
+            docker compose exec -T mysql sh -c 'mysql -uroot -ppassword eccube_db < /tmp/eccube_snapshot.sql'
+            ;;
+          pgsql)
+            docker compose exec -T postgres pg_restore --user=eccube_db_user --clean --if-exists -d eccube_db /tmp/eccube_snapshot.dump
+            ;;
+          sqlite3)
+            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".restore /tmp/eccube_snapshot.db"
+            ;;
+        esac
+        # mailcatcher もグループ開始時点の状態（空）に戻す
+        curl --fail --silent --show-error -X DELETE http://localhost:1080/messages
+
+    - name: Run to E2E testing (test/admin)
+      if: ${{ !cancelled() && steps.restore_admin.outcome == 'success' }}
+      uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3
+      with:
+        timeout_minutes: 30
+        max_attempts: 2
+        retry_on: error
+        command: npm run ${{ matrix.pattern }} -- --output=test-results/admin e2e-tests/test/admin
+      env:
         PATTERN: ${{ matrix.pattern }}
         CI: 1
         FORCE_COLOR: 1
@@ -142,13 +232,13 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       with:
-        name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-evidence
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-evidence
         path: 'test-results/'
     - name: Upload logs
       if: failure()
       uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       with:
-        name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-${{ env.GROUP }}-logs
+        name: linux-php${{ matrix.php }}-${{ matrix.db }}-${{ env.PATTERN }}-logs
         path: data/logs
   installer:
     name: Installer test
