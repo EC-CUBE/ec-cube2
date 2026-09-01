@@ -16,6 +16,12 @@ on:
       owner:
         required: true
         type: string
+      use_prebuilt_image:
+        # true の場合、イメージをビルドせず master で build & push 済みの
+        # ghcr.io 公開イメージを利用する (refs #1438)
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -44,6 +50,7 @@ jobs:
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
     - name: Build docker image
+      if: ${{ !inputs.use_prebuilt_image }}
       uses: ./.github/actions/dockerbuild
       with:
         php-version: ${{ matrix.php }}
@@ -70,13 +77,16 @@ jobs:
         BASE_REF: ${{ inputs.base_ref }}
         EVENT_NAME: ${{ inputs.event_name }}
         OWNER: ${{ inputs.owner }}
+        USE_PREBUILT_IMAGE: ${{ inputs.use_prebuilt_image }}
         DB: ${{ matrix.db }}
         PHP: ${{ matrix.php }}
         PATTERN: ${{ matrix.pattern }}
       run: |
         echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
-        if [ $EVENT_NAME = "pull_request" ]; then
+        if [ "$USE_PREBUILT_IMAGE" = "true" ]; then
+          echo "TAG=${PHP}-apache" >> $GITHUB_ENV
+        elif [ $EVENT_NAME = "pull_request" ]; then
           if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
             echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
           else
@@ -144,8 +154,11 @@ jobs:
             docker compose exec -T postgres pg_dump --user=eccube_db_user -Fc -f /tmp/eccube_snapshot.dump eccube_db
             ;;
           sqlite3)
-            # WAL モードのため cp ではなく SQLite Backup API で一貫したスナップショットを取る
-            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".backup /tmp/eccube_snapshot.db"
+            # WAL モードのため cp ではなく SQLite Backup API で一貫したスナップショットを取る。
+            # リストアはコンテナ停止中にホスト側で行うため、マウントされた data/ 配下に置き、
+            # リストア後も WAL モードになるようスナップショット側に設定しておく
+            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".backup /var/www/app/data/eccube_snapshot.db"
+            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube_snapshot.db "PRAGMA journal_mode=WAL;"
             ;;
         esac
 
@@ -173,7 +186,23 @@ jobs:
             docker compose exec -T postgres pg_restore --user=eccube_db_user --clean --if-exists -d eccube_db /tmp/eccube_snapshot.dump
             ;;
           sqlite3)
-            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".restore /tmp/eccube_snapshot.db"
+            # 稼働中の Apache (mod_php) が SQLite への接続を保持したまま外部から
+            # DB を書き換えると接続状態が壊れ、以降のシーケンス取得や INSERT が
+            # MDB2 Error となる。healthcheck 等で再接続される余地を残さないよう、
+            # コンテナを停止して全接続を閉じた状態でファイルを差し替えてから起動する
+            docker compose stop -t 5 ec-cube
+            sudo cp data/eccube_snapshot.db data/eccube.db
+            sudo rm -f data/eccube.db-wal data/eccube.db-shm
+            docker compose start ec-cube
+            tries=0
+            until curl -sf -k --connect-timeout 5 --max-time 10 https://localhost:4430/ -o /dev/null; do
+              tries=$((tries+1))
+              if [ "$tries" -ge 60 ]; then
+                echo "ec-cube did not come back up" >&2
+                exit 1
+              fi
+              sleep 1
+            done
             ;;
         esac
         # mailcatcher もグループ開始時点の状態（空）に戻す
@@ -204,7 +233,23 @@ jobs:
             docker compose exec -T postgres pg_restore --user=eccube_db_user --clean --if-exists -d eccube_db /tmp/eccube_snapshot.dump
             ;;
           sqlite3)
-            docker compose exec -T ec-cube sqlite3 /var/www/app/data/eccube.db ".restore /tmp/eccube_snapshot.db"
+            # 稼働中の Apache (mod_php) が SQLite への接続を保持したまま外部から
+            # DB を書き換えると接続状態が壊れ、以降のシーケンス取得や INSERT が
+            # MDB2 Error となる。healthcheck 等で再接続される余地を残さないよう、
+            # コンテナを停止して全接続を閉じた状態でファイルを差し替えてから起動する
+            docker compose stop -t 5 ec-cube
+            sudo cp data/eccube_snapshot.db data/eccube.db
+            sudo rm -f data/eccube.db-wal data/eccube.db-shm
+            docker compose start ec-cube
+            tries=0
+            until curl -sf -k --connect-timeout 5 --max-time 10 https://localhost:4430/ -o /dev/null; do
+              tries=$((tries+1))
+              if [ "$tries" -ge 60 ]; then
+                echo "ec-cube did not come back up" >&2
+                exit 1
+              fi
+              sleep 1
+            done
             ;;
         esac
         # mailcatcher もグループ開始時点の状態（空）に戻す
@@ -267,6 +312,7 @@ jobs:
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
     - name: Build docker image
+      if: ${{ !inputs.use_prebuilt_image }}
       uses: ./.github/actions/dockerbuild
       with:
         php-version: ${{ matrix.php }}
@@ -293,12 +339,15 @@ jobs:
         BASE_REF: ${{ inputs.base_ref }}
         EVENT_NAME: ${{ inputs.event_name }}
         OWNER: ${{ inputs.owner }}
+        USE_PREBUILT_IMAGE: ${{ inputs.use_prebuilt_image }}
         DB: ${{ matrix.db }}
         PHP: ${{ matrix.php }}
       run: |
         echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
-        if [ $EVENT_NAME = "pull_request" ]; then
+        if [ "$USE_PREBUILT_IMAGE" = "true" ]; then
+          echo "TAG=${PHP}-apache" >> $GITHUB_ENV
+        elif [ $EVENT_NAME = "pull_request" ]; then
           if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
             echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
           else

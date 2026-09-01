@@ -25,7 +25,50 @@ permissions:
   packages: write
 
 jobs:
+  # Docker イメージの内容に影響するファイルが変更されたかを判定する。
+  # 変更がなければ master で build & push 済みの ghcr.io 公開イメージを
+  # そのまま利用し、各ジョブでの再ビルド（約1分/ジョブ）を省略する (refs #1438)
+  changes:
+    name: Detect docker image related changes
+    runs-on: ubuntu-24.04
+    outputs:
+      docker: ${{ steps.filter.outputs.docker }}
+    steps:
+    - name: Detect docker image related changes
+      id: filter
+      env:
+        GH_TOKEN: ${{ github.token }}
+        EVENT_NAME: ${{ github.event_name }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        BEFORE: ${{ github.event.before }}
+        SHA: ${{ github.sha }}
+      run: |
+        # イメージ内容を左右するファイル群（vendor は composer.json/lock からイメージに焼き込まれる）
+        PATTERN='^(Dockerfile|dockerbuild/|\.github/actions/dockerbuild/|composer\.json$|composer\.lock$)'
+        # 判定できない場合は安全側（再ビルド）に倒す
+        docker=true
+        if [ "$EVENT_NAME" = "pull_request" ]; then
+          files=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}/files" --paginate --jq '.[].filename') || files=""
+          if [ -n "$files" ] && ! echo "$files" | grep -qE "$PATTERN"; then
+            docker=false
+          fi
+        elif [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ]; then
+          compare=$(gh api "repos/${REPO}/compare/${BEFORE}...${SHA}") || compare=""
+          if [ -n "$compare" ]; then
+            count=$(echo "$compare" | jq '.files | length')
+            files=$(echo "$compare" | jq -r '.files[].filename')
+            # compare API のファイル一覧は300件で打ち切られるため、それ以上は再ビルドに倒す
+            if [ "$count" -lt 300 ] && ! echo "$files" | grep -qE "$PATTERN"; then
+              docker=false
+            fi
+          fi
+        fi
+        echo "docker=${docker}" >> $GITHUB_OUTPUT
+        echo "docker image related changes: ${docker}"
   dockerbuild:
+    needs: [ changes ]
+    if: needs.changes.outputs.docker == 'true'
     with:
       event_name: ${{ github.event_name }}
     uses: ./.github/workflows/dockerbuild.yml
@@ -35,7 +78,10 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ dockerbuild ]
+      use_prebuilt_image: ${{ needs.changes.outputs.docker != 'true' }}
+    needs: [ changes, dockerbuild ]
+    # dockerbuild が changes 判定によりスキップされた場合も実行する
+    if: ${{ !cancelled() && needs.changes.result == 'success' && (needs.dockerbuild.result == 'success' || needs.dockerbuild.result == 'skipped') }}
     uses: ./.github/workflows/php-cs-fixer.yml
   phpstan:
     with:
@@ -43,7 +89,10 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ dockerbuild ]
+      use_prebuilt_image: ${{ needs.changes.outputs.docker != 'true' }}
+    needs: [ changes, dockerbuild ]
+    # dockerbuild が changes 判定によりスキップされた場合も実行する
+    if: ${{ !cancelled() && needs.changes.result == 'success' && (needs.dockerbuild.result == 'success' || needs.dockerbuild.result == 'skipped') }}
     uses: ./.github/workflows/phpstan.yml
   rector:
     with:
@@ -51,7 +100,10 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ dockerbuild ]
+      use_prebuilt_image: ${{ needs.changes.outputs.docker != 'true' }}
+    needs: [ changes, dockerbuild ]
+    # dockerbuild が changes 判定によりスキップされた場合も実行する
+    if: ${{ !cancelled() && needs.changes.result == 'success' && (needs.dockerbuild.result == 'success' || needs.dockerbuild.result == 'skipped') }}
     uses: ./.github/workflows/rector.yml
   dependency-review:
     uses: ./.github/workflows/dependency-review.yml
@@ -61,7 +113,11 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ php-cs-fixer, phpstan, rector ]
+      use_prebuilt_image: ${{ needs.changes.outputs.docker != 'true' }}
+    needs: [ changes, php-cs-fixer, phpstan, rector ]
+    # 祖先の dockerbuild がスキップされると暗黙の success() が false になるため、
+    # 直接依存するジョブの結果のみで判定する
+    if: ${{ !cancelled() && needs.changes.result == 'success' && needs.php-cs-fixer.result == 'success' && needs.phpstan.result == 'success' && needs.rector.result == 'success' }}
     uses: ./.github/workflows/unit-tests.yml
   e2e-tests:
     with:
@@ -69,7 +125,11 @@ jobs:
       base_ref: ${{ github.base_ref }}
       event_name: ${{ github.event_name }}
       owner: ${{ github.repository_owner }}
-    needs: [ unit-tests ]
+      use_prebuilt_image: ${{ needs.changes.outputs.docker != 'true' }}
+    needs: [ changes, unit-tests ]
+    # 祖先の dockerbuild がスキップされると暗黙の success() が false になるため、
+    # 直接依存するジョブの結果のみで判定する
+    if: ${{ !cancelled() && needs.changes.result == 'success' && needs.unit-tests.result == 'success' }}
     uses: ./.github/workflows/e2e-tests.yml
   success:
     needs:
@@ -79,4 +139,7 @@ jobs:
       - dependency-review
       - unit-tests
       - e2e-tests
+    # 祖先の dockerbuild がスキップされると暗黙の success() が false になるため、
+    # 直接依存するジョブの結果のみで判定する
+    if: ${{ !cancelled() && needs.php-cs-fixer.result == 'success' && needs.phpstan.result == 'success' && needs.rector.result == 'success' && needs.dependency-review.result == 'success' && needs.unit-tests.result == 'success' && needs.e2e-tests.result == 'success' }}
     uses: ./.github/workflows/success.yml
