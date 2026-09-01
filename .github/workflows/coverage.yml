@@ -1,8 +1,10 @@
 name: Coverage
 on:
   push:
+    # ブランチへの push は pull_request イベント側で coverage が取得されるため、
+    # master と tag に限定して同一コミットの二重実行を防ぐ (refs #1438)
     branches:
-      - '*'
+      - master
     tags:
       - '*'
     paths:
