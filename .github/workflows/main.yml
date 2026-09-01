@@ -2,8 +2,10 @@ name: CI/CD for EC-CUBE
 
 on:
   push:
+    # ブランチへの push は pull_request イベント側で CI が実行されるため、
+    # master と tag に限定して同一コミットの二重実行を防ぐ (refs #1438)
     branches:
-      - '*'
+      - master
     tags:
       - '*'
     paths:
