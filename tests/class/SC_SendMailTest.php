@@ -138,6 +138,17 @@ class SC_SendMailTest extends Common_TestCase
         );
     }
 
+    public function testGetNameAddressUsesEncodedWordWhenAsciiDisplayNameContainsBackslash()
+    {
+        $name = 'Sender\\Name';
+        $expectedName = mb_encode_mimeheader($name, 'ISO-2022-JP-MS', 'B', "\n");
+
+        $this->assertSame(
+            $expectedName.' <user@example.com>',
+            $this->objSendMail->getNameAddress($name, 'user@example.com')
+        );
+    }
+
     public static function base64BodyEncodingProvider(): array
     {
         return [
