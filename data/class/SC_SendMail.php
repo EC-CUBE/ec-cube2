@@ -313,11 +313,13 @@ class SC_SendMail
                 // 空文字の場合
                 case $name === '':
                     return '';
-                    // ダブルクォーテーションを含む場合
-                case str_contains($name, '"'):
-                    // nop: `"` のエスケープ `\"` を正しく解釈しない MUA があるため、`"` を含む場合はこのルートを通さずエンコードに回す。
+                    // ダブルクォーテーションまたはバックスラッシュを含む場合
+                    // - バックスラッシュを正しく解釈しない MUA があるため、ASCII として処理せずエンコードに回す。
+                    // - `"` も原則通りエスケープすると `\"` となるため同様。
+                case strcspn($name, '"\\') < strlen($name):
+                    // nop
                     break;
-                    // ASCII のみの場合
+                    // 印字可能 ASCII（制御文字除く）のみの場合
                 case preg_match('/^[\x20-\x7E]*$/', $name):
                     return '"'.$name.'" ';
             }
