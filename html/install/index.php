@@ -1013,8 +1013,6 @@ function lfMakeConfigFile()
             }
         }
     }
-    //パスワード暗号化方式決定
-    $algos = PASSWORD_DEFAULT;
     //MAGICハッシュワード決定
     if ($_POST['db_skip'] && defined('AUTH_MAGIC')) {
         $auth_magic = AUTH_MAGIC;
@@ -1046,7 +1044,7 @@ function lfMakeConfigFile()
                  . "define('ADMIN_FORCE_SSL', "        . $force_ssl . ");\n"
                  . "define('ADMIN_ALLOW_HOSTS', '"     . serialize($allow_hosts) . "');\n"
                  . "define('AUTH_MAGIC', '"            . $auth_magic . "');\n"
-                 . "define('PASSWORD_HASH_ALGOS', '"   . $algos . "');\n"
+                 . "define('PASSWORD_HASH_ALGOS', PASSWORD_DEFAULT);\n"
                  . "define('MAIL_BACKEND', '"          . $objWebParam->getValue('mail_backend') . "');\n"
                  . "define('SMTP_HOST', '"             . $objWebParam->getValue('smtp_host') . "');\n"
                  . "define('SMTP_PORT', '"             . $objWebParam->getValue('smtp_port') . "');\n"
