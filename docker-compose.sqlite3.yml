@@ -24,4 +24,4 @@ services:
       ADMIN_FORCE_SSL: 'false'
       ADMIN_ALLOW_HOSTS: 'a:0:{}'
       AUTH_MAGIC: ~
-      PASSWORD_HASH_ALGOS: sha256
+      PASSWORD_HASH_ALGOS: 2y

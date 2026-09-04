@@ -42,7 +42,10 @@ class SC_CustomerListTest extends Common_TestCase
         $this->params['search_name'] = $this->expected[0]['name01'];
 
         $this->scenario();
-        $this->assertEquals($this->expected[0]['name01'], $this->actual[0]['name01']);
+        // 部分一致検索のため、他のランダム生成顧客の値に検索語が含まれると
+        // 複数件ヒットし並び順が保証されない。期待する顧客が結果に含まれる
+        // ことを検証する
+        $this->assertContains((string) $this->customer_ids[0], array_map('strval', array_column($this->actual, 'customer_id')));
     }
 
     public function testSearchName02()
@@ -52,7 +55,10 @@ class SC_CustomerListTest extends Common_TestCase
         $this->params['search_name'] = $this->expected[0]['name02'];
 
         $this->scenario();
-        $this->assertEquals($this->expected[0]['name02'], $this->actual[0]['name02']);
+        // 部分一致検索のため、他のランダム生成顧客の値に検索語が含まれると
+        // 複数件ヒットし並び順が保証されない。期待する顧客が結果に含まれる
+        // ことを検証する
+        $this->assertContains((string) $this->customer_ids[0], array_map('strval', array_column($this->actual, 'customer_id')));
     }
 
     public function testSearchKana01()
@@ -62,7 +68,10 @@ class SC_CustomerListTest extends Common_TestCase
         $this->params['search_kana'] = $this->expected[0]['kana01'];
 
         $this->scenario();
-        $this->assertEquals($this->expected[0]['kana01'], $this->actual[0]['kana01']);
+        // 部分一致検索のため、他のランダム生成顧客の値に検索語が含まれると
+        // 複数件ヒットし並び順が保証されない。期待する顧客が結果に含まれる
+        // ことを検証する
+        $this->assertContains((string) $this->customer_ids[0], array_map('strval', array_column($this->actual, 'customer_id')));
     }
 
     public function testSearchKana02()
@@ -72,7 +81,10 @@ class SC_CustomerListTest extends Common_TestCase
         $this->params['search_kana'] = $this->expected[0]['kana02'];
 
         $this->scenario();
-        $this->assertEquals($this->expected[0]['kana02'], $this->actual[0]['kana02']);
+        // 部分一致検索のため、他のランダム生成顧客の値に検索語が含まれると
+        // 複数件ヒットし並び順が保証されない。期待する顧客が結果に含まれる
+        // ことを検証する
+        $this->assertContains((string) $this->customer_ids[0], array_map('strval', array_column($this->actual, 'customer_id')));
     }
 
     public function testSearchPref()
