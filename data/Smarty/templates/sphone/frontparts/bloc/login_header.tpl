@@ -21,6 +21,9 @@
  *}-->
 
 <nav class="header_navi">
+    <!--{if $arrErr.login}-->
+        <div class="attention" style="margin: 5px; padding: 5px; background-color: #ffe6e6; border: 1px solid #ff9999;"><!--{$arrErr.login|h|nl2br}--></div>
+    <!--{/if}-->
     <!--{if $tpl_login}-->
         <p class="guest">ようこそ <a href="<!--{$smarty.const.HTTPS_URL}-->mypage/login.php"><!--{$arrCustomer|format_name|h}--> 様</a></p>
         <!--{if $smarty.const.USE_POINT !== false}-->

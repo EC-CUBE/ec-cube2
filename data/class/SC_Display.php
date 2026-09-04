@@ -72,7 +72,7 @@ class SC_Display
     public function prepare($page, $is_admin = false)
     {
         if (!$this->deviceSeted || !is_null($this->view)) {
-            $device = ($is_admin) ? DEVICE_TYPE_ADMIN : $this->detectDevice();
+            $device = ($is_admin) ? DEVICE_TYPE_ADMIN : static::detectDevice();
             $this->setDevice($device);
         }
         $this->assignobj($page);

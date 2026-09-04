@@ -22,17 +22,17 @@
 <!--{include file="`$smarty.const.TEMPLATE_REALDIR`popup_header.tpl" subtitle="パスワードを忘れた方(完了ページ)"}-->
 
 <div id="window_area">
-    <h2 class="title">パスワードを忘れた方</h2>
-    <p class="information">パスワードの発行が完了いたしました。ログインには下記のパスワードをご利用ください。<br />
-        ※下記パスワードは、MYページの「会員登録内容変更」よりご変更いただけます。</p>
+    <h2 class="title">パスワード変更完了</h2>
+    <p class="information">
+        パスワードの変更が完了いたしました。<br />
+        新しいパスワードでログインしてください。<br />
+        <br />
+        確認のため、パスワード変更完了のメールをお送りしました。
+    </p>
     <form action="?" method="post" name="form1">
         <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
         <div id="forgot">
-            <!--{if $smarty.const.FORGOT_MAIL != 1}-->
-                    <p><span class="attention"><!--{$arrForm.new_password}--></span></p>
-            <!--{else}-->
-            <p><span class="attention">ご登録メールアドレスに送付致しました。</span></p>
-            <!--{/if}-->
+            <p>新しいパスワードでログインできます。</p>
         </div>
         <div class="btn_area">
             <ul>

@@ -31,6 +31,7 @@
 <meta name="robots" content="noindex,nofollow" />
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->css/admin.css" type="text/css" media="all" />
 
+<link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.css" type="text/css" media="all" />
 <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.js"></script>
 
 <title>管理機能</title>

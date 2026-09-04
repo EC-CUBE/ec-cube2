@@ -8,7 +8,7 @@ require_once $HOME.'/data/module/Net/URL.php';
  *
  * Tests to verify backward compatibility of the Guzzle-based Net_URL implementation.
  */
-class Net_URLTest extends \PHPUnit\Framework\TestCase
+class Net_URLTest extends Common_TestCase
 {
     /**
      * Test basic URL parsing

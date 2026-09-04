@@ -21,7 +21,7 @@
 
 ### フロントエンド
 - jQuery 3.7.1
-- Webpack 5
+- esbuild
 
 ### E2Eテスト
 - Playwright 1.52.0

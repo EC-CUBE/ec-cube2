@@ -3,7 +3,7 @@
 /**
  * @backupGlobals disabled
  */
-class SC_Batch_Update_parseDistInfoTest extends PHPUnit_Framework_TestCase
+class SC_Batch_Update_parseDistInfoTest extends Common_TestCase
 {
     /** @var SC_Batch_Update */
     private $batch;

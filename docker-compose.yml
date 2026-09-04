@@ -45,8 +45,28 @@ services:
       SMTP_USER: ~
       SMTP_PASSWORD: ~
       TEST_MAILCATCHER_URL: "http://mailcatcher:1080"
+      # ログイン試行レート制限のしきい値上書き用（未指定時はアプリ側のデフォルト値）
+      LOGIN_RATE_LIMIT_EMAIL_THRESHOLD: ${LOGIN_RATE_LIMIT_EMAIL_THRESHOLD:-}
+      LOGIN_RATE_LIMIT_IP_THRESHOLD: ${LOGIN_RATE_LIMIT_IP_THRESHOLD:-}
     networks:
       - backend
+    # entrypoint (dockerbuild/wait-for-*.sh) は eccube_install.sh が完了してから
+    # Apache を起動するため、Apache の起動をもって初期化完了を判定できる。
+    # healthcheck が無いと `docker compose up --wait` が初期化完了を待たずに返り、
+    # data/config/config.php が未生成のまま後続処理が走って偶発的に失敗する。
+    #
+    # HTTP リクエストを送るとアプリケーションが動作して data/cache 配下などに
+    # コンテナ側ユーザー所有のファイルが生成され、ホスト側の chmod が失敗する
+    # (インストーラの E2E テスト) ため、PID ファイルの有無のみを確認する。
+    # パスは Dockerfile の APACHE_RUN_DIR に対応する。
+    healthcheck:
+      test: test -f /var/run/apache2/apache2.pid
+      interval: 3s
+      timeout: 10s
+      retries: 20
+      # 初回起動時の eccube_install.sh は CI ランナーの負荷によっては数分かかるため、
+      # その間はヘルスチェックの失敗をカウントしない
+      start_period: 300s
 
   ### Mailcatcher ##################################
   mailcatcher:

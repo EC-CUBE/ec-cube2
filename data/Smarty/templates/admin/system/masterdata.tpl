@@ -47,7 +47,7 @@
             </p>
             <!--{if $errorMessage != ""}-->
                 <div class="message">
-                    <span class="attention"><!--{$errorMessage}--></span>
+                    <span class="attention"><!--{$errorMessage|h}--></span>
                 </div>
             <!--{/if}-->
 

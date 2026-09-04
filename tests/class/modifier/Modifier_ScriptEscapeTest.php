@@ -1,13 +1,5 @@
 <?php
-
-/**
- * (省略。アノテーションを認識されるのに必要なようなので記述している。)
- *
- * PHP 8.1 でグローバル変数が消失する不具合を回避するため、下で `backupGlobals` を指定している。本質的には PHPUnit が PHP8 に対応していないのが原因と考えられる。
- *
- * @backupGlobals disabled
- */
-class Modifier_ScriptEscapeTest extends PHPUnit_Framework_TestCase
+class Modifier_ScriptEscapeTest extends Common_TestCase
 {
     public function scriptEscapeProvider()
     {

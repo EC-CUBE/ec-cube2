@@ -19,9 +19,10 @@ export class MypageLoginPage {
     this.email = email;
     this.password = password;
 
-    this.loginEmail = page.getByRole('textbox', { name: 'メールアドレスを入力して下さい' });
-    this.loginPass = page.getByRole('textbox', { name: 'パスワードを入力して下さい' });
-    this.loginButton = page.locator('id=header_login_form').getByRole('button');
+    // マイページ専用のログインフォームを使用
+    this.loginEmail = page.locator('#login_mypage input[name="login_email"]');
+    this.loginPass = page.locator('#login_mypage input[name="login_pass"]');
+    this.loginButton = page.locator('#login_mypage input[type="image"]');
     this.logoutButton = page.getByRole('button', { name: 'ログアウト' }).first();
     this.zapClient = new ZapClient();
   }
@@ -33,7 +34,14 @@ export class MypageLoginPage {
   async login () {
     await this.loginEmail.fill(this.email);
     await this.loginPass.fill(this.password);
-    await this.loginButton.click();
+
+    // AJAX対応: クリック後、ページ遷移を待つ
+    await Promise.all([
+      // ページ遷移を待つ（AJAX成功時にリダイレクトされる）
+      this.page.waitForURL(url => url.pathname.endsWith('/mypage/') || url.pathname.endsWith('/mypage/index.php'), { timeout: 10000 }),
+      // ログインボタンをクリック
+      this.loginButton.click()
+    ]);
   }
 
   async logout () {

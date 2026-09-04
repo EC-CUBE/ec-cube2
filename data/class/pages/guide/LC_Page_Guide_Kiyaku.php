@@ -30,6 +30,25 @@
  */
 class LC_Page_Guide_Kiyaku extends LC_Page_Ex
 {
+    public $tpl_kiyaku_title;
+    public $tpl_kiyaku_text;
+    /**
+     * @var int
+     */
+    public $tpl_kiyaku_index;
+    /**
+     * @var int
+     */
+    public $tpl_kiyaku_last_index;
+    /**
+     * @var bool
+     */
+    public $tpl_kiyaku_is_first;
+    /**
+     * @var bool
+     */
+    public $tpl_kiyaku_is_last;
+
     /**
      * Page を初期化する.
      *

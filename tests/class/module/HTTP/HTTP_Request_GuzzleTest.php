@@ -8,7 +8,7 @@ require_once $HOME.'/data/module/HTTP/Request.php';
  *
  * Tests to verify backward compatibility of the Guzzle-based HTTP_Request implementation.
  */
-class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
+class HTTP_Request_GuzzleTest extends Common_TestCase
 {
     /**
      * Test constants are defined

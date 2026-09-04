@@ -1288,6 +1288,7 @@ INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PENDING_ORDER_CANCE
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PENDING_ORDER_CANCEL_FLAG', 'true', 1419, '決済処理中ステータスのロールバックをするか(true:する false:しない)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('API_ENABLE_FLAG', 'false', 1420, 'API機能を有効にする(true:する false:しない)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('SUBSTITUTE_CHAR', '63', 1421, 'UTF-8依存文字が入力された際に表示する文字(Unicode値の整数 デフォルト: ?)');
+INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PASSWORD_RESET_TOKEN_EXPIRE_HOURS', '24', 1422, 'パスワードリセットトークンの有効期限(時間)');
 
 INSERT INTO dtb_index_list (table_name, column_name, recommend_flg, recommend_comment) VALUES ('dtb_customer', 'email_mobile', 0, '会員数増加時のログイン処理速度を向上させたいときに試してみてください');
 INSERT INTO dtb_index_list (table_name, column_name, recommend_flg, recommend_comment) VALUES ('dtb_products', 'name', 2, '商品名検索速度を向上させたいときに試してみてください');
