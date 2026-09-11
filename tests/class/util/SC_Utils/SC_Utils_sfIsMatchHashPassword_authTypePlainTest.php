@@ -38,6 +38,15 @@ class SC_Utils_sfIsMatchHashPassword_authTypePlainTest extends Common_TestCase
     protected function setUp(): void
     {
         // parent::setUp();
+
+        // AUTH_TYPE が既に 'PLAIN' 以外の値で定義済みの場合、このテストの前提条件を満たせないためスキップする。
+        if (AUTH_TYPE !== 'PLAIN') {
+            $this->markTestSkipped(
+                'AUTH_TYPE が既に "'.AUTH_TYPE.'" として定義されているため、このテストは実行できません。'
+                .'このテストは bootstrap を指定して単独実行してください。: '
+                .'data/vendor/bin/phpunit --no-configuration --bootstrap tests/require_auth_type_plain.php '.__FILE__
+            );
+        }
     }
 
     protected function tearDown(): void
