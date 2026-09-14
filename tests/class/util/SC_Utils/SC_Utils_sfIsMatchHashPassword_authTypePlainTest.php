@@ -1,9 +1,7 @@
 <?php
 
 $HOME = realpath(__DIR__).'/../../../..';
-// このテスト専用の定数の設定
-defined('AUTH_TYPE') || define('AUTH_TYPE', 'PLAIN');
-require_once $HOME.'/tests/class/Common_TestCase.php';
+require_once $HOME.'/tests/class/util/SC_Utils/SC_Utils_AuthTypePlain_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -28,23 +26,17 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
 
 /**
  * SC_Utils::sfIsMatchHashPassword()のテストクラス (AUTH_TYPE = PLAIN).
- * AUTH_TYPE は定数のためまとめて実行できない. 個別実行が必要:
- * data/vendor/bin/phpunit tests/class/util/SC_Utils/SC_Utils_sfIsMatchHashPassword_authTypePlainTest.php
+ *
+ * @see SC_Utils_AuthTypePlain_TestBase
  *
  * @group auth_type_plain
+ *
+ * @runTestsInSeparateProcesses
+ *
+ * @preserveGlobalState disabled
  */
-class SC_Utils_sfIsMatchHashPassword_authTypePlainTest extends Common_TestCase
+class SC_Utils_sfIsMatchHashPassword_authTypePlainTest extends SC_Utils_AuthTypePlain_TestBase
 {
-    protected function setUp(): void
-    {
-        // parent::setUp();
-    }
-
-    protected function tearDown(): void
-    {
-        // parent::tearDown();
-    }
-
     public function testSfIsMatchHashPassword文字列が一致する場合Trueが返る()
     {
         $pass = 'ec-cube';
