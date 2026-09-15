@@ -25,7 +25,7 @@ require_once $HOME.'/tests/class/util/SC_Utils/SC_Utils_AuthTypePlain_TestBase.p
  */
 
 /**
- * SC_Utils::sfIsMatchHashPassword()のテストクラス (AUTH_TYPE = PLAIN).
+ * SC_Utils::sfNeedsReHash() のテストクラス (AUTH_TYPE = PLAIN).
  *
  * @see SC_Utils_AuthTypePlain_TestBase
  *
@@ -35,21 +35,21 @@ require_once $HOME.'/tests/class/util/SC_Utils/SC_Utils_AuthTypePlain_TestBase.p
  *
  * @preserveGlobalState disabled
  */
-class SC_Utils_sfIsMatchHashPassword_authTypePlainTest extends SC_Utils_AuthTypePlain_TestBase
+class SC_Utils_sfNeedsReHash_authTypePlainTest extends SC_Utils_AuthTypePlain_TestBase
 {
-    public function testSfIsMatchHashPassword文字列が一致する場合Trueが返る()
+    public function testSfNeedsReHashAuthTypePlainの場合常にFalseが返る()
     {
-        $pass = 'ec-cube';
         $hashpass = 'ec-cube';
+        $salt = 'salt';
 
-        $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $hashpass, ''));
+        $this->assertFalse(SC_Utils::sfNeedsReHash($hashpass, $salt));
     }
 
-    public function testSfIsMatchHashPassword文字列が一致しない場合Falseが返る()
+    public function testSfNeedsReHashAuthTypePlainでSalt空の場合もFalseが返る()
     {
-        $pass = 'ec-cube';
-        $hashpass = 'EC-cube';
+        $hashpass = 'ec-cube';
+        $salt = '';
 
-        $this->assertFalse(SC_Utils::sfIsMatchHashPassword($pass, $hashpass, ''));
+        $this->assertFalse(SC_Utils::sfNeedsReHash($hashpass, $salt));
     }
 }

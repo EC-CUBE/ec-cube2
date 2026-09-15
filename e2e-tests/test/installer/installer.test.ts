@@ -75,8 +75,10 @@ test.describe.serial('インストーラのテストをします', () => {
     await expect(page.locator('h2').first()).toHaveText('データベースの初期化');
     await page.click('text=次へ進む');
 
-    await expect(page.locator('.contents').first()).toHaveText(/○：テーブルの作成に成功しました。/);
-    await expect(page.locator('.contents').first()).toHaveText(/○：シーケンスの作成に成功しました。/);
+    // テーブル・シーケンスの一括作成は負荷の高い CI ランナーでは
+    // デフォルトの 5 秒を超えることがあるためタイムアウトを延長する
+    await expect(page.locator('.contents').first()).toHaveText(/○：テーブルの作成に成功しました。/, { timeout: 60000 });
+    await expect(page.locator('.contents').first()).toHaveText(/○：シーケンスの作成に成功しました。/, { timeout: 60000 });
     await page.click('text=次へ進む');
   });
 

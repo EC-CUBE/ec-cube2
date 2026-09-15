@@ -139,7 +139,7 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
         // パスワード、saltの取得
-        $cols = 'password, salt';
+        $cols = 'member_id, password, salt';
         $table = 'dtb_member';
         $where = 'login_id = ? AND del_flg <> 1 AND work = 1';
         $arrData = $objQuery->getRow($cols, $table, $where, [$login_id]);
@@ -148,6 +148,12 @@ class LC_Page_Admin_Index extends LC_Page_Admin_Ex
         }
         // ユーザー入力パスワードの判定
         if (SC_Utils_Ex::sfIsMatchHashPassword($pass, $arrData['password'], $arrData['salt'])) {
+            // パスワードハッシュの自動マイグレーション
+            if (SC_Utils_Ex::sfNeedsReHash($arrData['password'], $arrData['salt'])) {
+                $arrNewHash = SC_Utils_Ex::sfReHashPassword($pass);
+                $objQuery->update('dtb_member', $arrNewHash, 'member_id = ?', [$arrData['member_id']]);
+            }
+
             return true;
         }
 
