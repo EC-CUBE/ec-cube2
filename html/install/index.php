@@ -809,7 +809,7 @@ function lfCheckWebError($objWebParam)
 }
 
 // 入力内容のチェック
-function lfCheckDBError($objDBParam)
+function lfCheckDBError($objDBParam): array
 {
     global $objPage;
 
@@ -818,30 +818,41 @@ function lfCheckDBError($objDBParam)
 
     $objErr = new SC_CheckError_Ex($arrRet);
     $objErr->arrErr = $objDBParam->checkError();
-
-    if (count($objErr->arrErr) == 0) {
-        $arrDsn = getArrayDsn($objDBParam);
-        // Debugモード指定
-        $options['debug'] = PEAR_DB_DEBUG;
-        //var_dump($arrDsn);
-
-        $objDB = MDB2::connect($arrDsn, $options);
-        //var_dump($objDB);
-
-        // 接続成功
-        if (!PEAR::isError($objDB)) {
-            $dbFactory = SC_DB_DBFactory_Ex::getInstance($arrDsn['phptype']);
-            // データベースバージョン情報の取得
-            $objPage->tpl_db_version = $dbFactory->sfGetDBVersion($arrDsn);
-        } else {
-            $objErr->arrErr['all'] = '>> ' . $objDB->message . '<br />';
-            // エラー文を取得する
-            preg_match('/\[(.*)\]/', $objDB->userinfo, $arrKey);
-            $objErr->arrErr['all'] .= $arrKey[0] . '<br />';
-            GC_Utils_Ex::gfPrintLog($objDB->userinfo, INSTALL_LOG);
-        }
+    if (count($objErr->arrErr)) {
+        return $objErr->arrErr;
     }
-    return $objErr->arrErr;
+
+    $arrDsn = getArrayDsn($objDBParam);
+    // Debugモード指定
+    $options['debug'] = PEAR_DB_DEBUG;
+
+    // PHP 8 では、例外スローがあり、MDB2_Error が返らない場合があるため、try-catch で捕捉する
+    try {
+        $objDB = MDB2::connect($arrDsn, $options);
+    } catch (Throwable $e) {
+        GC_Utils_Ex::gfPrintLog($e->getMessage(), INSTALL_LOG);
+
+        return [
+            'all' => '>> '.htmlspecialchars($e->getMessage(), ENT_QUOTES).'<br>',
+        ];
+    }
+
+    if (PEAR::isError($objDB)) {
+        // エラー文を取得する
+        GC_Utils_Ex::gfPrintLog($objDB->userinfo, INSTALL_LOG);
+        preg_match('/\[(.*)\]/', $objDB->userinfo, $arrKey);
+        $error_message = "{$objDB->message}\n{$arrKey[0]}";
+
+        return [
+            'all' => '>> '.nl2br(htmlspecialchars($error_message, ENT_QUOTES)).'<br>',
+        ];
+    }
+
+    $dbFactory = SC_DB_DBFactory_Ex::getInstance($arrDsn['phptype']);
+    // データベースバージョン情報の取得
+    $objPage->tpl_db_version = $dbFactory->sfGetDBVersion($arrDsn);
+
+    return [];
 }
 
 // SQL文の実行
