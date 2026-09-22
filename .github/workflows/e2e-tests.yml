@@ -384,6 +384,27 @@ jobs:
         sh -c 'echo "<?php" >> data/config/config.php'
         docker compose up -d --wait
 
+    - name: Diagnose admin directory before installer test
+      run: |
+        set +e
+
+        echo '--- repository ---'
+        pwd
+        git status --short
+        git ls-files --stage html/admin || true
+        find html -maxdepth 1 -mindepth 1 -printf '%M %u:%g %p\n' | sort
+
+        echo '--- container ---'
+        docker compose exec -T ec-cube sh -c '
+          id
+          printf "\nhtml:\n"
+          ls -lad /var/www/app/html || true
+          printf "\nadmin:\n"
+          ls -lad /var/www/app/html/admin || true
+          printf "\nroot entries:\n"
+          find /var/www/app/html -maxdepth 1 -mindepth 1 -printf "%M %u:%g %p\n" | sort
+        ' || true
+
     - name: Wait for ec-cube to be ready
       run: |
         until curl -sf -k https://localhost:4430/ -o /dev/null 2>&1; do sleep 1; done
