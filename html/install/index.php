@@ -1169,9 +1169,94 @@ function renameAdminDir($adminDir)
     if (file_exists(HTML_REALDIR . $adminDir)) {
         return '※ 指定した管理機能ディレクトリは既に存在しています。別の名前を指定してください。';
     }
-    if (!rename(HTML_REALDIR . $oldAdminDir, HTML_REALDIR . $adminDir)) {
-        return '※ ' . HTML_REALDIR . $adminDir . 'へのリネームに失敗しました。ディレクトリの権限を確認してください。';
+
+    $oldPath = HTML_REALDIR . $oldAdminDir;
+    $newPath = HTML_REALDIR . $adminDir;
+    $parentPath = dirname($oldPath);
+
+    // 分析用ログ。リネーム処理の挙動は変更しない。
+    clearstatcache(true, $oldPath);
+    clearstatcache(true, $newPath);
+    clearstatcache(true, $parentPath);
+
+    $oldExists = file_exists($oldPath);
+    $newExists = file_exists($newPath);
+    $parentExists = is_dir($parentPath);
+
+    $oldMode = $oldExists
+        ? substr(sprintf('%o', fileperms($oldPath)), -4)
+        : 'n/a';
+    $newMode = $newExists
+        ? substr(sprintf('%o', fileperms($newPath)), -4)
+        : 'n/a';
+    $parentMode = $parentExists
+        ? substr(sprintf('%o', fileperms($parentPath)), -4)
+        : 'n/a';
+
+    $oldOwner = $oldExists ? fileowner($oldPath) : 'n/a';
+    $oldGroup = $oldExists ? filegroup($oldPath) : 'n/a';
+    $newOwner = $newExists ? fileowner($newPath) : 'n/a';
+    $newGroup = $newExists ? filegroup($newPath) : 'n/a';
+    $parentOwner = $parentExists ? fileowner($parentPath) : 'n/a';
+    $parentGroup = $parentExists ? filegroup($parentPath) : 'n/a';
+
+    $uid = function_exists('posix_geteuid')
+        ? posix_geteuid()
+        : 'n/a';
+    $gid = function_exists('posix_getegid')
+        ? posix_getegid()
+        : 'n/a';
+
+    GC_Utils_Ex::gfPrintLog(
+        sprintf(
+            'renameAdminDir before: uid=%s gid=%s old=%s old_exists=%s old_mode=%s old_owner=%s:%s new=%s new_exists=%s new_mode=%s new_owner=%s:%s parent=%s parent_mode=%s parent_owner=%s:%s parent_writable=%s',
+            $uid,
+            $gid,
+            $oldPath,
+            $oldExists ? 'yes' : 'no',
+            $oldMode,
+            $oldOwner,
+            $oldGroup,
+            $newPath,
+            $newExists ? 'yes' : 'no',
+            $newMode,
+            $newOwner,
+            $newGroup,
+            $parentPath,
+            $parentMode,
+            $parentOwner,
+            $parentGroup,
+            is_writable($parentPath) ? 'yes' : 'no'
+        ),
+        INSTALL_LOG
+    );
+
+    // rename() の対象・実行タイミング・戻り値の扱いは変更しない。
+    if (!rename($oldPath, $newPath)) {
+        $lastError = error_get_last();
+
+        GC_Utils_Ex::gfPrintLog(
+            sprintf(
+                'renameAdminDir failed: old=%s new=%s error=%s',
+                $oldPath,
+                $newPath,
+                isset($lastError['message']) ? $lastError['message'] : 'unknown'
+            ),
+            INSTALL_LOG
+        );
+
+        return '※ ' . $newPath . 'へのリネームに失敗しました。ディレクトリの権限を確認してください。';
     }
+
+    GC_Utils_Ex::gfPrintLog(
+        sprintf(
+            'renameAdminDir succeeded: old=%s new=%s',
+            $oldPath,
+            $newPath
+        ),
+        INSTALL_LOG
+    );
+
     return true;
 }
 
