@@ -170,10 +170,15 @@ switch ($mode) {
             }
         }
 
-        // マイグレーションの実行 (ec-cube2-migration がインストールされている場合)
         if (count($objPage->arrErr) == 0) {
+            // マイグレーションの実行 (ec-cube2-migration がインストールされている場合)
             $migrationsPath = HTML_REALDIR . HTML2DATA_DIR . 'migrations';
             if (class_exists('Eccube2\Migration\Migrator') && is_dir($migrationsPath)) {
+                // マイグレーションで Eccube2\Util\ParameterUtil を使用できるよう、設定ファイルを一時的に生成して読み込む。
+                lfMakeConfigFile(CONFIG_REALFILE.'.tmp');
+                require_once CONFIG_REALFILE.'.tmp';
+                unlink(CONFIG_REALFILE.'.tmp');
+
                 $result = \Eccube2\Migration\Migrator::runFromWebInstaller($arrDsn, $migrationsPath);
                 if ($result['success']) {
                     $objPage->tpl_message .= '○：マイグレーションに成功しました。<br />';
@@ -994,7 +999,7 @@ function lfCreateSequence($arrSequences, $arrDsn)
 }
 
 // 設定ファイルの作成
-function lfMakeConfigFile()
+function lfMakeConfigFile($filepath = CONFIG_REALFILE)
 {
     global $objWebParam;
     global $objDBParam;
@@ -1067,7 +1072,7 @@ function lfMakeConfigFile()
                  . "define('SMTP_USER', '"             . $objWebParam->getValue('smtp_user') . "');\n"
                  . "define('SMTP_PASSWORD', '"         . $objWebParam->getValue('smtp_password') . "');\n";
 
-    if ($fp = fopen(CONFIG_REALFILE, 'w')) {
+    if ($fp = fopen($filepath, 'w')) {
         fwrite($fp, $config_data);
         fclose($fp);
     }
