@@ -85,7 +85,28 @@ class SC_DB_DBFactory_SQLITE3 extends SC_DB_DBFactory
         // ARRAY_TO_STRINGをGROUP_CONCATに変換する
         $sql = $this->sfChangeArrayToString($sql);
 
+        // CAST(column AS DATE) を date(column) に変換する
+        $sql = $this->sfChangeCastDate($sql);
+
         return $sql;
+    }
+
+    /**
+     * CAST(expr AS DATE) を date(expr) に変換する.
+     *
+     * SQLite3 には DATE 型がなく、CAST(... AS DATE) は NUMERIC 変換として扱われるため
+     * '2026-09-18 08:07:44' が 2026 (先頭の数値部分) になってしまう。
+     * date() 関数なら 'YYYY-MM-DD' を返す。
+     *
+     * @param  string $sql SQL文
+     *
+     * @return string 変換後の SQL 文
+     */
+    public function sfChangeCastDate($sql)
+    {
+        $changesql = preg_replace('/\bCAST\s*\(\s*([^()]+?)\s+AS\s+DATE\s*\)/i', 'date($1)', $sql);
+
+        return $changesql;
     }
 
     /**
