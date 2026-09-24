@@ -1,10 +1,11 @@
 import $ from "jquery";
 window.$ = window.jQuery = $;
 
+// jquery-migrate は EC-CUBE 本体・同梱プラグインからは jQuery 4 ネイティブ API
+// に置換済みのため不要だが、ユーザーカスタムテンプレートでレガシー API を
+// 使っているケースに対する後方互換シムとして残置する。
+// 警告は意図的に mute しない (deprecated API の早期発見のため)。
 import "jquery-migrate";
-
-/* 警告を無効にする */
-$.migrateMute = true;
 
 import "jquery-colorbox";
 import "jquery-colorbox/example2/colorbox.css";
@@ -512,7 +513,7 @@ import "slick-carousel/slick/slick-theme.css";
               .val(id || "")
               .text(name);
             if (id === selected_id2) {
-              option.attr("selected", true);
+              option.prop("selected", true);
             }
             $sele2.append(option);
           }

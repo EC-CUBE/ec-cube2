@@ -37,10 +37,10 @@
         // (移動元セレクトボックス)
         function fnInitSelect(select) {
             var selectedOptions = <!--{$tpl_json_category_id}-->;
-            $('#' + select + ' option').attr('selected', false);
+            $('#' + select + ' option').prop('selected', false);
             for (var i = 0; i < selectedOptions.length; i++) {
                 $('#' + select + ' option[value="' + selectedOptions[i] + '"]')
-                    .prop('selected', 'selected');
+                    .prop('selected', true);
             }
         }
 
