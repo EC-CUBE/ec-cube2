@@ -171,22 +171,20 @@ switch ($mode) {
         }
 
         if (count($objPage->arrErr) == 0) {
-            // マイグレーションの実行 (ec-cube2-migration がインストールされている場合)
+            // マイグレーションを適用済みとして登録する
+            // インストール用 SQL は最新のスキーマを表すため、新規インストール時はマイグレーションを実行しない
             $migrationsPath = HTML_REALDIR . HTML2DATA_DIR . 'migrations';
-            if (class_exists('Eccube2\Migration\Migrator') && is_dir($migrationsPath)) {
+            if (is_dir($migrationsPath)) {
                 // マイグレーションで Eccube2\Util\ParameterUtil を使用できるよう、設定ファイルを一時的に生成して読み込む。
                 lfMakeConfigFile(CONFIG_REALFILE.'.tmp');
                 require_once CONFIG_REALFILE.'.tmp';
                 unlink(CONFIG_REALFILE.'.tmp');
 
-                $result = \Eccube2\Migration\Migrator::runFromWebInstaller($arrDsn, $migrationsPath);
-                if ($result['success']) {
-                    $objPage->tpl_message .= '○：マイグレーションに成功しました。<br />';
-                    GC_Utils_Ex::gfPrintLog('Migration: ' . $result['message'], INSTALL_LOG);
+                $objPage->arrErr = lfRegisterMigrations($migrationsPath, $arrDsn);
+                if (count($objPage->arrErr) == 0) {
+                    $objPage->tpl_message .= '○：マイグレーションの登録に成功しました。<br />';
                 } else {
-                    $objPage->tpl_message .= '×：マイグレーションに失敗しました。<br />';
-                    $objPage->arrErr['all'] = '>> ' . $result['message'] . '<br />';
-                    GC_Utils_Ex::gfPrintLog('Migration Error: ' . $result['message'], INSTALL_LOG);
+                    $objPage->tpl_message .= '×：マイグレーションの登録に失敗しました。<br />';
                 }
             }
         }
@@ -911,6 +909,49 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
             GC_Utils_Ex::gfPrintLog($objDB->userinfo, INSTALL_LOG);
         }
     }
+    return $arrErr;
+}
+
+/**
+ * マイグレーションを適用済みとして登録する.
+ *
+ * @param string $migrationsPath マイグレーションファイルのディレクトリ
+ * @param array $arrDsn データソース名の配列
+ * @return array エラーが発生した場合はエラーメッセージの配列
+ */
+function lfRegisterMigrations($migrationsPath, $arrDsn)
+{
+    $arrErr = array();
+
+    // Debugモード指定
+    $options['debug'] = PEAR_DB_DEBUG;
+    $objDB = MDB2::connect($arrDsn, $options);
+
+    // 接続エラー
+    if (PEAR::isError($objDB)) {
+        $arrErr['all'] = '>> ' . $objDB->message;
+        GC_Utils_Ex::gfPrintLog($objDB->userinfo, INSTALL_LOG);
+
+        return $arrErr;
+    }
+
+    foreach (glob($migrationsPath . '/Version*.php') as $file) {
+        if (!preg_match('/^Version(\d+)/', basename($file), $matches)) {
+            continue;
+        }
+        try {
+            $ret = $objDB->exec('INSERT INTO dtb_migration (version) VALUES (' . $objDB->quote($matches[1], 'text') . ')');
+        } catch (Exception $e) {
+            $ret = new MDB2_Error(); // MySQL8 利用時は mysqli_sql_exception になるため、 MDB2_Error に変換
+        }
+        if (PEAR::isError($ret)) {
+            $arrErr['all'] = '>> ' . $ret->message . '<br />';
+            GC_Utils_Ex::gfPrintLog($ret->userinfo, INSTALL_LOG);
+            break;
+        }
+        GC_Utils_Ex::gfPrintLog('OK:' . basename($file), INSTALL_LOG);
+    }
+
     return $arrErr;
 }
 
