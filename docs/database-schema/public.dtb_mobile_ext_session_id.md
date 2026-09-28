@@ -18,6 +18,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_mobile_ext_session_id_create_date_not_null | n | NOT NULL create_date |
+| dtb_mobile_ext_session_id_session_id_not_null | n | NOT NULL session_id |
 | dtb_mobile_ext_session_id_pkey | PRIMARY KEY | PRIMARY KEY (session_id) |
 
 ## Indexes

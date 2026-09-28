@@ -176,6 +176,8 @@ npm run dev
 docker compose exec php-mysql vendor/bin/php-cs-fixer fix
 ```
 
+データベースを変更する場合は、[CONTRIBUTING.md](CONTRIBUTING.md) の「データベースの変更」に従い、マイグレーションとインストール用 SQL の両方を更新すること。
+
 ### 3. テスト実行（必須）
 
 **push前に必ず実行すること**

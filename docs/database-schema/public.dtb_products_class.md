@@ -32,6 +32,18 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_products_class_classcategory_id1_not_null | n | NOT NULL classcategory_id1 |
+| dtb_products_class_classcategory_id2_not_null | n | NOT NULL classcategory_id2 |
+| dtb_products_class_create_date_not_null | n | NOT NULL create_date |
+| dtb_products_class_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_products_class_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_products_class_point_rate_not_null | n | NOT NULL point_rate |
+| dtb_products_class_price02_not_null | n | NOT NULL price02 |
+| dtb_products_class_product_class_id_not_null | n | NOT NULL product_class_id |
+| dtb_products_class_product_id_not_null | n | NOT NULL product_id |
+| dtb_products_class_product_type_id_not_null | n | NOT NULL product_type_id |
+| dtb_products_class_stock_unlimited_not_null | n | NOT NULL stock_unlimited |
+| dtb_products_class_update_date_not_null | n | NOT NULL update_date |
 | dtb_products_class_pkey | PRIMARY KEY | PRIMARY KEY (product_class_id) |
 | dtb_products_class_unique_key | UNIQUE | UNIQUE (product_id, classcategory_id1, classcategory_id2) |
 

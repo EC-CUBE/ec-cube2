@@ -20,6 +20,13 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_maker_create_date_not_null | n | NOT NULL create_date |
+| dtb_maker_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_maker_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_maker_maker_id_not_null | n | NOT NULL maker_id |
+| dtb_maker_name_not_null | n | NOT NULL name |
+| dtb_maker_rank_not_null | n | NOT NULL rank |
+| dtb_maker_update_date_not_null | n | NOT NULL update_date |
 | dtb_maker_pkey | PRIMARY KEY | PRIMARY KEY (maker_id) |
 
 ## Indexes

@@ -1250,3 +1250,59 @@ CREATE INDEX dtb_products_class_stock_unlimited_key ON dtb_products_class (produ
 CREATE INDEX dtb_products_class_point_rate_key ON dtb_products_class (product_id,point_rate) WHERE del_flg = 0;
 CREATE INDEX dtb_products_class_deliv_fee_key ON dtb_products_class (product_id,deliv_fee) WHERE del_flg = 0;
 CREATE INDEX dtb_session_update_date_key ON dtb_session (update_date);
+
+CREATE TABLE dtb_migration (
+    migration_id SERIAL PRIMARY KEY,
+    version varchar(255) NOT NULL UNIQUE,
+    executed_at timestamp DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE SEQUENCE IF NOT EXISTS dtb_password_reset_password_reset_id_seq START WITH 1 INCREMENT BY 1;
+CREATE TABLE dtb_password_reset (
+    password_reset_id int NOT NULL DEFAULT nextval('dtb_password_reset_password_reset_id_seq'),
+    email text NOT NULL,
+    token_hash text NOT NULL,
+    customer_id int,
+    status smallint NOT NULL DEFAULT 0,
+    expire_date timestamp NOT NULL,
+    ip_address text,
+    user_agent text,
+    used_date timestamp,
+    create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (password_reset_id)
+);
+CREATE INDEX idx_dtb_password_reset_token_hash ON dtb_password_reset (token_hash);
+CREATE INDEX idx_dtb_password_reset_email_create_date ON dtb_password_reset (email, create_date);
+CREATE INDEX idx_dtb_password_reset_expire_date_status ON dtb_password_reset (expire_date, status);
+
+CREATE SEQUENCE IF NOT EXISTS dtb_login_attempt_login_attempt_id_seq START WITH 1 INCREMENT BY 1;
+CREATE TABLE dtb_login_attempt (
+    login_attempt_id int NOT NULL DEFAULT nextval('dtb_login_attempt_login_attempt_id_seq'),
+    login_id text NOT NULL,
+    ip_address text,
+    user_agent text,
+    result smallint NOT NULL,
+    create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (login_attempt_id)
+);
+CREATE INDEX idx_login_id_create_date ON dtb_login_attempt (login_id, create_date);
+CREATE INDEX idx_ip_create_date ON dtb_login_attempt (ip_address, create_date);
+
+CREATE SEQUENCE IF NOT EXISTS dtb_mailmaga_unsubscribe_token_mailmaga_unsubscribe_token_id_seq START WITH 1 INCREMENT BY 1;
+CREATE TABLE dtb_mailmaga_unsubscribe_token (
+    mailmaga_unsubscribe_token_id int NOT NULL DEFAULT nextval('dtb_mailmaga_unsubscribe_token_mailmaga_unsubscribe_token_id_seq'),
+    customer_id int NOT NULL,
+    send_id int NOT NULL,
+    token varchar(64) NOT NULL,
+    email varchar(255) NOT NULL,
+    used_flg smallint NOT NULL DEFAULT 0,
+    used_date timestamp,
+    expire_date timestamp NOT NULL,
+    create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (mailmaga_unsubscribe_token_id)
+);
+CREATE UNIQUE INDEX uniq_dtb_mailmaga_unsubscribe_token_token ON dtb_mailmaga_unsubscribe_token (token);
+CREATE INDEX idx_dtb_mailmaga_unsubscribe_token_customer_id ON dtb_mailmaga_unsubscribe_token (customer_id);
+CREATE INDEX idx_dtb_mailmaga_unsubscribe_token_send_id ON dtb_mailmaga_unsubscribe_token (send_id);
+CREATE INDEX idx_dtb_mailmaga_unsubscribe_token_expire_date ON dtb_mailmaga_unsubscribe_token (expire_date);

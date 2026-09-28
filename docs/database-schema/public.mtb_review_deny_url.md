@@ -16,6 +16,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| mtb_review_deny_url_id_not_null | n | NOT NULL id |
+| mtb_review_deny_url_rank_not_null | n | NOT NULL rank |
 | mtb_review_deny_url_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes

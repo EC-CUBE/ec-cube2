@@ -26,6 +26,12 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_send_history_complete_count_not_null | n | NOT NULL complete_count |
+| dtb_send_history_create_date_not_null | n | NOT NULL create_date |
+| dtb_send_history_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_send_history_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_send_history_send_id_not_null | n | NOT NULL send_id |
+| dtb_send_history_update_date_not_null | n | NOT NULL update_date |
 | dtb_send_history_pkey | PRIMARY KEY | PRIMARY KEY (send_id) |
 
 ## Indexes

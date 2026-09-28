@@ -18,6 +18,7 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| mtb_zip_zip_id_not_null | n | NOT NULL zip_id |
 | mtb_zip_pkey | PRIMARY KEY | PRIMARY KEY (zip_id) |
 
 ## Indexes
