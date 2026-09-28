@@ -17,6 +17,10 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_customer_favorite_products_create_date_not_null | n | NOT NULL create_date |
+| dtb_customer_favorite_products_customer_id_not_null | n | NOT NULL customer_id |
+| dtb_customer_favorite_products_product_id_not_null | n | NOT NULL product_id |
+| dtb_customer_favorite_products_update_date_not_null | n | NOT NULL update_date |
 | dtb_customer_favorite_products_pkey | PRIMARY KEY | PRIMARY KEY (customer_id, product_id) |
 
 ## Indexes

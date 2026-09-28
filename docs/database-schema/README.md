@@ -103,6 +103,9 @@ EC-CUBE 2.25.x テーブル定義書
 | [public.dtb_api_config](public.dtb_api_config.md) | 10 | API設定 | BASE TABLE |
 | [public.dtb_api_account](public.dtb_api_account.md) | 7 | APIアカウント | BASE TABLE |
 | [public.dtb_tax_rule](public.dtb_tax_rule.md) | 13 | 【2.13】消費税ルール | BASE TABLE |
+| [public.dtb_password_reset](public.dtb_password_reset.md) | 11 | パスワード再発行トークン | BASE TABLE |
+| [public.dtb_login_attempt](public.dtb_login_attempt.md) | 6 | ログイン試行記録 | BASE TABLE |
+| [public.dtb_mailmaga_unsubscribe_token](public.dtb_mailmaga_unsubscribe_token.md) | 9 | メルマガ登録解除トークン | BASE TABLE |
 
 ## Relations
 

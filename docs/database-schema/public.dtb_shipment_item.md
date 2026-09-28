@@ -22,6 +22,10 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_shipment_item_order_id_not_null | n | NOT NULL order_id |
+| dtb_shipment_item_product_class_id_not_null | n | NOT NULL product_class_id |
+| dtb_shipment_item_product_name_not_null | n | NOT NULL product_name |
+| dtb_shipment_item_shipping_id_not_null | n | NOT NULL shipping_id |
 | dtb_shipment_item_pkey | PRIMARY KEY | PRIMARY KEY (order_id, shipping_id, product_class_id) |
 
 ## Indexes

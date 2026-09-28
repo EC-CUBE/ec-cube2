@@ -19,6 +19,12 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_product_status_create_date_not_null | n | NOT NULL create_date |
+| dtb_product_status_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_product_status_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_product_status_product_id_not_null | n | NOT NULL product_id |
+| dtb_product_status_product_status_id_not_null | n | NOT NULL product_status_id |
+| dtb_product_status_update_date_not_null | n | NOT NULL update_date |
 | dtb_product_status_pkey | PRIMARY KEY | PRIMARY KEY (product_status_id, product_id) |
 
 ## Indexes

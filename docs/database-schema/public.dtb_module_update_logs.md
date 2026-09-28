@@ -21,6 +21,10 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_module_update_logs_create_date_not_null | n | NOT NULL create_date |
+| dtb_module_update_logs_log_id_not_null | n | NOT NULL log_id |
+| dtb_module_update_logs_module_id_not_null | n | NOT NULL module_id |
+| dtb_module_update_logs_update_date_not_null | n | NOT NULL update_date |
 | dtb_module_update_logs_pkey | PRIMARY KEY | PRIMARY KEY (log_id) |
 
 ## Indexes

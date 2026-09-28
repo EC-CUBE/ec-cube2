@@ -17,6 +17,9 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_index_list_column_name_not_null | n | NOT NULL column_name |
+| dtb_index_list_recommend_flg_not_null | n | NOT NULL recommend_flg |
+| dtb_index_list_table_name_not_null | n | NOT NULL table_name |
 | dtb_index_list_pkey | PRIMARY KEY | PRIMARY KEY (table_name, column_name) |
 
 ## Indexes

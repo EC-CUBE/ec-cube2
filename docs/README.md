@@ -36,13 +36,16 @@ docker compose exec -T postgres psql --user=eccube_db_user eccube_db < html/inst
 テーブル構成が変更された場合は、以下のコマンドで更新してください
 
 ``` shell
-docker run --rm -v $PWD:/work ghcr.io/k1low/tbls doc -c /work/docs/.tbls.yml --force
+docker run --rm -v $PWD:/work ghcr.io/k1low/tbls:v1.96.0 doc -c /work/docs/.tbls.yml --force
 ```
+
+テーブル定義書が最新であることは CI で検証しています。
+CI と同じ tbls のバージョンを使用してください。
 
 #### テーブル定義書との差分を表示する
 
 受託案件などで、 EC-CUBE デフォルトのテーブル構成との差分を見たい場合は以下のコマンドを実行してください
 
 ``` shell
-docker run --rm -v $PWD:/work ghcr.io/k1low/tbls diff -c /work/docs/.tbls.yml
+docker run --rm -v $PWD:/work ghcr.io/k1low/tbls:v1.96.0 diff -c /work/docs/.tbls.yml
 ```
