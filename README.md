@@ -48,6 +48,50 @@ Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに�
 | 必須      | pgsql / mysqli / sqlite3 (利用するデータベースに合わせること) <br> pdo_pgsql / pdo_mysql / pdo_sqlite (利用するデータベースに合わせること) <br> pdo <br> mbstring <br> zlib <br> ctype <br> session <br> JSON <br> xml <br> libxml <br> OpenSSL <br> zip <br> cURL <br> gd                                      |
 | 推奨      | hash <br> APCu <br> Zend OPcache
 
+#### パスワードハッシュアルゴリズム
+
+会員・管理者のパスワードは `data/config/config.php` の `PASSWORD_HASH_ALGOS` に指定したアルゴリズムでハッシュ化されます。
+
+```php
+// PHP のデフォルト (現在は bcrypt。将来の PHP で自動的に強化される) ← 既定値
+define('PASSWORD_HASH_ALGOS', PASSWORD_DEFAULT);
+
+// Argon2id を明示指定する
+define('PASSWORD_HASH_ALGOS', PASSWORD_ARGON2ID);
+
+// 従来の HMAC-SHA256 を維持する
+define('PASSWORD_HASH_ALGOS', 'sha256');
+```
+
+旧形式 (2.11 未満の SHA1 / 2.11 以降の HMAC-SHA256) のハッシュは、ログイン成功時に現在の設定へ自動的に再ハッシュされます。
+
+##### Argon2id を利用する場合
+
+`PASSWORD_ARGON2ID` は、PHP が `--with-password-argon2` 付きでビルドされている場合のみ利用できます。利用できるアルゴリズムは以下で確認してください。
+
+```shell
+php -r 'var_dump(password_algos());'
+## Argon2 対応ビルドの例: array(3) { [0]=> "2y" [1]=> "argon2i" [2]=> "argon2id" }
+```
+
+Argon2 に対応していないビルドでは `PASSWORD_ARGON2ID` が未定義となるため、`config.php` の読み込み時に `Undefined constant` エラーが発生し EC-CUBE が起動しません。
+
+##### 強度が下がる方向への変更は非推奨
+
+ログイン時の自動再ハッシュは PHP の `password_needs_rehash()` に基づいており、**アルゴリズム強度の高低は判定されません**。現在の設定と異なるハッシュはすべて再ハッシュの対象となるため、設定や実行環境を強度が下がる方向へ変更すると、パスワードハッシュが自動的に弱い形式へ置き換わります。以下の操作は行わないでください。
+
+- **bcrypt / Argon2id から `'sha256'` (HMAC-SHA256) への切り戻し**
+
+  移行済みのハッシュがその場で HMAC-SHA256 へ書き換えられることはありません。ただし移行時に `dtb_customer.salt` へ設定されるダミー値 `salt_is_included_in_hash` が残り続け、**以降パスワードを変更しても salt は更新されません**。その会員のパスワードを変更すると、全員共通の固定値を salt とした HMAC-SHA256 ハッシュが保存され、会員ごとに異なる salt を用いる利点が失われます。通常の操作では元の状態に戻せません。
+
+- **Argon2id から bcrypt への変更**
+
+  次回ログイン時に、Argon2id のハッシュが bcrypt へ置き換わります。
+
+- **PHP のバージョンダウン**
+
+  bcrypt の既定 cost は PHP のバージョンによって異なります (PHP 8.3 以下は 10、PHP 8.4 以降は 12)。PHP 8.4 以降で運用したあとに 8.3 以下へ戻すと、次回ログイン時に cost 12 のハッシュが cost 10 へ置き換わります。
+
 ## インストール方法
 
 EC-CUBEのインストールは、以下の方法があります。
