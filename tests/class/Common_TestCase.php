@@ -54,9 +54,15 @@ class Common_TestCase extends \PHPUnit\Framework\TestCase
     protected function tearDown(): void
     {
         $this->objQuery->rollback();
+        $this->tearDownPostRollback();
+
         $this->objQuery = null;
 
         parent::tearDown();
+    }
+
+    protected function tearDownPostRollback(): void
+    {
     }
 
     /**

@@ -51,18 +51,10 @@ class SC_Query_Test extends Common_TestCase
     protected $expected;
     protected $actual;
 
-    protected function setUp(): void
-    {
-        $this->objQuery = SC_Query_Ex::getSingletonInstance();
-        $this->objQuery->begin();
-    }
-
-    protected function tearDown(): void
+    protected function tearDownPostRollback(): void
     {
         // MySQL では CREATE TABLE がロールバックされないので DROP TABLE を行う
         $this->dropTestTable();
-        $this->objQuery->rollback();
-        $this->objQuery = null;
     }
 
     /**
