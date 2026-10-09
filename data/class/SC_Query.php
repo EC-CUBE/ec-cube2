@@ -296,7 +296,7 @@ class SC_Query
      *
      * @param  callable $cbFunc  コールバック先。成否を bool で返すこと。
      * @param  string   $sql       SQL クエリ
-     * @param  array    $arrVal    プリペアドステートメントの実行時に使用される配列。配列の要素数は、クエリ内のプレースホルダの数と同じでなければなりません。
+     * @param  array|scalar|null $arrVal    プリペアドステートメントの実行時に使用される配列。配列の要素数は、クエリ内のプレースホルダの数と同じでなければなりません。
      * @param  int  $fetchmode 使用するフェッチモード。デフォルトは DB_FETCHMODE_ASSOC。
      *
      * @return bool  成否。force_run 無効時の DB エラー時は、エラー画面となる。
@@ -333,7 +333,7 @@ class SC_Query
      * クエリを実行し、全ての行を返す
      *
      * @param  string  $sql       SQL クエリ
-     * @param  array   $arrVal    プリペアドステートメントの実行時に使用される配列。配列の要素数は、クエリ内のプレースホルダの数と同じでなければなりません。
+     * @param  array|scalar|null $arrVal    プリペアドステートメントの実行時に使用される配列。配列の要素数は、クエリ内のプレースホルダの数と同じでなければなりません。
      * @param  int $fetchmode 使用するフェッチモード。デフォルトは DB_FETCHMODE_ASSOC。
      *
      * @return array   データを含む2次元配列。失敗した場合に 0 または DB_Error オブジェクトを返します。
@@ -753,7 +753,7 @@ class SC_Query
      * SQL を指定して, 特定のカラムの値を取得する.
      *
      * @param  string $sql    実行する SQL
-     * @param  array  $arrVal プレースホルダに挿入する値
+     * @param  array|scalar|null $arrVal プレースホルダに挿入する値
      *
      * @return mixed  SQL の実行結果
      */
@@ -786,7 +786,7 @@ class SC_Query
      * @param  string  $table       テーブル名
      * @param  string  $col         カラム名
      * @param  string  $where       WHERE句
-     * @param  array   $arrWhereVal プレースホルダ配列
+     * @param  array|scalar|null $arrWhereVal プレースホルダ配列
      * @param  int $fetchmode   使用するフェッチモード。デフォルトは MDB2_FETCHMODE_ASSOC。
      *
      * @return array|null   array('カラム名' => '値', ...)の連想配列。一致なしは null。
@@ -821,7 +821,7 @@ class SC_Query
      * @param  string $table       テーブル名
      * @param  string $col         カラム名
      * @param  string $where       付与する WHERE 句
-     * @param  array  $arrWhereVal プレースホルダに挿入する値
+     * @param  array|scalar|null $arrWhereVal プレースホルダに挿入する値
      *
      * @return array  SQL の実行結果の配列
      */
@@ -934,7 +934,7 @@ class SC_Query
      * FIXME $ignore_errが無視されるようになっているが互換性として問題が無いか確認が必要
      *
      * @param  string  $n            実行する SQL 文
-     * @param  array   $arr          プレースホルダに挿入する値
+     * @param  array|scalar|null $arr          プレースホルダに挿入する値
      * @param  bool $ignore_err   MDB2切替で無効化されている (エラーが発生しても処理を続行する場合 true)
      * @param  mixed   $types        プレースホルダの型指定 デフォルトnull = string
      * @param  mixed   $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)
@@ -1118,7 +1118,7 @@ class SC_Query
      * プリペアドクエリを実行する.
      *
      * @param MDB2_Statement_Common プリペアドステートメントインスタンス
-     * @param  array       $arrVal プレースホルダに挿入する配列
+     * @param array|scalar|null $arrVal プレースホルダに挿入する配列
      *
      * @return MDB2_Result|int|MDB2_Error|MDB2_Result_pgsql|MDB2_Result_mysql|MDB2_Result_mysqli
      *     通常は結果セットのインスタンスまたは影響行数を返す。
@@ -1134,7 +1134,7 @@ class SC_Query
         $pear_property = true;
 
         $arrStartInfo = $this->lfStartDbTraceLog($sth, $arrVal);
-        $affected = $sth->execute((array) $arrVal);
+        $affected = $sth->execute(is_array($arrVal) ? $arrVal : [$arrVal]);
         $this->lfEndDbTraceLog($arrStartInfo, $sth, $arrVal);
 
         $pear_property = $bak;
@@ -1210,7 +1210,7 @@ class SC_Query
      *
      * @deprecated 2.18.0 本体では利用していない。
      * @param string $n   実行する SQL 文
-     * @param array  $arr プレースホルダに挿入する値
+     * @param array|scalar|null $arr プレースホルダに挿入する値
      * @param bool エラーが発生しても処理を続行する場合 true。意図した動作にならない恐れがあるが deprecated のため修正していない。
      * @param  mixed $types        プレースホルダの型指定 デフォルトnull = string
      * @param  mixed $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)
