@@ -1209,6 +1209,7 @@ class SC_Query
      * SQLクエリの結果セットのカラム名だけを取得する
      *
      * @deprecated 2.18.0 本体では利用していない。
+     *
      * @param string $n   実行する SQL 文
      * @param array|scalar|null $arr プレースホルダに挿入する値
      * @param bool エラーが発生しても処理を続行する場合 true。意図した動作にならない恐れがあるが deprecated のため修正していない。
