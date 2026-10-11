@@ -51,18 +51,10 @@ class SC_Query_Test extends Common_TestCase
     protected $expected;
     protected $actual;
 
-    protected function setUp(): void
-    {
-        $this->objQuery = SC_Query_Ex::getSingletonInstance();
-        $this->objQuery->begin();
-    }
-
-    protected function tearDown(): void
+    protected function tearDownPostRollback(): void
     {
         // MySQL では CREATE TABLE がロールバックされないので DROP TABLE を行う
         $this->dropTestTable();
-        $this->objQuery->rollback();
-        $this->objQuery = null;
     }
 
     /**
@@ -585,5 +577,46 @@ class SC_Query_Test extends Common_TestCase
         $this->assertStringNotContainsString(' ORDER BY ', $sql2);
         $this->assertStringNotContainsString(' LIMIT ', $sql2);
         $this->assertStringNotContainsString(' OFFSET ', $sql2);
+    }
+
+    /**
+     * SC_Query::execute() がスカラー値をプレースホルダへ渡すテストケース.
+     */
+    public function testExecuteWithScalarParameter()
+    {
+        $this->createTestTable();
+
+        $this->dropTestTable();
+        $this->createTestTable();
+
+        $sql = 'INSERT INTO test_table (column3) VALUES (?)';
+        $value = 'c';
+
+        $sth = $this->objQuery->prepare($sql);
+        $this->objQuery->execute($sth, $value);
+
+        $this->expected = [['column3' => $value]];
+        $this->actual = $this->objQuery->getAll('SELECT column3 FROM test_table');
+
+        $this->verify();
+    }
+
+    /**
+     * SC_Query::execute() が null をプレースホルダへ渡すテストケース.
+     */
+    public function testExecuteWithNullParameter()
+    {
+        $this->createTestTable();
+
+        $sql = 'INSERT INTO test_table (column2) VALUES (?)';
+        $value = null;
+
+        $sth = $this->objQuery->prepare($sql);
+        $this->objQuery->execute($sth, $value);
+
+        $this->expected = [['column2' => $value]];
+        $this->actual = $this->objQuery->getAll('SELECT column2 FROM test_table');
+
+        $this->verify();
     }
 }

@@ -41,6 +41,8 @@ class Common_TestCase extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->objQuery = SC_Query_Ex::getSingletonInstance();
         $this->objQuery->begin();
         $this->objGenerator = new \Eccube2\Tests\Fixture\Generator($this->objQuery);
@@ -52,7 +54,15 @@ class Common_TestCase extends \PHPUnit\Framework\TestCase
     protected function tearDown(): void
     {
         $this->objQuery->rollback();
+        $this->tearDownPostRollback();
+
         $this->objQuery = null;
+
+        parent::tearDown();
+    }
+
+    protected function tearDownPostRollback(): void
+    {
     }
 
     /**
