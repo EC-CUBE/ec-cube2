@@ -369,12 +369,12 @@ class SC_Query
      * @param  string $cols        SELECT 文に含めるカラム名
      * @param  string $from        SELECT 文に含めるテーブル名
      * @param  string $where       SELECT 文に含める WHERE 句
-     * @param  mixed  $arrWhereVal プレースホルダ(参照)
+     * @param  array|scalar|null $arrWhereVal プレースホルダ(参照)
      * @param  bool   $preserve_additional_clauses 句に関わる設定を維持するか。(デフォルトは維持しない。リセットする。)
      *
      * @return string 構築済みの SELECT 文
      */
-    public function getSql($cols, $from = '', $where = '', &$arrWhereVal = null, $preserve_additional_clauses = false)
+    public function getSql($cols, $from = '', $where = '', &$arrWhereVal = [], $preserve_additional_clauses = false)
     {
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
 
@@ -391,9 +391,7 @@ class SC_Query
             $sqlse .= " WHERE $where";
         } elseif (strlen($this->where) >= 1) {
             $sqlse .= ' WHERE '.$this->where;
-            // 実行時と同じくキャストしてから評価する (空文字を要素1の配列と評価させる意図)
-            $arrWhereValForEval = (array) $arrWhereVal;
-            if (empty($arrWhereValForEval)) {
+            if ($arrWhereVal === []) {
                 $arrWhereVal = $this->arrWhereVal;
             }
         }
