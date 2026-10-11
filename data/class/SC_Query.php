@@ -177,7 +177,7 @@ class SC_Query
      *
      * @param  string  $table       テーブル名
      * @param  string  $where       where句
-     * @param  array   $arrWhereVal プレースホルダ
+     * @param  array|scalar|null $arrWhereVal プレースホルダ
      *
      * @return bool 有無
      */
@@ -734,7 +734,7 @@ class SC_Query
      * @param  string $table       テーブル名
      * @param  string $col         カラム名
      * @param  string $where       付与する WHERE 句
-     * @param  array  $arrWhereVal プレースホルダに挿入する値
+     * @param  array|scalar|null $arrWhereVal プレースホルダに挿入する値
      *
      * @return mixed  SQL の実行結果
      */
@@ -852,7 +852,7 @@ class SC_Query
      *
      * @param string $table       テーブル名
      * @param string $where       WHERE句
-     * @param array  $arrWhereVal プレースホルダ
+     * @param array|scalar|null $arrWhereVal プレースホルダ
      *
      * @return int|MDB2_Error 削除件数
      */
