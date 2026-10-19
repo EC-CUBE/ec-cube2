@@ -16,8 +16,6 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
-| mtb_work_id_not_null | n | NOT NULL id |
-| mtb_work_rank_not_null | n | NOT NULL rank |
 | mtb_work_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes

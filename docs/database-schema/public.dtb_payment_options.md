@@ -16,8 +16,6 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
-| dtb_payment_options_deliv_id_not_null | n | NOT NULL deliv_id |
-| dtb_payment_options_payment_id_not_null | n | NOT NULL payment_id |
 | dtb_payment_options_pkey | PRIMARY KEY | PRIMARY KEY (deliv_id, payment_id) |
 
 ## Indexes
