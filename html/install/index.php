@@ -175,11 +175,6 @@ switch ($mode) {
             // インストール用 SQL は最新のスキーマを表すため、新規インストール時はマイグレーションを実行しない
             $migrationsPath = HTML_REALDIR . HTML2DATA_DIR . 'migrations';
             if (is_dir($migrationsPath)) {
-                // マイグレーションで Eccube2\Util\ParameterUtil を使用できるよう、設定ファイルを一時的に生成して読み込む。
-                lfMakeConfigFile(CONFIG_REALFILE.'.tmp');
-                require_once CONFIG_REALFILE.'.tmp';
-                unlink(CONFIG_REALFILE.'.tmp');
-
                 $objPage->arrErr = lfRegisterMigrations($migrationsPath, $arrDsn);
                 if (count($objPage->arrErr) == 0) {
                     $objPage->tpl_message .= '○：マイグレーションの登録に成功しました。<br />';
