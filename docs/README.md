@@ -28,7 +28,7 @@ EC-CUBE2でプラグイン開発を行う際に利用可能なすべてのフッ
 [html/install/sql/comment_set_pgsql.sql](../html/install/sql/comment_set_pgsql.sql) を適用してください
 
 ``` shell
-docker compose exec -T postgres psql --user=eccube_db_user eccube_db < html/install/sql/comment_set_pgsql.sql
+docker compose exec -T postgres psql -v ON_ERROR_STOP=1 --user=eccube_db_user eccube_db < html/install/sql/comment_set_pgsql.sql
 ```
 
 #### テーブル定義書を更新する
