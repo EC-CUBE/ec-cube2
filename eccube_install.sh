@@ -199,14 +199,6 @@ get_optional_sql()
     fi
     echo "INSERT INTO dtb_member (member_id, login_id, password, name, salt, work, del_flg, authority, creator_id, rank, update_date) VALUES (2, 'admin', '${ADMINPASS}', '管理者', '${AUTH_MAGIC}', '1', '0', '0', '0', '1', current_timestamp);"
     echo "INSERT INTO dtb_baseinfo (id, shop_name, email01, email02, email03, email04, top_tpl, product_tpl, detail_tpl, mypage_tpl, update_date) VALUES (1, '${SHOP_NAME}', '${ADMIN_MAIL}', '${ADMIN_MAIL}', '${ADMIN_MAIL}', '${ADMIN_MAIL}', 'default1', 'default1', 'default1', 'default1', current_timestamp);"
-
-    # インストール用 SQL は最新のスキーマを表すため、マイグレーションは実行せず適用済みとして登録する
-    for migration in ./data/migrations/Version*.php; do
-        version=$(basename "${migration}" | sed -n 's/^Version\([0-9][0-9]*\).*/\1/p')
-        if [ -n "${version}" ]; then
-            echo "INSERT INTO dtb_migration (version) VALUES ('${version}');"
-        fi
-    done
 }
 
 create_config_php()
