@@ -78,8 +78,8 @@ test.describe.serial('インストーラのテストをします', () => {
     // テーブル・シーケンスの一括作成は負荷の高い CI ランナーでは
     // デフォルトの 5 秒を超えることがあるためタイムアウトを延長する
     await expect(page.locator('.contents').first()).toHaveText(/○：テーブルの作成に成功しました。/, { timeout: 60000 });
+    await expect(page.locator('.contents').first()).toHaveText(/○：初期データの作成に成功しました。/, { timeout: 60000 });
     await expect(page.locator('.contents').first()).toHaveText(/○：シーケンスの作成に成功しました。/, { timeout: 60000 });
-    await expect(page.locator('.contents').first()).toHaveText(/○：マイグレーションの登録に成功しました。/, { timeout: 60000 });
     await page.click('text=次へ進む');
   });
 

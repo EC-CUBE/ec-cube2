@@ -43,11 +43,12 @@ EC-CUBE 2 は MySQL / PostgreSQL / SQLite3 をサポートしています。デ�
 php data/vendor/bin/eccube migrate:create <Name>
 ```
 
-- ファイル名は `Version<日時>_<内容>.php` の形式です。
+- ファイル名は `Version<年月日><6桁連番>.php` の形式です。
 - `down()` にはロールバック処理を記述してください。
 - `sql()` はパラメータのバインドに対応していません。第2引数・第3引数は、それぞれ PostgreSQL・SQLite3 向けの SQL です。
+- マイグレーションを追加した場合は、対応する変更をインストール用 SQL に反映してください。
 - マイグレーションでカラムを追加すると、テーブルの末尾に追加されます。インストール用 SQL でも、カラムはテーブル定義の末尾に追加してください。
-- `dtb_migration` への登録はインストーラが行います。インストール用 SQL に記述する必要はありません。
+- ファイル名のバージョンを `dtb_migration` へ登録する INSERT 文を `html/install/sql/insert_data.sql` に追加してください。
 
 ### CI による検証
 
