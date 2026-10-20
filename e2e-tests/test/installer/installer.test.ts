@@ -72,6 +72,8 @@ test.describe.serial('インストーラのテストをします', () => {
   });
 
   test('step3 - データベースの初期化をします', async () => {
+    // 後続のタイムアウト延長に合わせて、本テスト全体のタイムアウトも延長する。
+    test.setTimeout(60000);
     await expect(page.locator('h2').first()).toHaveText('データベースの初期化');
     await page.click('text=次へ進む');
 
