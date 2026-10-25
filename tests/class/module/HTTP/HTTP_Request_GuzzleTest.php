@@ -408,7 +408,8 @@ class HTTP_Request_GuzzleTest extends Common_TestCase
     public function testAttachNonListener()
     {
         $request = new HTTP_Request('https://example.com');
-        $result = $request->attach(new stdClass());
+        $listener = new stdClass();
+        $result = $request->attach($listener);
 
         $this->assertFalse($result);
     }
@@ -419,7 +420,8 @@ class HTTP_Request_GuzzleTest extends Common_TestCase
     public function testDetachNonListener()
     {
         $request = new HTTP_Request('https://example.com');
-        $result = $request->detach(new stdClass());
+        $listener = new stdClass();
+        $result = $request->detach($listener);
 
         $this->assertFalse($result);
     }
