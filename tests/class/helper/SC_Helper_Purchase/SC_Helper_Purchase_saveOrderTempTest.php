@@ -136,6 +136,7 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
 
     public function testSaveOrderTemp注文者情報がある場合情報がコピーされる()
     {
+        $objCustomer = new SC_Customer_Ex();
         $this->helper->saveOrderTemp(
             '1003',
             [
@@ -144,7 +145,7 @@ class SC_Helper_Purchase_saveOrderTempTest extends SC_Helper_Purchase_TestBase
                 'order_name01' => '受注情報03',
                 'update_date' => 'CURRENT_TIMESTAMP',
             ],
-            new SC_Customer_Ex()
+            $objCustomer
         );
 
         // function呼び出しを確認
