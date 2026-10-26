@@ -17,7 +17,7 @@ define('ADMIN_DIR', 'admin/');
 define('ADMIN_FORCE_SSL', false);
 define('ADMIN_ALLOW_HOSTS', 'a:0:{}');
 define('AUTH_MAGIC', 'droucliuijeanamiundpnoufrouphudrastiokec');
-define('PASSWORD_HASH_ALGOS', 'sha256');
+define('PASSWORD_HASH_ALGOS', PASSWORD_DEFAULT);
 define('MAIL_BACKEND', 'mail');
 define('SMTP_HOST', '');
 define('SMTP_PORT', '');
