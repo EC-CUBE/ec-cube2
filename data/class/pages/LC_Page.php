@@ -38,7 +38,7 @@ class LC_Page
     public $tpl_mainpage;
 
     /** テンプレートのカラム数 */
-    public $tpl_column_num;
+    public $tpl_column_num = 1;
 
     /** メインナンバー */
     public $tpl_mainno;
