@@ -188,7 +188,7 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
             }
 
             if (str_contains($line, 'ADMIN_FORCE_SSL')) {
-                $line = "SC_Initial_Ex::defineIfNotDefined('ADMIN_FORCE_SSL', ".$admin_force_ssl.");";
+                $line = "SC_Initial_Ex::defineIfNotDefined('ADMIN_FORCE_SSL', ".$admin_force_ssl.');';
                 $diff++;
             }
             if (str_contains($line, 'ADMIN_ALLOW_HOSTS') && ADMIN_ALLOW_HOSTS != $admin_allow_hosts) {
