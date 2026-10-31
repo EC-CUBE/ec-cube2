@@ -1257,7 +1257,6 @@ class SC_Utils
             return false;
         }
 
-        $oldmask = umask(0);
         $mod = stat($src);
 
         // ディレクトリがなければ作成する
@@ -1304,7 +1303,6 @@ class SC_Utils
                 }
             }
         }
-        umask($oldmask);
 
         return $mess;
     }

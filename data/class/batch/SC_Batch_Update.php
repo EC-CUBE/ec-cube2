@@ -52,7 +52,6 @@ class SC_Batch_Update extends SC_Batch
     public function execute($target = '.')
     {
         $msg = '';
-        $oldMask = umask(0);
         $bkupDistInfoArray = []; // バックアップファイル用のdistinfoファイル内容
         $bkupPath = DATA_REALDIR.'downloads/backup/update_'.time().'/';
         $bkupPathFile = $bkupPath.'files/';
@@ -183,7 +182,6 @@ class SC_Batch_Update extends SC_Batch
             $arrLog['err'][] = $msg;
             $this->printLog($msg);
         }
-        umask($oldMask);
 
         return $arrLog;
     }
