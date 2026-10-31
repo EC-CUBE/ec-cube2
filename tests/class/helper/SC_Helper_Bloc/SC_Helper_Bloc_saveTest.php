@@ -98,4 +98,13 @@ class SC_Helper_Bloc_saveTest extends SC_Helper_Bloc_TestBase
         // 正常系のみテスト（ロールバックのテストはスキップ）
         $this->markTestSkipped('ファイル書き込み失敗のテストは困難なためスキップ');
     }
+
+    protected function tearDown(): void
+    {
+        foreach (['new_test_bloc.tpl', 'updated_test_bloc.tpl', 'test_auto1.tpl', 'test_auto2.tpl', 'existing_test_bloc.tpl'] as $filename) {
+            $this->deleteBlocFile($filename);
+        }
+
+        parent::tearDown();
+    }
 }
