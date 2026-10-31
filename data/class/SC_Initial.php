@@ -104,7 +104,6 @@ class SC_Initial
             $this->setUmask();
 
             copy($src_realfile, CONFIG_REALFILE);
-
         } elseif (!GC_Utils_Ex::isInstallFunction()) {
             // PHP8対応
             if (!defined('HTTP_URL')) {

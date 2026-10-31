@@ -4,6 +4,7 @@ class SC_Initial_setUmaskTest extends Common_TestCase
 {
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testSetsConfiguredUmask()
@@ -22,6 +23,7 @@ class SC_Initial_setUmaskTest extends Common_TestCase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testDoesNotChangeUmaskWhenDisabled()
@@ -40,6 +42,7 @@ class SC_Initial_setUmaskTest extends Common_TestCase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testAddsGroupAndOtherWriteBitsToCurrentUmask()
