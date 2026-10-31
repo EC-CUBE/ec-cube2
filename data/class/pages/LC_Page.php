@@ -86,7 +86,7 @@ class LC_Page
     public $load_legacy_js = false;
 
     public $arrForm;
-    public $arrErr;
+    public $arrErr = [];
 
     /** @var int */
     public $timeStart;
