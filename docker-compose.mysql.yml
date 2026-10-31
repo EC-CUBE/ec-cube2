@@ -30,7 +30,7 @@ services:
       ADMIN_FORCE_SSL: 'false'
       ADMIN_ALLOW_HOSTS: 'a:0:{}'
       AUTH_MAGIC: ~
-      PASSWORD_HASH_ALGOS: sha256
+      PASSWORD_HASH_ALGOS: 2y
 
   mysql:
     image: mysql:8.4
@@ -51,4 +51,7 @@ services:
       test: mysqladmin ping
       interval: 3s
       timeout: 3s
-      retries: 3
+      retries: 10
+      # 初回起動時のデータディレクトリ初期化は CI ランナーの負荷によっては
+      # 数十秒かかるため、その間はヘルスチェックの失敗をカウントしない
+      start_period: 60s

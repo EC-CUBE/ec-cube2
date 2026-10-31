@@ -1,8 +1,10 @@
 name: Coverage
 on:
   push:
+    # ブランチへの push は pull_request イベント側で coverage が取得されるため、
+    # master と tag に限定して同一コミットの二重実行を防ぐ (refs #1438)
     branches:
-      - '*'
+      - master
     tags:
       - '*'
     paths:
@@ -117,3 +119,6 @@ jobs:
         flags: tests
         # yml: ./codecov.yml
         fail_ci_if_error: true
+        # cli.codecov.io のバイナリは GPG 公開鍵を取得できず署名検証が
+        # "No public key" で失敗するため、PyPI 版 CLI を使い検証経路を回避する
+        use_pypi: true

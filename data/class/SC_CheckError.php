@@ -1076,7 +1076,7 @@ class SC_CheckError
         }
 
         $input_var = $this->arrParam[$keyname];
-        $pattern = "@^https?://+($|[a-zA-Z0-9_~=:&\?\.\/-])+$@i";
+        $pattern = "@^https?://+($|[a-zA-Z0-9_~=:&\?\.\/#%+-])+$@i";
         if (strlen($input_var) > 0 && !preg_match($pattern, $input_var)) {
             $this->arrErr[$keyname] = "※ {$disp_name}を正しく入力してください。<br />";
         }

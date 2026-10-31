@@ -33,15 +33,70 @@
  */
 class SC_Helper_LoginRateLimit
 {
+    /** 同一メールアドレスの失敗回数しきい値のデフォルト値 */
+    public const DEFAULT_EMAIL_THRESHOLD = 5;
+
+    /** 同一IPアドレスの失敗回数しきい値のデフォルト値 */
+    public const DEFAULT_IP_THRESHOLD = 10;
+
+    /**
+     * メールアドレスベースのレート制限しきい値を取得する
+     *
+     * 定数 LOGIN_RATE_LIMIT_EMAIL_THRESHOLD または同名の環境変数で上書きできます。
+     *
+     * @return int
+     */
+    public static function getEmailThreshold()
+    {
+        return self::getThreshold('LOGIN_RATE_LIMIT_EMAIL_THRESHOLD', self::DEFAULT_EMAIL_THRESHOLD);
+    }
+
+    /**
+     * IPアドレスベースのレート制限しきい値を取得する
+     *
+     * 定数 LOGIN_RATE_LIMIT_IP_THRESHOLD または同名の環境変数で上書きできます。
+     * E2E テストのように同一 IP から大量にログイン試行が発生する環境では
+     * この値を引き上げることで IP ベースの制限を緩和できます。
+     *
+     * @return int
+     */
+    public static function getIPThreshold()
+    {
+        return self::getThreshold('LOGIN_RATE_LIMIT_IP_THRESHOLD', self::DEFAULT_IP_THRESHOLD);
+    }
+
+    /**
+     * しきい値を 定数 > 環境変数 > デフォルト値 の優先順で解決する
+     *
+     * @param string $name しきい値の名称（定数名・環境変数名）
+     * @param int    $default デフォルト値
+     *
+     * @return int
+     */
+    protected static function getThreshold($name, $default)
+    {
+        if (defined($name) && is_numeric(constant($name))) {
+            return (int) constant($name);
+        }
+
+        $env = getenv($name);
+        if ($env !== false && is_numeric($env)) {
+            return (int) $env;
+        }
+
+        return $default;
+    }
+
     /**
      * レート制限をチェックする
      *
      * 同一メールアドレスまたは同一IPアドレスからの
      * ログイン試行失敗が制限を超えていないか確認します。
      *
-     * レート制限ルール:
+     * レート制限ルール（デフォルト）:
      * - 同一メールアドレス: 1時間に4回まで失敗を許可（5回目の失敗でレート制限メッセージ表示）
      * - 同一IPアドレス: 1時間に9回まで失敗を許可（10回目の失敗でレート制限メッセージ表示）
+     * しきい値は getEmailThreshold() / getIPThreshold() を参照。
      *
      * セキュリティ考慮事項:
      * - アカウント列挙攻撃対策: 存在しないメールアドレスも同様にレート制限
@@ -68,7 +123,7 @@ class SC_Helper_LoginRateLimit
             [$login_id]
         );
 
-        if ($email_count >= 5) {
+        if ($email_count >= self::getEmailThreshold()) {
             return [
                 'allowed' => false,
                 'reason' => 'email',
@@ -84,7 +139,7 @@ class SC_Helper_LoginRateLimit
             [$ip_address]
         );
 
-        if ($ip_count >= 10) {
+        if ($ip_count >= self::getIPThreshold()) {
             return [
                 'allowed' => false,
                 'reason' => 'ip',
