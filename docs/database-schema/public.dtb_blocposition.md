@@ -19,6 +19,11 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_blocposition_anywhere_not_null | n | NOT NULL anywhere |
+| dtb_blocposition_bloc_id_not_null | n | NOT NULL bloc_id |
+| dtb_blocposition_device_type_id_not_null | n | NOT NULL device_type_id |
+| dtb_blocposition_page_id_not_null | n | NOT NULL page_id |
+| dtb_blocposition_target_id_not_null | n | NOT NULL target_id |
 | dtb_blocposition_pkey | PRIMARY KEY | PRIMARY KEY (device_type_id, page_id, target_id, bloc_id) |
 
 ## Indexes

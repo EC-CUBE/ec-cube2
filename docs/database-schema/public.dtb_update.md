@@ -27,6 +27,15 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_update_create_date_not_null | n | NOT NULL create_date |
+| dtb_update_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_update_extern_php_not_null | n | NOT NULL extern_php |
+| dtb_update_latest_version_not_null | n | NOT NULL latest_version |
+| dtb_update_main_php_not_null | n | NOT NULL main_php |
+| dtb_update_module_id_not_null | n | NOT NULL module_id |
+| dtb_update_module_name_not_null | n | NOT NULL module_name |
+| dtb_update_release_date_not_null | n | NOT NULL release_date |
+| dtb_update_update_date_not_null | n | NOT NULL update_date |
 | dtb_update_pkey | PRIMARY KEY | PRIMARY KEY (module_id) |
 
 ## Indexes

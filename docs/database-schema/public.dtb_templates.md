@@ -18,13 +18,17 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
-| dtb_templates_pkey | PRIMARY KEY | PRIMARY KEY (template_code) |
+| dtb_templates_create_date_not_null | n | NOT NULL create_date |
+| dtb_templates_device_type_id_not_null | n | NOT NULL device_type_id |
+| dtb_templates_template_code_not_null | n | NOT NULL template_code |
+| dtb_templates_update_date_not_null | n | NOT NULL update_date |
+| dtb_templates_pkey | PRIMARY KEY | PRIMARY KEY (template_code, device_type_id) |
 
 ## Indexes
 
 | Name | Definition |
 | ---- | ---------- |
-| dtb_templates_pkey | CREATE UNIQUE INDEX dtb_templates_pkey ON public.dtb_templates USING btree (template_code) |
+| dtb_templates_pkey | CREATE UNIQUE INDEX dtb_templates_pkey ON public.dtb_templates USING btree (template_code, device_type_id) |
 
 ## Relations
 

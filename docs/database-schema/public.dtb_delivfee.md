@@ -17,6 +17,9 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_delivfee_deliv_id_not_null | n | NOT NULL deliv_id |
+| dtb_delivfee_fee_id_not_null | n | NOT NULL fee_id |
+| dtb_delivfee_fee_not_null | n | NOT NULL fee |
 | dtb_delivfee_pkey | PRIMARY KEY | PRIMARY KEY (deliv_id, fee_id) |
 
 ## Indexes

@@ -22,6 +22,13 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_category_category_id_not_null | n | NOT NULL category_id |
+| dtb_category_create_date_not_null | n | NOT NULL create_date |
+| dtb_category_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_category_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_category_level_not_null | n | NOT NULL level |
+| dtb_category_parent_category_id_not_null | n | NOT NULL parent_category_id |
+| dtb_category_update_date_not_null | n | NOT NULL update_date |
 | dtb_category_pkey | PRIMARY KEY | PRIMARY KEY (category_id) |
 
 ## Indexes

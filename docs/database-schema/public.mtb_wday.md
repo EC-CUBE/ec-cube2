@@ -16,6 +16,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| mtb_wday_id_not_null | n | NOT NULL id |
+| mtb_wday_rank_not_null | n | NOT NULL rank |
 | mtb_wday_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes

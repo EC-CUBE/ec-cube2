@@ -23,6 +23,12 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_bloc_bloc_id_not_null | n | NOT NULL bloc_id |
+| dtb_bloc_create_date_not_null | n | NOT NULL create_date |
+| dtb_bloc_deletable_flg_not_null | n | NOT NULL deletable_flg |
+| dtb_bloc_device_type_id_not_null | n | NOT NULL device_type_id |
+| dtb_bloc_filename_not_null | n | NOT NULL filename |
+| dtb_bloc_update_date_not_null | n | NOT NULL update_date |
 | dtb_bloc_pkey | PRIMARY KEY | PRIMARY KEY (device_type_id, bloc_id) |
 | dtb_bloc_device_type_id_filename_key | UNIQUE | UNIQUE (device_type_id, filename) |
 

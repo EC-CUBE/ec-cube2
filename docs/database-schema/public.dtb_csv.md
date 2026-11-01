@@ -25,6 +25,11 @@ CSV情報
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_csv_create_date_not_null | n | NOT NULL create_date |
+| dtb_csv_csv_id_not_null | n | NOT NULL csv_id |
+| dtb_csv_no_not_null | n | NOT NULL no |
+| dtb_csv_status_not_null | n | NOT NULL status |
+| dtb_csv_update_date_not_null | n | NOT NULL update_date |
 | dtb_csv_pkey | PRIMARY KEY | PRIMARY KEY (no) |
 
 ## Indexes

@@ -21,6 +21,13 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_recommend_products_create_date_not_null | n | NOT NULL create_date |
+| dtb_recommend_products_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_recommend_products_product_id_not_null | n | NOT NULL product_id |
+| dtb_recommend_products_rank_not_null | n | NOT NULL rank |
+| dtb_recommend_products_recommend_product_id_not_null | n | NOT NULL recommend_product_id |
+| dtb_recommend_products_status_not_null | n | NOT NULL status |
+| dtb_recommend_products_update_date_not_null | n | NOT NULL update_date |
 | dtb_recommend_products_pkey | PRIMARY KEY | PRIMARY KEY (product_id, recommend_product_id) |
 
 ## Indexes
