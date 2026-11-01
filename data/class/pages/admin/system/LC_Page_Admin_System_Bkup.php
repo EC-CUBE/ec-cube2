@@ -317,7 +317,8 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
 
             fclose($this->fpOutput);
 
-            if ($success === false) {
+            if (!$success) {
+                // 標準では通り得ないが、カスタマイズに備えた処理
                 return __LINE__;
             }
 
