@@ -413,7 +413,6 @@ function lfDispStep0($objPage)
     // 問題点を検出していない場合
     else {
         $objPage->tpl_mode = 'step0';
-        umask(0);
         $path = DATA_REALDIR . 'downloads/plugin';
         if (!file_exists($path)) {
             mkdir($path);
