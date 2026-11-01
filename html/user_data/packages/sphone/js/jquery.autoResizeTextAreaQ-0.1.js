@@ -78,7 +78,7 @@ $.fn.autoResizeTextAreaQ = function(options) {
         resize(ta, orig);
 
         // check resize on key input
-        ta.bind('keyup', function(e) {
+        ta.on('keyup', function(e) {
             resize(ta, orig);
         });
     }); // end each()
