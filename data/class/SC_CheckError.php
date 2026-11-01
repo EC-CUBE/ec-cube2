@@ -1771,10 +1771,11 @@ class SC_CheckError
     /**
      * パラメーターとして適切な文字列かチェックする.(サブルーチン)
      *
+     * 値は mtb_constants.php へ define('KEY', <値>); の形で出力されるため、
+     * <値> が「スカラ定数式」(リテラル・定数・それらの連結) であることを確認する。
      * 下記を満たす場合を真とする。
-     * ・PHPコードとして評価可能であること。
-     * ・評価した結果がスカラデータ(定数に指定できる値)であること。
-     * 本メソッドの利用や改訂にあたっては、eval 関数の危険性を意識する必要がある。
+     * ・PHP として構文的に正しいこと。
+     * ・関数呼び出しや文などを含まず、スカラ定数式であること。
      *
      * @param string $value 評価する文字列
      *
@@ -1786,12 +1787,47 @@ class SC_CheckError
             return true;
         }
 
+        // 値を 1 文として構文解析する。構文エラーがあれば ParseError が送出される。
         try {
-            return (bool) @eval('return is_scalar('.$value.');');
-        } catch (\Throwable $e) {
-            // eval の構文エラーや実行時エラーは例外として扱い、バリデーション失敗とする
+            $tokens = token_get_all('<?php '.$value.';', TOKEN_PARSE);
+        } catch (\ParseError $e) {
             return false;
         }
+
+        // スカラ定数式に限定する。
+        // 値となるトークンは 数値 / クオート文字列 / 定数名 (true, false, null を含む) のみ許可。
+        static $valueTypes = [
+            T_LNUMBER,
+            T_DNUMBER,
+            T_CONSTANT_ENCAPSED_STRING,
+            T_STRING,
+        ];
+        $lastIndex = count($tokens) - 1;
+        $hasValueToken = false;
+        foreach ($tokens as $index => $token) {
+            if (is_array($token)) {
+                // 開始タグ・空白は読み飛ばす。
+                if ($token[0] === T_OPEN_TAG || $token[0] === T_WHITESPACE) {
+                    continue;
+                }
+                if (!in_array($token[0], $valueTypes, true)) {
+                    return false;
+                }
+                $hasValueToken = true;
+            } elseif ($token === ';') {
+                // 末尾 (構文解析用に付与した区切り) 以外の ; は許可しない。
+                // これにより '1;' のような複数の文や、';' 単体を排除する。
+                if ($index !== $lastIndex) {
+                    return false;
+                }
+            } elseif (!in_array($token, ['.', '+', '-'], true)) {
+                // 連結 . と符号 +- のみ許可。関数呼び出しの () 等は除外する。
+                return false;
+            }
+        }
+
+        // 値となるトークンが 1 つも無い場合 (空白のみ等) は不可。
+        return $hasValueToken;
     }
 
     /**
