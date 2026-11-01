@@ -205,28 +205,28 @@ create_config_php()
 {
     cat > "./${CONFIG_PHP}" <<__EOF__
 <?php
-defined('ECCUBE_INSTALL') or define('ECCUBE_INSTALL', 'ON');
-defined('HTTP_URL') or define('HTTP_URL', '${HTTP_URL}');
-defined('HTTPS_URL') or define('HTTPS_URL', '${HTTPS_URL}');
-defined('ROOT_URLPATH') or define('ROOT_URLPATH', '${ROOT_URLPATH}');
-defined('DOMAIN_NAME') or define('DOMAIN_NAME', '${DOMAIN_NAME}');
-defined('DB_TYPE') or define('DB_TYPE', '${DB}');
-defined('DB_USER') or define('DB_USER', '${DBUSER}');
-defined('DB_PASSWORD') or define('DB_PASSWORD', '${CONFIGPASS:-$DBPASS}');
-defined('DB_SERVER') or define('DB_SERVER', '${DBSERVER}');
-defined('DB_NAME') or define('DB_NAME', '${DBNAME}');
-defined('DB_PORT') or define('DB_PORT', '${DBPORT}');
-defined('ADMIN_DIR') or define('ADMIN_DIR', '${ADMIN_DIR}');
-defined('ADMIN_FORCE_SSL') or define('ADMIN_FORCE_SSL', FALSE);
-defined('ADMIN_ALLOW_HOSTS') or define('ADMIN_ALLOW_HOSTS', 'a:0:{}');
-defined('AUTH_MAGIC') or define('AUTH_MAGIC', '${AUTH_MAGIC}');
-defined('PASSWORD_HASH_ALGOS') or define('PASSWORD_HASH_ALGOS', PASSWORD_DEFAULT);
-defined('MAIL_BACKEND') or define('MAIL_BACKEND', '${MAIL_BACKEND}');
-defined('SMTP_HOST') or define('SMTP_HOST', '${SMTP_HOST}');
-defined('SMTP_PORT') or define('SMTP_PORT', '${SMTP_PORT}');
-defined('SMTP_USER') or define('SMTP_USER', '${SMTP_USER}');
-defined('SMTP_PASSWORD') or define('SMTP_PASSWORD', '${SMTP_PASSWORD}');
-defined('TEST_MAILCATCHER_URL') or define('TEST_MAILCATCHER_URL', '${TEST_MAILCATCHER_URL-"http://127.0.0.1:1080"}');
+SC_Initial_Ex::defineIfNotDefined('ECCUBE_INSTALL', 'ON');
+SC_Initial_Ex::defineIfNotDefined('HTTP_URL', '${HTTP_URL}');
+SC_Initial_Ex::defineIfNotDefined('HTTPS_URL', '${HTTPS_URL}');
+SC_Initial_Ex::defineIfNotDefined('ROOT_URLPATH', '${ROOT_URLPATH}');
+SC_Initial_Ex::defineIfNotDefined('DOMAIN_NAME', '${DOMAIN_NAME}');
+SC_Initial_Ex::defineIfNotDefined('DB_TYPE', '${DB}');
+SC_Initial_Ex::defineIfNotDefined('DB_USER', '${DBUSER}');
+SC_Initial_Ex::defineIfNotDefined('DB_PASSWORD', '${CONFIGPASS:-$DBPASS}');
+SC_Initial_Ex::defineIfNotDefined('DB_SERVER', '${DBSERVER}');
+SC_Initial_Ex::defineIfNotDefined('DB_NAME', '${DBNAME}');
+SC_Initial_Ex::defineIfNotDefined('DB_PORT', '${DBPORT}');
+SC_Initial_Ex::defineIfNotDefined('ADMIN_DIR', '${ADMIN_DIR}');
+SC_Initial_Ex::defineIfNotDefined('ADMIN_FORCE_SSL', FALSE);
+SC_Initial_Ex::defineIfNotDefined('ADMIN_ALLOW_HOSTS', 'a:0:{}');
+SC_Initial_Ex::defineIfNotDefined('AUTH_MAGIC', '${AUTH_MAGIC}');
+SC_Initial_Ex::defineIfNotDefined('PASSWORD_HASH_ALGOS', PASSWORD_DEFAULT);
+SC_Initial_Ex::defineIfNotDefined('MAIL_BACKEND', '${MAIL_BACKEND}');
+SC_Initial_Ex::defineIfNotDefined('SMTP_HOST', '${SMTP_HOST}');
+SC_Initial_Ex::defineIfNotDefined('SMTP_PORT', '${SMTP_PORT}');
+SC_Initial_Ex::defineIfNotDefined('SMTP_USER', '${SMTP_USER}');
+SC_Initial_Ex::defineIfNotDefined('SMTP_PASSWORD', '${SMTP_PASSWORD}');
+SC_Initial_Ex::defineIfNotDefined('TEST_MAILCATCHER_URL', '${TEST_MAILCATCHER_URL-"http://127.0.0.1:1080"}');
 
 __EOF__
 
