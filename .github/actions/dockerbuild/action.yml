@@ -26,6 +26,7 @@ runs:
       if: ${{ inputs.php-version < '8.5' }}
       shell: 'bash'
       run: |
+        echo "PHP_VERSION_TAG=${{ inputs.php-version }}" >> ${GITHUB_ENV}
         echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
         echo "EXT_INSTALL_ARGS=gd zip mysqli pgsql opcache" >> ${GITHUB_ENV}
         echo "APCU=apcu" >>  ${GITHUB_ENV}
@@ -33,13 +34,37 @@ runs:
         echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
         echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
 
-    - name: Set build arguments (PHP >= 8.5)
-      if: ${{ inputs.php-version >= '8.5' }}
+    # PHP 7.4 / 8.0 の公式イメージは Debian bullseye ベース。
+    # bullseye-security は archive.debian.org へ移行済みで deb.debian.org の pool から削除されているため archive を参照する
+    - name: Set APT repository (PHP < 8.1)
+      if: ${{ inputs.php-version < '8.1' }}
       shell: 'bash'
       run: |
+        echo "APT_REPO=archive.debian.org" >> ${GITHUB_ENV}
+        echo "APT_SECURITY_REPO=archive.debian.org" >> ${GITHUB_ENV}
+
+    - name: Set build arguments (PHP 8.5)
+      if: ${{ inputs.php-version >= '8.5' && inputs.php-version < '8.6' }}
+      shell: 'bash'
+      run: |
+        echo "PHP_VERSION_TAG=${{ inputs.php-version }}" >> ${GITHUB_ENV}
         echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
         echo "EXT_INSTALL_ARGS=gd zip mysqli" >> ${GITHUB_ENV}
         echo "APCU=apcu" >>  ${GITHUB_ENV}
+        echo "FORCE_YES=" >>  ${GITHUB_ENV}
+        echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
+        echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
+
+    # PHP 8.6 以降の公式イメージは mbstring と pecl を含まない
+    # 8.6 は正式リリース前のため RC イメージ (8.6-rc-apache) を使用する
+    - name: Set build arguments (PHP >= 8.6)
+      if: ${{ inputs.php-version >= '8.6' }}
+      shell: 'bash'
+      run: |
+        echo "PHP_VERSION_TAG=${{ inputs.php-version }}-rc" >> ${GITHUB_ENV}
+        echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
+        echo "EXT_INSTALL_ARGS=gd zip mysqli mbstring" >> ${GITHUB_ENV}
+        echo "APCU=" >>  ${GITHUB_ENV}
         echo "FORCE_YES=" >>  ${GITHUB_ENV}
         echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
         echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
@@ -78,7 +103,7 @@ runs:
         cache-from: type=gha,timeout=1m,scope=php-${{ inputs.php-version }}
         cache-to: ${{ inputs.cache-to }}
         build-args: |
-          PHP_VERSION_TAG=${{ inputs.php-version }}
+          PHP_VERSION_TAG=${{ env.PHP_VERSION_TAG }}
           GD_OPTIONS=${{ env.GD_OPTIONS }}
           EXT_INSTALL_ARGS=${{ env.EXT_INSTALL_ARGS }}
           APCU=${{ env.APCU }}
