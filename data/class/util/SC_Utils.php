@@ -1968,10 +1968,9 @@ class SC_Utils
     /**
      * ディレクトリを再帰的に作成する.
      *
-     * mkdir 関数の $recursive パラメーターを PHP4 でサポートする.
-     *
      * @param  string  $pathname ディレクトリのパス
      * @param  int $mode     作成するディレクトリのパーミッション
+     *                       umask の影響を受ける。
      *
      * @return bool 作成に成功した場合 true; 失敗した場合 false
      *
@@ -1979,13 +1978,7 @@ class SC_Utils
      */
     public static function recursiveMkdir($pathname, $mode = 0777)
     {
-        /*
-         * SC_Utils_Ex への再帰は無限ループやメモリリークの懸念
-         * 自クラスへ再帰する.
-         */
-        is_dir(dirname($pathname)) || self::recursiveMkdir(dirname($pathname), $mode);
-
-        return is_dir($pathname) || @mkdir($pathname, $mode);
+        return is_dir($pathname) || @mkdir($pathname, $mode, true);
     }
 
     public static function isAppInnerUrl($url)
