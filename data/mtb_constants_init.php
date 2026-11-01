@@ -109,8 +109,6 @@ SC_Initial_Ex::defineIfNotDefined('MAX_LOG_QUANTITY', 5);
 SC_Initial_Ex::defineIfNotDefined('MAX_LOG_SIZE', "1000000");
 /** トランザクションID の名前 */
 SC_Initial_Ex::defineIfNotDefined('TRANSACTION_ID_NAME', "transactionid");
-/** パスワード忘れの確認メールを送付するか否か。(0:送信しない、1:送信する) */
-SC_Initial_Ex::defineIfNotDefined('FORGOT_MAIL', 0);
 /** 誕生日月ポイント */
 SC_Initial_Ex::defineIfNotDefined('BIRTH_MONTH_POINT', 0);
 /** 拡大画像横 */
@@ -258,6 +256,8 @@ SC_Initial_Ex::defineIfNotDefined('TEL_LEN', 12);
 SC_Initial_Ex::defineIfNotDefined('PASSWORD_MIN_LEN', 8);
 /** フロント画面用：パスワードの最大文字数 */
 SC_Initial_Ex::defineIfNotDefined('PASSWORD_MAX_LEN', SMTEXT_LEN);
+/** パスワードリセットトークンの有効期限(時間) */
+SC_Initial_Ex::defineIfNotDefined('PASSWORD_RESET_TOKEN_EXPIRE_HOURS', 24);
 /** 検査数値用桁数(INT) */
 SC_Initial_Ex::defineIfNotDefined('INT_LEN', 9);
 /** クレジットカードの文字数 (*モジュールで使用) */
