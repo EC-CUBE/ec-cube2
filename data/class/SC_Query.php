@@ -134,7 +134,8 @@ class SC_Query
     {
         $objThis = SC_Query_Ex::getPoolInstance($dsn);
         if (is_null($objThis)) {
-            $objThis = SC_Query_Ex::setPoolInstance(new SC_Query_Ex($dsn, $force_run, $new), $dsn);
+            $objThis = new SC_Query_Ex($dsn, $force_run, $new);
+            SC_Query_Ex::setPoolInstance($objThis, $dsn);
         }
         /*
          * 歴史的な事情で、このメソッドの呼び出し元は参照で受け取る確率がある。

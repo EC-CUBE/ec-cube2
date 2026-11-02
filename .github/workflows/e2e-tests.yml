@@ -43,7 +43,7 @@ jobs:
         # ジョブごとのセットアップ（イメージビルド・compose 起動・fixtures 生成・
         # npm/playwright 準備で約2分）を3回払うのをやめ、ジョブ数を 1/3 にする (refs #1438)
         pattern: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["test:e2e"]') || fromJSON('["test:e2e", "test:e2e-extends"]') }}
-        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
+        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5", "8.6"]') }}
         db: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["mysql", "pgsql", "sqlite3"]') }}
     steps:
     - name: Checkout
@@ -311,7 +311,7 @@ jobs:
       fail-fast: false
       matrix:
         db: ['mysql', 'pgsql']
-        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
+        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5", "8.6"]') }}
         include:
           - db: mysql
             dbport: '3306'

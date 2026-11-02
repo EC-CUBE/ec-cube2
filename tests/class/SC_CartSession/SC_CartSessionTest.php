@@ -346,7 +346,8 @@ class SC_CartSessionTest extends Common_TestCase
         $this->objCartSession->checkProducts(PRODUCT_TYPE_NORMAL);
 
         $use_point = 2053;
-        $result = $this->objCartSession->calculate(PRODUCT_TYPE_NORMAL, new SC_CUstomer_Ex(), $use_point);
+        $objCustomer = new SC_Customer_Ex();
+        $result = $this->objCartSession->calculate(PRODUCT_TYPE_NORMAL, $objCustomer, $use_point);
         $this->assertEquals(186, $result['tax']);
         $this->assertEquals(2052, $result['subtotal']);
         $this->assertEquals(0, $result['deliv_fee']);
