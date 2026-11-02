@@ -21,6 +21,13 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_module_auto_update_flg_not_null | n | NOT NULL auto_update_flg |
+| dtb_module_create_date_not_null | n | NOT NULL create_date |
+| dtb_module_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_module_module_code_not_null | n | NOT NULL module_code |
+| dtb_module_module_id_not_null | n | NOT NULL module_id |
+| dtb_module_module_name_not_null | n | NOT NULL module_name |
+| dtb_module_update_date_not_null | n | NOT NULL update_date |
 | dtb_module_pkey | PRIMARY KEY | PRIMARY KEY (module_id) |
 
 ## Indexes

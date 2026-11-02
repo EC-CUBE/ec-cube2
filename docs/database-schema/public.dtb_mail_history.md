@@ -20,6 +20,9 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_mail_history_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_mail_history_order_id_not_null | n | NOT NULL order_id |
+| dtb_mail_history_send_id_not_null | n | NOT NULL send_id |
 | dtb_mail_history_pkey | PRIMARY KEY | PRIMARY KEY (send_id) |
 
 ## Indexes

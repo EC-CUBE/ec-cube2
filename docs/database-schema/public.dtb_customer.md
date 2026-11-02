@@ -54,6 +54,16 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_customer_create_date_not_null | n | NOT NULL create_date |
+| dtb_customer_customer_id_not_null | n | NOT NULL customer_id |
+| dtb_customer_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_customer_email_not_null | n | NOT NULL email |
+| dtb_customer_name01_not_null | n | NOT NULL name01 |
+| dtb_customer_name02_not_null | n | NOT NULL name02 |
+| dtb_customer_point_not_null | n | NOT NULL point |
+| dtb_customer_secret_key_not_null | n | NOT NULL secret_key |
+| dtb_customer_status_not_null | n | NOT NULL status |
+| dtb_customer_update_date_not_null | n | NOT NULL update_date |
 | dtb_customer_pkey | PRIMARY KEY | PRIMARY KEY (customer_id) |
 | dtb_customer_secret_key_key | UNIQUE | UNIQUE (secret_key) |
 

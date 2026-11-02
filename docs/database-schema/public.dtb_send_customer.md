@@ -18,6 +18,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_send_customer_customer_id_not_null | n | NOT NULL customer_id |
+| dtb_send_customer_send_id_not_null | n | NOT NULL send_id |
 | dtb_send_customer_pkey | PRIMARY KEY | PRIMARY KEY (send_id, customer_id) |
 
 ## Indexes

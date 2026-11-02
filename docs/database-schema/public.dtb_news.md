@@ -25,6 +25,13 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_news_create_date_not_null | n | NOT NULL create_date |
+| dtb_news_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_news_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_news_news_id_not_null | n | NOT NULL news_id |
+| dtb_news_news_select_not_null | n | NOT NULL news_select |
+| dtb_news_news_title_not_null | n | NOT NULL news_title |
+| dtb_news_update_date_not_null | n | NOT NULL update_date |
 | dtb_news_pkey | PRIMARY KEY | PRIMARY KEY (news_id) |
 
 ## Indexes

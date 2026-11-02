@@ -41,6 +41,11 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_shipping_create_date_not_null | n | NOT NULL create_date |
+| dtb_shipping_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_shipping_order_id_not_null | n | NOT NULL order_id |
+| dtb_shipping_shipping_id_not_null | n | NOT NULL shipping_id |
+| dtb_shipping_update_date_not_null | n | NOT NULL update_date |
 | dtb_shipping_pkey | PRIMARY KEY | PRIMARY KEY (order_id, shipping_id) |
 
 ## Indexes

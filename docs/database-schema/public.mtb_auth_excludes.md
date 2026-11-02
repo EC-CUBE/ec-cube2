@@ -16,6 +16,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| mtb_auth_excludes_id_not_null | n | NOT NULL id |
+| mtb_auth_excludes_rank_not_null | n | NOT NULL rank |
 | mtb_auth_excludes_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes
