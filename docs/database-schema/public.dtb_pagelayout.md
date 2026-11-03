@@ -28,6 +28,11 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_pagelayout_create_date_not_null | n | NOT NULL create_date |
+| dtb_pagelayout_device_type_id_not_null | n | NOT NULL device_type_id |
+| dtb_pagelayout_page_id_not_null | n | NOT NULL page_id |
+| dtb_pagelayout_update_date_not_null | n | NOT NULL update_date |
+| dtb_pagelayout_url_not_null | n | NOT NULL url |
 | dtb_pagelayout_pkey | PRIMARY KEY | PRIMARY KEY (device_type_id, page_id) |
 
 ## Indexes

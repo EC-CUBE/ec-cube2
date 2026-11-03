@@ -17,6 +17,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| mtb_constants_id_not_null | n | NOT NULL id |
+| mtb_constants_rank_not_null | n | NOT NULL rank |
 | mtb_constants_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes

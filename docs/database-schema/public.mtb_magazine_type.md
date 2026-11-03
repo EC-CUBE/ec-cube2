@@ -16,6 +16,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| mtb_magazine_type_id_not_null | n | NOT NULL id |
+| mtb_magazine_type_rank_not_null | n | NOT NULL rank |
 | mtb_magazine_type_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes

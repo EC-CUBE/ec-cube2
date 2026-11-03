@@ -31,6 +31,14 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_plugin_class_name_not_null | n | NOT NULL class_name |
+| dtb_plugin_create_date_not_null | n | NOT NULL create_date |
+| dtb_plugin_enable_not_null | n | NOT NULL enable |
+| dtb_plugin_plugin_code_not_null | n | NOT NULL plugin_code |
+| dtb_plugin_plugin_id_not_null | n | NOT NULL plugin_id |
+| dtb_plugin_plugin_name_not_null | n | NOT NULL plugin_name |
+| dtb_plugin_priority_not_null | n | NOT NULL priority |
+| dtb_plugin_update_date_not_null | n | NOT NULL update_date |
 | dtb_plugin_pkey | PRIMARY KEY | PRIMARY KEY (plugin_id) |
 
 ## Indexes

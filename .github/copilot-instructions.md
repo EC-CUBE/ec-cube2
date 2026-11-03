@@ -22,6 +22,7 @@
 - DB 固有の SQL 構文（ILIKE, EXTRACT, CURRENT_TIMESTAMP 等）が
   SC_DB_DBFactory 経由で抽象化されているか
 - 日付・数値型の扱いが DB 間で一貫しているか
+- スキーマ・初期データの変更で、マイグレーション (`data/migrations/`) とインストール用 SQL (`html/install/sql/`) の両方が更新されているか（CONTRIBUTING.md の「データベースの変更」参照）
 
 ### 3. 後方互換性
 - public メソッドのシグネチャ変更がないか
