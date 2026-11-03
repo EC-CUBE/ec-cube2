@@ -107,6 +107,17 @@ jobs:
     uses: ./.github/workflows/rector.yml
   dependency-review:
     uses: ./.github/workflows/dependency-review.yml
+  migration-tests:
+    with:
+      ref_name: ${{ github.ref_name }}
+      base_ref: ${{ github.base_ref }}
+      event_name: ${{ github.event_name }}
+      owner: ${{ github.repository_owner }}
+      use_prebuilt_image: ${{ needs.changes.outputs.docker != 'true' }}
+    needs: [ changes, dockerbuild ]
+    # dockerbuild が changes 判定によりスキップされた場合も実行する
+    if: ${{ !cancelled() && needs.changes.result == 'success' && (needs.dockerbuild.result == 'success' || needs.dockerbuild.result == 'skipped') }}
+    uses: ./.github/workflows/migration-tests.yml
   unit-tests:
     with:
       ref_name: ${{ github.ref_name }}
@@ -137,9 +148,10 @@ jobs:
       - phpstan
       - rector
       - dependency-review
+      - migration-tests
       - unit-tests
       - e2e-tests
     # 祖先の dockerbuild がスキップされると暗黙の success() が false になるため、
     # 直接依存するジョブの結果のみで判定する
-    if: ${{ !cancelled() && needs.php-cs-fixer.result == 'success' && needs.phpstan.result == 'success' && needs.rector.result == 'success' && needs.dependency-review.result == 'success' && needs.unit-tests.result == 'success' && needs.e2e-tests.result == 'success' }}
+    if: ${{ !cancelled() && needs.php-cs-fixer.result == 'success' && needs.phpstan.result == 'success' && needs.rector.result == 'success' && needs.dependency-review.result == 'success' && needs.migration-tests.result == 'success' && needs.unit-tests.result == 'success' && needs.e2e-tests.result == 'success' }}
     uses: ./.github/workflows/success.yml

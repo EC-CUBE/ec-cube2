@@ -16,6 +16,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| mtb_allowed_tag_id_not_null | n | NOT NULL id |
+| mtb_allowed_tag_rank_not_null | n | NOT NULL rank |
 | mtb_allowed_tag_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes

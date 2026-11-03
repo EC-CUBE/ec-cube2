@@ -16,6 +16,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| mtb_customer_order_status_id_not_null | n | NOT NULL id |
+| mtb_customer_order_status_rank_not_null | n | NOT NULL rank |
 | mtb_customer_order_status_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes

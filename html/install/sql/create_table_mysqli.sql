@@ -1243,3 +1243,70 @@ CREATE INDEX dtb_mobile_ext_session_id_param_value_key ON dtb_mobile_ext_session
 CREATE INDEX dtb_mobile_ext_session_id_url_key ON dtb_mobile_ext_session_id (url(255));
 CREATE INDEX dtb_mobile_ext_session_id_create_date_key ON dtb_mobile_ext_session_id (create_date);
 CREATE INDEX dtb_session_update_date_key ON dtb_session (update_date);
+
+CREATE TABLE dtb_migration (
+    migration_id int NOT NULL AUTO_INCREMENT,
+    version varchar(255) NOT NULL,
+    executed_at datetime DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (migration_id),
+    UNIQUE (version)
+);
+
+CREATE TABLE dtb_password_reset (
+    password_reset_id int NOT NULL AUTO_INCREMENT,
+    email text NOT NULL,
+    token_hash text NOT NULL,
+    customer_id int,
+    status smallint NOT NULL DEFAULT 0,
+    expire_date datetime NOT NULL,
+    ip_address text,
+    user_agent text,
+    used_date datetime,
+    create_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (password_reset_id)
+);
+CREATE TABLE dtb_password_reset_password_reset_id_seq (
+    sequence int NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (sequence)
+);
+CREATE INDEX idx_dtb_password_reset_token_hash ON dtb_password_reset (token_hash(255));
+CREATE INDEX idx_dtb_password_reset_email_create_date ON dtb_password_reset (email(255), create_date);
+CREATE INDEX idx_dtb_password_reset_expire_date_status ON dtb_password_reset (expire_date, status);
+
+CREATE TABLE dtb_login_attempt (
+    login_attempt_id int NOT NULL AUTO_INCREMENT,
+    login_id text NOT NULL,
+    ip_address text,
+    user_agent text,
+    result smallint NOT NULL,
+    create_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (login_attempt_id)
+);
+CREATE TABLE dtb_login_attempt_login_attempt_id_seq (
+    sequence int NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (sequence)
+);
+CREATE INDEX idx_login_id_create_date ON dtb_login_attempt (login_id(255), create_date);
+CREATE INDEX idx_ip_create_date ON dtb_login_attempt (ip_address(255), create_date);
+
+CREATE TABLE dtb_mailmaga_unsubscribe_token (
+    mailmaga_unsubscribe_token_id int NOT NULL AUTO_INCREMENT,
+    customer_id int NOT NULL,
+    send_id int NOT NULL,
+    token varchar(64) NOT NULL,
+    email varchar(255) NOT NULL,
+    used_flg smallint NOT NULL DEFAULT 0,
+    used_date datetime,
+    expire_date datetime NOT NULL,
+    create_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (mailmaga_unsubscribe_token_id)
+);
+CREATE TABLE dtb_mailmaga_unsubscribe_token_mailmaga_unsubscribe_token_id_seq (
+    sequence int NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (sequence)
+);
+CREATE UNIQUE INDEX uniq_dtb_mailmaga_unsubscribe_token_token ON dtb_mailmaga_unsubscribe_token (token);
+CREATE INDEX idx_dtb_mailmaga_unsubscribe_token_customer_id ON dtb_mailmaga_unsubscribe_token (customer_id);
+CREATE INDEX idx_dtb_mailmaga_unsubscribe_token_send_id ON dtb_mailmaga_unsubscribe_token (send_id);
+CREATE INDEX idx_dtb_mailmaga_unsubscribe_token_expire_date ON dtb_mailmaga_unsubscribe_token (expire_date);

@@ -170,26 +170,10 @@ switch ($mode) {
             }
         }
 
-        if (count($objPage->arrErr) == 0) {
-            // マイグレーションの実行 (ec-cube2-migration がインストールされている場合)
-            $migrationsPath = HTML_REALDIR . HTML2DATA_DIR . 'migrations';
-            if (class_exists('Eccube2\Migration\Migrator') && is_dir($migrationsPath)) {
-                // マイグレーションで Eccube2\Util\ParameterUtil を使用できるよう、設定ファイルを一時的に生成して読み込む。
-                lfMakeConfigFile(CONFIG_REALFILE.'.tmp');
-                require_once CONFIG_REALFILE.'.tmp';
-                unlink(CONFIG_REALFILE.'.tmp');
-
-                $result = \Eccube2\Migration\Migrator::runFromWebInstaller($arrDsn, $migrationsPath);
-                if ($result['success']) {
-                    $objPage->tpl_message .= '○：マイグレーションに成功しました。<br />';
-                    GC_Utils_Ex::gfPrintLog('Migration: ' . $result['message'], INSTALL_LOG);
-                } else {
-                    $objPage->tpl_message .= '×：マイグレーションに失敗しました。<br />';
-                    $objPage->arrErr['all'] = '>> ' . $result['message'] . '<br />';
-                    GC_Utils_Ex::gfPrintLog('Migration Error: ' . $result['message'], INSTALL_LOG);
-                }
-            }
-        }
+        // マイグレーションで Eccube2\Util\ParameterUtil を使用できるよう、設定ファイルを一時的に生成して読み込む。
+        lfMakeConfigFile(CONFIG_REALFILE.'.tmp');
+        require_once CONFIG_REALFILE.'.tmp';
+        unlink(CONFIG_REALFILE.'.tmp');
 
         if (count($objPage->arrErr) == 0) {
             $objPage = lfDispStep3($objPage);
