@@ -88,7 +88,7 @@ class SC_Product
             $o_col = $this->arrOrderData['col'];
             $o_table = $this->arrOrderData['table'];
             $o_order = $this->arrOrderData['order'];
-            $sub_sql = $objQuery
+            $sub_sql = (clone $objQuery)
                 ->setOrder("T2.$o_col $o_order")
                 ->setLimitOffset(1)
                 ->getSql($o_col, "$o_table AS T2", 'T2.product_id = alldtl.product_id AND T2.del_flg = 0')
