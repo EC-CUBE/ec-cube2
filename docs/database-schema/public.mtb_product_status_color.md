@@ -16,6 +16,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| mtb_product_status_color_id_not_null | n | NOT NULL id |
+| mtb_product_status_color_rank_not_null | n | NOT NULL rank |
 | mtb_product_status_color_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes

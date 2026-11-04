@@ -16,6 +16,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| mtb_job_id_not_null | n | NOT NULL id |
+| mtb_job_rank_not_null | n | NOT NULL rank |
 | mtb_job_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes

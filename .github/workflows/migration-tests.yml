@@ -1,0 +1,100 @@
+name: Migration tests
+run-name: Migration tests
+
+on:
+  workflow_call:
+    inputs:
+      ref_name:
+        required: false
+        type: string
+      base_ref:
+        required: false
+        type: string
+      event_name:
+        required: true
+        type: string
+      owner:
+        required: true
+        type: string
+      use_prebuilt_image:
+        # true の場合、イメージをビルドせず master で build & push 済みの
+        # ghcr.io 公開イメージを利用する (refs #1438)
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  run-on-linux:
+    name: Run on Linux
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '8.4' ]
+        db: [ mysql, pgsql, sqlite3 ]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+    - name: Fetch base version
+      run: git fetch --no-tags origin +refs/tags/eccube-2.25.0:refs/tags/eccube-2.25.0
+
+    - name: Build docker image
+      if: ${{ !inputs.use_prebuilt_image }}
+      uses: ./.github/actions/dockerbuild
+      with:
+        php-version: ${{ matrix.php }}
+
+    - name: Setup environment
+      env:
+        REF_NAME: ${{ inputs.ref_name }}
+        BASE_REF: ${{ inputs.base_ref }}
+        EVENT_NAME: ${{ inputs.event_name }}
+        OWNER: ${{ inputs.owner }}
+        USE_PREBUILT_IMAGE: ${{ inputs.use_prebuilt_image }}
+        DB: ${{ matrix.db }}
+        PHP: ${{ matrix.php }}
+      run: |
+        echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
+        echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
+        if [ "$USE_PREBUILT_IMAGE" = "true" ]; then
+          echo "TAG=${PHP}-apache" >> $GITHUB_ENV
+        elif [ $EVENT_NAME = "pull_request" ]; then
+          if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
+            echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
+          else
+            echo "TAG=${PHP}-apache-${BASE_REF}" >> $GITHUB_ENV
+          fi
+        else
+          echo "TAG=${PHP}-apache-${REF_NAME}" >> $GITHUB_ENV
+        fi
+    - run: |
+        docker compose up -d --wait
+        while [ ! -e "data/config/config.php" ]
+        do
+            printf "."
+            sleep 1
+        done
+        docker compose exec -T ec-cube composer dumpautoload
+
+    - name: Run to migration tests
+      env:
+        DB: ${{ matrix.db }}
+        OUT_DIR: ${{ runner.temp }}/migration-tests
+      run: |
+        mkdir -p "${OUT_DIR}"
+        .github/scripts/test-migration.sh "${DB}"
+
+    - name: Upload results
+      if: failure()
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      with:
+        name: migration-tests-${{ matrix.db }}
+        path: ${{ runner.temp }}/migration-tests
+
+    - if: failure()
+      run: docker compose logs -n 200

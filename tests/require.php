@@ -1,5 +1,13 @@
 <?php
 
+// AUTH_TYPE は定数のため, 一度定義されるとテスト内で切り替えられない.
+// PLAIN 前提のテスト (@group auth_type_plain) は @runTestsInSeparateProcesses で子プロセスを起動し,
+// 環境変数 ECCUBE_TEST_AUTH_TYPE 経由でこの bootstrap の時点で AUTH_TYPE を定義する.
+// see tests/class/util/SC_Utils/SC_Utils_AuthTypePlain_TestBase.php
+if (!defined('AUTH_TYPE') && getenv('ECCUBE_TEST_AUTH_TYPE') !== false) {
+    define('AUTH_TYPE', getenv('ECCUBE_TEST_AUTH_TYPE'));
+}
+
 $loader = require __DIR__.'/../data/vendor/autoload.php';
 
 /* テスト中 */

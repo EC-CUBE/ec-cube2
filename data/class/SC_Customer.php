@@ -65,6 +65,13 @@ class SC_Customer
 
         // パスワードが合っていれば会員情報をcustomer_dataにセットしてtrueを返す
         if (SC_Utils_Ex::sfIsMatchHashPassword($pass, $data['password'], $data['salt'])) {
+            // パスワードハッシュの自動マイグレーション
+            if (SC_Utils_Ex::sfNeedsReHash($data['password'], $data['salt'])) {
+                $arrNewHash = SC_Utils_Ex::sfReHashPassword($pass);
+                $objQuery->update('dtb_customer', $arrNewHash, 'customer_id = ?', [$data['customer_id']]);
+                $data['password'] = $arrNewHash['password'];
+                $data['salt'] = $arrNewHash['salt'];
+            }
             $this->customer_data = $data;
             $this->startSession();
 
@@ -132,6 +139,13 @@ class SC_Customer
 
         // パスワードが合っている場合は、会員情報をcustomer_dataに格納してtrueを返す。
         if (SC_Utils_Ex::sfIsMatchHashPassword($pass, $data['password'], $data['salt'])) {
+            // パスワードハッシュの自動マイグレーション
+            if (SC_Utils_Ex::sfNeedsReHash($data['password'], $data['salt'])) {
+                $arrNewHash = SC_Utils_Ex::sfReHashPassword($pass);
+                $objQuery->update('dtb_customer', $arrNewHash, 'customer_id = ?', [$data['customer_id']]);
+                $data['password'] = $arrNewHash['password'];
+                $data['salt'] = $arrNewHash['salt'];
+            }
             $this->customer_data = $data;
             $this->startSession();
 

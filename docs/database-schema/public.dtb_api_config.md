@@ -23,6 +23,14 @@ API設定
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_api_config_api_config_id_not_null | n | NOT NULL api_config_id |
+| dtb_api_config_auth_types_not_null | n | NOT NULL auth_types |
+| dtb_api_config_create_date_not_null | n | NOT NULL create_date |
+| dtb_api_config_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_api_config_enable_not_null | n | NOT NULL enable |
+| dtb_api_config_is_log_not_null | n | NOT NULL is_log |
+| dtb_api_config_operation_name_not_null | n | NOT NULL operation_name |
+| dtb_api_config_update_date_not_null | n | NOT NULL update_date |
 | dtb_api_config_pkey | PRIMARY KEY | PRIMARY KEY (api_config_id) |
 
 ## Indexes

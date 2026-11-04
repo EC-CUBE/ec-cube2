@@ -20,6 +20,20 @@ class SC_Product_Ex extends SC_Product
 }
 ```
 
+## `*_Ex.php` の配置場所
+
+`*_Ex.php` は、元クラスの [data/class](../class/) からの相対ディレクトリに合わせて配置します。
+先頭のディレクトリ名には `_extends` を付けます (`pages` のみ `page_extends` になります)。
+
+| 元クラス | `*_Ex.php` の配置場所 |
+|---|---|
+| `data/class/SC_Product.php` | `data/class_extends/SC_Product_Ex.php` |
+| `data/class/helper/SC_Helper_Purchase.php` | `data/class_extends/helper_extends/SC_Helper_Purchase_Ex.php` |
+| `data/class/pages/mypage/LC_Page_AbstractMypage.php` | `data/class_extends/page_extends/mypage/LC_Page_AbstractMypage_Ex.php` |
+| `data/class/pages/admin/order/LC_Page_Admin_Order_Edit.php` | `data/class_extends/page_extends/admin/order/LC_Page_Admin_Order_Edit_Ex.php` |
+
+`*_Ex.php` が存在しない場合、 `*_Ex` クラスは元クラスのエイリアスになります。
+
 ## 作成済みの `*_Ex.php` ファイル
 
 EC-CUBE2.17.2 までは、 [data/class](../class/) 以下すべてのクラスの拡張カスタマイズ用クラスが作成されていました。

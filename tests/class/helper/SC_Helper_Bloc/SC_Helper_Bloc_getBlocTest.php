@@ -73,4 +73,11 @@ class SC_Helper_Bloc_getBlocTest extends SC_Helper_Bloc_TestBase
 
         $this->assertEquals('test_bloc.tpl', $result['tpl_path']);
     }
+
+    protected function tearDown(): void
+    {
+        $this->deleteBlocFile('header_bloc.tpl');
+
+        parent::tearDown();
+    }
 }

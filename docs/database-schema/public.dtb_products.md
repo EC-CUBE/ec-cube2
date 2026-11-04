@@ -58,6 +58,13 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_products_create_date_not_null | n | NOT NULL create_date |
+| dtb_products_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_products_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_products_name_not_null | n | NOT NULL name |
+| dtb_products_product_id_not_null | n | NOT NULL product_id |
+| dtb_products_status_not_null | n | NOT NULL status |
+| dtb_products_update_date_not_null | n | NOT NULL update_date |
 | dtb_products_pkey | PRIMARY KEY | PRIMARY KEY (product_id) |
 
 ## Indexes

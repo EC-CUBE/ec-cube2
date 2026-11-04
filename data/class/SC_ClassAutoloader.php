@@ -40,35 +40,42 @@ class SC_ClassAutoloader
         $arrClassNamePart = explode('_', $class);
         $is_ex = end($arrClassNamePart) === 'Ex';
         $count = count($arrClassNamePart);
-        $classpath = $is_ex ? CLASS_EX_REALDIR : CLASS_REALDIR;
 
-        if (($arrClassNamePart[0] === 'GC' || $arrClassNamePart[0] === 'SC') && $arrClassNamePart[1] === 'Utils') {
-            $classpath .= $is_ex ? 'util_extends/' : 'util/';
-        } elseif (($arrClassNamePart[0] === 'SC' || $arrClassNamePart[0] === 'LC') && $is_ex === true && $count >= 4) {
-            $arrClassNamePartTemp = $arrClassNamePart;
-            // FIXME クラスファイルのディレクトリ命名が変。変な現状に合わせて強引な処理をしてる。
-            $arrClassNamePartTemp[1] .= '_extends';
-            if ($count <= 5 && $arrClassNamePart[2] === 'Admin' && !in_array($arrClassNamePart[3], ['Home', 'Index', 'Logout'])) {
-                $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -1))).'/';
-            } else {
-                if ($count === 4 && $arrClassNamePart[2] != 'Index' && $arrClassNamePart[3] === 'Ex') {
+        // *_Ex クラスは元クラスの実ファイル位置から導出する
+        $classpath = $is_ex ? static::getExClassPath($class) : null;
+
+        if ($classpath === null) {
+            $classpath = $is_ex ? CLASS_EX_REALDIR : CLASS_REALDIR;
+
+            if (($arrClassNamePart[0] === 'GC' || $arrClassNamePart[0] === 'SC') && $arrClassNamePart[1] === 'Utils') {
+                $classpath .= $is_ex ? 'util_extends/' : 'util/';
+            } elseif (($arrClassNamePart[0] === 'SC' || $arrClassNamePart[0] === 'LC') && $is_ex === true && $count >= 4) {
+                // 元クラスの位置を特定できない *_Ex クラス向けのフォールバック
+                $arrClassNamePartTemp = $arrClassNamePart;
+                // FIXME クラスファイルのディレクトリ命名が変。変な現状に合わせて強引な処理をしてる。
+                $arrClassNamePartTemp[1] .= '_extends';
+                if ($count <= 5 && $arrClassNamePart[2] === 'Admin' && !in_array($arrClassNamePart[3], ['Home', 'Index', 'Logout'])) {
                     $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -1))).'/';
                 } else {
-                    $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -2))).'/';
+                    if ($count === 4 && $arrClassNamePart[2] != 'Index' && $arrClassNamePart[3] === 'Ex') {
+                        $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -1))).'/';
+                    } else {
+                        $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -2))).'/';
+                    }
                 }
+            } elseif ($arrClassNamePart[0] === 'SC' && $is_ex === false && $count >= 3) {
+                $classpath .= strtolower(implode('/', array_slice($arrClassNamePart, 1, -1))).'/';
+            } elseif ($arrClassNamePart[0] === 'SC') {
+                // 処理なし
+            } else {
+                // PEAR用
+                // FIXME トリッキー
+                $classpath = '';
+                $class = str_replace('_', '/', $class);
             }
-        } elseif ($arrClassNamePart[0] === 'SC' && $is_ex === false && $count >= 3) {
-            $classpath .= strtolower(implode('/', array_slice($arrClassNamePart, 1, -1))).'/';
-        } elseif ($arrClassNamePart[0] === 'SC') {
-            // 処理なし
-        } else {
-            // PEAR用
-            // FIXME トリッキー
-            $classpath = '';
-            $class = str_replace('_', '/', $class);
-        }
 
-        $classpath .= "$class.php";
+            $classpath .= "$class.php";
+        }
 
         // プラグイン向けフックポイント
         // MEMO: プラグインのローダーがDB接続を必要とするため、SC_Queryがロードされた後のみ呼び出される。
@@ -160,5 +167,48 @@ class SC_ClassAutoloader
                 }
             }
         }
+    }
+
+    /**
+     * 元クラスの実ファイル位置から *_Ex クラスのファイルパスを導出する
+     *
+     * data/class/<dir>/.../Foo.php に対して data/class_extends/<dir>_extends/.../Foo_Ex.php を返す.
+     * ただし data/class/pages に対応するディレクトリは data/class_extends/page_extends となる.
+     *
+     * @param string $class *_Ex クラス名
+     *
+     * @return string|null *_Ex クラスのファイルパス. 元クラスが CLASS_REALDIR 以下に存在しない場合は null
+     */
+    public static function getExClassPath($class)
+    {
+        $base_class = preg_replace('/_Ex$/', '', $class);
+        // *_Ex クラスは元クラスを継承するため, 先に元クラスをロードしても差し支えない
+        if ($base_class === $class || !class_exists($base_class)) {
+            return null;
+        }
+
+        $base_file = (new ReflectionClass($base_class))->getFileName();
+        // eval() で定義されたクラスなど, ファイルの実体が無い場合は導出しない
+        $base_realpath = $base_file === false ? false : realpath($base_file);
+        $class_realdir = realpath(CLASS_REALDIR);
+        if ($base_realpath === false || $class_realdir === false) {
+            return null;
+        }
+
+        $base_dir = str_replace('\\', '/', dirname($base_realpath)).'/';
+        $class_realdir = rtrim(str_replace('\\', '/', $class_realdir), '/').'/';
+        if (!str_starts_with($base_dir, $class_realdir)) {
+            return null;
+        }
+
+        $arrDir = array_filter(explode('/', substr($base_dir, strlen($class_realdir))), 'strlen');
+        $dir = '';
+        if ($arrDir !== []) {
+            $arrDir = array_values($arrDir);
+            $arrDir[0] = ($arrDir[0] === 'pages' ? 'page' : $arrDir[0]).'_extends';
+            $dir = implode('/', $arrDir).'/';
+        }
+
+        return CLASS_EX_REALDIR.$dir.$class.'.php';
     }
 }

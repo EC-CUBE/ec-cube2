@@ -95,7 +95,7 @@ class SC_Initial
                 define('ADMIN_FORCE_SSL', '');
                 define('ADMIN_ALLOW_HOSTS', '');
                 define('AUTH_MAGIC', '');
-                define('PASSWORD_HASH_ALGOS', 'sha256');
+                define('PASSWORD_HASH_ALGOS', PASSWORD_DEFAULT);
                 define('MAIL_BACKEND', 'mail');
                 define('SMTP_HOST', '');
                 define('SMTP_PORT', '');
@@ -484,8 +484,8 @@ class SC_Initial
     /**
      * 指定された名前の定数が存在しない場合、指定された値で定義
      *
-     * @param  string $name  定数の名前。
-     * @param  string  $value 定数の値。
+     * @param string $name 定数の名前。
+     * @param ?scalar $value 定数の値。
      *
      * @return void
      */

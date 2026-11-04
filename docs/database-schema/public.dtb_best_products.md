@@ -23,6 +23,14 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_best_products_best_id_not_null | n | NOT NULL best_id |
+| dtb_best_products_category_id_not_null | n | NOT NULL category_id |
+| dtb_best_products_create_date_not_null | n | NOT NULL create_date |
+| dtb_best_products_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_best_products_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_best_products_product_id_not_null | n | NOT NULL product_id |
+| dtb_best_products_rank_not_null | n | NOT NULL rank |
+| dtb_best_products_update_date_not_null | n | NOT NULL update_date |
 | dtb_best_products_pkey | PRIMARY KEY | PRIMARY KEY (best_id) |
 
 ## Indexes

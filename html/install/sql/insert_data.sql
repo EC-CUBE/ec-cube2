@@ -729,6 +729,11 @@ INSERT INTO dtb_templates (template_code, device_type_id, template_name, create_
 INSERT INTO dtb_templates (template_code, device_type_id, template_name, create_date, update_date) VALUES ('sphone', 2, 'スマートフォン', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO dtb_templates (template_code, device_type_id, template_name, create_date, update_date) VALUES ('default', 2, 'PCデフォルト (レスポンシブWebデザイン)', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
+INSERT INTO dtb_migration (version) VALUES ('20260130000001');
+INSERT INTO dtb_migration (version) VALUES ('20260401000001');
+INSERT INTO dtb_migration (version) VALUES ('20260401000002');
+INSERT INTO dtb_migration (version) VALUES ('20260928000001');
+
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (0, 'table', 0);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (1, 'tr', 1);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (2, 'td', 2);
@@ -1566,4 +1571,3 @@ INSERT INTO mtb_country (id, name, rank) VALUES (426,'レソト',246);
 INSERT INTO mtb_country (id, name, rank) VALUES (422,'レバノン',247);
 INSERT INTO mtb_country (id, name, rank) VALUES (638,'レユニオン',248);
 INSERT INTO mtb_country (id, name, rank) VALUES (643,'ロシア|ロシア連邦',249);
-

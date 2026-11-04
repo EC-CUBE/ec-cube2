@@ -16,6 +16,12 @@ on:
       owner:
         required: true
         type: string
+      use_prebuilt_image:
+        # true の場合、イメージをビルドせず master で build & push 済みの
+        # ghcr.io 公開イメージを利用する (refs #1438)
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -36,6 +42,7 @@ jobs:
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
     - name: Build docker image
+      if: ${{ !inputs.use_prebuilt_image }}
       uses: ./.github/actions/dockerbuild
       with:
         php-version: ${{ matrix.php }}
@@ -51,12 +58,15 @@ jobs:
         BASE_REF: ${{ inputs.base_ref }}
         EVENT_NAME: ${{ inputs.event_name }}
         OWNER: ${{ inputs.owner }}
+        USE_PREBUILT_IMAGE: ${{ inputs.use_prebuilt_image }}
         DB: ${{ matrix.db }}
         PHP: ${{ matrix.php }}
       run: |
         echo "COMPOSE_FILE=docker-compose.yml:docker-compose.${DB}.yml:docker-compose.dev.yml" >> $GITHUB_ENV
         echo "IMAGE_NAME=${OWNER,,}/ec-cube2-php" >> $GITHUB_ENV
-        if [ $EVENT_NAME = "pull_request" ]; then
+        if [ "$USE_PREBUILT_IMAGE" = "true" ]; then
+          echo "TAG=${PHP}-apache" >> $GITHUB_ENV
+        elif [ $EVENT_NAME = "pull_request" ]; then
           if [ -n $DOCKER_METADATA_OUTPUT_VERSION ]; then
             echo "TAG=${DOCKER_METADATA_OUTPUT_VERSION}" >> $GITHUB_ENV
           else

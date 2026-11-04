@@ -5,146 +5,126 @@ require_once __DIR__.'/Common_TestCase.php';
 /**
  * SC_ClassAutoloader のテストクラス
  *
- * オートローダーが生成するパスと実際のファイル配置の整合性を検証
+ * オートローダーが生成するパスと *_Ex ファイルの配置の整合性を検証
  * 関連issue: https://github.com/EC-CUBE/ec-cube2/issues/1268
+ *            https://github.com/EC-CUBE/ec-cube2/issues/1429
  */
 class SC_ClassAutoloaderTest extends Common_TestCase
 {
     /**
-     * 実際に存在する_Exファイルのリストを取得
+     * EC-CUBE 2.17.2 までの *_Ex ファイル一式を収録したパッケージ
+     */
+    public const CLASS_EXTENDS_STUBS_DIR = 'vendor/nanasess/ec-cube2-class-extends-stubs/data/class_extends/';
+
+    /**
+     * *_Ex クラスのパスが元クラスの配置から正しく導出されるかテスト
+     *
+     * @dataProvider exClassProvider
+     *
+     * @group classloader
+     *
+     * @param string $className
+     * @param string $relativePath CLASS_EX_REALDIR からの相対パス
+     */
+    public function testGetExClassPath($className, $relativePath)
+    {
+        $this->assertSame(CLASS_EX_REALDIR.$relativePath, SC_ClassAutoloader_Ex::getExClassPath($className));
+    }
+
+    /**
+     * 元クラスが data/class 以下に存在する *_Ex クラスのデータプロバイダー
      *
      * @return array
      */
-    protected function getExistingExFiles()
+    public static function exClassProvider()
     {
-        $classExtendsDir = CLASS_EX_REALDIR;
+        $stubsDir = DATA_REALDIR.self::CLASS_EXTENDS_STUBS_DIR;
         $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($classExtendsDir, RecursiveDirectoryIterator::SKIP_DOTS)
+            new RecursiveDirectoryIterator($stubsDir, RecursiveDirectoryIterator::SKIP_DOTS)
         );
 
-        $exFiles = [];
+        $classes = [];
         foreach ($iterator as $file) {
-            if ($file->isFile() && $file->getExtension() === 'php' && str_ends_with($file->getBasename('.php'), '_Ex')) {
-                // ファイル名（.phpを除く）をクラス名として使用
-                $className = $file->getBasename('.php');
-                $exFiles[$className] = $file->getPathname();
+            $className = $file->getBasename('.php');
+            if (!$file->isFile() || $file->getExtension() !== 'php' || !str_ends_with($className, '_Ex')) {
+                continue;
             }
+            // 元クラスが削除済みのもの (LC_Page_Admin_System_Editdb_Ex など) や API 用のクラスは対象外
+            $baseClassName = preg_replace('/_Ex$/', '', $className);
+            if (!class_exists($baseClassName)) {
+                continue;
+            }
+            $relativePath = str_replace('\\', '/', substr($file->getPathname(), strlen($stubsDir)));
+            $classes[$className] = [$className, $relativePath];
         }
+        ksort($classes);
 
-        return $exFiles;
+        return $classes;
     }
 
     /**
-     * オートローダーが生成するパスを計算
-     *
-     * SC_ClassAutoloader::autoload()のパス生成ロジックを再現
-     *
-     * @param string $class クラス名
-     *
-     * @return string 生成されるパス
-     */
-    protected function calculateAutoloaderPath($class)
-    {
-        $arrClassNamePart = explode('_', $class);
-        $is_ex = end($arrClassNamePart) === 'Ex';
-        $count = count($arrClassNamePart);
-        $classpath = $is_ex ? CLASS_EX_REALDIR : CLASS_REALDIR;
-
-        if (($arrClassNamePart[0] === 'GC' || $arrClassNamePart[0] === 'SC') && $arrClassNamePart[1] === 'Utils') {
-            $classpath .= $is_ex ? 'util_extends/' : 'util/';
-        } elseif (($arrClassNamePart[0] === 'SC' || $arrClassNamePart[0] === 'LC') && $is_ex === true && $count >= 4) {
-            $arrClassNamePartTemp = $arrClassNamePart;
-            $arrClassNamePartTemp[1] .= '_extends';
-            if ($count <= 5 && $arrClassNamePart[2] === 'Admin' && !in_array($arrClassNamePart[3], ['Home', 'Index', 'Logout'])) {
-                $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -1))).'/';
-            } else {
-                if ($count === 4 && $arrClassNamePart[2] != 'Index' && $arrClassNamePart[3] === 'Ex') {
-                    $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -1))).'/';
-                } else {
-                    $classpath .= strtolower(implode('/', array_slice($arrClassNamePartTemp, 1, -2))).'/';
-                }
-            }
-        } elseif ($arrClassNamePart[0] === 'SC' && $is_ex === false && $count >= 3) {
-            $classpath .= strtolower(implode('/', array_slice($arrClassNamePart, 1, -1))).'/';
-        }
-
-        $classpath .= "$class.php";
-
-        return $classpath;
-    }
-
-    /**
-     * オートローダーのパス生成と実際のファイル配置が一致するかテスト
-     *
-     * 既知の問題（issue #1268）により、一部のファイルで不整合が存在します。
-     * このテストは不整合を検出して記録しますが、テストは成功扱いとします。
-     * 将来的に不整合が修正されれば、このテストで確認できます。
+     * 元クラスが存在しない場合はパスを導出しないことをテスト
      *
      * @group classloader
      */
-    public function testAutoloaderPathConsistency()
+    public function testGetExClassPathWithoutBaseClass()
     {
-        $exFiles = $this->getExistingExFiles();
-        $mismatches = [];
+        $this->assertNull(SC_ClassAutoloader_Ex::getExClassPath('SC_NotExistsClass_Ex'));
+        $this->assertNull(SC_ClassAutoloader_Ex::getExClassPath('SC_Product'));
+    }
 
-        foreach ($exFiles as $className => $actualPath) {
-            $expectedPath = $this->calculateAutoloaderPath($className);
+    /**
+     * data/class_extends に配置した *_Ex ファイルがロードされるかテスト
+     *
+     * 2.25.0 では helper_extends/purchase/SC_Helper_Purchase_Ex.php を探してしまい,
+     * 配置したファイルが無視されて元クラスのエイリアスになっていた
+     *
+     * @runInSeparateProcess
+     *
+     * @preserveGlobalState disabled
+     *
+     * @group classloader
+     */
+    public function testLoadPlacedExClass()
+    {
+        $className = 'SC_Helper_Purchase_Ex';
+        $path = CLASS_EX_REALDIR.'helper_extends/'.$className.'.php';
+        $this->assertFileDoesNotExist($path);
+        $this->assertFalse(class_exists($className, false), sprintf('%s はロード前であること', $className));
 
-            if ($expectedPath !== $actualPath) {
-                $mismatches[] = [
-                    'class' => $className,
-                    'expected' => str_replace(CLASS_EX_REALDIR, 'class_extends/', $expectedPath),
-                    'actual' => str_replace(CLASS_EX_REALDIR, 'class_extends/', $actualPath),
-                ];
-            }
+        file_put_contents($path, '<?php class SC_Helper_Purchase_Ex extends SC_Helper_Purchase { const PLACED = true; }');
+        try {
+            $refClass = new ReflectionClass($className);
+        } finally {
+            unlink($path);
         }
 
-        // 既知の不整合（issue #1268）
-        $knownMismatches = [
-            'SC_Helper_Plugin_Ex',
-            'SC_Plugin_Util_Ex',
-            'LC_Page_AbstractMypage_Ex',
-            'LC_Page_Ex',
-        ];
+        $this->assertSame($className, $refClass->getName(), '元クラスのエイリアスではないこと');
+        $this->assertTrue(constant($className.'::PLACED'));
+    }
 
-        $unexpectedMismatches = [];
-        foreach ($mismatches as $mismatch) {
-            if (!in_array($mismatch['class'], $knownMismatches)) {
-                $unexpectedMismatches[] = $mismatch;
-            }
-        }
+    /**
+     * 同梱の LC_Page_AbstractMypage_Ex がロードされ, require_once しても再宣言にならないかテスト
+     *
+     * @see https://github.com/EC-CUBE/ec-cube2/issues/1429
+     *
+     * @runInSeparateProcess
+     *
+     * @preserveGlobalState disabled
+     *
+     * @group classloader
+     */
+    public function testLoadAbstractMypageEx()
+    {
+        $className = 'LC_Page_AbstractMypage_Ex';
+        $path = CLASS_EX_REALDIR.'page_extends/mypage/'.$className.'.php';
 
-        if (!empty($unexpectedMismatches)) {
-            $message = "新しい不整合が見つかりました（既知の問題以外）:\n\n";
-            foreach ($unexpectedMismatches as $mismatch) {
-                $message .= sprintf(
-                    "クラス: %s\n  期待: %s\n  実際: %s\n\n",
-                    $mismatch['class'],
-                    $mismatch['expected'],
-                    $mismatch['actual']
-                );
-            }
-            $this->fail($message);
-        }
+        $refClass = new ReflectionClass($className);
+        $this->assertSame($className, $refClass->getName(), '元クラスのエイリアスではないこと');
+        $this->assertSame(realpath($path), realpath($refClass->getFileName()));
 
-        // 既知の不整合をログに記録（テストは成功）
-        if (!empty($mismatches)) {
-            $message = sprintf(
-                "既知の不整合（issue #1268）が %d 個検出されました: %s\n",
-                count($mismatches),
-                implode(', ', array_column($mismatches, 'class'))
-            );
-            fwrite(STDERR, $message);
-        }
-
-        $this->assertTrue(
-            true,
-            sprintf(
-                '全 %d 個の_Exファイルを検証しました（既知の不整合: %d 個）',
-                count($exFiles),
-                count($mismatches)
-            )
-        );
+        // 決済モジュール等で require_once されても再宣言にならない
+        require_once $path;
     }
 
     /**
