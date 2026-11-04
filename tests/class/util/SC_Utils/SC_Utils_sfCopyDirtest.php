@@ -177,6 +177,7 @@ class SC_Utils_sfCopyDirTest extends Common_TestCase
         $fp = fopen($test_file, 'w');
         fwrite($fp, 'good morning');
         fclose($fp);
+        $original_perms = fileperms($test_file);
         chmod($test_file, 0444); // いったん読取専用にする
 
         $src = self::$TMP_DIR.'/src/';
@@ -193,7 +194,7 @@ class SC_Utils_sfCopyDirTest extends Common_TestCase
         $fp = fopen($test_file, 'r');
         $this->actual['file_content'] = fread($fp, 100);
 
-        chmod($test_file, 0777); // verifyする前にパーミッションを戻す
+        chmod($test_file, $original_perms); // verifyする前にパーミッションを戻す
         $this->verify();
     }
 
