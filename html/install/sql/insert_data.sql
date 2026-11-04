@@ -732,6 +732,7 @@ INSERT INTO dtb_templates (template_code, device_type_id, template_name, create_
 INSERT INTO dtb_migration (version) VALUES ('20260130000001');
 INSERT INTO dtb_migration (version) VALUES ('20260401000001');
 INSERT INTO dtb_migration (version) VALUES ('20260401000002');
+INSERT INTO dtb_migration (version) VALUES ('20260714000001');
 INSERT INTO dtb_migration (version) VALUES ('20260928000001');
 
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (0, 'table', 0);
