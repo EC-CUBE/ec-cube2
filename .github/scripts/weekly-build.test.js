@@ -136,6 +136,15 @@ test('prepareWeekly は BC Break を前回 weekly 以降と累積に分ける', 
   assert.ok(r.body.includes('notes since eccube-2.25.0'));
 });
 
+test('prepareWeekly はパス区切りや引用符を含むタグ名を拒否する', async () => {
+  for (const tagName of ['foo/bar', 'a"b', '../x', 'a b']) {
+    await assert.rejects(
+      prepareWeekly({ github: mockGithub(fixture), context: context('c3'), now, inputs: { tagName } }),
+      /タグ名の形式が不正/,
+    );
+  }
+});
+
 test('prepareWeekly は公開済みの同名タグがあればエラーにする', async () => {
   await assert.rejects(
     prepareWeekly({ github: mockGithub(fixture), context: context('c3'), now, inputs: { tagName: 'eccube2-weekly-20260929' } }),

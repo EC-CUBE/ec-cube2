@@ -18,6 +18,9 @@ const ARCHIVE_EXTS = ['tar.gz', 'zip'];
 const CHECKSUM_ALGOS = ['md5', 'sha1', 'sha256'];
 // GitHub のリリース本文の上限は 125,000 文字。余裕を持たせる
 const MAX_BODY_LENGTH = 120000;
+// タグ名は成果物のファイル名と本文の href に使うため、パス区切りや引用符を含めない
+// (deploy.yml の Packaging ステップでも同じ形式を検証している)
+const TAG_NAME_PATTERN = /^[0-9A-Za-z._-]+$/;
 
 const BODY_HEADER = [
   'EC-CUBE 2.25系の Weekly build🚀 です。毎週の改善内容を反映しております。',
@@ -185,6 +188,9 @@ async function prepareWeekly({ github, context, inputs = {}, now = new Date() })
   // schedule はデフォルトブランチの HEAD、workflow_dispatch は選択したブランチの HEAD
   const headSha = context.sha;
   const tagName = inputs.tagName || `${WEEKLY_PREFIX}${jstDateString(now)}`;
+  if (!TAG_NAME_PATTERN.test(tagName)) {
+    throw new Error(`タグ名の形式が不正です (英数字と . _ - のみ使用できます): ${JSON.stringify(tagName)}`);
+  }
 
   let latestRelease = null;
   try {

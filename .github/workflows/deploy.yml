@@ -82,6 +82,11 @@ jobs:
           TAG_NAME: ${{ github.event_name == 'release' && github.event.release.tag_name || steps.prepare.outputs.tag-name }}
         run: |
           set -euo pipefail
+          # タグ名は成果物のファイル名に使うため、パス区切り等を含むものは拒否する
+          if [[ ! "${TAG_NAME}" =~ ^[0-9A-Za-z._-]+$ ]]; then
+            echo "::error::タグ名の形式が不正です (英数字と . _ - のみ使用できます): ${TAG_NAME}"
+            exit 1
+          fi
           # 作業ディレクトリは後続のステップで使うため、コピーしてから不要なファイルを削除する
           BUILD_DIR="${RUNNER_TEMP}/build"
           DIST_DIR="${RUNNER_TEMP}/dist"
