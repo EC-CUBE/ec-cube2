@@ -82,7 +82,6 @@ jobs:
             type=ref,event=tag,prefix=${{ matrix.php }}-apache-
             type=ref,event=pr,prefix=${{ matrix.php }}-apache-pr-
             type=match,prefix=${{ matrix.php }}-apache-,pattern=eccube-(.*),group=1
-            type=match,prefix=${{ matrix.php }}-apache-,pattern=eccube2-weekly-(.*),group=1
 
       - name: Build and export to Docker
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
