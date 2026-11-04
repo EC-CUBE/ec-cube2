@@ -51,6 +51,7 @@ class SC_Initial
         $this->defineDirectoryIndex();
         $this->defineConstants();
         $this->defineParameter();           // defineDirectoryIndex メソッドより後で実行
+        SC_Helper_HandleError_Ex::load();   // defineConstants メソッドより後で実行
         $this->complementParameter();       // defineConstants メソッドより後で実行
         $this->phpconfigInit();             // defineConstants メソッドより後で実行
         $this->createCacheDir();            // defineConstants メソッドより後で実行

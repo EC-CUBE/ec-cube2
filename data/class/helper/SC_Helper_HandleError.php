@@ -34,9 +34,6 @@ class SC_Helper_HandleError
     /** エラー処理中か */
     public static $under_error_handling = false;
 
-    /** display_errors の初期値 */
-    public static $default_display_errors;
-
     /**
      * 処理の読み込みを行う
      *
@@ -53,8 +50,6 @@ class SC_Helper_HandleError
         // エラーレベル設定 (PHPのログに対する指定であり、以降のエラーハンドリングには影響しない模様)
         // 開発時は -1 (全て) を推奨
         error_reporting(E_ALL & ~E_NOTICE & ~E_USER_NOTICE);
-
-        static::$default_display_errors = ini_get('display_errors');
 
         if (!(defined('SAFE') && SAFE === true) && !(defined('INSTALL_FUNCTION') && INSTALL_FUNCTION === true)) {
             // E_USER_ERROR または警告を捕捉した場合のエラーハンドラ
@@ -98,23 +93,10 @@ class SC_Helper_HandleError
             return;
         }
 
-        // パラメーターが読み込まれるまでは、PHP 標準のエラー処理とする。
-        if (!defined('ERROR_LOG_REALFILE')) {
-            return false;
-        }
-
         $error_type_name = GC_Utils_Ex::getErrorTypeName($errno);
 
         switch ($errno) {
             case E_USER_ERROR:
-                // パラメーターが読み込まれるまでは、エラー例外をスローする。(上の分岐があるため phpunit の実行中に限定される。)
-                if (!defined('ERROR_LOG_REALFILE')) {
-                    if (!headers_sent()) {
-                        ini_set('display_errors', static::$default_display_errors);
-                    }
-                    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-                }
-
                 $message = "Fatal error($error_type_name): $errstr on [$errfile($errline)]";
                 GC_Utils_Ex::gfPrintLog($message, ERROR_LOG_REALFILE, true);
 
@@ -126,10 +108,8 @@ class SC_Helper_HandleError
             case E_USER_WARNING:
             case E_CORE_WARNING:
             case E_COMPILE_WARNING:
-                if (defined('ERROR_LOG_REALFILE')) {
-                    $message = "Warning($error_type_name): $errstr on [$errfile($errline)]";
-                    GC_Utils_Ex::gfPrintLog($message, ERROR_LOG_REALFILE);
-                }
+                $message = "Warning($error_type_name): $errstr on [$errfile($errline)]";
+                GC_Utils_Ex::gfPrintLog($message, ERROR_LOG_REALFILE);
 
                 return true;
 
@@ -201,14 +181,6 @@ class SC_Helper_HandleError
 
         if (!$is_error) {
             return;
-        }
-
-        // パラメーターが読み込まれるまでは、エラー例外をスローする。
-        if (!defined('ERROR_LOG_REALFILE')) {
-            if (!headers_sent()) {
-                ini_set('display_errors', static::$default_display_errors);
-            }
-            throw new ErrorException($arrError['message'], 0, $arrError['type'], $arrError['file'], $arrError['line']);
         }
 
         $error_type_name = GC_Utils_Ex::getErrorTypeName($arrError['type']);
