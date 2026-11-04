@@ -3,7 +3,7 @@
 // 実行方法: node --test .github/scripts/weekly-build.test.js
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { jstDateString, assetNames, renderBody, prepareWeekly } = require('./weekly-build.js');
+const { jstDateString, assetNames, renderBody, prepareWeekly, writeSummary } = require('./weekly-build.js');
 
 test('jstDateString は JST の日付を返す', () => {
   // 火曜 15:00 UTC = 水曜 0:00 JST
@@ -150,4 +150,44 @@ test('prepareWeekly は公開済みの同名タグがあればエラーにする
     prepareWeekly({ github: mockGithub(fixture), context: context('c3'), now, inputs: { tagName: 'eccube2-weekly-20260929' } }),
     /既に公開済み/,
   );
+});
+
+/**
+ * core.summary のモック (@actions/core と同様に、文字列をエスケープせずに連結する)
+ */
+function mockCore() {
+  let html = '';
+  const summary = {
+    addHeading: (text, level) => { html += `<h${level}>${text}</h${level}>`; return summary; },
+    addRaw: (text) => { html += text; return summary; },
+    addList: (items) => { html += `<ul>${items.map((i) => `<li>${i}</li>`).join('')}</ul>`; return summary; },
+    addCodeBlock: (code, lang) => { html += `<pre lang="${lang}"><code>${code}</code></pre>`; return summary; },
+    write: async () => summary,
+  };
+  return { core: { summary }, html: () => html };
+}
+
+test('writeSummary はリリース本文の HTML をエスケープしてプレビューする', async () => {
+  const { core, html } = mockCore();
+  const body = renderBody(base);
+  await writeSummary(core, {
+    deploy: true,
+    tagName: base.tagName,
+    headSha: 'c3',
+    latestReleaseTag: 'eccube-2.25.0',
+    previousWeeklyTag: 'eccube2-weekly-20260929',
+    newBcBreaks: [],
+    allBcBreaks: [],
+    body,
+  }, { dryRun: true });
+  const out = html();
+  assert.ok(!out.includes('<table>'));
+  assert.ok(out.includes('&lt;table&gt;'));
+  assert.ok(out.includes('`&lt;textarea wrap="hard"&gt;`'));
+});
+
+test('writeSummary はスキップ理由もエスケープする', async () => {
+  const { core, html } = mockCore();
+  await writeSummary(core, { deploy: false, tagName: 't', reason: '<b>x</b> & y' });
+  assert.ok(html().includes('&lt;b&gt;x&lt;/b&gt; &amp; y'));
 });

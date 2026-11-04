@@ -326,12 +326,22 @@ async function publishWeekly({ github, context, prepared, distDir }) {
 }
 
 /**
+ * HTML の特殊文字をエスケープする
+ * @param {string} str
+ */
+function escapeHtml(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/**
  * 判定結果を Job Summary に出力する
+ * core.summary の addRaw / addList / addCodeBlock は文字列をエスケープせずに HTML として埋め込むため、
+ * 動的な文字列は escapeHtml を通す (リリース本文の <table> や Changelog 中のタグをそのまま表示するため)
  */
 async function writeSummary(core, prepared, { dryRun = false, releaseUrl = '' } = {}) {
-  const s = core.summary.addHeading(`Weekly build: ${prepared.tagName}`, 2);
+  const s = core.summary.addHeading(escapeHtml(`Weekly build: ${prepared.tagName}`), 2);
   if (!prepared.deploy) {
-    s.addRaw(`⏭️ スキップしました: ${prepared.reason}`, true);
+    s.addRaw(escapeHtml(`⏭️ スキップしました: ${prepared.reason}`), true);
   } else {
     s.addList([
       `対象コミット: ${prepared.headSha}`,
@@ -340,8 +350,8 @@ async function writeSummary(core, prepared, { dryRun = false, releaseUrl = '' } 
       `BC Break (前回 weekly 以降): ${prepared.newBcBreaks.length} 件`,
       `BC Break (${prepared.latestReleaseTag ?? '全期間'} 以降): ${prepared.allBcBreaks.length} 件`,
       dryRun ? '🧪 dry-run のため公開していません' : `🚀 公開しました: ${releaseUrl}`,
-    ]);
-    s.addHeading('リリース本文', 3).addCodeBlock(prepared.body, 'markdown');
+    ].map(escapeHtml));
+    s.addHeading('リリース本文', 3).addCodeBlock(escapeHtml(prepared.body), 'markdown');
   }
   await s.write();
 }
@@ -349,6 +359,7 @@ async function writeSummary(core, prepared, { dryRun = false, releaseUrl = '' } 
 module.exports = {
   WEEKLY_PREFIX,
   assetNames,
+  escapeHtml,
   jstDateString,
   renderBody,
   prepareWeekly,
