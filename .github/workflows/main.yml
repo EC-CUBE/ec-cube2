@@ -107,6 +107,17 @@ jobs:
     uses: ./.github/workflows/rector.yml
   dependency-review:
     uses: ./.github/workflows/dependency-review.yml
+  # .github/scripts/ の Node.js スクリプト (Weekly build 等) のユニットテスト
+  github-scripts-tests:
+    name: GitHub scripts tests
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+    - name: Run tests
+      run: node --test .github/scripts/*.test.js
   migration-tests:
     with:
       ref_name: ${{ github.ref_name }}
@@ -148,10 +159,11 @@ jobs:
       - phpstan
       - rector
       - dependency-review
+      - github-scripts-tests
       - migration-tests
       - unit-tests
       - e2e-tests
     # 祖先の dockerbuild がスキップされると暗黙の success() が false になるため、
     # 直接依存するジョブの結果のみで判定する
-    if: ${{ !cancelled() && needs.php-cs-fixer.result == 'success' && needs.phpstan.result == 'success' && needs.rector.result == 'success' && needs.dependency-review.result == 'success' && needs.migration-tests.result == 'success' && needs.unit-tests.result == 'success' && needs.e2e-tests.result == 'success' }}
+    if: ${{ !cancelled() && needs.php-cs-fixer.result == 'success' && needs.phpstan.result == 'success' && needs.rector.result == 'success' && needs.dependency-review.result == 'success' && needs.github-scripts-tests.result == 'success' && needs.migration-tests.result == 'success' && needs.unit-tests.result == 'success' && needs.e2e-tests.result == 'success' }}
     uses: ./.github/workflows/success.yml
