@@ -218,7 +218,8 @@ class SC_Fpdf extends SC_Helper_FPDI
 
         // お届け先情報
         $this->SetFont('SJIS', '', 10);
-        $this->lfText(25, 125, SC_Utils_Ex::sfDispDBDate($this->arrDisp['create_date']), 10); // ご注文日
+        $create_time = strtotime((string) $this->arrDisp['create_date']);
+        $this->lfText(25, 125, $create_time === false ? '' : date('Y/m/d H:i', $create_time), 10); // ご注文日
         $this->lfText(25, 135, $this->arrDisp['order_id'], 10); // 注文番号
 
         $this->SetFont('Gothic', 'B', 15);

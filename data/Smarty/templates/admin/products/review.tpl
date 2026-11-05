@@ -148,7 +148,7 @@
 
                     <!--{section name=cnt loop=$arrReview}-->
                         <tr>
-                            <td><!--{$arrReview[cnt].create_date|h|sfDispDBDate}--></td>
+                            <td><!--{$arrReview[cnt].create_date|date_format:"Y/m/d H:i"}--></td>
                             <td><!--{$arrReview[cnt].reviewer_name|h}--></td>
                             <td><!--{$arrReview[cnt].name|h}--></td>
                             <!--{assign var=key value="`$arrReview[cnt].recommend_level`"}-->

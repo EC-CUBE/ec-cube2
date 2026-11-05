@@ -93,7 +93,7 @@
                                 <input type="text" class="box150" name="login_email" value="<!--{$tpl_login_email|h}-->" style="ime-mode: disabled;" title="メールアドレスを入力して下さい" />
                             </li>
                             <li class="login_memory">
-                                <input type="checkbox" name="login_memory" id="header_login_memory" value="1" <!--{$tpl_login_memory|sfGetChecked:1}--> /><label for="header_login_memory"><span>記憶</span></label>
+                                <input type="checkbox" name="login_memory" id="header_login_memory" value="1" <!--{if $tpl_login_memory == 1}-->checked="checked"<!--{/if}--> /><label for="header_login_memory"><span>記憶</span></label>
                             </li>
                             <li class="password"><input type="password" class="box100" name="login_pass" title="パスワードを入力して下さい" /></li>
                             <li class="btn">

@@ -23,21 +23,21 @@
 
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <channel>
-<title><!--{$arrSiteInfo.shop_name|sfMbConvertEncoding:$encode}--> : <!--{$title|sfMbConvertEncoding:$encode}--></title>
+<title><!--{$arrSiteInfo.shop_name}--> : <!--{$title}--></title>
 <link><!--{$smarty.const.HTTP_URL}--></link>
-<description><!--{$arrSiteInfo.message|sfMbConvertEncoding:$encode}--></description>
+<description><!--{$arrSiteInfo.message}--></description>
 <language>ja</language>
 <!--{foreach from=$arrProducts item=arrProduct}-->
     <item>
-        <title><!--{$arrProduct.name|h|sfMbConvertEncoding:$encode}--></title>
+        <title><!--{$arrProduct.name|h}--></title>
         <link><!--{$smarty.const.HTTP_URL}-->products/detail.php?product_id=<!--{$arrProduct.product_id}--></link>
         <description><![CDATA[
             <div class="hproduct">
                 <a href="<!--{$smarty.const.HTTP_URL}-->products/detail.php?product_id=<!--{$arrProduct.product_id}-->" rel="product">
-                    <img src="<!--{$arrProduct.main_list_image}-->" alt="<!--{$arrProduct.product_name|h|sfMbConvertEncoding:$encode}-->" class="product-thumb" />
+                    <img src="<!--{$arrProduct.main_list_image}-->" alt="<!--{$arrProduct.product_name|h}-->" class="product-thumb" />
                 </a>
-                <div class="product-title"><a href="<!--{$smarty.const.HTTP_URL}-->products/detail.php?product_id=<!--{$arrProduct.product_id}-->" rel="product"><!--{$arrProduct.product_name|h|sfMbConvertEncoding:$encode}--></a></div>
-                商品コード：<!--{$arrProduct.product_code_max|h|sfMbConvertEncoding:$encode}-->
+                <div class="product-title"><a href="<!--{$smarty.const.HTTP_URL}-->products/detail.php?product_id=<!--{$arrProduct.product_id}-->" rel="product"><!--{$arrProduct.product_name|h}--></a></div>
+                商品コード：<!--{$arrProduct.product_code_max|h}-->
                 <div><!--{$smarty.const.SALE_PRICE_TITLE}-->：
                     <span class="price">
                         <!--{if $arrProduct.price02_min_inctax == $arrProduct.price02_max_inctax}-->
@@ -47,7 +47,7 @@
                         <!--{/if}-->円</span>
                 </div>
                 <div class="description">
-                    <!--{$arrProduct.main_list_comment|h|sfMbConvertEncoding:$encode|nl2br}-->
+                    <!--{$arrProduct.main_list_comment|h|nl2br}-->
                 </div>
             </div>
         ]]></description>

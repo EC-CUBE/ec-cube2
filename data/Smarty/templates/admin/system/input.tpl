@@ -94,8 +94,8 @@ self.moveTo(20,20);self.focus();
                 <!--{if $arrErr.work}--><span class="attention"><!--{$arrErr.work}--></span><!--{/if}-->
                 <!--{assign var=key value="work"}-->
                 <span style="<!--{$arrErr.work|sfGetErrorColor}-->">
-                <input type="radio" id="<!--{$key}-->_1" name="<!--{$key}-->" value="1" <!--{$arrForm.work|sfGetChecked:1}--> /><label for="<!--{$key}-->_1"><!--{$arrWORK.1}--></label>
-                <input type="radio" id="<!--{$key}-->_0" name="<!--{$key}-->" value="0" <!--{$arrForm.work|sfGetChecked:0}--> /><label for="<!--{$key}-->_0"><!--{$arrWORK.0}--></label>
+                <input type="radio" id="<!--{$key}-->_1" name="<!--{$key}-->" value="1" <!--{if $arrForm.work == 1}-->checked="checked"<!--{/if}--> /><label for="<!--{$key}-->_1"><!--{$arrWORK.1}--></label>
+                <input type="radio" id="<!--{$key}-->_0" name="<!--{$key}-->" value="0" <!--{if $arrForm.work == 0}-->checked="checked"<!--{/if}--> /><label for="<!--{$key}-->_0"><!--{$arrWORK.0}--></label>
                 </span>
                 <span class="attention">※必須入力</span>
             </td>

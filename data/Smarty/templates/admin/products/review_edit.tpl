@@ -42,7 +42,7 @@
             </tr>
             <tr>
                 <th>投稿日</th>
-                <td><!--{$arrForm.create_date|sfDispDBDate}-->
+                <td><!--{$arrForm.create_date|date_format:"Y/m/d H:i"}-->
                 <input type="hidden" name="create_date" value="<!--{$arrForm.create_date|h}-->" />
                 </td>
             </tr>

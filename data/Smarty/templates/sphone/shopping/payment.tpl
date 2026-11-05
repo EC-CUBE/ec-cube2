@@ -140,7 +140,7 @@
                 <ul>
                     <!--{section name=cnt loop=$arrDeliv}-->
                         <li>
-                            <input type="radio" id="deliv_<!--{$smarty.section.cnt.iteration}-->" name="<!--{$key}-->"  value="<!--{$arrDeliv[cnt].deliv_id}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" <!--{$arrDeliv[cnt].deliv_id|sfGetChecked:$arrForm[$key].value}--> class="data-role-none" />
+                            <input type="radio" id="deliv_<!--{$smarty.section.cnt.iteration}-->" name="<!--{$key}-->"  value="<!--{$arrDeliv[cnt].deliv_id}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" <!--{if $arrDeliv[cnt].deliv_id == $arrForm[$key].value}-->checked="checked"<!--{/if}--> class="data-role-none" />
                             <label for="deliv_<!--{$smarty.section.cnt.iteration}-->"><!--{$arrDeliv[cnt].name|h}--><!--{if $arrDeliv[cnt].remark != ""}--><p><!--{$arrDeliv[cnt].remark|h}--></p><!--{/if}--></label>
                         </li>
                     <!--{/section}-->
@@ -159,7 +159,7 @@
             <ul id="payment">
                 <!--{section name=cnt loop=$arrPayment}-->
                     <li>
-                        <input type="radio" id="pay_<!--{$smarty.section.cnt.iteration}-->" name="<!--{$key}-->" value="<!--{$arrPayment[cnt].payment_id}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" <!--{$arrPayment[cnt].payment_id|sfGetChecked:$arrForm[$key].value}--> class="data-role-none" />
+                        <input type="radio" id="pay_<!--{$smarty.section.cnt.iteration}-->" name="<!--{$key}-->" value="<!--{$arrPayment[cnt].payment_id}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" <!--{if $arrPayment[cnt].payment_id == $arrForm[$key].value}-->checked="checked"<!--{/if}--> class="data-role-none" />
                         <label for="pay_<!--{$smarty.section.cnt.iteration}-->"><!--{$arrPayment[cnt].payment_method|h}--><!--{if $arrPayment[cnt].note != ""}--><!--{/if}--></label>
                         <!--{if $img_show}-->
                             <!--{if $arrPayment[cnt].payment_image != ""}-->
@@ -241,14 +241,14 @@
                         <div class="formBox">
                             <div class="innerBox fb">
                                 <p>
-                                    <input type="radio" id="point_on" name="point_check" value="1" <!--{$arrForm.point_check.value|sfGetChecked:1}--> onchange="eccube.togglePointForm();" class="data-role-none" />
+                                    <input type="radio" id="point_on" name="point_check" value="1" <!--{if $arrForm.point_check.value == 1}-->checked="checked"<!--{/if}--> onchange="eccube.togglePointForm();" class="data-role-none" />
                                     <label for="point_on">ポイントを使用する</label>
                                 </p>
                                 <!--{assign var=key value="use_point"}-->
                                 <p class="check_point"><input type="text" name="<!--{$key|h}-->" value="<!--{$arrForm[$key].value|h|default:$tpl_user_point}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" class="box_point data-role-none" />ポイントを使用する。<span class="attention"><!--{$arrErr[$key]}--></span></p>
                             </div>
                         <div class="innerBox fb">
-                            <input type="radio" id="point_off" name="point_check" value="2" <!--{$arrForm.point_check.value|sfGetChecked:2}--> onchange="eccube.togglePointForm();" class="data-role-none" />
+                            <input type="radio" id="point_off" name="point_check" value="2" <!--{if $arrForm.point_check.value == 2}-->checked="checked"<!--{/if}--> onchange="eccube.togglePointForm();" class="data-role-none" />
                             <label for="point_off">ポイントを使用しない</label>
                         </div>
                     </div><!-- /.formBox -->

@@ -93,7 +93,7 @@
                                 <input type="text" name="login_email" class="box140" value="<!--{$tpl_login_email|h}-->" style="ime-mode: disabled;" />
                             </dd>
                             <dd class="mini">
-                                <input type="checkbox" name="login_memory" id="login_memory" value="1" <!--{$tpl_login_memory|sfGetChecked:1}--> />
+                                <input type="checkbox" name="login_memory" id="login_memory" value="1" <!--{if $tpl_login_memory == 1}-->checked="checked"<!--{/if}--> />
                                 <label for="login_memory"><span>コンピューターに記憶する</span></label>
                             </dd>
                         </dl>

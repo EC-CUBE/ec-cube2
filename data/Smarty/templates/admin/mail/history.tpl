@@ -45,8 +45,8 @@
                 </tr>
                 <!--{section name=cnt loop=$arrDataList}-->
                 <tr>
-                    <td><!--{$arrDataList[cnt].start_date|sfDispDBDate|h}--></td>
-                    <td><!--{$arrDataList[cnt].end_date|sfDispDBDate|h}--></td>
+                    <td><!--{$arrDataList[cnt].start_date|date_format:"Y/m/d H:i"|h}--></td>
+                    <td><!--{$arrDataList[cnt].end_date|date_format:"Y/m/d H:i"|h}--></td>
                     <td class="left"><!--{$arrDataList[cnt].subject|h}--></td>
                     <td><a href="javascript:;" onclick="eccube.openWindow('./preview.php?mode=history&amp;send_id=<!--{$arrDataList[cnt].send_id|h}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->', 'confirm', '720', '600', {menubar:'no'}); return false;">確認</a></td>
                     <td><a href="javascript:;" onclick="eccube.openWindow('./<!--{$smarty.const.DIR_INDEX_PATH}-->?mode=query&amp;send_id=<!--{$arrDataList[cnt].send_id|h}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->','query','615','800',{menubar:'no'}); return false;">確認</a></td>

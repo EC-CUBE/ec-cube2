@@ -133,9 +133,16 @@ class SC_Display
 
     /**
      * SC_View インスタンスを設定する.
+     *
+     * 画面出力に使う View は自動エスケープ (Smarty の escape_html) を有効にする.
+     * 無効にする場合は data/config/config.php に define('SMARTY_AUTO_ESCAPE', false); を追加する.
+     * View を直接生成する処理 (メール本文の生成・RSS 等) は対象外で, 従来どおりの出力になる.
      */
     public function setView($view)
     {
+        if ($view instanceof SC_View && (!defined('SMARTY_AUTO_ESCAPE') || SMARTY_AUTO_ESCAPE)) {
+            $view->enableAutoEscape();
+        }
         $this->view = $view;
     }
 
