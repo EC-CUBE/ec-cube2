@@ -52,6 +52,23 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             ['if $v|h == "a"', 'if $v|h == "a"'],
             ['"str|h"', '"str|h"'],
             ['include file="a.tpl"', 'include file="a.tpl"'],
+            // modifier が式全体を覆わない (最上位に演算子がある) ものは変換しない
+            ['$a ? $b : $c|h', '$a ? $b : $c|h'],
+            ['$a?$b:$c|h', '$a?$b:$c|h'],
+            ['$a + $b|h', '$a + $b|h'],
+            ['$a-1|h', '$a-1|h'],
+            ['$a|h . $b', '$a|h . $b'],
+            ['$a||$b|h', '$a||$b|h'],
+            ['$a == $b|h', '$a == $b|h'],
+            ['!$v|h', '!$v|h'],
+            ['$v|default:$a?1:2|h', '$v|default:$a?1:2|h'],
+            ['$arrErr.x . $y', '$arrErr.x . $y'],
+            ['$tpl_onload . $x', '$tpl_onload . $x'],
+            // 括弧・添字・プロパティ参照の中は対象
+            ['($a ? $b : $c)|h', '($a ? $b : $c)|h nofilter'],
+            ['$arr[$i+1]|h', '$arr[$i+1]|h nofilter'],
+            ['$o->p|h', '$o->p|h nofilter'],
+            ['$v|default:($a ? 1 : 2)|h', '$v|default:($a ? 1 : 2)|h nofilter'],
         ];
     }
 
@@ -107,7 +124,8 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             'hexentity' => ["<!--{\$v|escape:'hexentity'}-->", ['v' => 'a@'], '&#x61;&#x40;'],
             '条件式の h の後の出力' => ['<!--{if $v|h != ""}--><!--{/if}--><!--{$v}-->', ['v' => '<i>'], '&lt;i&gt;'],
             '代入の h の後の出力' => ['<!--{assign var=w value=$v|h}--><!--{$v}-->', ['v' => '<i>'], '&lt;i&gt;'],
-        ];
+            // h が掛かるのは $c だけなので, $b も自動エスケープで保護される (二重エスケープの $c は許容)
+            '三項演算子の片側の h' => ['<!--{$a ? $b : $c|h}-->', ['a' => true, 'b' => '<i>', 'c' => ''], '&lt;i&gt;'],        ];
     }
 
     /**

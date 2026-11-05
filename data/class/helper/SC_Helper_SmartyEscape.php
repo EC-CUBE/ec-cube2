@@ -284,17 +284,30 @@ class SC_Helper_SmartyEscape
             } elseif ($c === ')' || $c === ']') {
                 $depth = max(0, $depth - 1);
             } elseif ($depth === 0) {
-                if ($c === '=' && !in_array($s[$i - 1] ?? '', ['=', '!', '<', '>'], true) && ($s[$i + 1] ?? '') !== '=') {
-                    // 最上位の代入 ($x = ...) は対象外
+                // modifier は直前の値にだけ掛かる. 最上位に演算子 (代入・比較・三項・算術・論理) や
+                // 空白で区切られた式があると, modifier が式全体を覆わないため変換しない.
+                if ($c === '-' && ($s[$i + 1] ?? '') === '>') {
+                    // オブジェクトのプロパティ参照 (->)
+                    $i++;
+                    continue;
+                }
+                if (str_contains('=?+*/%<>!&^~-', $c) || ($c === ':' && $modifiers === [])) {
                     return null;
                 }
-                if ($c === '|' && ($s[$i + 1] ?? '') !== '|' && ($s[$i - 1] ?? '') !== '|') {
+                if ($c === '|') {
+                    if (($s[$i + 1] ?? '') === '|') {
+                        return null;
+                    }
                     if (preg_match('/\G\s*(@?[A-Za-z_]\w*)/', $s, $m, 0, $i + 1)) {
                         $modifiers[] = ['name' => ltrim($m[1], '@'), 'start' => $i, 'end' => null];
                     }
-                } elseif (ctype_space($c) && preg_match('/\G\s+(nofilter|nocache|assign\s*=)/', $s, $m, 0, $i)) {
-                    $exprEnd = $i;
-                    break;
+                } elseif (ctype_space($c)) {
+                    if (preg_match('/\G\s+(nofilter|nocache|assign\s*=)/', $s, $m, 0, $i) || trim(substr($s, $i)) === '') {
+                        $exprEnd = $i;
+                        break;
+                    }
+
+                    return null;
                 }
             }
         }
