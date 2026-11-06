@@ -49,8 +49,14 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             ['$GLOBAL_ERR', '$GLOBAL_ERR|script_escape nofilter'],
             // C5
             ['$v|sfGetChecked:1', '$v|sfGetChecked:1 nofilter'],
+            ['$v|sfViewPriceTax2', '$v|sfViewPriceTax2 nofilter'],
+            ['$v|default:0|sfViewPriceTax3:1', '$v|default:0|sfViewPriceTax3:1 nofilter'],
+            ['$v|dispCurrency', '$v|dispCurrency nofilter'],
+            ['$v|h|dispCurrency', '$v|h|dispCurrency'],
             // C6
             ['$tpl_onload', '$tpl_onload|script_escape nofilter'],
+            ['$tpl_payment_onload', '$tpl_payment_onload|script_escape nofilter'],
+            ['$paygent_token_js_url', '$paygent_token_js_url|script_escape nofilter'],
             ['$tpl_onload_x', '$tpl_onload_x'],
             // C7
             ["\$m|escape:'hexentity'", "\$m|escape:'hexentity' nofilter"],

@@ -32,8 +32,9 @@
  *       決済モジュールが決済情報 (arrOther) に入れるリンク等の HTML, 商品説明の HTML を保持するため.
  * - C4: modifier なしの `$arrErr…` と, エラーメッセージ系の名前 (err / msg / mess を含む) の変数は,
  *       エスケープ後に `<br>` だけを戻す modifier を通す. C6 の変数は C6 を優先する.
- * - C5: 固定の属性文字列を返す modifier (sfGetChecked) で終わる出力に nofilter を補う.
- * - C6: HTML/JS 断片を入れる慣習の変数の modifier なし出力は従来どおり (`|script_escape nofilter`) とする.
+ * - C5: 固定の属性文字列や HTML を返す modifier (sfGetChecked 等) で終わる出力に nofilter を補う.
+ * - C6: HTML/JS 断片を入れる慣習の変数 (本体と既存の拡張で使われているもの) の modifier なし出力は
+ *       従来どおり (`|script_escape nofilter`) とする.
  * - C7: `escape:'hexentity'` 等, 自動エスケープと重ねると壊れる `escape` のモードで終わる出力を従来どおりとする.
  *
  * C2 (画面出力の View だけを自動エスケープ対象にする) は SC_Display / SC_View 側で扱う.
@@ -41,7 +42,7 @@
 class SC_Helper_SmartyEscape
 {
     /** 互換規則のバージョン. 規則を変えたら上げる (compile_id に反映される). */
-    public const VERSION = '2';
+    public const VERSION = '3';
 
     /** C4 で使う modifier 名 */
     public const MODIFIER_ERROR = 'h_allow_br';
@@ -55,10 +56,19 @@ class SC_Helper_SmartyEscape
     ];
 
     /**
-     * nofilter を補う, 固定の属性文字列を返す modifier (C5).
-     * 本体テンプレートは if 文に置き換え済み. 既存のプラグイン・カスタムテンプレートのために残す.
+     * nofilter を補う, 固定の属性文字列や HTML を返す modifier (C5).
+     * sfGetChecked の本体テンプレートでの利用は if 文に置き換え済み. 既存のプラグイン・カスタムテンプレートのために残す.
+     * それ以外は既存の拡張が登録する, 価格表示の HTML を返す modifier.
      */
-    public static $arrFixedOutputModifiers = ['sfGetChecked'];
+    public static $arrFixedOutputModifiers = [
+        'sfGetChecked',
+        'sfViewPriceTax',
+        'sfViewPriceTax2',
+        'sfViewPriceTax3',
+        'sfViewPriceTax4',
+        'sfViewPriceTax5',
+        'dispCurrency',
+    ];
 
     /**
      * `escape` で終わる出力のモード別の扱い (C7).
@@ -90,6 +100,16 @@ class SC_Helper_SmartyEscape
         'tpl_now_dir',
         'json_payment',
         'json_customer_order_status',
+        // 既存の拡張 (決済モジュール等) で, PHP で組み立てた JS を入れている変数
+        'tpl_payment_onload',
+        'tpl_onload_org',
+        'sln_onload',
+        'plg_pg_mulpay_onload',
+        'paid_tpl_onload',
+        'token_js',
+        'paidy_js',
+        'paygent_token_connect_url',
+        'paygent_token_js_url',
     ];
 
     /** @var string */
