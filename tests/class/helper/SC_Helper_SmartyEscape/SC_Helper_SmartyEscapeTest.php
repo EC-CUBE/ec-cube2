@@ -66,6 +66,13 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             ['$arrDeliv[cnt].deliv_id', '$arrDeliv[cnt].deliv_id'],
             ['$arrDeliv.1', '$arrDeliv.1'],
             ['$tpl_onload|escape', '$tpl_onload|escape'],
+            // C6 の default は代替値がリテラルの場合だけ (代替値はエスケープされずに出力されるため)
+            ["\$json_paidy|default:'a'", "\$json_paidy|default:'a'|script_escape nofilter"],
+            ['$json_paidy|default:0', '$json_paidy|default:0|script_escape nofilter'],
+            ['$json_paidy|default:$x', '$json_paidy|default:$x'],
+            ['$json_paidy|default:"a$x"', '$json_paidy|default:"a$x"'],
+            ['$json_paidy|default:"a`$x`"', '$json_paidy|default:"a`$x`"'],
+            ['$json_paidy|default:$smarty.get.x', '$json_paidy|default:$smarty.get.x'],
             // C7
             ["\$m|escape:'hexentity'", "\$m|escape:'hexentity' nofilter"],
             ["\$m|escape:'javascript'", "\$m|escape:'javascript'|script_escape nofilter"],
@@ -143,6 +150,7 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             'scripts 等の別の要素は対象外' => ['<scripts><!--{$v}--></scripts>', '<scripts><!--{$v}--></scripts>'],
             'C6 を優先' => ['<script><!--{$tpl_onload}--></script>', '<script><!--{$tpl_onload|script_escape nofilter}--></script>'],
             'C6 の JSON 変数を優先' => ['<script>var a = <!--{$json_paidy|default:"no_data"}-->;</script>', '<script>var a = <!--{$json_paidy|default:"no_data"|script_escape nofilter}-->;</script>'],
+            'C6 の default の代替値が変数なら C8' => ['<script>var a = <!--{$json_paidy|default:$x}-->;</script>', "<script>var a = <!--{\$json_paidy|default:\$x{$js}}-->;</script>"],
             'C6 の名前でも添字付きは C8' => ['<script><!--{$arrDeliv[cnt].deliv_id}--></script>', '<script><!--{$arrDeliv[cnt].deliv_id|escape_js|script_escape nofilter}--></script>'],
             'C1 を優先' => ["<script>a='<!--{\$v|h}-->';</script>", "<script>a='<!--{\$v|h nofilter}-->';</script>"],
             'エラー系の名前より優先' => ["<script>a='<!--{\$err_msg}-->';</script>", "<script>a='<!--{\$err_msg{$js}}-->';</script>"],

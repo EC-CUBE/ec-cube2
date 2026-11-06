@@ -48,7 +48,7 @@
 class SC_Helper_SmartyEscape
 {
     /** 互換規則のバージョン. 規則を変えたら上げる (compile_id に反映される). */
-    public const VERSION = '6';
+    public const VERSION = '7';
 
     /** C4 で使う modifier 名 */
     public const MODIFIER_ERROR = 'h_allow_br';
@@ -339,8 +339,10 @@ class SC_Helper_SmartyEscape
         } elseif ($names === [] && preg_match('/^\$arrErr\b/', ltrim($expr))) {
             // C4
             $suffix = '|'.static::MODIFIER_ERROR.' nofilter';
-        } elseif (in_array($names, static::$arrScriptAllowedModifiers, true) && preg_match('/^\s*\$(\w+)\s*$/', $p['modifiers'] === [] ? $expr : substr($expr, 0, $p['modifiers'][0]['start']), $m) && in_array($m[1], static::$arrRawVariables, true)) {
-            // C6 (添字・プロパティ付きは対象外. 本体で配列として使う名前 (arrDeliv 等) の要素を素の出力にしない)
+        } elseif (in_array($names, static::$arrScriptAllowedModifiers, true) && preg_match('/^\s*\$(\w+)\s*$/', $p['modifiers'] === [] ? $expr : substr($expr, 0, $p['modifiers'][0]['start']), $m) && in_array($m[1], static::$arrRawVariables, true)
+            && ($p['modifiers'] === [] || $this->hasLiteralArguments($expr, $p['modifiers'][0]))) {
+            // C6 (添字・プロパティ付きは対象外. 本体で配列として使う名前 (arrDeliv 等) の要素を素の出力にしない.
+            // default の代替値はエスケープされずに出力されるため, リテラルの場合だけ対象にする)
             $suffix = '|script_escape nofilter';
         } elseif ($inScript && in_array($names, static::$arrScriptAllowedModifiers, true)) {
             // C8
@@ -489,6 +491,26 @@ class SC_Helper_SmartyEscape
         }
 
         return $expr;
+    }
+
+    /**
+     * modifier の引数がすべてリテラルか (C6).
+     *
+     * @param array{name: string, start: int, end: int} $modifier
+     *
+     * @return bool
+     */
+    protected function hasLiteralArguments($expr, array $modifier)
+    {
+        $args = $this->splitArguments(substr($expr, $modifier['start'], $modifier['end'] - $modifier['start']));
+        foreach (array_slice($args, 1) as $arg) {
+            // 数値, シングルクォートの文字列, 変数の埋め込み ($ / `) を含まないダブルクォートの文字列
+            if (!preg_match('/^\s*(?:-?\d+(?:\.\d+)?|\'(?:[^\'\\\\]|\\\\.)*\'|"[^"$`\\\\]*")\s*$/', $arg)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
