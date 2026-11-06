@@ -34,6 +34,19 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             ['$arrErr.name', '$arrErr.name|h_allow_br nofilter'],
             ['$arrErr[$key]', '$arrErr[$key]|h_allow_br nofilter'],
             ['$arrErr[$key]|sfGetErrorColor', '$arrErr[$key]|sfGetErrorColor'],
+            // C4 (エラーメッセージ系の変数名)
+            ['$err', '$err|h_allow_br nofilter'],
+            ['$errBirth', '$errBirth|h_allow_br nofilter'],
+            ['$plg_pg_mulpay_msg', '$plg_pg_mulpay_msg|h_allow_br nofilter'],
+            ['$tpl_exam_error', '$tpl_exam_error|h_allow_br nofilter'],
+            ['$tpl_message', '$tpl_message|h_allow_br nofilter'],
+            ['$item.err_msg', '$item.err_msg'],
+            ['$err|h', '$err|h nofilter'],
+            ['$err|nl2br', '$err|nl2br|script_escape nofilter'],
+            ['$err ? $a : $b', '$err ? $a : $b'],
+            // C6 は名前による C4 より優先
+            ['$tpl_error', '$tpl_error|script_escape nofilter'],
+            ['$GLOBAL_ERR', '$GLOBAL_ERR|script_escape nofilter'],
             // C5
             ['$v|sfGetChecked:1', '$v|sfGetChecked:1 nofilter'],
             // C6
@@ -118,6 +131,7 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             'default|h' => ['<!--{$v|default:$f|h}-->', ['v' => '', 'f' => '<i>'], '&lt;i&gt;'],
             'h|default の代替値を保護' => ['<!--{$v|h|default:$f}-->', ['v' => '', 'f' => '<i>'], '&lt;i&gt;'],
             'arrErr の br を保持' => ['<!--{$arrErr.x}-->', ['arrErr' => ['x' => '※ <b>A</b>が未入力です。<br />']], '※ &lt;b&gt;A&lt;/b&gt;が未入力です。<br />'],
+            'エラー系の変数名の br を保持' => ['<!--{$plg_msg}-->', ['plg_msg' => '決済エラー<br>"x" <script>alert(1)</script>'], '決済エラー<br />&quot;x&quot; &lt;script&gt;alert(1)&lt;/script&gt;'],
             'nl2br は従来どおり' => ['<!--{$v|nl2br}-->', ['v' => "<a href=\"/\">x</a>\n2"], "<a href=\"/\">x</a><br />\n2"],
             'tpl_onload は従来どおり' => ['<!--{$tpl_onload}-->', ['tpl_onload' => "fnOnLoad('a');"], "fnOnLoad('a');"],
             'sfGetChecked' => ['<!--{1|sfGetChecked:$v}-->', ['v' => '1'], 'checked="checked"'],

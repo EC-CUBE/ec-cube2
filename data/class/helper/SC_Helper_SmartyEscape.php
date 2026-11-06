@@ -30,7 +30,8 @@
  * - C1: `h` を含む既知の modifier 列に nofilter を補う. `h` の後の `default` の代替値は `h` で保護する.
  * - C3: `h` を伴わない `nl2br` / `nl2br_html` で終わる出力は従来どおり (`|script_escape nofilter`) とする.
  *       決済モジュールが決済情報 (arrOther) に入れるリンク等の HTML, 商品説明の HTML を保持するため.
- * - C4: modifier なしの `$arrErr…` は, エスケープ後に `<br>` だけを戻す modifier を通す.
+ * - C4: modifier なしの `$arrErr…` と, エラーメッセージ系の名前 (err / msg / mess を含む) の変数は,
+ *       エスケープ後に `<br>` だけを戻す modifier を通す. C6 の変数は C6 を優先する.
  * - C5: 固定の属性文字列を返す modifier (sfGetChecked) で終わる出力に nofilter を補う.
  * - C6: HTML/JS 断片を入れる慣習の変数の modifier なし出力は従来どおり (`|script_escape nofilter`) とする.
  * - C7: `escape:'hexentity'` 等, 自動エスケープと重ねると壊れる `escape` のモードで終わる出力を従来どおりとする.
@@ -40,7 +41,7 @@
 class SC_Helper_SmartyEscape
 {
     /** 互換規則のバージョン. 規則を変えたら上げる (compile_id に反映される). */
-    public const VERSION = '1';
+    public const VERSION = '2';
 
     /** C4 で使う modifier 名 */
     public const MODIFIER_ERROR = 'h_allow_br';
@@ -70,6 +71,12 @@ class SC_Helper_SmartyEscape
         'decentity' => ' nofilter',
         'javascript' => '|script_escape nofilter',
     ];
+
+    /**
+     * C4 の対象にするエラーメッセージ系の変数名 (最上位の変数名に対して判定する).
+     * `<br>` 以外はエスケープするため, 名前の判定が外れても `<br>` 以外のタグが文字列で表示されるだけで済む.
+     */
+    public static $errorVariablePattern = '/err|msg|mess/i';
 
     /** HTML/JS 断片を入れる慣習の変数 (C6) */
     public static $arrRawVariables = [
@@ -231,6 +238,9 @@ class SC_Helper_SmartyEscape
         } elseif ($names === [] && preg_match('/^\$(\w+)/', ltrim($expr), $m) && in_array($m[1], static::$arrRawVariables, true)) {
             // C6
             $suffix = '|script_escape nofilter';
+        } elseif ($names === [] && preg_match('/^\$(\w+)/', ltrim($expr), $m) && preg_match(static::$errorVariablePattern, $m[1])) {
+            // C4 (エラーメッセージ系の変数名)
+            $suffix = '|'.static::MODIFIER_ERROR.' nofilter';
         } else {
             return $inner;
         }
