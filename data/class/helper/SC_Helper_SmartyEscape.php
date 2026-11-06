@@ -48,7 +48,7 @@
 class SC_Helper_SmartyEscape
 {
     /** 互換規則のバージョン. 規則を変えたら上げる (compile_id に反映される). */
-    public const VERSION = '7';
+    public const VERSION = '8';
 
     /** C4 で使う modifier 名 */
     public const MODIFIER_ERROR = 'h_allow_br';
@@ -56,12 +56,17 @@ class SC_Helper_SmartyEscape
     /** C8 で使う modifier 名 */
     public const MODIFIER_SCRIPT = 'escape_js';
 
-    /** `h` の後に続いてよい modifier 列 (C1) */
+    /**
+     * `h` の後に続いてよい modifier 列 (C1).
+     * nl2br_html は `h` の後では `<br />` を足すだけになる (エスケープ後の文字列にタグが無いため).
+     */
     public static $arrAllowedAfterH = [
         [],
         ['nl2br'],
+        ['nl2br_html'],
         ['default'],
         ['nl2br', 'default'],
+        ['nl2br_html', 'default'],
     ];
 
     /**
