@@ -31,7 +31,7 @@
         <p>
             <span class="attention"><!--{$tpl_errtitle}--><br />
             <!--{foreach key=key item=item from=$arrCSVErr}-->
-            <!--{$item}-->
+            <!--{$item|h_allow_br nofilter}-->
             <!--{if $key != 'blank'}-->
             [値：<!--{$arrParam[$key]}-->]
             <!--{/if}-->
@@ -55,7 +55,7 @@
                 <th>登録情報</th>
                 <td>
                     <!--{foreach name=title key=key item=item from=$arrTitle}-->
-                    <!--{$smarty.foreach.title.iteration}-->項目：<!--{$item}--><br />
+                    <!--{$smarty.foreach.title.iteration}-->項目：<!--{$item nofilter}--><br />
                     <!--{/foreach}-->
                 </td>
             </tr>

@@ -685,6 +685,9 @@ class SC_Utils
         return '';
     }
 
+    /**
+     * @deprecated テンプレートでは <!--{if !$val}--> disabled="disabled"<!--{/if}--> を使用すること
+     */
     public static function sfGetEnabled($val)
     {
         if (!$val) {
@@ -694,6 +697,9 @@ class SC_Utils
         return '';
     }
 
+    /**
+     * @deprecated テンプレートでは <!--{if $param == $value}-->checked="checked"<!--{/if}--> を使用すること
+     */
     public static function sfGetChecked($param, $value)
     {
         if ((string) $param === (string) $value) {
@@ -834,7 +840,11 @@ class SC_Utils
         return $ret;
     }
 
-    /* DBから取り出した日付の文字列を調整する。 */
+    /**
+     * DBから取り出した日付の文字列を調整する。
+     *
+     * @deprecated テンプレートでは date_format:"Y/m/d H:i" (時刻なしは "Y/m/d") を使用すること
+     */
     public static function sfDispDBDate($dbdate, $time = true)
     {
         [$y, $m, $d, $H, $M] = preg_split('/[- :]/', $dbdate);
@@ -1149,6 +1159,8 @@ class SC_Utils
      * PHPのmb_convert_encoding関数をSmartyでも使えるようにする
      *
      * XXX この関数を使っている箇所は、ほぼ設計誤りと思われる。変数にフェッチするか、出力時のエンコーディングで対応すべきと見受ける。
+     *
+     * @deprecated 文字コード変換は出力時に行うこと
      */
     public static function sfMbConvertEncoding($str, $encode = CHAR_CODE)
     {

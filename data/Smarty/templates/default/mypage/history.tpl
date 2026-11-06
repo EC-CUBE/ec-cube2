@@ -29,7 +29,7 @@
         <h3><!--{$tpl_subtitle|h}--></h3>
         <div class="mycondition_area clearfix">
             <p>
-                <span class="st">購入日時：&nbsp;</span><!--{$tpl_arrOrderData.create_date|sfDispDBDate}--><br />
+                <span class="st">購入日時：&nbsp;</span><!--{$tpl_arrOrderData.create_date|date_format:"Y/m/d H:i"}--><br />
                 <span class="st">注文番号：&nbsp;</span><!--{$tpl_arrOrderData.order_id}--><br />
                 <span class="st">お支払い方法：&nbsp;</span><!--{$arrPayment[$tpl_arrOrderData.payment_id]|h}--><br />
                 <!--{if $smarty.const.MYPAGE_ORDER_STATUS_DISP_FLAG}-->
@@ -264,7 +264,7 @@
             </tr>
             <!--{section name=cnt loop=$tpl_arrMailHistory}-->
             <tr class="center">
-                <td class="alignC"><!--{$tpl_arrMailHistory[cnt].send_date|sfDispDBDate|h}--></td>
+                <td class="alignC"><!--{$tpl_arrMailHistory[cnt].send_date|date_format:"Y/m/d H:i"|h}--></td>
                 <!--{assign var=key value="`$tpl_arrMailHistory[cnt].template_id`"}-->
                 <td class="alignC"><!--{$arrMAILTEMPLATE[$key]|h}--></td>
                 <td><a href="#" onclick="eccube.openWindow('./mail_view.php?send_id=<!--{$tpl_arrMailHistory[cnt].send_id}-->','mail_view','650','800'); return false;"><!--{$tpl_arrMailHistory[cnt].subject|h}--></a></td>

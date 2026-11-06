@@ -230,7 +230,7 @@
                             <input type="hidden" name="product_type" id="product_type<!--{$id|h}-->" value="<!--{$tpl_product_type[$id]}-->" />
                         </form>
                     </td>
-                    <td class="center"><a href="javascript:;" onclick="return func_submit('<!--{$arrProducts[cnt].product_id|h}-->', '<!--{$tpl_class_name1[$id]|escape:'javascript'}-->', '<!--{$tpl_class_name2[$id]|escape:'javascript'}-->'); return false;">決定</a></td>
+                    <td class="center"><a href="javascript:;" onclick="return func_submit('<!--{$arrProducts[cnt].product_id|h}-->', '<!--{$tpl_class_name1[$id]|escape:'javascript'|h}-->', '<!--{$tpl_class_name2[$id]|escape:'javascript'|h}-->'); return false;">決定</a></td>
                 </tr>
                 <!--▲商品<!--{$smarty.section.cnt.iteration}-->-->
         <!--{sectionelse}-->

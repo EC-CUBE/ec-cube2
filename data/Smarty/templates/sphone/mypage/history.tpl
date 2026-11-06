@@ -32,7 +32,7 @@
         <div id="historyBox">
             <p>
                 <em>注文番号</em>：&nbsp;<!--{$tpl_arrOrderData.order_id}--><br />
-                <em>購入日時</em>：&nbsp;<!--{$tpl_arrOrderData.create_date|sfDispDBDate}--><br />
+                <em>購入日時</em>：&nbsp;<!--{$tpl_arrOrderData.create_date|date_format:"Y/m/d H:i"}--><br />
                 <em>お支払い方法</em>：&nbsp;<!--{$arrPayment[$tpl_arrOrderData.payment_id]|h}-->
             </p>
 
@@ -161,7 +161,7 @@
             <!--{section name=cnt loop=$tpl_arrMailHistory}-->
                 <!--▼メール -->
                 <div class="arrowBox">
-                    <p>配信日：<!--{$tpl_arrMailHistory[cnt].send_date|sfDispDBDate|h}--><br />
+                    <p>配信日：<!--{$tpl_arrMailHistory[cnt].send_date|date_format:"Y/m/d H:i"|h}--><br />
                         <!--{assign var=key value="`$tpl_arrMailHistory[cnt].template_id`"}-->
                         通知メール：<!--{$arrMAILTEMPLATE[$key]|h}--></p>
                     <p><a href="javascript:;" onclick="getMailDetail(<!--{$tpl_arrMailHistory[cnt].send_id}-->)"><!--{$tpl_arrMailHistory[cnt].subject|h}--></a></p>

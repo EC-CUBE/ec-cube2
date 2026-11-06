@@ -47,7 +47,7 @@
             </tr>
             <!--{section name=cnt loop=$arrMailHistory}-->
             <tr class="center">
-                <td><!--{$arrMailHistory[cnt].send_date|sfDispDBDate|h}--></td>
+                <td><!--{$arrMailHistory[cnt].send_date|date_format:"Y/m/d H:i"|h}--></td>
                 <!--{assign var=key value="`$arrMailHistory[cnt].template_id`"}-->
                 <td><!--{$arrMAILTEMPLATE[$key]|h}--></td>
                 <td><a href="?" onclick="eccube.openWindow('./mail_view.php?send_id=<!--{$arrMailHistory[cnt].send_id}-->','mail_view','650','800'); return false;"><!--{$arrMailHistory[cnt].subject|h}--></a></td>
