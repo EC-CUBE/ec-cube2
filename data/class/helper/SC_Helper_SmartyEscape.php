@@ -31,18 +31,21 @@
  * - C3: `h` を伴わない `nl2br` / `nl2br_html` で終わる出力は従来どおり (`|script_escape nofilter`) とする.
  *       決済モジュールが決済情報 (arrOther) に入れるリンク等の HTML, 商品説明の HTML を保持するため.
  * - C4: modifier なしの `$arrErr…` と, エラーメッセージ系の名前 (err / msg / mess を含む) の変数は,
- *       エスケープ後に `<br>` だけを戻す modifier を通す. C6 の変数は C6 を優先する.
+ *       エスケープ後に `<br>` だけを戻す modifier を通す. C6 の変数は C6 を, script 要素の中のエラーメッセージ系の名前は C8 を優先する.
  * - C5: 固定の属性文字列や HTML を返す modifier (sfGetChecked 等) で終わる出力に nofilter を補う.
  * - C6: HTML/JS 断片を入れる慣習の変数 (本体と既存の拡張で使われているもの) の modifier なし出力は
  *       従来どおり (`|script_escape nofilter`) とする.
  * - C7: `escape:'hexentity'` 等, 自動エスケープと重ねると壊れる `escape` のモードで終わる出力を従来どおりとする.
+ * - C8: JavaScript の script 要素の中にある, modifier なし (`default` のみを含む) の出力は,
+ *       HTML ではなく JavaScript 用にエスケープする (`|escape:'javascript'|script_escape nofilter`).
+ *       script 要素の開始・終了は同じテンプレートのソースの中で判定する. 判定できない場合は通常の自動エスケープになる.
  *
  * C2 (画面出力の View だけを自動エスケープ対象にする) は SC_Display / SC_View 側で扱う.
  */
 class SC_Helper_SmartyEscape
 {
     /** 互換規則のバージョン. 規則を変えたら上げる (compile_id に反映される). */
-    public const VERSION = '3';
+    public const VERSION = '4';
 
     /** C4 で使う modifier 名 */
     public const MODIFIER_ERROR = 'h_allow_br';
@@ -112,8 +115,25 @@ class SC_Helper_SmartyEscape
         'paygent_token_js_url',
     ];
 
+    /** C8 の対象にする script 要素の type 属性 (小文字. 空文字は type 属性なし) */
+    public static $arrScriptTypes = ['', 'text/javascript', 'application/javascript', 'module'];
+
+    /** C8 で modifier なしと同じに扱う modifier 列 */
+    public static $arrScriptAllowedModifiers = [[], ['default']];
+
     /** @var string */
     protected $left;
+
+    /** @var int script 要素の判定状態 (SCRIPT_*) */
+    protected $scriptState = self::SCRIPT_NONE;
+
+    /** @var string 閉じていない開始タグの文字列 */
+    protected $scriptOpenTag = '';
+
+    private const SCRIPT_NONE = 0;
+    private const SCRIPT_OPEN_TAG = 1;
+    private const SCRIPT_IN = 2;
+    private const SCRIPT_OTHER = 3;
 
     /** @var string */
     protected $right;
@@ -151,8 +171,12 @@ class SC_Helper_SmartyEscape
         $pos = 0;
         $len = strlen($source);
         $literal = false;
+        $this->scriptState = self::SCRIPT_NONE;
+        $this->scriptOpenTag = '';
         while (($start = strpos($source, $L, $pos)) !== false) {
-            $out .= substr($source, $pos, $start - $pos);
+            $text = substr($source, $pos, $start - $pos);
+            $this->scanScript($text);
+            $out .= $text;
             $innerStart = $start + strlen($L);
             // Smarty コメントは閉じ記号までそのまま
             if (substr($source, $innerStart, 1) === '*') {
@@ -179,13 +203,58 @@ class SC_Helper_SmartyEscape
                 $literal = true;
                 $out .= $L.$inner.$R;
             } else {
-                $out .= $L.$this->transformTag($inner).$R;
+                $out .= $L.$this->transformTag($inner, $this->scriptState === self::SCRIPT_IN).$R;
             }
             $pos = $end + strlen($R);
         }
         $out .= substr($source, $pos);
 
         return $out;
+    }
+
+    /**
+     * テンプレートタグの外の文字列から, script 要素の中にいるかどうかを更新する (C8).
+     * 開始タグの属性値の中 (`<script src="<!--{$x}-->">` 等) は script 要素の中として扱わない.
+     *
+     * @param string $text
+     */
+    protected function scanScript($text)
+    {
+        $offset = 0;
+        $len = strlen($text);
+        while ($offset < $len) {
+            if ($this->scriptState === self::SCRIPT_OPEN_TAG) {
+                $gt = strpos($text, '>', $offset);
+                if ($gt === false) {
+                    $this->scriptOpenTag .= substr($text, $offset);
+
+                    return;
+                }
+                $this->scriptOpenTag .= substr($text, $offset, $gt - $offset);
+                $type = '';
+                if (preg_match('/\btype\s*=\s*(?:"([^"]*)"|\'([^\']*)\'|([^\s>]+))/i', $this->scriptOpenTag, $m)) {
+                    // 一致するのは 3 つのグループのどれか 1 つだけ
+                    $type = strtolower(trim(implode('', array_slice($m, 1))));
+                }
+                $this->scriptState = in_array($type, static::$arrScriptTypes, true) ? self::SCRIPT_IN : self::SCRIPT_OTHER;
+                $this->scriptOpenTag = '';
+                $offset = $gt + 1;
+            } elseif ($this->scriptState === self::SCRIPT_NONE) {
+                if (!preg_match('/<script(?=[\s>\/]|$)/i', $text, $m, PREG_OFFSET_CAPTURE, $offset)) {
+                    return;
+                }
+                $this->scriptState = self::SCRIPT_OPEN_TAG;
+                $this->scriptOpenTag = '';
+                $offset = $m[0][1] + strlen($m[0][0]);
+            } else {
+                $close = stripos($text, '</script', $offset);
+                if ($close === false) {
+                    return;
+                }
+                $this->scriptState = self::SCRIPT_NONE;
+                $offset = $close + strlen('</script');
+            }
+        }
     }
 
     /**
@@ -218,10 +287,11 @@ class SC_Helper_SmartyEscape
      * 1 つのタグの中身を変換する.
      *
      * @param string $inner 区切り記号を除いたタグの中身
+     * @param bool $inScript JavaScript の script 要素の中のタグか (C8)
      *
      * @return string
      */
-    public function transformTag($inner)
+    public function transformTag($inner, $inScript = false)
     {
         $p = $this->parse($inner);
         if ($p === null) {
@@ -258,6 +328,9 @@ class SC_Helper_SmartyEscape
         } elseif ($names === [] && preg_match('/^\$(\w+)/', ltrim($expr), $m) && in_array($m[1], static::$arrRawVariables, true)) {
             // C6
             $suffix = '|script_escape nofilter';
+        } elseif ($inScript && in_array($names, static::$arrScriptAllowedModifiers, true)) {
+            // C8
+            $suffix = "|escape:'javascript'|script_escape nofilter";
         } elseif ($names === [] && preg_match('/^\$(\w+)/', ltrim($expr), $m) && preg_match(static::$errorVariablePattern, $m[1])) {
             // C4 (エラーメッセージ系の変数名)
             $suffix = '|'.static::MODIFIER_ERROR.' nofilter';

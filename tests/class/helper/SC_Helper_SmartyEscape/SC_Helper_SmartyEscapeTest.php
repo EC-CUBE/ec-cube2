@@ -119,6 +119,43 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
         $this->assertSame('<!--{$v|default:"}-->"|h nofilter}-->', $this->objHelper->transform($source));
     }
 
+    public function scriptProvider()
+    {
+        $js = "|escape:'javascript'|script_escape nofilter";
+
+        return [
+            '文字列の中' => ["<script>var a = '<!--{\$v}-->';</script>", "<script>var a = '<!--{\$v{$js}}-->';</script>"],
+            'default' => ['<script>f(<!--{$v|default:1}-->);</script>', "<script>f(<!--{\$v|default:1{$js}}-->);</script>"],
+            '属性付き・改行・大文字' => ["<SCRIPT type=\"text/javascript\">\nx = \"<!--{\$v}-->\";\n</SCRIPT>", "<SCRIPT type=\"text/javascript\">\nx = \"<!--{\$v{$js}}-->\";\n</SCRIPT>"],
+            'src 属性の中は対象外' => ['<script src="<!--{$v}-->a.js"></script>', '<script src="<!--{$v}-->a.js"></script>'],
+            '属性値の後の本文は対象' => ['<script src="<!--{$v}-->a.js">x="<!--{$w}-->";</script>', "<script src=\"<!--{\$v}-->a.js\">x=\"<!--{\$w{$js}}-->\";</script>"],
+            'JS 以外の type は対象外' => ['<script type="text/template"><a title="<!--{$v}-->"></script>', '<script type="text/template"><a title="<!--{$v}-->"></script>'],
+            'JSON-LD は対象外' => ['<script type="application/ld+json">{"a":"<!--{$v}-->"}</script>', '<script type="application/ld+json">{"a":"<!--{$v}-->"}</script>'],
+            '閉じた後は対象外' => ['<script></script><!--{$v}-->', '<script></script><!--{$v}-->'],
+            'scripts 等の別の要素は対象外' => ['<scripts><!--{$v}--></scripts>', '<scripts><!--{$v}--></scripts>'],
+            'C6 を優先' => ['<script><!--{$tpl_onload}--></script>', '<script><!--{$tpl_onload|script_escape nofilter}--></script>'],
+            'C1 を優先' => ["<script>a='<!--{\$v|h}-->';</script>", "<script>a='<!--{\$v|h nofilter}-->';</script>"],
+            'エラー系の名前より優先' => ["<script>a='<!--{\$err_msg}-->';</script>", "<script>a='<!--{\$err_msg{$js}}-->';</script>"],
+            '他の modifier は対象外' => ["<script>a='<!--{\$v|upper}-->';</script>", "<script>a='<!--{\$v|upper}-->';</script>"],
+            '演算子を含む式は対象外' => ['<script>a=<!--{$v+1}-->;</script>', '<script>a=<!--{$v+1}-->;</script>'],
+            'literal の中の script' => ["<!--{literal}--><script><!--{/literal}-->a='<!--{\$v}-->';</script>", "<!--{literal}--><script><!--{/literal}-->a='<!--{\$v{$js}}-->';</script>"],
+        ];
+    }
+
+    /**
+     * @dataProvider scriptProvider
+     */
+    public function testTransformScript($source, $expected)
+    {
+        $this->assertSame($expected, $this->objHelper->transform($source));
+    }
+
+    public function testTransformScriptStateIsReset()
+    {
+        $this->objHelper->transform('<script>');
+        $this->assertSame('<!--{$v}-->', $this->objHelper->transform('<!--{$v}-->'));
+    }
+
     public function testEscapeAllowBr()
     {
         $this->assertSame('※ &lt;b&gt;A&amp;B&lt;/b&gt;<br />次<br />', SC_Helper_SmartyEscape::escapeAllowBr('※ <b>A&B</b><br>次<br />'));
@@ -145,7 +182,10 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             '条件式の h の後の出力' => ['<!--{if $v|h != ""}--><!--{/if}--><!--{$v}-->', ['v' => '<i>'], '&lt;i&gt;'],
             '代入の h の後の出力' => ['<!--{assign var=w value=$v|h}--><!--{$v}-->', ['v' => '<i>'], '&lt;i&gt;'],
             // h が掛かるのは $c だけなので, $b も自動エスケープで保護される (二重エスケープの $c は許容)
-            '三項演算子の片側の h' => ['<!--{$a ? $b : $c|h}-->', ['a' => true, 'b' => '<i>', 'c' => ''], '&lt;i&gt;'],        ];
+            'script 内の文字列' => ["<script>var a = '<!--{\$v}-->';</script>", ['v' => "a'b\"c</script>&<i>"], "<script>var a = 'a\\'b\\\"c<\\/script>&<i>';</script>"],
+            'script 内の URL は従来どおり' => ['<script>u="<!--{$u}-->";</script>', ['u' => '/shop/?a=1&b=2'], '<script>u="/shop/?a=1&b=2";</script>'],
+            '三項演算子の片側の h' => ['<!--{$a ? $b : $c|h}-->', ['a' => true, 'b' => '<i>', 'c' => ''], '&lt;i&gt;'],
+        ];
     }
 
     /**
