@@ -33,20 +33,22 @@
  * - C4: modifier なしの `$arrErr…` と, エラーメッセージ系の名前 (err / msg / mess を含む) の変数は,
  *       エスケープ後に `<br>` だけを戻す modifier を通す. C6 の変数は C6 を, script 要素の中のエラーメッセージ系の名前は C8 を優先する.
  * - C5: 固定の属性文字列や HTML を返す modifier (sfGetChecked 等) で終わる出力に nofilter を補う.
- * - C6: HTML/JS 断片を入れる慣習の変数 (本体と既存の拡張で使われているもの) の modifier なし出力は
- *       従来どおり (`|script_escape nofilter`) とする.
+ * - C6: HTML/JS 断片や JSON を入れる慣習の変数 (本体と既存の拡張で使われているもの) を, 添字・プロパティなしで
+ *       modifier なし (`default` のみを含む) で出力する場合は従来どおり (`|script_escape nofilter`) とする.
  * - C7: `escape:'hexentity'` 等, 自動エスケープと重ねると壊れる `escape` のモードで終わる出力を従来どおりとする.
  * - C8: JavaScript の script 要素の中にある, modifier なし (`default` のみを含む) の出力は,
  *       HTML ではなく JavaScript の文字列用にエスケープする (`|escape_js|script_escape nofilter`).
  *       script 要素の開始・終了は同じテンプレートのソースの中で判定する. 判定できない場合は通常の自動エスケープになる.
  *       `<` `>` `&` 引用符等も `\x3c` 形式にするため, 判定を誤って HTML の中に出力しても HTML として解釈されない.
+ *       JavaScript で値を HTML として DOM に入れる箇所 (`.html()` / `innerHTML` 等) は HTML としてのエスケープにならないため,
+ *       テンプレートで `|h` を付ける (C1 により `|h nofilter` になる).
  *
  * C2 (画面出力の View だけを自動エスケープ対象にする) は SC_Display / SC_View 側で扱う.
  */
 class SC_Helper_SmartyEscape
 {
     /** 互換規則のバージョン. 規則を変えたら上げる (compile_id に反映される). */
-    public const VERSION = '5';
+    public const VERSION = '6';
 
     /** C4 で使う modifier 名 */
     public const MODIFIER_ERROR = 'h_allow_br';
@@ -95,7 +97,7 @@ class SC_Helper_SmartyEscape
      */
     public static $errorVariablePattern = '/err|msg|mess/i';
 
-    /** HTML/JS 断片を入れる慣習の変数 (C6) */
+    /** HTML/JS 断片や JSON を入れる慣習の変数 (C6). 添字・プロパティなしの出力だけが対象 */
     public static $arrRawVariables = [
         'tpl_onload',
         'tpl_javascript',
@@ -117,12 +119,20 @@ class SC_Helper_SmartyEscape
         'paidy_js',
         'paygent_token_connect_url',
         'paygent_token_js_url',
+        // 既存の拡張 (決済モジュール等) で, PHP で組み立てた JSON を入れている変数
+        'arrDeliv',
+        'json_jaccs_payment_charge_data',
+        'json_paidy',
+        'json_periodic_purchase_status',
+        'locale_error_message',
+        'strForeignCardOrdersJSON',
+        'tpl_jsonJaccsPayment',
     ];
 
     /** C8 の対象にする script 要素の type 属性 (小文字. 空文字は type 属性なし) */
     public static $arrScriptTypes = ['', 'text/javascript', 'application/javascript', 'module'];
 
-    /** C8 で modifier なしと同じに扱う modifier 列 */
+    /** C6 / C8 で modifier なしと同じに扱う modifier 列 */
     public static $arrScriptAllowedModifiers = [[], ['default']];
 
     /** @var string */
@@ -329,8 +339,8 @@ class SC_Helper_SmartyEscape
         } elseif ($names === [] && preg_match('/^\$arrErr\b/', ltrim($expr))) {
             // C4
             $suffix = '|'.static::MODIFIER_ERROR.' nofilter';
-        } elseif ($names === [] && preg_match('/^\$(\w+)/', ltrim($expr), $m) && in_array($m[1], static::$arrRawVariables, true)) {
-            // C6
+        } elseif (in_array($names, static::$arrScriptAllowedModifiers, true) && preg_match('/^\s*\$(\w+)\s*$/', $p['modifiers'] === [] ? $expr : substr($expr, 0, $p['modifiers'][0]['start']), $m) && in_array($m[1], static::$arrRawVariables, true)) {
+            // C6 (添字・プロパティ付きは対象外. 本体で配列として使う名前 (arrDeliv 等) の要素を素の出力にしない)
             $suffix = '|script_escape nofilter';
         } elseif ($inScript && in_array($names, static::$arrScriptAllowedModifiers, true)) {
             // C8

@@ -58,6 +58,14 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             ['$tpl_payment_onload', '$tpl_payment_onload|script_escape nofilter'],
             ['$paygent_token_js_url', '$paygent_token_js_url|script_escape nofilter'],
             ['$tpl_onload_x', '$tpl_onload_x'],
+            ['$json_paidy', '$json_paidy|script_escape nofilter'],
+            ['$json_paidy|default:"no_data"', '$json_paidy|default:"no_data"|script_escape nofilter'],
+            ['$locale_error_message', '$locale_error_message|script_escape nofilter'],
+            ['$arrDeliv', '$arrDeliv|script_escape nofilter'],
+            // C6 は添字・プロパティ付きを対象にしない
+            ['$arrDeliv[cnt].deliv_id', '$arrDeliv[cnt].deliv_id'],
+            ['$arrDeliv.1', '$arrDeliv.1'],
+            ['$tpl_onload|escape', '$tpl_onload|escape'],
             // C7
             ["\$m|escape:'hexentity'", "\$m|escape:'hexentity' nofilter"],
             ["\$m|escape:'javascript'", "\$m|escape:'javascript'|script_escape nofilter"],
@@ -134,6 +142,8 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             '閉じた後は対象外' => ['<script></script><!--{$v}-->', '<script></script><!--{$v}-->'],
             'scripts 等の別の要素は対象外' => ['<scripts><!--{$v}--></scripts>', '<scripts><!--{$v}--></scripts>'],
             'C6 を優先' => ['<script><!--{$tpl_onload}--></script>', '<script><!--{$tpl_onload|script_escape nofilter}--></script>'],
+            'C6 の JSON 変数を優先' => ['<script>var a = <!--{$json_paidy|default:"no_data"}-->;</script>', '<script>var a = <!--{$json_paidy|default:"no_data"|script_escape nofilter}-->;</script>'],
+            'C6 の名前でも添字付きは C8' => ['<script><!--{$arrDeliv[cnt].deliv_id}--></script>', '<script><!--{$arrDeliv[cnt].deliv_id|escape_js|script_escape nofilter}--></script>'],
             'C1 を優先' => ["<script>a='<!--{\$v|h}-->';</script>", "<script>a='<!--{\$v|h nofilter}-->';</script>"],
             'エラー系の名前より優先' => ["<script>a='<!--{\$err_msg}-->';</script>", "<script>a='<!--{\$err_msg{$js}}-->';</script>"],
             '他の modifier は対象外' => ["<script>a='<!--{\$v|upper}-->';</script>", "<script>a='<!--{\$v|upper}-->';</script>"],
