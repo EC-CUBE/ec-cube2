@@ -457,7 +457,7 @@ SC_Initial_Ex::defineIfNotDefined('ECCUBE_INFO', true);
 /** 外部サイトHTTP取得タイムアウト時間(秒) */
 SC_Initial_Ex::defineIfNotDefined('HTTP_REQUEST_TIMEOUT', "5");
 /** 郵便番号CSVのZIPアーカイブファイルの取得元 */
-SC_Initial_Ex::defineIfNotDefined('ZIP_DOWNLOAD_URL', "https://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip");
+SC_Initial_Ex::defineIfNotDefined('ZIP_DOWNLOAD_URL', "https://www.post.japanpost.jp/service/search/zipcode/download/kogaki/zip/ken_all.zip");
 /** フックポイント(プレプロセス) */
 SC_Initial_Ex::defineIfNotDefined('HOOK_POINT_PREPROCESS', "LC_Page_preProcess");
 /** フックポイント(プロセス) */
