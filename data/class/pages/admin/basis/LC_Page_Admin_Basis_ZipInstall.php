@@ -377,14 +377,19 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
     {
         // Proxy経由を可能とする。
         // TODO Proxyの設定は「data/module/HTTP/Request.php」内の「function HTTP_Request」へ記述する。いずれは、外部設定としたい。
-        $req = new HTTP_Request();
+        $req = new HTTP_Request('', ['allowRedirects' => true]);
 
         $req->setURL(ZIP_DOWNLOAD_URL);
 
         // 郵便番号CSVをdownloadする。
         $res = $req->sendRequest();
-        if (!$res || strlen($res) > 1) {
-            trigger_error(ZIP_DOWNLOAD_URL.' の取得に失敗しました。', E_USER_ERROR);
+        if (PEAR::isError($res)) {
+            trigger_error(ZIP_DOWNLOAD_URL.' の取得に失敗しました。('.$res->getMessage().')', E_USER_ERROR);
+        }
+        // 404等のエラーページをZIPファイルとして保存しない様、レスポンスコードを確認する。
+        $code = $req->getResponseCode();
+        if ($code !== 200) {
+            trigger_error(ZIP_DOWNLOAD_URL.' の取得に失敗しました。(HTTP '.$code.')', E_USER_ERROR);
         }
 
         // 郵便番号CSV(zip file)を保存する。
