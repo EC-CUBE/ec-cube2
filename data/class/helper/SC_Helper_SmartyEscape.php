@@ -48,7 +48,7 @@
 class SC_Helper_SmartyEscape
 {
     /** 互換規則のバージョン. 規則を変えたら上げる (compile_id に反映される). */
-    public const VERSION = '8';
+    public const VERSION = '9';
 
     /** C4 で使う modifier 名 */
     public const MODIFIER_ERROR = 'h_allow_br';
@@ -71,11 +71,12 @@ class SC_Helper_SmartyEscape
 
     /**
      * nofilter を補う, 固定の属性文字列や HTML を返す modifier (C5).
-     * sfGetChecked の本体テンプレートでの利用は if 文に置き換え済み. 既存のプラグイン・カスタムテンプレートのために残す.
+     * sfGetChecked / sfGetEnabled の本体テンプレートでの利用は if 文に置き換え済み. 既存のプラグイン・カスタムテンプレートのために残す.
      * それ以外は既存の拡張が登録する, 価格表示の HTML を返す modifier.
      */
     public static $arrFixedOutputModifiers = [
         'sfGetChecked',
+        'sfGetEnabled',
         'sfViewPriceTax',
         'sfViewPriceTax2',
         'sfViewPriceTax3',

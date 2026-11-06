@@ -51,6 +51,7 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             ['$GLOBAL_ERR', '$GLOBAL_ERR|script_escape nofilter'],
             // C5
             ['$v|sfGetChecked:1', '$v|sfGetChecked:1 nofilter'],
+            ['$v|sfGetEnabled', '$v|sfGetEnabled nofilter'],
             ['$v|sfViewPriceTax2', '$v|sfViewPriceTax2 nofilter'],
             ['$v|default:0|sfViewPriceTax3:1', '$v|default:0|sfViewPriceTax3:1 nofilter'],
             ['$v|dispCurrency', '$v|dispCurrency nofilter'],
@@ -200,6 +201,7 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             'nl2br は従来どおり' => ['<!--{$v|nl2br}-->', ['v' => "<a href=\"/\">x</a>\n2"], "<a href=\"/\">x</a><br />\n2"],
             'tpl_onload は従来どおり' => ['<!--{$tpl_onload}-->', ['tpl_onload' => "fnOnLoad('a');"], "fnOnLoad('a');"],
             'sfGetChecked' => ['<!--{1|sfGetChecked:$v}-->', ['v' => '1'], 'checked="checked"'],
+            'sfGetEnabled' => ['<!--{$v|sfGetEnabled}-->', ['v' => ''], ' disabled="disabled"'],
             'hexentity' => ["<!--{\$v|escape:'hexentity'}-->", ['v' => 'a@'], '&#x61;&#x40;'],
             '条件式の h の後の出力' => ['<!--{if $v|h != ""}--><!--{/if}--><!--{$v}-->', ['v' => '<i>'], '&lt;i&gt;'],
             '代入の h の後の出力' => ['<!--{assign var=w value=$v|h}--><!--{$v}-->', ['v' => '<i>'], '&lt;i&gt;'],
