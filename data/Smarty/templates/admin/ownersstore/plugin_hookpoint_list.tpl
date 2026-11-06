@@ -36,13 +36,11 @@
             if(value === '0') {
                 result = window.confirm('無効にしても宜しいですか？');
                 if(result === false) {
-                    //$(event.target).attr("checked", "checked");
                     event.target.value = '1';
                 }
             } else if(value === '1') {
                 result = window.confirm('有効にしても宜しいですか？');
                 if(result === false) {
-                    //$(event.target).attr("checked", "checked");
                     event.target.value = '0';
                 }
             }
