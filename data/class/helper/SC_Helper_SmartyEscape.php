@@ -37,18 +37,22 @@
  *       従来どおり (`|script_escape nofilter`) とする.
  * - C7: `escape:'hexentity'` 等, 自動エスケープと重ねると壊れる `escape` のモードで終わる出力を従来どおりとする.
  * - C8: JavaScript の script 要素の中にある, modifier なし (`default` のみを含む) の出力は,
- *       HTML ではなく JavaScript 用にエスケープする (`|escape:'javascript'|script_escape nofilter`).
+ *       HTML ではなく JavaScript の文字列用にエスケープする (`|escape_js|script_escape nofilter`).
  *       script 要素の開始・終了は同じテンプレートのソースの中で判定する. 判定できない場合は通常の自動エスケープになる.
+ *       `<` `>` `&` 引用符等も `\x3c` 形式にするため, 判定を誤って HTML の中に出力しても HTML として解釈されない.
  *
  * C2 (画面出力の View だけを自動エスケープ対象にする) は SC_Display / SC_View 側で扱う.
  */
 class SC_Helper_SmartyEscape
 {
     /** 互換規則のバージョン. 規則を変えたら上げる (compile_id に反映される). */
-    public const VERSION = '4';
+    public const VERSION = '5';
 
     /** C4 で使う modifier 名 */
     public const MODIFIER_ERROR = 'h_allow_br';
+
+    /** C8 で使う modifier 名 */
+    public const MODIFIER_SCRIPT = 'escape_js';
 
     /** `h` の後に続いてよい modifier 列 (C1) */
     public static $arrAllowedAfterH = [
@@ -330,7 +334,7 @@ class SC_Helper_SmartyEscape
             $suffix = '|script_escape nofilter';
         } elseif ($inScript && in_array($names, static::$arrScriptAllowedModifiers, true)) {
             // C8
-            $suffix = "|escape:'javascript'|script_escape nofilter";
+            $suffix = '|'.static::MODIFIER_SCRIPT.'|script_escape nofilter';
         } elseif ($names === [] && preg_match('/^\$(\w+)/', ltrim($expr), $m) && preg_match(static::$errorVariablePattern, $m[1])) {
             // C4 (エラーメッセージ系の変数名)
             $suffix = '|'.static::MODIFIER_ERROR.' nofilter';
@@ -547,5 +551,39 @@ class SC_Helper_SmartyEscape
         $escaped = htmlspecialchars((string) $value, ENT_QUOTES, CHAR_CODE);
 
         return preg_replace('#&lt;br\s*/?&gt;#i', '<br />', $escaped);
+    }
+
+    /**
+     * C8: JavaScript の文字列リテラル用にエスケープする.
+     *
+     * 文字列から抜け出す文字に加えて `<` `>` `&` 引用符 `` ` `` `$` を `\xHH` にする.
+     * JavaScript の文字列の中では元の値に戻り, HTML の中に出力されても HTML として解釈されない.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public static function escapeJs($value)
+    {
+        if (is_scalar($value) && !is_string($value) || $value === null) {
+            return $value;
+        }
+        $value = (string) $value;
+        static $map = [
+            '\\' => '\\\\',
+            "'" => '\\x27',
+            '"' => '\\x22',
+            '`' => '\\x60',
+            '$' => '\\x24',
+            '<' => '\\x3c',
+            '>' => '\\x3e',
+            '&' => '\\x26',
+            "\r" => '\\r',
+            "\n" => '\\n',
+            "\u{2028}" => '\\u2028',
+            "\u{2029}" => '\\u2029',
+        ];
+
+        return strtr($value, $map);
     }
 }

@@ -90,6 +90,7 @@ class SC_View
         $this->_smarty->registerPlugin('modifier', 'format_name', 'smarty_modifier_format_name');
         // エラーメッセージ用: HTML エスケープした後に <br> だけを戻す
         $this->_smarty->registerPlugin('modifier', SC_Helper_SmartyEscape::MODIFIER_ERROR, ['SC_Helper_SmartyEscape', 'escapeAllowBr']);
+        $this->_smarty->registerPlugin('modifier', SC_Helper_SmartyEscape::MODIFIER_SCRIPT, ['SC_Helper_SmartyEscape', 'escapeJs']);
         $this->_smarty->muteUndefinedOrNullWarnings();
         $this->_smarty->default_modifiers = ['script_escape'];
 

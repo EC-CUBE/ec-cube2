@@ -121,7 +121,7 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
 
     public function scriptProvider()
     {
-        $js = "|escape:'javascript'|script_escape nofilter";
+        $js = '|escape_js|script_escape nofilter';
 
         return [
             '文字列の中' => ["<script>var a = '<!--{\$v}-->';</script>", "<script>var a = '<!--{\$v{$js}}-->';</script>"],
@@ -182,8 +182,11 @@ class SC_Helper_SmartyEscapeTest extends Common_TestCase
             '条件式の h の後の出力' => ['<!--{if $v|h != ""}--><!--{/if}--><!--{$v}-->', ['v' => '<i>'], '&lt;i&gt;'],
             '代入の h の後の出力' => ['<!--{assign var=w value=$v|h}--><!--{$v}-->', ['v' => '<i>'], '&lt;i&gt;'],
             // h が掛かるのは $c だけなので, $b も自動エスケープで保護される (二重エスケープの $c は許容)
-            'script 内の文字列' => ["<script>var a = '<!--{\$v}-->';</script>", ['v' => "a'b\"c</script>&<i>"], "<script>var a = 'a\\'b\\\"c<\\/script>&<i>';</script>"],
-            'script 内の URL は従来どおり' => ['<script>u="<!--{$u}-->";</script>', ['u' => '/shop/?a=1&b=2'], '<script>u="/shop/?a=1&b=2";</script>'],
+            'script 内の文字列' => ["<script>var a = '<!--{\$v}-->';</script>", ['v' => "a'b\"c</script>&<i>`\${x}\\\n"], "<script>var a = 'a\\x27b\\x22c\\x3c/script\\x3e\\x26\\x3ci\\x3e\\x60\\x24{x}\\\\\\n';</script>"],
+            'script 内の URL' => ['<script>u="<!--{$u}-->";</script>', ['u' => '/shop/?a=1&b=2'], '<script>u="/shop/?a=1\\x26b=2";</script>'],
+            'script 内の数値' => ['<script>n=<!--{$n}-->;</script>', ['n' => 12], '<script>n=12;</script>'],
+            // HTML コメントの中の <script> で判定を誤っても, HTML として解釈される文字は出力しない
+            'script の判定を誤った場合' => ['<!-- <script> --><p><!--{$v}--></p>', ['v' => '<img src=x onerror=alert(1)>'], '<!-- <script> --><p>\\x3cimg src=x onerror=alert(1)\\x3e</p>'],
             '三項演算子の片側の h' => ['<!--{$a ? $b : $c|h}-->', ['a' => true, 'b' => '<i>', 'c' => ''], '&lt;i&gt;'],
         ];
     }
