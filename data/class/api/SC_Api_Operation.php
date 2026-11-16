@@ -420,6 +420,7 @@ class SC_Api_Operation
             'HTTPHeaders' => [],
             'RequestId' => $start_time,
             'Arguments' => [],
+            'RequestProcessingTime' => microtime(true) - $start_time,
         ];
 
         if (!empty($_SERVER['HTTP_USER_AGENT'])) {
@@ -434,7 +435,6 @@ class SC_Api_Operation
         foreach ($arrParam as $key => $val) {
             $arrRet['Arguments'][] = ['_attributes' => ['Name' => htmlentities($key, ENT_NOQUOTES, 'UTF-8'), 'Value' => htmlentities($val, ENT_NOQUOTES, 'UTF-8')]];
         }
-        $arrRet['RequestProcessingTime'] = microtime(true) - $start_time;
 
         return $arrRet;
     }
