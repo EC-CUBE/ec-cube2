@@ -52,7 +52,6 @@ class SC_View
         $this->_smarty->registerPlugin('modifier', 'sfTrim', ['SC_Utils_Ex', 'sfTrim']);
         $this->_smarty->registerPlugin('modifier', 'sfCalcIncTax', ['SC_Helper_DB_Ex', 'sfCalcIncTax']);
         $this->_smarty->registerPlugin('modifier', 'sfPrePoint', ['SC_Utils_Ex', 'sfPrePoint']);
-        // @deprecated 既存のテンプレートとの互換のため登録 (SC_Utils::sfGetChecked)
         $this->_smarty->registerPlugin('modifier', 'sfGetChecked', ['SC_Utils_Ex', 'sfGetChecked']);
         $this->_smarty->registerPlugin('modifier', 'sfTrimURL', ['SC_Utils_Ex', 'sfTrimURL']);
         $this->_smarty->registerPlugin('modifier', 'sfMultiply', ['SC_Utils_Ex', 'sfMultiply']);
@@ -67,7 +66,6 @@ class SC_View
         $this->_smarty->registerPlugin('modifier', 'u', 'smarty_modifier_u');
         // @deprecated 既存のテンプレートとの互換のため登録 (SC_Utils::sfMbConvertEncoding)
         $this->_smarty->registerPlugin('modifier', 'sfMbConvertEncoding', ['SC_Utils_Ex', 'sfMbConvertEncoding']);
-        // @deprecated 既存のテンプレートとの互換のため登録 (SC_Utils::sfGetEnabled)
         $this->_smarty->registerPlugin('modifier', 'sfGetEnabled', ['SC_Utils_Ex', 'sfGetEnabled']);
         $this->_smarty->registerPlugin('modifier', 'sfNoImageMainList', ['SC_Utils_Ex', 'sfNoImageMainList']);
         $this->_smarty->registerPlugin('modifier', 'file_exists', 'file_exists');

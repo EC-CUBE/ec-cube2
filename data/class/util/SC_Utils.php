@@ -685,9 +685,6 @@ class SC_Utils
         return '';
     }
 
-    /**
-     * @deprecated テンプレートでは <!--{if !$val}--> disabled="disabled"<!--{/if}--> を使用すること
-     */
     public static function sfGetEnabled($val)
     {
         if (!$val) {
@@ -697,9 +694,6 @@ class SC_Utils
         return '';
     }
 
-    /**
-     * @deprecated テンプレートでは <!--{if $param == $value}-->checked="checked"<!--{/if}--> を使用すること
-     */
     public static function sfGetChecked($param, $value)
     {
         if ((string) $param === (string) $value) {

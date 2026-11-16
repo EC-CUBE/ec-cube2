@@ -101,7 +101,7 @@ class SC_Helper_SmartyEscape
 
     /**
      * nofilter を補う, 固定の属性文字列や HTML を返す modifier (C5).
-     * sfGetChecked / sfGetEnabled の本体テンプレートでの利用は if 文に置き換え済み. 既存のプラグイン・カスタムテンプレートのために残す.
+     * sfGetChecked / sfGetEnabled は固定の属性文字列 (`checked="checked"` / ` disabled="disabled"`) か空文字だけを返す.
      * それ以外は既存の拡張が登録する, 価格表示の HTML を返す modifier.
      */
     public static $arrFixedOutputModifiers = [
