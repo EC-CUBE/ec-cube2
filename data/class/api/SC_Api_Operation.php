@@ -433,7 +433,7 @@ class SC_Api_Operation
         }
 
         foreach ($arrParam as $key => $val) {
-            $arrRet['Arguments'][] = ['_attributes' => ['Name' => htmlentities($key, ENT_NOQUOTES, 'UTF-8'), 'Value' => htmlentities($val, ENT_NOQUOTES, 'UTF-8')]];
+            $arrRet['Arguments']['Argument'][] = ['_attributes' => ['Name' => $key, 'Value' => $val]];
         }
 
         return $arrRet;
