@@ -16,6 +16,9 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_delivtime_deliv_id_not_null | n | NOT NULL deliv_id |
+| dtb_delivtime_deliv_time_not_null | n | NOT NULL deliv_time |
+| dtb_delivtime_time_id_not_null | n | NOT NULL time_id |
 | dtb_delivtime_pkey | PRIMARY KEY | PRIMARY KEY (deliv_id, time_id) |
 
 ## Indexes

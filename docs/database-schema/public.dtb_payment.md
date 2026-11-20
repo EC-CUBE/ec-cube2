@@ -42,6 +42,12 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_payment_create_date_not_null | n | NOT NULL create_date |
+| dtb_payment_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_payment_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_payment_payment_id_not_null | n | NOT NULL payment_id |
+| dtb_payment_status_not_null | n | NOT NULL status |
+| dtb_payment_update_date_not_null | n | NOT NULL update_date |
 | dtb_payment_pkey | PRIMARY KEY | PRIMARY KEY (payment_id) |
 
 ## Indexes
