@@ -21,6 +21,14 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_kiyaku_create_date_not_null | n | NOT NULL create_date |
+| dtb_kiyaku_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_kiyaku_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_kiyaku_kiyaku_id_not_null | n | NOT NULL kiyaku_id |
+| dtb_kiyaku_kiyaku_text_not_null | n | NOT NULL kiyaku_text |
+| dtb_kiyaku_kiyaku_title_not_null | n | NOT NULL kiyaku_title |
+| dtb_kiyaku_rank_not_null | n | NOT NULL rank |
+| dtb_kiyaku_update_date_not_null | n | NOT NULL update_date |
 | dtb_kiyaku_pkey | PRIMARY KEY | PRIMARY KEY (kiyaku_id) |
 
 ## Indexes
