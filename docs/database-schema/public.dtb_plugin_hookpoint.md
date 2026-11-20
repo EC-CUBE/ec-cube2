@@ -20,6 +20,12 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_plugin_hookpoint_create_date_not_null | n | NOT NULL create_date |
+| dtb_plugin_hookpoint_hook_point_not_null | n | NOT NULL hook_point |
+| dtb_plugin_hookpoint_plugin_hookpoint_id_not_null | n | NOT NULL plugin_hookpoint_id |
+| dtb_plugin_hookpoint_plugin_id_not_null | n | NOT NULL plugin_id |
+| dtb_plugin_hookpoint_update_date_not_null | n | NOT NULL update_date |
+| dtb_plugin_hookpoint_use_flg_not_null | n | NOT NULL use_flg |
 | dtb_plugin_hookpoint_pkey | PRIMARY KEY | PRIMARY KEY (plugin_hookpoint_id) |
 
 ## Indexes

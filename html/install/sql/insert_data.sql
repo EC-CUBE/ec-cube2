@@ -729,6 +729,12 @@ INSERT INTO dtb_templates (template_code, device_type_id, template_name, create_
 INSERT INTO dtb_templates (template_code, device_type_id, template_name, create_date, update_date) VALUES ('sphone', 2, 'スマートフォン', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO dtb_templates (template_code, device_type_id, template_name, create_date, update_date) VALUES ('default', 2, 'PCデフォルト (レスポンシブWebデザイン)', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
+INSERT INTO dtb_migration (version) VALUES ('20260130000001');
+INSERT INTO dtb_migration (version) VALUES ('20260401000001');
+INSERT INTO dtb_migration (version) VALUES ('20260401000002');
+INSERT INTO dtb_migration (version) VALUES ('20260714000001');
+INSERT INTO dtb_migration (version) VALUES ('20260928000001');
+
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (0, 'table', 0);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (1, 'tr', 1);
 INSERT INTO mtb_allowed_tag (id, name, rank) VALUES (2, 'td', 2);
@@ -1272,7 +1278,7 @@ INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('DEVICE_TYPE_PC', '1
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('DEVICE_TYPE_ADMIN', '99', 1103, '端末種別: 管理画面');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ECCUBE_INFO', 'true', 1218, 'EC-CUBE更新情報取得 (true:取得する false:取得しない)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('HTTP_REQUEST_TIMEOUT', '"5"', 1219, '外部サイトHTTP取得タイムアウト時間(秒)');
-INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ZIP_DOWNLOAD_URL', '"https://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip"', 1224, '郵便番号CSVのZIPアーカイブファイルの取得元');
+INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('ZIP_DOWNLOAD_URL', '"https://www.post.japanpost.jp/service/search/zipcode/download/kogaki/zip/ken_all.zip"', 1224, '郵便番号CSVのZIPアーカイブファイルの取得元');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('HOOK_POINT_PREPROCESS', '"LC_Page_preProcess"', 1301, 'フックポイント(プレプロセス)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('HOOK_POINT_PROCESS', '"LC_Page_process"', 1302, 'フックポイント(プロセス)');
 INSERT INTO mtb_constants (id, name, rank, remarks) VALUES ('PLUGIN_ACTIVATE_FLAG', 'true', 1303, 'プラグインのロード可否フラグ)');
@@ -1566,4 +1572,3 @@ INSERT INTO mtb_country (id, name, rank) VALUES (426,'レソト',246);
 INSERT INTO mtb_country (id, name, rank) VALUES (422,'レバノン',247);
 INSERT INTO mtb_country (id, name, rank) VALUES (638,'レユニオン',248);
 INSERT INTO mtb_country (id, name, rank) VALUES (643,'ロシア|ロシア連邦',249);
-

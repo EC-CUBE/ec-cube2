@@ -18,6 +18,10 @@ CSV詳細設定SQL情報
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_csv_sql_create_date_not_null | n | NOT NULL create_date |
+| dtb_csv_sql_sql_id_not_null | n | NOT NULL sql_id |
+| dtb_csv_sql_sql_name_not_null | n | NOT NULL sql_name |
+| dtb_csv_sql_update_date_not_null | n | NOT NULL update_date |
 | dtb_csv_sql_pkey | PRIMARY KEY | PRIMARY KEY (sql_id) |
 
 ## Indexes
