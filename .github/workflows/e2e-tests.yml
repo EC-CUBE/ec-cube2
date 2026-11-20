@@ -193,12 +193,21 @@ jobs:
             docker compose stop -t 5 ec-cube
             sudo cp data/eccube_snapshot.db data/eccube.db
             sudo rm -f data/eccube.db-wal data/eccube.db-shm
-            docker compose start ec-cube
+            # CI ランナーでは stop 直後の `docker compose start` が何も起動しないまま
+            # 正常終了することがある（コンテナは stopped のまま）。冪等で
+            # ヘルスチェック完了まで待つ `up -d --wait` を使用する
+            if ! docker compose up -d --wait ec-cube; then
+              docker compose ps -a ec-cube
+              docker compose logs --tail 50 ec-cube
+              exit 1
+            fi
             tries=0
             until curl -sf -k --connect-timeout 5 --max-time 10 https://localhost:4430/ -o /dev/null; do
               tries=$((tries+1))
               if [ "$tries" -ge 60 ]; then
                 echo "ec-cube did not come back up" >&2
+                docker compose ps -a ec-cube
+                docker compose logs --tail 50 ec-cube
                 exit 1
               fi
               sleep 1
@@ -240,12 +249,21 @@ jobs:
             docker compose stop -t 5 ec-cube
             sudo cp data/eccube_snapshot.db data/eccube.db
             sudo rm -f data/eccube.db-wal data/eccube.db-shm
-            docker compose start ec-cube
+            # CI ランナーでは stop 直後の `docker compose start` が何も起動しないまま
+            # 正常終了することがある（コンテナは stopped のまま）。冪等で
+            # ヘルスチェック完了まで待つ `up -d --wait` を使用する
+            if ! docker compose up -d --wait ec-cube; then
+              docker compose ps -a ec-cube
+              docker compose logs --tail 50 ec-cube
+              exit 1
+            fi
             tries=0
             until curl -sf -k --connect-timeout 5 --max-time 10 https://localhost:4430/ -o /dev/null; do
               tries=$((tries+1))
               if [ "$tries" -ge 60 ]; then
                 echo "ec-cube did not come back up" >&2
+                docker compose ps -a ec-cube
+                docker compose logs --tail 50 ec-cube
                 exit 1
               fi
               sleep 1

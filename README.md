@@ -20,6 +20,8 @@ EC-CUBE Trac にある議論の再開や不具合の修正についても、GitH
 [EC-CUBEのコピーライトポリシー](https://github.com/EC-CUBE/ec-cube/wiki/EC-CUBE%E3%81%AE%E3%82%B3%E3%83%94%E3%83%BC%E3%83%A9%E3%82%A4%E3%83%88%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC)をご理解いただき、ご了承いただく必要がございます。
 Pull requestを送信する際は、EC-CUBEのコピーライトポリシーに同意したものとみなします。
 
+Pull request を送信する前に [CONTRIBUTING.md](CONTRIBUTING.md) をご確認ください。
+
 ## 開発方針
 
 本リポジトリでは、以下方針で開発を行っています。
