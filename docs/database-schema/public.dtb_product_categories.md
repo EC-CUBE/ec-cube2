@@ -16,6 +16,9 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_product_categories_category_id_not_null | n | NOT NULL category_id |
+| dtb_product_categories_product_id_not_null | n | NOT NULL product_id |
+| dtb_product_categories_rank_not_null | n | NOT NULL rank |
 | dtb_product_categories_pkey | PRIMARY KEY | PRIMARY KEY (product_id, category_id) |
 
 ## Indexes

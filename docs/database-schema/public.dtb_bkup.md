@@ -16,6 +16,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_bkup_bkup_name_not_null | n | NOT NULL bkup_name |
+| dtb_bkup_create_date_not_null | n | NOT NULL create_date |
 | dtb_bkup_pkey | PRIMARY KEY | PRIMARY KEY (bkup_name) |
 
 ## Indexes

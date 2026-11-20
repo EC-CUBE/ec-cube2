@@ -72,6 +72,15 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_order_temp_add_point_not_null | n | NOT NULL add_point |
+| dtb_order_temp_birth_point_not_null | n | NOT NULL birth_point |
+| dtb_order_temp_create_date_not_null | n | NOT NULL create_date |
+| dtb_order_temp_customer_id_not_null | n | NOT NULL customer_id |
+| dtb_order_temp_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_order_temp_discount_not_null | n | NOT NULL discount |
+| dtb_order_temp_order_temp_id_not_null | n | NOT NULL order_temp_id |
+| dtb_order_temp_update_date_not_null | n | NOT NULL update_date |
+| dtb_order_temp_use_point_not_null | n | NOT NULL use_point |
 | dtb_order_temp_pkey | PRIMARY KEY | PRIMARY KEY (order_temp_id) |
 
 ## Indexes
