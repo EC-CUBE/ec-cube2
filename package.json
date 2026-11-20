@@ -18,7 +18,7 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
-    "@faker-js/faker": "^9.8.0",
+    "@faker-js/faker": "^10.5.0",
     "@playwright/test": "1.56.0",
     "@types/date-fns": "^2.6.3",
     "@types/tar": "^6.1.13",
