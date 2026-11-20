@@ -56,12 +56,11 @@ runs:
         echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
 
     # PHP 8.6 以降の公式イメージは mbstring と pecl を含まない
-    # 8.6 は正式リリース前のため RC イメージ (8.6-rc-apache) を使用する
     - name: Set build arguments (PHP >= 8.6)
       if: ${{ inputs.php-version >= '8.6' }}
       shell: 'bash'
       run: |
-        echo "PHP_VERSION_TAG=${{ inputs.php-version }}-rc" >> ${GITHUB_ENV}
+        echo "PHP_VERSION_TAG=${{ inputs.php-version }}" >> ${GITHUB_ENV}
         echo "GD_OPTIONS=--with-freetype --with-jpeg" >> ${GITHUB_ENV}
         echo "EXT_INSTALL_ARGS=gd zip mysqli mbstring" >> ${GITHUB_ENV}
         echo "APCU=" >>  ${GITHUB_ENV}
