@@ -18,7 +18,7 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
-    "@faker-js/faker": "^9.8.0",
+    "@faker-js/faker": "^10.5.0",
     "@playwright/test": "1.56.0",
     "@types/date-fns": "^2.6.3",
     "@types/tar": "^6.1.13",
@@ -29,7 +29,7 @@
     "eslint-config-jquery": "^3.0.2",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-playwright": "^2.2.0",
-    "tar": "^7.5.11",
+    "tar": "^7.5.21",
     "typescript": "^5.8.3"
   },
   "scripts": {
