@@ -209,7 +209,7 @@ docker compose up -d --wait
 docker compose exec -T ec-cube composer install
 docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
 docker compose exec -T ec-cube composer update 'symfony/*' -W
-docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=30 --orders=5
 ## 会員のメールアドレスを zap_user@example.com へ変更
 docker compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
 
@@ -239,7 +239,7 @@ docker compose up -d --wait
 docker compose exec -T ec-cube composer install
 docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
 docker compose exec -T ec-cube composer update 'symfony/*' -W
-docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=30 --orders=5
 ## 会員のメールアドレスを zap_user@example.com へ変更
 docker compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
 
