@@ -10,7 +10,7 @@ require_once __DIR__.'/URL_Legacy.php';
  * Compares the new Guzzle-based implementation with the legacy implementation
  * to ensure backward compatibility.
  */
-class Net_URL_CompatibilityTest extends \PHPUnit\Framework\TestCase
+class Net_URL_CompatibilityTest extends Common_TestCase
 {
     /**
      * URLs to test

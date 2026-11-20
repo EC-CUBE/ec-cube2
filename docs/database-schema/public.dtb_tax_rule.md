@@ -14,7 +14,7 @@
 | product_id | integer | 0 | false |  | [public.dtb_products](public.dtb_products.md) | 商品ID |
 | product_class_id | integer | 0 | false |  | [public.dtb_products_class](public.dtb_products_class.md) | 商品規格ID |
 | calc_rule | smallint | 1 | false |  | [public.mtb_taxrule](public.mtb_taxrule.md) | 課税規則（四捨五入、切り上げ、切り捨て） |
-| tax_rate | numeric | 8 | false |  |  | 消費税率 |
+| tax_rate | numeric | 10 | false |  |  | 消費税率 |
 | tax_adjust | numeric | 0 | false |  |  | 固定金額 |
 | apply_date | timestamp without time zone | CURRENT_TIMESTAMP | false |  |  | 適用日 |
 | member_id | integer |  | false |  | [public.dtb_member](public.dtb_member.md) | 作成者ID |
@@ -26,6 +26,19 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_tax_rule_apply_date_not_null | n | NOT NULL apply_date |
+| dtb_tax_rule_calc_rule_not_null | n | NOT NULL calc_rule |
+| dtb_tax_rule_country_id_not_null | n | NOT NULL country_id |
+| dtb_tax_rule_create_date_not_null | n | NOT NULL create_date |
+| dtb_tax_rule_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_tax_rule_member_id_not_null | n | NOT NULL member_id |
+| dtb_tax_rule_pref_id_not_null | n | NOT NULL pref_id |
+| dtb_tax_rule_product_class_id_not_null | n | NOT NULL product_class_id |
+| dtb_tax_rule_product_id_not_null | n | NOT NULL product_id |
+| dtb_tax_rule_tax_adjust_not_null | n | NOT NULL tax_adjust |
+| dtb_tax_rule_tax_rate_not_null | n | NOT NULL tax_rate |
+| dtb_tax_rule_tax_rule_id_not_null | n | NOT NULL tax_rule_id |
+| dtb_tax_rule_update_date_not_null | n | NOT NULL update_date |
 | dtb_tax_rule_pkey | PRIMARY KEY | PRIMARY KEY (tax_rule_id) |
 
 ## Indexes

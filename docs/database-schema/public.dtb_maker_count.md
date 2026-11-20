@@ -16,6 +16,9 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_maker_count_create_date_not_null | n | NOT NULL create_date |
+| dtb_maker_count_maker_id_not_null | n | NOT NULL maker_id |
+| dtb_maker_count_product_count_not_null | n | NOT NULL product_count |
 | dtb_maker_count_pkey | PRIMARY KEY | PRIMARY KEY (maker_id) |
 
 ## Indexes

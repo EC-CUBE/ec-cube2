@@ -26,6 +26,7 @@
 <meta http-equiv="content-script-type" content="text/javascript" />
 <meta http-equiv="content-style-type" content="text/css" />
 <link rel="stylesheet" href="css/admin_contents.css" type="text/css" media="all" />
+<link rel="stylesheet" href="../js/eccube.css" type="text/css" media="all" />
 <script type="text/javascript" src="../js/eccube.js"></script>
 
 <script type="text/javascript">//<![CDATA[

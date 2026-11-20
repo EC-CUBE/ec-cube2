@@ -25,6 +25,12 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_deliv_create_date_not_null | n | NOT NULL create_date |
+| dtb_deliv_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_deliv_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_deliv_deliv_id_not_null | n | NOT NULL deliv_id |
+| dtb_deliv_status_not_null | n | NOT NULL status |
+| dtb_deliv_update_date_not_null | n | NOT NULL update_date |
 | dtb_deliv_pkey | PRIMARY KEY | PRIMARY KEY (deliv_id) |
 
 ## Indexes

@@ -21,7 +21,7 @@
 
 ### フロントエンド
 - jQuery 3.7.1
-- Webpack 5
+- esbuild
 
 ### E2Eテスト
 - Playwright 1.52.0
@@ -175,6 +175,8 @@ npm run dev
 # コードスタイル修正
 docker compose exec php-mysql vendor/bin/php-cs-fixer fix
 ```
+
+データベースを変更する場合は、[CONTRIBUTING.md](CONTRIBUTING.md) の「データベースの変更」に従い、マイグレーションとインストール用 SQL の両方を更新すること。
 
 ### 3. テスト実行（必須）
 

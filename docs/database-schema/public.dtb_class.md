@@ -20,6 +20,11 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_class_class_id_not_null | n | NOT NULL class_id |
+| dtb_class_create_date_not_null | n | NOT NULL create_date |
+| dtb_class_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_class_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_class_update_date_not_null | n | NOT NULL update_date |
 | dtb_class_pkey | PRIMARY KEY | PRIMARY KEY (class_id) |
 
 ## Indexes

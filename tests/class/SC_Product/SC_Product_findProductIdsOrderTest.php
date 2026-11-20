@@ -51,4 +51,17 @@ class SC_Product_findProductsOrderTest extends SC_Product_TestBase
 
         $this->verify('arrOrderData設定順');
     }
+
+    public function testFindProductIdsOrderArrOrderData設定時もLimitOffsetが維持される()
+    {
+        // サブクエリ生成時の SC_Query::getSql() による LIMIT/OFFSET のリセットが
+        // 呼び出し元の SC_Query に影響しないことを確認する (#1420)
+        $this->objProducts->setProductsOrder('product_id', 'dtb_products', 'DESC');
+        $this->objQuery->setLimitOffset(1, 1);
+        $this->expected = ['1001'];
+
+        $this->actual = $this->objProducts->findProductIdsOrder($this->objQuery);
+
+        $this->verify('arrOrderData設定時の LIMIT/OFFSET');
+    }
 }
