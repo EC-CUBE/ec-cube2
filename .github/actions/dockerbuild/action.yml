@@ -33,6 +33,15 @@ runs:
         echo "APT_REPO=deb.debian.org" >> ${GITHUB_ENV}
         echo "APT_SECURITY_REPO=security.debian.org" >> ${GITHUB_ENV}
 
+    # PHP 7.4 / 8.0 の公式イメージは Debian bullseye ベース。
+    # bullseye-security は archive.debian.org へ移行済みで deb.debian.org の pool から削除されているため archive を参照する
+    - name: Set APT repository (PHP < 8.1)
+      if: ${{ inputs.php-version < '8.1' }}
+      shell: 'bash'
+      run: |
+        echo "APT_REPO=archive.debian.org" >> ${GITHUB_ENV}
+        echo "APT_SECURITY_REPO=archive.debian.org" >> ${GITHUB_ENV}
+
     - name: Set build arguments (PHP >= 8.5)
       if: ${{ inputs.php-version >= '8.5' }}
       shell: 'bash'

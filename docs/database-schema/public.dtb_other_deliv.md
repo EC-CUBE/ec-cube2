@@ -33,6 +33,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_other_deliv_customer_id_not_null | n | NOT NULL customer_id |
+| dtb_other_deliv_other_deliv_id_not_null | n | NOT NULL other_deliv_id |
 | dtb_other_deliv_pkey | PRIMARY KEY | PRIMARY KEY (other_deliv_id) |
 
 ## Indexes
