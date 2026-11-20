@@ -39,7 +39,7 @@
             </tr>
             <tr>
                 <th>日時</th>
-                <td><!--{$arrLogDetail.update_date|sfDispDBDate|h}--></td>
+                <td><!--{$arrLogDetail.update_date|date_format:"Y/m/d H:i"|h}--></td>
             </tr>
             <tr>
                 <th>バックアップパス</th>

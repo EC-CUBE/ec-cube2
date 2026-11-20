@@ -42,7 +42,7 @@
                     <a href="<!--{$smarty.const.OSTORE_URL}-->products/detail.php?product_id=<!--{$product.product_id|h}-->" target="_blank">
                         <!--{$product.name}--></a>
                 </p>
-                <p>Version.<!--{$product.version|default:"--"}-->　<!--{$product.last_update_date|sfDispDBDate:false|h}--></p>
+                <p>Version.<!--{$product.version|default:"--"}-->　<!--{$product.last_update_date|date_format:"Y/m/d"|h}--></p>
             </td>
             <td>
                 <div id="ownersstore_version<!--{$product.product_id|h}-->">

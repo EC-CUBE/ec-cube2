@@ -156,6 +156,8 @@ class LC_Page_Upgrade_ProductsList extends LC_Page_Upgrade_Base
         }
 
         $objView = new SC_AdminView_Ex();
+        // 管理画面に表示する HTML なので, 画面出力と同じく自動エスケープを有効にする
+        $objView->enableAutoEscapeByConfig();
         $objView->assign('arrProducts', $arrProducts);
         $template = 'ownersstore/products_list.tpl';
 

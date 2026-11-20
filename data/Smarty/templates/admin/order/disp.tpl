@@ -38,7 +38,7 @@
         </tr>
         <tr>
             <th>受注日</th>
-            <td><!--{$arrForm.create_date.value|sfDispDBDate|h}--></td>
+            <td><!--{$arrForm.create_date.value|date_format:"Y/m/d H:i"|h}--></td>
         </tr>
         <tr>
             <th>対応状況</th>
@@ -46,11 +46,11 @@
         </tr>
         <tr>
             <th>入金日</th>
-            <td><!--{$arrForm.payment_date.value|sfDispDBDate|default:"未入金"}--></td>
+            <td><!--{$arrForm.payment_date.value|date_format:"Y/m/d H:i"|default:"未入金"}--></td>
         </tr>
         <tr>
             <th>発送日</th>
-            <td><!--{$arrForm.commit_date.value|sfDispDBDate|default:"未発送"}--></td>
+            <td><!--{$arrForm.commit_date.value|date_format:"Y/m/d H:i"|default:"未発送"}--></td>
         </tr>
     </table>
 

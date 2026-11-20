@@ -40,7 +40,7 @@
                 <tr>
                     <td class="left"><!--{$log.module_name|h}--></td>
                     <td><!--{if $log.error_flg}-->失敗<!--{else}-->成功<!--{/if}--></td>
-                    <td class="left"><!--{$log.update_date|sfDispDBDate|h}--></td>
+                    <td class="left"><!--{$log.update_date|date_format:"Y/m/d H:i"|h}--></td>
                     <td>
                             <a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->ownersstore/log.php?mode=detail&amp;log_id=<!--{$log.log_id}-->&amp;<!--{$smarty.const.TRANSACTION_ID_NAME}-->=<!--{$transactionid}-->">
                             詳細</a>
