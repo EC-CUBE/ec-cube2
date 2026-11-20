@@ -13,7 +13,8 @@ volumes:
 services:
   ec-cube:
     ### 通常は image をレジストリから pull します。
-    ### 別バージョンタグをローカルでビルドする場合は TAG を指定して build を実行します:
+    ### 別バージョンタグをローカルでビルドする場合は TAG を指定して build を実行します
+    ### (README のとおり COMPOSE_FILE を export しておくこと。up で DB が選ばれます):
     ##   TAG=8.3-apache docker compose build
     ##   TAG=8.3-apache docker compose build --no-cache   # キャッシュを使わず再ビルド
     ##   TAG=8.3-apache docker compose up -d --build       # ビルドして起動
