@@ -47,6 +47,7 @@ class SC_Initial
     public function init()
     {
         $this->requireInitialConfig();
+        $this->setUmask();                  // requireInitialConfig メソッドより後で実行。ファイル書き込み前に実行。
         $this->defineDSN();                 // requireInitialConfig メソッドより後で実行
         $this->defineDirectoryIndex();
         $this->defineConstants();
@@ -57,6 +58,24 @@ class SC_Initial
         $this->resetSuperglobalsRequest();  // stripslashesDeepGpc メソッドより後で実行
         $this->setTimezone();               // 本当はエラーハンドラーより先に読みたい気も
         $this->normalizeHostname();         // defineConstants メソッドより後で実行
+    }
+
+    /**
+     * umask を設定する。
+     *
+     * @return void
+     */
+    public function setUmask()
+    {
+        if (defined('UMASK')) {
+            if (UMASK === false) {
+                return;
+            }
+            $new = UMASK;
+        } else {
+            $new = umask() | 0022;
+        }
+        umask($new);
     }
 
     /**
@@ -75,9 +94,16 @@ class SC_Initial
             if (!headers_sent()) {
                 ini_set('display_errors', 1);
             }
-            copy(realpath(__DIR__).'/../../tests/config.php', CONFIG_REALFILE);
+            $src_realfile = realpath(__DIR__).'/../../tests/config.php';
 
-            require_once CONFIG_REALFILE;
+            // umask を設定する前に、config.php を読み込む。
+            // tests/config.php 内で定数 UMASK を設定している場合に備える。
+            require_once $src_realfile;
+
+            // copy 前に、一応 umask を設定する。(後続の処理で再実行される。)
+            $this->setUmask();
+
+            copy($src_realfile, CONFIG_REALFILE);
         } elseif (!GC_Utils_Ex::isInstallFunction()) {
             // PHP8対応
             if (!defined('HTTP_URL')) {
@@ -288,7 +314,6 @@ class SC_Initial
     public function createCacheDir()
     {
         if (defined('HTML_REALDIR')) {
-            umask(0);
             if (!file_exists(COMPILE_REALDIR)) {
                 mkdir(COMPILE_REALDIR);
             }

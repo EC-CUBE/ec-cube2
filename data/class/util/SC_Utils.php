@@ -1257,7 +1257,6 @@ class SC_Utils
             return false;
         }
 
-        $oldmask = umask(0);
         $mod = stat($src);
 
         // ディレクトリがなければ作成する
@@ -1289,12 +1288,12 @@ class SC_Utils
                 } else {
                     if (!$override && file_exists($des.$data)) {
                         // ファイルが既に存在する場合でもパーミッションを設定（インストーラーのパーミッションチェック対策）
-                        @chmod($des.$data, 0666);
+                        @chmod($des.$data, 0666 & ~umask());
                         $mess .= $des.$data."：ファイルが存在します\n";
                     } else {
                         if (@copy($data_, $des.$data)) {
                             // コピー後にパーミッションを設定（インストーラーのパーミッションチェック対策）
-                            @chmod($des.$data, 0666);
+                            @chmod($des.$data, 0666 & ~umask());
                             $mess .= $des.$data."：コピー成功\n";
                         } else {
                             $mess .= $des.$data."：コピー失敗\n";
@@ -1304,7 +1303,6 @@ class SC_Utils
                 }
             }
         }
-        umask($oldmask);
 
         return $mess;
     }
@@ -1970,10 +1968,9 @@ class SC_Utils
     /**
      * ディレクトリを再帰的に作成する.
      *
-     * mkdir 関数の $recursive パラメーターを PHP4 でサポートする.
-     *
      * @param  string  $pathname ディレクトリのパス
      * @param  int $mode     作成するディレクトリのパーミッション
+     *                       umask の影響を受ける。
      *
      * @return bool 作成に成功した場合 true; 失敗した場合 false
      *
@@ -1981,13 +1978,7 @@ class SC_Utils
      */
     public static function recursiveMkdir($pathname, $mode = 0777)
     {
-        /*
-         * SC_Utils_Ex への再帰は無限ループやメモリリークの懸念
-         * 自クラスへ再帰する.
-         */
-        is_dir(dirname($pathname)) || self::recursiveMkdir(dirname($pathname), $mode);
-
-        return is_dir($pathname) || @mkdir($pathname, $mode);
+        return is_dir($pathname) || @mkdir($pathname, $mode, true);
     }
 
     public static function isAppInnerUrl($url)

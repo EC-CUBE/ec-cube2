@@ -35,8 +35,13 @@ class SC_Utils_recursiveMkdirTest extends Common_TestCase
 {
     public static $TMP_DIR;
 
+    protected $original_umask;
+
     protected function setUp(): void
     {
+        // umask がバラつくとテスト結果が変わるので、テスト中は umask を典型値に固定する
+        $this->original_umask = umask(0022);
+
         self::$TMP_DIR = realpath(__DIR__).'/../../../tmp';
         SC_Helper_FileManager::deleteFile(self::$TMP_DIR);
         mkdir(self::$TMP_DIR, 0777, true);
@@ -46,13 +51,14 @@ class SC_Utils_recursiveMkdirTest extends Common_TestCase
     protected function tearDown(): void
     {
         // parent::tearDown();
+        umask($this->original_umask);
     }
 
     // ///////////////////////////////////////
     public function testRecursiveMkdirパーミッションを指定した場合指定のパーミッションでディレクトリが作られる()
     {
         $path = realpath(__DIR__).'/../../../tmp/dir1/dir2/dir3/';
-        $mode = 0755;
+        $mode = 0717;
 
         $result = SC_Utils::recursiveMkdir($path, $mode);
         if (DIRECTORY_SEPARATOR == '\\') {
@@ -61,13 +67,13 @@ class SC_Utils_recursiveMkdirTest extends Common_TestCase
             $this->actual = file_exists($path);
             $this->verify('作成したディレクトリがあるかどうか');
         } else {
-            $this->expected = '0755';
+            $this->expected = '0715'; // 0717 & ~umask()
             $this->actual = substr(sprintf('%o', fileperms($path)), -4);
             $this->verify('作成したディレクトリのパーミッション');
         }
     }
 
-    public function testRecursiveMkdirパーミッションを指定しない場合0777でディレクトリが作られる()
+    public function testRecursiveMkdirパーミッションを指定しない場合0755でディレクトリが作られる()
     {
         $path = realpath(__DIR__).'/../../../tmp/dir1/dir2/dir3/';
 
@@ -78,7 +84,7 @@ class SC_Utils_recursiveMkdirTest extends Common_TestCase
             $this->actual = file_exists($path);
             $this->verify('作成したディレクトリがあるかどうか');
         } else {
-            $this->expected = '0777';
+            $this->expected = '0755'; // 0777 & ~umask()
             $this->actual = substr(sprintf('%o', fileperms($path)), -4);
             $this->verify('作成したディレクトリのパーミッション');
         }
