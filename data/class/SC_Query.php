@@ -155,11 +155,7 @@ class SC_Query
      */
     public function isError()
     {
-        if (PEAR::isError($this->conn)) {
-            return true;
-        }
-
-        return false;
+        return PEAR::isError($this->conn);
     }
 
     /**
@@ -181,7 +177,7 @@ class SC_Query
      *
      * @param  string  $table       テーブル名
      * @param  string  $where       where句
-     * @param  array   $arrWhereVal プレースホルダ
+     * @param  array|scalar|null $arrWhereVal プレースホルダ
      *
      * @return bool 有無
      */
@@ -247,8 +243,9 @@ class SC_Query
     /**
      * トランザクションを開始する.
      *
-     * @return MDB2_OK 成功した場合は MDB2_OK;
-     *         失敗した場合は PEAR::Error オブジェクト
+     * @return MDB2_OK|MDB2_Error 以下のいずれかを返す。
+     *     - 成功した場合: MDB2_OK
+     *     - 失敗した場合: MDB2_Error
      */
     public function begin()
     {
@@ -258,8 +255,10 @@ class SC_Query
     /**
      * トランザクションをロールバックする.
      *
-     * @return MDB2_OK 成功した場合は MDB2_OK;
-     *         失敗した場合は PEAR::Error オブジェクト
+     * @return MDB2_OK|MDB2_Error|false 以下のいずれかを返す。
+     *     - 成功した場合: MDB2_OK
+     *     - 失敗した場合: MDB2_Error
+     *     - トランザクションが開始されていない場合: false
      */
     public function rollback()
     {
@@ -295,43 +294,46 @@ class SC_Query
     /**
      * クエリを実行し、結果行毎にコールバック関数を適用する
      *
-     * @param  callable $function  コールバック先
+     * @param  callable $cbFunc  コールバック先。成否を bool で返すこと。
      * @param  string   $sql       SQL クエリ
-     * @param  array    $arrVal    プリペアドステートメントの実行時に使用される配列。配列の要素数は、クエリ内のプレースホルダの数と同じでなければなりません。
+     * @param  array|scalar|null $arrVal    プリペアドステートメントの実行時に使用される配列。配列の要素数は、クエリ内のプレースホルダの数と同じでなければなりません。
      * @param  int  $fetchmode 使用するフェッチモード。デフォルトは DB_FETCHMODE_ASSOC。
      *
-     * @return bool  結果
+     * @return bool  成否。force_run 無効時の DB エラー時は、エラー画面となる。
+     *     query() と異なり、force_run 有効時に MDB2_Error を返さない。
+     *     query() と異なり、force_run 無効時でも $cbFunc の実装次第で false を返し得る。
      */
     public function doCallbackAll($cbFunc, $sql, $arrVal = [], $fetchmode = MDB2_FETCHMODE_ASSOC)
     {
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
         $sth = $this->prepare($sql);
-        if (PEAR::isError($sth) && $this->force_run) {
-            return;
+        if (PEAR::isError($sth)) {
+            return false;
         }
 
         $affected = $this->execute($sth, $arrVal);
-        if (PEAR::isError($affected) && $this->force_run) {
-            return;
+        if (PEAR::isError($affected)) {
+            return false;
         }
-        $result = null;
+
+        $success = true;
         while ($data = $affected->fetchRow($fetchmode)) {
-            $result = call_user_func($cbFunc, $data);
-            if ($result === false) {
+            $success = call_user_func($cbFunc, $data);
+            if ($success === false) {
                 break;
             }
         }
         $sth->free();
 
-        return $result;
+        return $success;
     }
 
     /**
      * クエリを実行し、全ての行を返す
      *
      * @param  string  $sql       SQL クエリ
-     * @param  array   $arrVal    プリペアドステートメントの実行時に使用される配列。配列の要素数は、クエリ内のプレースホルダの数と同じでなければなりません。
+     * @param  array|scalar|null $arrVal    プリペアドステートメントの実行時に使用される配列。配列の要素数は、クエリ内のプレースホルダの数と同じでなければなりません。
      * @param  int $fetchmode 使用するフェッチモード。デフォルトは DB_FETCHMODE_ASSOC。
      *
      * @return array   データを含む2次元配列。失敗した場合に 0 または DB_Error オブジェクトを返します。
@@ -341,12 +343,12 @@ class SC_Query
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
         $sth = $this->prepare($sql);
-        if (PEAR::isError($sth) && $this->force_run) {
+        if (PEAR::isError($sth)) {
             return;
         }
 
         $affected = $this->execute($sth, $arrVal);
-        if (PEAR::isError($affected) && $this->force_run) {
+        if (PEAR::isError($affected)) {
             return;
         }
 
@@ -367,12 +369,12 @@ class SC_Query
      * @param  string $cols        SELECT 文に含めるカラム名
      * @param  string $from        SELECT 文に含めるテーブル名
      * @param  string $where       SELECT 文に含める WHERE 句
-     * @param  mixed  $arrWhereVal プレースホルダ(参照)
+     * @param  array|scalar|null $arrWhereVal プレースホルダ(参照)
      * @param  bool   $preserve_additional_clauses 句に関わる設定を維持するか。(デフォルトは維持しない。リセットする。)
      *
      * @return string 構築済みの SELECT 文
      */
-    public function getSql($cols, $from = '', $where = '', &$arrWhereVal = null, $preserve_additional_clauses = false)
+    public function getSql($cols, $from = '', $where = '', &$arrWhereVal = [], $preserve_additional_clauses = false)
     {
         $dbFactory = SC_DB_DBFactory_Ex::getInstance();
 
@@ -389,9 +391,7 @@ class SC_Query
             $sqlse .= " WHERE $where";
         } elseif (strlen($this->where) >= 1) {
             $sqlse .= ' WHERE '.$this->where;
-            // 実行時と同じくキャストしてから評価する (空文字を要素1の配列と評価させる意図)
-            $arrWhereValForEval = (array) $arrWhereVal;
-            if (empty($arrWhereValForEval)) {
+            if ($arrWhereVal === []) {
                 $arrWhereVal = $this->arrWhereVal;
             }
         }
@@ -582,7 +582,7 @@ class SC_Query
      * @param  string                   $from       FROM 句・WHERE 句
      * @param  array                    $arrFromVal FROM 句・WHERE 句で使用するプレースホルダ配列
      *
-     * @return int|DB_Error|bool 挿入件数またはエラー(DB_Error, false)
+     * @return int|MDB2_Error|bool 挿入件数またはエラー(MDB2_Error, false)
      */
     public function insert($table, $arrVal, $arrSql = [], $arrSqlVal = [], $from = '', $arrFromVal = [])
     {
@@ -734,7 +734,7 @@ class SC_Query
      * @param  string $table       テーブル名
      * @param  string $col         カラム名
      * @param  string $where       付与する WHERE 句
-     * @param  array  $arrWhereVal プレースホルダに挿入する値
+     * @param  array|scalar|null $arrWhereVal プレースホルダに挿入する値
      *
      * @return mixed  SQL の実行結果
      */
@@ -751,7 +751,7 @@ class SC_Query
      * SQL を指定して, 特定のカラムの値を取得する.
      *
      * @param  string $sql    実行する SQL
-     * @param  array  $arrVal プレースホルダに挿入する値
+     * @param  array|scalar|null $arrVal プレースホルダに挿入する値
      *
      * @return mixed  SQL の実行結果
      */
@@ -760,12 +760,12 @@ class SC_Query
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
         $sth = $this->prepare($sql);
-        if (PEAR::isError($sth) && $this->force_run) {
+        if (PEAR::isError($sth)) {
             return;
         }
 
         $affected = $this->execute($sth, $arrVal);
-        if (PEAR::isError($affected) && $this->force_run) {
+        if (PEAR::isError($affected)) {
             return;
         }
 
@@ -784,7 +784,7 @@ class SC_Query
      * @param  string  $table       テーブル名
      * @param  string  $col         カラム名
      * @param  string  $where       WHERE句
-     * @param  array   $arrWhereVal プレースホルダ配列
+     * @param  array|scalar|null $arrWhereVal プレースホルダ配列
      * @param  int $fetchmode   使用するフェッチモード。デフォルトは MDB2_FETCHMODE_ASSOC。
      *
      * @return array|null   array('カラム名' => '値', ...)の連想配列。一致なしは null。
@@ -795,12 +795,12 @@ class SC_Query
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
         $sth = $this->prepare($sql);
-        if (PEAR::isError($sth) && $this->force_run) {
+        if (PEAR::isError($sth)) {
             return;
         }
 
         $affected = $this->execute($sth, $arrWhereVal);
-        if (PEAR::isError($affected) && $this->force_run) {
+        if (PEAR::isError($affected)) {
             return;
         }
 
@@ -819,7 +819,7 @@ class SC_Query
      * @param  string $table       テーブル名
      * @param  string $col         カラム名
      * @param  string $where       付与する WHERE 句
-     * @param  array  $arrWhereVal プレースホルダに挿入する値
+     * @param  array|scalar|null $arrWhereVal プレースホルダに挿入する値
      *
      * @return array  SQL の実行結果の配列
      */
@@ -829,12 +829,12 @@ class SC_Query
         $sql = $this->dbFactory->sfChangeMySQL($sql);
 
         $sth = $this->prepare($sql);
-        if (PEAR::isError($sth) && $this->force_run) {
+        if (PEAR::isError($sth)) {
             return;
         }
 
         $affected = $this->execute($sth, $arrWhereVal);
-        if (PEAR::isError($affected) && $this->force_run) {
+        if (PEAR::isError($affected)) {
             return;
         }
 
@@ -852,7 +852,7 @@ class SC_Query
      *
      * @param string $table       テーブル名
      * @param string $where       WHERE句
-     * @param array  $arrWhereVal プレースホルダ
+     * @param array|scalar|null $arrWhereVal プレースホルダ
      *
      * @return int|MDB2_Error 削除件数
      */
@@ -932,7 +932,7 @@ class SC_Query
      * FIXME $ignore_errが無視されるようになっているが互換性として問題が無いか確認が必要
      *
      * @param  string  $n            実行する SQL 文
-     * @param  array   $arr          プレースホルダに挿入する値
+     * @param  array|scalar|null $arr          プレースホルダに挿入する値
      * @param  bool $ignore_err   MDB2切替で無効化されている (エラーが発生しても処理を続行する場合 true)
      * @param  mixed   $types        プレースホルダの型指定 デフォルトnull = string
      * @param  mixed   $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)
@@ -944,13 +944,13 @@ class SC_Query
         $n = $this->dbFactory->sfChangeMySQL($n);
 
         $sth = $this->prepare($n, $types, $result_types);
-        if (PEAR::isError($sth) && $this->force_run) {
+        if (PEAR::isError($sth)) {
             return $sth;
         }
 
         $result = $this->execute($sth, $arr);
-        if (PEAR::isError($result) && $this->force_run) {
-            return $sth;
+        if (PEAR::isError($result)) {
+            return $result;
         }
 
         // PREPAREの解放
@@ -1098,7 +1098,8 @@ class SC_Query
      * @param  mixed                 $types        プレースホルダの型指定 デフォルト null
      * @param  mixed                 $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)、nullは指定無し
      *
-     * @return MDB2_Statement_Common|MDB2_Error プリペアドステートメントインスタンス
+     * @return MDB2_Statement_Common|MDB2_Error 通常はプリペアドステートメントインスタンスを返す。
+     *      エラー時に force_run 有効な場合、MDB2_Error を返す。無効な場合、エラー画面を表示する。
      */
     public function prepare($sql, $types = null, $result_types = MDB2_PREPARE_RESULT)
     {
@@ -1115,10 +1116,11 @@ class SC_Query
      * プリペアドクエリを実行する.
      *
      * @param MDB2_Statement_Common プリペアドステートメントインスタンス
-     * @param  array       $arrVal プレースホルダに挿入する配列
+     * @param array|scalar|null $arrVal プレースホルダに挿入する配列
      *
      * @return MDB2_Result|int|MDB2_Error|MDB2_Result_pgsql|MDB2_Result_mysql|MDB2_Result_mysqli
-     *     MDB2_Result or integer (affected rows).
+     *     通常は結果セットのインスタンスまたは影響行数を返す。
+     *     force_run が有効な場合、エラー時に PEAR_Error を返す。
      */
     public function execute(&$sth, $arrVal = [])
     {
@@ -1130,7 +1132,7 @@ class SC_Query
         $pear_property = true;
 
         $arrStartInfo = $this->lfStartDbTraceLog($sth, $arrVal);
-        $affected = $sth->execute((array) $arrVal);
+        $affected = $sth->execute(is_array($arrVal) ? $arrVal : [$arrVal]);
         $this->lfEndDbTraceLog($arrStartInfo, $sth, $arrVal);
 
         $pear_property = $bak;
@@ -1204,9 +1206,11 @@ class SC_Query
     /**
      * SQLクエリの結果セットのカラム名だけを取得する
      *
+     * @deprecated 2.18.0 本体では利用していない。
+     *
      * @param string $n   実行する SQL 文
-     * @param array  $arr プレースホルダに挿入する値
-     * @param bool エラーが発生しても処理を続行する場合 true
+     * @param array|scalar|null $arr プレースホルダに挿入する値
+     * @param bool エラーが発生しても処理を続行する場合 true。意図した動作にならない恐れがあるが deprecated のため修正していない。
      * @param  mixed $types        プレースホルダの型指定 デフォルトnull = string
      * @param  mixed $result_types 返値の型指定またはDML実行(MDB2_PREPARE_MANIP)
      *
