@@ -73,6 +73,11 @@ function func_submit(customer_id){
         </tr>
     </table>
 
+    <!--{assign var=key value="search_pageno"}-->
+    <!--{if $arrErr[$key]}-->
+        <div class="attention"><!--{$arrErr[$key]}--></div>
+    <!--{/if}-->
+
     <div class="btn-area">
         <ul>
             <li><a class="btn-action" href="javascript:;" onclick="eccube.fnFormModeSubmit('form1', 'search', '', ''); return false;" name="subm"><span class="btn-next">検索を開始</span></a></li>
@@ -80,7 +85,7 @@ function func_submit(customer_id){
     </div>
 
     <p>
-    <!--{if $smarty.post.mode == 'search'}-->
+    <!--{if $smarty.post.mode == 'search' && empty($arrErr)}-->
         <!--▼検索結果表示-->
             <!--{if $tpl_linemax > 0}-->
             <p><!--{$tpl_linemax}-->件が該当しました。<!--{$tpl_strnavi nofilter}--></p>
