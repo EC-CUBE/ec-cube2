@@ -1,0 +1,13 @@
+# 自動生成されるリリースノート (Weekly build / 正式リリース共通) の分類
+# https://docs.github.com/repositories/releasing-projects-on-github/automatically-generated-release-notes
+changelog:
+  categories:
+    - title: ⚠️ BC Break (後方互換性のない変更)
+      labels:
+        - BC Break
+    - title: 📦 依存関係の更新
+      labels:
+        - dependencies
+    - title: その他の変更
+      labels:
+        - "*"

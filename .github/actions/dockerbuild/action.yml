@@ -71,7 +71,6 @@ runs:
           type=ref,event=tag,prefix=${{ inputs.php-version }}-apache-
           type=ref,event=pr,prefix=${{ inputs.php-version }}-apache-pr-
           type=match,prefix=${{ inputs.php-version }}-apache-,pattern=eccube-(.*),group=1
-          type=match,prefix=${{ inputs.php-version }}-apache-,pattern=eccube2-weekly-(.*),group=1
           type=semver,pattern={{raw}}
           type=sha,format=short
 
