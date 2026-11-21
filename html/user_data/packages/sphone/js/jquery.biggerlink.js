@@ -31,19 +31,19 @@
 				window.status = '';
 				$(this).removeClass(settings.hoverclass);
 			})
-			.bind('click',function(){
+			.on('click',function(){
 				$(this).find('a:first').trigger('click');
 			})
 			
 			// triggerable events on anchor itself
 			
-			.find('a').bind('focus',function(){
+			.find('a').on('focus',function(){
 				$(this).parents('.'+ settings.clickableclass).addClass(settings.hoverclass);
-			}).bind('blur',function(){
+			}).on('blur',function(){
 				$(this).parents('.'+ settings.clickableclass).removeClass(settings.hoverclass);
 			}).end()
 			
-			.find('a:first').bind('click',function(e){
+			.find('a:first').on('click',function(e){
 				if(settings.follow == true)
 				{
 					window.location = this.href;
@@ -51,7 +51,7 @@
 				e.stopPropagation(); // stop event bubbling to parent
 			}).end()
 			
-			.find('a',this).not(':first').bind('click',function(){
+			.find('a',this).not(':first').on('click',function(){
 				$(this).parents('.'+ settings.clickableclass).find('a:first').trigger('click');
 				return false;
 			});

@@ -54,8 +54,8 @@
 
         // 1行目をコピーボタン
         $('#copy_from_first').click(function() {
-            var check = $('#check_0').attr('checked');
-            $('input[id^=check_]').attr('checked', check);
+            var check = $('#check_0').prop('checked');
+            $('input[id^=check_]').prop('checked', check);
 
             var product_code = $('#product_code_0').val();
             $('input[id^=product_code_]').val(product_code);
@@ -63,11 +63,11 @@
             var stock = $('#stock_0').val();
             $('input[id^=stock_]').val(stock);
 
-            var stock_unlimited = $('#chk_stock_unlimited_0').attr('checked');
+            var stock_unlimited = $('#chk_stock_unlimited_0').prop('checked');
             $('input[id^=chk_stock_unlimited_]').each(function() {
                 var checked = stock_unlimited;
                 var index = $(this).attr('id').replace(/^chk_stock_unlimited_/ig, '');
-                $(this).attr('checked', checked);
+                $(this).prop('checked', checked);
                 if (checked) {
                     $('#stock_' + index)
                         .attr('readonly', true)
@@ -90,13 +90,13 @@
 
             var product_type_id_value = '';
             $('input[id^=product_type_id_0_]').each(function() {
-                if ($(this).attr('checked')) {
+                if ($(this).prop('checked')) {
                     product_type_id_value = $(this).val();
                 }
             });
             $('input[id^=product_type_id_]').each(function() {
                 if ($(this).val() == product_type_id_value) {
-                    $(this).attr('checked', true);
+                    $(this).prop('checked', true);
                 }
             });
 
