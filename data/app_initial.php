@@ -60,8 +60,6 @@ spl_autoload_register(
     true, true
 );
 
-SC_Helper_HandleError_Ex::load();
-
 // アプリケーション初期化処理
 $objInit = new SC_Initial_Ex();
 $objInit->init();
