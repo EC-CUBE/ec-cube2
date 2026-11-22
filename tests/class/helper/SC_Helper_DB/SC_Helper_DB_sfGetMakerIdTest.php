@@ -22,7 +22,7 @@ class SC_Helper_DB_sfGetMakerIdTest extends SC_Helper_DB_TestBase
 
     public function testsfGetMakerId()
     {
-        $maker_id = current(array_keys($this->makers));
+        $maker_id = array_key_first($this->makers);
         $this->expected = [$maker_id];
         $this->actual = $this->objDb->sfGetMakerId($this->product_ids[0], $maker_id);
         $this->verify();
@@ -37,7 +37,7 @@ class SC_Helper_DB_sfGetMakerIdTest extends SC_Helper_DB_TestBase
 
     public function testsfGetMakerIdWithDeleted()
     {
-        $maker_id = current(array_keys($this->makers));
+        $maker_id = array_key_first($this->makers);
         $this->objQuery->update('dtb_maker', ['del_flg' => '1'], 'maker_id = ?', [$maker_id]);
         $this->objQuery->update('dtb_products', ['maker_id' => null], 'product_id = ?', [$this->product_ids[0]]);
 
@@ -48,7 +48,7 @@ class SC_Helper_DB_sfGetMakerIdTest extends SC_Helper_DB_TestBase
 
     public function testsfGetMakerIdWithIncludedToDeleted()
     {
-        $maker_id = current(array_keys($this->makers));
+        $maker_id = array_key_first($this->makers);
         $this->objQuery->update('dtb_maker', ['del_flg' => '1'], 'maker_id = ?', [$maker_id]);
 
         $this->expected = [$maker_id];
@@ -76,7 +76,7 @@ class SC_Helper_DB_sfGetMakerIdTest extends SC_Helper_DB_TestBase
      */
     public function testsfGetMakerIdWithProductVisible($product_status_id, $closed, $actual, $message)
     {
-        $maker_id = current(array_keys($this->makers));
+        $maker_id = array_key_first($this->makers);
         $this->objQuery->update('dtb_maker', ['del_flg' => '1'], 'maker_id = ?', [$maker_id]);
         $this->objQuery->update('dtb_products', ['status' => $product_status_id], 'product_id = ?', [$this->product_ids[0]]);
 

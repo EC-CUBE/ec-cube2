@@ -296,7 +296,7 @@ class LC_Page_Products_List extends LC_Page_Ex
         // 表示件数
         return (SC_Utils_Ex::sfIsInt($display_number))
             ? $display_number
-            : current(array_keys($this->arrPRODUCTLISTMAX));
+            : array_key_first($this->arrPRODUCTLISTMAX);
     }
 
     /**
