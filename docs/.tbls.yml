@@ -4,6 +4,9 @@ name: EC-CUBE 2.25.x table definition
 desc: EC-CUBE 2.25.x テーブル定義書
 er:
   comment: true
+exclude:
+  # マイグレーションの管理用テーブル
+  - dtb_migration
 relations:
   -
     table: dtb_baseinfo

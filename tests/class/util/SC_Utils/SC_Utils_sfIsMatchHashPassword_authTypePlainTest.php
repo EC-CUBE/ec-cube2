@@ -1,9 +1,7 @@
 <?php
 
 $HOME = realpath(__DIR__).'/../../../..';
-// このテスト専用の定数の設定
-defined('AUTH_TYPE') || define('AUTH_TYPE', 'PLAIN');
-require_once $HOME.'/tests/class/Common_TestCase.php';
+require_once $HOME.'/tests/class/util/SC_Utils/SC_Utils_AuthTypePlain_TestBase.php';
 /*
  * This file is part of EC-CUBE
  *
@@ -27,52 +25,31 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
  */
 
 /**
- * SC_Utils::sfIsMatchHashPassword()のテストクラス.
- * TODO まとめて実行する場合は定数の変更ができないためNG
+ * SC_Utils::sfIsMatchHashPassword()のテストクラス (AUTH_TYPE = PLAIN).
  *
- * @author Hiroko Tamagawa
+ * @see SC_Utils_AuthTypePlain_TestBase
  *
- * @version $Id$
+ * @group auth_type_plain
+ *
+ * @runTestsInSeparateProcesses
+ *
+ * @preserveGlobalState disabled
  */
-class SC_Utils_sfIsMatchHashPassword_authTypePlainTest extends Common_TestCase
+class SC_Utils_sfIsMatchHashPassword_authTypePlainTest extends SC_Utils_AuthTypePlain_TestBase
 {
-    protected function setUp(): void
+    public function testSfIsMatchHashPassword文字列が一致する場合Trueが返る()
     {
-        // parent::setUp();
+        $pass = 'ec-cube';
+        $hashpass = 'ec-cube';
+
+        $this->assertTrue(SC_Utils::sfIsMatchHashPassword($pass, $hashpass, ''));
     }
 
-    protected function tearDown(): void
+    public function testSfIsMatchHashPassword文字列が一致しない場合Falseが返る()
     {
-        // parent::tearDown();
-    }
+        $pass = 'ec-cube';
+        $hashpass = 'EC-cube';
 
-    // ///////////////////////////////////////
-
-    // public function testSfIsMatchHashPassword_文字列が一致する場合_trueが返る()
-    // {
-    //     $pass = 'ec-cube';
-    //     $hashpass = 'ec-cube';
-
-    //     $this->expected = TRUE;
-    //     $this->actual = SC_Utils::sfIsMatchHashPassword($pass, $hashpass);
-
-    //     $this->verify('パスワード文字列比較結果');
-    // }
-
-    // public function testSfIsMatchHashPassword_文字列が一致しない場合_falseが返る()
-    // {
-    //     $pass = 'ec-cube';
-    //     $hashpass = 'EC-cube';
-
-    //     $this->expected = FALSE;
-    //     $this->actual = SC_Utils::sfIsMatchHashPassword($pass, $hashpass);
-
-    //     $this->verify('パスワード文字列比較結果');
-    // }
-
-    public function testDummyTest()
-    {
-        // Warning が出るため空のテストを作成
-        $this->assertTrue(true);
+        $this->assertFalse(SC_Utils::sfIsMatchHashPassword($pass, $hashpass, ''));
     }
 }
