@@ -17,6 +17,9 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_session_create_date_not_null | n | NOT NULL create_date |
+| dtb_session_sess_id_not_null | n | NOT NULL sess_id |
+| dtb_session_update_date_not_null | n | NOT NULL update_date |
 | dtb_session_pkey | PRIMARY KEY | PRIMARY KEY (sess_id) |
 
 ## Indexes

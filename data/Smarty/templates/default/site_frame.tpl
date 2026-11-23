@@ -45,6 +45,7 @@
 <link rel="stylesheet" href="<!--{$TPL_URLPATH}-->style.css" type="text/css" media="all" />
 <link rel="alternate" type="application/rss+xml" title="RSS" href="<!--{$smarty.const.HTTP_URL}-->rss/<!--{$smarty.const.DIR_INDEX_PATH}-->" />
 
+<link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.css" type="text/css" media="all" />
 <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.js"></script>
 
 <script type="text/javascript">//<![CDATA[
@@ -72,8 +73,6 @@
     <!--{* ▲Head COLUMN*}-->
 <!--{/strip}-->
 
-<script type="text/javascript" src="https://ajaxzip3.github.io/ajaxzip3.js"></script>
-<script type="text/javascript" src="/js/plg_ajaxzip3.js"></script
 </head>
 
 <!-- ▼BODY部 スタート -->

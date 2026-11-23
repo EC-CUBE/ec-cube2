@@ -48,6 +48,7 @@
         <!--{* 共通CSS *}-->
         <link rel="stylesheet" media="only screen" href="<!--{$TPL_URLPATH}-->css/import.css" />
 
+        <link rel="stylesheet" href="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.css" type="text/css" media="all" />
         <script src="<!--{$smarty.const.ROOT_URLPATH}-->js/eccube.js"></script>
         <script src="<!--{$TPL_URLPATH}-->js/eccube.sphone.js"></script>
         <script src="<!--{$TPL_URLPATH}-->js/jquery.biggerlink.js"></script>

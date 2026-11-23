@@ -377,14 +377,19 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
     {
         // Proxy経由を可能とする。
         // TODO Proxyの設定は「data/module/HTTP/Request.php」内の「function HTTP_Request」へ記述する。いずれは、外部設定としたい。
-        $req = new HTTP_Request();
+        $req = new HTTP_Request('', ['allowRedirects' => true]);
 
         $req->setURL(ZIP_DOWNLOAD_URL);
 
         // 郵便番号CSVをdownloadする。
         $res = $req->sendRequest();
-        if (!$res || strlen($res) > 1) {
-            trigger_error(ZIP_DOWNLOAD_URL.' の取得に失敗しました。', E_USER_ERROR);
+        if (PEAR::isError($res)) {
+            trigger_error(ZIP_DOWNLOAD_URL.' の取得に失敗しました。('.$res->getMessage().')', E_USER_ERROR);
+        }
+        // 404等のエラーページをZIPファイルとして保存しない様、レスポンスコードを確認する。
+        $code = $req->getResponseCode();
+        if ($code !== 200) {
+            trigger_error(ZIP_DOWNLOAD_URL.' の取得に失敗しました。(HTTP '.$code.')', E_USER_ERROR);
         }
 
         // 郵便番号CSV(zip file)を保存する。
@@ -405,24 +410,21 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
      */
     public function lfExtractZipFile()
     {
-        $zip = zip_open($this->zip_csv_temp_realfile);
-        if (!is_resource($zip)) {
-            trigger_error($this->zip_csv_temp_realfile.' をオープンできません。', E_USER_ERROR);
+        $zip = new ZipArchive();
+        $res = $zip->open($this->zip_csv_temp_realfile);
+        if ($res !== true) {
+            trigger_error($this->zip_csv_temp_realfile.' をオープンできません。 エラーコード: '.$res.' '.$zip->getStatusString(), E_USER_ERROR);
         }
 
-        do {
-            $entry = zip_read($zip);
-        } while ($entry && zip_entry_name($entry) != 'KEN_ALL.CSV');
-
-        if (!$entry) {
+        $entry = $zip->locateName('KEN_ALL.CSV');
+        if ($entry === false) {
             trigger_error($this->zip_csv_temp_realfile.' に対象ファイルが見つかりません。', E_USER_ERROR);
         }
 
         // 展開時の破損を考慮し、別名で一旦展開する。
         $tmp_csv_realfile = ZIP_CSV_REALFILE.'.tmp';
-
-        $res = zip_entry_open($zip, $entry, 'rb');
-        if (!$res) {
+        $zip_stream = $zip->getStream('KEN_ALL.CSV');
+        if (!$zip_stream) {
             trigger_error($this->zip_csv_temp_realfile.' の展開に失敗しました。', E_USER_ERROR);
         }
 
@@ -431,13 +433,14 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
             trigger_error($tmp_csv_realfile.' を開けません。', E_USER_ERROR);
         }
 
-        $res = fwrite($fp, zip_entry_read($entry, zip_entry_filesize($entry)));
+        $res = stream_copy_to_stream($zip_stream, $fp);
         if ($res === false) {
             trigger_error($tmp_csv_realfile.' の書き込みに失敗しました。', E_USER_ERROR);
         }
 
+        fclose($zip_stream);
         fclose($fp);
-        zip_close($zip);
+        $zip->close();
 
         // CSV 削除
         if (file_exists(ZIP_CSV_REALFILE)) {

@@ -206,6 +206,14 @@ class SC_DB_DBFactory_SQLITE3 extends SC_DB_DBFactory
         return $sql;
     }
 
+    public function getDateTimeBeforeIntervalSql($value, $unit)
+    {
+        $value = (int) $value;
+        $unit = strtolower($unit);
+
+        return "datetime('now', 'localtime', '-{$value} {$unit}')";
+    }
+
     /**
      * 擬似表を表すSQL文(FROM 句)を取得する
      *

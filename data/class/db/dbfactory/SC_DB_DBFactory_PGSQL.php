@@ -266,6 +266,14 @@ class SC_DB_DBFactory_PGSQL extends SC_DB_DBFactory
         return [];
     }
 
+    public function getDateTimeBeforeIntervalSql($value, $unit)
+    {
+        $value = (int) $value;
+        $unit = strtolower($unit);
+
+        return "NOW() - INTERVAL '{$value} {$unit}'";
+    }
+
     /**
      * 擬似表を表すSQL文(FROM 句)を取得する
      *

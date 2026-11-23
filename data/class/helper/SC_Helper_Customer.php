@@ -692,10 +692,11 @@ class SC_Helper_Customer
             $disp_pageno = 1;
         }
         $offset = (int) $page_max * ((int) $disp_pageno - 1);
+        $sql = $objSelect->getList();
         if ($limitMode == '') {
-            $objQuery->setLimitOffset($page_max, $offset);
+            $sql = $objQuery->dbFactory->addLimitOffset($sql, $page_max, $offset);
         }
-        $arrData = $objQuery->getAll($objSelect->getList(), $objSelect->arrVal);
+        $arrData = $objQuery->getAll($sql, $objSelect->arrVal);
 
         // 該当全体件数の取得
         $objQuery = SC_Query_Ex::getSingletonInstance();
