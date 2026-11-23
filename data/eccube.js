@@ -1,4 +1,5 @@
 import $ from "jquery";
+window.$ = window.jQuery = $;
 
 import "jquery-migrate";
 
@@ -9,6 +10,7 @@ import "jquery-colorbox";
 import "jquery-colorbox/example2/colorbox.css";
 import "jquery-easing";
 
+import "jquery-ui/ui/version"
 import "jquery-ui/ui/widget"
 import "jquery-ui/ui/data"
 import "jquery-ui/ui/scroll-parent"

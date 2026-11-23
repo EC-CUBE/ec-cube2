@@ -14,6 +14,7 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_ownersstore_settings_public_key_not_null | n | NOT NULL public_key |
 | dtb_ownersstore_settings_pkey | PRIMARY KEY | PRIMARY KEY (public_key) |
 
 ## Indexes
