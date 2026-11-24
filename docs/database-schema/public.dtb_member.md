@@ -27,6 +27,17 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_member_authority_not_null | n | NOT NULL authority |
+| dtb_member_create_date_not_null | n | NOT NULL create_date |
+| dtb_member_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_member_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_member_login_id_not_null | n | NOT NULL login_id |
+| dtb_member_member_id_not_null | n | NOT NULL member_id |
+| dtb_member_password_not_null | n | NOT NULL password |
+| dtb_member_rank_not_null | n | NOT NULL rank |
+| dtb_member_salt_not_null | n | NOT NULL salt |
+| dtb_member_update_date_not_null | n | NOT NULL update_date |
+| dtb_member_work_not_null | n | NOT NULL work |
 | dtb_member_pkey | PRIMARY KEY | PRIMARY KEY (member_id) |
 
 ## Indexes

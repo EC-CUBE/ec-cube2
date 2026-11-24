@@ -170,21 +170,10 @@ switch ($mode) {
             }
         }
 
-        // マイグレーションの実行 (ec-cube2-migration がインストールされている場合)
-        if (count($objPage->arrErr) == 0) {
-            $migrationsPath = HTML_REALDIR . HTML2DATA_DIR . 'migrations';
-            if (class_exists('Eccube2\Migration\Migrator') && is_dir($migrationsPath)) {
-                $result = \Eccube2\Migration\Migrator::runFromWebInstaller($arrDsn, $migrationsPath);
-                if ($result['success']) {
-                    $objPage->tpl_message .= '○：マイグレーションに成功しました。<br />';
-                    GC_Utils_Ex::gfPrintLog('Migration: ' . $result['message'], INSTALL_LOG);
-                } else {
-                    $objPage->tpl_message .= '×：マイグレーションに失敗しました。<br />';
-                    $objPage->arrErr['all'] = '>> ' . $result['message'] . '<br />';
-                    GC_Utils_Ex::gfPrintLog('Migration Error: ' . $result['message'], INSTALL_LOG);
-                }
-            }
-        }
+        // マイグレーションで Eccube2\Util\ParameterUtil を使用できるよう、設定ファイルを一時的に生成して読み込む。
+        lfMakeConfigFile(CONFIG_REALFILE.'.tmp');
+        require_once CONFIG_REALFILE.'.tmp';
+        unlink(CONFIG_REALFILE.'.tmp');
 
         if (count($objPage->arrErr) == 0) {
             $objPage = lfDispStep3($objPage);
@@ -994,7 +983,7 @@ function lfCreateSequence($arrSequences, $arrDsn)
 }
 
 // 設定ファイルの作成
-function lfMakeConfigFile()
+function lfMakeConfigFile($filepath = CONFIG_REALFILE)
 {
     global $objWebParam;
     global $objDBParam;
@@ -1029,17 +1018,6 @@ function lfMakeConfigFile()
             }
         }
     }
-    //パスワード暗号化方式決定
-    $arrAlgos = hash_algos();
-    if (array_search('sha256', $arrAlgos) !== FALSE) {
-        $algos = 'sha256';
-    } elseif (array_search('sha1', $arrAlgos) !== FALSE) {
-        $algos = 'sha1';
-    } elseif (array_search('md5', $arrAlgos) !== FALSE) {
-        $algos = 'md5';
-    } else {
-        $algos = '';
-    }
     //MAGICハッシュワード決定
     if ($_POST['db_skip'] && defined('AUTH_MAGIC')) {
         $auth_magic = AUTH_MAGIC;
@@ -1056,29 +1034,29 @@ function lfMakeConfigFile()
 
     // FIXME 変数出力はエスケープすべき
     $config_data = "<?php\n"
-                 . "define('ECCUBE_INSTALL', 'ON');\n"
-                 . "define('HTTP_URL', '"              . $normal_url . "');\n"
-                 . "define('HTTPS_URL', '"             . $secure_url . "');\n"
-                 . "define('ROOT_URLPATH', '"          . ROOT_URLPATH . "');\n"
-                 . "define('DOMAIN_NAME', '"           . $objWebParam->getValue('domain') . "');\n"
-                 . "define('DB_TYPE', '"               . $objDBParam->getValue('db_type') . "');\n"
-                 . "define('DB_USER', '"               . $objDBParam->getValue('db_user') . "');\n"
-                 . "define('DB_PASSWORD', '"           . $objDBParam->getValue('db_password') . "');\n"
-                 . "define('DB_SERVER', '"             . $objDBParam->getValue('db_server') . "');\n"
-                 . "define('DB_NAME', '"               . $objDBParam->getValue('db_name') . "');\n"
-                 . "define('DB_PORT', "                . $db_port . ");\n"
-                 . "define('ADMIN_DIR', '"             . $objWebParam->getValue('admin_dir') . "/');\n"
-                 . "define('ADMIN_FORCE_SSL', "        . $force_ssl . ");\n"
-                 . "define('ADMIN_ALLOW_HOSTS', '"     . serialize($allow_hosts) . "');\n"
-                 . "define('AUTH_MAGIC', '"            . $auth_magic . "');\n"
-                 . "define('PASSWORD_HASH_ALGOS', '"   . $algos . "');\n"
-                 . "define('MAIL_BACKEND', '"          . $objWebParam->getValue('mail_backend') . "');\n"
-                 . "define('SMTP_HOST', '"             . $objWebParam->getValue('smtp_host') . "');\n"
-                 . "define('SMTP_PORT', '"             . $objWebParam->getValue('smtp_port') . "');\n"
-                 . "define('SMTP_USER', '"             . $objWebParam->getValue('smtp_user') . "');\n"
-                 . "define('SMTP_PASSWORD', '"         . $objWebParam->getValue('smtp_password') . "');\n";
+                 . "SC_Initial_Ex::defineIfNotDefined('ECCUBE_INSTALL', 'ON');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('HTTP_URL', '"              . $normal_url . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('HTTPS_URL', '"             . $secure_url . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('ROOT_URLPATH', '"          . ROOT_URLPATH . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('DOMAIN_NAME', '"           . $objWebParam->getValue('domain') . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('DB_TYPE', '"               . $objDBParam->getValue('db_type') . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('DB_USER', '"               . $objDBParam->getValue('db_user') . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('DB_PASSWORD', '"           . $objDBParam->getValue('db_password') . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('DB_SERVER', '"             . $objDBParam->getValue('db_server') . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('DB_NAME', '"               . $objDBParam->getValue('db_name') . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('DB_PORT', "                . $db_port . ");\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('ADMIN_DIR', '"             . $objWebParam->getValue('admin_dir') . "/');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('ADMIN_FORCE_SSL', "        . $force_ssl . ");\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('ADMIN_ALLOW_HOSTS', '"     . serialize($allow_hosts) . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('AUTH_MAGIC', '"            . $auth_magic . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('PASSWORD_HASH_ALGOS', PASSWORD_DEFAULT);\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('MAIL_BACKEND', '"          . $objWebParam->getValue('mail_backend') . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('SMTP_HOST', '"             . $objWebParam->getValue('smtp_host') . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('SMTP_PORT', '"             . $objWebParam->getValue('smtp_port') . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('SMTP_USER', '"             . $objWebParam->getValue('smtp_user') . "');\n"
+                 . "SC_Initial_Ex::defineIfNotDefined('SMTP_PASSWORD', '"         . $objWebParam->getValue('smtp_password') . "');\n";
 
-    if ($fp = fopen(CONFIG_REALFILE, 'w')) {
+    if ($fp = fopen($filepath, 'w')) {
         fwrite($fp, $config_data);
         fclose($fp);
     }

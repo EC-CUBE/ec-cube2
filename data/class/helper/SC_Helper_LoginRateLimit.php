@@ -33,15 +33,70 @@
  */
 class SC_Helper_LoginRateLimit
 {
+    /** 同一メールアドレスの失敗回数しきい値のデフォルト値 */
+    public const DEFAULT_EMAIL_THRESHOLD = 5;
+
+    /** 同一IPアドレスの失敗回数しきい値のデフォルト値 */
+    public const DEFAULT_IP_THRESHOLD = 10;
+
+    /**
+     * メールアドレスベースのレート制限しきい値を取得する
+     *
+     * 定数 LOGIN_RATE_LIMIT_EMAIL_THRESHOLD または同名の環境変数で上書きできます。
+     *
+     * @return int
+     */
+    public static function getEmailThreshold()
+    {
+        return self::getThreshold('LOGIN_RATE_LIMIT_EMAIL_THRESHOLD', self::DEFAULT_EMAIL_THRESHOLD);
+    }
+
+    /**
+     * IPアドレスベースのレート制限しきい値を取得する
+     *
+     * 定数 LOGIN_RATE_LIMIT_IP_THRESHOLD または同名の環境変数で上書きできます。
+     * E2E テストのように同一 IP から大量にログイン試行が発生する環境では
+     * この値を引き上げることで IP ベースの制限を緩和できます。
+     *
+     * @return int
+     */
+    public static function getIPThreshold()
+    {
+        return self::getThreshold('LOGIN_RATE_LIMIT_IP_THRESHOLD', self::DEFAULT_IP_THRESHOLD);
+    }
+
+    /**
+     * しきい値を 定数 > 環境変数 > デフォルト値 の優先順で解決する
+     *
+     * @param string $name しきい値の名称（定数名・環境変数名）
+     * @param int    $default デフォルト値
+     *
+     * @return int
+     */
+    protected static function getThreshold($name, $default)
+    {
+        if (defined($name) && is_numeric(constant($name))) {
+            return (int) constant($name);
+        }
+
+        $env = getenv($name);
+        if ($env !== false && is_numeric($env)) {
+            return (int) $env;
+        }
+
+        return $default;
+    }
+
     /**
      * レート制限をチェックする
      *
      * 同一メールアドレスまたは同一IPアドレスからの
      * ログイン試行失敗が制限を超えていないか確認します。
      *
-     * レート制限ルール:
+     * レート制限ルール（デフォルト）:
      * - 同一メールアドレス: 1時間に4回まで失敗を許可（5回目の失敗でレート制限メッセージ表示）
      * - 同一IPアドレス: 1時間に9回まで失敗を許可（10回目の失敗でレート制限メッセージ表示）
+     * しきい値は getEmailThreshold() / getIPThreshold() を参照。
      *
      * セキュリティ考慮事項:
      * - アカウント列挙攻撃対策: 存在しないメールアドレスも同様にレート制限
@@ -56,15 +111,10 @@ class SC_Helper_LoginRateLimit
     {
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        // データベースタイプに応じて1時間前の時刻を取得
-        if (DB_TYPE == 'pgsql') {
-            $interval_clause = "create_date > NOW() - INTERVAL '1 hour'";
-        } elseif (DB_TYPE == 'sqlite3') {
-            $interval_clause = "create_date > datetime('now', 'localtime', '-1 hour')";
-        } else {
-            // MySQL
-            $interval_clause = 'create_date > NOW() - INTERVAL 1 HOUR';
-        }
+        // DBFactory を使用して1時間前の時刻を取得
+        $objDBFactory = SC_DB_DBFactory::getInstance();
+        $interval_expr = $objDBFactory->getDateTimeBeforeIntervalSql(1, 'hour');
+        $interval_clause = "create_date > {$interval_expr}";
 
         // 同一メールアドレスの失敗回数をチェック
         $email_count = $objQuery->count(
@@ -73,7 +123,7 @@ class SC_Helper_LoginRateLimit
             [$login_id]
         );
 
-        if ($email_count >= 5) {
+        if ($email_count >= self::getEmailThreshold()) {
             return [
                 'allowed' => false,
                 'reason' => 'email',
@@ -89,7 +139,7 @@ class SC_Helper_LoginRateLimit
             [$ip_address]
         );
 
-        if ($ip_count >= 10) {
+        if ($ip_count >= self::getIPThreshold()) {
             return [
                 'allowed' => false,
                 'reason' => 'ip',
@@ -166,15 +216,10 @@ class SC_Helper_LoginRateLimit
 
         $objQuery = SC_Query_Ex::getSingletonInstance();
 
-        // データベースタイプに応じて削除条件を設定
-        if (DB_TYPE == 'pgsql') {
-            $where = "create_date < NOW() - INTERVAL '{$days} days'";
-        } elseif (DB_TYPE == 'sqlite3') {
-            $where = "create_date < datetime('now', 'localtime', '-{$days} days')";
-        } else {
-            // MySQL
-            $where = "create_date < NOW() - INTERVAL {$days} DAY";
-        }
+        // DBFactory を使用して削除条件を設定
+        $objDBFactory = SC_DB_DBFactory::getInstance();
+        $interval_expr = $objDBFactory->getDateTimeBeforeIntervalSql($days, 'day');
+        $where = "create_date < {$interval_expr}";
 
         $count = $objQuery->delete(
             'dtb_login_attempt',
