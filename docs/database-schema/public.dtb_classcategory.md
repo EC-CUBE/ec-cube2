@@ -21,6 +21,12 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_classcategory_class_id_not_null | n | NOT NULL class_id |
+| dtb_classcategory_classcategory_id_not_null | n | NOT NULL classcategory_id |
+| dtb_classcategory_create_date_not_null | n | NOT NULL create_date |
+| dtb_classcategory_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_classcategory_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_classcategory_update_date_not_null | n | NOT NULL update_date |
 | dtb_classcategory_pkey | PRIMARY KEY | PRIMARY KEY (classcategory_id) |
 
 ## Indexes

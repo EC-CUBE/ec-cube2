@@ -8,7 +8,7 @@ require_once $HOME.'/data/module/HTTP/Request.php';
  *
  * Tests to verify backward compatibility of the Guzzle-based HTTP_Request implementation.
  */
-class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
+class HTTP_Request_GuzzleTest extends Common_TestCase
 {
     /**
      * Test constants are defined
@@ -408,7 +408,8 @@ class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
     public function testAttachNonListener()
     {
         $request = new HTTP_Request('https://example.com');
-        $result = $request->attach(new stdClass());
+        $listener = new stdClass();
+        $result = $request->attach($listener);
 
         $this->assertFalse($result);
     }
@@ -419,7 +420,8 @@ class HTTP_Request_GuzzleTest extends \PHPUnit\Framework\TestCase
     public function testDetachNonListener()
     {
         $request = new HTTP_Request('https://example.com');
-        $result = $request->detach(new stdClass());
+        $listener = new stdClass();
+        $result = $request->detach($listener);
 
         $this->assertFalse($result);
     }

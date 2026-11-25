@@ -1,8 +1,10 @@
 name: Coverage
 on:
   push:
+    # ブランチへの push は pull_request イベント側で coverage が取得されるため、
+    # master と tag に限定して同一コミットの二重実行を防ぐ (refs #1438)
     branches:
-      - '*'
+      - master
     tags:
       - '*'
     paths:
@@ -62,7 +64,7 @@ jobs:
       id: composer-cache
       run: |
         echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5
+    - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -117,3 +119,6 @@ jobs:
         flags: tests
         # yml: ./codecov.yml
         fail_ci_if_error: true
+        # cli.codecov.io のバイナリは GPG 公開鍵を取得できず署名検証が
+        # "No public key" で失敗するため、PyPI 版 CLI を使い検証経路を回避する
+        use_pypi: true

@@ -175,9 +175,9 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
         // CONFIG_REALFILE の書き換え
         $installData = file(CONFIG_REALFILE, FILE_IGNORE_NEW_LINES);
         $diff = 0;
-        foreach ($installData as $key => $line) {
+        foreach ($installData as $key => &$line) {
             if (str_contains($line, 'ADMIN_DIR') && ADMIN_DIR != $admin_dir) {
-                $installData[$key] = 'define("ADMIN_DIR", "'.$admin_dir.'");';
+                $line = "SC_Initial_Ex::defineIfNotDefined('ADMIN_DIR', '".$admin_dir."');";
                 // 管理機能ディレクトリのリネーム
                 if (!rename(HTML_REALDIR.ADMIN_DIR, HTML_REALDIR.$admin_dir)) {
                     $this->arrErr['admin_dir'] .= ROOT_URLPATH.ADMIN_DIR.'のディレクトリ名を変更できませんでした。';
@@ -188,11 +188,11 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
             }
 
             if (str_contains($line, 'ADMIN_FORCE_SSL')) {
-                $installData[$key] = 'define("ADMIN_FORCE_SSL", '.$admin_force_ssl.');';
+                $line = "SC_Initial_Ex::defineIfNotDefined('ADMIN_FORCE_SSL', ".$admin_force_ssl.');';
                 $diff++;
             }
             if (str_contains($line, 'ADMIN_ALLOW_HOSTS') && ADMIN_ALLOW_HOSTS != $admin_allow_hosts) {
-                $installData[$key] = "define('ADMIN_ALLOW_HOSTS', '".$admin_allow_hosts."');";
+                $line = "SC_Initial_Ex::defineIfNotDefined('ADMIN_ALLOW_HOSTS', '".$admin_allow_hosts."');";
                 $diff++;
             }
         }
