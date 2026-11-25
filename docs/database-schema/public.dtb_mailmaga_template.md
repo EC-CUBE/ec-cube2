@@ -21,6 +21,11 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_mailmaga_template_create_date_not_null | n | NOT NULL create_date |
+| dtb_mailmaga_template_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_mailmaga_template_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_mailmaga_template_template_id_not_null | n | NOT NULL template_id |
+| dtb_mailmaga_template_update_date_not_null | n | NOT NULL update_date |
 | dtb_mailmaga_template_pkey | PRIMARY KEY | PRIMARY KEY (template_id) |
 
 ## Indexes

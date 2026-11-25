@@ -22,6 +22,15 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_holiday_create_date_not_null | n | NOT NULL create_date |
+| dtb_holiday_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_holiday_day_not_null | n | NOT NULL day |
+| dtb_holiday_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_holiday_holiday_id_not_null | n | NOT NULL holiday_id |
+| dtb_holiday_month_not_null | n | NOT NULL month |
+| dtb_holiday_rank_not_null | n | NOT NULL rank |
+| dtb_holiday_title_not_null | n | NOT NULL title |
+| dtb_holiday_update_date_not_null | n | NOT NULL update_date |
 | dtb_holiday_pkey | PRIMARY KEY | PRIMARY KEY (holiday_id) |
 
 ## Indexes

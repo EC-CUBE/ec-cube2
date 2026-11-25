@@ -27,6 +27,16 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_review_comment_not_null | n | NOT NULL comment |
+| dtb_review_create_date_not_null | n | NOT NULL create_date |
+| dtb_review_creator_id_not_null | n | NOT NULL creator_id |
+| dtb_review_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_review_product_id_not_null | n | NOT NULL product_id |
+| dtb_review_recommend_level_not_null | n | NOT NULL recommend_level |
+| dtb_review_review_id_not_null | n | NOT NULL review_id |
+| dtb_review_reviewer_name_not_null | n | NOT NULL reviewer_name |
+| dtb_review_title_not_null | n | NOT NULL title |
+| dtb_review_update_date_not_null | n | NOT NULL update_date |
 | dtb_review_pkey | PRIMARY KEY | PRIMARY KEY (review_id) |
 
 ## Indexes
