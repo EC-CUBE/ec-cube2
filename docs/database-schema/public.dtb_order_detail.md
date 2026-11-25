@@ -26,6 +26,12 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_order_detail_order_detail_id_not_null | n | NOT NULL order_detail_id |
+| dtb_order_detail_order_id_not_null | n | NOT NULL order_id |
+| dtb_order_detail_point_rate_not_null | n | NOT NULL point_rate |
+| dtb_order_detail_product_class_id_not_null | n | NOT NULL product_class_id |
+| dtb_order_detail_product_id_not_null | n | NOT NULL product_id |
+| dtb_order_detail_product_name_not_null | n | NOT NULL product_name |
 | dtb_order_detail_pkey | PRIMARY KEY | PRIMARY KEY (order_detail_id) |
 
 ## Indexes
