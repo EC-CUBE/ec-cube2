@@ -16,6 +16,8 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| mtb_mail_tpl_path_id_not_null | n | NOT NULL id |
+| mtb_mail_tpl_path_rank_not_null | n | NOT NULL rank |
 | mtb_mail_tpl_path_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes

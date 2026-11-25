@@ -20,6 +20,13 @@ APIアカウント
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_api_account_api_access_key_not_null | n | NOT NULL api_access_key |
+| dtb_api_account_api_account_id_not_null | n | NOT NULL api_account_id |
+| dtb_api_account_api_secret_key_not_null | n | NOT NULL api_secret_key |
+| dtb_api_account_create_date_not_null | n | NOT NULL create_date |
+| dtb_api_account_del_flg_not_null | n | NOT NULL del_flg |
+| dtb_api_account_enable_not_null | n | NOT NULL enable |
+| dtb_api_account_update_date_not_null | n | NOT NULL update_date |
 | dtb_api_account_pkey | PRIMARY KEY | PRIMARY KEY (api_account_id) |
 
 ## Indexes

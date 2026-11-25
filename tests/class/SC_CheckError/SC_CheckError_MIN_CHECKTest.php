@@ -35,7 +35,7 @@ class SC_CheckError_MIN_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         $this->min = 5;
         $this->arrForm = [self::FORM_NAME => ''];
-        $this->expected = '※ MIN_CHECKは5以上で入力してください。<br />';
+        $this->expected = '';
 
         $this->scenario();
         $this->verify();
@@ -45,7 +45,17 @@ class SC_CheckError_MIN_CHECKTest extends SC_CheckError_AbstractTestCase
     {
         $this->min = 5;
         $this->arrForm = [self::FORM_NAME => null];
-        $this->expected = '※ MIN_CHECKは5以上で入力してください。<br />';
+        $this->expected = '';
+
+        $this->scenario();
+        $this->verify();
+    }
+
+    public function testMINCHECKWithMissing()
+    {
+        $this->min = 5;
+        $this->arrForm = [];
+        $this->expected = '';
 
         $this->scenario();
         $this->verify();

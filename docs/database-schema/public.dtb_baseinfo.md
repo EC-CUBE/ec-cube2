@@ -79,6 +79,10 @@
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| dtb_baseinfo_id_not_null | n | NOT NULL id |
+| dtb_baseinfo_point_rate_not_null | n | NOT NULL point_rate |
+| dtb_baseinfo_update_date_not_null | n | NOT NULL update_date |
+| dtb_baseinfo_welcome_point_not_null | n | NOT NULL welcome_point |
 | dtb_baseinfo_pkey | PRIMARY KEY | PRIMARY KEY (id) |
 
 ## Indexes
