@@ -100,15 +100,19 @@ class LC_Page_Error extends LC_Page_Ex
                 break;
             case PAGE_ERROR:
                 $this->tpl_error = '不正なページ移動です。';
+                SC_Response_Ex::sendHttpStatus(403);
                 break;
             case CART_EMPTY:
                 $this->tpl_error = 'カートに商品ががありません。';
+                SC_Response_Ex::sendHttpStatus(403);
                 break;
             case CART_ADD_ERROR:
                 $this->tpl_error = '購入処理中は、カートに商品を追加することはできません。';
+                SC_Response_Ex::sendHttpStatus(403);
                 break;
             case CANCEL_PURCHASE:
                 $this->tpl_error = 'この手続きは無効となりました。以下の要因が考えられます。<br />・セッション情報の有効期限が切れてる場合<br />・購入手続き中に新しい購入手続きを実行した場合<br />・すでに購入手続きを完了している場合';
+                SC_Response_Ex::sendHttpStatus(403);
                 break;
             case CATEGORY_NOT_FOUND:
                 $this->tpl_error = 'ご指定のカテゴリは存在しません。';
@@ -116,24 +120,31 @@ class LC_Page_Error extends LC_Page_Ex
                 break;
             case SITE_LOGIN_ERROR:
                 $this->tpl_error = 'メールアドレスもしくはパスワードが正しくありません。';
+                SC_Response_Ex::sendHttpStatus(403);
                 break;
             case TEMP_LOGIN_ERROR:
                 $this->tpl_error = 'メールアドレスもしくはパスワードが正しくありません。<br />本登録がお済みでない場合は、仮登録メールに記載されている<br />URLより本登録を行ってください。';
+                SC_Response_Ex::sendHttpStatus(403);
                 break;
             case CUSTOMER_ERROR:
                 $this->tpl_error = '不正なアクセスです。';
+                SC_Response_Ex::sendHttpStatus(403);
                 break;
             case SOLD_OUT:
                 $this->tpl_error = '申し訳ございませんが、ご購入の直前で売り切れた商品があります。この手続きは無効となりました。';
+                SC_Response_Ex::sendHttpStatus(403);
                 break;
             case CART_NOT_FOUND:
                 $this->tpl_error = '申し訳ございませんが、カート内の商品情報の取得に失敗しました。この手続きは無効となりました。';
+                SC_Response_Ex::sendHttpStatus(403);
                 break;
             case LACK_POINT:
                 $this->tpl_error = '申し訳ございませんが、ポイントが不足しております。この手続きは無効となりました。';
+                SC_Response_Ex::sendHttpStatus(403);
                 break;
             case FAVORITE_ERROR:
                 $this->tpl_error = '既にお気に入りに追加されている商品です。';
+                SC_Response_Ex::sendHttpStatus(403);
                 break;
             case EXTRACT_ERROR:
                 $this->tpl_error = "ファイルの解凍に失敗しました。\n指定のディレクトリに書き込み権限が与えられていない可能性があります。";
