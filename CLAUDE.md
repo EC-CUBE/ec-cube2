@@ -11,7 +11,7 @@
 ## 技術スタック
 
 ### バックエンド
-- PHP 7.4 / 8.0 / 8.1 / 8.2 / 8.3 / 8.4 / 8.5
+- PHP 7.4 / 8.0 / 8.1 / 8.2 / 8.3 / 8.4 / 8.5 / 8.6
 - Smarty (テンプレートエンジン)
 - PHPUnit (ユニットテスト)
 
@@ -76,7 +76,7 @@ docker compose up -d --wait
 docker compose exec -T ec-cube composer install
 docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
 docker compose exec -T ec-cube composer update 'symfony/*' -W
-docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=30 --orders=5
 
 # 会員のメールアドレスを zap_user@example.com へ変更
 docker compose exec -T postgres psql --user=eccube_db_user eccube_db -c "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0);"
@@ -109,7 +109,7 @@ docker compose up -d --wait
 docker compose exec -T ec-cube composer install
 docker compose exec -T ec-cube composer require ec-cube2/cli "dev-master@dev" -W
 docker compose exec -T ec-cube composer update 'symfony/*' -W
-docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=1 --orders=5
+docker compose exec -T ec-cube php data/vendor/bin/eccube eccube:fixtures:generate --products=5 --customers=30 --orders=5
 
 # 会員のメールアドレスを zap_user@example.com へ変更
 docker compose exec mysql mysql --user=eccube_db_user --password=password eccube_db -e "UPDATE dtb_customer SET email = 'zap_user@example.com' WHERE customer_id = (SELECT customer_id FROM (SELECT MAX(customer_id) FROM dtb_customer WHERE status = 2 AND del_flg = 0) AS A);"
@@ -175,6 +175,8 @@ npm run dev
 # コードスタイル修正
 docker compose exec php-mysql vendor/bin/php-cs-fixer fix
 ```
+
+データベースを変更する場合は、[CONTRIBUTING.md](CONTRIBUTING.md) の「データベースの変更」に従い、マイグレーションとインストール用 SQL の両方を更新すること。
 
 ### 3. テスト実行（必須）
 

@@ -24,6 +24,7 @@ RUN sed -i '/jessie-updates/d' /etc/apt/sources.list # for jessie
 # ext-pgsql: libpq-dev
 # ext-zip: libzip-dev zlib1g-dev
 # ext-opcache: libpcre3-dev
+# ext-mbstring: libonig-dev (PHP 8.6 以降の公式イメージは mbstring を含まないため EXT_INSTALL_ARGS で導入する)
 RUN apt-get update \
     && apt-get install -y ${FORCE_YES} \
         git unzip curl apt-transport-https gnupg wget ca-certificates bc \
@@ -31,6 +32,7 @@ RUN apt-get update \
         libpq-dev \
         libzip-dev zlib1g-dev \
         libpcre2-dev \
+        libonig-dev \
         ssl-cert \
         mariadb-client postgresql-client sqlite3 \
     && apt-get clean \
@@ -50,7 +52,8 @@ RUN echo '#!/bin/bash\nmariadb --skip-ssl "$@"' > /usr/local/bin/mysql \
 
 RUN docker-php-ext-install pgsql \
     && docker-php-ext-configure gd ${GD_OPTIONS} && docker-php-ext-install -j$(nproc) ${EXT_INSTALL_ARGS}
-RUN if [[ ${APCU} ]]; then  pecl install ${APCU} && docker-php-ext-enable apcu; fi
+# PHP 8.6 以降の公式イメージは pecl を含まないため、APCU を空にしてスキップする
+RUN if [ -n "${APCU}" ]; then pecl install ${APCU} && docker-php-ext-enable apcu; fi
 
 # composer
 COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
