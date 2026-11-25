@@ -114,6 +114,31 @@ class SC_DB_DBFactory_SQLITE3Test extends SC_DB_DBFactoryTestAbstract
     // sfChangeArrayToString
     // ============================================================
 
+    public function testSfChangeMySQLはCastAsDateをDate関数に変換する()
+    {
+        $sql = 'SELECT *, cast(news_date as date) as cast_news_date FROM dtb_news';
+        $result = $this->dbFactory->sfChangeMySQL($sql);
+
+        $this->assertStringNotContainsStringIgnoringCase('cast(', $result);
+        $this->assertStringContainsString('date(news_date) as cast_news_date', $result);
+    }
+
+    public function testSfChangeCastDateは複数のCastAsDateを変換する()
+    {
+        $sql = "SELECT CAST(A.create_date AS DATE), cast('2026-09-18' as date) FROM dtb_order A";
+        $result = $this->dbFactory->sfChangeCastDate($sql);
+
+        $this->assertSame("SELECT date(A.create_date), date('2026-09-18') FROM dtb_order A", $result);
+    }
+
+    public function testSfChangeCastDateはCastAsDateがない場合はそのまま返す()
+    {
+        $sql = 'SELECT cast(price as integer) FROM dtb_products';
+        $result = $this->dbFactory->sfChangeCastDate($sql);
+
+        $this->assertSame($sql, $result);
+    }
+
     public function testSfChangeArrayToStringはARRAYTOSTRINGをGROUPCONCATに変換する()
     {
         $sql = "SELECT ARRAY_TO_STRING(ARRAY(SELECT name FROM users WHERE id = 1), ',') FROM dual";
