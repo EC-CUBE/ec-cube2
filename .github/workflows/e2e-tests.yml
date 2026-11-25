@@ -43,7 +43,7 @@ jobs:
         # ジョブごとのセットアップ（イメージビルド・compose 起動・fixtures 生成・
         # npm/playwright 準備で約2分）を3回払うのをやめ、ジョブ数を 1/3 にする (refs #1438)
         pattern: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["test:e2e"]') || fromJSON('["test:e2e", "test:e2e-extends"]') }}
-        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
+        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5", "8.6"]') }}
         db: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["mysql"]') || fromJSON('["mysql", "pgsql", "sqlite3"]') }}
     steps:
     - name: Checkout
@@ -56,7 +56,7 @@ jobs:
         php-version: ${{ matrix.php }}
 
     - name: Cache npm dependencies
-      uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: node_modules
         key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
@@ -64,7 +64,7 @@ jobs:
           ${{ runner.os }}-node_modules-
 
     - name: Cache Playwright browsers
-      uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: ~/.cache/ms-playwright
         key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
@@ -311,7 +311,7 @@ jobs:
       fail-fast: false
       matrix:
         db: ['mysql', 'pgsql']
-        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]') }}
+        php: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && fromJSON('["8.4"]') || fromJSON('["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5", "8.6"]') }}
         include:
           - db: mysql
             dbport: '3306'
@@ -336,7 +336,7 @@ jobs:
         php-version: ${{ matrix.php }}
 
     - name: Cache npm dependencies
-      uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: node_modules
         key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
@@ -344,7 +344,7 @@ jobs:
           ${{ runner.os }}-node_modules-
 
     - name: Cache Playwright browsers
-      uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: ~/.cache/ms-playwright
         key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
