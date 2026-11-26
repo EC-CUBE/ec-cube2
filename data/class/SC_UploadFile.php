@@ -63,8 +63,8 @@ class SC_UploadFile
     // ファイル管理クラス
     public function __construct($temp_dir, $save_dir)
     {
-        $this->temp_dir = rtrim($temp_dir, '/').'/';
-        $this->save_dir = rtrim($save_dir, '/').'/';
+        $this->temp_dir = rtrim((string) $temp_dir, '/').'/';
+        $this->save_dir = rtrim((string) $save_dir, '/').'/';
         $this->file_max = 0;
     }
 
@@ -96,7 +96,7 @@ class SC_UploadFile
             exit;
         }
 
-        return basename($ret[1]);
+        return basename((string) $ret[1]);
     }
 
     // アップロードされたファイルを保存する。
@@ -129,7 +129,7 @@ class SC_UploadFile
                             // 一意なファイル名を作成する。
                             if ($rename) {
                                 $uniqname = date('mdHi').'_'.uniqid('').'.';
-                                $this->temp_file[$cnt] = preg_replace("/^.*\./", $uniqname, $_FILES[$keyname]['name']);
+                                $this->temp_file[$cnt] = preg_replace("/^.*\./", $uniqname, (string) $_FILES[$keyname]['name']);
                             } else {
                                 $this->temp_file[$cnt] = $_FILES[$keyname]['name'];
                             }
@@ -167,7 +167,7 @@ class SC_UploadFile
                     if (!isset($objErr->arrErr[$keyname])) {
                         // 一意なファイル名を作成する。
                         $uniqname = date('mdHi').'_'.uniqid('').'.';
-                        $this->temp_file[$cnt] = preg_replace("/^.*\./", $uniqname, $_FILES[$keyname]['name']);
+                        $this->temp_file[$cnt] = preg_replace("/^.*\./", $uniqname, (string) $_FILES[$keyname]['name']);
                         $result = copy($_FILES[$keyname]['tmp_name'], $this->temp_dir.$this->temp_file[$cnt]);
                         GC_Utils_Ex::gfPrintLog($result.' -> '.$this->temp_dir.$this->temp_file[$cnt]);
                         SC_Utils_Ex::extendTimeOut();
@@ -252,7 +252,7 @@ class SC_UploadFile
                 // すでに保存ファイルがあった場合は削除する。
                 if (isset($this->save_file[$cnt])
                     && $this->save_file[$cnt] != ''
-                    && !preg_match('|^sub/|', $this->save_file[$cnt])
+                    && !preg_match('|^sub/|', (string) $this->save_file[$cnt])
                 ) {
                     $objImage->deleteImage($this->save_file[$cnt], $this->save_dir);
                 }
@@ -270,7 +270,7 @@ class SC_UploadFile
                 // すでに保存ファイルがあった場合は削除する。
                 if (isset($this->save_file[$cnt])
                     && $this->save_file[$cnt] != ''
-                    && !preg_match('|^sub/|', $this->save_file[$cnt])
+                    && !preg_match('|^sub/|', (string) $this->save_file[$cnt])
                 ) {
                     $objImage->deleteImage($this->save_file[$cnt], $this->save_dir);
                 }
@@ -342,7 +342,7 @@ class SC_UploadFile
                 $real_filepath =
                 $arrRet[$val]['real_filepath'] = $this->temp_dir.$this->temp_file[$cnt];
                 if (is_null($temp_url)) {
-                    $arrRet[$val]['filepath'] = ROOT_URLPATH.substr($real_filepath, strlen(HTML_REALDIR));
+                    $arrRet[$val]['filepath'] = ROOT_URLPATH.substr($real_filepath, strlen((string) HTML_REALDIR));
                 } else {
                     // パスのスラッシュ/が連続しないようにする。
                     $arrRet[$val]['filepath'] = rtrim($temp_url, '/').'/'.$this->temp_file[$cnt];
@@ -351,7 +351,7 @@ class SC_UploadFile
                 $real_filepath =
                 $arrRet[$val]['real_filepath'] = $this->save_dir.$this->save_file[$cnt];
                 if (is_null($save_url)) {
-                    $arrRet[$val]['filepath'] = ROOT_URLPATH.substr($real_filepath, strlen(HTML_REALDIR));
+                    $arrRet[$val]['filepath'] = ROOT_URLPATH.substr($real_filepath, strlen((string) HTML_REALDIR));
                 } else {
                     // パスのスラッシュ/が連続しないようにする。
                     $arrRet[$val]['filepath'] = rtrim($save_url, '/').'/'.$this->save_file[$cnt];
@@ -492,7 +492,7 @@ class SC_UploadFile
         $cnt = 0;
         foreach ($this->keyname as $val) {
             if ($arrVal[$val] != '') {
-                if ($this->save_file[$cnt] == '' && !preg_match('|^sub/|', $arrVal[$val])) {
+                if ($this->save_file[$cnt] == '' && !preg_match('|^sub/|', (string) $arrVal[$val])) {
                     $objImage->deleteImage($arrVal[$val], $this->save_dir);
                 }
             }
@@ -506,7 +506,7 @@ class SC_UploadFile
         $objImage = new SC_Image_Ex($this->temp_dir);
         $cnt = 0;
         if ($arrVal['down_realfilename'] != '') {
-            if (!isset($this->save_file[$cnt]) && !preg_match('|^sub/|', $arrVal['down_realfilename'])) {
+            if (!isset($this->save_file[$cnt]) && !preg_match('|^sub/|', (string) $arrVal['down_realfilename'])) {
                 $objImage->deleteImage($arrVal['down_realfilename'], $this->save_dir);
             }
         }
@@ -556,7 +556,7 @@ class SC_UploadFile
         $path = $this->makeThumb($filepath, $to_w, $to_h, '');
 
         // ファイル名だけ返す
-        return basename($path);
+        return basename((string) $path);
     }
 
     /**
@@ -574,8 +574,8 @@ class SC_UploadFile
             $uniqname = date('mdHi').'_'.uniqid('');
         } else {
             // アップロードした画像名で保存
-            $uploadfile = strlen($uploadfile) > 0 ? $uploadfile : $_FILES[$keyname]['name'];
-            $uniqname = preg_replace('/(.+)\.(.+?)$/', '$1', $uploadfile);
+            $uploadfile = strlen((string) $uploadfile) > 0 ? $uploadfile : $_FILES[$keyname]['name'];
+            $uniqname = preg_replace('/(.+)\.(.+?)$/', '$1', (string) $uploadfile);
         }
         $dst_file = $this->temp_dir.$uniqname;
 

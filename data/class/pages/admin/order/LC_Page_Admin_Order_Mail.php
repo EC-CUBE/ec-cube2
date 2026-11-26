@@ -84,7 +84,7 @@ class LC_Page_Admin_Order_Mail extends LC_Page_Admin_Order_Ex
         }
 
         // 一括送信処理変数チェック(ここですべきかは課題)
-        if (preg_match("/^[0-9|\,]*$/", $post['order_id_array'])) {
+        if (preg_match("/^[0-9|\,]*$/", (string) $post['order_id_array'])) {
             $this->order_id_array = $post['order_id_array'];
         } else {
             // エラーで元に戻す
@@ -241,7 +241,7 @@ class LC_Page_Admin_Order_Mail extends LC_Page_Admin_Order_Ex
         $template_id = $objFormParam->getValue('template_id');
 
         // 未選択時
-        if (strlen($template_id) === 0) {
+        if (strlen((string) $template_id) === 0) {
             $mailTemplates = null;
         // 有効選択時
         } elseif (SC_Utils_Ex::sfIsInt($template_id)) {

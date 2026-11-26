@@ -20,7 +20,7 @@
  */
 function smarty_modifier_nl2br_html($string)
 {
-    $lines = preg_split('/(\\r\\n|\\r|\\n)/', $string);
+    $lines = preg_split('/(\\r\\n|\\r|\\n)/', (string) $string);
     $keys = array_keys($lines);
     $last_key = end($keys); // 最終行のキー
     foreach ($keys as $key) {

@@ -105,7 +105,7 @@ class SC_Api_Operation
             $domain = SC_Utils_Ex::sfIsHTTPS() ? HTTPS_URL : HTTP_URL;
             $pattern = sprintf('|^%s.*|', $domain);
             $referer = $_SERVER['HTTP_REFERER'];
-            if (preg_match($pattern, $referer)) {
+            if (preg_match($pattern, (string) $referer)) {
                 $ret = true;
             }
         }
@@ -159,8 +159,8 @@ class SC_Api_Operation
             }
         }
         $check_str = substr($check_str, 1);
-        $check_str = strtoupper($_SERVER['REQUEST_METHOD'])."\n"
-                     .strtolower($_SERVER['SERVER_NAME'])."\n"
+        $check_str = strtoupper((string) $_SERVER['REQUEST_METHOD'])."\n"
+                     .strtolower((string) $_SERVER['SERVER_NAME'])."\n"
                      .$_SERVER['PHP_SELF']."\n"
                      .$check_str;
         $signature = base64_encode(hash_hmac('sha256', $check_str, $secret_key, true));
@@ -228,7 +228,7 @@ class SC_Api_Operation
         if (SC_Utils_Ex::isBlank($operation_name)) {
             return false;
         }
-        $arrAuthTypes = explode('|', $arrApiConfig['auth_types']);
+        $arrAuthTypes = explode('|', (string) $arrApiConfig['auth_types']);
         $result = false;
         foreach ($arrAuthTypes as $auth_type) {
             $ret = false;
@@ -421,7 +421,7 @@ class SC_Api_Operation
                 'Header' => [
                     '_attributes' => [
                         'Name' => 'UserAgent',
-                        'Value' => htmlspecialchars($_SERVER['HTTP_USER_AGENT']),
+                        'Value' => htmlspecialchars((string) $_SERVER['HTTP_USER_AGENT']),
                     ],
                 ],
             ],
@@ -429,7 +429,7 @@ class SC_Api_Operation
             'Arguments' => [],
         ];
         foreach ($arrParam as $key => $val) {
-            $arrRet['Arguments'][] = ['_attributes' => ['Name' => htmlentities($key, ENT_NOQUOTES, 'UTF-8'), 'Value' => htmlentities($val, ENT_NOQUOTES, 'UTF-8')]];
+            $arrRet['Arguments'][] = ['_attributes' => ['Name' => htmlentities((string) $key, ENT_NOQUOTES, 'UTF-8'), 'Value' => htmlentities((string) $val, ENT_NOQUOTES, 'UTF-8')]];
         }
         $arrRet['RequestProcessingTime'] = microtime(true) - $start_time;
 
@@ -473,19 +473,19 @@ class SC_Api_Operation
     protected static function checkParam($objFormParam)
     {
         $arrErr = $objFormParam->checkError();
-        if (!preg_match("/^[a-zA-Z0-9\-\_]+$/", $objFormParam->getValue('Operation')) && !SC_Utils::isBlank($objFormParam->getValue('Operation'))) {
+        if (!preg_match("/^[a-zA-Z0-9\-\_]+$/", (string) $objFormParam->getValue('Operation')) && !SC_Utils::isBlank($objFormParam->getValue('Operation'))) {
             $arrErr['ECCUBE.Operation.ParamError'] = 'Operationの値が不正です。';
         }
-        if (!preg_match("/^[a-zA-Z0-9\-\_]+$/", $objFormParam->getValue('Service')) && !SC_Utils::isBlank($objFormParam->getValue('Service'))) {
+        if (!preg_match("/^[a-zA-Z0-9\-\_]+$/", (string) $objFormParam->getValue('Service')) && !SC_Utils::isBlank($objFormParam->getValue('Service'))) {
             $arrErr['ECCUBE.Service.ParamError'] = 'Serviceの値が不正です。';
         }
-        if (!preg_match("/^[a-zA-Z0-9\-\_]+$/", $objFormParam->getValue('Style')) && !SC_Utils::isBlank($objFormParam->getValue('Style'))) {
+        if (!preg_match("/^[a-zA-Z0-9\-\_]+$/", (string) $objFormParam->getValue('Style')) && !SC_Utils::isBlank($objFormParam->getValue('Style'))) {
             $arrErr['ECCUBE.Style.ParamError'] = 'Styleの値が不正です。';
         }
-        if (!preg_match("/^[a-zA-Z0-9\-\_]+$/", $objFormParam->getValue('Validate')) && !SC_Utils::isBlank($objFormParam->getValue('Validate'))) {
+        if (!preg_match("/^[a-zA-Z0-9\-\_]+$/", (string) $objFormParam->getValue('Validate')) && !SC_Utils::isBlank($objFormParam->getValue('Validate'))) {
             $arrErr['ECCUBE.Validate.ParamError'] = 'Validateの値が不正です。';
         }
-        if (!preg_match("/^[a-zA-Z0-9\-\_\.]+$/", $objFormParam->getValue('Version')) && !SC_Utils::isBlank($objFormParam->getValue('Version'))) {
+        if (!preg_match("/^[a-zA-Z0-9\-\_\.]+$/", (string) $objFormParam->getValue('Version')) && !SC_Utils::isBlank($objFormParam->getValue('Version'))) {
             $arrErr['ECCUBE.Version.ParamError'] = 'Versionの値が不正です。';
         }
 

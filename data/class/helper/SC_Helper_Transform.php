@@ -84,36 +84,36 @@ class SC_Helper_Transform
         $source = preg_replace_callback(
             '/(<head[^>]*>)(.+)(<\/head>)/is',
             [$this, 'lfCaptureHeadTags2Comment'],
-            $source
+            (string) $source
         );
 
         // JavaScript内にSmartyのタグが存在するものを、コメント形式に置換
         $source = preg_replace_callback(
             '/<script.+?\/script>/s',
             [$this, 'lfCaptureSmartyTags2Comment'],
-            $source
+            (string) $source
         );
 
         // HTMLタグ内にSmartyのタグが存在するものを、まず置換する
         $source = preg_replace_callback(
             '/<(?:[^<>]*?(?:(<\!--\{.+?\}-->)|(?R))[^<>]*?)*?>/s',
             [$this, 'lfCaptureSmartyTagsInTag'],
-            $source
+            (string) $source
         );
 
         // 通常のノードに属する部分を、コメント形式に置換
         $source = preg_replace_callback(
             '/<\!--{.+?\}-->/s',
             [$this, 'lfCaptureSmartyTags2Comment'],
-            $source
+            (string) $source
         );
 
         // HTMLタグの有無、BODYタグの有無で動作を切り替える
-        if (preg_match('/^(.*?)(<html[^>]*>.+<\/html>)(.*?)$/is', $source, $arrMatches)) {
+        if (preg_match('/^(.*?)(<html[^>]*>.+<\/html>)(.*?)$/is', (string) $source, $arrMatches)) {
             $this->header_source = $arrMatches[1];
             $source = $arrMatches[2];
             $this->footer_source = $arrMatches[3];
-        } elseif (preg_match('/^.*?<body[^>]*>.+<\/body>.*$/is', $source)) {
+        } elseif (preg_match('/^.*?<body[^>]*>.+<\/body>.*$/is', (string) $source)) {
             $source = '<meta http-equiv="content-type" content="text/html; charset=UTF-8" /><html><!--TemplateTransformer start-->'.$source.'<!--TemplateTransformer end--></html>';
         } else {
             $source = '<meta http-equiv="content-type" content="text/html; charset=UTF-8" /><html><body><!--TemplateTransformer start-->'.$source.'<!--TemplateTransformer end--></body></html>';
@@ -143,7 +143,7 @@ class SC_Helper_Transform
         $cur_idx = 0;
         // ツリーを初めから全検索する
         for ($iLoop = 0; $iLoop < count($this->arrElementTree); $iLoop++) {
-            if (preg_match($regex, $this->arrElementTree[$iLoop][0])) {
+            if (preg_match($regex, (string) $this->arrElementTree[$iLoop][0])) {
                 // インデックスが指定されていない(見つけたエレメント全て)、もしくは指定されたインデックスなら選択する
                 if (is_null($index) || $cur_idx == $index) {
                     $this->lfAddElement($iLoop, $this->arrElementTree[$iLoop]);
@@ -186,7 +186,7 @@ class SC_Helper_Transform
             $cur_idx = 0;
             // 親エレメント位置からツリーを検索する
             for ($iLoop = $objElement[0]; $iLoop < count($this->arrElementTree); $iLoop++) {
-                if (preg_match($regex, $this->arrElementTree[$iLoop][0])) {
+                if (preg_match($regex, (string) $this->arrElementTree[$iLoop][0])) {
                     // インデックスが指定されていない(見つけたエレメント全て)、もしくは指定されたインデックスなら選択する
                     if (is_null($index) || $cur_idx == $index) {
                         $this->lfAddElement($iLoop, $this->arrElementTree[$iLoop]);
@@ -359,14 +359,14 @@ class SC_Helper_Transform
             return null;
         } elseif ($this->snip_count) {
             $html = $this->objDOM->saveHTML();
-            $html = preg_replace('/^.*(<html[^>]*>)/s', '$1', $html);
-            $html = preg_replace('/(<\/html>).*$/s', '$1', $html);
-            $html = preg_replace('/^.*<\!--TemplateTransformer start-->/s', '', $html);
-            $html = preg_replace('/<\!--TemplateTransformer end-->.*$/s', '', $html);
+            $html = preg_replace('/^.*(<html[^>]*>)/s', '$1', (string) $html);
+            $html = preg_replace('/(<\/html>).*$/s', '$1', (string) $html);
+            $html = preg_replace('/^.*<\!--TemplateTransformer start-->/s', '', (string) $html);
+            $html = preg_replace('/<\!--TemplateTransformer end-->.*$/s', '', (string) $html);
             $html = preg_replace(
                 '/<\!--TemplateTransformerSnip start-->.*?<\!--TemplateTransformerSnip end-->/s',
                 '',
-                $html
+                (string) $html
             );
             $html = $this->header_source.$html.$this->footer_source;
             $html = str_replace($this->arrSmartyTagsSub, $this->arrSmartyTagsOrg, $html);
@@ -432,9 +432,9 @@ class SC_Helper_Transform
     protected function lfCaptureSmartyTagsInTag(array $arrMatches)
     {
         // Smartyタグ内のクォートを処理しやすいよう、いったんダミーのタグに
-        $html = preg_replace_callback('/<\!--{.+?\}-->/s', [$this, 'lfCaptureSmartyTags2Temptag'], $arrMatches[0]);
-        $html = preg_replace_callback('/\"[^"]*?\"/s', [$this, 'lfCaptureSmartyTagsInQuote'], $html);
-        $html = preg_replace_callback('/###TEMP(\d{8})###/s', [$this, 'lfCaptureSmartyTags2Attr'], $html);
+        $html = preg_replace_callback('/<\!--{.+?\}-->/s', [$this, 'lfCaptureSmartyTags2Temptag'], (string) $arrMatches[0]);
+        $html = preg_replace_callback('/\"[^"]*?\"/s', [$this, 'lfCaptureSmartyTagsInQuote'], (string) $html);
+        $html = preg_replace_callback('/###TEMP(\d{8})###/s', [$this, 'lfCaptureSmartyTags2Attr'], (string) $html);
 
         return $html;
     }
@@ -472,7 +472,7 @@ class SC_Helper_Transform
         $html = preg_replace_callback(
             '/###TEMP(\d{8})###/s',
             [$this, 'lfCaptureSmartyTags2Value'],
-            $arrMatches[0]
+            (string) $arrMatches[0]
         );
 
         return $html;
@@ -571,9 +571,9 @@ class SC_Helper_Transform
         $selector = preg_replace('/ *> */', ' >', $selector);   // 子セレクタをツリー検索用に 「A >B」の記法にする
         $regex = '/';
         if (!is_null($parent_index)) {
-            $regex .= preg_quote($this->arrElementTree[$parent_index][0], '/');
+            $regex .= preg_quote((string) $this->arrElementTree[$parent_index][0], '/');
         }    // (親要素の指定(絞り込み時)があれば頭に付加する(特殊文字はエスケープ)
-        $arrSelectors = explode(' ', $selector);
+        $arrSelectors = explode(' ', (string) $selector);
         foreach ($arrSelectors as $sub_selector) {
             if (preg_match('/^(>?)([\w\-]+)?(#[\w\-]+)?(\.[\w\-]+)*$/', $sub_selector, $arrMatch)) {
                 // 子セレクタ
@@ -618,7 +618,7 @@ class SC_Helper_Transform
      */
     protected function lfAddElement($elementNo, array &$arrElement)
     {
-        if (is_array($this->arrSelectElements[$this->search_depth]) && array_key_exists($arrElement[0], $this->arrSelectElements[$this->search_depth])) {
+        if (is_array($this->arrSelectElements[$this->search_depth]) && array_key_exists((string) $arrElement[0], $this->arrSelectElements[$this->search_depth])) {
             // nop
         } else {
             $this->arrSelectElements[$this->search_depth][$arrElement[0]] = [$elementNo, &$arrElement[1]];

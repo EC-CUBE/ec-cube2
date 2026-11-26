@@ -644,7 +644,7 @@ class LC_Page
     {
         $pattern = '/^[a-zA-Z0-9_]+$/';
         $mode = null;
-        if (isset($_REQUEST['mode']) && preg_match($pattern, $_REQUEST['mode'])) {
+        if (isset($_REQUEST['mode']) && preg_match($pattern, (string) $_REQUEST['mode'])) {
             $mode = $_REQUEST['mode'];
         }
 

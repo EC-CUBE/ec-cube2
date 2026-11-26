@@ -105,7 +105,7 @@ class LC_Page_Admin_Basis_ZipInstall extends LC_Page_Admin_Ex
         $objFormParam->setParam($_GET);
         $this->arrErr = $objFormParam->checkError();
         $this->arrForm = $objFormParam->getHashArray();
-        $this->tpl_zip_download_url_empty = !defined('ZIP_DOWNLOAD_URL') || strlen(ZIP_DOWNLOAD_URL) === 0 || ZIP_DOWNLOAD_URL === false;
+        $this->tpl_zip_download_url_empty = !defined('ZIP_DOWNLOAD_URL') || strlen((string) ZIP_DOWNLOAD_URL) === 0 || ZIP_DOWNLOAD_URL === false;
         $this->tpl_zip_function_not_exists = !function_exists('zip_open');
         $this->tpl_skip_update_csv = $this->tpl_zip_download_url_empty || $this->tpl_zip_function_not_exists;
 

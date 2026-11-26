@@ -232,7 +232,7 @@ class LC_Page_Products_List extends LC_Page_Ex
                 break;
 
             default:
-                if (strlen($searchCondition['where_category']) >= 1) {
+                if (strlen((string) $searchCondition['where_category']) >= 1) {
                     $dtb_product_categories = '(SELECT * FROM dtb_product_categories WHERE '.$searchCondition['where_category'].')';
                     $arrOrderVal = $searchCondition['arrvalCategory'];
                 } else {
@@ -335,14 +335,14 @@ class LC_Page_Products_List extends LC_Page_Ex
         }
 
         // メーカー検索条件
-        if (strlen($arrSearchData['maker_id']) > 0) {
+        if (strlen((string) $arrSearchData['maker_id']) > 0) {
             $objMaker = new SC_Helper_Maker_Ex();
             $maker = $objMaker->getMaker($arrSearchData['maker_id']);
             $arrSearch['maker'] = $maker['name'] ?? '';
         }
 
         // 商品名検索条件
-        if (strlen($arrSearchData['name']) > 0) {
+        if (strlen((string) $arrSearchData['name']) > 0) {
             $arrSearch['name'] = $arrSearchData['name'];
         }
 
@@ -386,7 +386,7 @@ class LC_Page_Products_List extends LC_Page_Ex
         // 商品検索条件の作成（未削除、表示）
         $searchCondition['where'] = SC_Product_Ex::getProductDispConditions('alldtl');
 
-        if (strlen($searchCondition['where_category']) >= 1) {
+        if (strlen((string) $searchCondition['where_category']) >= 1) {
             $searchCondition['where'] .= ' AND EXISTS (SELECT * FROM dtb_product_categories WHERE '.$searchCondition['where_category'].' AND product_id = alldtl.product_id)';
             $searchCondition['arrval'] = array_merge($searchCondition['arrval'], $searchCondition['arrvalCategory']);
         }

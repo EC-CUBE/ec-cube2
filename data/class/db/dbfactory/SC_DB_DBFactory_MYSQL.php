@@ -340,7 +340,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
         $objQuery = SC_Query_Ex::getSingletonInstance();
         $arrTblInfo = $objQuery->getTableInfo($table);
         foreach ($arrTblInfo as $fieldInfo) {
-            if (array_key_exists($fieldInfo['name'], $definition['fields'])) {
+            if (array_key_exists((string) $fieldInfo['name'], $definition['fields'])) {
                 if ($fieldInfo['nativetype'] == 'text') {
                     // TODO: text型フィールドの場合に255文字以内決めうちでインデックス列のサイズとして
                     //       指定して良いか確認は必要。
@@ -357,7 +357,7 @@ class SC_DB_DBFactory_MYSQL extends SC_DB_DBFactory
      */
     public function sfChangeReservedWords($sql)
     {
-        $changesql = preg_replace('/(^|[^\w$`"\.])(rank)([^\w$`"\.\s(]|\s+[^\s(]|\s*$)/i', '$1`$2`$3', $sql);
+        $changesql = preg_replace('/(^|[^\w$`"\.])(rank)([^\w$`"\.\s(]|\s+[^\s(]|\s*$)/i', '$1`$2`$3', (string) $sql);
 
         return $changesql;
     }

@@ -110,7 +110,7 @@ class LC_Page_Admin_Basis extends LC_Page_Admin_Ex
                 $arrRet = SC_Helper_DB_Ex::getBasisDataFromDB();
                 $objFormParam->setParam($arrRet);
                 $this->arrForm = $objFormParam->getHashArray();
-                $this->arrForm['regular_holiday_ids'] = explode('|', $this->arrForm['regular_holiday_ids']);
+                $this->arrForm['regular_holiday_ids'] = explode('|', (string) $this->arrForm['regular_holiday_ids']);
                 break;
         }
     }

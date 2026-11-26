@@ -295,7 +295,7 @@ class SC_SelectSql
         $where = $this->where;
 
         if (!$with_where) {
-            $where = preg_replace('/^\s*WHERE\s+/', '', $where);
+            $where = preg_replace('/^\s*WHERE\s+/', '', (string) $where);
         }
 
         return $where;

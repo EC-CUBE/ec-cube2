@@ -166,7 +166,7 @@ class Net_URL
 
             // Figure out host/port
             if (!empty($HTTP_SERVER_VARS['HTTP_HOST'])
-                && preg_match('/^(.*)(:([0-9]+))?$/U', $HTTP_SERVER_VARS['HTTP_HOST'], $matches)) {
+                && preg_match('/^(.*)(:([0-9]+))?$/U', (string) $HTTP_SERVER_VARS['HTTP_HOST'], $matches)) {
                 $host = $matches[1];
                 if (!empty($matches[3])) {
                     $port = $matches[3];
@@ -206,10 +206,10 @@ class Net_URL
                         break;
 
                     case 'path':
-                        if (str_starts_with($value, '/')) {
+                        if (str_starts_with((string) $value, '/')) {
                             $this->path = $value;
                         } else {
-                            $path = dirname($this->path) == DIRECTORY_SEPARATOR ? '' : dirname($this->path);
+                            $path = dirname((string) $this->path) == DIRECTORY_SEPARATOR ? '' : dirname((string) $this->path);
                             $this->path = sprintf('%s/%s', $path, $value);
                         }
                         break;
@@ -274,7 +274,7 @@ class Net_URL
         if ($preencoded) {
             $this->querystring[$name] = $value;
         } else {
-            $this->querystring[$name] = is_array($value) ? array_map('rawurlencode', $value) : rawurlencode($value);
+            $this->querystring[$name] = is_array($value) ? array_map('rawurlencode', $value) : rawurlencode((string) $value);
         }
     }
 
@@ -317,7 +317,7 @@ class Net_URL
         if (!empty($this->querystring)) {
             foreach ($this->querystring as $name => $value) {
                 // Encode var name
-                $name = rawurlencode($name);
+                $name = rawurlencode((string) $name);
 
                 if (is_array($value)) {
                     foreach ($value as $k => $v) {

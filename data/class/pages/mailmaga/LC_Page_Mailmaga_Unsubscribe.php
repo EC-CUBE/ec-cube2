@@ -79,7 +79,7 @@ class LC_Page_Mailmaga_Unsubscribe extends LC_Page_Ex
         $token = $_GET['token'] ?? '';
 
         // トークンの検証
-        if (empty($token) || !preg_match('/^[0-9a-fA-F]{64}$/', $token)) {
+        if (empty($token) || !preg_match('/^[0-9a-fA-F]{64}$/', (string) $token)) {
             $this->tpl_message = '無効なURLです。';
 
             return;

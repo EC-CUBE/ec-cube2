@@ -174,7 +174,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
             $dir = DATA_REALDIR.'downloads/tmp/';
             $filename = $time.'.tar.gz';
 
-            $data = base64_decode($objRet->data->dl_file);
+            $data = base64_decode((string) $objRet->data->dl_file);
 
             $objLog->log("* open {$filename} start");
             if ($fp = @fopen($dir.$filename, 'w')) {
@@ -403,7 +403,7 @@ class LC_Page_Upgrade_Download extends LC_Page_Upgrade_Base
      */
     public function fileExecute($productCode)
     {
-        if (!preg_match('/^[a-zA-Z0-9_-]+$/', $productCode)) {
+        if (!preg_match('/^[a-zA-Z0-9_-]+$/', (string) $productCode)) {
             GC_Utils_Ex::gfPrintLog('Invalid product code: '.str_replace(["\r", "\n"], '', $productCode));
 
             return;

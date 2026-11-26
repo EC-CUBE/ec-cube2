@@ -285,7 +285,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
                 if (USE_POINT === true && $this->tpl_mode == 'add') {
                     $birth_point = 0;
                     if ($customer_birth) {
-                        $arrRet = preg_split('|[- :/]|', $customer_birth);
+                        $arrRet = preg_split('|[- :/]|', (string) $customer_birth);
                         $birth_date = (int) $arrRet[1];
                         $now_date = (int) date('m');
                         // 誕生日月であった場合
@@ -597,7 +597,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
             foreach ($arrShippingsTmp as $row) {
                 // お届け日の処理
                 if (!SC_Utils_Ex::isBlank($row['shipping_date'])) {
-                    $ts = strtotime($row['shipping_date']);
+                    $ts = strtotime((string) $row['shipping_date']);
                     $row['shipping_date_year'] = date('Y', $ts);
                     $row['shipping_date_month'] = date('n', $ts);
                     $row['shipping_date_day'] = date('j', $ts);
@@ -642,7 +642,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
 
         // 生年月日の処理
         if (!SC_Utils_Ex::isBlank($arrOrder['order_birth'])) {
-            $order_birth = substr($arrOrder['order_birth'], 0, 10);
+            $order_birth = substr((string) $arrOrder['order_birth'], 0, 10);
             $arrOrderBirth = explode('-', $order_birth);
 
             $arrOrder['order_birth_year'] = (int) $arrOrderBirth[0];
@@ -1042,7 +1042,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
 
         // 誕生日の処理
         if (!SC_Utils_Ex::isBlank($objFormParam->getValue('order_birth'))) {
-            $order_birth = substr($objFormParam->getValue('order_birth'), 0, 10);
+            $order_birth = substr((string) $objFormParam->getValue('order_birth'), 0, 10);
             $arrOrderBirth = explode('-', $order_birth);
 
             $objFormParam->setValue('order_birth_year', (int) $arrOrderBirth[0]);
@@ -1065,7 +1065,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex
     {
         $ancor_key = $objFormParam->getValue('anchor_key');
         if (!SC_Utils_Ex::isBlank($ancor_key)) {
-            return "location.hash='#".htmlentities(urlencode($ancor_key), ENT_QUOTES)."'";
+            return "location.hash='#".htmlentities(urlencode((string) $ancor_key), ENT_QUOTES)."'";
         }
 
         return '';

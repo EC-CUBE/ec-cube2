@@ -182,12 +182,12 @@ class LC_Page_Admin_Products_Review extends LC_Page_Admin_Ex
     {
         $arrHidden = [];
         foreach ($arrForm as $key => $val) {
-            if (preg_match('/^search_/', $key)) {
+            if (preg_match('/^search_/', (string) $key)) {
                 switch ($key) {
                     case 'search_sex':
                         $arrHidden[$key] = SC_Utils_Ex::sfMergeParamCheckBoxes($val);
                         if (!is_array($val)) {
-                            $arrForm[$key] = explode('-', $val);
+                            $arrForm[$key] = explode('-', (string) $val);
                         }
                         break;
                     default:
@@ -260,25 +260,25 @@ class LC_Page_Admin_Products_Review extends LC_Page_Admin_Ex
 
             switch ($key) {
                 case 'search_reviewer_name':
-                    $val = preg_replace('/ /', '%', $val);
+                    $val = preg_replace('/ /', '%', (string) $val);
                     $where .= ' AND reviewer_name LIKE ? ';
                     $arrWhereVal[] = "%$val%";
                     break;
 
                 case 'search_reviewer_url':
-                    $val = preg_replace('/ /', '%', $val);
+                    $val = preg_replace('/ /', '%', (string) $val);
                     $where .= ' AND reviewer_url LIKE ? ';
                     $arrWhereVal[] = "%$val%";
                     break;
 
                 case 'search_name':
-                    $val = preg_replace('/ /', '%', $val);
+                    $val = preg_replace('/ /', '%', (string) $val);
                     $where .= ' AND name LIKE ? ';
                     $arrWhereVal[] = "%$val%";
                     break;
 
                 case 'search_product_code':
-                    $val = preg_replace('/ /', '%', $val);
+                    $val = preg_replace('/ /', '%', (string) $val);
                     $where .= ' AND A.product_id IN (SELECT product_id FROM dtb_products_class WHERE product_code LIKE ?)';
                     $arrWhereVal[] = "%$val%";
                     break;
@@ -321,7 +321,7 @@ class LC_Page_Admin_Products_Review extends LC_Page_Admin_Ex
                 case 'search_endyear':
                     if (isset($_POST['search_startyear']) && isset($_POST['search_startmonth']) && isset($_POST['search_startday'])) {
                         $date = SC_Utils_Ex::sfGetTimestamp($_POST['search_endyear'], $_POST['search_endmonth'], $_POST['search_endday']);
-                        $end_date = date('Y-m-d', strtotime('1 day', strtotime($date)));
+                        $end_date = date('Y-m-d', strtotime('1 day', strtotime((string) $date)));
                         $where .= " AND A.create_date <= cast('$end_date' as date) ";
                     }
                     break;

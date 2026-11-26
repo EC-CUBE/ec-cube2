@@ -143,7 +143,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
                 break;
 
             default:
-                if (strlen($searchCondition['where_category']) >= 1) {
+                if (strlen((string) $searchCondition['where_category']) >= 1) {
                     $dtb_product_categories = '(SELECT * FROM dtb_product_categories WHERE '.$searchCondition['where_category'].')';
                     $arrOrderVal = $searchCondition['arrvalCategory'];
                 } else {
@@ -201,7 +201,7 @@ class API_ItemSearch extends SC_Api_Abstract_Ex
         // 商品検索条件の作成（未削除、表示）
         $searchCondition['where'] = 'alldtl.del_flg = 0 AND alldtl.status = 1 ';
 
-        if (strlen($searchCondition['where_category']) >= 1) {
+        if (strlen((string) $searchCondition['where_category']) >= 1) {
             $searchCondition['where'] .= ' AND EXISTS (SELECT * FROM dtb_product_categories WHERE '.$searchCondition['where_category'].' AND product_id = alldtl.product_id)';
             $searchCondition['arrval'] = array_merge($searchCondition['arrval'], $searchCondition['arrvalCategory']);
         }

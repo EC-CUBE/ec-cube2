@@ -764,7 +764,7 @@ class LC_Page_Products_Detail extends LC_Page_Ex
         $product_id = $this->objFormParam->getValue('product_id');
 
         $value1 = $this->objFormParam->getValue('classcategory_id1');
-        if (strlen($value1) === 0) {
+        if (strlen((string) $value1) === 0) {
             $value1 = '__unselected';
         }
 

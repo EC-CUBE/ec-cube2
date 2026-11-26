@@ -361,8 +361,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $objGraphLine->setYTitle($ytitle);
 
             // メインタイトル作成
-            [$sy, $sm, $sd] = preg_split('|[/\- ]|', $sdate);
-            [$ey, $em, $ed] = preg_split('|[/\- ]|', $edate);
+            [$sy, $sm, $sd] = preg_split('|[/\- ]|', (string) $sdate);
+            [$ey, $em, $ed] = preg_split('|[/\- ]|', (string) $edate);
             $start_date = $sy.'年'.$sm.'月'.$sd.'日';
             $end_date = $ey.'年'.$em.'月'.$ed.'日';
             $objGraphLine->drawTitle('集計期間：'.$start_date.' - '.$end_date);
@@ -415,8 +415,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $objGraphPie->setLegend(array_keys($arrList));
 
             // メインタイトル作成
-            [$sy, $sm, $sd] = preg_split('|[/\- ]|', $sdate);
-            [$ey, $em, $ed] = preg_split('|[/\- ]|', $edate);
+            [$sy, $sm, $sd] = preg_split('|[/\- ]|', (string) $sdate);
+            [$ey, $em, $ed] = preg_split('|[/\- ]|', (string) $edate);
             $start_date = $sy.'年'.$sm.'月'.$sd.'日';
             $end_date = $ey.'年'.$em.'月'.$ed.'日';
             $objGraphPie->drawTitle('集計期間：'.$start_date.' - '.$end_date);
@@ -462,7 +462,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 
             $arrKey = [];
             foreach ($arrList as $key => $value) {
-                $arrKey[] = preg_replace('/～/u', '-', $key);
+                $arrKey[] = preg_replace('/～/u', '-', (string) $key);
             }
 
             // グラフ描画
@@ -473,8 +473,8 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
 
             // メインタイトル作成
             $arrKey = array_keys($arrList);
-            [$sy, $sm, $sd] = preg_split('|[/\- ]|', $sdate);
-            [$ey, $em, $ed] = preg_split('|[/\- ]|', $edate);
+            [$sy, $sm, $sd] = preg_split('|[/\- ]|', (string) $sdate);
+            [$ey, $em, $ed] = preg_split('|[/\- ]|', (string) $edate);
             $start_date = $sy.'年'.$sm.'月'.$sd.'日';
             $end_date = $ey.'年'.$em.'月'.$ed.'日';
             $objGraphBar->drawTitle('集計期間：'.$start_date.' - '.$end_date);
@@ -501,9 +501,9 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
     public function lfGetGraphPng($keyname)
     {
         if ($_POST['search_startyear_m'] != '') {
-            $pngname = sprintf('%s_%02d%02d.png', $keyname, substr($_POST['search_startyear_m'], 2), $_POST['search_startmonth_m']);
+            $pngname = sprintf('%s_%02d%02d.png', $keyname, substr((string) $_POST['search_startyear_m'], 2), $_POST['search_startmonth_m']);
         } else {
-            $pngname = sprintf('%s_%02d%02d%02d_%02d%02d%02d.png', $keyname, substr($_POST['search_startyear'], 2), $_POST['search_startmonth'], $_POST['search_startday'], substr($_POST['search_endyear'], 2), $_POST['search_endmonth'], $_POST['search_endday']);
+            $pngname = sprintf('%s_%02d%02d%02d_%02d%02d%02d.png', $keyname, substr((string) $_POST['search_startyear'], 2), $_POST['search_startmonth'], $_POST['search_startday'], substr((string) $_POST['search_endyear'], 2), $_POST['search_endmonth'], $_POST['search_endday']);
         }
 
         return $pngname;
@@ -529,7 +529,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             if ($where != '') {
                 $where .= ' AND ';
             }
-            $edate = date('Y-m-d', strtotime('1 day', strtotime($edate)));
+            $edate = date('Y-m-d', strtotime('1 day', strtotime((string) $edate)));
             $where .= " $col_date < date('".$edate."')";
         }
 
@@ -776,7 +776,7 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
         }
 
         foreach ($arrDateList as $date) {
-            if (array_key_exists($date, $arrDateResults)) {
+            if (array_key_exists((string) $date, $arrDateResults)) {
                 $arrRet[] = $arrDateResults[$date];
             } else {
                 $arrRet[]['str_date'] = $date;
@@ -814,9 +814,9 @@ class LC_Page_Admin_Total extends LC_Page_Admin_Ex
             $arrDateList = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16',  '17', '18', '19', '20', '21', '22', '23'];
         } else {
             $arrDateList = [];
-            $tmp = strtotime($st);
+            $tmp = strtotime((string) $st);
             $nAday = 60 * 60 * 24;
-            $edx = strtotime($ed);
+            $edx = strtotime((string) $ed);
             while ($tmp <= $edx) {
                 $sDate = date($format, $tmp);
                 if (!in_array($sDate, $arrDateList)) {

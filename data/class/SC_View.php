@@ -299,7 +299,7 @@ class SC_View
         $pattern = ["/\|smarty:nodefaults/", '/include_php /', '/=`(.+?)`/', '/html_checkboxes_ex /', '/html_radios_ex /'];
         $replace = [' ', 'include_php_ex ', '=$1', 'html_checkboxes ', 'html_radios '];
 
-        return preg_replace($pattern, $replace, $tpl_source);
+        return preg_replace($pattern, $replace, (string) $tpl_source);
     }
 
     /**

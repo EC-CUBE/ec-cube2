@@ -65,7 +65,7 @@ class SC_DB_DBFactory_SQLITE3 extends SC_DB_DBFactory
         $sql = preg_replace("/[\r\n\t]/", ' ', $sql);
 
         // SERIAL PRIMARY KEY を INTEGER PRIMARY KEY AUTOINCREMENT に変換
-        $sql = preg_replace('/\bSERIAL\s+PRIMARY\s+KEY\b/i', 'INTEGER PRIMARY KEY AUTOINCREMENT', $sql);
+        $sql = preg_replace('/\bSERIAL\s+PRIMARY\s+KEY\b/i', 'INTEGER PRIMARY KEY AUTOINCREMENT', (string) $sql);
 
         // RANDOM()はそのまま使える（SQLite3でサポート済み）
 
@@ -187,7 +187,7 @@ class SC_DB_DBFactory_SQLITE3 extends SC_DB_DBFactory
         // Now() を datetime('now','localtime') に変換
         $sql = preg_replace('/\bNow\s*\(\s*\)/i', "datetime('now','localtime')", $sql);
         // CURRENT_TIMESTAMP を datetime('now','localtime') に変換
-        $sql = preg_replace('/\bcurrent_timestamp\b/i', "datetime('now','localtime')", $sql);
+        $sql = preg_replace('/\bcurrent_timestamp\b/i', "datetime('now','localtime')", (string) $sql);
 
         return $sql;
     }

@@ -32,7 +32,7 @@ define('INSTALL_FUNCTION', true);
 define('INSTALL_INFO_URL', 'http://www.ec-cube.net/install_info/index.php');
 define("DEFAULT_COUNTRY_ID", 392);
 
-$dir = preg_replace('|install/.*$|', '', $_SERVER['REQUEST_URI']);
+$dir = preg_replace('|install/.*$|', '', (string) $_SERVER['REQUEST_URI']);
 $normal_url = 'http://' . $_SERVER['HTTP_HOST'] . $dir;
 defined('HTTP_URL') or define('HTTP_URL', $normal_url);
 defined('HTTPS_URL') or define('HTTPS_URL', $normal_url);
@@ -238,7 +238,7 @@ switch ($mode) {
 
             $arrSendData = array();
             foreach ($_POST as $key => $val) {
-                if (preg_match('/^senddata_*/', $key)) {
+                if (preg_match('/^senddata_*/', (string) $key)) {
                     $arrSendDataTmp = array(str_replace('senddata_', '', $key) => $val);
                     $arrSendData = array_merge($arrSendData, $arrSendDataTmp);
                 }
@@ -548,7 +548,7 @@ function lfDispStep4($objPage)
 
     $normal_url = $objWebParam->getValue('normal_url');
     // 語尾に'/'をつける
-    $normal_url = rtrim($normal_url, '/') . '/';
+    $normal_url = rtrim((string) $normal_url, '/') . '/';
 
     $arrDsn = getArrayDsn($objDBParam);
 
@@ -612,7 +612,7 @@ function lfDispComplete($objPage)
 
     $member_id = $objQuery->get('member_id', 'dtb_member', 'login_id = ? AND del_flg = 0', array($login_id));
 
-    if (strlen($member_id) == 0) {
+    if (strlen((string) $member_id) == 0) {
         $member_id = $objQuery->nextVal('dtb_member_member_id');
         $arrVal['member_id'] = $member_id;
         $arrVal['name'] = '管理者';
@@ -630,7 +630,7 @@ function lfDispComplete($objPage)
 
     $secure_url = $objWebParam->getValue('secure_url');
     // 語尾に'/'をつける
-    $secure_url = rtrim($secure_url, '/') . '/';
+    $secure_url = rtrim((string) $secure_url, '/') . '/';
     $objPage->tpl_sslurl = $secure_url;
     //EC-CUBEオフィシャルサイトからのお知らせURL
     $objPage->install_info_url = INSTALL_INFO_URL;
@@ -766,8 +766,8 @@ function lfCheckWebError($objWebParam)
     $objErr->arrErr = $objWebParam->checkError();
 
     // ディレクトリ名のみ取得する
-    $normal_dir = preg_replace('|^https?://[a-zA-Z0-9_~=&\?\.\-]+|', '', $arrRet['normal_url']);
-    $secure_dir = preg_replace('|^https?://[a-zA-Z0-9_~=&\?\.\-]+|', '', $arrRet['secure_url']);
+    $normal_dir = preg_replace('|^https?://[a-zA-Z0-9_~=&\?\.\-]+|', '', (string) $arrRet['normal_url']);
+    $secure_dir = preg_replace('|^https?://[a-zA-Z0-9_~=&\?\.\-]+|', '', (string) $arrRet['secure_url']);
 
     if ($normal_dir != $secure_dir) {
         $objErr->arrErr['normal_url'] = '※ URLに異なる階層を指定することはできません。';
@@ -825,7 +825,7 @@ function lfCheckDBError($objDBParam)
         } else {
             $objErr->arrErr['all'] = '>> ' . $objDB->message . '<br />';
             // エラー文を取得する
-            preg_match('/\[(.*)\]/', $objDB->userinfo, $arrKey);
+            preg_match('/\[(.*)\]/', (string) $objDB->userinfo, $arrKey);
             $objErr->arrErr['all'] .= $arrKey[0] . '<br />';
             GC_Utils_Ex::gfPrintLog($objDB->userinfo, INSTALL_LOG);
         }
@@ -880,7 +880,7 @@ function lfExecuteSQL($filepath, $arrDsn, $disp_err = true)
                     if (PEAR::isError($ret) && $disp_err) {
                         $arrErr['all'] = '>> ' . $ret->message . '<br />';
                         // エラー文を取得する
-                        preg_match('/\[(.*)\]/', $ret->userinfo, $arrKey);
+                        preg_match('/\[(.*)\]/', (string) $ret->userinfo, $arrKey);
                         $arrErr['all'] .= $arrKey[0] . '<br />';
                         $arrErr['all'] .= '>> テーブル構成の変更に失敗しました。<br />';
                         GC_Utils_Ex::gfPrintLog($ret->userinfo, INSTALL_LOG);
@@ -990,11 +990,11 @@ function lfMakeConfigFile($filepath = CONFIG_REALFILE)
 
     $normal_url = $objWebParam->getValue('normal_url');
     // 語尾に'/'をつける
-    $normal_url = rtrim($normal_url, '/') . '/';
+    $normal_url = rtrim((string) $normal_url, '/') . '/';
 
     $secure_url = $objWebParam->getValue('secure_url');
     // 語尾に'/'をつける
-    $secure_url = rtrim($secure_url, '/') . '/';
+    $secure_url = rtrim((string) $secure_url, '/') . '/';
 
     //管理機能SSL制限
     if ($objWebParam->getValue('admin_force_ssl') == 1 and strpos($secure_url, 'https://') !== FALSE) {
@@ -1176,7 +1176,7 @@ function getArrayDsn(SC_FormParam $objDBParam)
     );
 
     // 文字列形式の DSN との互換処理
-    if (strlen($arrRet['db_server']) >= 1 && $arrRet['db_server'] !== '+') {
+    if (strlen((string) $arrRet['db_server']) >= 1 && $arrRet['db_server'] !== '+') {
         $arrDsn['hostspec'] = $arrRet['db_server'];
     }
 

@@ -138,7 +138,7 @@ class SC_Date
         $year_array = [];
 
         for ($i = $year; $i <= $end_year; $i++) {
-            $key = substr($i, -2);
+            $key = substr((string) $i, -2);
             $year_array[$key] = $key;
         }
 
@@ -270,6 +270,6 @@ class SC_Date
     private function setRegularHoliday()
     {
         $arrInfo = SC_Helper_DB_Ex::sfGetBasisData();
-        SC_Date_Ex::$arrRegularHoliday = explode('|', $arrInfo['regular_holiday_ids']);
+        SC_Date_Ex::$arrRegularHoliday = explode('|', (string) $arrInfo['regular_holiday_ids']);
     }
 }

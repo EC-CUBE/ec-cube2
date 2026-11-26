@@ -68,7 +68,7 @@ class LC_Page_ResizeImage extends LC_Page_Ex
 
             // TODO: ファイル名を直接指定するような処理は避けるべき
             // NO_IMAGE_REALFILE以外のファイル名が直接渡された場合、ファイル名のチェックを行う
-            if (strlen($arrForm['image']) >= 1 && $arrForm['image'] !== NO_IMAGE_REALFILE) {
+            if (strlen((string) $arrForm['image']) >= 1 && $arrForm['image'] !== NO_IMAGE_REALFILE) {
                 if (!$this->lfCheckFileName($arrForm['image'])) {
                     GC_Utils_Ex::gfPrintLog('invalid access :resize_image.php image='.$arrForm['image']);
                 }
@@ -106,7 +106,7 @@ class LC_Page_ResizeImage extends LC_Page_Ex
      */
     public function lfCheckFileName($image)
     {
-        $file = trim($image);
+        $file = trim((string) $image);
         if (!preg_match("/^[[:alnum:]_\.-]+$/i", $file)) {
             return false;
         } else {

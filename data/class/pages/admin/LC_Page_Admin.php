@@ -145,7 +145,7 @@ class LC_Page_Admin extends LC_Page_Ex
         $this->sendAdditionalHeader();
         $this->template = MAIN_FRAME;
 
-        if (stripos($_SERVER['REQUEST_URI'], rtrim(ROOT_URLPATH.ADMIN_DIR, '/')) === false) {
+        if (stripos((string) $_SERVER['REQUEST_URI'], rtrim(ROOT_URLPATH.ADMIN_DIR, '/')) === false) {
             // ADMIN_DIR 以外からのリクエストは認証を要求する
             SC_Utils_Ex::sfIsSuccess(new SC_Session_Ex());
         }

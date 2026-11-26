@@ -55,7 +55,7 @@ class LC_Page_InputZip extends LC_Page_Ex
         if (count($arrErr) > 0) {
             $tpl_message = '';
             foreach ($arrErr as $val) {
-                $tpl_message .= preg_replace("/<br \/>/", "\n", $val);
+                $tpl_message .= preg_replace("/<br \/>/", "\n", (string) $val);
             }
             echo $tpl_message;
 

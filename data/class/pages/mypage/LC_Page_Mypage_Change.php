@@ -117,7 +117,7 @@ class LC_Page_Mypage_Change extends LC_Page_AbstractMypage_Ex
                 // 入力エラーなし
                 if (empty($this->arrErr)) {
                     // パスワード表示
-                    $this->passlen = SC_Utils_Ex::sfPassLen(strlen($objFormParam->getValue('password')));
+                    $this->passlen = SC_Utils_Ex::sfPassLen(strlen((string) $objFormParam->getValue('password')));
 
                     $this->tpl_mainpage = 'mypage/change_confirm.tpl';
                     $this->tpl_title = '会員登録(確認ページ)';

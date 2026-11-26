@@ -71,7 +71,7 @@ class SC_CustomerList extends SC_SelectSql_Ex
         if (strlen($this->arrSql['search_name']) > 0) {
             $this->setWhere('('.$dbFactory->concatColumn(['name01', 'name02']).' LIKE ?)');
             $searchName = $this->addSearchStr($this->arrSql['search_name']);
-            $this->arrVal[] = preg_replace('/[ 　]+/u', '', $searchName);
+            $this->arrVal[] = preg_replace('/[ 　]+/u', '', (string) $searchName);
         }
 
         // 名前(フリガナ)
@@ -81,7 +81,7 @@ class SC_CustomerList extends SC_SelectSql_Ex
         if (strlen($this->arrSql['search_kana']) > 0) {
             $this->setWhere('('.$dbFactory->concatColumn(['kana01', 'kana02']).' LIKE ?)');
             $searchKana = $this->addSearchStr($this->arrSql['search_kana']);
-            $this->arrVal[] = preg_replace('/[ 　]+/u', '', $searchKana);
+            $this->arrVal[] = preg_replace('/[ 　]+/u', '', (string) $searchKana);
         }
 
         // 都道府県
@@ -282,8 +282,8 @@ class SC_CustomerList extends SC_SelectSql_Ex
         if (!isset($this->arrSql['search_b_end_day'])) {
             $this->arrSql['search_b_end_day'] = '';
         }
-        if ((strlen($this->arrSql['search_b_start_year']) > 0 && strlen($this->arrSql['search_b_start_month']) > 0 && strlen($this->arrSql['search_b_start_day']) > 0)
-            || strlen($this->arrSql['search_b_end_year']) > 0 && strlen($this->arrSql['search_b_end_month']) > 0 && strlen($this->arrSql['search_b_end_day']) > 0) {
+        if ((strlen((string) $this->arrSql['search_b_start_year']) > 0 && strlen((string) $this->arrSql['search_b_start_month']) > 0 && strlen((string) $this->arrSql['search_b_start_day']) > 0)
+            || strlen((string) $this->arrSql['search_b_end_year']) > 0 && strlen((string) $this->arrSql['search_b_end_month']) > 0 && strlen($this->arrSql['search_b_end_day']) > 0) {
             $arrBirth = $this->selectTermRange(
                 $this->arrSql['search_b_start_year'],
                 $this->arrSql['search_b_start_month'],
@@ -326,8 +326,8 @@ class SC_CustomerList extends SC_SelectSql_Ex
         if (!isset($this->arrSql['search_end_day'])) {
             $this->arrSql['search_end_day'] = '';
         }
-        if ((strlen($this->arrSql['search_start_year']) > 0 && strlen($this->arrSql['search_start_month']) > 0 && strlen($this->arrSql['search_start_day']) > 0)
-                || (strlen($this->arrSql['search_end_year']) > 0 && strlen($this->arrSql['search_end_month']) > 0 && strlen($this->arrSql['search_end_day']) > 0)) {
+        if ((strlen((string) $this->arrSql['search_start_year']) > 0 && strlen((string) $this->arrSql['search_start_month']) > 0 && strlen((string) $this->arrSql['search_start_day']) > 0)
+                || (strlen((string) $this->arrSql['search_end_year']) > 0 && strlen((string) $this->arrSql['search_end_month']) > 0 && strlen($this->arrSql['search_end_day']) > 0)) {
             $arrRegistTime = $this->selectTermRange(
                 $this->arrSql['search_start_year'],
                 $this->arrSql['search_start_month'],
@@ -362,8 +362,8 @@ class SC_CustomerList extends SC_SelectSql_Ex
             $this->arrSql['search_buy_end_day'] = '';
         }
 
-        if ((strlen($this->arrSql['search_buy_start_year']) > 0 && strlen($this->arrSql['search_buy_start_month']) > 0 && strlen($this->arrSql['search_buy_start_day']) > 0)
-                || (strlen($this->arrSql['search_buy_end_year']) > 0 && strlen($this->arrSql['search_buy_end_month']) > 0 && strlen($this->arrSql['search_buy_end_day']) > 0)) {
+        if ((strlen((string) $this->arrSql['search_buy_start_year']) > 0 && strlen((string) $this->arrSql['search_buy_start_month']) > 0 && strlen((string) $this->arrSql['search_buy_start_day']) > 0)
+                || (strlen((string) $this->arrSql['search_buy_end_year']) > 0 && strlen((string) $this->arrSql['search_buy_end_month']) > 0 && strlen($this->arrSql['search_buy_end_day']) > 0)) {
             $arrRegistTime = $this->selectTermRange(
                 $this->arrSql['search_buy_start_year'],
                 $this->arrSql['search_buy_start_month'],

@@ -179,11 +179,11 @@ class LC_Page_Admin_Design_UpDown extends LC_Page_Admin_Ex
             // アーカイブ内容の安全性チェック
             foreach ($arrArchive as $file) {
                 $entryName = $file['filename'];
-                if (str_contains($entryName, '..')) {
+                if (str_contains((string) $entryName, '..')) {
                     $arrErr['template_file'] = '※ アーカイブに不正なパスが含まれています。<br />';
                     break;
                 }
-                if (str_starts_with($entryName, '/')) {
+                if (str_starts_with((string) $entryName, '/')) {
                     $arrErr['template_file'] = '※ アーカイブに絶対パスが含まれています。<br />';
                     break;
                 }

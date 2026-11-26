@@ -123,7 +123,7 @@ class LC_Page_Entry extends LC_Page_Ex
                 // 入力エラーなし
                 if (empty($this->arrErr)) {
                     // パスワード表示
-                    $this->passlen = SC_Utils_Ex::sfPassLen(strlen($objFormParam->getValue('password')));
+                    $this->passlen = SC_Utils_Ex::sfPassLen(strlen((string) $objFormParam->getValue('password')));
 
                     $this->tpl_mainpage = 'entry/confirm.tpl';
                     $this->tpl_title = '会員登録(確認ページ)';
@@ -238,7 +238,7 @@ class LC_Page_Entry extends LC_Page_Ex
      */
     public function lfCheckReferer()
     {
-        $arrRefererParseUrl = parse_url($_SERVER['HTTP_REFERER']);
+        $arrRefererParseUrl = parse_url((string) $_SERVER['HTTP_REFERER']);
         $referer_urlpath = $arrRefererParseUrl['path'];
 
         $kiyaku_urlpath = ROOT_URLPATH.'entry/kiyaku.php';

@@ -290,10 +290,10 @@ class LC_Page_Sitemap extends LC_Page_Ex
         // URL にプロトコルの記載が無い場合、HTTP_URL を前置する。
         foreach ($arrPageList as $key => $value) {
             $arrPage = &$arrPageList[$key];
-            if (!preg_match('|^https?://|i', $arrPage['url'])) {
+            if (!preg_match('|^https?://|i', (string) $arrPage['url'])) {
                 $arrPage['url'] = HTTP_URL.$arrPage['url'];
             }
-            $arrPage['url'] = preg_replace('|/'.preg_quote(DIR_INDEX_FILE).'$|', '/'.DIR_INDEX_PATH, $arrPage['url']);
+            $arrPage['url'] = preg_replace('|/'.preg_quote(DIR_INDEX_FILE).'$|', '/'.DIR_INDEX_PATH, (string) $arrPage['url']);
         }
         unset($arrPage);
 

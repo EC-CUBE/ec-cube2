@@ -26,8 +26,6 @@ use Rector\Php83\Rector\FuncCall\RemoveGetClassGetParentClassNoArgsRector;
 
 // PHP 8.4 前方互換: 暗黙の nullable パラメータ宣言が非推奨 → 明示的に ?Type に (PHP 7.1+ 構文)
 use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
-// PHP 8.4 前方互換: fputcsv() 等の escape 引数のデフォルトが変更
-use Rector\Php84\Rector\FuncCall\AddEscapeArgumentRector;
 
 // PHP 8.5 前方互換: array_key_exists() に null キーを渡すと非推奨 → '' に変換
 use Rector\Php85\Rector\FuncCall\ArrayKeyExistsNullToEmptyStringRector;
@@ -39,8 +37,12 @@ use Rector\Php85\Rector\Switch_\ColonAfterSwitchCaseRector;
 use Rector\Php85\Rector\FuncCall\ChrArgModuloRector;
 
 return RectorConfig::configure()
-           // EC-CUBE 2 の最小 PHP バージョン
-           ->withPhpVersion(PhpVersion::PHP_74)
+           // サポートする最大の PHP バージョン。
+           // MinPhpVersionInterface を実装したルール (NullToStrictStringFuncCallArgRector,
+           // ArrayKeyExistsNullToEmptyStringRector など) は、ここで指定したバージョンが要件に満たないと
+           // エラーにならずスキップされるため、最小バージョン (7.4) を指定してはいけない。
+           // PHP 7.4 互換の担保は、下の withRules() のホワイトリストで行う。
+           ->withPhpVersion(PhpVersion::PHP_86)
            ->withPaths([
                __DIR__ . '/html',
                __DIR__ . '/data',
@@ -86,8 +88,9 @@ return RectorConfig::configure()
                // --- PHP 8.4 前方互換 ---
                // function foo(Type $x = null) → function foo(?Type $x = null)
                ExplicitNullableParamTypeRector::class,
-               // fputcsv() 等に escape 引数を明示的に追加
-               AddEscapeArgumentRector::class,
+               // AddEscapeArgumentRector は名前付き引数 (escape: '\\') を生成し PHP 7.4 で
+               // 構文エラーになるため使わない。fgetcsv()/fputcsv() には位置引数で
+               // ',', '"', '\\' を明示すること。
 
                // --- PHP 8.5 前方互換 ---
                // array_key_exists(null, $arr) → array_key_exists('', $arr)

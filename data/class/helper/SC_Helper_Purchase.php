@@ -757,7 +757,7 @@ class SC_Helper_Purchase
                 && $arrValues['shipping_date'] != ''
                 && $convert_shipping_date
             ) {
-                $d = mb_strcut($arrValues['shipping_date'], 0, 10);
+                $d = mb_strcut((string) $arrValues['shipping_date'], 0, 10);
                 $arrDate = explode('/', $d);
                 $ts = mktime(0, 0, 0, $arrDate[1], $arrDate[2], $arrDate[0]);
                 $arrValues['shipping_date'] = date('Y-m-d H:i:s', $ts);
@@ -1551,7 +1551,7 @@ class SC_Helper_Purchase
                         $term = PENDING_ORDER_CANCEL_TIME;
                         if (preg_match('/^[0-9]+$/', $term)) {
                             $target_time = strtotime('-'.$term.' sec');
-                            $create_time = strtotime($arrOrder['create_date']);
+                            $create_time = strtotime((string) $arrOrder['create_date']);
                             if (SC_Utils_Ex::isBlank($cartKeys) && $target_time < $create_time) {
                                 static::rollbackOrder($order_id, ORDER_CANCEL, true);
                                 GC_Utils_Ex::gfPrintLog('order rollback.(my pending) order_id='.$order_id);

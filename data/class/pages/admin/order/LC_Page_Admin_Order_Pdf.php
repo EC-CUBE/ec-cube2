@@ -232,7 +232,7 @@ class LC_Page_Admin_Order_Pdf extends LC_Page_Admin_Ex
 
         $date_check = $objQuery->select('create_date', 'dtb_order', 'order_id = ?', [$order_max]);
 
-        $date_check = substr($date_check[0]['create_date'], 0, 10);
+        $date_check = substr((string) $date_check[0]['create_date'], 0, 10);
         $date_check = explode('-', $date_check);
         $order_year = $date_check[0];
         $order_month = $date_check[1];

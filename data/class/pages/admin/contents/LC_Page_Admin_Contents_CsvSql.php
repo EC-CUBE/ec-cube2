@@ -268,9 +268,9 @@ class LC_Page_Admin_Contents_CsvSql extends LC_Page_Admin_Ex
         }
         $arrRet = [];
         foreach ($arrTable as $table) {
-            if (substr($table, 0, 4) == 'dtb_') {
+            if (substr((string) $table, 0, 4) == 'dtb_') {
                 $arrRet[$table] = 'データテーブル: '.$table;
-            } elseif (substr($table, 0, 4) == 'mtb_') {
+            } elseif (substr((string) $table, 0, 4) == 'mtb_') {
                 $arrRet[$table] = 'マスターテーブル: '.$table;
             }
         }
