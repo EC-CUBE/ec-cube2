@@ -417,21 +417,24 @@ class SC_Api_Operation
     protected static function getOperationRequestEcho($arrParam, $start_time)
     {
         $arrRet = [
-            'HTTPHeaders' => [
-                'Header' => [
-                    '_attributes' => [
-                        'Name' => 'UserAgent',
-                        'Value' => htmlspecialchars($_SERVER['HTTP_USER_AGENT']),
-                    ],
-                ],
-            ],
+            'HTTPHeaders' => [],
             'RequestId' => $start_time,
             'Arguments' => [],
+            'RequestProcessingTime' => microtime(true) - $start_time,
         ];
-        foreach ($arrParam as $key => $val) {
-            $arrRet['Arguments'][] = ['_attributes' => ['Name' => htmlentities($key, ENT_NOQUOTES, 'UTF-8'), 'Value' => htmlentities($val, ENT_NOQUOTES, 'UTF-8')]];
+
+        if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+            $arrRet['HTTPHeaders']['Header'][] = [
+                '_attributes' => [
+                    'Name' => 'UserAgent',
+                    'Value' => $_SERVER['HTTP_USER_AGENT'],
+                ],
+            ];
         }
-        $arrRet['RequestProcessingTime'] = microtime(true) - $start_time;
+
+        foreach ($arrParam as $key => $val) {
+            $arrRet['Arguments']['Argument'][] = ['_attributes' => ['Name' => $key, 'Value' => $val]];
+        }
 
         return $arrRet;
     }

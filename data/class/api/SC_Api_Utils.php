@@ -112,7 +112,7 @@ class SC_Api_Utils
      * APIログ
      *
      * @param string $msg            出力文字列
-     * @param text $operation_name
+     * @param string $operation_name
      *
      * @return void
      */
