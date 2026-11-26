@@ -26,6 +26,11 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Date_getHourTest extends Common_TestCase
 {
+    /**
+     * @var SC_Date_Ex
+     */
+    private $objDate;
+
     protected function setUp(): void
     {
         parent::setUp();

@@ -33,6 +33,8 @@ require_once $HOME.'/tests/class/helper/SC_Helper_Purchase/SC_Helper_Purchase_Te
  */
 class SC_Helper_Purchase_registerShippingTest extends SC_Helper_Purchase_TestBase
 {
+    public $result;
+
     protected function setUp(): void
     {
         parent::setUp();

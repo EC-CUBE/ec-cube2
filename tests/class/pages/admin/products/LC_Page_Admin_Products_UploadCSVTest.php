@@ -34,7 +34,7 @@ class LC_Page_Admin_Products_UploadCSVTest extends Common_TestCase
 
         $line_count = 0;
         while (!feof($fp)) {
-            $arrCSV = fgetcsv($fp, CSV_LINE_MAX);
+            $arrCSV = fgetcsv($fp, CSV_LINE_MAX, ',', '"', '\\');
             // 空行はスキップ
             if (empty($arrCSV)) {
                 continue;
@@ -72,7 +72,7 @@ class LC_Page_Admin_Products_UploadCSVTest extends Common_TestCase
 
         $line_count = 0;
         while (!feof($fp)) {
-            $arrCSV = fgetcsv($fp, CSV_LINE_MAX);
+            $arrCSV = fgetcsv($fp, CSV_LINE_MAX, ',', '"', '\\');
             // 空行はスキップ
             if (empty($arrCSV)) {
                 continue;
@@ -109,7 +109,7 @@ class LC_Page_Admin_Products_UploadCSVTest extends Common_TestCase
 
         $line_count = 0;
         while (!feof($fp)) {
-            $arrCSV = fgetcsv($fp, CSV_LINE_MAX);
+            $arrCSV = fgetcsv($fp, CSV_LINE_MAX, ',', '"', '\\');
             // 空行はスキップ
             if (empty($arrCSV)) {
                 continue;

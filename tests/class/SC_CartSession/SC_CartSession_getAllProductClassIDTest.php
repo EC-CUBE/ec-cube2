@@ -8,6 +8,8 @@ require_once $HOME.'/tests/class/SC_CartSession/SC_CartSession_TestBase.php';
  */
 class SC_CartSession_getAllProductClassIDTest extends SC_CartSession_TestBase
 {
+    public $objCartSession;
+
     protected function setUp(): void
     {
         parent::setUp();

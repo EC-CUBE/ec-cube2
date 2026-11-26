@@ -329,7 +329,9 @@ class HTTP_Request_GuzzleTest extends Common_TestCase
     {
         $request = new HTTP_Request('https://example.com');
         $ref = new ReflectionMethod($request, '_isPrivateIPv6');
-        $ref->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $ref->setAccessible(true);
+        }
 
         // Private IPv4-mapped addresses should return true
         $this->assertTrue($ref->invoke($request, '::ffff:127.0.0.1'));
@@ -351,7 +353,9 @@ class HTTP_Request_GuzzleTest extends Common_TestCase
     {
         $request = new HTTP_Request('https://example.com');
         $ref = new ReflectionMethod($request, '_isPrivateIPv6');
-        $ref->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $ref->setAccessible(true);
+        }
 
         $this->assertTrue($ref->invoke($request, '::1'));
         $this->assertTrue($ref->invoke($request, 'fc00::1'));
@@ -369,7 +373,9 @@ class HTTP_Request_GuzzleTest extends Common_TestCase
     {
         $request = new HTTP_Request('https://example.com');
         $ref = new ReflectionMethod($request, '_isPrivateIPv4');
-        $ref->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $ref->setAccessible(true);
+        }
 
         $this->assertTrue($ref->invoke($request, '127.0.0.1'));
         $this->assertTrue($ref->invoke($request, '10.0.0.1'));

@@ -26,6 +26,8 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Date_getYearTest extends Common_TestCase
 {
+    public $objDate;
+
     protected function setUp(): void
     {
         parent::setUp();

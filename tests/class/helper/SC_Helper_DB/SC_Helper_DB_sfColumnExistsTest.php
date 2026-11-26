@@ -33,6 +33,8 @@ require_once $HOME.'/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php';
  */
 class SC_Helper_DB_sfColumnExists extends SC_Helper_DB_TestBase
 {
+    private \SC_Helper_DB_sfColumnExistsMock $helper;
+
     protected function setUp(): void
     {
         parent::setUp();

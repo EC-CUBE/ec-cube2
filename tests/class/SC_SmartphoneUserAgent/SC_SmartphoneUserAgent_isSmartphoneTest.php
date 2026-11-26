@@ -32,6 +32,8 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
  */
 class SC_SmartphoneUserAgent_isSmartphoneTest extends Common_TestCase
 {
+    public $su;
+
     protected function setUp(): void
     {
         parent::setUp();

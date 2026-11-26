@@ -5,6 +5,8 @@ require_once $HOME.'/tests/class/SC_Product/SC_Product_TestBase.php';
 
 class SC_Product_findProductsOrderTest extends SC_Product_TestBase
 {
+    public $objProducts;
+
     protected function setUp(): void
     {
         parent::setUp();

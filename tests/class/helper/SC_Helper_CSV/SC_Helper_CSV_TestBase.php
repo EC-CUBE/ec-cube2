@@ -102,7 +102,7 @@ class SC_Helper_CSV_TestBase extends Common_TestCase
         $tmpfile_path = stream_get_meta_data($tmpfile)['uri'];
 
         foreach ($data as $row) {
-            fputcsv($tmpfile, $row);
+            fputcsv($tmpfile, $row, ',', '"', '\\');
         }
 
         rewind($tmpfile);

@@ -33,6 +33,9 @@ require_once $HOME.'/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php';
  */
 class SC_Helper_DB_sfCreateBasisDataCache extends SC_Helper_DB_TestBase
 {
+    private \SC_Helper_DB_sfCreateBasisDataCacheMock $helper;
+    public $cashFilePath;
+
     protected function setUp(): void
     {
         parent::setUp();

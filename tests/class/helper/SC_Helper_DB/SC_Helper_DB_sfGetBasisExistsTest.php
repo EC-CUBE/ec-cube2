@@ -33,6 +33,11 @@ require_once $HOME.'/tests/class/helper/SC_Helper_DB/SC_Helper_DB_TestBase.php';
  */
 class SC_Helper_DB_sfGetBasisExists extends SC_Helper_DB_TestBase
 {
+    /**
+     * @var SC_Helper_DB_Ex
+     */
+    private $helper;
+
     protected function setUp(): void
     {
         parent::setUp();

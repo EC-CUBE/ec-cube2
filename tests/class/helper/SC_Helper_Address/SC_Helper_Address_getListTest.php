@@ -5,6 +5,11 @@ require_once $HOME.'/tests/class/helper/SC_Helper_Address/SC_Helper_Address_Test
 
 class SC_Helper_Address_getListTest extends SC_Helper_Address_TestBase
 {
+    /**
+     * @var SC_Helper_Address_Ex
+     */
+    private $objAddress;
+
     protected function setUp(): void
     {
         parent::setUp();
