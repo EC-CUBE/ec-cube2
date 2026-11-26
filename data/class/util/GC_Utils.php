@@ -88,7 +88,7 @@ class GC_Utils
         foreach (array_reverse($arrBacktrace) as $arrLine) {
             // 言語レベルの致命的エラー時。発生元の情報はトレースできない。(エラーハンドリング処理のみがトレースされる)
             // 実質的に何も返さない(空配列を返す)意図。
-            if (strlen($arrLine['file']) === 0
+            if (strlen((string) $arrLine['file']) === 0
                 && ($arrLine['class'] === 'SC_Helper_HandleError' || $arrLine['class'] === 'SC_Helper_HandleError_Ex')
                 && ($arrLine['function'] === 'handle_error' || $arrLine['function'] === 'handle_warning')
             ) {
@@ -271,7 +271,7 @@ class GC_Utils
     public static function gfMakePassword($pwLength)
     {
         // 乱数表のシードを決定
-        srand((float) microtime() * 54234853);
+        srand((int) ((float) microtime() * 54234853));
 
         // パスワード文字列の配列を作成
         $character = 'abcdefghkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ2345679';
@@ -296,7 +296,7 @@ class GC_Utils
 
     public static function gfMailHeaderAddr($str)
     {
-        $addrs = explode(',', $str); // アドレスを配列に入れる
+        $addrs = explode(',', (string) $str); // アドレスを配列に入れる
         $mailaddrs = [];
         foreach ($addrs as $addr) {
             if (preg_match('/^(.+)<(.+)>$/', $addr, $matches)) {
@@ -386,7 +386,7 @@ class GC_Utils
         }
 
         $url .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-        if (strlen($_SERVER['QUERY_STRING']) >= 1) {
+        if (strlen((string) $_SERVER['QUERY_STRING']) >= 1) {
             $url .= '?'.$_SERVER['QUERY_STRING'];
         }
 
@@ -433,7 +433,7 @@ class GC_Utils
     public static function printXMLDeclaration()
     {
         $ua = $_SERVER['HTTP_USER_AGENT'];
-        if (!preg_match('/MSIE/', $ua) || preg_match('/MSIE 7/', $ua)) {
+        if (!preg_match('/MSIE/', (string) $ua) || preg_match('/MSIE 7/', (string) $ua)) {
             echo '<?xml version="1.0" encoding="'.CHAR_CODE.'"?>'."\n";
         }
     }

@@ -34,7 +34,7 @@
         <form name="form1" id="form1" method="post" action="<!--{$smarty.const.ROOT_URLPATH}-->mypage/index.php">
             <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
             <input type="hidden" name="order_id" value="" />
-            <input type="hidden" name="pageno" value="<!--{$objNavi->nowpage|h}-->" />
+            <input type="hidden" name="pageno" value="<!--{$objNavi->now_page|h}-->" />
 
             <h3 class="title_mypage"><!--{$tpl_subtitle|h}--></h3>
             <!--{if $objNavi->all_row > 0}-->

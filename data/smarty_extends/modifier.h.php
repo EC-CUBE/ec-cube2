@@ -20,5 +20,5 @@
  */
 function smarty_modifier_h($string)
 {
-    return htmlspecialchars($string, ENT_QUOTES);
+    return htmlspecialchars((string) $string, ENT_QUOTES);
 }

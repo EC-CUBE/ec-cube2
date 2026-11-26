@@ -141,5 +141,14 @@ class SC_Utils_isBlankTest extends Common_TestCase
         $this->assertFalse(SC_Utils::isBlank($input), $input);
     }
 
+    public function testIsBlankNullの場合Trueが返る()
+    {
+        $deprecations = $this->collectDeprecations(function () {
+            $this->assertTrue(SC_Utils::isBlank(null));
+            $this->assertTrue(SC_Utils::isBlank(null, false));
+        });
+        $this->assertSame([], $deprecations);
+    }
+
     // ////////////////////////////////////////
 }

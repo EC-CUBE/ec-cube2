@@ -388,9 +388,9 @@ class SC_Query
         }
 
         // 引数の$whereを優先する。
-        if (strlen($where) >= 1) {
+        if (strlen((string) $where) >= 1) {
             $sqlse .= " WHERE $where";
-        } elseif (strlen($this->where) >= 1) {
+        } elseif (strlen((string) $this->where) >= 1) {
             $sqlse .= ' WHERE '.$this->where;
             if ($arrWhereVal === []) {
                 $arrWhereVal = $this->arrWhereVal;
@@ -594,9 +594,9 @@ class SC_Query
 
         foreach ($arrVal as $key => $val) {
             $strcol .= $key.',';
-            if (strcasecmp('Now()', $val) === 0) {
+            if (strcasecmp('Now()', (string) $val) === 0) {
                 $strval .= 'Now(),';
-            } elseif (strcasecmp('CURRENT_TIMESTAMP', $val) === 0) {
+            } elseif (strcasecmp('CURRENT_TIMESTAMP', (string) $val) === 0) {
                 $strval .= 'CURRENT_TIMESTAMP,';
             } else {
                 $strval .= '?,';
@@ -655,9 +655,9 @@ class SC_Query
         $find = false;
 
         foreach ($arrVal as $key => $val) {
-            if (strcasecmp('Now()', $val) === 0) {
+            if (strcasecmp('Now()', (string) $val) === 0) {
                 $arrCol[] = $key.'= Now()';
-            } elseif (strcasecmp('CURRENT_TIMESTAMP', $val) === 0) {
+            } elseif (strcasecmp('CURRENT_TIMESTAMP', (string) $val) === 0) {
                 $arrCol[] = $key.'= CURRENT_TIMESTAMP';
             } else {
                 $arrCol[] = $key.'= ?';
@@ -1143,7 +1143,7 @@ class SC_Query
             $msg = $this->traceError($affected, $sql, $arrVal);
             $this->error($msg);
         }
-        $this->conn->last_query = stripslashes($sth->query);
+        $this->conn->last_query = stripslashes((string) $sth->query);
 
         return $affected;
     }
@@ -1180,7 +1180,7 @@ class SC_Query
             if (is_string($userInfo) && strlen($userInfo) > 1000) {
                 $err .= substr($userInfo, 0, 1000)."... (truncated)\n";
             } else {
-                $err .= rtrim($userInfo)."\n";
+                $err .= rtrim((string) $userInfo)."\n";
             }
         } catch (\Throwable $e) {
             $err .= '[getUserInfo() failed: '.$e->getMessage()."]\n";

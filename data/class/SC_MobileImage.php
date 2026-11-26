@@ -52,7 +52,7 @@ class SC_MobileImage
             // HTML中のIMGタグを取得する
             $images = [];
             $pattern = '/<img\s+[^<>]*src=[\'"]?([^>"\'\s]+)[\'"]?[^>]*>/i';
-            $result = preg_match_all($pattern, $buffer, $images);
+            $result = preg_match_all($pattern, (string) $buffer, $images);
 
             // 端末の情報を取得する
             $fp = fopen(MOBILE_IMAGE_INC_REALDIR."mobile_image_map_$carrier.csv", 'r');
@@ -60,7 +60,7 @@ class SC_MobileImage
             if ($fp === false) {
                 return $buffer;
             }
-            while (($data = fgetcsv($fp, 1000, ',')) !== false) {
+            while (($data = fgetcsv($fp, 1000, ',', '"', '\\')) !== false) {
                 if ($data[1] == $model || $data[1] == '*') {
                     $cacheSize = $data[2];
                     $imageFileSize = $data[7];
@@ -77,10 +77,10 @@ class SC_MobileImage
             if ($carrier == 'docomo' || $carrier == 'softbank') {
                 if ($result != false && $result > 0) {
                     // 計算式：(利用端末で表示可能なcacheサイズ - HTMLのバイト数 - 変換後の画像名のバイト数(目安値)) / HTML中の画像数
-                    $temp_imagefilesize = ($cacheSize - strlen($buffer) - (140 * $result)) / $result;
+                    $temp_imagefilesize = ($cacheSize - strlen((string) $buffer) - (140 * $result)) / $result;
                 } else {
                     // 計算式：(利用端末で表示可能なcacheサイズ - HTMLのバイト数)
-                    $temp_imagefilesize = ($cacheSize - strlen($buffer));
+                    $temp_imagefilesize = ($cacheSize - strlen((string) $buffer));
                 }
                 // 計算結果が端末の表示可能ファイルサイズ上限より小さい場合は計算結果の値を有効にする
                 if ($temp_imagefilesize < $imageFileSize) {

@@ -20,5 +20,5 @@
  */
 function smarty_modifier_u($string)
 {
-    return htmlspecialchars(rawurlencode($string), ENT_QUOTES);
+    return htmlspecialchars(rawurlencode((string) $string), ENT_QUOTES);
 }

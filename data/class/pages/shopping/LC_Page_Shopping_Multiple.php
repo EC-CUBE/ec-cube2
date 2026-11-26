@@ -167,6 +167,8 @@ class LC_Page_Shopping_Multiple extends LC_Page_Ex
                 $arrItems['quantity'][$index] = 1;
                 $arrItems['price'][$index] = $cartLists[$key]['price'];
                 $arrItems['price_inctax'][$index] = $cartLists[$key]['price_inctax'];
+                // お届け先は未選択。テンプレートで行ごとに参照するため配列にしておく
+                $arrItems['shipping'][$index] = '';
                 $index++;
             }
         }

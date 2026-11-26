@@ -66,7 +66,7 @@ class SC_Helper_PageLayout
         }
 
         $objPage->arrPageLayout = &$arrPageData[0];
-        if (strlen($objPage->arrPageLayout['author']) === 0) {
+        if (strlen((string) ($objPage->arrPageLayout['author'] ?? '')) === 0) {
             $arrInfo = SC_Helper_DB_Ex::sfGetBasisData();
             $objPage->arrPageLayout['author'] = $arrInfo['company_name'];
         }

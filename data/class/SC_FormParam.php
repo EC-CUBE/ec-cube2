@@ -140,7 +140,7 @@ class SC_FormParam
             } else {
                 $this->html_disp_name[$index] = $this->disp_name[$index];
             }
-            if (strlen($this->arrDefault[$key]) >= 1) {
+            if (strlen((string) $this->arrDefault[$key]) >= 1) {
                 $this->html_disp_name[$index] .= ' [省略時初期値: '.$this->arrDefault[$key].']';
             }
             if ($this->input_db[$index] == false) {
@@ -352,7 +352,7 @@ class SC_FormParam
             }
         } else {
             if (!SC_Utils_Ex::isBlank($value)) {
-                $value = mb_convert_kana($value, $convert);
+                $value = mb_convert_kana((string) $value, (string) $convert);
             }
         }
     }
@@ -476,7 +476,7 @@ class SC_FormParam
         foreach ($this->keyname as $key) {
             if ($key == $keyname) {
                 if (isset($this->arrValue[$key]) && !is_array($this->arrValue[$key])) {
-                    $this->arrValue[$key] = explode('-', $this->arrValue[$key]);
+                    $this->arrValue[$key] = explode('-', (string) $this->arrValue[$key]);
                 }
             }
         }
@@ -514,9 +514,9 @@ class SC_FormParam
         } else {
             if (!SC_Utils_Ex::isBlank($value)) {
                 if ($has_wide_space) {
-                    $value = preg_replace($pattern, '$1', $value);
+                    $value = preg_replace($pattern, '$1', (string) $value);
                 }
-                $value = trim($value);
+                $value = trim((string) $value);
             }
         }
     }
@@ -534,7 +534,7 @@ class SC_FormParam
     {
         $arrResults = [];
         foreach ($this->keyname as $key) {
-            if (preg_match('/^'.$prefix.'/', $key)) {
+            if (preg_match('/^'.$prefix.'/', (string) $key)) {
                 $arrResults[$key] = $this->getValue($key);
             }
         }

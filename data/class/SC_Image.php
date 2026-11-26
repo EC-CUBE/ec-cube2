@@ -29,7 +29,7 @@ class SC_Image
     public function __construct($tmp_dir)
     {
         // ヘッダファイル読込
-        $this->tmp_dir = rtrim($tmp_dir, '/').'/';
+        $this->tmp_dir = rtrim((string) $tmp_dir, '/').'/';
     }
 
     // --- 一時ファイル生成(サムネイル画像生成用)
@@ -38,7 +38,7 @@ class SC_Image
         // 一意なIDを取得する。
         $mainname = uniqid('').'.';
         // 拡張子以外を置き換える。
-        $newFileName = preg_replace("/^.*\./", $mainname, $_FILES[$keyname]['name']);
+        $newFileName = preg_replace("/^.*\./", $mainname, (string) $_FILES[$keyname]['name']);
         $result = $this->MakeThumb($_FILES[$keyname]['tmp_name'], $this->tmp_dir, $max_width, $max_height, $newFileName);
         GC_Utils_Ex::gfDebugLog($result);
 
@@ -161,7 +161,9 @@ class SC_Image
                     if (!@copy($FromImgPath, $ToImgPath.$ToFile)) { // エラー処理
                         return [0, 'ファイルのコピーに失敗しました。'];
                     }
-                    imagedestroy($ImgNew);
+                    if (PHP_VERSION_ID < 80000) {
+                        imagedestroy($ImgNew);
+                    }
 
                     return [1, $ToFile];
                 }
@@ -185,7 +187,9 @@ class SC_Image
                 if (!@file_exists($TmpPath)) {
                     return [0, '画像の出力に失敗しました。'];
                 }
-                imagedestroy($ImgNew);
+                if (PHP_VERSION_ID < 80000) {
+                    imagedestroy($ImgNew);
+                }
 
                 return [1, $ToFile];
 
@@ -239,9 +243,13 @@ class SC_Image
         }
 
         if (is_resource($ImgDefault)) {
-            imagedestroy($ImgDefault);
+            if (PHP_VERSION_ID < 80000) {
+                imagedestroy($ImgDefault);
+            }
         }
-        imagedestroy($ImgNew);
+        if (PHP_VERSION_ID < 80000) {
+            imagedestroy($ImgNew);
+        }
 
         return [1, $RetVal];
     }

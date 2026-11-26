@@ -106,15 +106,15 @@ class gdthumb
             if ($this->imgMaxHeight == 0) {
                 if ($tmp_w > 1) {
                     $re_size[0] = $this->imgMaxWidth;
-                    $re_size[1] = $size[1] * $this->imgMaxWidth / $size[0];
+                    $re_size[1] = (int) ($size[1] * $this->imgMaxWidth / $size[0]);
                 }
             } else {
                 if ($tmp_w > $tmp_h) {
                     $re_size[0] = $this->imgMaxWidth;
-                    $re_size[1] = $size[1] * $this->imgMaxWidth / $size[0];
+                    $re_size[1] = (int) ($size[1] * $this->imgMaxWidth / $size[0]);
                 } else {
                     $re_size[1] = $this->imgMaxHeight;
-                    $re_size[0] = $size[0] * $this->imgMaxHeight / $size[1];
+                    $re_size[0] = (int) ($size[0] * $this->imgMaxHeight / $size[1]);
                 }
             }
         }
@@ -156,7 +156,9 @@ class gdthumb
                                 imagegif($dst_im, $dst_file);
                             }
                         }
-                        imagedestroy($dst_im);
+                        if (PHP_VERSION_ID < 80000) {
+                            imagedestroy($dst_im);
+                        }
                     } else {
                         // 画像出力
                         if ($header) {
@@ -173,8 +175,12 @@ class gdthumb
                                 imagepng($dst_im, $dst_file);
                             }
                         }
-                        imagedestroy($src_im);
-                        imagedestroy($dst_im);
+                        if (PHP_VERSION_ID < 80000) {
+                            imagedestroy($src_im);
+                        }
+                        if (PHP_VERSION_ID < 80000) {
+                            imagedestroy($dst_im);
+                        }
                     }
                 } else {
                     // サムネイル作成不可の場合（旧バージョン対策）
@@ -198,7 +204,9 @@ class gdthumb
                         $dst_file .= '.png';
                         imagepng($dst_im, $dst_file);
                     }
-                    imagedestroy($dst_im);
+                    if (PHP_VERSION_ID < 80000) {
+                        imagedestroy($dst_im);
+                    }
                 }
                 break;
 
@@ -226,8 +234,12 @@ class gdthumb
                     }
                 }
 
-                imagedestroy($src_im);
-                imagedestroy($dst_im);
+                if (PHP_VERSION_ID < 80000) {
+                    imagedestroy($src_im);
+                }
+                if (PHP_VERSION_ID < 80000) {
+                    imagedestroy($dst_im);
+                }
 
                 break;
 
@@ -271,8 +283,12 @@ class gdthumb
                         imagepng($dst_im, $dst_file);
                     }
                 }
-                imagedestroy($src_im);
-                imagedestroy($dst_im);
+                if (PHP_VERSION_ID < 80000) {
+                    imagedestroy($src_im);
+                }
+                if (PHP_VERSION_ID < 80000) {
+                    imagedestroy($dst_im);
+                }
 
                 break;
 

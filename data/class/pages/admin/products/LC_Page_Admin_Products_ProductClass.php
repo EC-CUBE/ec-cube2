@@ -73,6 +73,7 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
 
         $objFormParam->setParam($_POST);
         $objFormParam->convParam();
+        $this->padRowValues($objFormParam);
 
         $this->arrSearchHidden = $objFormParam->getSearchArray();
 
@@ -153,7 +154,46 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
             'product_name',
             $this->getProductName($objFormParam->getValue('product_id'))
         );
+        $this->padRowValues($objFormParam);
         $this->arrForm = $objFormParam->getFormParamList();
+    }
+
+    /**
+     * 商品規格ごとの値を, 規格の組み合わせ数の配列に揃える.
+     *
+     * 行ごとの値は配列で受け取るが, チェックボックスが 1 つも選択されていない場合や
+     * 初期化で '' を設定した場合は配列にならず, 行ごとに参照すると文字列への添字アクセスになる.
+     * チェックボックスは選択された行しか送信されないため, 足りない行も補う.
+     * いずれも, 補った値は従来の参照結果 ('') と同じ.
+     *
+     * @param  SC_FormParam $objFormParam SC_FormParam インスタンス
+     *
+     * @return void
+     */
+    public function padRowValues(&$objFormParam)
+    {
+        $total = (int) $objFormParam->getValue('total');
+        $arrRowKeys = [
+            'classcategory_id1', 'classcategory_id2', 'classcategory_name1', 'classcategory_name2',
+            'product_class_id', 'product_code', 'stock', 'stock_unlimited', 'price01', 'price02',
+            'product_type_id', 'del_flg', 'down_filename', 'down_realfilename', 'check',
+        ];
+        $arrCheckboxKeys = ['stock_unlimited', 'check'];
+        foreach ($arrRowKeys as $key) {
+            $value = $objFormParam->getValue($key);
+            if (is_array($value)) {
+                if (!in_array($key, $arrCheckboxKeys, true)) {
+                    continue;
+                }
+                $arrValues = $value + array_fill(0, $total, '');
+                ksort($arrValues);
+            } elseif ($value === '' || $value === null) {
+                $arrValues = array_fill(0, $total, '');
+            } else {
+                continue;
+            }
+            $objFormParam->setValue($key, $arrValues);
+        }
     }
 
     /**
@@ -629,11 +669,11 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
             ];
             // ▼SC_CheckError::FILE_EXT_CHECK から移植
             $match = false;
-            if (strlen($_FILES[$value[1]]['name'][$index]) >= 1) {
+            if (strlen((string) $_FILES[$value[1]]['name'][$index]) >= 1) {
                 $filename = $_FILES[$value[1]]['name'][$index];
 
                 foreach ($value[2] as $check_ext) {
-                    $match = preg_match('/'.preg_quote('.'.$check_ext).'$/i', $filename) >= 1;
+                    $match = preg_match('/'.preg_quote('.'.$check_ext).'$/i', (string) $filename) >= 1;
                     if ($match === true) {
                         break;
                     }
@@ -646,7 +686,7 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
             // ▲SC_CheckError::FILE_EXT_CHECK から移植
             } else {
                 $uniqname = date('mdHi').'_'.uniqid('').'.';
-                $temp_file = preg_replace("/^.*\./", $uniqname, $_FILES['down_realfilename']['name'][$index]);
+                $temp_file = preg_replace("/^.*\./", $uniqname, (string) $_FILES['down_realfilename']['name'][$index]);
 
                 if (move_uploaded_file($_FILES['down_realfilename']['tmp_name'][$index], DOWN_TEMP_REALDIR.$temp_file)) {
                     $arrDownRealFiles[$index] = $temp_file;

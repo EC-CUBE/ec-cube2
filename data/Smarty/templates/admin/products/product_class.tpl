@@ -197,6 +197,8 @@
             <col width="8%" />
             <tr>
                 <th><input type="checkbox" onclick="eccube.checkAllBox(this, 'input[name^=check]')" id="allCheck" /> <label for="allCheck"><br />登録</label></th>
+                <!--{assign var=class_id1 value=$arrForm.class_id1.value}-->
+                <!--{assign var=class_id2 value=$arrForm.class_id2.value}-->
                 <th>規格1<br />(<!--{$arrClass[$class_id1]|default:"未選択"|h}-->)</th>
                 <th>規格2<br />(<!--{$arrClass[$class_id2]|default:"未選択"|h}-->)</th>
                 <th>商品コード</th>
