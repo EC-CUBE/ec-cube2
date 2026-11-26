@@ -5,6 +5,11 @@ require_once $HOME.'/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.p
 
 class SC_Helper_News_getCount extends SC_Helper_News_TestBase
 {
+    /**
+     * @var SC_Helper_News_Ex
+     */
+    private $objNews;
+
     protected function setUp(): void
     {
         parent::setUp();

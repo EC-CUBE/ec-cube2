@@ -42,7 +42,7 @@ class SC_Helper_CSV_fopenForOutputCsvTest extends SC_Helper_CSV_TestBase
 
         $data = [['id', 'name'], ['1', '商品A']];
         foreach ($data as $row) {
-            fputcsv($fp, $row);
+            fputcsv($fp, $row, ',', '"', '\\');
         }
 
         fclose($fp);
@@ -60,7 +60,7 @@ class SC_Helper_CSV_fopenForOutputCsvTest extends SC_Helper_CSV_TestBase
 
         $fp = SC_Helper_CSV::fopen_for_output_csv($tmpfile);
 
-        fputcsv($fp, ['test']);
+        fputcsv($fp, ['test'], ',', '"', '\\');
         fclose($fp);
 
         $content = file_get_contents($tmpfile);

@@ -26,6 +26,8 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Session_getUniqIdTest extends Common_TestCase
 {
+    private \SC_SiteSession_Mock $objSiteSession;
+
     protected function setUp(): void
     {
         parent::setUp();

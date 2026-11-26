@@ -5,6 +5,8 @@ require_once $HOME.'/tests/class/helper/SC_Helper_News/SC_Helper_News_TestBase.p
 
 class SC_Helper_News_deleteNewsTest extends SC_Helper_News_TestBase
 {
+    public $objNews;
+
     protected function setUp(): void
     {
         parent::setUp();

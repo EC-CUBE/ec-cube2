@@ -5,6 +5,11 @@ require_once $HOME.'/tests/class/SC_Product/SC_Product_TestBase.php';
 
 class SC_Product_getProductsClassByQueryTest extends SC_Product_TestBase
 {
+    /**
+     * @var SC_Product_Ex
+     */
+    private $objProducts;
+
     protected function setUp(): void
     {
         parent::setUp();

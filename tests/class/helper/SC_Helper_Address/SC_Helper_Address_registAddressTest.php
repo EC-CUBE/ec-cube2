@@ -5,6 +5,8 @@ require_once $HOME.'/tests/class/helper/SC_Helper_Address/SC_Helper_Address_Test
 
 class SC_Helper_Address_registAddressTest extends SC_Helper_Address_TestBase
 {
+    public $objAddress;
+
     protected function setUp(): void
     {
         parent::setUp();

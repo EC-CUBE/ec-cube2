@@ -18,7 +18,7 @@ class SC_Helper_CSV_sfGetCSVRecordCountTest extends SC_Helper_CSV_TestBase
 
         $tmpfile = tmpfile();
         foreach ($data as $row) {
-            fputcsv($tmpfile, $row);
+            fputcsv($tmpfile, $row, ',', '"', '\\');
         }
         rewind($tmpfile);
 
@@ -37,7 +37,7 @@ class SC_Helper_CSV_sfGetCSVRecordCountTest extends SC_Helper_CSV_TestBase
 
         $tmpfile = tmpfile();
         foreach ($data as $row) {
-            fputcsv($tmpfile, $row);
+            fputcsv($tmpfile, $row, ',', '"', '\\');
         }
         rewind($tmpfile);
 
@@ -69,14 +69,14 @@ class SC_Helper_CSV_sfGetCSVRecordCountTest extends SC_Helper_CSV_TestBase
 
         $tmpfile = tmpfile();
         foreach ($data as $row) {
-            fputcsv($tmpfile, $row);
+            fputcsv($tmpfile, $row, ',', '"', '\\');
         }
         rewind($tmpfile);
 
         $this->objHelper->sfGetCSVRecordCount($tmpfile);
 
         // ファイルポインタが先頭に戻っているか確認
-        $firstLine = fgetcsv($tmpfile);
+        $firstLine = fgetcsv($tmpfile, 0, ',', '"', '\\');
         $this->assertEquals(['id', 'name'], $firstLine, 'ファイルポインタが先頭に戻っている');
 
         fclose($tmpfile);

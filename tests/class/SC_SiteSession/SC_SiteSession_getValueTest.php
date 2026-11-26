@@ -26,6 +26,11 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Session_getValueTest extends Common_TestCase
 {
+    /**
+     * @var SC_SiteSession_Ex
+     */
+    private $objSiteSession;
+
     protected function setUp(): void
     {
         parent::setUp();

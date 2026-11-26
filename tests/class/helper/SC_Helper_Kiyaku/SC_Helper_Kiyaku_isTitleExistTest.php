@@ -5,6 +5,11 @@ require_once $HOME.'/tests/class/helper/SC_Helper_Kiyaku/SC_Helper_Kiyaku_TestBa
 
 class SC_Helper_Kiyaku_isTitleExistTest extends SC_Helper_Kiyaku_TestBase
 {
+    /**
+     * @var SC_Helper_Kiyaku_Ex
+     */
+    private $objKiyaku;
+
     protected function setUp(): void
     {
         parent::setUp();

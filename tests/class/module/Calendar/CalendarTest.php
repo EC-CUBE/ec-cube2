@@ -14,6 +14,8 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
  */
 class Calendar_Test extends Common_TestCase
 {
+    public $cal;
+
     public function TestOfMonthWeekdays()
     {
         $this->UnitTestCase('Test of Month Weekdays');

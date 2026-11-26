@@ -26,6 +26,8 @@ require_once $HOME.'/tests/class/Common_TestCase.php';
 
 class SC_Session_setNowPageTest extends Common_TestCase
 {
+    public $objSiteSession;
+
     protected function setUp(): void
     {
         parent::setUp();
