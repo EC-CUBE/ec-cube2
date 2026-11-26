@@ -155,7 +155,7 @@ class SC_Helper_CSV
             if ($val['status'] != CSV_COLUMN_STATUS_FLG_ENABLE
                 && $val['rw_flg'] == CSV_COLUMN_RW_FLG_READ_WRITE
                 && $val['error_check_types'] != ''
-                && str_contains(strtoupper($val['error_check_types']), 'EXIST_CHECK')
+                && str_contains(strtoupper((string) $val['error_check_types']), 'EXIST_CHECK')
             ) {
                 // 必須フィールド
                 $result = false;
@@ -198,7 +198,7 @@ class SC_Helper_CSV
     {
         $count = 0;
         while (!feof($fp)) {
-            $arrCSV = fgetcsv($fp, CSV_LINE_MAX);
+            $arrCSV = fgetcsv($fp, CSV_LINE_MAX, ',', '"', '\\');
             $count++;
         }
         // ファイルポインタを戻す
@@ -224,11 +224,11 @@ class SC_Helper_CSV
         if ($this->output_header) {
             $header = array_keys($data);
             mb_convert_variables('cp932', CHAR_CODE, $header);
-            fputcsv($this->fpOutput, $header);
+            fputcsv($this->fpOutput, $header, ',', '"', '\\');
             $this->output_header = false;
         }
         mb_convert_variables('cp932', CHAR_CODE, $data);
-        fputcsv($this->fpOutput, $data);
+        fputcsv($this->fpOutput, $data, ',', '"', '\\');
         SC_Utils_Ex::extendTimeOut();
 
         return true;
@@ -261,7 +261,7 @@ class SC_Helper_CSV
         $this->output_header = false;
         if (is_array($arrHeader)) {
             mb_convert_variables('cp932', CHAR_CODE, $arrHeader);
-            fputcsv($this->fpOutput, $arrHeader);
+            fputcsv($this->fpOutput, $arrHeader, ',', '"', '\\');
         } elseif (is_null($arrHeader)) {
             // ループバック内でヘッダーを出力する
             $this->output_header = true;
@@ -300,13 +300,13 @@ class SC_Helper_CSV
     public function sfArrayToCsv($fields, $delimiter = ',', $enclosure = '"', $arrayDelimiter = '|')
     {
         trigger_error('前方互換用メソッドが使用されました。', E_USER_WARNING);
-        if (strlen($delimiter) != 1) {
+        if (strlen((string) $delimiter) != 1) {
             trigger_error('delimiter must be a single character', E_USER_WARNING);
 
             return '';
         }
 
-        if (strlen($enclosure) < 1) {
+        if (strlen((string) $enclosure) < 1) {
             trigger_error('enclosure must be a single character', E_USER_WARNING);
 
             return '';
@@ -322,9 +322,9 @@ class SC_Helper_CSV
 
             /* enclose a field that contains a delimiter, an enclosure character, or a newline */
             if (is_string($field)
-                && preg_match('/['.preg_quote($delimiter).preg_quote($enclosure).'\\s]/', $field)
+                && preg_match('/['.preg_quote((string) $delimiter).preg_quote((string) $enclosure).'\\s]/', $field)
             ) {
-                $field = $enclosure.preg_replace('/'.preg_quote($enclosure).'/', $enclosure.$enclosure, $field).$enclosure;
+                $field = $enclosure.preg_replace('/'.preg_quote((string) $enclosure).'/', $enclosure.$enclosure, $field).$enclosure;
             }
         }
 
@@ -350,7 +350,7 @@ class SC_Helper_CSV
         /* データを出力 */
         $fp = &SC_Helper_CSV_Ex::fopen_for_output_csv();
         foreach ($arrData as $lineArray) {
-            fputcsv($fp, $lineArray);
+            fputcsv($fp, $lineArray, ',', '"', '\\');
         }
         fclose($fp);
     }
@@ -399,7 +399,7 @@ class php_user_filter_lf2crlf extends php_user_filter
     public function filter($in, $out, &$consumed, $closing)
     {
         while ($bucket = stream_bucket_make_writeable($in)) {
-            $bucket->data = preg_replace("/[\r\n]+$/", "\r\n", $bucket->data);
+            $bucket->data = preg_replace("/[\r\n]+$/", "\r\n", (string) $bucket->data);
             $consumed += $bucket->datalen;
             stream_bucket_append($out, $bucket);
         }

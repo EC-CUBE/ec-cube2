@@ -199,7 +199,7 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
         $errFlag = false;
 
         while (!feof($fp)) {
-            $arrCSV = fgetcsv($fp, CSV_LINE_MAX);
+            $arrCSV = fgetcsv($fp, CSV_LINE_MAX, ',', '"', '\\');
             // 行カウント
             $line_count++;
             // ヘッダ行はスキップ
@@ -287,13 +287,13 @@ class LC_Page_Admin_Products_UploadCSVCategory extends LC_Page_Admin_Ex
                 continue;
             }
             // サブクエリ構造の場合は AS名 を使用
-            if (preg_match_all('/\(.+\) as (.+)$/i', $item['col'], $match, PREG_SET_ORDER)) {
+            if (preg_match_all('/\(.+\) as (.+)$/i', (string) $item['col'], $match, PREG_SET_ORDER)) {
                 $col = $match[0][1];
             } else {
                 $col = $item['col'];
             }
             // HTML_TAG_CHECKは別途実行なので除去し、別保存しておく
-            if (str_contains(strtoupper($item['error_check_types']), 'HTML_TAG_CHECK')) {
+            if (str_contains(strtoupper((string) $item['error_check_types']), 'HTML_TAG_CHECK')) {
                 $this->arrTagCheckItem[] = $item;
                 $error_check_types = str_replace('HTML_TAG_CHECK', '', $item['error_check_types']);
             } else {

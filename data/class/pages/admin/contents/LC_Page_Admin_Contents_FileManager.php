@@ -32,6 +32,16 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
 {
     /** @var array */
     public $arrFileList;
+    /** @var string */
+    public $tpl_now_file;
+    /** @var string */
+    public $tpl_parent_dir;
+    /** @var string */
+    public $tpl_now_dir;
+    /** @var string */
+    public $tpl_file_path;
+    /** @var bool */
+    public $tpl_is_top_dir;
 
     /**
      * Page を初期化する.
@@ -151,7 +161,7 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
                 $this->arrErr = $objFormParam->checkError();
                 if (SC_Utils_Ex::isBlank($this->arrErr)) {
                     if (!$this->tryCreateDir($objFileManager, $objFormParam)) {
-                        $disp_error = '※ '.htmlspecialchars($objFormParam->getValue('create_file'), ENT_QUOTES).'の作成に失敗しました。<br/>';
+                        $disp_error = '※ '.htmlspecialchars((string) $objFormParam->getValue('create_file'), ENT_QUOTES).'の作成に失敗しました。<br/>';
                         $this->setDispError('create_file', $disp_error);
                     } else {
                         $tpl_onload = "alert('フォルダを作成しました。');";
@@ -319,7 +329,7 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
         $create_dir_flg = false;
         $now_dir = $this->lfCheckSelectDir($objFormParam, $objFormParam->getValue('now_dir'));
         $objFormParam->setValue('now_dir', $now_dir);
-        $create_dir = SC_Helper_FileManager_Ex::convertToAbsolutePath(rtrim($now_dir, '/'));
+        $create_dir = SC_Helper_FileManager_Ex::convertToAbsolutePath(rtrim((string) $now_dir, '/'));
 
         // ファイル作成
         if ($objFileManager->sfCreateFile($create_dir.'/'.$objFormParam->getValue('create_file'), 0755)) {
@@ -339,9 +349,9 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
     public function tryView(&$objFormParam)
     {
         $view_flg = false;
-        $now_dir = $this->lfCheckSelectDir($objFormParam, dirname($objFormParam->getValue('select_file')));
+        $now_dir = $this->lfCheckSelectDir($objFormParam, dirname((string) $objFormParam->getValue('select_file')));
         $objFormParam->setValue('now_dir', $now_dir);
-        if (!strpos($objFormParam->getValue('select_file'), $objFormParam->getValue('top_dir'))) {
+        if (!strpos((string) $objFormParam->getValue('select_file'), (string) $objFormParam->getValue('top_dir'))) {
             $view_flg = true;
         }
 
@@ -417,9 +427,9 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
         $select_dir = '';
         $top_dir = $objFormParam->getValue('top_dir');
         // USER_REALDIR以下の場合
-        if (preg_match("@^\Q".$top_dir."\E@", $dir) > 0) {
+        if (preg_match("@^\Q".$top_dir."\E@", (string) $dir) > 0) {
             // 相対パスがある場合、USER_REALDIRを返す.
-            if (preg_match("@\Q..\E@", $dir) > 0) {
+            if (preg_match("@\Q..\E@", (string) $dir) > 0) {
                 $select_dir = $top_dir;
             // 相対パスがない場合、そのままディレクトリパスを返す.
             } else {
@@ -502,8 +512,8 @@ class LC_Page_Admin_Contents_FileManager extends LC_Page_Admin_Ex
         // トップディレクトリか調査
         $is_top_dir = false;
         // 末尾の/をとる
-        $top_dir_check = rtrim($objFormParam->getValue('top_dir'), '/');
-        $now_dir_check = rtrim($objFormParam->getValue('now_dir'), '/');
+        $top_dir_check = rtrim((string) $objFormParam->getValue('top_dir'), '/');
+        $now_dir_check = rtrim((string) $objFormParam->getValue('now_dir'), '/');
         if ($top_dir_check == $now_dir_check) {
             $is_top_dir = true;
         }

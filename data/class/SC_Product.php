@@ -194,7 +194,7 @@ class SC_Product
         $arrProducts = SC_Utils_Ex::makeArrayIDToKey('product_id', $arrProducts);
 
         // SC_Query::setOrder() の指定がない場合、$arrProductId で指定された商品IDの順に配列要素を並び替え
-        if (strlen($objQuery->order) === 0) {
+        if (strlen((string) $objQuery->order) === 0) {
             $arrTmp = [];
             foreach ($arrProductId as $product_id) {
                 $arrTmp[$product_id] = $arrProducts[$product_id];
@@ -311,12 +311,12 @@ class SC_Product
                 // 価格
                 // TODO: ここでprice01,price02を税込みにしてよいのか？ _inctax を付けるべき？要検証
                 $arrClassCats2['price01']
-                    = strlen($arrProductsClass['price01'])
+                    = strlen((string) $arrProductsClass['price01'])
                     ? number_format(SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProductsClass['price01'], $productId))
                     : '';
 
                 $arrClassCats2['price02']
-                    = strlen($arrProductsClass['price02'])
+                    = strlen((string) $arrProductsClass['price02'])
                     ? number_format(SC_Helper_TaxRule_Ex::sfCalcIncTax($arrProductsClass['price02'], $productId))
                     : '';
 
@@ -597,17 +597,17 @@ class SC_Product
     public static function setPriceTaxTo(&$arrProducts)
     {
         foreach ($arrProducts as &$arrProduct) {
-            $arrProduct['price01_min_format'] = number_format($arrProduct['price01_min']);
-            $arrProduct['price01_max_format'] = number_format($arrProduct['price01_max']);
-            $arrProduct['price02_min_format'] = number_format($arrProduct['price02_min']);
-            $arrProduct['price02_max_format'] = number_format($arrProduct['price02_max']);
+            $arrProduct['price01_min_format'] = number_format((float) $arrProduct['price01_min']);
+            $arrProduct['price01_max_format'] = number_format((float) $arrProduct['price01_max']);
+            $arrProduct['price02_min_format'] = number_format((float) $arrProduct['price02_min']);
+            $arrProduct['price02_max_format'] = number_format((float) $arrProduct['price02_max']);
 
             SC_Product_Ex::setIncTaxToProduct($arrProduct);
 
-            $arrProduct['price01_min_inctax_format'] = number_format($arrProduct['price01_min_inctax']);
-            $arrProduct['price01_max_inctax_format'] = number_format($arrProduct['price01_max_inctax']);
-            $arrProduct['price02_min_inctax_format'] = number_format($arrProduct['price02_min_inctax']);
-            $arrProduct['price02_max_inctax_format'] = number_format($arrProduct['price02_max_inctax']);
+            $arrProduct['price01_min_inctax_format'] = number_format((float) $arrProduct['price01_min_inctax']);
+            $arrProduct['price01_max_inctax_format'] = number_format((float) $arrProduct['price01_max_inctax']);
+            $arrProduct['price02_min_inctax_format'] = number_format((float) $arrProduct['price02_min_inctax']);
+            $arrProduct['price02_max_inctax_format'] = number_format((float) $arrProduct['price02_max_inctax']);
 
             // @deprecated 2.12.4
             // 旧バージョン互換用

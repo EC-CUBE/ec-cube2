@@ -69,7 +69,7 @@ class SC_Utils
         $current_url = $netUrl->getURL();
         $current_url = dirname($current_url).'/';
         // XXX 先頭の / を含まない。
-        $urlpath = substr($_SERVER['SCRIPT_FILENAME'], strlen(HTML_REALDIR));
+        $urlpath = substr((string) $_SERVER['SCRIPT_FILENAME'], strlen((string) HTML_REALDIR));
         // / を 0、/foo/ を 1 としたディレクトリー階層数
         $dir_level = substr_count($urlpath, '/');
         $installer_url = str_repeat('../', $dir_level).$installer;
@@ -190,7 +190,7 @@ class SC_Utils
             // sfErrorHeader('>> referrerが無効になっています。');
         } else {
             $domain = parse_url(HTTP_URL);
-            $referer = parse_url($_SERVER['HTTP_REFERER']);
+            $referer = parse_url((string) $_SERVER['HTTP_REFERER']);
 
             // 管理画面から以外の遷移の場合はエラー画面を表示
             if ($domain['host'] !== $referer['host']) {
@@ -312,7 +312,7 @@ class SC_Utils
      */
     public static function sfIsInt($value)
     {
-        if (strlen($value) >= 1 && strlen($value) <= INT_LEN && is_numeric($value)) {
+        if (strlen((string) $value) >= 1 && strlen((string) $value) <= INT_LEN && is_numeric($value)) {
             return true;
         }
 
@@ -360,7 +360,7 @@ class SC_Utils
     public static function sfUpDirName()
     {
         $path = $_SERVER['SCRIPT_NAME'];
-        $arrVal = explode('/', $path);
+        $arrVal = explode('/', (string) $path);
         $cnt = count($arrVal);
 
         return $arrVal[$cnt - 2];
@@ -456,9 +456,9 @@ class SC_Utils
     public static function sfSplitCheckBoxes($val)
     {
         $arrRet = [];
-        $len = strlen($val);
+        $len = strlen((string) $val);
         for ($i = 0; $i < $len; $i++) {
-            if (substr($val, $i, 1) == '1') {
+            if (substr((string) $val, $i, 1) == '1') {
                 $arrRet[] = ($i + 1);
             }
         }
@@ -492,13 +492,13 @@ class SC_Utils
     public static function sfSplitCBValue($val, $keyname = '')
     {
         $arr = [];
-        $len = strlen($val);
+        $len = strlen((string) $val);
         $no = 1;
         for ($cnt = 0; $cnt < $len; $cnt++) {
             if ($keyname != '') {
-                $arr[$keyname.$no] = substr($val, $cnt, 1);
+                $arr[$keyname.$no] = substr((string) $val, $cnt, 1);
             } else {
-                $arr[] = substr($val, $cnt, 1);
+                $arr[] = substr((string) $val, $cnt, 1);
             }
             $no++;
         }
@@ -705,8 +705,8 @@ class SC_Utils
 
     public static function sfTrim($str)
     {
-        $ret = preg_replace("/^[　 \n\r]*/u", '', $str);
-        $ret = preg_replace("/[　 \n\r]*$/u", '', $ret);
+        $ret = preg_replace("/^[　 \n\r]*/u", '', (string) $str);
+        $ret = preg_replace("/[　 \n\r]*$/u", '', (string) $ret);
 
         return $ret;
     }
@@ -829,7 +829,7 @@ class SC_Utils
     /* 文末の「/」をなくす */
     public static function sfTrimURL($url)
     {
-        $ret = rtrim($url, '/');
+        $ret = rtrim((string) $url, '/');
 
         return $ret;
     }
@@ -837,7 +837,7 @@ class SC_Utils
     /* DBから取り出した日付の文字列を調整する。 */
     public static function sfDispDBDate($dbdate, $time = true)
     {
-        [$y, $m, $d, $H, $M] = preg_split('/[- :]/', $dbdate);
+        [$y, $m, $d, $H, $M] = preg_split('/[- :]/', (string) $dbdate);
 
         if (strlen($y) > 0 && strlen($m) > 0 && strlen($d) > 0) {
             if ($time) {
@@ -948,7 +948,7 @@ class SC_Utils
         // 予測されないようにランダム文字列を付与する。
         $random = GC_Utils_Ex::gfMakePassword(8);
         // 同一ホスト内で一意なIDを生成
-        $id = uniqid($head);
+        $id = uniqid((string) $head);
 
         return $id.$random;
     }
@@ -1026,17 +1026,17 @@ class SC_Utils
     public static function sfCutString($str, $len, $byte = true, $commadisp = true)
     {
         if ($byte) {
-            if (strlen($str) > ($len + 2)) {
-                $ret = substr($str, 0, $len);
-                $cut = substr($str, $len);
+            if (strlen((string) $str) > ($len + 2)) {
+                $ret = substr((string) $str, 0, $len);
+                $cut = substr((string) $str, $len);
             } else {
                 $ret = $str;
                 $commadisp = false;
             }
         } else {
-            if (mb_strlen($str) > ($len + 1)) {
-                $ret = mb_substr($str, 0, $len);
-                $cut = mb_substr($str, $len);
+            if (mb_strlen((string) $str) > ($len + 1)) {
+                $ret = mb_substr((string) $str, 0, $len);
+                $cut = mb_substr((string) $str, $len);
             } else {
                 $ret = $str;
                 $commadisp = false;
@@ -1046,7 +1046,7 @@ class SC_Utils
         // 絵文字タグの途中で分断されないようにする。
         if (isset($cut)) {
             // 分割位置より前の最後の [ 以降を取得する。
-            $head = strrchr($ret, '[');
+            $head = strrchr((string) $ret, '[');
 
             // 分割位置より後の最初の ] 以前を取得する。
             $tail_pos = strpos($cut, ']');
@@ -1060,7 +1060,7 @@ class SC_Utils
                 $subject = $head.$tail;
                 if (preg_match('/^\[emoji:e?\d+\]$/', $subject)) {
                     // 絵文字タグが見つかったので削除する。
-                    $ret = substr($ret, 0, -strlen($head));
+                    $ret = substr((string) $ret, 0, -strlen($head));
                 }
             }
         }
@@ -1139,8 +1139,8 @@ class SC_Utils
     // DB取得日時をタイムに変換
     public static function sfDBDatetoTime($db_date)
     {
-        $date = preg_replace("|\..*$|", '', $db_date);
-        $time = strtotime($date);
+        $date = preg_replace("|\..*$|", '', (string) $db_date);
+        $time = strtotime((string) $date);
 
         return $time;
     }
@@ -1221,7 +1221,7 @@ class SC_Utils
     {
         static $count = 0;
         $count++;  // 無限ループ回避
-        $dir = dirname($path);
+        $dir = dirname((string) $path);
         if (preg_match('|^[/]$|', $dir) || preg_match('|^[A-Z]:\$|', $dir) || $count > 256) {
             // ルートディレクトリで終了
             return;
@@ -1282,7 +1282,7 @@ class SC_Utils
                 }
 
                 $matches = [];
-                mb_ereg("^(.*[\/])(.*)", $data_, $matches);
+                preg_match('|^(.*/)(.*)|', $data_, $matches);
                 $data = $matches[2];
                 if (is_dir($data_)) {
                     $mess = SC_Utils_Ex::sfCopyDir($data_.'/', $des.$data.'/', $mess);
@@ -1650,9 +1650,9 @@ class SC_Utils
          * ・●●の次に番地が来る場合
          */
         $town = $data_list[0]['town'];
-        $town = preg_replace('/（.*）$/', '', $town);
-        $town = preg_replace('/以下に掲載がない場合/', '', $town);
-        $town = preg_replace('/(.*?)の次に番地がくる場合/', '', $town);
+        $town = preg_replace('/（.*）$/', '', (string) $town);
+        $town = preg_replace('/以下に掲載がない場合/', '', (string) $town);
+        $town = preg_replace('/(.*?)の次に番地がくる場合/', '', (string) $town);
         $data_list[0]['town'] = $town;
         $data_list[0]['state'] = $arrREV_PREF[$data_list[0]['state']];
 
@@ -1718,11 +1718,15 @@ class SC_Utils
             }
         }
 
-        if ($greedy) {
-            $val = preg_replace('/　/', '', $val);
+        if ($val === null) {
+            return true;
         }
 
-        $val = trim($val);
+        if ($greedy) {
+            $val = preg_replace('/　/', '', (string) $val);
+        }
+
+        $val = trim((string) $val);
         if (strlen($val) > 0) {
             return false;
         }
@@ -1961,7 +1965,7 @@ class SC_Utils
     public static function isAbsoluteRealPath($realpath)
     {
         if (!str_contains(PHP_OS, 'WIN')) {
-            return substr($realpath, 0, 1) == '/';
+            return substr((string) $realpath, 0, 1) == '/';
         } else {
             return preg_match('/^[a-zA-Z]:(\\\|\/)/', $realpath) ? true : false;
         }
@@ -1994,7 +1998,7 @@ class SC_Utils
     {
         $pattern = '/^('.preg_quote(HTTP_URL, '/').'|'.preg_quote(HTTPS_URL, '/').')/';
 
-        return preg_match($pattern, $url) >= 1;
+        return preg_match($pattern, (string) $url) >= 1;
     }
 
     /**

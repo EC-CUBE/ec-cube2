@@ -177,7 +177,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
         $errFlag = false;
 
         while (!feof($fp)) {
-            $arrCSV = fgetcsv($fp, CSV_LINE_MAX);
+            $arrCSV = fgetcsv($fp, CSV_LINE_MAX, ',', '"', '\\');
 
             // 行カウント
             $line_count++;
@@ -246,7 +246,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
     {
         // ファイルアップロードのチェック
         $this->arrErr['csv_file'] = $objUpFile->makeTempFile('csv_file');
-        if (strlen($this->arrErr['csv_file']) >= 1) {
+        if (strlen((string) $this->arrErr['csv_file']) >= 1) {
             return;
         }
         $arrErr = $objUpFile->checkExists();
@@ -328,13 +328,13 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
                 continue;
             }
             // サブクエリ構造の場合は AS名 を使用
-            if (preg_match_all('/\(.+\)\s+as\s+(.+)$/i', $item['col'], $match, PREG_SET_ORDER)) {
+            if (preg_match_all('/\(.+\)\s+as\s+(.+)$/i', (string) $item['col'], $match, PREG_SET_ORDER)) {
                 $col = $match[0][1];
             } else {
                 $col = $item['col'];
             }
             // HTML_TAG_CHECKは別途実行なので除去し、別保存しておく
-            if (str_contains(strtoupper($item['error_check_types']), 'HTML_TAG_CHECK')) {
+            if (str_contains(strtoupper((string) $item['error_check_types']), 'HTML_TAG_CHECK')) {
                 $this->arrTagCheckItem[] = $item;
                 $error_check_types = str_replace('HTML_TAG_CHECK', '', $item['error_check_types']);
             } else {
@@ -651,13 +651,13 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
             }
         } else {
             // 初期登録の場合は、在庫数設定がされていない場合、在庫無制限フラグ = 無制限。
-            if (strlen($sqlval['stock']) === 0) {
+            if (strlen((string) $sqlval['stock']) === 0) {
                 // 更新の場合は、sqlvalのキーにstockがある場合のみ対象
                 if (!$upload_flg || ($upload_flg && array_key_exists('stock', $sqlval))) {
                     $sqlval['stock_unlimited'] = UNLIMITED_FLG_UNLIMITED;
                 }
             // 在庫数を入力している場合、在庫無制限フラグ = 制限有り
-            } elseif (strlen($sqlval['stock']) >= 1) {
+            } elseif (strlen((string) $sqlval['stock']) >= 1) {
                 $sqlval['stock_unlimited'] = UNLIMITED_FLG_LIMITED;
             // いずれにも該当しない場合、例外エラー
             } else {
@@ -837,7 +837,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
         if ($item[$keyname] == '') {
             return true;
         }
-        $arrItems = explode($delimiter, $item[$keyname]);
+        $arrItems = explode($delimiter, (string) $item[$keyname]);
         // 空項目のチェック 1つでも空指定があったら不正とする。
         if (array_search('', $arrItems) !== false) {
             return false;
@@ -871,7 +871,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
         if ($item[$keyname] == '') {
             return true;
         }
-        $arrItems = explode($delimiter, $item[$keyname]);
+        $arrItems = explode($delimiter, (string) $item[$keyname]);
         // 空項目のチェック 1つでも空指定があったら不正とする。
         if (array_search('', $arrItems) !== false) {
             return false;
@@ -922,7 +922,7 @@ class LC_Page_Admin_Products_UploadCSV extends LC_Page_Admin_Ex
     {
         if (array_search($keyname, $this->arrFormKeyList) !== false // 入力対象である
             && $item[$keyname] != '' // 空ではない
-            && !array_key_exists($item[$keyname], $arr) // 配列に存在するか
+            && !array_key_exists((string) $item[$keyname], $arr) // 配列に存在するか
         ) {
             return false;
         }

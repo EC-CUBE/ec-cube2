@@ -60,7 +60,7 @@ class SC_CartSession
         }
         // 1世代古いコピー情報は、削除しておく
         foreach ($_SESSION as $key => $value) {
-            if ($key != $this->key_tmp && preg_match('/^savecart_/', $key)) {
+            if ($key != $this->key_tmp && preg_match('/^savecart_/', (string) $key)) {
                 unset($_SESSION[$key]);
             }
         }
@@ -279,7 +279,7 @@ class SC_CartSession
     {
         $objProduct = new SC_Product_Ex();
         $arrProduct = $objProduct->getProductsClass($product_class_id);
-        $product_type_id = $arrProduct['product_type_id'] ?? null;
+        $product_type_id = $arrProduct['product_type_id'] ?? '';
         $find = false;
         $max = $this->getMax($product_type_id);
         for ($i = 0; $i <= $max; $i++) {
@@ -313,7 +313,7 @@ class SC_CartSession
         $exclude = false;
         // ページチェックを行う。
         foreach ($arrExclude as $val) {
-            if (preg_match('|'.preg_quote($val).'|', $url)) {
+            if (preg_match('|'.preg_quote((string) $val).'|', (string) $url)) {
                 $exclude = true;
                 break;
             }

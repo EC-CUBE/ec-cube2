@@ -1,7 +1,7 @@
 <?php
 
 // XXX E_NOTICE は除外しない方が良いが大量に出るので...
-error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 ini_set('display_errors', 1);
 $HOME = realpath(__DIR__).'/../..';
 
@@ -75,6 +75,40 @@ class Common_TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * コールバックの実行中に発生した E_DEPRECATED のメッセージを返す.
+     *
+     * このクラスは E_DEPRECATED を除外しているため, 実行中だけ有効にする.
+     *
+     * @ 演算子で抑制されたものと, data/vendor 配下のライブラリで発生したものは含めない.
+     *
+     * @return string[]
+     */
+    protected function collectDeprecations(callable $callback)
+    {
+        $deprecations = [];
+        $level = error_reporting(error_reporting() | E_DEPRECATED);
+        set_error_handler(function ($errno, $errstr, $errfile, $errline) use (&$deprecations) {
+            if (!(error_reporting() & $errno)) {
+                return false;
+            }
+            if (str_contains($errfile, DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR)) {
+                return true;
+            }
+            $deprecations[] = $errstr.' ('.$errfile.':'.$errline.')';
+
+            return true;
+        }, E_DEPRECATED);
+        try {
+            $callback();
+        } finally {
+            restore_error_handler();
+            error_reporting($level);
+        }
+
+        return $deprecations;
+    }
+
+    /**
      * MailCatcher の起動状態をチェックする.
      *
      * MailCatcher が起動していない場合は, テストをスキップする.
@@ -85,11 +119,18 @@ class Common_TestCase extends \PHPUnit\Framework\TestCase
             $context = stream_context_create([
                 'http' => ['ignore_errors' => true],
             ]);
-            $response = file_get_contents(TEST_MAILCATCHER_URL.'/messages', false, $context);
+            // $http_response_header は PHP 8.5 で非推奨のため, ストリームのメタデータからステータス行を取得する
+            $fp = @fopen(TEST_MAILCATCHER_URL.'/messages', 'r', false, $context);
+            if ($fp === false) {
+                throw new Exception('Failed to connect to MailCatcher');
+            }
+            $meta = stream_get_meta_data($fp);
+            $response = stream_get_contents($fp);
+            fclose($fp);
 
-            $http_status = strpos($http_response_header[0], '200');
-            if ($http_status === false) {
-                throw new Exception('Response code is not 200: $http_response_header[0] = '.var_export($http_response_header[0], true));
+            $status_line = $meta['wrapper_data'][0] ?? '';
+            if (!str_contains($status_line, '200')) {
+                throw new Exception('Response code is not 200: '.var_export($status_line, true));
             }
 
             if ($response === false) {

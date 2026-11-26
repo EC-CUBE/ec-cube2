@@ -227,7 +227,7 @@
     <th>カテゴリ</th>
     <td colspan="3">
         <!--{assign var=key value="search_category_id"}-->
-        <select name="<!--{$key}-->" <!--{if $arrErr[$errkey]}--><!--{sfSetErrorStyle}--><!--{/if}-->>
+        <select name="<!--{$key}-->" <!--{if $arrErr[$key]}--><!--{sfSetErrorStyle}--><!--{/if}-->>
             <option value="">選択してください</option>
             <!--{html_options options=$arrCatList selected=$arrForm[$key].value}-->
         </select>
