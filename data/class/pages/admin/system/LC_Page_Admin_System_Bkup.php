@@ -431,7 +431,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
         $arrVal = [];
 
         $sql = 'SELECT bkup_name, bkup_memo, create_date FROM dtb_bkup';
-        if (strlen($filter_bkup_name) >= 1) {
+        if (strlen((string) $filter_bkup_name) >= 1) {
             $sql .= ' WHERE bkup_name = ?';
             $arrVal[] = $filter_bkup_name;
         }
@@ -446,7 +446,7 @@ class LC_Page_Admin_System_Bkup extends LC_Page_Admin_Ex
         if (is_array($glob)) {
             foreach ($glob as $path) {
                 $bkup_name = basename($path, $this->bkup_ext);
-                if (strlen($filter_bkup_name) >= 1 && $bkup_name !== $filter_bkup_name) {
+                if (strlen((string) $filter_bkup_name) >= 1 && $bkup_name !== $filter_bkup_name) {
                     continue;
                 }
                 unset($row);

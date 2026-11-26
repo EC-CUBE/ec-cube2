@@ -132,7 +132,7 @@ class SC_Helper_Mobile
      */
     public function lfMobileGetExtSessionId()
     {
-        if (!preg_match('|^'.ROOT_URLPATH.'(.*)$|', $_SERVER['SCRIPT_NAME'], $matches)) {
+        if (!preg_match('|^'.ROOT_URLPATH.'(.*)$|', (string) $_SERVER['SCRIPT_NAME'], $matches)) {
             return null;
         }
 
@@ -262,7 +262,7 @@ class SC_Helper_Mobile
     {
         $this->lfMobileInitInput();
 
-        if (basename(dirname($_SERVER['SCRIPT_NAME'])) != 'unsupported') {
+        if (basename(dirname((string) $_SERVER['SCRIPT_NAME'])) != 'unsupported') {
             $this->lfMobileCheckCompatibility();
         }
 
@@ -464,7 +464,7 @@ class SC_Helper_Mobile
         $arrMobileMailDomains = $masterData->getMasterData('mtb_mobile_domain');
 
         foreach ($arrMobileMailDomains as $domain) {
-            $domain = preg_quote($domain, '/');
+            $domain = preg_quote((string) $domain, '/');
             if (preg_match("/@([^@]+\\.)?$domain\$/", $address)) {
                 return true;
             }

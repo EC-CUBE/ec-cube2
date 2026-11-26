@@ -114,7 +114,7 @@ class LC_Page_Regist extends LC_Page_Ex
     {
         $objErr = new SC_CheckError_Ex($array);
 
-        if (preg_match('/^[[:alnum:]]+$/', $array['id'])) {
+        if (preg_match('/^[[:alnum:]]+$/', (string) $array['id'])) {
             if (!is_numeric(SC_Helper_Customer_Ex::sfGetCustomerId($array['id'], true))) {
                 $objErr->arrErr['id'] = '※ 既に会員登録が完了しているか、無効なURLです。<br>';
             }

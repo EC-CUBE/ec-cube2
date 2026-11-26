@@ -86,17 +86,17 @@ class SC_Helper_Payment
         $arrPayment = [];
         foreach ($payments as $data) {
             // 下限と上限が設定されている
-            if (strlen($data['rule_max']) != 0 && strlen($data['upper_rule']) != 0) {
+            if (strlen((string) $data['rule_max']) != 0 && strlen((string) $data['upper_rule']) != 0) {
                 if ($data['rule_max'] <= $total && $data['upper_rule'] >= $total) {
                     $arrPayment[] = $data;
                 }
             // 下限のみ設定されている
-            } elseif (strlen($data['rule_max']) != 0) {
+            } elseif (strlen((string) $data['rule_max']) != 0) {
                 if ($data['rule_max'] <= $total) {
                     $arrPayment[] = $data;
                 }
             // 上限のみ設定されている
-            } elseif (strlen($data['upper_rule']) != 0) {
+            } elseif (strlen((string) $data['upper_rule']) != 0) {
                 if ($data['upper_rule'] >= $total) {
                     $arrPayment[] = $data;
                 }

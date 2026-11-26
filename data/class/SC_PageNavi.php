@@ -58,10 +58,10 @@ class SC_PageNavi
         $this->arrPagenavi['mode'] = 'search';
 
         // 現在ページ($now_page)が正しい数値でない場合
-        if (!preg_match('/^[[:digit:]]+$/', $now_page) || $now_page < 1 || strlen($now_page) == 0) {
+        if (!preg_match('/^[[:digit:]]+$/', (string) $now_page) || $now_page < 1 || strlen((string) $now_page) == 0) {
             $this->now_page = 1;
         } else {
-            $this->now_page = htmlspecialchars($now_page, ENT_QUOTES, CHAR_CODE);
+            $this->now_page = htmlspecialchars((string) $now_page, ENT_QUOTES, CHAR_CODE);
         }
         $this->arrPagenavi['now_page'] = $this->now_page;
 

@@ -304,7 +304,7 @@ class SC_Helper_Mail
         $objMailView->assignobj($objTplAssign);
         $subject = $objMailView->fetch('mail_templates/mail_title.tpl');
         // #1940 (SC_Helper_Mail#sfMakeSubject 先頭に改行を含む値を返す) 対応
-        $subject = trim($subject);
+        $subject = trim((string) $subject);
 
         return $subject;
     }
@@ -527,9 +527,9 @@ class SC_Helper_Mail
 
         foreach ($arrDestinationList as $arrDestination) {
             // お名前の変換
-            $customerName = trim($arrDestination['name']);
-            $subjectBody = preg_replace('/{name}/', $customerName, $arrMail['subject']);
-            $mailBody = preg_replace('/{name}/', $customerName, $arrMail['body']);
+            $customerName = trim((string) $arrDestination['name']);
+            $subjectBody = preg_replace('/{name}/', $customerName, (string) $arrMail['subject']);
+            $mailBody = preg_replace('/{name}/', $customerName, (string) $arrMail['body']);
 
             // ワンクリック登録解除トークンの生成
             $token = SC_Helper_Mailmaga_Ex::generateUnsubscribeToken(

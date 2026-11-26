@@ -130,7 +130,7 @@ class LC_Page_Admin_Contents_FileView extends LC_Page_Admin_Ex
             'js',
         ];
 
-        $extension = pathinfo($file, PATHINFO_EXTENSION);
+        $extension = pathinfo((string) $file, PATHINFO_EXTENSION);
 
         if (in_array($extension, $arrViewFile)) {
             $objFileManager = new SC_Helper_FileManager_Ex();

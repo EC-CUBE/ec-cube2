@@ -230,7 +230,7 @@ class LC_Page_Admin_Design_CSS extends LC_Page_Admin_Ex
             if (!$val['is_dir']) {
                 $arrCSSList[] = [
                     'file_name' => $val['file_name'],
-                    'css_name' => preg_replace('/(.+)\.(.+?)$/', '$1', $val['file_name']),
+                    'css_name' => preg_replace('/(.+)\.(.+?)$/', '$1', (string) $val['file_name']),
                 ];
             }
         }

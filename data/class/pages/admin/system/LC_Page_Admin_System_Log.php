@@ -130,7 +130,7 @@ class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
                     break 2;
                 }
 
-                $line = rtrim($line);
+                $line = rtrim((string) $line);
                 if (preg_match('/^(\d+\/\d+\/\d+ \d+:\d+:\d+) \[([^\]]+)\] (.*)$/', $line, $arrMatch)) {
                     $arrLogLine = [];
                     // 日時
@@ -160,7 +160,7 @@ class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
      */
     public function getLogPath($log_name)
     {
-        if (strlen($log_name) === 0) {
+        if (strlen((string) $log_name) === 0) {
             return LOG_REALFILE;
         }
         if (defined($const_name = $log_name.'_LOG_REALFILE')) {
@@ -182,18 +182,18 @@ class LC_Page_Admin_System_Log extends LC_Page_Admin_Ex
         $this->arrLogList['CUSTOMER'] = '会員ログイン ログファイル';
         $this->arrLogList['ADMIN'] = '管理機能ログファイル';
 
-        if (defined('DEBUG_LOG_REALFILE') && strlen(DEBUG_LOG_REALFILE) >= 1) {
+        if (defined('DEBUG_LOG_REALFILE') && strlen((string) DEBUG_LOG_REALFILE) >= 1) {
             $this->arrLogList['DEBUG'] = 'デバッグログファイル';
         }
 
-        if (defined('ERROR_LOG_REALFILE') && strlen(ERROR_LOG_REALFILE) >= 1) {
+        if (defined('ERROR_LOG_REALFILE') && strlen((string) ERROR_LOG_REALFILE) >= 1) {
             $this->arrLogList['ERROR'] = 'エラーログファイル';
         }
 
-        if (defined('DB_LOG_REALFILE') && strlen(DB_LOG_REALFILE) >= 1) {
+        if (defined('DB_LOG_REALFILE') && strlen((string) DB_LOG_REALFILE) >= 1) {
             $this->arrLogList['DB'] = 'DBログファイル';
         }
-        if (defined('PLUGIN_LOG_REALFILE') && strlen(PLUGIN_LOG_REALFILE) >= 1) {
+        if (defined('PLUGIN_LOG_REALFILE') && strlen((string) PLUGIN_LOG_REALFILE) >= 1) {
             $this->arrLogList['PLUGIN'] = 'プラグインログファイル';
         }
     }

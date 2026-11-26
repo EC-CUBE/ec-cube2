@@ -154,7 +154,7 @@ class LC_Page_Admin_Basis_Tax extends LC_Page_Admin_Ex
             case 'pre_edit':
                 $TaxRule = $objTaxRule->getTaxRuleData($tax_rule_id);
 
-                $tmp = explode(' ', $TaxRule['apply_date']);
+                $tmp = explode(' ', (string) $TaxRule['apply_date']);
                 $tmp_ymd = array_map('intval', explode('-', $tmp[0]));
                 $TaxRule['apply_date_year'] = $tmp_ymd[0];
                 $TaxRule['apply_date_month'] = $tmp_ymd[1];

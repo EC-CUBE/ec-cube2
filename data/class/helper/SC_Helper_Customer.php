@@ -52,7 +52,7 @@ class SC_Helper_Customer
             $salt = $objQuery->get('salt', 'dtb_customer', 'customer_id = ? ', [$customer_id]);
 
             // 旧バージョン(2.11未満)からの移行を考慮
-            if (strlen($salt) === 0) {
+            if (strlen((string) $salt) === 0) {
                 $old_version_flag = true;
             }
         } else {
@@ -226,8 +226,8 @@ class SC_Helper_Customer
             [$customer_id]
         );
         $return
-            = strlen($arrResults['email']) >= 1 && $email === $arrResults['email']
-            || strlen($arrResults['email_mobile']) >= 1 && $email === $arrResults['email_mobile']
+            = strlen((string) $arrResults['email']) >= 1 && $email === $arrResults['email']
+            || strlen((string) $arrResults['email_mobile']) >= 1 && $email === $arrResults['email_mobile']
         ;
 
         return $return;

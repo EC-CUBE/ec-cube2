@@ -264,7 +264,7 @@ class SC_Graph_Base
     // 描画時のテキスト幅を求める
     public function getTextWidth($text, $font_size)
     {
-        $text_len = strlen($text);
+        $text_len = strlen((string) $text);
         $ret = $font_size * $text_len * TEXT_RATE;
         /*
             ※正確な値が取得できなかったので廃止
@@ -359,7 +359,7 @@ class SC_Graph_Base
 
         // 一番文字数が多いものを取得
         for ($i = 0; $i < $label_max; $i++) {
-            $text_len = strlen($this->arrLegend[$i]);
+            $text_len = strlen((string) $this->arrLegend[$i]);
             if ($text_max < $text_len) {
                 $text_max = $text_len;
             }

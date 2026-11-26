@@ -285,7 +285,7 @@ class LC_Page_Admin_Order_Disp extends LC_Page_Admin_Order_Ex
         foreach ($arrShippingsTmp as $row) {
             // お届け日の処理
             if (!SC_Utils_Ex::isBlank($row['shipping_date'])) {
-                $ts = strtotime($row['shipping_date']);
+                $ts = strtotime((string) $row['shipping_date']);
                 $row['shipping_date_year'] = date('Y', $ts);
                 $row['shipping_date_month'] = date('n', $ts);
                 $row['shipping_date_day'] = date('j', $ts);

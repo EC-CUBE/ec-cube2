@@ -76,10 +76,10 @@ class SC_Session
             $arrPERMISSION = $masterData->getMasterData('mtb_permission');
 
             foreach ($arrPERMISSION as $path => $auth) {
-                if (stripos($path, '/admin/') === 0) {
+                if (stripos((string) $path, '/admin/') === 0) {
                     // path が /admin で始まる場合は /admin を削除
                     $path = str_replace('/admin', '', $path);
-                } elseif (stripos($path, '/'.$admin_dir) === 0) {
+                } elseif (stripos((string) $path, '/'.$admin_dir) === 0) {
                     // path が /ADMIN_DIR で始まる場合は /ADMIN_DIR を削除
                     $path = str_replace('/'.$admin_dir, '', $path);
                 }

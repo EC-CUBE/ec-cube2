@@ -923,12 +923,12 @@ class HTTP_Request
             }
 
             // Resolve relative URL
-            if (!preg_match('/^https?:\/\//i', $location)) {
+            if (!preg_match('/^https?:\/\//i', (string) $location)) {
                 $base = $this->_url->protocol.'://'.$this->_url->host;
                 if ($this->_url->port != $this->_url->getStandardPort($this->_url->protocol)) {
                     $base .= ':'.$this->_url->port;
                 }
-                if (str_starts_with($location, '/')) {
+                if (str_starts_with((string) $location, '/')) {
                     $location = $base.$location;
                 } else {
                     $location = $base.dirname($this->_url->path).'/'.$location;
@@ -936,7 +936,7 @@ class HTTP_Request
             }
 
             // SSRF check on redirect target
-            $parsedUrl = parse_url($location);
+            $parsedUrl = parse_url((string) $location);
             $redirectHost = $parsedUrl['host'] ?? '';
 
             if (!empty($redirectHost)) {
@@ -1086,7 +1086,7 @@ class HTTP_Request
         // Headers
         $headers = [];
         foreach ($this->_requestHeaders as $name => $value) {
-            $canonicalName = implode('-', array_map('ucfirst', explode('-', $name)));
+            $canonicalName = implode('-', array_map('ucfirst', explode('-', (string) $name)));
             $headers[$canonicalName] = $value;
         }
         $options[RequestOptions::HEADERS] = $headers;
@@ -1148,7 +1148,7 @@ class HTTP_Request
                     foreach ($flatData as $item) {
                         $multipart[] = [
                             'name' => $item[0],
-                            'contents' => urldecode($item[1]),
+                            'contents' => urldecode((string) $item[1]),
                         ];
                     }
                 }
@@ -1162,7 +1162,7 @@ class HTTP_Request
                             $multipart[] = [
                                 'name' => $varname,
                                 'contents' => Utils::tryFopen($filename, 'r'),
-                                'filename' => basename($filename),
+                                'filename' => basename((string) $filename),
                                 'headers' => ['Content-Type' => $type],
                             ];
                         }
@@ -1170,7 +1170,7 @@ class HTTP_Request
                         $multipart[] = [
                             'name' => $name,
                             'contents' => Utils::tryFopen($value['name'], 'r'),
-                            'filename' => basename($value['name']),
+                            'filename' => basename((string) $value['name']),
                             'headers' => ['Content-Type' => $value['type']],
                         ];
                     }
@@ -1219,7 +1219,7 @@ class HTTP_Request
         // Headers
         $response->_headers = [];
         foreach ($guzzleResponse->getHeaders() as $name => $values) {
-            $headerName = strtolower($name);
+            $headerName = strtolower((string) $name);
             $headerValue = implode(', ', $values);
 
             if ($headerName === 'set-cookie') {
@@ -1499,7 +1499,7 @@ class HTTP_Response
                 } elseif ('expires' == $elName) {
                     $cookie['expires'] = str_replace('"', '', $elValue);
                 } elseif ('path' == $elName || 'domain' == $elName) {
-                    $cookie[$elName] = urldecode($elValue);
+                    $cookie[$elName] = urldecode((string) $elValue);
                 } else {
                     $cookie[$elName] = $elValue;
                 }

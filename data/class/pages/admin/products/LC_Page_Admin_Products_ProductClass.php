@@ -629,11 +629,11 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
             ];
             // ▼SC_CheckError::FILE_EXT_CHECK から移植
             $match = false;
-            if (strlen($_FILES[$value[1]]['name'][$index]) >= 1) {
+            if (strlen((string) $_FILES[$value[1]]['name'][$index]) >= 1) {
                 $filename = $_FILES[$value[1]]['name'][$index];
 
                 foreach ($value[2] as $check_ext) {
-                    $match = preg_match('/'.preg_quote('.'.$check_ext).'$/i', $filename) >= 1;
+                    $match = preg_match('/'.preg_quote('.'.$check_ext).'$/i', (string) $filename) >= 1;
                     if ($match === true) {
                         break;
                     }
@@ -646,7 +646,7 @@ class LC_Page_Admin_Products_ProductClass extends LC_Page_Admin_Ex
             // ▲SC_CheckError::FILE_EXT_CHECK から移植
             } else {
                 $uniqname = date('mdHi').'_'.uniqid('').'.';
-                $temp_file = preg_replace("/^.*\./", $uniqname, $_FILES['down_realfilename']['name'][$index]);
+                $temp_file = preg_replace("/^.*\./", $uniqname, (string) $_FILES['down_realfilename']['name'][$index]);
 
                 if (move_uploaded_file($_FILES['down_realfilename']['tmp_name'][$index], DOWN_TEMP_REALDIR.$temp_file)) {
                     $arrDownRealFiles[$index] = $temp_file;

@@ -128,7 +128,7 @@ class LC_Page_Admin_OwnersStore_Settings extends LC_Page_Admin_Ex
     {
         // 前後の空白を削除
         if (isset($_POST['public_key'])) {
-            $_POST['public_key'] = trim($_POST['public_key']);
+            $_POST['public_key'] = trim((string) $_POST['public_key']);
         }
 
         $objForm = new SC_FormParam_Ex();

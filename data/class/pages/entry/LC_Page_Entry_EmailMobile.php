@@ -70,7 +70,7 @@ class LC_Page_Entry_EmailMobile extends LC_Page_Ex
 
             if (empty($this->arrErr)) {
                 $email_mobile = $this->lfRegistEmailMobile(
-                    strtolower($objFormParam->getValue('email_mobile')),
+                    strtolower((string) $objFormParam->getValue('email_mobile')),
                     $objCustomer->getValue('customer_id')
                 );
 

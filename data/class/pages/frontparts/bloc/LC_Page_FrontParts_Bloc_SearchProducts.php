@@ -170,7 +170,7 @@ class LC_Page_FrontParts_Bloc_SearchProducts extends LC_Page_FrontParts_Bloc_Ex
             // 文字サイズを制限する
             foreach ($arrCategoryList as $key => $val) {
                 $truncate_str = SC_Utils_Ex::sfCutString($val, SEARCH_CATEGORY_LEN, false);
-                $arrCategoryList[$key] = preg_replace('/　/u', '&nbsp;&nbsp;', $truncate_str);
+                $arrCategoryList[$key] = preg_replace('/　/u', '&nbsp;&nbsp;', (string) $truncate_str);
             }
         }
 

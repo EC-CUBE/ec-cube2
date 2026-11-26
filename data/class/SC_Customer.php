@@ -352,7 +352,7 @@ class SC_Customer
     public function isBirthMonth()
     {
         if (isset($_SESSION['customer']['birth'])) {
-            $arrRet = preg_split('|[- :/]|', $_SESSION['customer']['birth']);
+            $arrRet = preg_split('|[- :/]|', (string) $_SESSION['customer']['birth']);
             $birth_month = (int) $arrRet[1];
             $now_month = (int) date('m');
 

@@ -73,17 +73,17 @@ class SC_Batch_Update extends SC_Batch
             return $arrLog;
         }
 
-        $includeArray = explode(',', $this->includes);
-        $excludeArray = explode(',', $this->excludes);
+        $includeArray = explode(',', (string) $this->includes);
+        $excludeArray = explode(',', (string) $this->excludes);
         $fileArrays = $this->listdirs($target);
 
         foreach ($fileArrays as $path) {
             if (is_file($path)) {
                 // ファイル名を取得
-                $fileName = pathinfo($path, PATHINFO_BASENAME);
+                $fileName = pathinfo((string) $path, PATHINFO_BASENAME);
 
                 // 拡張子を取得
-                $suffix = pathinfo($path, PATHINFO_EXTENSION);
+                $suffix = pathinfo((string) $path, PATHINFO_EXTENSION);
 
                 // distinfo.php を読み込む
                 if ($fileName == 'distinfo.php') {
@@ -127,7 +127,7 @@ class SC_Batch_Update extends SC_Batch
 
                         // バックアップを作成
                         if (file_exists($out)) {
-                            $bkupTo = $bkupPathFile.pathinfo($out, PATHINFO_BASENAME);
+                            $bkupTo = $bkupPathFile.pathinfo((string) $out, PATHINFO_BASENAME);
                             $bkupDistInfoArray[sha1_file($out)] = $out;
 
                             if (!@copy($out, $bkupTo)) {
@@ -174,7 +174,7 @@ class SC_Batch_Update extends SC_Batch
         $src = $this->makeDistInfo($bkupDistInfoArray);
         if (is_writable($bkupPath)) {
             $handle = @fopen($bkupPath.'distinfo.php', 'w');
-            @fwrite($handle, $src);
+            @fwrite($handle, (string) $src);
             @fclose($handle);
             $msg = 'distinfoファイルの作成に成功しました: '.$bkupPath.'distinfo.php';
             $this->printLog($msg);
@@ -253,7 +253,7 @@ class SC_Batch_Update extends SC_Batch
              .'$distinfo = array('."\n";
 
         foreach ($bkupDistInfoArray as $key => $value) {
-            $src .= "'".addcslashes($key, "'")."' => '".addcslashes($value, "'")."',\n";
+            $src .= "'".addcslashes((string) $key, "'")."' => '".addcslashes((string) $value, "'")."',\n";
         }
         $src .= ");\n?>";
 
@@ -313,7 +313,7 @@ class SC_Batch_Update extends SC_Batch
                     // 既知のEC-CUBEベースディレクトリ配下か検証
                     $isValidBase = false;
                     foreach ($constants as $base) {
-                        if (str_starts_with($literalPath, $base)) {
+                        if (str_starts_with($literalPath, (string) $base)) {
                             $isValidBase = true;
                             break;
                         }

@@ -213,7 +213,7 @@ class SC_Graph_Line extends SC_Graph_Base_Ex
         // データの最大値を取得する。
         $data_max = max($arrData);
         // 10の何倍かを取得
-        $figure = strlen($data_max) - 1;
+        $figure = strlen((string) $data_max) - 1;
         // 次の桁を計算する
         $tenval = 10 ** $figure;
         // グラフ上での最大値を求める

@@ -515,8 +515,8 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         $select_recommend_id = $arrForm['recommend_id'.$select_recommend_no];
 
         foreach ($arrForm as $key => $value) {
-            if (preg_match('/^recommend_id/', $key)) {
-                if ($select_recommend_no == preg_replace('/^recommend_id/', '', $key)) {
+            if (preg_match('/^recommend_id/', (string) $key)) {
+                if ($select_recommend_no == preg_replace('/^recommend_id/', '', (string) $key)) {
                     continue;
                 }
                 $delete_key = 'recommend_delete'.(int) str_replace('recommend_id', '', $key);
@@ -755,7 +755,7 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
                 // リネームする際は、自動生成される画像名に一意となるように、Suffixを付ける
                 $dst_file = $objUpFile->lfGetTmpImageName(IMAGE_RENAME, '', $objUpFile->temp_file[$arrImageKey[$from_key]]).$this->lfGetAddSuffix($to_key);
                 $path = $objUpFile->makeThumb($from_path, $to_w, $to_h, $dst_file);
-                $objUpFile->temp_file[$arrImageKey[$to_key]] = basename($path);
+                $objUpFile->temp_file[$arrImageKey[$to_key]] = basename((string) $path);
             }
         }
     }
@@ -1212,9 +1212,9 @@ class LC_Page_Admin_Products_Product extends LC_Page_Admin_Products_Ex
         $sqlval = SC_Utils_Ex::arrayDefineIndexes($sqlval, $checkArray);
 
         $sqlval['stock_unlimited'] = $sqlval['stock_unlimited'] ? UNLIMITED_FLG_UNLIMITED : UNLIMITED_FLG_LIMITED;
-        $sqlval['creator_id'] = strlen($_SESSION['member_id']) >= 1 ? $_SESSION['member_id'] : '0';
+        $sqlval['creator_id'] = strlen((string) $_SESSION['member_id']) >= 1 ? $_SESSION['member_id'] : '0';
 
-        if (strlen($sqlval['product_class_id']) == 0) {
+        if (strlen((string) $sqlval['product_class_id']) == 0) {
             $sqlval['product_class_id'] = $objQuery->nextVal('dtb_products_class_product_class_id');
             $sqlval['create_date'] = 'CURRENT_TIMESTAMP';
             $sqlval['update_date'] = 'CURRENT_TIMESTAMP';

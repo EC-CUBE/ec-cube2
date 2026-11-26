@@ -105,7 +105,7 @@ class LC_Page_Rss extends LC_Page_Ex
             $row['shop_name'] = $arrInfo['shop_name'];
             $row['email'] = $arrInfo['email04'];
             // 日付
-            $row['news_date'] = date('r', strtotime($row['news_date']));
+            $row['news_date'] = date('r', strtotime((string) $row['news_date']));
             // 新着情報URL
             if (SC_Utils_Ex::isBlank($row['news_url'])) {
                 $row['news_url'] = HTTP_URL;

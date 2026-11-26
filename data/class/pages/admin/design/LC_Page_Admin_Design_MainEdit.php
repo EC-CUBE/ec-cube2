@@ -182,7 +182,7 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
             $arrPageData[0]['tpl_data'] = file_get_contents($filename);
         }
         // ファイル名を画面表示用に加工しておく
-        $arrPageData[0]['filename'] = preg_replace('|^'.preg_quote(USER_DIR).'|', '', $arrPageData[0]['filename']);
+        $arrPageData[0]['filename'] = preg_replace('|^'.preg_quote(USER_DIR).'|', '', (string) $arrPageData[0]['filename']);
 
         return $arrPageData[0];
     }
@@ -330,7 +330,7 @@ class LC_Page_Admin_Design_MainEdit extends LC_Page_Admin_Ex
          * は使用しない
          */
         $valid_url = true;
-        foreach (explode('/', $arrParams['filename']) as $val) {
+        foreach (explode('/', (string) $arrParams['filename']) as $val) {
             if (!preg_match('/^[a-zA-Z0-9:_~\.\-]+$/', $val)) {
                 $valid_url = false;
             }

@@ -870,7 +870,7 @@ class LC_Page_Admin_OwnersStore extends LC_Page_Admin_Ex
                 }
             // 文字列定義の場合
             } else {
-                $array_hook_point = explode(',', $hook_point);
+                $array_hook_point = explode(',', (string) $hook_point);
                 foreach ($array_hook_point as $h) {
                     $arr_sqlval_plugin_hookpoint = [];
                     $id = $objQuery->nextVal('dtb_plugin_hookpoint_plugin_hookpoint_id');

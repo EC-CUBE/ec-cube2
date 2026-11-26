@@ -64,7 +64,7 @@ class SC_Response
         foreach ($this->header as $name => $head) {
             header($name.': '.$head);
         }
-        if (strlen($this->statusCode) >= 1) {
+        if (strlen((string) $this->statusCode) >= 1) {
             static::sendHttpStatus($this->statusCode);
         }
     }
@@ -161,9 +161,9 @@ class SC_Response
                 } elseif (array_key_exists('object', $backtrace) && is_object($backtrace['object'])) {
                     $pattern = '/^[a-zA-Z0-9_]+$/';
                     $mode = null;
-                    if (isset($_GET['mode']) && preg_match($pattern, $_GET['mode'])) {
+                    if (isset($_GET['mode']) && preg_match($pattern, (string) $_GET['mode'])) {
                         $mode = $_GET['mode'];
-                    } elseif (isset($_POST['mode']) && preg_match($pattern, $_POST['mode'])) {
+                    } elseif (isset($_POST['mode']) && preg_match($pattern, (string) $_POST['mode'])) {
                         $mode = $_POST['mode'];
                     }
                     $parent_class_name = get_parent_class($backtrace['object']);
@@ -205,7 +205,7 @@ class SC_Response
                 $useSsl = SC_Utils_Ex::sfIsHTTPS();
             }
             $netUrl = new Net_URL($useSsl ? HTTPS_URL : HTTP_URL);
-            $netUrl->path = dirname($_SERVER['SCRIPT_NAME']).'/'.$location;
+            $netUrl->path = dirname((string) $_SERVER['SCRIPT_NAME']).'/'.$location;
             $url = $netUrl->getUrl();
         }
 
@@ -324,7 +324,7 @@ class SC_Response
     public static function sendHttpStatus($statusCode)
     {
         $protocol = $_SERVER['SERVER_PROTOCOL'];
-        $httpVersion = (str_contains($protocol, '1.1')) ? '1.1' : '1.0';
+        $httpVersion = (str_contains((string) $protocol, '1.1')) ? '1.1' : '1.0';
         $messages = [
             // Informational 1xx                        // 【情報】
             100 => 'Continue',                          // 継続

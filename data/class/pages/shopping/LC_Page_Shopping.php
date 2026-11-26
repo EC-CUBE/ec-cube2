@@ -168,7 +168,7 @@ class LC_Page_Shopping extends LC_Page_Ex
                             SC_Helper_LoginRateLimit_Ex::recordLoginAttempt($login_email, $ip_address, $user_agent, 1);
 
                             // クッキー保存判定
-                            if ($objFormParam->getValue('login_memory') == '1' && strlen($login_email) >= 1) {
+                            if ($objFormParam->getValue('login_memory') == '1' && strlen((string) $login_email) >= 1) {
                                 $objCookie->setCookie('login_email', $login_email);
                             } else {
                                 $objCookie->setCookie('login_email', '');
@@ -456,7 +456,7 @@ class LC_Page_Shopping extends LC_Page_Ex
         } else {
             // shipping系のエラーは無視
             foreach ($objErr->arrErr as $key => $val) {
-                if (substr($key, 0, strlen('shipping_')) == 'shipping_') {
+                if (substr((string) $key, 0, strlen('shipping_')) == 'shipping_') {
                     unset($objErr->arrErr[$key]);
                 }
             }

@@ -143,12 +143,12 @@ class SC_Fpdf extends SC_Helper_FPDI
 
         $text = 'TEL: '.$arrInfo['law_tel01'].'-'.$arrInfo['law_tel02'].'-'.$arrInfo['law_tel03'];
         // FAX番号が存在する場合、表示する
-        if (strlen($arrInfo['law_fax01']) > 0) {
+        if (strlen((string) $arrInfo['law_fax01']) > 0) {
             $text .= '　FAX: '.$arrInfo['law_fax01'].'-'.$arrInfo['law_fax02'].'-'.$arrInfo['law_fax03'];
         }
         $this->lfText(125, 80, $text, 8);  // TEL・FAX
 
-        if (strlen($arrInfo['law_email']) > 0) {
+        if (strlen((string) $arrInfo['law_email']) > 0) {
             $text = 'Email: '.$arrInfo['law_email'];
             $this->lfText(125, 83, $text, 8);      // Email
         }
@@ -201,11 +201,11 @@ class SC_Fpdf extends SC_Helper_FPDI
 
         $text = $this->arrDisp['order_addr02']; // 購入者住所2
 
-        while (mb_strwidth($text) > 68) {
-            $line = mb_strimwidth($text, 0, 68); // 1行分の文字列
+        while (mb_strwidth((string) $text) > 68) {
+            $line = mb_strimwidth((string) $text, 0, 68); // 1行分の文字列
             $this->lfText(27, $y, $line, 8);
             $cut = strlen($line);
-            $text = substr($text, $cut, strlen($text) - $cut);
+            $text = substr((string) $text, $cut, strlen((string) $text) - $cut);
             $y += 3;
         }
         if ($text != '') {
@@ -267,7 +267,7 @@ class SC_Fpdf extends SC_Helper_FPDI
                 $arrOrder[$i][1] = number_format($data[0]);
                 $arrOrder[$i][2] = number_format($data[1]).$monetary_unit;
                 $arrOrder[$i][3] = number_format($data[2]).$monetary_unit;
-                if (array_key_exists($this->arrDisp['tax_rate'][$i], $arrTaxableTotal) === false) {
+                if (array_key_exists((string) $this->arrDisp['tax_rate'][$i], $arrTaxableTotal) === false) {
                     $arrTaxableTotal[$this->arrDisp['tax_rate'][$i]] = 0;
                 }
                 $arrTaxableTotal[$this->arrDisp['tax_rate'][$i]] += $data[2];

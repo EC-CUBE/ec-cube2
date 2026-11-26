@@ -133,7 +133,7 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
      */
     public function lfCheckAdminArea(&$arrForm, &$arrErr)
     {
-        $admin_dir = trim($arrForm['admin_dir']).'/';
+        $admin_dir = trim((string) $arrForm['admin_dir']).'/';
 
         $installData = file(CONFIG_REALFILE, FILE_IGNORE_NEW_LINES);
         foreach ($installData as $key => $line) {
@@ -156,12 +156,12 @@ class LC_Page_Admin_System_AdminArea extends LC_Page_Admin_Ex
     // 管理機能ディレクトリのリネームと CONFIG_REALFILE の変更
     public function lfUpdateAdminData(&$arrForm)
     {
-        $admin_dir = trim($arrForm['admin_dir']).'/';
+        $admin_dir = trim((string) $arrForm['admin_dir']).'/';
         $admin_force_ssl = 'false';
         if ($arrForm['admin_force_ssl'] == 1) {
             $admin_force_ssl = 'true';
         }
-        $admin_allow_hosts = explode("\n", $arrForm['admin_allow_hosts']);
+        $admin_allow_hosts = explode("\n", (string) $arrForm['admin_allow_hosts']);
         foreach ($admin_allow_hosts as $key => $host) {
             $host = trim($host);
             if (strlen($host) >= 8) {

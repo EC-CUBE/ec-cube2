@@ -126,7 +126,7 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
         }
         // ファイル名をエンコードする Safariの対策はUTF-8で様子を見る
         $encoding = 'Shift_JIS';
-        if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'Safari')) {
+        if (isset($_SERVER['HTTP_USER_AGENT']) && strpos((string) $_SERVER['HTTP_USER_AGENT'], 'Safari')) {
             $encoding = 'UTF-8';
         }
         $sdown_filename = mb_convert_encoding($arrForm['down_filename'], $encoding, 'auto');
@@ -277,7 +277,7 @@ class LC_Page_Mypage_DownLoad extends LC_Page_Ex
         // HTTP_RANGEがセットされていた場合
         if (isset($_SERVER['HTTP_RANGE'])) {
             // 二回目以降のリクエスト
-            [$a, $range] = explode('=', $_SERVER['HTTP_RANGE'], 2);
+            [$a, $range] = explode('=', (string) $_SERVER['HTTP_RANGE'], 2);
             [$range] = explode(',', $range, 2);
             [$range, $range_end] = explode('-', $range);
             $range = (int) $range;

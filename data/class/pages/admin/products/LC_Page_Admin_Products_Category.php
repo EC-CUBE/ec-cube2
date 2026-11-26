@@ -96,7 +96,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
                 // FIXME r19909 によってテンプレートが削除されている
             case 'moveByDnD':
                 // DnDしたカテゴリと移動先のセットを分解する
-                $keys = explode('-', $_POST['keySet']);
+                $keys = explode('-', (string) $_POST['keySet']);
                 if ($keys[0] && $keys[1]) {
                     $objQuery = SC_Query_Ex::getSingletonInstance();
                     $objQuery->begin();
@@ -255,7 +255,7 @@ class LC_Page_Admin_Products_Category extends LC_Page_Admin_Ex
         $category_id = $objFormParam->getValue('category_id');
 
         // 追加か
-        $add = strlen($category_id) === 0;
+        $add = strlen((string) $category_id) === 0;
 
         // エラーチェック
         $this->arrErr = $this->checkError($objFormParam, $add);

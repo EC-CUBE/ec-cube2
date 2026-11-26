@@ -17,7 +17,7 @@ class PDF_Japanese extends Fpdi
 {
     public function AddCIDFont($family, $style, $name, $cw, $CMap, $registry)
     {
-        $fontkey = strtolower($family).strtoupper($style);
+        $fontkey = strtolower((string) $family).strtoupper((string) $style);
         if (isset($this->fonts[$fontkey])) {
             $this->Error("CID font already added: $family $style");
         }
@@ -70,7 +70,7 @@ class PDF_Japanese extends Fpdi
         // SJIS version of GetStringWidth()
         $l = 0;
         $cw = &$this->CurrentFont['cw'];
-        $nb = strlen($s);
+        $nb = strlen((string) $s);
         $i = 0;
         while ($i < $nb) {
             $o = ord($s[$i]);
@@ -123,13 +123,13 @@ class PDF_Japanese extends Fpdi
                 $b2 = 'LR';
             } else {
                 $b2 = '';
-                if (is_int(strpos($border, 'L'))) {
+                if (is_int(strpos((string) $border, 'L'))) {
                     $b2 .= 'L';
                 }
-                if (is_int(strpos($border, 'R'))) {
+                if (is_int(strpos((string) $border, 'R'))) {
                     $b2 .= 'R';
                 }
-                $b = is_int(strpos($border, 'T')) ? $b2.'T' : $b2;
+                $b = is_int(strpos((string) $border, 'T')) ? $b2.'T' : $b2;
             }
         }
         $sep = -1;
@@ -198,7 +198,7 @@ class PDF_Japanese extends Fpdi
             }
         }
         // Last chunk
-        if ($border && is_int(strpos($border, 'B'))) {
+        if ($border && is_int(strpos((string) $border, 'B'))) {
             $b .= 'B';
         }
         $this->Cell($w, $h, substr($s, $j, $i - $j), $b, 2, $align, $fill);
