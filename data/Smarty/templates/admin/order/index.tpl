@@ -375,12 +375,12 @@
                     <!--{section name=cnt loop=$arrResults}-->
                         <!--{assign var=status value="`$arrResults[cnt].status`"}-->
                         <tr style="background:<!--{$arrORDERSTATUS_COLOR[$status]}-->;">
-                            <td class="center"><!--{$arrResults[cnt].create_date|sfDispDBDate}--></td>
+                            <td class="center"><!--{$arrResults[cnt].create_date|date_format:"Y/m/d H:i"}--></td>
                             <td class="center"><!--{$arrResults[cnt].order_id}--></td>
                             <td class="center"><!--{$arrResults[cnt]|format_name:'order_name'|h}--></td>
                             <td class="center"><!--{$arrResults[cnt].payment_method|h}--></td>
                             <td class="right"><!--{$arrResults[cnt].total|n2s}--></td>
-                            <td class="center"><!--{$arrResults[cnt].commit_date|sfDispDBDate|default:"未発送"}--></td>
+                            <td class="center"><!--{$arrResults[cnt].commit_date|date_format:"Y/m/d H:i"|default:"未発送"}--></td>
                             <td class="center"><!--{$arrORDERSTATUS[$status]}--></td>
                             <td class="center">
                                 <input type="checkbox" name="pdf_order_id[]" value="<!--{$arrResults[cnt].order_id|h}-->" id="pdf_order_id_<!--{$arrResults[cnt].order_id|h}-->"/><label for="pdf_order_id_<!--{$arrResults[cnt].order_id|h}-->">一括出力</label><br />

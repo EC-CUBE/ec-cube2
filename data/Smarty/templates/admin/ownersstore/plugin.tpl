@@ -223,7 +223,7 @@
                 <!--{if $plugin.conflict_message != ""}-->
                 <tr>
                     <td class="attention_fookpoint" colspan="3">
-                        <p class="attention"><!--{$plugin.conflict_message}--></p>
+                        <p class="attention"><!--{$plugin.conflict_message|h_allow_br nofilter}--></p>
                     </td>
                 </tr>
                 <!--{/if}-->

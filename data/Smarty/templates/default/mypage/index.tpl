@@ -58,7 +58,7 @@
                     </tr>
                     <!--{section name=cnt loop=$arrOrder}-->
                         <tr>
-                            <td class="alignC"><!--{$arrOrder[cnt].create_date|sfDispDBDate}--></td>
+                            <td class="alignC"><!--{$arrOrder[cnt].create_date|date_format:"Y/m/d H:i"}--></td>
                             <td><!--{$arrOrder[cnt].order_id}--></td>
                             <!--{assign var=payment_id value="`$arrOrder[cnt].payment_id`"}-->
                             <td class="alignC"><!--{$arrPayment[$payment_id]|h}--></td>

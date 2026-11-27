@@ -23,9 +23,9 @@
 
 <rss version="2.0">
     <channel>
-        <title><!--{$site_title|sfMbConvertEncoding:$encode|h}--></title>
+        <title><!--{$site_title|h}--></title>
         <link><!--{$smarty.const.HTTP_URL}--></link>
-        <description><!--{$description|sfMbConvertEncoding:$encode|h}--></description>
+        <description><!--{$description|h}--></description>
         <language>ja</language>
         <managingEditor><!--{$email|h}--></managingEditor>
         <webMaster><!--{$email|h}--></webMaster>
@@ -37,8 +37,8 @@
         <!--{section name=cnt loop=$arrNews}-->
             <item>
                 <link><!--{$arrNews[cnt].news_url|h}--></link>
-                <title><!--{$arrNews[cnt].news_title|sfMbConvertEncoding:$encode|h}--></title>
-                <description><!--{$arrNews[cnt].news_comment|truncate:256|sfMbConvertEncoding:$encode|h}--></description>
+                <title><!--{$arrNews[cnt].news_title|h}--></title>
+                <description><!--{$arrNews[cnt].news_comment|truncate:256|h}--></description>
                 <pubDate><!--{$arrNews[cnt].news_date|h}--></pubDate>
             </item>
         <!--{/section}-->

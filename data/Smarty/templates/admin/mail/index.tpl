@@ -114,7 +114,7 @@
                 <td><!--{$arrResults[i].email|h}--></td>
                 <!--{assign var="key" value="`$arrResults[i].mailmaga_flg`"}-->
                 <td class="center"><!--{$arrHtmlmail[$key]|default:'なし'}--></td>
-                <td class="center"><!--{$arrResults[i].update_date|sfDispDBDate}--></td>
+                <td class="center"><!--{$arrResults[i].update_date|date_format:"Y/m/d H:i"}--></td>
             </tr>
             <!--{/section}-->
         </table>

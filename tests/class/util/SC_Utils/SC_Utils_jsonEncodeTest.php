@@ -54,5 +54,15 @@ class SC_Utils_jsonEncodeTest extends Common_TestCase
         $this->verify();
     }
 
+    public function testJsonEncodeHTMLの特殊文字はエスケープされる()
+    {
+        $input = ['name' => '</script><b>"A&B\'</b>'];
+        $this->expected = '{"name":"\u003C\/script\u003E\u003Cb\u003E\u0022A\u0026B\u0027\u003C\/b\u003E"}';
+        $this->actual = SC_Utils::jsonEncode($input);
+
+        $this->verify();
+        $this->assertSame($input, json_decode($this->actual, true));
+    }
+
     // ////////////////////////////////////////
 }

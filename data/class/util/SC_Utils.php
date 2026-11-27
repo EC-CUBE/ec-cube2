@@ -834,7 +834,11 @@ class SC_Utils
         return $ret;
     }
 
-    /* DBから取り出した日付の文字列を調整する。 */
+    /**
+     * DBから取り出した日付の文字列を調整する。
+     *
+     * @deprecated テンプレートでは date_format:"Y/m/d H:i" (時刻なしは "Y/m/d") を使用すること
+     */
     public static function sfDispDBDate($dbdate, $time = true)
     {
         [$y, $m, $d, $H, $M] = preg_split('/[- :]/', $dbdate);
@@ -1149,6 +1153,8 @@ class SC_Utils
      * PHPのmb_convert_encoding関数をSmartyでも使えるようにする
      *
      * XXX この関数を使っている箇所は、ほぼ設計誤りと思われる。変数にフェッチするか、出力時のエンコーディングで対応すべきと見受ける。
+     *
+     * @deprecated 文字コード変換は出力時に行うこと
      */
     public static function sfMbConvertEncoding($str, $encode = CHAR_CODE)
     {
@@ -1918,6 +1924,8 @@ class SC_Utils
      * 値を JSON 形式にして返す.
      *
      * この関数は, json_encode() のラッパーです.
+     * `<` `>` `&` `'` `"` は `\u003C` 形式にするため, script 要素の中や HTML の属性値に出力しても
+     * 文字列から抜け出さない (JSON としての値は変わらない).
      *
      * @param  mixed  $value JSON 形式にエンコードする値
      *
@@ -1928,7 +1936,7 @@ class SC_Utils
      */
     public static function jsonEncode($value)
     {
-        return json_encode($value);
+        return json_encode($value, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
     }
 
     /**

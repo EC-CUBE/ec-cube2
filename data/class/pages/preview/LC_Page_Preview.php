@@ -50,6 +50,8 @@ class LC_Page_Preview extends LC_Page_Ex
         parent::process();
 
         $objView = new SC_SiteView_Ex();
+        // 本番の画面と同じ出力にする
+        $objView->enableAutoEscapeByConfig();
         $objSess = new SC_Session_Ex();
         if (!SC_Utils_Ex::sfIsSuccess($objSess, false)) {
             SC_Utils_Ex::sfDispSiteError(PAGE_ERROR);

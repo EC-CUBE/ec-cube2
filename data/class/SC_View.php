@@ -32,6 +32,9 @@ class SC_View
     /** @var int */
     public $time_start;
 
+    /** @var bool 自動エスケープ (escape_html) を有効にしたか */
+    protected $autoEscape = false;
+
     // コンストラクタ
     public function __construct()
     {
@@ -43,6 +46,7 @@ class SC_View
         $this->_smarty = new SC_SmartyBc();
         $this->_smarty->setLeftDelimiter('<!--{');
         $this->_smarty->setRightDelimiter('}-->');
+        // @deprecated 既存のテンプレートとの互換のため登録 (SC_Utils::sfDispDBDate)
         $this->_smarty->registerPlugin('modifier', 'sfDispDBDate', function ($dbdate, $time = true) { return SC_Utils_Ex::sfDispDBDate($dbdate, $time); });
         $this->_smarty->registerPlugin('modifier', 'sfGetErrorColor', ['SC_Utils_Ex', 'sfGetErrorColor']);
         $this->_smarty->registerPlugin('modifier', 'sfTrim', ['SC_Utils_Ex', 'sfTrim']);
@@ -60,6 +64,7 @@ class SC_View
         $this->_smarty->registerPlugin('modifier', 'nl2br_html', 'smarty_modifier_nl2br_html');
         $this->_smarty->registerPlugin('modifier', 'script_escape', 'smarty_modifier_script_escape');
         $this->_smarty->registerPlugin('modifier', 'u', 'smarty_modifier_u');
+        // @deprecated 既存のテンプレートとの互換のため登録 (SC_Utils::sfMbConvertEncoding)
         $this->_smarty->registerPlugin('modifier', 'sfMbConvertEncoding', ['SC_Utils_Ex', 'sfMbConvertEncoding']);
         $this->_smarty->registerPlugin('modifier', 'sfGetEnabled', ['SC_Utils_Ex', 'sfGetEnabled']);
         $this->_smarty->registerPlugin('modifier', 'sfNoImageMainList', ['SC_Utils_Ex', 'sfNoImageMainList']);
@@ -81,6 +86,9 @@ class SC_View
         $this->_smarty->registerPlugin('function', 'sfSetErrorStyle', ['SC_Utils_Ex', 'sfSetErrorStyle']);
         $this->_smarty->registerPlugin('function', 'printXMLDeclaration', ['GC_Utils_Ex', 'printXMLDeclaration']);
         $this->_smarty->registerPlugin('modifier', 'format_name', 'smarty_modifier_format_name');
+        // エラーメッセージ用: HTML エスケープした後に <br> だけを戻す
+        $this->_smarty->registerPlugin('modifier', SC_Helper_SmartyEscape_Ex::MODIFIER_ERROR, ['SC_Helper_SmartyEscape_Ex', 'escapeAllowBr']);
+        $this->_smarty->registerPlugin('modifier', SC_Helper_SmartyEscape_Ex::MODIFIER_SCRIPT, ['SC_Helper_SmartyEscape_Ex', 'escapeJs']);
         $this->_smarty->muteUndefinedOrNullWarnings();
         $this->_smarty->default_modifiers = ['script_escape'];
 
@@ -93,6 +101,59 @@ class SC_View
         $this->registFilter();
         // smarty:nodefaultsの後方互換を維持
         $this->_smarty->registerFilter('pre', [$this, 'lower_compatibility_smarty']);
+    }
+
+    /**
+     * HTML 出力用に自動エスケープを有効にする.
+     *
+     * 画面出力 (SC_Display が使う View) から呼ばれる. メール本文の生成など, View を直接生成した場合は従来どおり.
+     * 既存テンプレートとの互換変換 (SC_Helper_SmartyEscape) を, 他の prefilter の後に登録する.
+     * 互換変換は SC_Helper_SmartyEscape_Ex 経由で参照するため, class_extends やプラグインの loadClassFileChange で
+     * 規則や許可リストを差し替えられる (規則を変えたら VERSION も変えて, コンパイル済みテンプレートを分ける).
+     * 最初の fetch / display より前に呼ぶこと.
+     *
+     * @return void
+     */
+    public function enableAutoEscape()
+    {
+        if ($this->autoEscape) {
+            return;
+        }
+        $this->autoEscape = true;
+        $this->_smarty->setEscapeHtml(true);
+        // 既定の modifier (script_escape) は残し, 自動エスケープと併用する (javascript: の URL 等は HTML エスケープでは防げない).
+        // 互換変換で nofilter を補う出力は既定の modifier も外れるため, 互換変換が script_escape を明示する.
+        // html モードの escape を従来どおり常にエスケープさせる (Smarty の標準の拡張より先に引かれるように先頭に置く)
+        $this->_smarty->setExtensions(array_merge([SC_Helper_SmartyEscape_Ex::createExtension()], $this->_smarty->getExtensions()));
+        $objCompat = new SC_Helper_SmartyEscape_Ex($this->_smarty->getLeftDelimiter(), $this->_smarty->getRightDelimiter());
+        $this->_smarty->registerFilter('pre', [$objCompat, 'prefilter']);
+        // 互換規則の変更でコンパイル済みテンプレートを分ける
+        $this->_smarty->setCompileId(trim($this->_smarty->compile_id.'_ae'.SC_Helper_SmartyEscape_Ex::VERSION, '_'));
+    }
+
+    /**
+     * 画面出力用に, 設定で無効にしていなければ自動エスケープを有効にする.
+     *
+     * 無効にする場合は data/config/config.php に define('SMARTY_AUTO_ESCAPE', false); を追加する.
+     * SC_Display を通らずに画面を出力する処理 (デザインのプレビュー等) からも呼ぶ.
+     *
+     * @return void
+     */
+    public function enableAutoEscapeByConfig()
+    {
+        if (!defined('SMARTY_AUTO_ESCAPE') || SMARTY_AUTO_ESCAPE) {
+            $this->enableAutoEscape();
+        }
+    }
+
+    /**
+     * 自動エスケープが有効か.
+     *
+     * @return bool
+     */
+    public function isAutoEscape()
+    {
+        return $this->autoEscape;
     }
 
     // テンプレートに値を割り当てる

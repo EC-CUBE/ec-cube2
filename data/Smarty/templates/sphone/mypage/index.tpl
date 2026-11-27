@@ -53,7 +53,7 @@
                             <div class="arrowBox">
                                 <p>
                                     <em>注文番号：</em><span class="order_id"><!--{$arrOrder[cnt].order_id}--><!--{assign var=payment_id value="`$arrOrder[cnt].payment_id`"}--></span><br />
-                                    <em>購入日時：</em><span class="create_date"><!--{$arrOrder[cnt].create_date|sfDispDBDate}--></span><br />
+                                    <em>購入日時：</em><span class="create_date"><!--{$arrOrder[cnt].create_date|date_format:"Y/m/d H:i"}--></span><br />
                                     <em>お支払い方法：</em><span class="payment_id"><!--{$arrPayment[$payment_id]|h}--></span><br />
                                     <em>合計金額：</em><span class="payment_total"><!--{$arrOrder[cnt].payment_total|n2s}--></span>円<br />
                                     <!--{if $smarty.const.MYPAGE_ORDER_STATUS_DISP_FLAG }-->
